@@ -96,6 +96,32 @@ endif
 
 export Q ECHO
 
+# Process Debug flag
+$(eval $(call add_define,DEBUG))
+ifneq (${DEBUG}, 0)
+        BUILD_TYPE	:=	debug
+        TF_CFLAGS	+= 	-g
+
+        ifneq ($(findstring clang,$(notdir $(CC))),)
+             ASFLAGS		+= 	-g
+        else
+             ASFLAGS		+= 	-g -Wa,--gdwarf-2
+        endif
+
+        # Use LOG_LEVEL_INFO by default for debug builds
+        LOG_LEVEL	:=	50
+else
+        BUILD_TYPE	:=	release
+        # Use LOG_LEVEL_NOTICE by default for release builds
+        LOG_LEVEL	:=	20
+endif
+
+# Default build string (git branch and commit)
+ifeq (${BUILD_STRING},)
+        BUILD_STRING	:=	$(shell git describe --always --dirty --tags 2> /dev/null)
+endif
+VERSION_STRING		:=	v${VERSION_MAJOR}.${VERSION_MINOR}(${BUILD_TYPE}):${BUILD_STRING}
+
 # The cert_create tool cannot generate certificates individually, so we use the
 # target 'certificates' to create them all
 ifneq (${GENERATE_COT},0)
