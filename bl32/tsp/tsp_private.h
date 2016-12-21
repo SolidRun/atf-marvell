@@ -15,6 +15,18 @@
 #define BL32_TOTAL_LIMIT BL32_END
 #define BL32_TOTAL_SIZE (BL32_TOTAL_LIMIT - (unsigned long) BL32_BASE)
 
+/* Definitions to help the assembler access the SMC/ERET args structure */
+#define TSP_ARGS_SIZE		0x80
+#define TSP_ARG0		0x0
+#define TSP_ARG1		0x8
+#define TSP_ARG2		0x10
+#define TSP_ARG3		0x18
+#define TSP_ARG4		0x20
+#define TSP_ARG5		0x28
+#define TSP_ARG6		0x30
+#define TSP_ARG7		0x38
+#define TSP_ARGS_END		0x40
+
 #ifndef __ASSEMBLER__
 
 #include <stdint.h>
