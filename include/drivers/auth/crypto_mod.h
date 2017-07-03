@@ -10,6 +10,11 @@
 #define	CRYPTO_AUTH_VERIFY_ONLY			1
 #define	CRYPTO_HASH_CALC_ONLY			2
 #define	CRYPTO_AUTH_VERIFY_AND_HASH_CALC	3
+#include <drivers/auth/img_parser_mod.h>
+
+#if TRUSTED_BOARD_BOOT == 1
+#include <mbedtls_config.h>
+#endif
 
 /* Return values */
 enum crypto_ret_value {
@@ -17,7 +22,7 @@ enum crypto_ret_value {
 	CRYPTO_ERR_INIT,
 	CRYPTO_ERR_HASH,
 	CRYPTO_ERR_SIGNATURE,
-	CRYPTO_ERR_DECRYPTION,
+	CRYPTO_ERR_DECRYPT,
 	CRYPTO_ERR_UNKNOWN
 };
 
@@ -38,6 +43,15 @@ enum crypto_md_algo {
 
 /* Maximum size as per the known stronger hash algorithm i.e.SHA512 */
 #define CRYPTO_MD_MAX_SIZE		64U
+
+/*
+ * Encrypted image descriptor
+ */
+typedef struct crypto_img_desc_s {
+	unsigned int img_id;
+	img_type_t img_type;
+	unsigned int tbbr_cipher_type_id;
+} crypto_img_desc_t;
 
 /*
  * Cryptographic library descriptor
@@ -75,14 +89,19 @@ CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC
 	  CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC */
 
 	/*
-	 * Authenticated decryption. Return one of the
-	 * 'enum crypto_ret_value' options.
-	 */
+	* Authenticated decryption. Return one of the
+	* 'enum crypto_ret_value' options.
+	*/
 	int (*auth_decrypt)(enum crypto_dec_algo dec_algo, void *data_ptr,
-			    size_t len, const void *key, unsigned int key_len,
-			    unsigned int key_flags, const void *iv,
-			    unsigned int iv_len, const void *tag,
-			    unsigned int tag_len);
+			size_t len, const void *key, unsigned int key_len,
+			unsigned int key_flags, const void *iv,
+			unsigned int iv_len, const void *tag,
+			unsigned int tag_len);
+
+	/* Decrypt image */
+	int (*decrypt_image)(void *data_ptr, unsigned int data_len,
+			     unsigned int cipher_type, unsigned char **key,
+			     unsigned int *key_len);
 } crypto_lib_desc_t;
 
 /* Public functions */
@@ -106,10 +125,14 @@ int crypto_mod_verify_hash(void *data_ptr, unsigned int data_len,
 	  CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC */
 
 int crypto_mod_auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
-			    size_t len, const void *key, unsigned int key_len,
-			    unsigned int key_flags, const void *iv,
-			    unsigned int iv_len, const void *tag,
-			    unsigned int tag_len);
+			size_t len, const void *key, unsigned int key_len,
+			unsigned int key_flags, const void *iv,
+			unsigned int iv_len, const void *tag,
+			unsigned int tag_len);
+
+int crypto_mod_decrypt_image(unsigned int img_id, void *data_ptr,
+			     unsigned int data_len, unsigned char **key,
+			     unsigned int *key_len);
 
 #if CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY || \
 CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC
@@ -122,7 +145,7 @@ int crypto_mod_calc_hash(enum crypto_md_algo alg, void *data_ptr,
 #if CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC
 /* Macro to register a cryptographic library */
 #define REGISTER_CRYPTO_LIB(_name, _init, _verify_signature, _verify_hash, \
-			    _calc_hash, _auth_decrypt) \
+	_calc_hash, _auth_decrypt, _decrypt_image) \
 	const crypto_lib_desc_t crypto_lib_desc = { \
 		.name = _name, \
 		.init = _init, \
@@ -140,6 +163,7 @@ int crypto_mod_calc_hash(enum crypto_md_algo alg, void *data_ptr,
 		.verify_signature = _verify_signature, \
 		.verify_hash = _verify_hash, \
 		.auth_decrypt = _auth_decrypt \
+		.decrypt_image = _decrypt_image \
 	}
 #elif CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY
 #define REGISTER_CRYPTO_LIB(_name, _init, _calc_hash) \
@@ -152,4 +176,9 @@ int crypto_mod_calc_hash(enum crypto_md_algo alg, void *data_ptr,
 
 extern const crypto_lib_desc_t crypto_lib_desc;
 
-#endif /* CRYPTO_MOD_H */
+/* Macro to register a list of encrypted images from CoT */
+#define REGISTER_CRYPTO_PARAMS(_crypto_params) \
+	const crypto_img_desc_t *const crypto_params_ptr = \
+		(const crypto_img_desc_t *const)&_crypto_params[0]
+
+#endif /* __CRYPTO_MOD_H__ */
