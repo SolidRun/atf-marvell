@@ -10,6 +10,8 @@
 #include <drivers/auth/crypto_mod.h>
 
 /* Variable exported by the crypto library through REGISTER_CRYPTO_LIB() */
+extern const crypto_lib_desc_t crypto_lib_desc;
+extern const crypto_img_desc_t *const crypto_params_ptr;
 
 /*
  * The crypto module is responsible for verifying digital signatures and hashes.
@@ -121,13 +123,12 @@ int crypto_mod_verify_hash(void *data_ptr, unsigned int data_len,
 #if CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY || \
 CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC
 /*
- * Calculate a hash
+ * Decrypt image by given cipher type
  *
  * Parameters:
  *
- *   alg: message digest algorithm
- *   data_ptr, data_len: data to be hashed
- *   output: resulting hash
+ *   img_id: image id from crypto_params_ptr
+ *   data_ptr, data_len: data to be decrypted
  */
 int crypto_mod_calc_hash(enum crypto_md_algo alg, void *data_ptr,
 			 unsigned int data_len,
@@ -147,11 +148,11 @@ int crypto_mod_calc_hash(enum crypto_md_algo alg, void *data_ptr,
  *
  * Parameters:
  *
- *   dec_algo: authenticated decryption algorithm
- *   data_ptr, len: data to be decrypted (inout param)
- *   key, key_len, key_flags: symmetric decryption key
- *   iv, iv_len: initialization vector
- *   tag, tag_len: authentication tag
+ * dec_algo: authenticated decryption algorithm
+ * data_ptr, len: data to be decrypted (inout param)
+ * key, key_len, key_flags: symmetric decryption key
+ * iv, iv_len: initialization vector
+ * tag, tag_len: authentication tag
  */
 int crypto_mod_auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
 			    size_t len, const void *key, unsigned int key_len,
@@ -173,3 +174,50 @@ int crypto_mod_auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
 					    key_len, key_flags, iv, iv_len, tag,
 					    tag_len);
 }
+
+#if CRYPTO_BOARD_BOOT
+int crypto_mod_decrypt_image(unsigned int img_id, void *data_ptr,
+			     unsigned int data_len, unsigned char **key,
+			     unsigned int *key_len)
+{
+	const crypto_img_desc_t *crypto_img_desc = NULL;
+
+	assert(data_ptr != NULL);
+	assert(data_len != 0);
+	assert(key != NULL);
+	assert(*key_len != 0);
+
+	/* Get the crypto image descriptor from the crypto parameters structure */
+	crypto_img_desc = &crypto_params_ptr[img_id];
+	/* Perform decryption on only binary images (certs are not encrypted) */
+	if (crypto_img_desc->img_type != IMG_RAW || crypto_img_desc->img_id != img_id) {
+		INFO("Skipping decryption for image_id=%u...\n", img_id);
+		return 0;
+	}
+
+	/*
+	 * Check if image was encrypted with the same
+	 * cipher as it should be decrypted
+	 */
+	if (crypto_img_desc->tbbr_cipher_type_id != TBBR_CIPHER_TYPE_ID) {
+		ERROR("Tried to decrypt image with type=%d"
+		      "which was encrypted with encryption type=%d\n",
+		      TBBR_CIPHER_TYPE_ID,
+		      crypto_img_desc->tbbr_cipher_type_id);
+		return CRYPTO_ERR_DECRYPT;
+	}
+
+	return crypto_lib_desc.decrypt_image(data_ptr,
+					     data_len,
+					     crypto_img_desc->tbbr_cipher_type_id,
+					     key,
+					     key_len);
+}
+#else /* CRYPTO_BOARD_BOOT */
+int crypto_mod_decrypt_image(unsigned int img_id, void *data_ptr,
+			     unsigned int data_len, unsigned char **key,
+			     unsigned int *key_len)
+{
+	return CRYPTO_SUCCESS;
+}
+#endif /* CRYPTO_BOARD_BOOT */
