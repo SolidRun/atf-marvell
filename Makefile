@@ -1107,6 +1107,7 @@ $(eval $(call assert_booleans,\
         FEATURE_DETECTION \
 	TRNG_SUPPORT \
 	CONDITIONAL_CMO \
+	CRYPTO_BOARD_BOOT \
 )))
 
 $(eval $(call assert_numerics,\
@@ -1269,6 +1270,7 @@ $(eval $(call add_defines,\
         TWED_DELAY \
         ENABLE_FEAT_TWED \
 	CONDITIONAL_CMO \
+	CRYPTO_BOARD_BOOT \
 )))
 
 ifeq (${SANITIZE_UB},trap)
