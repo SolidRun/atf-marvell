@@ -6,7 +6,6 @@
  */
 
 #include <assert.h>
-
 #include <platform_def.h>
 
 #include <arch_helpers.h>
@@ -32,6 +31,8 @@
 
 #define MSS_HANDSHAKE_TIMEOUT		50
 
+#define MG_CM3_SRAM_BASE(CP)		(MVEBU_CP_REGS_BASE(CP) + 0x100000)
+
 static int mss_check_image_ready(volatile struct mss_pm_ctrl_block *mss_pm_crtl)
 {
 	int timeout = MSS_HANDSHAKE_TIMEOUT;
@@ -49,8 +50,28 @@ static int mss_check_image_ready(volatile struct mss_pm_ctrl_block *mss_pm_crtl)
 	return 0;
 }
 
-static int mss_iram_dma_load(uint32_t src_addr, uint32_t size,
-			     uintptr_t mss_regs)
+static int mg_image_load(uintptr_t src_addr, uint32_t size, uintptr_t mg_regs)
+{
+	if (size > MG_SRAM_SIZE) {
+		ERROR("image is too big to fit into MG CM3 memory\n");
+		return 1;
+	}
+
+	NOTICE("Loading MG image from address 0x%lx Size 0x%x to MG at 0x%lx\n",
+	       src_addr, size, mg_regs);
+
+	/* Copy image to MG CM3 SRAM */
+	memcpy((void *)mg_regs, (void *)src_addr, size);
+
+	/* Don't release MG CM3 from reset - it will be done by next step
+	 * bootloader (e.g. U-Boot), when appriopriate device-tree setup (which
+	 * has enabeld 802.3. auto-neg) will be choosen.
+	 */
+
+	return 0;
+}
+
+static int mss_image_load(uint32_t src_addr, uint32_t size, uintptr_t mss_regs)
 {
 	uint32_t i, loop_num, timeout;
 
@@ -276,15 +297,10 @@ static int load_img_to_cm3(enum cm3_t cm3_type,
 		break;
 	case MG_CP0:
 	case MG_CP1:
-	case MG_CP2:
 		cp_index = cm3_type - MG_CP0;
-		if (bl2_plat_get_cp_count(0) <= cp_index) {
-			NOTICE("Skipping MG CP%d related image\n",
-			       cp_index);
-			break;
-		}
 		NOTICE("Load image to CP%d MG\n", cp_index);
-		ret = mg_image_load(single_img, image_size, cp_index);
+		ret = mg_image_load(single_img, image_size,
+				    MG_CM3_SRAM_BASE(cp_index));
 		if (ret != 0) {
 			ERROR("SCP Image load failed\n");
 			return -1;
