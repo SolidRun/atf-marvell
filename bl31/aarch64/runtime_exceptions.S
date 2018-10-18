@@ -201,7 +201,7 @@ exp_from_EL3:
 	 * -----------------------------------------------------
 	 */
 	cmp	x30, #EC_CAVIUM_IO_TRAP
-	b.eq	cavm_io_trap_handler
+	b.eq	octeontx_io_trap_handler
 
 	ldr	x30, [sp, #CTX_GPREGS_OFFSET + CTX_GPREG_LR]
 	b	enter_lower_el_sync_ea
