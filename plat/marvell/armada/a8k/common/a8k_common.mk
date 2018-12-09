@@ -5,9 +5,8 @@
 # https://spdx.org/licenses
 
 PLAT_FAMILY		:= a8k
-PLAT_FAMILY_BASE	:= plat/marvell/armada/$(PLAT_FAMILY)
 PLAT_INCLUDE_BASE	:= include/plat/marvell/armada/$(PLAT_FAMILY)
-PLAT_COMMON_BASE	:= $(PLAT_FAMILY_BASE)/common
+PLAT_COMMON_BASE	:= plat/marvell/armada/a8k/common
 MARVELL_DRV_BASE	:= drivers/marvell
 MARVELL_COMMON_BASE	:= plat/marvell/armada/common
 
@@ -85,9 +84,7 @@ MARVELL_GIC_SOURCES	:=	drivers/arm/gic/common/gic_common.c	\
 				drivers/arm/gic/v2/gicv2_helpers.c	\
 				plat/common/plat_gicv2.c
 
-PLAT_INCLUDES		+=	-I$(BOARD_DIR)				\
-				-I$(BOARD_DIR)/board			\
-				-I$(CURDIR)/drivers/marvell		\
+PLAT_INCLUDES		:=	-I$(BOARD_DIR)				\
 				-I$(PLAT_COMMON_BASE)/include		\
 				-I$(PLAT_INCLUDE_BASE)/common
 
@@ -136,9 +133,7 @@ ifndef BL31_PORTING_SOURCES
 BL31_PORTING_SOURCES	:=	$(BOARD_DIR)/board/marvell_plat_config.c
 endif
 
-ifeq ($(SYSTEM_POWER_SUPPORT),1)
-BL31_PORTING_SOURCES	+=	$(BOARD_DIR)/board/system_power.c
-endif
+BL31_PORTING_SOURCES	:=	$(BOARD_DIR)/board/marvell_plat_config.c
 
 BL31_SOURCES		+=	lib/cpus/aarch64/cortex_a72.S		       \
 				$(PLAT_COMMON_BASE)/aarch64/plat_helpers.S     \
