@@ -99,11 +99,16 @@ void ap807_clocks_init(unsigned int freq_option)
 	 * 0x2: 744x change to 1800 MHz, 764x change to 2200/2400.
 	 * 0x3: 3900/744x/764x change to 1200 MHz.
 	 */
-
-	if (freq_option == CPU_2200_DDR_1200_RCLK_1200)
+	switch (freq_option) {
+	case CPU_2000_DDR_1200_RCLK_1200:
+		pll_set_freq(PLL_FREQ_2000);
+		break;
+#ifdef MVEBU_SOC_AP807
+	case CPU_2200_DDR_1200_RCLK_1200:
 		pll_set_freq(PLL_FREQ_2200);
-
-	/* Switch from ARO to PLL */
-	aro_to_pll();
-
+		break;
+#endif
+	default:
+		break;
+	}
 }
