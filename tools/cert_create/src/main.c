@@ -25,6 +25,10 @@
 #include "ext.h"
 #include "key.h"
 #include "sha.h"
+#include "tbbr/tbb_cert.h"
+#include "tbbr/tbb_ext.h"
+#include "tbbr/tbb_key.h"
+#include "engine.h"
 
 /*
  * Helper macros to simplify the code. This macro assigns the return value of
@@ -65,6 +69,7 @@ static int key_size;
 static int new_keys;
 static int save_keys;
 static int print_cert;
+static int use_engine;
 
 /* Info messages created in the Makefile */
 extern const char build_msg[];
@@ -207,6 +212,11 @@ static void check_cmd_params(void)
 		printf("\n");
 		exit(1);
 	}
+	if (use_engine && new_keys) {
+		ERROR(
+			"Generating keys using OpenSSL engine is not implemented\n");
+		exit(1);
+	}
 
 	/* Check that all required options have been specified in the
 	 * command line */
@@ -291,7 +301,13 @@ static const cmd_opt_t common_cmd_opt[] = {
 	{
 		{ "print-cert", no_argument, NULL, 'p' },
 		"Print the certificates in the standard output"
-	}
+	},
+#ifndef OPENSSL_NO_ENGINE
+	{
+		{ "engine", required_argument, NULL, 'e' },
+		"Set OpenSSL engine that should be used to obtain keys"
+	},
+#endif
 };
 
 int main(int argc, char *argv[])
@@ -310,6 +326,10 @@ int main(int argc, char *argv[])
 	unsigned char md[SHA512_DIGEST_LENGTH];
 	unsigned int  md_len;
 	const EVP_MD *md_info;
+#ifndef OPENSSL_NO_ENGINE
+	char *engine_name = NULL;
+	ENGINE *e = NULL;
+#endif
 
 	NOTICE("CoT Generation Tool: %s\n", build_msg);
 	NOTICE("Target platform: %s\n", platform_msg);
@@ -347,7 +367,11 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		/* getopt_long stores the option index here. */
+#ifdef OPENSSL_NO_ENGINE
 		c = getopt_long(argc, argv, "a:b:hknps:", cmd_opt, &opt_idx);
+#else
+		c = getopt_long(argc, argv, "a:b:e:hknps:", cmd_opt, &opt_idx);
+#endif
 
 		/* Detect the end of the options. */
 		if (c == -1) {
@@ -369,6 +393,12 @@ int main(int argc, char *argv[])
 				exit(1);
 			}
 			break;
+#ifndef OPENSSL_NO_ENGINE
+		case 'e':
+			engine_name = strdup(optarg);
+			use_engine = 1;
+			break;
+#endif
 		case 'h':
 			print_help(argv[0], cmd_opt);
 			exit(0);
@@ -418,6 +448,23 @@ int main(int argc, char *argv[])
 	/* Check command line arguments */
 	check_cmd_params();
 
+
+#ifndef OPENSSL_NO_ENGINE
+	/* Load OpenSSL engine */
+	if (use_engine) {
+		e = init_engine(engine_name);
+		if (e == NULL) {
+			ERROR("Failed to init OpenSSL engine\n");
+			exit(1);
+		}
+		if (atexit(release_engine_atexit)) {
+			ERROR("Failed to register atexit callback\n");
+			release_engine(e);
+			exit(1);
+		}
+	}
+#endif
+
 	/* Indicate SHA as image hash algorithm in the certificate
 	 * extension */
 	if (hash_alg == HASH_ALG_SHA384) {
@@ -440,10 +487,21 @@ int main(int argc, char *argv[])
 		}
 #endif
 
-		/* First try to load the key from disk */
-		if (key_load(&keys[i], &err_code)) {
-			/* Key loaded successfully */
-			continue;
+#ifndef OPENSSL_NO_ENGINE
+		/* Try to load the key using OpenSSL engine */
+		if (use_engine) {
+			if (key_load_using_engine(&keys[i], &err_code, e)) {
+				/* Key loaded successfully */
+				continue;
+			}
+		}
+#endif
+		if (!use_engine) {
+			/* Try to load the key from disk */
+			if (key_load(&keys[i], &err_code)) {
+				/* Key loaded successfully */
+				continue;
+			}
 		}
 
 		/* Key not loaded. Check the error code */
@@ -602,6 +660,9 @@ int main(int argc, char *argv[])
 	key_cleanup();
 
 #ifndef OPENSSL_NO_ENGINE
+	if (e != NULL)
+		release_engine(e);
+
 	ENGINE_cleanup();
 #endif
 	CRYPTO_cleanup_all_ex_data();

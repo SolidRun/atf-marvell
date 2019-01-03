@@ -28,7 +28,8 @@ OBJECTS := src/cert.o \
            src/ext.o \
            src/key.o \
            src/main.o \
-           src/sha.o
+           src/sha.o \
+	   src/engine.o
 
 # Chain of trust.
 ifeq (${COT},tbbr)

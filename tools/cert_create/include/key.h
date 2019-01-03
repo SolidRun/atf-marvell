@@ -75,6 +75,7 @@ int key_new(key_t *key);
 #endif
 int key_create(key_t *key, int type, int key_bits);
 int key_load(key_t *key, unsigned int *err_code);
+int key_load_using_engine(key_t *key, unsigned int *err_code, ENGINE *e);
 int key_store(key_t *key);
 void key_cleanup(void);
 
