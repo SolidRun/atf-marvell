@@ -34,6 +34,7 @@
 #   BL31_KEY
 #   BL32_KEY
 #   BL33_KEY
+#   OPENSSL_ENGINE
 #
 
 # Certificate generation tool default parameters
@@ -80,6 +81,9 @@ $(if ${CORE_SWD_KEY},$(eval $(call CERT_ADD_CMD_OPT,${CORE_SWD_KEY},--core-swd-k
 $(if ${TRUSTED_WORLD_KEY},$(eval $(call CERT_ADD_CMD_OPT,${TRUSTED_WORLD_KEY},--trusted-world-key)))
 $(if ${NON_TRUSTED_WORLD_KEY},$(eval $(call CERT_ADD_CMD_OPT,${NON_TRUSTED_WORLD_KEY},--non-trusted-world-key)))
 
+# Select OpenSSL engine in the cert_create tool command line options
+$(if ${OPENSSL_ENGINE},$(eval $(call CERT_ADD_CMD_OPT,${OPENSSL_ENGINE},--engine)))
+$(if ${OPENSSL_ENGINE},$(eval $(call CERT_ADD_CMD_OPT,${OPENSSL_ENGINE},--engine,FWU_)))
 
 # Add the BL2 CoT (image cert)
 ifeq (${NEED_BL2},yes)
