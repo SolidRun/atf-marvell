@@ -121,14 +121,12 @@ void bl31_plat_arch_setup(void)
 		marvell_bl31_plat_arch_setup();
 
 	for (cp = 0; cp < CP_COUNT; cp++) {
-	/* configure cp110 for CP0*/
 		if (cp >= 1) {
 			mci_initialize(MVEBU_MCI0);
 			update_cp110_default_win(cp);
 		}
 
 
-	/* initialize MCI & CP1 */
 		cp110_init(MVEBU_CP_REGS_BASE(cp),
 			   STREAM_ID_BASE + (cp * MAX_STREAM_ID_PER_CP));
 
