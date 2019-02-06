@@ -121,11 +121,8 @@ void bl31_plat_arch_setup(void)
 		marvell_bl31_plat_arch_setup();
 
 	for (cp = 0; cp < CP_COUNT; cp++) {
-		if (cp >= 1) {
-			mci_link_tune(MVEBU_MCI0);
+		if (cp >= 1)
 			update_cp110_default_win(cp);
-		}
-
 
 		cp110_init(MVEBU_CP_REGS_BASE(cp),
 			   STREAM_ID_BASE + (cp * MAX_STREAM_ID_PER_CP));
@@ -145,6 +142,9 @@ void bl31_plat_arch_setup(void)
 	init_io_win(MVEBU_AP0);
 
 #if MSS_SUPPORT
+	for (cp = 1; cp < CP_COUNT; cp++)
+		mci_link_tune(cp - 1);
+
 	/* initialize IPC between MSS and ATF */
 	if (mailbox[MBOX_IDX_MAGIC] != MVEBU_MAILBOX_MAGIC_NUM ||
 	    mailbox[MBOX_IDX_SUSPEND_MAGIC] != MVEBU_MAILBOX_SUSPEND_STATE)
