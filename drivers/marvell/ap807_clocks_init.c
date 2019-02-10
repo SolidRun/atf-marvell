@@ -50,18 +50,7 @@ static void pll_set_freq(unsigned int freq_val)
 		return;
 
 	for (i = 0 ; i < AP807_CLUSTER_NUM ; i++) {
-		/* Set parameter of cluster i PLL to 2.2GHz */
 		mmio_write_32(AP807_CPU_PLL_PARAM(i), freq_val);
-		/* Set apll_lpf_frc_dschg - Control
-		 * voltage of internal VCO is discharged
-		 */
-		mmio_write_32(AP807_CPU_PLL_CFG(i),
-				AP807_CPU_PLL_FRC_DSCHG);
-		/* Set use_rf_conf  load PLL parameter from register */
-		mmio_write_32(AP807_CPU_PLL_CFG(i),
-				AP807_CPU_PLL_FRC_DSCHG |
-				AP807_CPU_PLL_CFG_USE_REG_FILE);
-		/* Un-set apll_lpf_frc_dschg */
 		mmio_write_32(AP807_CPU_PLL_CFG(i),
 			      AP807_CPU_PLL_CFG_USE_REG_FILE);
 	}
@@ -99,16 +88,11 @@ void ap807_clocks_init(unsigned int freq_option)
 	 * 0x2: 744x change to 1800 MHz, 764x change to 2200/2400.
 	 * 0x3: 3900/744x/764x change to 1200 MHz.
 	 */
-	switch (freq_option) {
-	case CPU_2000_DDR_1200_RCLK_1200:
-		pll_set_freq(PLL_FREQ_2000);
-		break;
-#ifdef MVEBU_SOC_AP807
-	case CPU_2200_DDR_1200_RCLK_1200:
+
+	if (freq_option == CPU_2200_DDR_1200_RCLK_1200)
 		pll_set_freq(PLL_FREQ_2200);
-		break;
-#endif
-	default:
-		break;
-	}
+
+	/* Switch from ARO to PLL */
+	aro_to_pll();
+
 }
