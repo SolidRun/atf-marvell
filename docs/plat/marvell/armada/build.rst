@@ -107,7 +107,8 @@ There are several build options:
 
 - BLE_PATH
 
-        Points to BLE (Binary ROM extension) sources folder. Only required for A8K builds.
+        Points to BLE (Binary ROM extension) sources folder.
+        Only required for A7K/8K/CN913x builds.
         The parameter is optional, its default value is ``plat/marvell/armada/a8k/common/ble``.
 
 - MV_DDR_PATH
