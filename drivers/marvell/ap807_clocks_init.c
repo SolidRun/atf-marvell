@@ -50,7 +50,18 @@ static void pll_set_freq(unsigned int freq_val)
 		return;
 
 	for (i = 0 ; i < AP807_CLUSTER_NUM ; i++) {
+		/* Set parameter of cluster i PLL to 2.2GHz */
 		mmio_write_32(AP807_CPU_PLL_PARAM(i), freq_val);
+		/* Set apll_lpf_frc_dschg - Control
+		 * voltage of internal VCO is discharged
+		 */
+		mmio_write_32(AP807_CPU_PLL_CFG(i),
+				AP807_CPU_PLL_FRC_DSCHG);
+		/* Set use_rf_conf  load PLL parameter from register */
+		mmio_write_32(AP807_CPU_PLL_CFG(i),
+				AP807_CPU_PLL_FRC_DSCHG |
+				AP807_CPU_PLL_CFG_USE_REG_FILE);
+		/* Un-set apll_lpf_frc_dschg */
 		mmio_write_32(AP807_CPU_PLL_CFG(i),
 			      AP807_CPU_PLL_CFG_USE_REG_FILE);
 	}
