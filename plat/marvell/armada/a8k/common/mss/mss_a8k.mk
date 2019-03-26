@@ -11,8 +11,9 @@ A8K_MSS_SOURCE		:=	$(PLAT_MARVELL)/a8k/common/mss
 BL2_SOURCES		+=	$(A8K_MSS_SOURCE)/mss_bl2_setup.c \
 				$(MARVELL_MOCHI_DRV)
 
-BL31_SOURCES		+=	$(A8K_MSS_SOURCE)/mss_pm_ipc.c \
-				$(A8K_MSS_SOURCE)/mss_bl31_setup.c
+BL2_SOURCES		+=	$(MARVELL_MOCHI_DRV)
+
+BL31_SOURCES		+=	$(A8K_MSS_SOURCE)/mss_pm_ipc.c
 
 PLAT_INCLUDES		+=	-I$(A8K_MSS_SOURCE)
 
