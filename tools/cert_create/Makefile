@@ -22,6 +22,13 @@ include ${MAKE_HELPERS_DIRECTORY}plat_helpers.mk
 PLAT_CERT_CREATE_HELPER_MK := ${PLAT_DIR}/cert_create_tbbr.mk
 endif
 
+ifdef SSL_HSM_INSTALL_DIR
+  OPENSSL_DIR	:= ${SSL_HSM_INSTALL_DIR}/ssl
+  LDFLAGS	:= -Wl,-rpath=${SSL_HSM_INSTALL_DIR}/lib
+else
+  LDFLAGS	:=
+endif
+
 # Common source files.
 OBJECTS := src/cert.o \
            src/cmd_opt.o \
@@ -93,7 +100,7 @@ ${BINARY}: --openssl ${OBJECTS} Makefile
 	@echo 'const char build_msg[] = "Built : "__TIME__", "__DATE__; \
                 const char platform_msg[] = "${PLAT_MSG}";' | \
                 ${HOSTCC} -c ${HOSTCCFLAGS} -xc - -o src/build_msg.o
-	${Q}${HOSTCC} src/build_msg.o ${OBJECTS} ${LIB_DIR} ${LIB} -o $@
+	${Q}${HOSTCC} src/build_msg.o ${OBJECTS} ${LIB_DIR} ${LIB} ${LDFLAGS} -o $@
 
 %.o: %.c
 	@echo "  HOSTCC  $<"
