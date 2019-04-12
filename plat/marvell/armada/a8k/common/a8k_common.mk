@@ -134,8 +134,6 @@ ifndef BL31_PORTING_SOURCES
 BL31_PORTING_SOURCES	:=	$(BOARD_DIR)/board/marvell_plat_config.c
 endif
 
-BL31_PORTING_SOURCES	:=	$(BOARD_DIR)/board/marvell_plat_config.c
-
 BL31_SOURCES		+=	lib/cpus/aarch64/cortex_a72.S		       \
 				$(PLAT_COMMON_BASE)/aarch64/plat_helpers.S     \
 				$(PLAT_COMMON_BASE)/aarch64/plat_arch_config.c \
