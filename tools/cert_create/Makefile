@@ -23,7 +23,7 @@ PLAT_CERT_CREATE_HELPER_MK := ${PLAT_DIR}/cert_create_tbbr.mk
 endif
 
 ifdef SSL_HSM_INSTALL_DIR
-  OPENSSL_DIR	:= ${SSL_HSM_INSTALL_DIR}/ssl
+  OPENSSL_DIR	:= ${SSL_HSM_INSTALL_DIR}
   LDFLAGS	:= -Wl,-rpath=${SSL_HSM_INSTALL_DIR}/lib
 else
   LDFLAGS	:=
