@@ -210,7 +210,9 @@ static void ble_plat_avs_config(void)
 						 FREQ_MODE_AP_SAR_REG_NUM)));
 	/* Check which SoC is running and act accordingly */
 	if (ble_get_ap_type() == CHIP_ID_AP807) {
+
 		avs_val = AVS_AP807_CLK_VALUE;
+
 	} else {
 		/* Check which SoC is running and act accordingly */
 		device_id = cp110_device_id_get(MVEBU_CP_REGS_BASE(0));
@@ -538,7 +540,8 @@ static void ble_plat_svc_config(void)
 				NOTICE("7040 1600Mhz, avs = 0x%x\n",
 					avs_workpoint);
 #else
-				avs_workpoint = 0;
+				NOTICE("SVC: AVS work point not changed\n");
+				return;
 #endif
 			}
 			break;
