@@ -29,28 +29,18 @@
 #define CAVM_GSERP_BAR_E_GSERPX_PF_BAR0_SIZE 0x100000ull
 
 /**
- * Enumeration gserp_psb_acc_e
- *
- * GSERP Power Serial Bus Accumulator Enumeration
- * Enumerates the GSERP accumulators for LMC slaves, which correspond to index {b} of
- * PSBS_SYS()_ACCUM().
- */
-#define CAVM_GSERP_PSB_ACC_E_RSVD0 (0)
-#define CAVM_GSERP_PSB_ACC_E_RSVD1 (1)
-#define CAVM_GSERP_PSB_ACC_E_RSVD2 (2)
-#define CAVM_GSERP_PSB_ACC_E_RSVD3 (3)
-
-/**
  * Enumeration gserp_psb_event_e
  *
  * GSERP Power Serial Bus Event Enumeration
  * Enumerates the event numbers for GSERP slaves, which correspond to index {b} of
  * PSBS_SYS()_EVENT()_CFG.
  */
-#define CAVM_GSERP_PSB_EVENT_E_CYCLE_COUNT (0xc)
-#define CAVM_GSERP_PSB_EVENT_E_LANEX_LANE_UP(a) (2 + 3 * (a))
-#define CAVM_GSERP_PSB_EVENT_E_LANEX_PLL_TX_UP(a) (1 + 3 * (a))
-#define CAVM_GSERP_PSB_EVENT_E_LANEX_PLL_UP(a) (0 + 3 * (a))
+#define CAVM_GSERP_PSB_EVENT_E_CMU_ACTIVE (3)
+#define CAVM_GSERP_PSB_EVENT_E_CMU_AFE_OFF (1)
+#define CAVM_GSERP_PSB_EVENT_E_CMU_PARTIAL (4)
+#define CAVM_GSERP_PSB_EVENT_E_CMU_POR (0)
+#define CAVM_GSERP_PSB_EVENT_E_CMU_RESET (2)
+#define CAVM_GSERP_PSB_EVENT_E_CMU_SLEEP (5)
 
 /**
  * Register (RSL) gserp#_cm0_cmu_feature_cal_en_cfg0
@@ -9839,15 +9829,49 @@ union cavm_gserpx_common_phy_ctrl_bcfg
         uint64_t reserved_41_42        : 2;
         uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
                                                                    0x0 - PHY is a slave.
-                                                                   0x1 - PHY is the master. */
+                                                                   0x1 - PHY is the master.
+
+                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    0x0.
+                                                                 _ GSERP1:    0x0.
+                                                                 _ GSERP2:    0x0.
+                                                                 _ GSERP3:    0x0.
+                                                                 _ GSERP4:    0x1. */
         uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high. */
+                                                                 clock "A" out of the bottom of the AFE macro, active high.
+
+                                                                 GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
         uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high. */
+                                                                 clock "B" out of the bottom of the AFE macro, active high.
+
+                                                                 GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
         uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high. */
+                                                                 clock "A" out of the top of the AFE macro, active high.
+
+                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
+                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    0x0.
+                                                                 _ GSERP1:    0x1.
+                                                                 _ GSERP2:    0x1.
+                                                                 _ GSERP3:    0x1.
+                                                                 _ GSERP4:    0x0. */
         uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high. */
+                                                                 clock "B" out of the top of the AFE macro, active high.
+
+                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
+                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    0x1.
+                                                                 _ GSERP1:    0x1.
+                                                                 _ GSERP2:    0x1.
+                                                                 _ GSERP3:    0x0.
+                                                                 _ GSERP4:    0x1. */
         uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
                                                                  should not change outside of the POR CMU power state:
                                                                    0x0 - The cm0_refclk_pad output will be held low.
@@ -9858,7 +9882,10 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
         uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge:
+                                                                 out of the top of the AFE macro at die edge.
+
+                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
+                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -9870,9 +9897,19 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                      0x0 - Choose clk_ref_a_r_o source from refclk_pads.
                                                                      0x1 - Choose clk_ref_a_r_o source from clk_ref_a_r_i.
                                                                      0x2 - Choose clk_ref_a_r_o source from clk_ref_a_l_i.
-                                                                     0x3 - Choose clk_ref_a_r_o source from refclk_pads. */
+                                                                     0x3 - Choose clk_ref_a_r_o source from refclk_pads.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    4'b01_01.
+                                                                 _ GSERP1:    4'b01_01.
+                                                                 _ GSERP2:    4'b01_01.
+                                                                 _ GSERP3:    4'b01_00.
+                                                                 _ GSERP4:    4'b00_00. */
         uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge:
+                                                                 out of the bottom of the AFE macro at die edge.
+
+                                                                 GSERP does not make use of reference clock output pins on the bottom of AFE macro.
+
                                                                    REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 = Choose clk_ref_b_l_o source from refclk_pads.
                                                                      0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
@@ -9884,12 +9921,24 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                      0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
                                                                      0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
                                                                      0x3 = Choose clk_ref_a_l_o source from refclk_pads. */
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Configures the reference clock sourse for the PHY - the external reference clock
+                                                                 from the pads, on one of the on-chip CML reference clocks.
+
+                                                                 CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 - Ext ref clock from refclkp/m pads.
                                                                    0x1 - Ref clock from on-chip CML source, clk_ref_a_l_i.
                                                                    0x2 - Ref clock from on-chip CML source, clk_ref_a_r_i.
                                                                    0x5 - Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 - Ref clock from on-chip CML source, clk_ref_b_r_i. */
+                                                                   0x6 - Ref clock from on-chip CML source, clk_ref_b_r_i.
+
+                                                                 \<pre\>
+                                                                             RC    EP
+                                                                 GSERP0:    0x6    0x2
+                                                                 GSERP1:    0x6    0x2
+                                                                 GSERP2:    0x6    0x2
+                                                                 GSERP3:    0x6    0x0
+                                                                 GSERP4:    0x0    NS
+                                                                 \</pre\> */
         uint64_t reserved_22           : 1;
         uint64_t cm0_pd                : 2;  /**< [ 21: 20](R/W) CMU macro power down control:
                                                                    0x0 - Normal/Active
@@ -9905,14 +9954,29 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x2 - Near complete power down (sleep state)
                                                                    0x3 - Reserved */
         uint64_t reserved_22           : 1;
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Configures the reference clock sourse for the PHY - the external reference clock
+                                                                 from the pads, on one of the on-chip CML reference clocks.
+
+                                                                 CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 - Ext ref clock from refclkp/m pads.
                                                                    0x1 - Ref clock from on-chip CML source, clk_ref_a_l_i.
                                                                    0x2 - Ref clock from on-chip CML source, clk_ref_a_r_i.
                                                                    0x5 - Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 - Ref clock from on-chip CML source, clk_ref_b_r_i. */
+                                                                   0x6 - Ref clock from on-chip CML source, clk_ref_b_r_i.
+
+                                                                 \<pre\>
+                                                                             RC    EP
+                                                                 GSERP0:    0x6    0x2
+                                                                 GSERP1:    0x6    0x2
+                                                                 GSERP2:    0x6    0x2
+                                                                 GSERP3:    0x6    0x0
+                                                                 GSERP4:    0x0    NS
+                                                                 \</pre\> */
         uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge:
+                                                                 out of the bottom of the AFE macro at die edge.
+
+                                                                 GSERP does not make use of reference clock output pins on the bottom of AFE macro.
+
                                                                    REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 = Choose clk_ref_b_l_o source from refclk_pads.
                                                                      0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
@@ -9925,7 +9989,10 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                      0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
                                                                      0x3 = Choose clk_ref_a_l_o source from refclk_pads. */
         uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge:
+                                                                 out of the top of the AFE macro at die edge.
+
+                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
+                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -9937,7 +10004,14 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                      0x0 - Choose clk_ref_a_r_o source from refclk_pads.
                                                                      0x1 - Choose clk_ref_a_r_o source from clk_ref_a_r_i.
                                                                      0x2 - Choose clk_ref_a_r_o source from clk_ref_a_l_i.
-                                                                     0x3 - Choose clk_ref_a_r_o source from refclk_pads. */
+                                                                     0x3 - Choose clk_ref_a_r_o source from refclk_pads.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    4'b01_01.
+                                                                 _ GSERP1:    4'b01_01.
+                                                                 _ GSERP2:    4'b01_01.
+                                                                 _ GSERP3:    4'b01_00.
+                                                                 _ GSERP4:    4'b00_00. */
         uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
@@ -9948,16 +10022,50 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
         uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high. */
+                                                                 clock "B" out of the top of the AFE macro, active high.
+
+                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
+                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    0x1.
+                                                                 _ GSERP1:    0x1.
+                                                                 _ GSERP2:    0x1.
+                                                                 _ GSERP3:    0x0.
+                                                                 _ GSERP4:    0x1. */
         uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high. */
+                                                                 clock "A" out of the top of the AFE macro, active high.
+
+                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
+                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    0x0.
+                                                                 _ GSERP1:    0x1.
+                                                                 _ GSERP2:    0x1.
+                                                                 _ GSERP3:    0x1.
+                                                                 _ GSERP4:    0x0. */
         uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high. */
+                                                                 clock "B" out of the bottom of the AFE macro, active high.
+
+                                                                 GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
         uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high. */
+                                                                 clock "A" out of the bottom of the AFE macro, active high.
+
+                                                                 GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
         uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
                                                                    0x0 - PHY is a slave.
-                                                                   0x1 - PHY is the master. */
+                                                                   0x1 - PHY is the master.
+
+                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 Reset values:
+                                                                 _ GSERP0:    0x0.
+                                                                 _ GSERP1:    0x0.
+                                                                 _ GSERP2:    0x0.
+                                                                 _ GSERP3:    0x0.
+                                                                 _ GSERP4:    0x1. */
         uint64_t reserved_41_42        : 2;
         uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
@@ -10195,6 +10303,49 @@ static inline uint64_t CAVM_GSERPX_CONST(unsigned long a)
 #define arguments_CAVM_GSERPX_CONST(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_debug
+ *
+ * GSERP DEBUG Register
+ */
+union cavm_gserpx_debug
+{
+    uint64_t u;
+    struct cavm_gserpx_debug_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t perst_stall_disable   : 1;  /**< [  0:  0](R/W) If set, disables PERST stalling logic by preventing REXT READY gating.
+                                                                 Internal:
+                                                                 The PERST stalling logic is used to stall the firmware initialization of
+                                                                 GSERP until its controlling PERST (based on furcation mode) has deasserted. */
+#else /* Word 0 - Little Endian */
+        uint64_t perst_stall_disable   : 1;  /**< [  0:  0](R/W) If set, disables PERST stalling logic by preventing REXT READY gating.
+                                                                 Internal:
+                                                                 The PERST stalling logic is used to stall the firmware initialization of
+                                                                 GSERP until its controlling PERST (based on furcation mode) has deasserted. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_debug_s cn; */
+};
+typedef union cavm_gserpx_debug cavm_gserpx_debug_t;
+
+static inline uint64_t CAVM_GSERPX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_DEBUG(unsigned long a)
+{
+    if (cavm_is_model(OCTEONTX_CN96XX_PASS3_X) && (a<=5))
+        return 0x87e090080090ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("GSERPX_DEBUG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_DEBUG(a) cavm_gserpx_debug_t
+#define bustype_CAVM_GSERPX_DEBUG(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_DEBUG(a) "GSERPX_DEBUG"
+#define device_bar_CAVM_GSERPX_DEBUG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_DEBUG(a) (a)
+#define arguments_CAVM_GSERPX_DEBUG(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_dmem#
  *
  * GSERP Data Memory (36kB) Registers
@@ -10278,6 +10429,10 @@ static inline uint64_t CAVM_GSERPX_ECO(unsigned long a)
  * Register (RSL) gserp#_furcation_mode
  *
  * GSERP Furcation Mode Register
+ * The value in this register MUST be the same across GSERP instances 0-3
+ * for 96xx.  For 98xx, it must be the same across GSERP instances 0-3 as
+ * well as for instances 4-7.  Note that the value shared across 0-3 is
+ * allowed to be different than the value shared across 4-7.
  */
 union cavm_gserpx_furcation_mode
 {
@@ -10298,11 +10453,21 @@ union cavm_gserpx_furcation_mode
                                                                  0x1 - PEM1 connected to QLM1 (x4)
                                                                  GSERP(1)_FURCATION_MODE[MUX_CFG0] controls this muxing.  All other
                                                                  instances of GSERP have no effect. */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions TBD
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+                                                                 0x0 - pipe0 (x16) to QLM0/1/2/3
+                                                                 0x1 - pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3
+                                                                 0x2 - pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
+                                                                 0x3 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3
+                                                                 0x4 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
                                                                  GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
 #else /* Word 0 - Little Endian */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions TBD
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+                                                                 0x0 - pipe0 (x16) to QLM0/1/2/3
+                                                                 0x1 - pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3
+                                                                 0x2 - pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
+                                                                 0x3 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3
+                                                                 0x4 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
                                                                  GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
         uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) PEM1 mux configuration:
@@ -47302,7 +47467,7 @@ static inline uint64_t CAVM_GSERPX_PCS0_LNX_PIPE_PCLK_RXEQEVAL_TIMER(unsigned lo
  * Register (RSL) gserp#_pcs0_ln#_pipe_pclk_rxmargin_ctrl0
  *
  * GSERP Pcs0 Ln Pipe Pclk Rxmargin Ctrl0 Register
- * Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us.
+ * Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns.
  */
 union cavm_gserpx_pcs0_lnx_pipe_pclk_rxmargin_ctrl0
 {
@@ -47311,9 +47476,9 @@ union cavm_gserpx_pcs0_lnx_pipe_pclk_rxmargin_ctrl0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us. */
+        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns. */
 #else /* Word 0 - Little Endian */
-        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us. */
+        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -47340,7 +47505,7 @@ static inline uint64_t CAVM_GSERPX_PCS0_LNX_PIPE_PCLK_RXMARGIN_CTRL0(unsigned lo
  * Register (RSL) gserp#_pcs0_ln#_pipe_pclk_rxmargin_ctrl1
  *
  * GSERP Pcs0 Ln Pipe Pclk Rxmargin Ctrl1 Register
- * Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us.
+ * Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns.
  */
 union cavm_gserpx_pcs0_lnx_pipe_pclk_rxmargin_ctrl1
 {
@@ -47349,9 +47514,9 @@ union cavm_gserpx_pcs0_lnx_pipe_pclk_rxmargin_ctrl1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us. */
+        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns. */
 #else /* Word 0 - Little Endian */
-        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us. */
+        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -47378,7 +47543,7 @@ static inline uint64_t CAVM_GSERPX_PCS0_LNX_PIPE_PCLK_RXMARGIN_CTRL1(unsigned lo
  * Register (RSL) gserp#_pcs0_ln#_pipe_pclk_rxmargin_ctrl2
  *
  * GSERP Pcs0 Ln Pipe Pclk Rxmargin Ctrl2 Register
- * Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us.
+ * Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns.
  */
 union cavm_gserpx_pcs0_lnx_pipe_pclk_rxmargin_ctrl2
 {
@@ -47387,9 +47552,9 @@ union cavm_gserpx_pcs0_lnx_pipe_pclk_rxmargin_ctrl2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us. */
+        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns. */
 #else /* Word 0 - Little Endian */
-        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in us. */
+        uint64_t timeout               : 8;  /**< [  7:  0](R/W/H) Timeout value from rxmargin offset change to Rx margin status asserted, and its represented in ns. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
