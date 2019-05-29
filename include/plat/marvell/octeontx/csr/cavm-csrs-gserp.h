@@ -10303,49 +10303,6 @@ static inline uint64_t CAVM_GSERPX_CONST(unsigned long a)
 #define arguments_CAVM_GSERPX_CONST(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) gserp#_debug
- *
- * GSERP DEBUG Register
- */
-union cavm_gserpx_debug
-{
-    uint64_t u;
-    struct cavm_gserpx_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t perst_stall_disable   : 1;  /**< [  0:  0](R/W) If set, disables PERST stalling logic by preventing REXT READY gating.
-                                                                 Internal:
-                                                                 The PERST stalling logic is used to stall the firmware initialization of
-                                                                 GSERP until its controlling PERST (based on furcation mode) has deasserted. */
-#else /* Word 0 - Little Endian */
-        uint64_t perst_stall_disable   : 1;  /**< [  0:  0](R/W) If set, disables PERST stalling logic by preventing REXT READY gating.
-                                                                 Internal:
-                                                                 The PERST stalling logic is used to stall the firmware initialization of
-                                                                 GSERP until its controlling PERST (based on furcation mode) has deasserted. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_debug_s cn; */
-};
-typedef union cavm_gserpx_debug cavm_gserpx_debug_t;
-
-static inline uint64_t CAVM_GSERPX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_DEBUG(unsigned long a)
-{
-    if (cavm_is_model(OCTEONTX_CN96XX_PASS3_X) && (a<=5))
-        return 0x87e090080090ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("GSERPX_DEBUG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_DEBUG(a) cavm_gserpx_debug_t
-#define bustype_CAVM_GSERPX_DEBUG(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_DEBUG(a) "GSERPX_DEBUG"
-#define device_bar_CAVM_GSERPX_DEBUG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_DEBUG(a) (a)
-#define arguments_CAVM_GSERPX_DEBUG(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) gserp#_dmem#
  *
  * GSERP Data Memory (36kB) Registers
@@ -10454,20 +10411,20 @@ union cavm_gserpx_furcation_mode
                                                                  GSERP(1)_FURCATION_MODE[MUX_CFG0] controls this muxing.  All other
                                                                  instances of GSERP have no effect. */
         uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
-                                                                 0x0 - pipe0 (x16) to QLM0/1/2/3
-                                                                 0x1 - pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3
-                                                                 0x2 - pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
-                                                                 0x3 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3
-                                                                 0x4 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
+                                                                   0x0 - pipe0 (x16) to QLM0/1/2/3
+                                                                   0x1 - pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3
+                                                                   0x2 - pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
+                                                                   0x3 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3
+                                                                   0x4 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
                                                                  GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
 #else /* Word 0 - Little Endian */
         uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
-                                                                 0x0 - pipe0 (x16) to QLM0/1/2/3
-                                                                 0x1 - pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3
-                                                                 0x2 - pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
-                                                                 0x3 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3
-                                                                 0x4 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
+                                                                   0x0 - pipe0 (x16) to QLM0/1/2/3
+                                                                   0x1 - pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3
+                                                                   0x2 - pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
+                                                                   0x3 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3
+                                                                   0x4 - pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
                                                                  GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
         uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) PEM1 mux configuration:
@@ -91368,6 +91325,63 @@ static inline uint64_t CAVM_GSERPX_PMEMX(unsigned long a, unsigned long b)
 #define device_bar_CAVM_GSERPX_PMEMX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_PMEMX(a,b) (a)
 #define arguments_CAVM_GSERPX_PMEMX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) gserp#_rx_clk_obs_ctl
+ *
+ * GSERP QLM RX Clock Observe Control Register
+ * Register controls settings for providing a divided version of the rx clock
+ * for debug observe purposes.
+ */
+union cavm_gserpx_rx_clk_obs_ctl
+{
+    uint64_t u;
+    struct cavm_gserpx_rx_clk_obs_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t mio_en                : 1;  /**< [  8:  8](R/W) Enable driving the clock output from the lane to MIO. This bit should be set low before
+                                                                 changing [MIO_DRATIO]; it may be written to 1 in the same cycle that [DRATIO] is
+                                                                 written. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t mio_dratio            : 2;  /**< [  1:  0](R/W) Divider ratio for the clock output from the lane to MIO relative to the clock for the
+                                                                 parallel receive data.
+                                                                 0x0 = Divide by 1, i.e., no division.
+                                                                 0x1 = Divide by 2.
+                                                                 0x2 = Divide by 4.
+                                                                 0x3 = Divide by 8. */
+#else /* Word 0 - Little Endian */
+        uint64_t mio_dratio            : 2;  /**< [  1:  0](R/W) Divider ratio for the clock output from the lane to MIO relative to the clock for the
+                                                                 parallel receive data.
+                                                                 0x0 = Divide by 1, i.e., no division.
+                                                                 0x1 = Divide by 2.
+                                                                 0x2 = Divide by 4.
+                                                                 0x3 = Divide by 8. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t mio_en                : 1;  /**< [  8:  8](R/W) Enable driving the clock output from the lane to MIO. This bit should be set low before
+                                                                 changing [MIO_DRATIO]; it may be written to 1 in the same cycle that [DRATIO] is
+                                                                 written. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_rx_clk_obs_ctl_s cn; */
+};
+typedef union cavm_gserpx_rx_clk_obs_ctl cavm_gserpx_rx_clk_obs_ctl_t;
+
+static inline uint64_t CAVM_GSERPX_RX_CLK_OBS_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_RX_CLK_OBS_CTL(unsigned long a)
+{
+    if (cavm_is_model(OCTEONTX_CN96XX_PASS3_X) && (a<=5))
+        return 0x87e090080090ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("GSERPX_RX_CLK_OBS_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_RX_CLK_OBS_CTL(a) cavm_gserpx_rx_clk_obs_ctl_t
+#define bustype_CAVM_GSERPX_RX_CLK_OBS_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_RX_CLK_OBS_CTL(a) "GSERPX_RX_CLK_OBS_CTL"
+#define device_bar_CAVM_GSERPX_RX_CLK_OBS_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_RX_CLK_OBS_CTL(a) (a)
+#define arguments_CAVM_GSERPX_RX_CLK_OBS_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_rx_term_ctl
