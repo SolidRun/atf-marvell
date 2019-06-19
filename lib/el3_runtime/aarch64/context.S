@@ -1276,6 +1276,7 @@ func el3_invoke_elx_kernel_callback
 	 * X0 holds the kernel callback
 	 * X1 holds spsr_el3
 	 * X2 holds scr_el3
+	 * X3 holds ELx mode
 	 */
 
 	/*
@@ -1283,6 +1284,7 @@ func el3_invoke_elx_kernel_callback
 	 * nop
 	 */
 
+	msr	S3_5_C13_C0_1, x3			/* contextidr_el12 */
 	msr scr_el3, x2
 	msr spsr_el3, x1
 	msr elr_el3, x0
@@ -1328,4 +1330,5 @@ func el3_invoke_elx_kernel_callback
 	dsb sy
 	isb
 	eret
+
 endfunc el3_invoke_elx_kernel_callback
