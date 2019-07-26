@@ -37,6 +37,10 @@
 CASSERT(((TWED_DELAY & ~SCR_TWEDEL_MASK) == 0U), assert_twed_delay_value_check);
 #endif /* ENABLE_FEAT_TWED */
 
+#if defined(PLAT_t96) || defined(PLAT_f95)
+#include <octeontx_common.h>
+#endif
+
 static void manage_extensions_secure(cpu_context_t *ctx);
 
 static void setup_el1_context(cpu_context_t *ctx, const struct entry_point_info *ep)
@@ -691,6 +695,9 @@ void cm_prepare_el3_exit(uint32_t security_state)
 				~((VTTBR_VMID_MASK << VTTBR_VMID_SHIFT)
 				| (VTTBR_BADDR_MASK << VTTBR_BADDR_SHIFT)));
 
+#if defined(PLAT_t96) || defined(PLAT_f95)
+			write_cvm_evattid_el1(0);
+#endif
 			/*
 			 * Initialise MDCR_EL2, setting all fields rather than
 			 * relying on hw. Some fields are architecturally
@@ -986,7 +993,10 @@ void cm_el1_sysregs_context_restore(uint32_t security_state)
 	ctx = cm_get_context(security_state);
 	assert(ctx != NULL);
 
-	el1_sysregs_context_restore(get_el1_sysregs_ctx(ctx));
+	el1_sysregs_context_restore(get_sysregs_ctx(ctx));
+#if defined(PLAT_t96) || defined(PLAT_f95)
+	write_cvm_evattid_el1(0);
+#endif
 
 #if IMAGE_BL31
 	if (security_state == SECURE)
