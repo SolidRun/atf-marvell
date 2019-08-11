@@ -557,8 +557,7 @@ static void ble_plat_svc_config(void)
 				NOTICE("7040 1600Mhz, avs = 0x%x\n",
 					avs_workpoint);
 #else
-				NOTICE("SVC: AVS work point not changed\n");
-				return;
+				avs_workpoint = 0;
 #endif
 			}
 			break;
