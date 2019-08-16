@@ -486,6 +486,14 @@ DTC_FLAGS		+=	-I dts -O dtb
 DTC_CPPFLAGS		+=	-P -nostdinc -Iinclude -Ifdts -undef \
 				-x assembler-with-cpp $(DEFINES)
 
+ifeq ($(MEASURED_BOOT),1)
+DTC_CPPFLAGS		+=	-DMEASURED_BOOT -DBL2_HASH_SIZE=${TCG_DIGEST_SIZE}
+endif
+
+ifeq (${FIP_IMG_USER_LOC},1)
+TF_CFLAGS_aarch64	+=	-DFIP_IMG_FLASH_OFFSET=${FIP_IMG_FLASH_ADDRESS}
+endif
+
 ################################################################################
 # Common sources and include directories
 ################################################################################
