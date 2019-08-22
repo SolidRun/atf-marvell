@@ -101,8 +101,8 @@ static void ap_sec_masters_access_en(uint32_t enable)
 	 * The access is disabled in trusted boot mode
 	 * Could only be done in EL3
 	 */
-	if (enable != 0) {
-		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG, 0x0U, /* no clear */
+	if (enable) {
+		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG, 0, /* no clear */
 				   SEC_IN_ACCESS_ENA_ALL_MASTERS);
 #if LLC_SRAM
 		/* Do not change access security level
@@ -117,7 +117,7 @@ static void ap_sec_masters_access_en(uint32_t enable)
 	} else {
 		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG,
 				   SEC_IN_ACCESS_ENA_ALL_MASTERS,
-				   0x0U /* no set */);
+				   0 /* no set */);
 #if LLC_SRAM
 		/* Return PIDI access level to the default */
 		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG,
