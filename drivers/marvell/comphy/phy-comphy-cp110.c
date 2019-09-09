@@ -944,7 +944,7 @@ static int mvebu_cp110_comphy_xfi_power_on(uint64_t comphy_base,
 	 * addition to the PHY reset
 	 */
 	mask = SD_EXTERNAL_CONFIG1_TX_IDLE_MASK;
-	data = 0x0U;
+	data = 0x0 << SD_EXTERNAL_CONFIG1_TX_IDLE_OFFSET;
 	reg_set(sd_ip_addr + SD_EXTERNAL_CONFIG1_REG, data, mask);
 
 	/* Start comphy Configuration */
