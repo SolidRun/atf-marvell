@@ -11012,12 +11012,16 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
         uint64_t reserved_41_42        : 2;
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Override for REXT Master pin.
+                                                                 When REFCLK_OVERRIDE is set, the default value for the REXT Master input to the
+                                                                 QLM can be overridden.
+                                                                 Note that PHY_REXT_MASTER is strapped appropriately by hardware and should not
+                                                                 be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 REXT master select:
                                                                    0x0 - PHY is a slave.
                                                                    0x1 - PHY is the master.
-
-                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
-                                                                 as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x0.
@@ -11025,16 +11029,19 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP2:    0x0.
                                                                  _ GSERP3:    0x0.
                                                                  _ GSERP4:    0x1. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Override for REFCLK_A_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Override for REFCLK_B_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Override for REFCLK_A_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11045,8 +11052,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP2:    0x1.
                                                                  _ GSERP3:    0x1.
                                                                  _ GSERP4:    0x0. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Override for REFCLK_B_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11063,14 +11071,15 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x1 - The ref clk driven into the refclkp/m bumps will be driven
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge.
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Override for REFCLK_RIGHT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the top of the AFE macro at die edge.
 
-                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
-                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+                                                                 The CMU reference clock select are strapped appropriately by hardware and should not be
+                                                                 changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -11090,8 +11099,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP2:    4'b01_01.
                                                                  _ GSERP3:    4'b01_00.
                                                                  _ GSERP4:    4'b00_00. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge.
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Override for REFCLK_LEFT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the bottom of the AFE macro at die edge.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro.
 
@@ -11157,8 +11167,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  GSERP3:    0x6    0x0
                                                                  GSERP4:    0x0    NS
                                                                  \</pre\> */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge.
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Override for REFCLK_LEFT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the bottom of the AFE macro at die edge.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro.
 
@@ -11173,11 +11184,12 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                      0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
                                                                      0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
                                                                      0x3 = Choose clk_ref_a_l_o source from refclk_pads. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge.
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Override for REFCLK_RIGHT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the top of the AFE macro at die edge.
 
-                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
-                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+                                                                 The CMU reference clock select are strapped appropriately by hardware and should not be
+                                                                 changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -11197,7 +11209,7 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP2:    4'b01_01.
                                                                  _ GSERP3:    4'b01_00.
                                                                  _ GSERP4:    4'b00_00. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
         uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
@@ -11206,8 +11218,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x1 - The ref clk driven into the refclkp/m bumps will be driven
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Override for REFCLK_B_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11218,8 +11231,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP2:    0x1.
                                                                  _ GSERP3:    0x0.
                                                                  _ GSERP4:    0x1. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Override for REFCLK_A_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11230,20 +11244,26 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP2:    0x1.
                                                                  _ GSERP3:    0x1.
                                                                  _ GSERP4:    0x0. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Override for REFCLK_B_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Override for REFCLK_A_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Override for REXT Master pin.
+                                                                 When REFCLK_OVERRIDE is set, the default value for the REXT Master input to the
+                                                                 QLM can be overridden.
+                                                                 Note that PHY_REXT_MASTER is strapped appropriately by hardware and should not
+                                                                 be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 REXT master select:
                                                                    0x0 - PHY is a slave.
                                                                    0x1 - PHY is the master.
-
-                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
-                                                                 as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x0.
@@ -11300,12 +11320,16 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
         uint64_t reserved_41_42        : 2;
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Override for REXT Master pin.
+                                                                 When REFCLK_OVERRIDE is set, the default value for the REXT Master input to the
+                                                                 QLM can be overridden.
+                                                                 Note that PHY_REXT_MASTER is strapped appropriately by hardware and should not
+                                                                 be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 REXT master select:
                                                                    0x0 - PHY is a slave.
                                                                    0x1 - PHY is the master.
-
-                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
-                                                                 as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x0.
@@ -11317,16 +11341,19 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP6:    0x0.
                                                                  _ GSERP7:    0x0.
                                                                  _ GSERP8:    0x1. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Override for REFCLK_A_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Override for REFCLK_B_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Override for REFCLK_A_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11341,8 +11368,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP6:    0x1.
                                                                  _ GSERP7:    0x1.
                                                                  _ GSERP8:    0x0. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Override for REFCLK_B_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11363,14 +11391,15 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x1 - The ref clk driven into the refclkp/m bumps will be driven
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge.
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Override for REFCLK_RIGHT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the top of the AFE macro at die edge.
 
-                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
-                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+                                                                 The CMU reference clock select are strapped appropriately by hardware and should not be
+                                                                 changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -11394,8 +11423,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP6:    4'b01_01.
                                                                  _ GSERP7:    4'b01_01.
                                                                  _ GSERP8:    4'b00_00. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge.
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Override for REFCLK_LEFT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the bottom of the AFE macro at die edge.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro.
 
@@ -11469,8 +11499,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  GSERP7:    0x6    0x0
                                                                  GSERP8:    0x0    NS
                                                                  \</pre\> */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge.
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Override for REFCLK_LEFT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the bottom of the AFE macro at die edge.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro.
 
@@ -11485,11 +11516,12 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                      0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
                                                                      0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
                                                                      0x3 = Choose clk_ref_a_l_o source from refclk_pads. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge.
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Override for REFCLK_RIGHT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the top of the AFE macro at die edge.
 
-                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
-                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+                                                                 The CMU reference clock select are strapped appropriately by hardware and should not be
+                                                                 changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -11513,7 +11545,7 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP6:    4'b01_01.
                                                                  _ GSERP7:    4'b01_01.
                                                                  _ GSERP8:    4'b00_00. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
         uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
@@ -11522,8 +11554,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x1 - The ref clk driven into the refclkp/m bumps will be driven
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Override for REFCLK_B_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11538,8 +11571,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP6:    0x1.
                                                                  _ GSERP7:    0x0.
                                                                  _ GSERP8:    0x1. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Override for REFCLK_A_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11554,20 +11588,26 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP6:    0x1.
                                                                  _ GSERP7:    0x1.
                                                                  _ GSERP8:    0x0. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Override for REFCLK_B_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Override for REFCLK_A_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Override for REXT Master pin.
+                                                                 When REFCLK_OVERRIDE is set, the default value for the REXT Master input to the
+                                                                 QLM can be overridden.
+                                                                 Note that PHY_REXT_MASTER is strapped appropriately by hardware and should not
+                                                                 be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 REXT master select:
                                                                    0x0 - PHY is a slave.
                                                                    0x1 - PHY is the master.
-
-                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
-                                                                 as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x0.
@@ -11626,33 +11666,41 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
         uint64_t reserved_41_42        : 2;
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Override for REXT Master pin.
+                                                                 When REFCLK_OVERRIDE is set, the default value for the REXT Master input to the
+                                                                 QLM can be overridden.
+                                                                 Note that PHY_REXT_MASTER is strapped appropriately by hardware and should not
+                                                                 be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 REXT master select:
                                                                    0x0 - PHY is a slave.
                                                                    0x1 - PHY is the master.
 
-                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
-                                                                 as part of the bring up process.
-
                                                                  Reset values:
                                                                  _ GSERP0:    0x1. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Override for REFCLK_A_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Override for REFCLK_B_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Override for REFCLK_A_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x0. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Override for REFCLK_B_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
@@ -11665,14 +11713,15 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x1 - The ref clk driven into the refclkp/m bumps will be driven
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge.
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Override for REFCLK_RIGHT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the top of the AFE macro at die edge.
 
-                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
-                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+                                                                 The CMU reference clock select are strapped appropriately by hardware and should not be
+                                                                 changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -11688,8 +11737,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  Reset values:
                                                                  _ GSERP0:    4'b00_00. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge.
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Override for REFCLK_LEFT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the bottom of the AFE macro at die edge.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro.
 
@@ -11747,8 +11797,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                              RC    EP
                                                                  GSERP0:    0x0    0x0
                                                                  \</pre\> */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge.
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Override for REFCLK_LEFT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the bottom of the AFE macro at die edge.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro.
 
@@ -11763,11 +11814,12 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                      0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
                                                                      0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
                                                                      0x3 = Choose clk_ref_a_l_o source from refclk_pads. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge.
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Override for REFCLK_RIGHT_OUTPUT_SEL pin.
+                                                                 When REFCLK_OVERIDE is set, the CMU reference clock output select can be changed for the CML
+                                                                 distribution buffers driving out of the top of the AFE macro at die edge.
 
-                                                                 The Reference clock output pins near the top of the AFE macro are strapped appropriately
-                                                                 by hardware and should not be changed (overridden) as part of the bring up process.
+                                                                 The CMU reference clock select are strapped appropriately by hardware and should not be
+                                                                 changed (overridden) as part of the bring up process.
 
                                                                    REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
                                                                      0x0 - Choose clk_ref_b_r_o source from refclk_pads.
@@ -11783,7 +11835,7 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  Reset values:
                                                                  _ GSERP0:    4'b00_00. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 - The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 - The bumps are unterminated. */
         uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
@@ -11792,36 +11844,44 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    0x1 - The ref clk driven into the refclkp/m bumps will be driven
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Override for REFCLK_B_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x0. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Override for REFCLK_A_OE_R pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the top of the AFE macro.
 
                                                                  The Reference clock output pins near the top of the AFE macro are strapped appropriately
                                                                  by hardware and should not be changed (overridden) as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x0. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Override for REFCLK_B_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "B" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Override for REFCLK_A_OE_L pin (active high).
+                                                                 When REFCLK_OVERIDE is set, the output enables inputs to the QLM can be changed for
+                                                                 the CML output buffers that drive reference clock "A" out of the bottom of the AFE macro.
 
                                                                  GSERP does not make use of reference clock output pins on the bottom of AFE macro. */
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Override for REXT Master pin.
+                                                                 When REFCLK_OVERRIDE is set, the default value for the REXT Master input to the
+                                                                 QLM can be overridden.
+                                                                 Note that PHY_REXT_MASTER is strapped appropriately by hardware and should not
+                                                                 be changed (overridden)
+                                                                 as part of the bring up process.
+
+                                                                 REXT master select:
                                                                    0x0 - PHY is a slave.
                                                                    0x1 - PHY is the master.
-
-                                                                 The REXT Master pins are strapped appropriately by hardware and should not be changed (overridden)
-                                                                 as part of the bring up process.
 
                                                                  Reset values:
                                                                  _ GSERP0:    0x1. */
@@ -11982,10 +12042,10 @@ union cavm_gserpx_common_phy_status_bsts
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value */
+        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value. */
         uint64_t reserved_3            : 1;
         uint64_t cm0_ok                : 1;  /**< [  2:  2](RO/H) CMU OK signal, asserted after CMU macro successfully reaches the
-                                                                 Active power state, the CMU PLL has locked to the ref clock, and
+                                                                 active power state, the CMU PLL has locked to the ref clock, and
                                                                  all output clocks are the correct frequency.  Signal is only valid
                                                                  on initial assertion, not a PLL lock indicator. */
         uint64_t cm0_state_chng_rdy    : 1;  /**< [  1:  1](RO/H) CMU reset and power state ready status:
@@ -12008,11 +12068,11 @@ union cavm_gserpx_common_phy_status_bsts
                                                                          request and is ready to respond to cm0_rst_n, cm0_iddq, and
                                                                          cm0_pd changes. */
         uint64_t cm0_ok                : 1;  /**< [  2:  2](RO/H) CMU OK signal, asserted after CMU macro successfully reaches the
-                                                                 Active power state, the CMU PLL has locked to the ref clock, and
+                                                                 active power state, the CMU PLL has locked to the ref clock, and
                                                                  all output clocks are the correct frequency.  Signal is only valid
                                                                  on initial assertion, not a PLL lock indicator. */
         uint64_t reserved_3            : 1;
-        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value */
+        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -97875,7 +97935,7 @@ static inline uint64_t CAVM_GSERPX_PHY0_TOP_CLOCK_LN0_TBUS_CTRL(unsigned long a)
 /**
  * Register (RSL) gserp#_phy0_top_clock_ln0_tx_rate
  *
- * GSERP Phy0 Top Clock Ln0 Tx Rate Register
+ * GSERP Phy0 Top Clock Ln0 TX Rate Register
  * Clock selection in Gearbox mode
  * 0x0: PLL1
  * 0x1: PLL2
@@ -98422,7 +98482,7 @@ static inline uint64_t CAVM_GSERPX_PHY0_TOP_CLOCK_LN1_TBUS_CTRL(unsigned long a)
 /**
  * Register (RSL) gserp#_phy0_top_clock_ln1_tx_rate
  *
- * GSERP Phy0 Top Clock Ln1 Tx Rate Register
+ * GSERP Phy0 Top Clock Ln1 TX Rate Register
  * Clock selection in Gearbox mode
  * 0x0: PLL1
  * 0x1: PLL2
@@ -98969,7 +99029,7 @@ static inline uint64_t CAVM_GSERPX_PHY0_TOP_CLOCK_LN2_TBUS_CTRL(unsigned long a)
 /**
  * Register (RSL) gserp#_phy0_top_clock_ln2_tx_rate
  *
- * GSERP Phy0 Top Clock Ln2 Tx Rate Register
+ * GSERP Phy0 Top Clock Ln2 TX Rate Register
  * Clock selection in Gearbox mode
  * 0x0: PLL1
  * 0x1: PLL2
@@ -99516,7 +99576,7 @@ static inline uint64_t CAVM_GSERPX_PHY0_TOP_CLOCK_LN3_TBUS_CTRL(unsigned long a)
 /**
  * Register (RSL) gserp#_phy0_top_clock_ln3_tx_rate
  *
- * GSERP Phy0 Top Clock Ln3 Tx Rate Register
+ * GSERP Phy0 Top Clock Ln3 TX Rate Register
  * Clock selection in Gearbox mode
  * 0x0: PLL1
  * 0x1: PLL2

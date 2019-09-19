@@ -10777,17 +10777,17 @@ union cavm_gserrx_common_phy_ctrl_bcfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_47_63        : 17;
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by HW.   When
-                                                                 REFCLK_OVERRIDE=0, writes to these fields are ignored.
-                                                                 When REFCLK_OVERRIDE=1, writes to these fields are applied. For diagnostic use only.
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
+                                                                 REFCLK_OVERRIDE = 0, writes to these fields are ignored.
+                                                                 When REFCLK_OVERRIDE = 1, writes to these fields are applied. For diagnostic use only.
 
-                                                                   REFCLK_A_OE_L.
-                                                                   REFCLK_A_OE_R.
-                                                                   REFCLK_B_OE_L.
-                                                                   REFCLK_B_OE_R.
-                                                                   REFCLK_RIGHT_OUTPUT_SEL.
-                                                                   REFCLK_LEFT_OUTPUT_SEL.
-                                                                   PHY_REXT_MASTER. */
+                                                                   [REFCLK_A_OE_L].
+                                                                   [REFCLK_A_OE_R].
+                                                                   [REFCLK_B_OE_L].
+                                                                   [REFCLK_B_OE_R].
+                                                                   [REFCLK_RIGHT_OUTPUT_SEL].
+                                                                   [REFCLK_LEFT_OUTPUT_SEL].
+                                                                   [PHY_REXT_MASTER]. */
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0x0 = APB bus reset deasserted.
                                                                    0x1 = APB bus reset asserted.
@@ -10805,11 +10805,11 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                  bit may result in somewhat unexpected behavior in the RSL bus, since the IP's
                                                                  APB bus will direcyl control the response to commands, including error any
                                                                  indications. */
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
-                                                                   0x0 = Program Memory may be written (not write protected).
-                                                                   0x1 = Program Memory cannot be written (write protected). */
+                                                                   0x0 = Program memory may be written (not write protected).
+                                                                   0x1 = Program memory cannot be written (write protected). */
         uint64_t reserved_41_42        : 2;
         uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
                                                                    0x0 = PHY is a slave.
@@ -10828,7 +10828,7 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                    0x1 = The ref clk driven into the refclkp/m bumps will be driven
                                                                          out of the CMOS cm0_refclk_pad output to the DPL in all CMU
                                                                          power states including POR. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 = The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 = The bumps are unterminated. */
         uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
@@ -10873,19 +10873,19 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                    0x3 = Reserved. */
         uint64_t reserved_19           : 1;
         uint64_t cm0_rst               : 1;  /**< [ 18: 18](R/W) CMU reset, active high. */
-        uint64_t phy_ctrl_rate2        : 6;  /**< [ 17: 12](R/W) Phy configuration for rate 2:
-                                                                   0x23 = 10.3125 Gbps (Default).
-                                                                   0x24 = 10.20 Gbps (At-speed scan mode).
+        uint64_t phy_ctrl_rate2        : 6;  /**< [ 17: 12](R/W) PHY configuration for rate 2:
+                                                                   0x23 = 10.3125 Gbps (default).
+                                                                   0x24 = 10.20 Gbps (at-speed scan mode).
                                                                    0x26 = 8.5 Gbps.
                                                                    0x28 = 6.25 Gbps.
                                                                    0x2A = 5 Gbps.
                                                                    _ Others = Reserved. */
-        uint64_t phy_ctrl_rate1        : 6;  /**< [ 11:  6](R/W) Phy configuration for rate 1:
+        uint64_t phy_ctrl_rate1        : 6;  /**< [ 11:  6](R/W) PHY configuration for rate 1:
                                                                    0x00 = 30 Gbps.
                                                                    0x01 = 28.05 Gbps.
                                                                    0x0B = 28 Gbps.
                                                                    0x02 = 27.34375 Gbps.
-                                                                   0x03 = 25.78125 Gbps (Default).
+                                                                   0x03 = 25.78125 Gbps (default).
                                                                    0x04 = 21.875 Gbps.
                                                                    0x05 = 20.625 Gbps.
                                                                    0x06 = 26.5625 Gbps.
@@ -10897,25 +10897,25 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                    0x23 = 10.3125 Gbps.
                                                                    0x25 = 10 Gbps.
                                                                    _ Others = Reserved. */
-        uint64_t phy_ctrl_refclk       : 5;  /**< [  5:  1](R/W) Phy configuration for the ref clock frequency:
+        uint64_t phy_ctrl_refclk       : 5;  /**< [  5:  1](R/W) PHY configuration for the ref clock frequency:
                                                                    0x0A = 212.5 MHz.
-                                                                   0x0E = 156.25 MHz (Default).
+                                                                   0x0E = 156.25 MHz (default).
                                                                    Ox13 = 200 MHz.
                                                                    _ Others = Reserved. */
         uint64_t por                   : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
 #else /* Word 0 - Little Endian */
         uint64_t por                   : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
-        uint64_t phy_ctrl_refclk       : 5;  /**< [  5:  1](R/W) Phy configuration for the ref clock frequency:
+        uint64_t phy_ctrl_refclk       : 5;  /**< [  5:  1](R/W) PHY configuration for the ref clock frequency:
                                                                    0x0A = 212.5 MHz.
-                                                                   0x0E = 156.25 MHz (Default).
+                                                                   0x0E = 156.25 MHz (default).
                                                                    Ox13 = 200 MHz.
                                                                    _ Others = Reserved. */
-        uint64_t phy_ctrl_rate1        : 6;  /**< [ 11:  6](R/W) Phy configuration for rate 1:
+        uint64_t phy_ctrl_rate1        : 6;  /**< [ 11:  6](R/W) PHY configuration for rate 1:
                                                                    0x00 = 30 Gbps.
                                                                    0x01 = 28.05 Gbps.
                                                                    0x0B = 28 Gbps.
                                                                    0x02 = 27.34375 Gbps.
-                                                                   0x03 = 25.78125 Gbps (Default).
+                                                                   0x03 = 25.78125 Gbps (default).
                                                                    0x04 = 21.875 Gbps.
                                                                    0x05 = 20.625 Gbps.
                                                                    0x06 = 26.5625 Gbps.
@@ -10927,9 +10927,9 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                    0x23 = 10.3125 Gbps.
                                                                    0x25 = 10 Gbps.
                                                                    _ Others = Reserved. */
-        uint64_t phy_ctrl_rate2        : 6;  /**< [ 17: 12](R/W) Phy configuration for rate 2:
-                                                                   0x23 = 10.3125 Gbps (Default).
-                                                                   0x24 = 10.20 Gbps (At-speed scan mode).
+        uint64_t phy_ctrl_rate2        : 6;  /**< [ 17: 12](R/W) PHY configuration for rate 2:
+                                                                   0x23 = 10.3125 Gbps (default).
+                                                                   0x24 = 10.20 Gbps (at-speed scan mode).
                                                                    0x26 = 8.5 Gbps.
                                                                    0x28 = 6.25 Gbps.
                                                                    0x2A = 5 Gbps.
@@ -10976,7 +10976,7 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                      0x1 - Choose clk_ref_a_r_o source from clk_ref_a_r_i.
                                                                      0x2 - Choose clk_ref_a_r_o source from clk_ref_a_l_i.
                                                                      0x3 - Choose clk_ref_a_r_o source from refclk_pads. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the refclkp/m bumps:
                                                                    0x0 = The bumps are terminated with a differential 100 ohm resistance.
                                                                    0x1 = The bumps are unterminated. */
         uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
@@ -10997,11 +10997,11 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                    0x0 = PHY is a slave.
                                                                    0x1 = PHY is the master. */
         uint64_t reserved_41_42        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
-                                                                   0x0 = Program Memory may be written (not write protected).
-                                                                   0x1 = Program Memory cannot be written (write protected). */
+                                                                   0x0 = Program memory may be written (not write protected).
+                                                                   0x1 = Program memory cannot be written (write protected). */
         uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Reserved.
                                                                  Internal:
                                                                  Set to 1 to disable the address filter that nomally blocks APB accesses for
@@ -11019,17 +11019,17 @@ union cavm_gserrx_common_phy_ctrl_bcfg
                                                                  Internal:
                                                                  When APB_RESET=1, an RSL access to an APB register address will return an RSL
                                                                  error. */
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by HW.   When
-                                                                 REFCLK_OVERRIDE=0, writes to these fields are ignored.
-                                                                 When REFCLK_OVERRIDE=1, writes to these fields are applied. For diagnostic use only.
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
+                                                                 REFCLK_OVERRIDE = 0, writes to these fields are ignored.
+                                                                 When REFCLK_OVERRIDE = 1, writes to these fields are applied. For diagnostic use only.
 
-                                                                   REFCLK_A_OE_L.
-                                                                   REFCLK_A_OE_R.
-                                                                   REFCLK_B_OE_L.
-                                                                   REFCLK_B_OE_R.
-                                                                   REFCLK_RIGHT_OUTPUT_SEL.
-                                                                   REFCLK_LEFT_OUTPUT_SEL.
-                                                                   PHY_REXT_MASTER. */
+                                                                   [REFCLK_A_OE_L].
+                                                                   [REFCLK_A_OE_R].
+                                                                   [REFCLK_B_OE_L].
+                                                                   [REFCLK_B_OE_R].
+                                                                   [REFCLK_RIGHT_OUTPUT_SEL].
+                                                                   [REFCLK_LEFT_OUTPUT_SEL].
+                                                                   [PHY_REXT_MASTER]. */
         uint64_t reserved_47_63        : 17;
 #endif /* Word 0 - End */
     } s;
@@ -11070,17 +11070,17 @@ union cavm_gserrx_common_phy_ctrl_prot
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit cannot be
                                                                  cleared by writing, only cleared upon reset.
-                                                                   0x0 = Program memory may be written (not write protected).
-                                                                   0x1 = Program memory cannot be written (write protected). */
+                                                                   0x0 = Program memory may be written (not write-protected).
+                                                                   0x1 = Program memory cannot be written (write-protected). */
 #else /* Word 0 - Little Endian */
-        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit cannot be
                                                                  cleared by writing, only cleared upon reset.
-                                                                   0x0 = Program memory may be written (not write protected).
-                                                                   0x1 = Program memory cannot be written (write protected). */
+                                                                   0x0 = Program memory may be written (not write-protected).
+                                                                   0x1 = Program memory cannot be written (write-protected). */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -11123,7 +11123,7 @@ union cavm_gserrx_common_phy_ctrl_stall
         uint64_t reserved_2_63         : 62;
         uint64_t csr_force_stall       : 1;  /**< [  1:  1](R/W) CSR controlled stall for accesses to CPU program and data memory.
                                                                    0x0 = Does not assert stall to CPU program and data memory.
-                                                                   0x1 = Asserts stall stall to CPU program and data memory. */
+                                                                   0x1 = Asserts stall to CPU program and data memory. */
         uint64_t csr_mask_stall        : 1;  /**< [  0:  0](R/W) Hardware stall mask control for accesses to CPU program and data memory.
                                                                    0x0 = Hardware stall from RSL access is enabled.
                                                                    0x1 = Hardware stall from RSL access is disabled (masked). */
@@ -11133,7 +11133,7 @@ union cavm_gserrx_common_phy_ctrl_stall
                                                                    0x1 = Hardware stall from RSL access is disabled (masked). */
         uint64_t csr_force_stall       : 1;  /**< [  1:  1](R/W) CSR controlled stall for accesses to CPU program and data memory.
                                                                    0x0 = Does not assert stall to CPU program and data memory.
-                                                                   0x1 = Asserts stall stall to CPU program and data memory. */
+                                                                   0x1 = Asserts stall to CPU program and data memory. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -11174,14 +11174,14 @@ union cavm_gserrx_common_phy_status_bsts
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value */
+        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value. */
         uint64_t reserved_3            : 1;
         uint64_t cm0_ok                : 1;  /**< [  2:  2](RO/H) CMU OK signal, asserted after CMU macro successfully reaches the
-                                                                 Active power state, the CMU PLL has locked to the ref clock, and
+                                                                 active power state, the CMU PLL has locked to the ref clock, and
                                                                  all output clocks are the correct frequency.  Signal is only valid
                                                                  on initial assertion, not a PLL lock indicator. */
         uint64_t cm0_state_chng_rdy    : 1;  /**< [  1:  1](RO/H) CMU reset and power state ready status:
-                                                                   0x0 = PHY is performing a power state transition, signals cm0_rst_n
+                                                                   0x0 = PHY is performing a power state transition; signals cm0_rst_n
                                                                          and cm0_pd should not be changed.
                                                                    0x1 = PHY has successfully completed the last power state transition
                                                                          request and is ready to respond to cm0_rst_n, cm0_iddq, and
@@ -11194,17 +11194,17 @@ union cavm_gserrx_common_phy_status_bsts
                                                                    0x0 = No error.
                                                                    0x1 = PHY has an internal error. */
         uint64_t cm0_state_chng_rdy    : 1;  /**< [  1:  1](RO/H) CMU reset and power state ready status:
-                                                                   0x0 = PHY is performing a power state transition, signals cm0_rst_n
+                                                                   0x0 = PHY is performing a power state transition; signals cm0_rst_n
                                                                          and cm0_pd should not be changed.
                                                                    0x1 = PHY has successfully completed the last power state transition
                                                                          request and is ready to respond to cm0_rst_n, cm0_iddq, and
                                                                          cm0_pd changes. */
         uint64_t cm0_ok                : 1;  /**< [  2:  2](RO/H) CMU OK signal, asserted after CMU macro successfully reaches the
-                                                                 Active power state, the CMU PLL has locked to the ref clock, and
+                                                                 active power state, the CMU PLL has locked to the ref clock, and
                                                                  all output clocks are the correct frequency.  Signal is only valid
                                                                  on initial assertion, not a PLL lock indicator. */
         uint64_t reserved_3            : 1;
-        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value */
+        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -11541,16 +11541,16 @@ union cavm_gserrx_lanex_control_bcfg
                                                                  from the CGX MAC to the GSERR PHY. This control must be set to 1
                                                                  for normal Ethernet transmit data.
                                                                  For diagnostic use only. */
-        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad lane aggregation mode.
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
                                                                  [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
                                                                  [CGX_QUAD] must be set in all lanes that are part of the Ethernet
-                                                                 four lane interface type.
+                                                                 four-lane interface type.
 
                                                                  When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
                                                                  [CGX_QUAD] must only be set for the XAUI/DXAUI, XLAUI, 100GBASE-R4, 40GBASE-R4,
                                                                  and CAUI-4 interface types. */
-        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual lane aggregation mode.
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
                                                                  [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
                                                                  [CGX_DUAL] must be set in all lanes that are part of the Ethernet
@@ -11567,9 +11567,9 @@ union cavm_gserrx_lanex_control_bcfg
                                                                  For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
         uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
                                                                    0x0 = 25G, 50G, and 100G data rates. Also for
-                                                                         10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
                                                                          configured for the 10.3125Gbps data rate.
-                                                                   0x1 = 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
                                                                          configured for the 10.3125Gbps data rate.
                                                                          Also for RXAUI, DXAUI, and QSGMII data rates.
                                                                    0x4 = XAUI data rate.
@@ -11617,30 +11617,30 @@ union cavm_gserrx_lanex_control_bcfg
                                                                    0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
                                                                          lane (AN-master lane).
                                                                    0x3 = Reserved. */
-        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  Phy transitions to rates set in LN_CTRL_RX_RATE and
-                                                                 LN_CTRL_TX_RATE when asserted.  De-assertion indicates to the PHY that rate
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
                                                                  configuration adjustments have been completed. */
         uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
                                                                    0x0 = No polarity inversion.
                                                                    0x1 = Polarity inversion. */
         uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit Reserved.
-                                                                   0x3 = 20 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x4 = 32 bit Reserved.
-                                                                   0x5 = 40 bit 25G,50G,100G data rates (Default).
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
                                                                    _ Others = Reserved. */
         uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII
-                                                                   0x3 = 20 bit Reserved.
-                                                                   0x4 = 32 bit 25G,50G,100G data rate (Default).
-                                                                   0x5 = 40 bit Reserved.
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
                                                                    Others - Reserved. */
         uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
@@ -11648,36 +11648,36 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
                                                                    Others = Reserved. */
         uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
-                                                                   0x0 = Data on LN_TXDATA will not be transmitted, transmitter placed into
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
                                                                          electrical idle.
                                                                    0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
                                                                          will be transmitted. */
         uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
-                                                                   0x0 = Nomral/active.
+                                                                   0x0 = Normal/active.
                                                                    0x1 = Partial power down.
-                                                                   0x2,0x3 = Most blocks powered down (Sleep mode). */
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
         uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
 #else /* Word 0 - Little Endian */
         uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
         uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
-                                                                   0x0 = Nomral/active.
+                                                                   0x0 = Normal/active.
                                                                    0x1 = Partial power down.
-                                                                   0x2,0x3 = Most blocks powered down (Sleep mode). */
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
         uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
-                                                                   0x0 = Data on LN_TXDATA will not be transmitted, transmitter placed into
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
                                                                          electrical idle.
                                                                    0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
                                                                          will be transmitted. */
         uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
@@ -11685,30 +11685,30 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
                                                                    Others = Reserved. */
         uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII
-                                                                   0x3 = 20 bit Reserved.
-                                                                   0x4 = 32 bit 25G,50G,100G data rate (Default).
-                                                                   0x5 = 40 bit Reserved.
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
                                                                    Others - Reserved. */
         uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit Reserved.
-                                                                   0x3 = 20 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x4 = 32 bit Reserved.
-                                                                   0x5 = 40 bit 25G,50G,100G data rates (Default).
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
                                                                    _ Others = Reserved. */
         uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
                                                                    0x0 = No polarity inversion.
                                                                    0x1 = Polarity inversion. */
-        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  Phy transitions to rates set in LN_CTRL_RX_RATE and
-                                                                 LN_CTRL_TX_RATE when asserted.  De-assertion indicates to the PHY that rate
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
                                                                  configuration adjustments have been completed. */
         uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
                                                                  Internal:
@@ -11742,9 +11742,9 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t reserved_25           : 1;
         uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
                                                                    0x0 = 25G, 50G, and 100G data rates. Also for
-                                                                         10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
                                                                          configured for the 10.3125Gbps data rate.
-                                                                   0x1 = 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
                                                                          configured for the 10.3125Gbps data rate.
                                                                          Also for RXAUI, DXAUI, and QSGMII data rates.
                                                                    0x4 = XAUI data rate.
@@ -11768,7 +11768,7 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t reserved_32           : 1;
         uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
                                                                  CGX LMAC. */
-        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual lane aggregation mode.
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
                                                                  [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
                                                                  [CGX_DUAL] must be set in all lanes that are part of the Ethernet
@@ -11777,11 +11777,11 @@ union cavm_gserrx_lanex_control_bcfg
 
                                                                  When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
                                                                  [CGX_DUAL] must only be set for the RXAUI and 50GBASE-R2 interface types. */
-        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad lane aggregation mode.
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
                                                                  [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
                                                                  [CGX_QUAD] must be set in all lanes that are part of the Ethernet
-                                                                 four lane interface type.
+                                                                 four-lane interface type.
 
                                                                  When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
                                                                  [CGX_QUAD] must only be set for the XAUI/DXAUI, XLAUI, 100GBASE-R4, 40GBASE-R4,
@@ -11857,16 +11857,16 @@ union cavm_gserrx_lanex_control_bcfg
                                                                  from the CGX MAC to the GSERR PHY. This control must be set to 1
                                                                  for normal Ethernet transmit data.
                                                                  For diagnostic use only. */
-        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad lane aggregation mode.
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
                                                                  [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
                                                                  [CGX_QUAD] must be set in all lanes that are part of the Ethernet
-                                                                 four lane interface type.
+                                                                 four-lane interface type.
 
                                                                  When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
                                                                  [CGX_QUAD] must only be set for the XAUI/DXAUI, XLAUI, 100GBASE-R4, 40GBASE-R4,
                                                                  and CAUI-4 interface types. */
-        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual lane aggregation mode.
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
                                                                  [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
                                                                  [CGX_DUAL] must be set in all lanes that are part of the Ethernet
@@ -11883,9 +11883,9 @@ union cavm_gserrx_lanex_control_bcfg
                                                                  For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
         uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
                                                                    0x0 = 25G, 50G, and 100G data rates. Also for
-                                                                         10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
                                                                          configured for the 10.3125Gbps data rate.
-                                                                   0x1 = 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
                                                                          configured for the 10.3125Gbps data rate.
                                                                          Also for RXAUI, DXAUI, and QSGMII data rates.
                                                                    0x4 = XAUI data rate.
@@ -11933,30 +11933,30 @@ union cavm_gserrx_lanex_control_bcfg
                                                                    0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
                                                                          lane (AN-master lane).
                                                                    0x3 = Reserved. */
-        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  Phy transitions to rates set in LN_CTRL_RX_RATE and
-                                                                 LN_CTRL_TX_RATE when asserted.  De-assertion indicates to the PHY that rate
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
                                                                  configuration adjustments have been completed. */
         uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
                                                                    0x0 = No polarity inversion.
                                                                    0x1 = Polarity inversion. */
         uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit Reserved.
-                                                                   0x3 = 20 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x4 = 32 bit Reserved.
-                                                                   0x5 = 40 bit 25G,50G,100G data rates (Default).
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
                                                                    _ Others = Reserved. */
         uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII
-                                                                   0x3 = 20 bit Reserved.
-                                                                   0x4 = 32 bit 25G,50G,100G data rate (Default).
-                                                                   0x5 = 40 bit Reserved.
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
                                                                    Others - Reserved. */
         uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
@@ -11964,36 +11964,36 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
                                                                    Others = Reserved. */
         uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
-                                                                   0x0 = Data on LN_TXDATA will not be transmitted, transmitter placed into
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
                                                                          electrical idle.
                                                                    0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
                                                                          will be transmitted. */
         uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
-                                                                   0x0 = Nomral/active.
+                                                                   0x0 = Normal/active.
                                                                    0x1 = Partial power down.
-                                                                   0x2,0x3 = Most blocks powered down (Sleep mode). */
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
         uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
 #else /* Word 0 - Little Endian */
         uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
         uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
-                                                                   0x0 = Nomral/active.
+                                                                   0x0 = Normal/active.
                                                                    0x1 = Partial power down.
-                                                                   0x2,0x3 = Most blocks powered down (Sleep mode). */
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
         uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
-                                                                   0x0 = Data on LN_TXDATA will not be transmitted, transmitter placed into
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
                                                                          electrical idle.
                                                                    0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
                                                                          will be transmitted. */
         uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
@@ -12001,30 +12001,30 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
                                                                    0x0 = Rate 1 (PHY_CTRL_RATE1).
                                                                    0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (Reserved for 1.25Gbps Ethernet).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
                                                                    0x4 = Divide-by-2 of Rate 1.
                                                                    0x5 = Divide-by-2 of Rate 2.
                                                                    0x6 = Divide-by-2 of Rate 3.
                                                                    Others = Reserved. */
         uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII
-                                                                   0x3 = 20 bit Reserved.
-                                                                   0x4 = 32 bit 25G,50G,100G data rate (Default).
-                                                                   0x5 = 40 bit Reserved.
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
                                                                    Others - Reserved. */
         uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
-                                                                   0x1 = 10 bit Reserved.
-                                                                   0x2 = 16 bit Reserved.
-                                                                   0x3 = 20 bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x4 = 32 bit Reserved.
-                                                                   0x5 = 40 bit 25G,50G,100G data rates (Default).
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
                                                                    _ Others = Reserved. */
         uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
                                                                    0x0 = No polarity inversion.
                                                                    0x1 = Polarity inversion. */
-        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  Phy transitions to rates set in LN_CTRL_RX_RATE and
-                                                                 LN_CTRL_TX_RATE when asserted.  De-assertion indicates to the PHY that rate
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
                                                                  configuration adjustments have been completed. */
         uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
                                                                  Internal:
@@ -12058,9 +12058,9 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t reserved_25           : 1;
         uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
                                                                    0x0 = 25G, 50G, and 100G data rates. Also for
-                                                                         10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
                                                                          configured for the 10.3125Gbps data rate.
-                                                                   0x1 = 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
                                                                          configured for the 10.3125Gbps data rate.
                                                                          Also for RXAUI, DXAUI, and QSGMII data rates.
                                                                    0x4 = XAUI data rate.
@@ -12084,7 +12084,7 @@ union cavm_gserrx_lanex_control_bcfg
         uint64_t reserved_32           : 1;
         uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
                                                                  CGX LMAC. */
-        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual lane aggregation mode.
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
                                                                  [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
                                                                  [CGX_DUAL] must be set in all lanes that are part of the Ethernet
@@ -12093,11 +12093,11 @@ union cavm_gserrx_lanex_control_bcfg
 
                                                                  When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
                                                                  [CGX_DUAL] must only be set for the RXAUI and 50GBASE-R2 interface types. */
-        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad lane aggregation mode.
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
                                                                  [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
                                                                  is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
                                                                  [CGX_QUAD] must be set in all lanes that are part of the Ethernet
-                                                                 four lane interface type.
+                                                                 four-lane interface type.
 
                                                                  When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
                                                                  [CGX_QUAD] must only be set for the XAUI/DXAUI, XLAUI, 100GBASE-R4, 40GBASE-R4,
@@ -12343,8 +12343,8 @@ static inline uint64_t CAVM_GSERRX_LANEX_STATUS_BSTS(unsigned long a, unsigned l
  * Register (RSL) gserr#_lane#_txclk_ctr
  *
  * GSERR Reference Clock Cycle Counter Register
- * A free-running cycle counter of the TX Clock Mux Output to enable rough
- * confirmation of tx clock frequency via software. Read the counter; wait some
+ * A free-running cycle counter of the TX clock mux output to enable rough
+ * confirmation of TX clock frequency via software. Read the counter; wait some
  * time, e.g., 100ms; read the counter; calculate frequency based on the difference in
  * values during the known wait time.
  */
@@ -12354,9 +12354,9 @@ union cavm_gserrx_lanex_txclk_ctr
     struct cavm_gserrx_lanex_txclk_ctr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running cycle count of the TX Clock Mux Output. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running cycle count of the TX clock mux output. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running cycle count of the TX Clock Mux Output. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running cycle count of the TX clock mux output. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserrx_lanex_txclk_ctr_s cn; */
@@ -76670,7 +76670,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN0_TBUS_CTRL_RSVD(unsigned lo
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln0_tx_rate
  *
- * GSERR Phy0 Top Clock Ln0 Tx Rate Register
+ * GSERR Phy0 Top Clock Ln0 TX Rate Register
  */
 union cavm_gserrx_phy0_top_clock_ln0_tx_rate
 {
@@ -77149,7 +77149,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN1_TBUS_CTRL_RSVD(unsigned lo
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln1_tx_rate
  *
- * GSERR Phy0 Top Clock Ln1 Tx Rate Register
+ * GSERR Phy0 Top Clock Ln1 TX Rate Register
  */
 union cavm_gserrx_phy0_top_clock_ln1_tx_rate
 {
@@ -77628,7 +77628,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN2_TBUS_CTRL_RSVD(unsigned lo
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln2_tx_rate
  *
- * GSERR Phy0 Top Clock Ln2 Tx Rate Register
+ * GSERR Phy0 Top Clock Ln2 TX Rate Register
  */
 union cavm_gserrx_phy0_top_clock_ln2_tx_rate
 {
@@ -78107,7 +78107,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN3_TBUS_CTRL_RSVD(unsigned lo
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln3_tx_rate
  *
- * GSERR Phy0 Top Clock Ln3 Tx Rate Register
+ * GSERR Phy0 Top Clock Ln3 TX Rate Register
  */
 union cavm_gserrx_phy0_top_clock_ln3_tx_rate
 {
@@ -80995,7 +80995,7 @@ static inline uint64_t CAVM_GSERRX_REFCLK_CTR(unsigned long a)
 /**
  * Register (RSL) gserr#_rx_term_ctl
  *
- * Receiver Termination Under perst (by lane) Control Register
+ * Receiver Termination Under PERST (by lane) Control Register
  */
 union cavm_gserrx_rx_term_ctl
 {
