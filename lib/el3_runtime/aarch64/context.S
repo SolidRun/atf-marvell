@@ -493,6 +493,9 @@ endfunc el2_sysregs_context_restore_hcx
 #endif /* ENABLE_FEAT_HCX */
 #endif /* CTX_INCLUDE_EL2_REGS */
 
+#define SPSR_ISR	((1ULL << SPSR_E_SHIFT) | (3 << SPSR_AIF_SHIFT))
+#define SCR_ISR		(SCR_NS_BIT | SCR_TWE_BIT | SCR_TWI_BIT | SCR_RW_BIT)
+
 /* ------------------------------------------------------------------
  * The following function strictly follows the AArch64 PCS to use
  * x9-x17 (temporary caller-saved registers) to save EL1 system
@@ -1201,9 +1204,7 @@ func el3_start_el0_isr
 	 * X2 holds ttbr0
 	 * X3 holds ttbr1
 	 * X4 holds isr_base
-	 * X5 holds spsr_el3
-	 * X6 holds scr_el3
-	 * X7 holds tcr_el1
+	 * X5 holds tcr_el1
 	 * -------------------------------------------------------
 	 */
 	msr spsel, #1
@@ -1257,11 +1258,13 @@ func el3_start_el0_isr
 	 */
 	msr sp_el0, x1
 	nop
-	msr tcr_el1, x7
+	msr tcr_el1, x5
 	msr ttbr0_el1, x2
 	msr ttbr1_el1, x3
-	msr scr_el3, x6
-	msr spsr_el3, x5
+	ldr x2, =SCR_ISR
+	ldr x3, =SPSR_ISR
+	msr scr_el3, x2
+	msr spsr_el3, x3
 	msr elr_el3, x4
 	/*clear all registers except x0(gpio_num)*/
 	mov x1, xzr; mov x2, xzr; mov x3, xzr; mov x4, xzr;
