@@ -214,6 +214,17 @@
 	ret
 	.endm
 
+	/* This macro is to workaround MRVL AP-37119 */
+	.macro before_eret
+#if (defined(PLAT_f95) || defined(PLAT_t96))
+	/*
+	 * Assume that invalidating ASID 0, VA 0 will not cause a performance
+	 * regression.  Page that contains VA 0 is normally an invalid page.
+	 */
+	tlbi VALE1, xzr
+#endif
+	.endm
+
 	/*
 	 * Macro for using speculation barrier instruction introduced by
 	 * FEAT_SB, if it's enabled.
@@ -232,6 +243,7 @@
 	 * speculation barrier instruction introduced by FEAT_SB, if it's enabled.
 	 */
 	.macro exception_return
+	before_eret
 	eret
 #if ENABLE_FEAT_SB
 	sb
