@@ -5,8 +5,9 @@
 # https://spdx.org/licenses
 
 PLAT_FAMILY		:= a8k
+PLAT_FAMILY_BASE	:= plat/marvell/armada/$(PLAT_FAMILY)
 PLAT_INCLUDE_BASE	:= include/plat/marvell/armada/$(PLAT_FAMILY)
-PLAT_COMMON_BASE	:= plat/marvell/armada/a8k/common
+PLAT_COMMON_BASE	:= $(PLAT_FAMILY_BASE)/common
 MARVELL_DRV_BASE	:= drivers/marvell
 MARVELL_COMMON_BASE	:= plat/marvell/armada/common
 

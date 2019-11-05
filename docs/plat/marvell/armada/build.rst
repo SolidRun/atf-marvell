@@ -104,7 +104,11 @@ There are several build options:
 - MARVELL_SECURE_BOOT
 
         Build trusted(=1)/non trusted(=0) image, default is non trusted.
-        This parameter is used only for ``mrvl_flash`` and ``mrvl_uart`` targets.
+
+- BLE_PATH
+
+        Points to BLE (Binary ROM extension) sources folder. Only required for A8K builds.
+        The parameter is optional, its default value is ``plat/marvell/armada/a8k/common/ble``.
 
 - MV_DDR_PATH
 
@@ -390,10 +394,6 @@ Special Build Flags
     A7K/A8K/CN913x because of hardware limitation (boot from secondary image
     can interrupt UART recovery process). This MACRO definition is set in
     ``plat/marvell/armada/a8k/common/include/platform_def.h`` file.
-
-- DDR32
-    In order to work in 32bit DDR, instead of the default 64bit ECC DDR,
-    this flag should be set to 1.
 
 For more information about build options, please refer to the
 :ref:`Build Options` document.
