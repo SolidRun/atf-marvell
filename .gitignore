@@ -31,6 +31,8 @@ tools/stm32image/*.o
 tools/stm32image/stm32image
 tools/stm32image/stm32image.exe
 tools/sptool/__pycache__/
+tools/marvell/doimage/doimage_client
+tools/marvell/doimage/doimage_server
 
 # GNU GLOBAL files
 GPATH
