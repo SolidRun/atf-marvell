@@ -102570,13 +102570,25 @@ union cavm_gserpx_rx_term_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
+        uint64_t term_ctl              : 1;  /**< [  0:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t term_ctl              : 1;  /**< [  0:  0](R/W) Reserved. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_rx_term_ctl_s cn9; */
+    /* struct cavm_gserpx_rx_term_ctl_s cn96xx; */
+    /* struct cavm_gserpx_rx_term_ctl_s cn98xx; */
+    struct cavm_gserpx_rx_term_ctl_loki
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
         uint64_t term_ctl              : 1;  /**< [  0:  0](R/W) Placeholder until RTL is written. */
 #else /* Word 0 - Little Endian */
         uint64_t term_ctl              : 1;  /**< [  0:  0](R/W) Placeholder until RTL is written. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_rx_term_ctl_s cn; */
+    } loki;
 };
 typedef union cavm_gserpx_rx_term_ctl cavm_gserpx_rx_term_ctl_t;
 

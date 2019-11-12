@@ -11548,6 +11548,637 @@ union cavm_gserrx_lanex_control_bcfg
                                                                  four-lane interface type.
 
                                                                  When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
+                                                                 [CGX_QUAD] must only be set for XAUI/DXAUI to reduce transmitter lane to lane
+                                                                 skew. Not used for 100GBASE-R4, 40GBASE-R4, XLAUI and CAUI-4 interface types. */
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
+                                                                 [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
+                                                                 [CGX_DUAL] must be set in all lanes that are part of the Ethernet
+                                                                 x2 link. Lanes 0 and 1 can be combined into a x2 link and lanes 2
+                                                                 and 3 can be combined into a x2 link.
+
+                                                                 When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
+                                                                 [CGX_DUAL] must only be set for RXAUI. Not used for 50GBASE-R2 interface type. */
+        uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
+                                                                 CGX LMAC. */
+        uint64_t reserved_32           : 1;
+        uint64_t ln_tx_clk_gate_en     : 1;  /**< [ 31: 31](R/W) When set to 0 disables the ln_tx_clk clock from the ln_tx_clk clock mux.
+                                                                 Use to disable the ln_tx_clk for power savings.
+                                                                 For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
+        uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = 25G, 50G, and 100G data rates. Also for
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                         Also for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = XAUI data rate.
+                                                                   0x6 = SGMII data rate
+                                                                   All other selections reserved.
+
+                                                                 Internal:
+                                                                 Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = cm0_clk_rate1 for the 25G, 50G, and 100G data rates
+                                                                         and for 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = cm0_clk_rate2 for 10G,40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps lane data rate.
+                                                                         Also programmed for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = cm0_clk_rate2_divided_by_2 for XAUI data rate.
+                                                                   0x6 = cm0_clk_rate3 for SGMII data rate.
+                                                                   All other selections reserved. */
+        uint64_t reserved_25           : 1;
+        uint64_t ln_link_stat          : 5;  /**< [ 24: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 Link status that encodes the technology ability bit number (A0-A24) in
+                                                                 the base page:
+                                                                   0x0 = 1G_KX.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 10G_KR.
+                                                                   0x3 = 40G_KR4.
+                                                                   0x4 = 40G_CR4.
+                                                                   0x5 = 100G_CR10.
+                                                                   0x6 = 100G_KP4.
+                                                                   0x7 = 100G_KR4.
+                                                                   0x8 = 100G_CR4.
+                                                                   0x9 = Reserved.
+                                                                   0xA = 25G_GR.
+                                                                   0xB = 25G_KR.
+                                                                   0xC = 25G_CR.
+                                                                   0xD = 50G_KR2.
+                                                                   0xE = 50G_CR2. */
+        uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 Encodes the lane bonding and auto-negotiation configuration:
+                                                                   0x0 = Not auto-negotiation controlled, lane will be manually controlled via
+                                                                         LN_PD and LN_RST.
+                                                                   0x1 = Auto-negotiation controlled, but auto-negotiation is not run on the
+                                                                         lane (AN-slave lane).
+                                                                   0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
+                                                                         lane (AN-master lane).
+                                                                   0x3 = Reserved. */
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
+                                                                 configuration adjustments have been completed. */
+        uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
+                                                                   0x0 = No polarity inversion.
+                                                                   0x1 = Polarity inversion. */
+        uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
+                                                                   _ Others = Reserved. */
+        uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
+                                                                   Others - Reserved. */
+        uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
+                                                                         electrical idle.
+                                                                   0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
+                                                                         will be transmitted. */
+        uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
+                                                                   0x0 = Normal/active.
+                                                                   0x1 = Partial power down.
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
+        uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
+#else /* Word 0 - Little Endian */
+        uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
+        uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
+                                                                   0x0 = Normal/active.
+                                                                   0x1 = Partial power down.
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
+        uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
+                                                                         electrical idle.
+                                                                   0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
+                                                                         will be transmitted. */
+        uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
+                                                                   Others - Reserved. */
+        uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
+                                                                   _ Others = Reserved. */
+        uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
+                                                                   0x0 = No polarity inversion.
+                                                                   0x1 = Polarity inversion. */
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
+                                                                 configuration adjustments have been completed. */
+        uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 Encodes the lane bonding and auto-negotiation configuration:
+                                                                   0x0 = Not auto-negotiation controlled, lane will be manually controlled via
+                                                                         LN_PD and LN_RST.
+                                                                   0x1 = Auto-negotiation controlled, but auto-negotiation is not run on the
+                                                                         lane (AN-slave lane).
+                                                                   0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
+                                                                         lane (AN-master lane).
+                                                                   0x3 = Reserved. */
+        uint64_t ln_link_stat          : 5;  /**< [ 24: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 Link status that encodes the technology ability bit number (A0-A24) in
+                                                                 the base page:
+                                                                   0x0 = 1G_KX.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 10G_KR.
+                                                                   0x3 = 40G_KR4.
+                                                                   0x4 = 40G_CR4.
+                                                                   0x5 = 100G_CR10.
+                                                                   0x6 = 100G_KP4.
+                                                                   0x7 = 100G_KR4.
+                                                                   0x8 = 100G_CR4.
+                                                                   0x9 = Reserved.
+                                                                   0xA = 25G_GR.
+                                                                   0xB = 25G_KR.
+                                                                   0xC = 25G_CR.
+                                                                   0xD = 50G_KR2.
+                                                                   0xE = 50G_CR2. */
+        uint64_t reserved_25           : 1;
+        uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = 25G, 50G, and 100G data rates. Also for
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                         Also for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = XAUI data rate.
+                                                                   0x6 = SGMII data rate
+                                                                   All other selections reserved.
+
+                                                                 Internal:
+                                                                 Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = cm0_clk_rate1 for the 25G, 50G, and 100G data rates
+                                                                         and for 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = cm0_clk_rate2 for 10G,40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps lane data rate.
+                                                                         Also programmed for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = cm0_clk_rate2_divided_by_2 for XAUI data rate.
+                                                                   0x6 = cm0_clk_rate3 for SGMII data rate.
+                                                                   All other selections reserved. */
+        uint64_t ln_tx_clk_gate_en     : 1;  /**< [ 31: 31](R/W) When set to 0 disables the ln_tx_clk clock from the ln_tx_clk clock mux.
+                                                                 Use to disable the ln_tx_clk for power savings.
+                                                                 For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
+        uint64_t reserved_32           : 1;
+        uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
+                                                                 CGX LMAC. */
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
+                                                                 [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
+                                                                 [CGX_DUAL] must be set in all lanes that are part of the Ethernet
+                                                                 x2 link. Lanes 0 and 1 can be combined into a x2 link and lanes 2
+                                                                 and 3 can be combined into a x2 link.
+
+                                                                 When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
+                                                                 [CGX_DUAL] must only be set for RXAUI. Not used for 50GBASE-R2 interface type. */
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
+                                                                 [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
+                                                                 [CGX_QUAD] must be set in all lanes that are part of the Ethernet
+                                                                 four-lane interface type.
+
+                                                                 When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
+                                                                 [CGX_QUAD] must only be set for XAUI/DXAUI to reduce transmitter lane to lane
+                                                                 skew. Not used for 100GBASE-R4, 40GBASE-R4, XLAUI and CAUI-4 interface types. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 36: 36](R/W) When set to 1, reverses the bit order in the 40-bit transmit word
+                                                                 from the CGX MAC to the GSERR PHY. This control must be set to 1
+                                                                 for normal Ethernet transmit data.
+                                                                 For diagnostic use only. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 37: 37](R/W) When set to 1, reverses the bit order in the 40-bit receive word
+                                                                 from the GSERR PHY to the CGX MAC. This control must be set to 1
+                                                                 for normal Ethernet receive data.
+                                                                 For diagnostic use only. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 38: 38](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 39: 39](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field deprecated.
+                                                                 The Rx word packing 20-bit to 40-bit gearbox is enabled in hardware when
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x3 to configure the
+                                                                 PHY for 20 bit receive data width. When
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x5 40-bit (or any other Rx
+                                                                 lane width other than 16-bit width) the gearbox is bypassed. */
+        uint64_t tx_wup_order          : 1;  /**< [ 40: 40](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t rx_wpk_order          : 1;  /**< [ 41: 41](R/W) Receiver word packing order. Used when the GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH]
+                                                                 is set to 0x3 to configure the GSERR PHY to 20-bit receive path data width
+                                                                 for the 10.3125Gbuad and lower Ethernet data rates.
+                                                                 When [RX_WPK_ORDER] is set to 1 the first (earliest) 20-bit word received from the GSERR PHY
+                                                                 is packed into the lower 20-bit word position of the 40-bit word and the second (later)
+                                                                 20-bit word received is packed into the upper 20-bit word position of the 40-bit word.
+                                                                 When [RX_WPK_ORDER] is cleared to 0 the 20-bit word packing order within the 40-bit word
+                                                                 is swapped. Set [RX_WUP_ORDER] to 1 for normal Ethernet receive data to the CGX Ethernet MAC.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_42_63        : 22;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserrx_lanex_control_bcfg_s cn9; */
+    /* struct cavm_gserrx_lanex_control_bcfg_s cn96xx; */
+    struct cavm_gserrx_lanex_control_bcfg_cn98xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_42_63        : 22;
+        uint64_t rx_wpk_order          : 1;  /**< [ 41: 41](R/W) Receiver word packing order. Used when the GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH]
+                                                                 is set to 0x3 to configure the GSERR PHY to 20-bit receive path data width
+                                                                 for the 10.3125Gbuad and lower Ethernet data rates.
+                                                                 When [RX_WPK_ORDER] is set to 1 the first (earliest) 20-bit word received from the GSERR PHY
+                                                                 is packed into the lower 20-bit word position of the 40-bit word and the second (later)
+                                                                 20-bit word received is packed into the upper 20-bit word position of the 40-bit word.
+                                                                 When [RX_WPK_ORDER] is cleared to 0 the 20-bit word packing order within the 40-bit word
+                                                                 is swapped. Set [RX_WUP_ORDER] to 1 for normal Ethernet receive data to the CGX Ethernet MAC.
+                                                                 For diagnostic use only. */
+        uint64_t tx_wup_order          : 1;  /**< [ 40: 40](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 39: 39](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field deprecated.
+                                                                 The Rx word packing 20-bit to 40-bit gearbox is enabled in hardware when
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x3 to configure the
+                                                                 PHY for 20 bit receive data width. When
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x5 40-bit (or any other Rx
+                                                                 lane width other than 16-bit width) the gearbox is bypassed. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 38: 38](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 37: 37](R/W) When set to 1, reverses the bit order in the 40-bit receive word
+                                                                 from the GSERR PHY to the CGX MAC. This control must be set to 1
+                                                                 for normal Ethernet receive data.
+                                                                 For diagnostic use only. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 36: 36](R/W) When set to 1, reverses the bit order in the 40-bit transmit word
+                                                                 from the CGX MAC to the GSERR PHY. This control must be set to 1
+                                                                 for normal Ethernet transmit data.
+                                                                 For diagnostic use only. */
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
+                                                                 [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
+                                                                 [CGX_QUAD] must be set in all lanes that are part of the Ethernet
+                                                                 four-lane interface type.
+
+                                                                 When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
+                                                                 [CGX_QUAD] must only be set for XAUI/DXAUI to reduce transmitter lane to lane
+                                                                 skew. Not used for 100GBASE-R4, 40GBASE-R4, XLAUI and CAUI-4 interface types. */
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
+                                                                 [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
+                                                                 [CGX_DUAL] must be set in all lanes that are part of the Ethernet
+                                                                 x2 link. Lanes 0 and 1 can be combined into a x2 link and lanes 2
+                                                                 and 3 can be combined into a x2 link.
+
+                                                                 When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
+                                                                 [CGX_DUAL] must only be set for RXAUI. Not used for 50GBASE-R2 interface type. */
+        uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
+                                                                 CGX LMAC. */
+        uint64_t reserved_32           : 1;
+        uint64_t ln_tx_clk_gate_en     : 1;  /**< [ 31: 31](R/W) When set to 0 disables the ln_tx_clk clock from the ln_tx_clk clock mux.
+                                                                 Use to disable the ln_tx_clk for power savings.
+                                                                 For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
+        uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = 25G, 50G, and 100G data rates. Also for
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                         Also for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = XAUI data rate.
+                                                                   0x6 = SGMII data rate
+                                                                   All other selections reserved.
+
+                                                                 Internal:
+                                                                 Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = cm0_clk_rate1 for the 25G, 50G, and 100G data rates
+                                                                         and for 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = cm0_clk_rate2 for 10G,40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps lane data rate.
+                                                                         Also programmed for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = cm0_clk_rate2_divided_by_2 for XAUI data rate.
+                                                                   0x6 = cm0_clk_rate3 for SGMII data rate.
+                                                                   All other selections reserved. */
+        uint64_t reserved_25           : 1;
+        uint64_t ln_link_stat          : 5;  /**< [ 24: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 Link status that encodes the technology ability bit number (A0-A24) in
+                                                                 the base page:
+                                                                   0x0 = 1G_KX.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 10G_KR.
+                                                                   0x3 = 40G_KR4.
+                                                                   0x4 = 40G_CR4.
+                                                                   0x5 = 100G_CR10.
+                                                                   0x6 = 100G_KP4.
+                                                                   0x7 = 100G_KR4.
+                                                                   0x8 = 100G_CR4.
+                                                                   0x9 = Reserved.
+                                                                   0xA = 25G_GR.
+                                                                   0xB = 25G_KR.
+                                                                   0xC = 25G_CR.
+                                                                   0xD = 50G_KR2.
+                                                                   0xE = 50G_CR2. */
+        uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 Encodes the lane bonding and auto-negotiation configuration:
+                                                                   0x0 = Not auto-negotiation controlled, lane will be manually controlled via
+                                                                         LN_PD and LN_RST.
+                                                                   0x1 = Auto-negotiation controlled, but auto-negotiation is not run on the
+                                                                         lane (AN-slave lane).
+                                                                   0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
+                                                                         lane (AN-master lane).
+                                                                   0x3 = Reserved. */
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
+                                                                 configuration adjustments have been completed. */
+        uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
+                                                                   0x0 = No polarity inversion.
+                                                                   0x1 = Polarity inversion. */
+        uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
+                                                                   _ Others = Reserved. */
+        uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
+                                                                   Others - Reserved. */
+        uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
+                                                                         electrical idle.
+                                                                   0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
+                                                                         will be transmitted. */
+        uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
+                                                                   0x0 = Normal/active.
+                                                                   0x1 = Partial power down.
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
+        uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
+#else /* Word 0 - Little Endian */
+        uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
+        uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
+                                                                   0x0 = Normal/active.
+                                                                   0x1 = Partial power down.
+                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
+        uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
+                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
+                                                                         electrical idle.
+                                                                   0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
+                                                                         will be transmitted. */
+        uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
+                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
+                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
+                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
+                                                                   0x4 = Divide-by-2 of Rate 1.
+                                                                   0x5 = Divide-by-2 of Rate 2.
+                                                                   0x6 = Divide-by-2 of Rate 3.
+                                                                   Others = Reserved. */
+        uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x3 = 20-bit Reserved.
+                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
+                                                                   0x5 = 40-bit Reserved.
+                                                                   Others - Reserved. */
+        uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
+                                                                   0x1 = 10-bit Reserved.
+                                                                   0x2 = 16-bit Reserved.
+                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
+                                                                   0x4 = 32-bit Reserved.
+                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
+                                                                   _ Others = Reserved. */
+        uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
+                                                                   0x0 = No polarity inversion.
+                                                                   0x1 = Polarity inversion. */
+        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
+                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
+                                                                 configuration adjustments have been completed. */
+        uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 Encodes the lane bonding and auto-negotiation configuration:
+                                                                   0x0 = Not auto-negotiation controlled, lane will be manually controlled via
+                                                                         LN_PD and LN_RST.
+                                                                   0x1 = Auto-negotiation controlled, but auto-negotiation is not run on the
+                                                                         lane (AN-slave lane).
+                                                                   0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
+                                                                         lane (AN-master lane).
+                                                                   0x3 = Reserved. */
+        uint64_t ln_link_stat          : 5;  /**< [ 24: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 Link status that encodes the technology ability bit number (A0-A24) in
+                                                                 the base page:
+                                                                   0x0 = 1G_KX.
+                                                                   0x1 = Reserved.
+                                                                   0x2 = 10G_KR.
+                                                                   0x3 = 40G_KR4.
+                                                                   0x4 = 40G_CR4.
+                                                                   0x5 = 100G_CR10.
+                                                                   0x6 = 100G_KP4.
+                                                                   0x7 = 100G_KR4.
+                                                                   0x8 = 100G_CR4.
+                                                                   0x9 = Reserved.
+                                                                   0xA = 25G_GR.
+                                                                   0xB = 25G_KR.
+                                                                   0xC = 25G_CR.
+                                                                   0xD = 50G_KR2.
+                                                                   0xE = 50G_CR2. */
+        uint64_t reserved_25           : 1;
+        uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = 25G, 50G, and 100G data rates. Also for
+                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                         Also for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = XAUI data rate.
+                                                                   0x6 = SGMII data rate
+                                                                   All other selections reserved.
+
+                                                                 Internal:
+                                                                 Selects the clock source for ln_tx_clk input:
+                                                                   0x0 = cm0_clk_rate1 for the 25G, 50G, and 100G data rates
+                                                                         and for 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
+                                                                         configured for the 10.3125Gbps data rate.
+                                                                   0x1 = cm0_clk_rate2 for 10G,40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
+                                                                         configured for the 10.3125Gbps lane data rate.
+                                                                         Also programmed for RXAUI, DXAUI, and QSGMII data rates.
+                                                                   0x4 = cm0_clk_rate2_divided_by_2 for XAUI data rate.
+                                                                   0x6 = cm0_clk_rate3 for SGMII data rate.
+                                                                   All other selections reserved. */
+        uint64_t ln_tx_clk_gate_en     : 1;  /**< [ 31: 31](R/W) When set to 0 disables the ln_tx_clk clock from the ln_tx_clk clock mux.
+                                                                 Use to disable the ln_tx_clk for power savings.
+                                                                 For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
+        uint64_t reserved_32           : 1;
+        uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
+                                                                 CGX LMAC. */
+        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
+                                                                 [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
+                                                                 [CGX_DUAL] must be set in all lanes that are part of the Ethernet
+                                                                 x2 link. Lanes 0 and 1 can be combined into a x2 link and lanes 2
+                                                                 and 3 can be combined into a x2 link.
+
+                                                                 When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
+                                                                 [CGX_DUAL] must only be set for RXAUI. Not used for 50GBASE-R2 interface type. */
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
+                                                                 [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
+                                                                 [CGX_QUAD] must be set in all lanes that are part of the Ethernet
+                                                                 four-lane interface type.
+
+                                                                 When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
+                                                                 [CGX_QUAD] must only be set for XAUI/DXAUI to reduce transmitter lane to lane
+                                                                 skew. Not used for 100GBASE-R4, 40GBASE-R4, XLAUI and CAUI-4 interface types. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 36: 36](R/W) When set to 1, reverses the bit order in the 40-bit transmit word
+                                                                 from the CGX MAC to the GSERR PHY. This control must be set to 1
+                                                                 for normal Ethernet transmit data.
+                                                                 For diagnostic use only. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 37: 37](R/W) When set to 1, reverses the bit order in the 40-bit receive word
+                                                                 from the GSERR PHY to the CGX MAC. This control must be set to 1
+                                                                 for normal Ethernet receive data.
+                                                                 For diagnostic use only. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 38: 38](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 39: 39](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field deprecated.
+                                                                 The Rx word packing 20-bit to 40-bit gearbox is enabled in hardware when
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x3 to configure the
+                                                                 PHY for 20 bit receive data width. When
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x5 40-bit (or any other Rx
+                                                                 lane width other than 16-bit width) the gearbox is bypassed. */
+        uint64_t tx_wup_order          : 1;  /**< [ 40: 40](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t rx_wpk_order          : 1;  /**< [ 41: 41](R/W) Receiver word packing order. Used when the GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH]
+                                                                 is set to 0x3 to configure the GSERR PHY to 20-bit receive path data width
+                                                                 for the 10.3125Gbuad and lower Ethernet data rates.
+                                                                 When [RX_WPK_ORDER] is set to 1 the first (earliest) 20-bit word received from the GSERR PHY
+                                                                 is packed into the lower 20-bit word position of the 40-bit word and the second (later)
+                                                                 20-bit word received is packed into the upper 20-bit word position of the 40-bit word.
+                                                                 When [RX_WPK_ORDER] is cleared to 0 the 20-bit word packing order within the 40-bit word
+                                                                 is swapped. Set [RX_WUP_ORDER] to 1 for normal Ethernet receive data to the CGX Ethernet MAC.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_42_63        : 22;
+#endif /* Word 0 - End */
+    } cn98xx;
+    /* struct cavm_gserrx_lanex_control_bcfg_s cnf95xx; */
+    struct cavm_gserrx_lanex_control_bcfg_loki
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_42_63        : 22;
+        uint64_t rx_wpk_order          : 1;  /**< [ 41: 41](R/W) Receiver word packing order. Used when the GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH]
+                                                                 is set to 0x3 to configure the GSERR PHY to 20-bit receive path data width
+                                                                 for the 10.3125Gbuad and lower Ethernet data rates.
+                                                                 When [RX_WPK_ORDER] is set to 1 the first (earliest) 20-bit word received from the GSERR PHY
+                                                                 is packed into the lower 20-bit word position of the 40-bit word and the second (later)
+                                                                 20-bit word received is packed into the upper 20-bit word position of the 40-bit word.
+                                                                 When [RX_WPK_ORDER] is cleared to 0 the 20-bit word packing order within the 40-bit word
+                                                                 is swapped. Set [RX_WUP_ORDER] to 1 for normal Ethernet receive data to the CGX Ethernet MAC.
+                                                                 For diagnostic use only. */
+        uint64_t tx_wup_order          : 1;  /**< [ 40: 40](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 39: 39](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field deprecated.
+                                                                 The Rx word packing 20-bit to 40-bit gearbox is enabled in hardware when
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x3 to configure the
+                                                                 PHY for 20 bit receive data width. When
+                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x5 40-bit (or any other Rx
+                                                                 lane width other than 16-bit width) the gearbox is bypassed. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 38: 38](RAZ) Reserved.
+                                                                 Internal:
+                                                                 40b20b gearbox deprecated. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 37: 37](R/W) When set to 1, reverses the bit order in the 40-bit receive word
+                                                                 from the GSERR PHY to the CGX MAC. This control must be set to 1
+                                                                 for normal Ethernet receive data.
+                                                                 For diagnostic use only. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 36: 36](R/W) When set to 1, reverses the bit order in the 40-bit transmit word
+                                                                 from the CGX MAC to the GSERR PHY. This control must be set to 1
+                                                                 for normal Ethernet transmit data.
+                                                                 For diagnostic use only. */
+        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
+                                                                 [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CFG_CGX]
+                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
+                                                                 [CGX_QUAD] must be set in all lanes that are part of the Ethernet
+                                                                 four-lane interface type.
+
+                                                                 When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
                                                                  [CGX_QUAD] must only be set for the XAUI/DXAUI, XLAUI, 100GBASE-R4, 40GBASE-R4,
                                                                  and CAUI-4 interface types. */
         uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
@@ -11819,325 +12450,7 @@ union cavm_gserrx_lanex_control_bcfg
                                                                  For diagnostic use only. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserrx_lanex_control_bcfg_s cn9; */
-    /* struct cavm_gserrx_lanex_control_bcfg_s cn96xx; */
-    struct cavm_gserrx_lanex_control_bcfg_cn98xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t rx_wpk_order          : 1;  /**< [ 41: 41](R/W) Receiver word packing order. Used when the GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH]
-                                                                 is set to 0x3 to configure the GSERR PHY to 20-bit receive path data width
-                                                                 for the 10.3125Gbuad and lower Ethernet data rates.
-                                                                 When [RX_WPK_ORDER] is set to 1 the first (earliest) 20-bit word received from the GSERR PHY
-                                                                 is packed into the lower 20-bit word position of the 40-bit word and the second (later)
-                                                                 20-bit word received is packed into the upper 20-bit word position of the 40-bit word.
-                                                                 When [RX_WPK_ORDER] is cleared to 0 the 20-bit word packing order within the 40-bit word
-                                                                 is swapped. Set [RX_WUP_ORDER] to 1 for normal Ethernet receive data to the CGX Ethernet MAC.
-                                                                 For diagnostic use only. */
-        uint64_t tx_wup_order          : 1;  /**< [ 40: 40](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t rx_wpk_20b40b         : 1;  /**< [ 39: 39](RAZ) Reserved.
-                                                                 Internal:
-                                                                 This field deprecated.
-                                                                 The Rx word packing 20-bit to 40-bit gearbox is enabled in hardware when
-                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x3 to configure the
-                                                                 PHY for 20 bit receive data width. When
-                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x5 40-bit (or any other Rx
-                                                                 lane width other than 16-bit width) the gearbox is bypassed. */
-        uint64_t tx_wup_40b20b         : 1;  /**< [ 38: 38](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t reverse_rx_bit_order  : 1;  /**< [ 37: 37](R/W) When set to 1, reverses the bit order in the 40-bit receive word
-                                                                 from the GSERR PHY to the CGX MAC. This control must be set to 1
-                                                                 for normal Ethernet receive data.
-                                                                 For diagnostic use only. */
-        uint64_t reverse_tx_bit_order  : 1;  /**< [ 36: 36](R/W) When set to 1, reverses the bit order in the 40-bit transmit word
-                                                                 from the CGX MAC to the GSERR PHY. This control must be set to 1
-                                                                 for normal Ethernet transmit data.
-                                                                 For diagnostic use only. */
-        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
-                                                                 [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
-                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
-                                                                 [CGX_QUAD] must be set in all lanes that are part of the Ethernet
-                                                                 four-lane interface type.
-
-                                                                 When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
-                                                                 [CGX_QUAD] must only be set for the XAUI/DXAUI, XLAUI, 100GBASE-R4, 40GBASE-R4,
-                                                                 and CAUI-4 interface types. */
-        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
-                                                                 [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
-                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
-                                                                 [CGX_DUAL] must be set in all lanes that are part of the Ethernet
-                                                                 x2 link. Lanes 0 and 1 can be combined into a x2 link and lanes 2
-                                                                 and 3 can be combined into a x2 link.
-
-                                                                 When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
-                                                                 [CGX_DUAL] must only be set for the RXAUI and 50GBASE-R2 interface types. */
-        uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
-                                                                 CGX LMAC. */
-        uint64_t reserved_32           : 1;
-        uint64_t ln_tx_clk_gate_en     : 1;  /**< [ 31: 31](R/W) When set to 0 disables the ln_tx_clk clock from the ln_tx_clk clock mux.
-                                                                 Use to disable the ln_tx_clk for power savings.
-                                                                 For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
-        uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
-                                                                   0x0 = 25G, 50G, and 100G data rates. Also for
-                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
-                                                                         configured for the 10.3125Gbps data rate.
-                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
-                                                                         configured for the 10.3125Gbps data rate.
-                                                                         Also for RXAUI, DXAUI, and QSGMII data rates.
-                                                                   0x4 = XAUI data rate.
-                                                                   0x6 = SGMII data rate
-                                                                   All other selections reserved.
-
-                                                                 Internal:
-                                                                 Selects the clock source for ln_tx_clk input:
-                                                                   0x0 = cm0_clk_rate1 for the 25G, 50G, and 100G data rates
-                                                                         and for 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
-                                                                         configured for the 10.3125Gbps data rate.
-                                                                   0x1 = cm0_clk_rate2 for 10G,40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
-                                                                         configured for the 10.3125Gbps lane data rate.
-                                                                         Also programmed for RXAUI, DXAUI, and QSGMII data rates.
-                                                                   0x4 = cm0_clk_rate2_divided_by_2 for XAUI data rate.
-                                                                   0x6 = cm0_clk_rate3 for SGMII data rate.
-                                                                   All other selections reserved. */
-        uint64_t reserved_25           : 1;
-        uint64_t ln_link_stat          : 5;  /**< [ 24: 20](R/W) Reserved.
-                                                                 Internal:
-                                                                 Link status that encodes the technology ability bit number (A0-A24) in
-                                                                 the base page:
-                                                                   0x0 = 1G_KX.
-                                                                   0x1 = Reserved.
-                                                                   0x2 = 10G_KR.
-                                                                   0x3 = 40G_KR4.
-                                                                   0x4 = 40G_CR4.
-                                                                   0x5 = 100G_CR10.
-                                                                   0x6 = 100G_KP4.
-                                                                   0x7 = 100G_KR4.
-                                                                   0x8 = 100G_CR4.
-                                                                   0x9 = Reserved.
-                                                                   0xA = 25G_GR.
-                                                                   0xB = 25G_KR.
-                                                                   0xC = 25G_CR.
-                                                                   0xD = 50G_KR2.
-                                                                   0xE = 50G_CR2. */
-        uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
-                                                                 Internal:
-                                                                 Encodes the lane bonding and auto-negotiation configuration:
-                                                                   0x0 = Not auto-negotiation controlled, lane will be manually controlled via
-                                                                         LN_PD and LN_RST.
-                                                                   0x1 = Auto-negotiation controlled, but auto-negotiation is not run on the
-                                                                         lane (AN-slave lane).
-                                                                   0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
-                                                                         lane (AN-master lane).
-                                                                   0x3 = Reserved. */
-        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
-                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
-                                                                 configuration adjustments have been completed. */
-        uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
-                                                                   0x0 = No polarity inversion.
-                                                                   0x1 = Polarity inversion. */
-        uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
-                                                                   0x1 = 10-bit Reserved.
-                                                                   0x2 = 16-bit Reserved.
-                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x4 = 32-bit Reserved.
-                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
-                                                                   _ Others = Reserved. */
-        uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
-                                                                   0x1 = 10-bit Reserved.
-                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x3 = 20-bit Reserved.
-                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
-                                                                   0x5 = 40-bit Reserved.
-                                                                   Others - Reserved. */
-        uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
-                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
-                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
-                                                                   0x4 = Divide-by-2 of Rate 1.
-                                                                   0x5 = Divide-by-2 of Rate 2.
-                                                                   0x6 = Divide-by-2 of Rate 3.
-                                                                   Others = Reserved. */
-        uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
-                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
-                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
-                                                                   0x4 = Divide-by-2 of Rate 1.
-                                                                   0x5 = Divide-by-2 of Rate 2.
-                                                                   0x6 = Divide-by-2 of Rate 3.
-                                                                   Others = Reserved. */
-        uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
-                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
-                                                                         electrical idle.
-                                                                   0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
-                                                                         will be transmitted. */
-        uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
-                                                                   0x0 = Normal/active.
-                                                                   0x1 = Partial power down.
-                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
-        uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
-#else /* Word 0 - Little Endian */
-        uint64_t ln_rst                : 1;  /**< [  0:  0](R/W) Lane reset control, active high. */
-        uint64_t ln_pd                 : 2;  /**< [  2:  1](R/W) Lane macro power down control:
-                                                                   0x0 = Normal/active.
-                                                                   0x1 = Partial power down.
-                                                                   0x2,0x3 = Most blocks powered down (sleep mode). */
-        uint64_t ln_ctrl_tx_en         : 1;  /**< [  3:  3](R/W) Transmit enable:
-                                                                   0x0 = Data on LN_TXDATA will not be transmitted; transmitter placed into
-                                                                         electrical idle.
-                                                                   0x1 = Data on the active bits, set by LN_CTRL_RX/TX_WIDTH, of LN_TXDATA
-                                                                         will be transmitted. */
-        uint64_t ln_ctrl_tx_rate       : 3;  /**< [  6:  4](R/W) TX data rate selector:
-                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
-                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
-                                                                   0x4 = Divide-by-2 of Rate 1.
-                                                                   0x5 = Divide-by-2 of Rate 2.
-                                                                   0x6 = Divide-by-2 of Rate 3.
-                                                                   Others = Reserved. */
-        uint64_t ln_ctrl_rx_rate       : 3;  /**< [  9:  7](R/W) RX data rate selector:
-                                                                   0x0 = Rate 1 (PHY_CTRL_RATE1).
-                                                                   0x1 = Rate 2 (PHY_CTRL_RATE2).
-                                                                   0x2 = Rate 3 (reserved for 1.25Gbps Ethernet).
-                                                                   0x4 = Divide-by-2 of Rate 1.
-                                                                   0x5 = Divide-by-2 of Rate 2.
-                                                                   0x6 = Divide-by-2 of Rate 3.
-                                                                   Others = Reserved. */
-        uint64_t ln_ctrl_tx_width      : 3;  /**< [ 12: 10](R/W) TX data word width selector:
-                                                                   0x1 = 10-bit Reserved.
-                                                                   0x2 = 16-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x3 = 20-bit Reserved.
-                                                                   0x4 = 32-bit 25G,50G,100G data rate (default).
-                                                                   0x5 = 40-bit Reserved.
-                                                                   Others - Reserved. */
-        uint64_t ln_ctrl_rx_width      : 3;  /**< [ 15: 13](R/W) RX data word width selector:
-                                                                   0x1 = 10-bit Reserved.
-                                                                   0x2 = 16-bit Reserved.
-                                                                   0x3 = 20-bit 40G,10G,DXAUI,RXAUI,XAUI,QSGMII,SGMII.
-                                                                   0x4 = 32-bit Reserved.
-                                                                   0x5 = 40-bit 25G,50G,100G data rates (default).
-                                                                   _ Others = Reserved. */
-        uint64_t ln_ctrl_rxpolarity    : 1;  /**< [ 16: 16](R/W) RX data polarity inversion:
-                                                                   0x0 = No polarity inversion.
-                                                                   0x1 = Polarity inversion. */
-        uint64_t ln_rate_chng          : 1;  /**< [ 17: 17](R/W) Rate change handshake signal.  PHY transitions to rates set in [LN_CTRL_RX_RATE] and
-                                                                 [LN_CTRL_TX_RATE] when asserted.  De-assertion indicates to the PHY that rate
-                                                                 configuration adjustments have been completed. */
-        uint64_t ln_an_cfg             : 2;  /**< [ 19: 18](R/W) Reserved.
-                                                                 Internal:
-                                                                 Encodes the lane bonding and auto-negotiation configuration:
-                                                                   0x0 = Not auto-negotiation controlled, lane will be manually controlled via
-                                                                         LN_PD and LN_RST.
-                                                                   0x1 = Auto-negotiation controlled, but auto-negotiation is not run on the
-                                                                         lane (AN-slave lane).
-                                                                   0x2 = Auto-negotiation controlled, but auto-negotiation is run on the
-                                                                         lane (AN-master lane).
-                                                                   0x3 = Reserved. */
-        uint64_t ln_link_stat          : 5;  /**< [ 24: 20](R/W) Reserved.
-                                                                 Internal:
-                                                                 Link status that encodes the technology ability bit number (A0-A24) in
-                                                                 the base page:
-                                                                   0x0 = 1G_KX.
-                                                                   0x1 = Reserved.
-                                                                   0x2 = 10G_KR.
-                                                                   0x3 = 40G_KR4.
-                                                                   0x4 = 40G_CR4.
-                                                                   0x5 = 100G_CR10.
-                                                                   0x6 = 100G_KP4.
-                                                                   0x7 = 100G_KR4.
-                                                                   0x8 = 100G_CR4.
-                                                                   0x9 = Reserved.
-                                                                   0xA = 25G_GR.
-                                                                   0xB = 25G_KR.
-                                                                   0xC = 25G_CR.
-                                                                   0xD = 50G_KR2.
-                                                                   0xE = 50G_CR2. */
-        uint64_t reserved_25           : 1;
-        uint64_t tx_clk_mux_sel        : 5;  /**< [ 30: 26](R/W) Selects the clock source for ln_tx_clk input:
-                                                                   0x0 = 25G, 50G, and 100G data rates. Also for
-                                                                         10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
-                                                                         configured for the 10.3125Gbps data rate.
-                                                                   0x1 = 10G, 40G data rates if GSERR()_COMMON_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
-                                                                         configured for the 10.3125Gbps data rate.
-                                                                         Also for RXAUI, DXAUI, and QSGMII data rates.
-                                                                   0x4 = XAUI data rate.
-                                                                   0x6 = SGMII data rate
-                                                                   All other selections reserved.
-
-                                                                 Internal:
-                                                                 Selects the clock source for ln_tx_clk input:
-                                                                   0x0 = cm0_clk_rate1 for the 25G, 50G, and 100G data rates
-                                                                         and for 10G, 40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE1] is
-                                                                         configured for the 10.3125Gbps data rate.
-                                                                   0x1 = cm0_clk_rate2 for 10G,40G data rates if GSERR()_PHY_CTRL_BCFG[PHY_CTRL_RATE2] is
-                                                                         configured for the 10.3125Gbps lane data rate.
-                                                                         Also programmed for RXAUI, DXAUI, and QSGMII data rates.
-                                                                   0x4 = cm0_clk_rate2_divided_by_2 for XAUI data rate.
-                                                                   0x6 = cm0_clk_rate3 for SGMII data rate.
-                                                                   All other selections reserved. */
-        uint64_t ln_tx_clk_gate_en     : 1;  /**< [ 31: 31](R/W) When set to 0 disables the ln_tx_clk clock from the ln_tx_clk clock mux.
-                                                                 Use to disable the ln_tx_clk for power savings.
-                                                                 For normal operation set [LN_TX_CLK_GATE_EN] to 1. */
-        uint64_t reserved_32           : 1;
-        uint64_t cfg_cgx               : 1;  /**< [ 33: 33](R/W) Enables GSERR CGX transmit and receive FIFO blocks between the PHY and the
-                                                                 CGX LMAC. */
-        uint64_t cgx_dual              : 1;  /**< [ 34: 34](R/W) When set, indicates the QLM lanes are in dual-lane aggregation mode.
-                                                                 [CGX_DUAL] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
-                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_QUAD] is clear.
-                                                                 [CGX_DUAL] must be set in all lanes that are part of the Ethernet
-                                                                 x2 link. Lanes 0 and 1 can be combined into a x2 link and lanes 2
-                                                                 and 3 can be combined into a x2 link.
-
-                                                                 When [CGX_DUAL] is set, GSERR bundles the two lanes for one CGX LMAC controller.
-                                                                 [CGX_DUAL] must only be set for the RXAUI and 50GBASE-R2 interface types. */
-        uint64_t cgx_quad              : 1;  /**< [ 35: 35](R/W) When set, indicates the QLM is in quad-lane aggregation mode.
-                                                                 [CGX_QUAD] must only be set when GSERR()_LANE()_CONTROL_BCFG[CGX]
-                                                                 is set and GSERR()_LANE()_CONTROL_BCFG[CGX_DUAL] is clear.
-                                                                 [CGX_QUAD] must be set in all lanes that are part of the Ethernet
-                                                                 four-lane interface type.
-
-                                                                 When [CGX_QUAD] is set, GSERR bundles all four lanes for one CGX LMAC controller.
-                                                                 [CGX_QUAD] must only be set for the XAUI/DXAUI, XLAUI, 100GBASE-R4, 40GBASE-R4,
-                                                                 and CAUI-4 interface types. */
-        uint64_t reverse_tx_bit_order  : 1;  /**< [ 36: 36](R/W) When set to 1, reverses the bit order in the 40-bit transmit word
-                                                                 from the CGX MAC to the GSERR PHY. This control must be set to 1
-                                                                 for normal Ethernet transmit data.
-                                                                 For diagnostic use only. */
-        uint64_t reverse_rx_bit_order  : 1;  /**< [ 37: 37](R/W) When set to 1, reverses the bit order in the 40-bit receive word
-                                                                 from the GSERR PHY to the CGX MAC. This control must be set to 1
-                                                                 for normal Ethernet receive data.
-                                                                 For diagnostic use only. */
-        uint64_t tx_wup_40b20b         : 1;  /**< [ 38: 38](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t rx_wpk_20b40b         : 1;  /**< [ 39: 39](RAZ) Reserved.
-                                                                 Internal:
-                                                                 This field deprecated.
-                                                                 The Rx word packing 20-bit to 40-bit gearbox is enabled in hardware when
-                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x3 to configure the
-                                                                 PHY for 20 bit receive data width. When
-                                                                 GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH] is set to 0x5 40-bit (or any other Rx
-                                                                 lane width other than 16-bit width) the gearbox is bypassed. */
-        uint64_t tx_wup_order          : 1;  /**< [ 40: 40](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t rx_wpk_order          : 1;  /**< [ 41: 41](R/W) Receiver word packing order. Used when the GSERR()_LANE()_CONTROL_BCFG[LN_CTRL_RX_WIDTH]
-                                                                 is set to 0x3 to configure the GSERR PHY to 20-bit receive path data width
-                                                                 for the 10.3125Gbuad and lower Ethernet data rates.
-                                                                 When [RX_WPK_ORDER] is set to 1 the first (earliest) 20-bit word received from the GSERR PHY
-                                                                 is packed into the lower 20-bit word position of the 40-bit word and the second (later)
-                                                                 20-bit word received is packed into the upper 20-bit word position of the 40-bit word.
-                                                                 When [RX_WPK_ORDER] is cleared to 0 the 20-bit word packing order within the 40-bit word
-                                                                 is swapped. Set [RX_WUP_ORDER] to 1 for normal Ethernet receive data to the CGX Ethernet MAC.
-                                                                 For diagnostic use only. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } cn98xx;
-    /* struct cavm_gserrx_lanex_control_bcfg_s cnf95xx; */
-    /* struct cavm_gserrx_lanex_control_bcfg_s loki; */
+    } loki;
 };
 typedef union cavm_gserrx_lanex_control_bcfg cavm_gserrx_lanex_control_bcfg_t;
 
