@@ -36,7 +36,7 @@
  * RGF Window Enable bit[0] = 1
  * 0x37f9b809 - 11011111111 0011011100000 0010 0 1
  */
-#define ERRATA_WA_CCU_WIN4	0x37f9b809U
+#define ERRATA_WA_CCU_WIN4	0x37f9b809
 
 /*
  * Physical address of the highest address of window bits[31:19] = 0xFFF
@@ -45,7 +45,7 @@
  * RGF Window Enable bit[0] = 1
  * 0x7ffa0009 - 111111111111 0100000000000 0010 0 1
  */
-#define ERRATA_WA_CCU_WIN5	0x7ffa0009U
+#define ERRATA_WA_CCU_WIN5	0x7ffa0009
 
 /*
  * Physical address of the highest address of window bits[31:19] = 0x1FFF
@@ -54,13 +54,13 @@
  * RGF Window Enable bit[0] = 1
  * 0xfffc000d - 1111111111111 1000000000000 0011 0 1
  */
-#define ERRATA_WA_CCU_WIN6	0xfffc000dU
+#define ERRATA_WA_CCU_WIN6	0xfffc000d
 
 #define IS_DRAM_TARGET(tgt)		((((tgt) == DRAM_0_TID) || \
 					((tgt) == DRAM_1_TID) || \
 					((tgt) == RAR_TID)) ? 1 : 0)
 
-#define CCU_RGF(win)			(MVEBU_CCU_BASE(MVEBU_AP0) +	\
+#define CCU_RGF(win)			(MVEBU_CCU_BASE(MVEBU_AP0) + \
 					 0x90 + 4 * (win))
 
 /* For storage of CR, SCR, ALR, AHR abd GCR */
@@ -406,10 +406,12 @@ void errata_wa_init(void)
 	 * EERATA ID: RES-3033912 - Internal Address Space Init state causes
 	 * a hang upon accesses to [0xf070_0000, 0xf07f_ffff]
 	 * Workaround: Boot Firmware (ATF) should configure CCU_RGF_WIN(4) to
-	 * split [0x6e_0000, 0xff_ffff] to values [0x6e_0000, 0x6f_ffff] and
-	 * [0x80_0000, 0xff_ffff] that cause accesses to the
-	 * segment of [0xf070_0000, 0xf07f_ffff] to act as RAZWI.
+	 * split [0x6e_0000, 0x1ff_ffff] to values [0x6e_0000, 0x6f_ffff] and
+	 * [0x80_0000, 0xff_ffff] and [0x100_0000, 0x1ff_ffff],that cause
+	 * accesses to the segment of [0xf070_0000, 0xf1ff_ffff]
+	 * to act as RAZWI.
 	 */
-	mmio_write_32(CCU_RGF(4), 0x37f9b809);
-	mmio_write_32(CCU_RGF(5), 0x7ffa0009);
+	mmio_write_32(CCU_RGF(4), ERRATA_WA_CCU_WIN4);
+	mmio_write_32(CCU_RGF(5), ERRATA_WA_CCU_WIN5);
+	mmio_write_32(CCU_RGF(6), ERRATA_WA_CCU_WIN6);
 }
