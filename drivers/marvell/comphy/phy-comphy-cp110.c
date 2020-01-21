@@ -335,14 +335,14 @@ static void mvebu_cp110_polarity_invert(uintptr_t addr, uint8_t phy_polarity_inv
 	uint32_t mask, data;
 
 	/* Set RX / TX polarity */
-	data = mask = 0x0U;
-	if ((phy_polarity_invert & COMPHY_POLARITY_TXD_INVERT) != 0) {
+	data = mask = 0;
+	if (phy_polarity_invert & COMPHY_POLARITY_TXD_INVERT) {
 		data |= (1 << HPIPE_SYNC_PATTERN_TXD_INV_OFFSET);
 		mask |= HPIPE_SYNC_PATTERN_TXD_INV_MASK;
 		debug("%s: inverting TX polarity\n", __func__);
 	}
 
-	if ((phy_polarity_invert & COMPHY_POLARITY_RXD_INVERT) != 0) {
+	if (phy_polarity_invert & COMPHY_POLARITY_RXD_INVERT) {
 		data |= (1 << HPIPE_SYNC_PATTERN_RXD_INV_OFFSET);
 		mask |= HPIPE_SYNC_PATTERN_RXD_INV_MASK;
 		debug("%s: inverting RX polarity\n", __func__);
@@ -659,7 +659,7 @@ static int mvebu_cp110_comphy_sata_power_on(uint64_t comphy_base,
 		0x0 << HPIPE_PWR_CTR_RST_DFE_OFFSET,
 		HPIPE_PWR_CTR_RST_DFE_MASK);
 
-	if (phy_polarity_invert != 0)
+	if (phy_polarity_invert)
 		mvebu_cp110_polarity_invert(hpipe_addr + HPIPE_SYNC_PATTERN_REG,
 					    phy_polarity_invert);
 
