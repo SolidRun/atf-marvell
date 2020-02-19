@@ -11006,8 +11006,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    [REFCLK_RIGHT_OUTPUT_SEL].
                                                                    [REFCLK_LEFT_OUTPUT_SEL]. */
         uint64_t reserved_44_45        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET]
+                                                                 or GSERP()_INIT_CTRL[CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected). */
@@ -11272,8 +11273,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP3:    0x0.
                                                                  _ GSERP4:    0x1. */
         uint64_t reserved_41_42        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET]
+                                                                 or GSERP()_INIT_CTRL[CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected). */
@@ -11314,8 +11316,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    [REFCLK_RIGHT_OUTPUT_SEL].
                                                                    [REFCLK_LEFT_OUTPUT_SEL]. */
         uint64_t reserved_44_45        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET]
+                                                                 or GSERP()_INIT_CTRL[CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected). */
@@ -11620,8 +11623,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  _ GSERP7:    0x0.
                                                                  _ GSERP8:    0x1. */
         uint64_t reserved_41_42        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET]
+                                                                 or GSERP()_INIT_CTRL[CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected). */
@@ -11660,8 +11664,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                    [REFCLK_RIGHT_OUTPUT_SEL].
                                                                    [REFCLK_LEFT_OUTPUT_SEL]. */
         uint64_t reserved_44_45        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET]
+                                                                 or GSERP()_INIT_CTRL[CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected). */
@@ -11886,8 +11891,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  Reset values:
                                                                  _ GSERP0:    0x1. */
         uint64_t reserved_41_42        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting [POR] or [CPU_RESET]. This bit may be written
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET]
+                                                                 or GSERP()_INIT_CTRL[CPU_RESET]. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected). */
@@ -11943,20 +11949,40 @@ union cavm_gserpx_common_phy_ctrl_prot
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting GSERP()_RESET_CTRL[PMA_POR_RESET] or
-                                                                 GSERP()_RESET_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_RESET_CTRL[POR_RESET] or
+                                                                 GSERP()_INIT_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
                                                                    0x0 = Program memory may be written (not write-protected).
                                                                    0x1 = Program memory cannot be written (write-protected). */
 #else /* Word 0 - Little Endian */
         uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting GSERP()_RESET_CTRL[PMA_POR_RESET] or
-                                                                 GSERP()_RESET_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_RESET_CTRL[POR_RESET] or
+                                                                 GSERP()_INIT_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
                                                                    0x0 = Program memory may be written (not write-protected).
                                                                    0x1 = Program memory cannot be written (write-protected). */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gserpx_common_phy_ctrl_prot_s cn; */
+    /* struct cavm_gserpx_common_phy_ctrl_prot_s cn9; */
+    /* struct cavm_gserpx_common_phy_ctrl_prot_s cn96xx; */
+    struct cavm_gserpx_common_phy_ctrl_prot_cn98xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET] or
+                                                                 GSERP()_INIT_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
+                                                                   0x0 = Program memory may be written (not write-protected).
+                                                                   0x1 = Program memory cannot be written (write-protected). */
+#else /* Word 0 - Little Endian */
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting GSERP()_INIT_CTRL[POR_RESET] or
+                                                                 GSERP()_INIT_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
+                                                                   0x0 = Program memory may be written (not write-protected).
+                                                                   0x1 = Program memory cannot be written (write-protected). */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn98xx;
+    /* struct cavm_gserpx_common_phy_ctrl_prot_cn98xx loki; */
 };
 typedef union cavm_gserpx_common_phy_ctrl_prot cavm_gserpx_common_phy_ctrl_prot_t;
 
@@ -12232,10 +12258,7 @@ static inline uint64_t CAVM_GSERPX_ECO(uint64_t a)
  * Register (RSL) gserp#_furcation_mode
  *
  * GSERP Furcation Mode Register
- * The value in this register MUST be the same across GSERP instances 0-3
- * for 96xx.  For 98xx, it must be the same across GSERP instances 0-3 as
- * well as for instances 4-7.  Note that the value shared across 0-3 is
- * allowed to be different than the value shared across 4-7.
+ * The value in this register MUST be the same across GSERP instances 0-1.
  */
 union cavm_gserpx_furcation_mode
 {
@@ -12256,23 +12279,29 @@ union cavm_gserpx_furcation_mode
                                                                  0x1 = PEM1 connected to QLM1 (x4)
                                                                  GSERP(1)_FURCATION_MODE[MUX_CFG0] controls this muxing.  All other
                                                                  instances of GSERP have no effect. */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) PCS bifurcation/quadfurcation support.
+
+                                                                 Mode value descriptions:
                                                                    0x0 = pipe0 (x16) to QLM0/1/2/3.
                                                                    0x1 = pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3.
                                                                    0x2 = pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
                                                                    0x3 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3.
                                                                    0x4 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
-                                                                 GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
+                                                                 GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
+                                                                 which supports just a single pipe, and must be set to 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) PCS bifurcation/quadfurcation support.
+
+                                                                 Mode value descriptions:
                                                                    0x0 = pipe0 (x16) to QLM0/1/2/3.
                                                                    0x1 = pipe0 (x8) to QLM0/1, pipe1 (x8) to QLM2/3.
                                                                    0x2 = pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
                                                                    0x3 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3.
                                                                    0x4 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
-                                                                 GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
+                                                                 GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
+                                                                 which supports just a single pipe, and must be set to 0x0. */
         uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) PEM1 mux configuration:
                                                                  0x0 = PEM1 connected to QLM4 (x4)
                                                                  0x1 = PEM1 connected to QLM1 (x4)
@@ -12295,8 +12324,10 @@ union cavm_gserpx_furcation_mode
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t mux_cfg1              : 1;  /**< [  5:  5](R/W) Not supported. */
-        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not Supported. */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not supported. */
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) PCS bifurcation/quadfurcation support.
+
+                                                                 Mode value descriptions:
                                                                    0x0 = pipe0 (x16).
                                                                          gserp_16lane0: QLM0/1/2/3.
                                                                          gserp_16lane1: QLM4/5/6/7.
@@ -12305,9 +12336,12 @@ union cavm_gserpx_furcation_mode
                                                                          gserp_16lane1: pipe0 QLM5/6, pipe1: QLM6/7
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane0.
                                                                  GSERP(5)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane1.
-                                                                 GSERP(8)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
+                                                                 GSERP(8)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
+                                                                 which supports just a single pipe, and must be set to 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) PCS bifurcation/quadfurcation support.
+
+                                                                 Mode value descriptions:
                                                                    0x0 = pipe0 (x16).
                                                                          gserp_16lane0: QLM0/1/2/3.
                                                                          gserp_16lane1: QLM4/5/6/7.
@@ -12316,8 +12350,9 @@ union cavm_gserpx_furcation_mode
                                                                          gserp_16lane1: pipe0 QLM5/6, pipe1: QLM6/7
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane0.
                                                                  GSERP(5)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane1.
-                                                                 GSERP(8)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
-        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not Supported. */
+                                                                 GSERP(8)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
+                                                                 which supports just a single pipe, and must be set to 0x0. */
+        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not supported. */
         uint64_t mux_cfg1              : 1;  /**< [  5:  5](R/W) Not supported. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
@@ -12327,17 +12362,23 @@ union cavm_gserpx_furcation_mode
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t mux_cfg1              : 1;  /**< [  5:  5](R/W) Not supported. */
-        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not Supported. */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not supported. */
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) PCS bifurcation/quadfurcation support.
+
+                                                                 Mode value descriptions:
                                                                    0x4 = pipe0 (x4) to QLM0.
                                                                    All other values Reserved.
-                                                                 GSERP(0)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
+                                                                 GSERP(0)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
+                                                                 which supports just a single pipe, and must be set to 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
+        uint64_t mode                  : 4;  /**< [  3:  0](R/W) PCS bifurcation/quadfurcation support.
+
+                                                                 Mode value descriptions:
                                                                    0x4 = pipe0 (x4) to QLM0.
                                                                    All other values Reserved.
-                                                                 GSERP(0)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane. */
-        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not Supported. */
+                                                                 GSERP(0)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
+                                                                 which supports just a single pipe, and must be set to 0x0. */
+        uint64_t mux_cfg0              : 1;  /**< [  4:  4](R/W) Not supported. */
         uint64_t mux_cfg1              : 1;  /**< [  5:  5](R/W) Not supported. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
