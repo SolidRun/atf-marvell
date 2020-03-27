@@ -11122,19 +11122,22 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i (not used).
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i (external).
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i (not used).
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i (internal).
 
                                                                  \<pre\>
-                                                                             RC    EP
-                                                                 GSERP0:    0x6    0x2
-                                                                 GSERP1:    0x6    0x2
-                                                                 GSERP2:    0x6    0x2
-                                                                 GSERP3:    0x6    0x0
-                                                                 GSERP4:    0x0    NS
-                                                                 \</pre\> */
+                                                                             RC      EP
+                                                                 GSERP0:    0x6    0x2/0x6
+                                                                 GSERP1:    0x6    0x2/0x6
+                                                                 GSERP2:    0x6    0x2/0x6
+                                                                 GSERP3:    0x6    0x0/0x6
+                                                                 GSERP4:    0x0      ---
+                                                                 \</pre\>
+
+                                                                 Reference clock configuration restrictions:
+                                                                   GSERP(0) & GSERP(1) must always share the same reference clock. */
         uint64_t reserved_22           : 1;
         uint64_t cm0_pd                : 2;  /**< [ 21: 20](R/W) CMU macro power down control:
                                                                    0x0 = Normal/Active.
@@ -11155,19 +11158,22 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i (not used).
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i (external).
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i (not used).
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i (internal).
 
                                                                  \<pre\>
-                                                                             RC    EP
-                                                                 GSERP0:    0x6    0x2
-                                                                 GSERP1:    0x6    0x2
-                                                                 GSERP2:    0x6    0x2
-                                                                 GSERP3:    0x6    0x0
-                                                                 GSERP4:    0x0    NS
-                                                                 \</pre\> */
+                                                                             RC      EP
+                                                                 GSERP0:    0x6    0x2/0x6
+                                                                 GSERP1:    0x6    0x2/0x6
+                                                                 GSERP2:    0x6    0x2/0x6
+                                                                 GSERP3:    0x6    0x0/0x6
+                                                                 GSERP4:    0x0      ---
+                                                                 \</pre\>
+
+                                                                 Reference clock configuration restrictions:
+                                                                   GSERP(0) & GSERP(1) must always share the same reference clock. */
         uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Override for REFCLK_LEFT_OUTPUT_SEL pin.
                                                                  When [REFCLK_OVERRIDE] is set, the CMU reference clock output select can be changed for the CML
                                                                  distribution buffers driving out of the bottom of the AFE macro at die edge.
@@ -11448,13 +11454,13 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i (not used).
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i (external).
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i (not used).
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i (internal).
 
                                                                  \<pre\>
-                                                                             RC    EP
+                                                                             RC     EP
                                                                  GSERP0:    0x6    0x2
                                                                  GSERP1:    0x6    0x2
                                                                  GSERP2:    0x6    0x2
@@ -11485,13 +11491,13 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i (not used).
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i (external).
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i (not used).
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i (internal).
 
                                                                  \<pre\>
-                                                                             RC    EP
+                                                                             RC     EP
                                                                  GSERP0:    0x6    0x2
                                                                  GSERP1:    0x6    0x2
                                                                  GSERP2:    0x6    0x2
@@ -11764,10 +11770,10 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i (not used).
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i (not used).
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i (not used).
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i (not used).
 
                                                                  \<pre\>
                                                                              RC    EP
@@ -11793,10 +11799,10 @@ union cavm_gserpx_common_phy_ctrl_bcfg
 
                                                                  CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i (not used).
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i (not used).
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i (not used).
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i (not used).
 
                                                                  \<pre\>
                                                                              RC    EP
@@ -12287,6 +12293,12 @@ union cavm_gserpx_furcation_mode
                                                                    0x2 = pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
                                                                    0x3 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3.
                                                                    0x4 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
+
+                                                                 Reference clock configuration restrictions:
+                                                                   GSERP(0) & GSERP(1) must always share the same reference clock.
+                                                                   GSERP()_COMMON_PHY_CTRL_BCFG[REFCLK_INPUT_SEL] must be configured
+                                                                   the same (either 0x6 or 0x2).
+
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
                                                                  GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
                                                                  which supports just a single pipe, and must be set to 0x0. */
@@ -12299,6 +12311,12 @@ union cavm_gserpx_furcation_mode
                                                                    0x2 = pipe0 (x8) to QLM0/1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
                                                                    0x3 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x8) to QLM2/3.
                                                                    0x4 = pipe0 (x4) to QLM0, pipe2 (x4) to QLM1, pipe1 (x4) to QLM2, pipe3 (x4) to QLM3.
+
+                                                                 Reference clock configuration restrictions:
+                                                                   GSERP(0) & GSERP(1) must always share the same reference clock.
+                                                                   GSERP()_COMMON_PHY_CTRL_BCFG[REFCLK_INPUT_SEL] must be configured
+                                                                   the same (either 0x6 or 0x2).
+
                                                                  GSERP(1)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_16lane.
                                                                  GSERP(4)_FURCATION_MODE[MODE] affects the PCS furcation mode within gserp_4lane,
                                                                  which supports just a single pipe, and must be set to 0x0. */

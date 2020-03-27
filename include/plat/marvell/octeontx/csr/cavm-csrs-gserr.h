@@ -316,7 +316,7 @@ static inline uint64_t CAVM_GSERRX_CM0_FEATURE_PLL_CAL_EN_CFG0_RSVD(uint64_t a)
 /**
  * Register (RSL32b) gserr#_cm0_feature_pll_cal_en_cfg1_rsvd
  *
- * INTERNAL: GSERR Cm0 Feature Pll Cal En Cfg1 Register
+ * GSERR Cm0 Feature Pll Cal En Cfg1 Register
  */
 union cavm_gserrx_cm0_feature_pll_cal_en_cfg1_rsvd
 {
@@ -686,7 +686,7 @@ static inline uint64_t CAVM_GSERRX_CM0_FEATURE_SPARE_CFG4_RSVD(uint64_t a)
 /**
  * Register (RSL32b) gserr#_cm0_feature_spare_cfg5_rsvd
  *
- * INTERNAL: GSERR Cm0 Feature Spare Cfg5 Register
+ * GSERR Cm0 Feature Spare Cfg5 Register
  */
 union cavm_gserrx_cm0_feature_spare_cfg5_rsvd
 {
@@ -79947,7 +79947,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN0_CM0_CLK_CTRL0_RSVD(uint64_
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln0_cm0_clk_gs_mode_ctrl0_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Clock Ln0 Cm0 Clk Gs Mode Ctrl0 Register
+ * GSERR Phy0 Top Clock Ln0 Cm0 Clk Gs Mode Ctrl0 Register
  */
 union cavm_gserrx_phy0_top_clock_ln0_cm0_clk_gs_mode_ctrl0_rsvd
 {
@@ -80444,7 +80444,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN1_CM0_CLK_CTRL0_RSVD(uint64_
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln1_cm0_clk_gs_mode_ctrl0_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Clock Ln1 Cm0 Clk Gs Mode Ctrl0 Register
+ * GSERR Phy0 Top Clock Ln1 Cm0 Clk Gs Mode Ctrl0 Register
  */
 union cavm_gserrx_phy0_top_clock_ln1_cm0_clk_gs_mode_ctrl0_rsvd
 {
@@ -80941,7 +80941,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN2_CM0_CLK_CTRL0_RSVD(uint64_
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln2_cm0_clk_gs_mode_ctrl0_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Clock Ln2 Cm0 Clk Gs Mode Ctrl0 Register
+ * GSERR Phy0 Top Clock Ln2 Cm0 Clk Gs Mode Ctrl0 Register
  */
 union cavm_gserrx_phy0_top_clock_ln2_cm0_clk_gs_mode_ctrl0_rsvd
 {
@@ -81438,7 +81438,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_CLOCK_LN3_CM0_CLK_CTRL0_RSVD(uint64_
 /**
  * Register (RSL32b) gserr#_phy0_top_clock_ln3_cm0_clk_gs_mode_ctrl0_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Clock Ln3 Cm0 Clk Gs Mode Ctrl0 Register
+ * GSERR Phy0 Top Clock Ln3 Cm0 Clk Gs Mode Ctrl0 Register
  */
 union cavm_gserrx_phy0_top_clock_ln3_cm0_clk_gs_mode_ctrl0_rsvd
 {
@@ -83899,7 +83899,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_RESET_CTRL_CM0_RSVD(uint64_t a)
 /**
  * Register (RSL32b) gserr#_phy0_top_reset_ctrl_ln0_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Reset Ctrl Ln0 Register
+ * GSERR Phy0 Top Reset Ctrl Ln0 Register
  */
 union cavm_gserrx_phy0_top_reset_ctrl_ln0_rsvd
 {
@@ -83956,7 +83956,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_RESET_CTRL_LN0_RSVD(uint64_t a)
 /**
  * Register (RSL32b) gserr#_phy0_top_reset_ctrl_ln1_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Reset Ctrl Ln1 Register
+ * GSERR Phy0 Top Reset Ctrl Ln1 Register
  */
 union cavm_gserrx_phy0_top_reset_ctrl_ln1_rsvd
 {
@@ -84013,7 +84013,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_RESET_CTRL_LN1_RSVD(uint64_t a)
 /**
  * Register (RSL32b) gserr#_phy0_top_reset_ctrl_ln2_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Reset Ctrl Ln2 Register
+ * GSERR Phy0 Top Reset Ctrl Ln2 Register
  */
 union cavm_gserrx_phy0_top_reset_ctrl_ln2_rsvd
 {
@@ -84070,7 +84070,7 @@ static inline uint64_t CAVM_GSERRX_PHY0_TOP_RESET_CTRL_LN2_RSVD(uint64_t a)
 /**
  * Register (RSL32b) gserr#_phy0_top_reset_ctrl_ln3_rsvd
  *
- * INTERNAL: GSERR Phy0 Top Reset Ctrl Ln3 Register
+ * GSERR Phy0 Top Reset Ctrl Ln3 Register
  */
 union cavm_gserrx_phy0_top_reset_ctrl_ln3_rsvd
 {
