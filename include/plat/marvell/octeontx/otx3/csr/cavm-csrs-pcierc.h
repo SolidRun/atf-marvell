@@ -1,0 +1,13734 @@
+#ifndef __CAVM_CSRS_PCIERC_H__
+#define __CAVM_CSRS_PCIERC_H__
+/* This file is auto-generated. Do not edit */
+
+/***********************license start***********************************
+* Copyright (C) 2020 Marvell International Ltd.
+* SPDX-License-Identifier: BSD-3-Clause
+* https://spdx.org/licenses
+***********************license end**************************************/
+
+
+/**
+ * @file
+ *
+ * Configuration and status register (CSR) address and type definitions for
+ * OcteonTX PCIERC.
+ *
+ * This file is auto generated. Do not edit.
+ *
+ */
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ack_freq
+ *
+ * PCIe RC Ack Frequency Register
+ */
+union cavm_pciercx_ack_freq
+{
+    uint32_t u;
+    struct cavm_pciercx_ack_freq_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t easpml1               : 1;  /**< [ 30: 30](R/W) Enter ASPM L1 without receive in L0s. Allow core to enter ASPM L1 even when link partner
+                                                                 did not go to L0s (receive is not in L0s). When not set, core goes to ASPM L1 only after
+                                                                 idle period, during which both receive and transmit are in L0s. */
+        uint32_t l1el                  : 3;  /**< [ 29: 27](R/W) L1 entrance latency. Values correspond to:
+                                                                 0x0 = 1 ms.
+                                                                 0x1 = 2 ms.
+                                                                 0x2 = 4 ms.
+                                                                 0x3 = 8 ms.
+                                                                 0x4 = 16 ms.
+                                                                 0x5 = 32 ms.
+                                                                 0x6 or 0x7 = 64 ms. */
+        uint32_t l0el                  : 3;  /**< [ 26: 24](R/W) L0s entrance latency. Values correspond to:
+                                                                 0x0 = 1 ms.
+                                                                 0x1 = 2 ms.
+                                                                 0x2 = 3 ms.
+                                                                 0x3 = 4 ms.
+                                                                 0x4 = 5 ms.
+                                                                 0x5 = 6 ms.
+                                                                 0x6 or 0x7 = 7 ms. */
+        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](RO) The number of fast training sequence (FTS) ordered sets to be transmitted when
+                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
+                                                                 request is 255.
+                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
+                                                                 recovery state when exiting from L0s. */
+        uint32_t n_fts                 : 8;  /**< [ 15:  8](R/W) The number of fast training sequence (FTS) ordered sets to be transmitted when
+                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
+                                                                 request is 255.
+                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
+                                                                 recovery state when exiting from L0s. */
+        uint32_t ack_freq              : 8;  /**< [  7:  0](R/W) ACK frequency. The number of pending ACKs specified here (up to 255) before sending an ACK. */
+#else /* Word 0 - Little Endian */
+        uint32_t ack_freq              : 8;  /**< [  7:  0](R/W) ACK frequency. The number of pending ACKs specified here (up to 255) before sending an ACK. */
+        uint32_t n_fts                 : 8;  /**< [ 15:  8](R/W) The number of fast training sequence (FTS) ordered sets to be transmitted when
+                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
+                                                                 request is 255.
+                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
+                                                                 recovery state when exiting from L0s. */
+        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](RO) The number of fast training sequence (FTS) ordered sets to be transmitted when
+                                                                 transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
+                                                                 request is 255.
+                                                                 A value of zero is not supported; a value of zero can cause the LTSSM to go into the
+                                                                 recovery state when exiting from L0s. */
+        uint32_t l0el                  : 3;  /**< [ 26: 24](R/W) L0s entrance latency. Values correspond to:
+                                                                 0x0 = 1 ms.
+                                                                 0x1 = 2 ms.
+                                                                 0x2 = 3 ms.
+                                                                 0x3 = 4 ms.
+                                                                 0x4 = 5 ms.
+                                                                 0x5 = 6 ms.
+                                                                 0x6 or 0x7 = 7 ms. */
+        uint32_t l1el                  : 3;  /**< [ 29: 27](R/W) L1 entrance latency. Values correspond to:
+                                                                 0x0 = 1 ms.
+                                                                 0x1 = 2 ms.
+                                                                 0x2 = 4 ms.
+                                                                 0x3 = 8 ms.
+                                                                 0x4 = 16 ms.
+                                                                 0x5 = 32 ms.
+                                                                 0x6 or 0x7 = 64 ms. */
+        uint32_t easpml1               : 1;  /**< [ 30: 30](R/W) Enter ASPM L1 without receive in L0s. Allow core to enter ASPM L1 even when link partner
+                                                                 did not go to L0s (receive is not in L0s). When not set, core goes to ASPM L1 only after
+                                                                 idle period, during which both receive and transmit are in L0s. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ack_freq_s cn; */
+};
+typedef union cavm_pciercx_ack_freq cavm_pciercx_ack_freq_t;
+
+static inline uint64_t CAVM_PCIERCX_ACK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ACK_FREQ(uint64_t a)
+{
+    if (a<=3)
+        return 0x70c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ACK_FREQ", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ACK_FREQ(a) cavm_pciercx_ack_freq_t
+#define bustype_CAVM_PCIERCX_ACK_FREQ(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ACK_FREQ(a) "PCIERCX_ACK_FREQ"
+#define busnum_CAVM_PCIERCX_ACK_FREQ(a) (a)
+#define arguments_CAVM_PCIERCX_ACK_FREQ(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ack_timer
+ *
+ * PCIe RC Ack Latency Timer/Replay Timer Register
+ */
+union cavm_pciercx_ack_timer
+{
+    uint32_t u;
+    struct cavm_pciercx_ack_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rtl                   : 16; /**< [ 31: 16](R/W/H) Replay time limit. The replay timer expires when it reaches this limit. The PCI Express
+                                                                 bus initiates a replay upon reception of a NAK or when the replay timer expires. This
+                                                                 value is set correctly by the hardware out of reset or when the negotiated link width or
+                                                                 payload size changes.
+
+                                                                 The value is determined from Tables 3-4 of the PCIe 3.0 specification and divided by 4,
+                                                                 since the Mac is architected to process 4 symbols per pipe clock.  The value is adjusted
+                                                                 internally depending on the link speed to generate a value to corresponding to the
+                                                                 appropriate value in Tables 3-4, 3-5, and 3-6.  Note that the value read will
+                                                                 always reflect the Table 3-4 value regardless of current link speed.
+
+                                                                 If the user changes this value, they should refer to the PCIe specification
+                                                                 for the correct value. */
+        uint32_t rtltl                 : 16; /**< [ 15:  0](R/W/H) Round trip latency time limit. The ACK/NAK latency timer expires when it reaches this
+                                                                 limit. This value is set correctly by the hardware out of reset or when the negotiated
+                                                                 link width or payload size changes.
+
+                                                                 The value is determined from Tables 3-7 of the PCIe 3.0 specification and divided by 4,
+                                                                 since the Mac is architected to process 4 symbols per pipe clock.  The value is adjusted
+                                                                 internally depending on the link speed to generate a value to corresponding to the
+                                                                 appropriate value in Tables 3-7, 3-8, 3-9.  Note that the value read will
+                                                                 always reflect the Table 3-7 value regardless of current link speed.
+
+                                                                 The limit must reflect the round trip latency from requester to completer. If there
+                                                                 is a change in the payload size or link width, the controller will override any
+                                                                 value that you have written to this register field, and reset the
+                                                                 field back to the specification-defined value. */
+#else /* Word 0 - Little Endian */
+        uint32_t rtltl                 : 16; /**< [ 15:  0](R/W/H) Round trip latency time limit. The ACK/NAK latency timer expires when it reaches this
+                                                                 limit. This value is set correctly by the hardware out of reset or when the negotiated
+                                                                 link width or payload size changes.
+
+                                                                 The value is determined from Tables 3-7 of the PCIe 3.0 specification and divided by 4,
+                                                                 since the Mac is architected to process 4 symbols per pipe clock.  The value is adjusted
+                                                                 internally depending on the link speed to generate a value to corresponding to the
+                                                                 appropriate value in Tables 3-7, 3-8, 3-9.  Note that the value read will
+                                                                 always reflect the Table 3-7 value regardless of current link speed.
+
+                                                                 The limit must reflect the round trip latency from requester to completer. If there
+                                                                 is a change in the payload size or link width, the controller will override any
+                                                                 value that you have written to this register field, and reset the
+                                                                 field back to the specification-defined value. */
+        uint32_t rtl                   : 16; /**< [ 31: 16](R/W/H) Replay time limit. The replay timer expires when it reaches this limit. The PCI Express
+                                                                 bus initiates a replay upon reception of a NAK or when the replay timer expires. This
+                                                                 value is set correctly by the hardware out of reset or when the negotiated link width or
+                                                                 payload size changes.
+
+                                                                 The value is determined from Tables 3-4 of the PCIe 3.0 specification and divided by 4,
+                                                                 since the Mac is architected to process 4 symbols per pipe clock.  The value is adjusted
+                                                                 internally depending on the link speed to generate a value to corresponding to the
+                                                                 appropriate value in Tables 3-4, 3-5, and 3-6.  Note that the value read will
+                                                                 always reflect the Table 3-4 value regardless of current link speed.
+
+                                                                 If the user changes this value, they should refer to the PCIe specification
+                                                                 for the correct value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ack_timer_s cn; */
+};
+typedef union cavm_pciercx_ack_timer cavm_pciercx_ack_timer_t;
+
+static inline uint64_t CAVM_PCIERCX_ACK_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ACK_TIMER(uint64_t a)
+{
+    if (a<=3)
+        return 0x700 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ACK_TIMER", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ACK_TIMER(a) cavm_pciercx_ack_timer_t
+#define bustype_CAVM_PCIERCX_ACK_TIMER(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ACK_TIMER(a) "PCIERCX_ACK_TIMER"
+#define busnum_CAVM_PCIERCX_ACK_TIMER(a) (a)
+#define arguments_CAVM_PCIERCX_ACK_TIMER(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_acs_cap_ctl
+ *
+ * PCIe RC ACS Capability and Control Register
+ */
+union cavm_pciercx_acs_cap_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_acs_cap_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t dte                   : 1;  /**< [ 22: 22](RO/WRSL) ACS direct translated P2P enable. */
+        uint32_t ece                   : 1;  /**< [ 21: 21](RO/WRSL) ACS P2P egress control enable. */
+        uint32_t ufe                   : 1;  /**< [ 20: 20](RO/WRSL) ACS upstream forwarding enable. */
+        uint32_t cre                   : 1;  /**< [ 19: 19](RO/WRSL) ACS P2P completion redirect enable. */
+        uint32_t rre                   : 1;  /**< [ 18: 18](RO/WRSL) ACS P2P request redirect enable. */
+        uint32_t tbe                   : 1;  /**< [ 17: 17](RO/WRSL) ACS translation blocking enable. */
+        uint32_t sve                   : 1;  /**< [ 16: 16](RO/WRSL) ACS source validation enable. */
+        uint32_t ecvs                  : 8;  /**< [ 15:  8](RO/WRSL) Egress control vector size.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t dt                    : 1;  /**< [  6:  6](RO/WRSL) ACS direct translated P2P.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t ec                    : 1;  /**< [  5:  5](RO/WRSL) ACS P2P egress control.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t uf                    : 1;  /**< [  4:  4](RO/WRSL) ACS upstream forwarding.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cr                    : 1;  /**< [  3:  3](RO/WRSL) ACS P2P completion redirect.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t rr                    : 1;  /**< [  2:  2](RO/WRSL) ACS P2P request redirect.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t tb                    : 1;  /**< [  1:  1](RO/WRSL) ACS translation blocking.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t sv                    : 1;  /**< [  0:  0](RO/WRSL) ACS source validation.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sv                    : 1;  /**< [  0:  0](RO/WRSL) ACS source validation.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t tb                    : 1;  /**< [  1:  1](RO/WRSL) ACS translation blocking.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t rr                    : 1;  /**< [  2:  2](RO/WRSL) ACS P2P request redirect.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cr                    : 1;  /**< [  3:  3](RO/WRSL) ACS P2P completion redirect.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t uf                    : 1;  /**< [  4:  4](RO/WRSL) ACS upstream forwarding.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t ec                    : 1;  /**< [  5:  5](RO/WRSL) ACS P2P egress control.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t dt                    : 1;  /**< [  6:  6](RO/WRSL) ACS direct translated P2P.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t ecvs                  : 8;  /**< [ 15:  8](RO/WRSL) Egress control vector size.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t sve                   : 1;  /**< [ 16: 16](RO/WRSL) ACS source validation enable. */
+        uint32_t tbe                   : 1;  /**< [ 17: 17](RO/WRSL) ACS translation blocking enable. */
+        uint32_t rre                   : 1;  /**< [ 18: 18](RO/WRSL) ACS P2P request redirect enable. */
+        uint32_t cre                   : 1;  /**< [ 19: 19](RO/WRSL) ACS P2P completion redirect enable. */
+        uint32_t ufe                   : 1;  /**< [ 20: 20](RO/WRSL) ACS upstream forwarding enable. */
+        uint32_t ece                   : 1;  /**< [ 21: 21](RO/WRSL) ACS P2P egress control enable. */
+        uint32_t dte                   : 1;  /**< [ 22: 22](RO/WRSL) ACS direct translated P2P enable. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_acs_cap_ctl_s cn; */
+};
+typedef union cavm_pciercx_acs_cap_ctl cavm_pciercx_acs_cap_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_ACS_CAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ACS_CAP_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x22c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ACS_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ACS_CAP_CTL(a) cavm_pciercx_acs_cap_ctl_t
+#define bustype_CAVM_PCIERCX_ACS_CAP_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ACS_CAP_CTL(a) "PCIERCX_ACS_CAP_CTL"
+#define busnum_CAVM_PCIERCX_ACS_CAP_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_ACS_CAP_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_acs_cap_hdr
+ *
+ * PCIe RC PCI Express ACS Extended Capability Header Register
+ */
+union cavm_pciercx_acs_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_acs_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_acs_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_acs_cap_hdr cavm_pciercx_acs_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_ACS_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ACS_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x228 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ACS_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ACS_CAP_HDR(a) cavm_pciercx_acs_cap_hdr_t
+#define bustype_CAVM_PCIERCX_ACS_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ACS_CAP_HDR(a) "PCIERCX_ACS_CAP_HDR"
+#define busnum_CAVM_PCIERCX_ACS_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_ACS_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_acs_egr_ctl_vec
+ *
+ * PCIe RC Egress Control Vector Register
+ */
+union cavm_pciercx_acs_egr_ctl_vec
+{
+    uint32_t u;
+    struct cavm_pciercx_acs_egr_ctl_vec_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t unused                : 29; /**< [ 31:  3](R/W/H) Reserved. */
+        uint32_t ecv                   : 3;  /**< [  2:  0](R/W/H) Egress control vector. */
+#else /* Word 0 - Little Endian */
+        uint32_t ecv                   : 3;  /**< [  2:  0](R/W/H) Egress control vector. */
+        uint32_t unused                : 29; /**< [ 31:  3](R/W/H) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_acs_egr_ctl_vec_s cn; */
+};
+typedef union cavm_pciercx_acs_egr_ctl_vec cavm_pciercx_acs_egr_ctl_vec_t;
+
+static inline uint64_t CAVM_PCIERCX_ACS_EGR_CTL_VEC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ACS_EGR_CTL_VEC(uint64_t a)
+{
+    if (a<=3)
+        return 0x230 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ACS_EGR_CTL_VEC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ACS_EGR_CTL_VEC(a) cavm_pciercx_acs_egr_ctl_vec_t
+#define bustype_CAVM_PCIERCX_ACS_EGR_CTL_VEC(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ACS_EGR_CTL_VEC(a) "PCIERCX_ACS_EGR_CTL_VEC"
+#define busnum_CAVM_PCIERCX_ACS_EGR_CTL_VEC(a) (a)
+#define arguments_CAVM_PCIERCX_ACS_EGR_CTL_VEC(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_adv_err_cap_cntrl
+ *
+ * PCIe RC Advanced Capabilities and Control Register
+ */
+union cavm_pciercx_adv_err_cap_cntrl
+{
+    uint32_t u;
+    struct cavm_pciercx_adv_err_cap_cntrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO) Multiple header recording capability (not supported). */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+#else /* Word 0 - Little Endian */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO) Multiple header recording capability (not supported). */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](RO) Multiple header recording enable (not supported). */
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_adv_err_cap_cntrl_s cn; */
+};
+typedef union cavm_pciercx_adv_err_cap_cntrl cavm_pciercx_adv_err_cap_cntrl_t;
+
+static inline uint64_t CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(uint64_t a)
+{
+    if (a<=3)
+        return 0x118 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ADV_ERR_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(a) cavm_pciercx_adv_err_cap_cntrl_t
+#define bustype_CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(a) "PCIERCX_ADV_ERR_CAP_CNTRL"
+#define busnum_CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(a) (a)
+#define arguments_CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_aux_clk_freq
+ *
+ * PCIe RC Auxillary Clock Frequency Control Register
+ */
+union cavm_pciercx_aux_clk_freq
+{
+    uint32_t u;
+    struct cavm_pciercx_aux_clk_freq_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_10_31        : 22;
+        uint32_t upc_supp              : 10; /**< [  9:  0](R/W) The aux_clk frequency in MHz. This value is used to provide a 1 us reference for
+                                                                 counting time during low-power states with aux_clk when the PHY has removed the
+                                                                 pipe_clk. */
+#else /* Word 0 - Little Endian */
+        uint32_t upc_supp              : 10; /**< [  9:  0](R/W) The aux_clk frequency in MHz. This value is used to provide a 1 us reference for
+                                                                 counting time during low-power states with aux_clk when the PHY has removed the
+                                                                 pipe_clk. */
+        uint32_t reserved_10_31        : 22;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_aux_clk_freq_s cn; */
+};
+typedef union cavm_pciercx_aux_clk_freq cavm_pciercx_aux_clk_freq_t;
+
+static inline uint64_t CAVM_PCIERCX_AUX_CLK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_AUX_CLK_FREQ(uint64_t a)
+{
+    if (a<=3)
+        return 0xb40 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_AUX_CLK_FREQ", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_AUX_CLK_FREQ(a) cavm_pciercx_aux_clk_freq_t
+#define bustype_CAVM_PCIERCX_AUX_CLK_FREQ(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_AUX_CLK_FREQ(a) "PCIERCX_AUX_CLK_FREQ"
+#define busnum_CAVM_PCIERCX_AUX_CLK_FREQ(a) (a)
+#define arguments_CAVM_PCIERCX_AUX_CLK_FREQ(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_bar0l
+ *
+ * PCIe RC Base Address 0 Low Register
+ */
+union cavm_pciercx_bar0l
+{
+    uint32_t u;
+    struct cavm_pciercx_bar0l_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_bar0l_s cn; */
+};
+typedef union cavm_pciercx_bar0l cavm_pciercx_bar0l_t;
+
+static inline uint64_t CAVM_PCIERCX_BAR0L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_BAR0L(uint64_t a)
+{
+    if (a<=3)
+        return 0x10 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_BAR0L", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_BAR0L(a) cavm_pciercx_bar0l_t
+#define bustype_CAVM_PCIERCX_BAR0L(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_BAR0L(a) "PCIERCX_BAR0L"
+#define busnum_CAVM_PCIERCX_BAR0L(a) (a)
+#define arguments_CAVM_PCIERCX_BAR0L(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_bar0u
+ *
+ * PCIe RC Base Address 0 High Register
+ */
+union cavm_pciercx_bar0u
+{
+    uint32_t u;
+    struct cavm_pciercx_bar0u_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_bar0u_s cn; */
+};
+typedef union cavm_pciercx_bar0u cavm_pciercx_bar0u_t;
+
+static inline uint64_t CAVM_PCIERCX_BAR0U(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_BAR0U(uint64_t a)
+{
+    if (a<=3)
+        return 0x14 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_BAR0U", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_BAR0U(a) cavm_pciercx_bar0u_t
+#define bustype_CAVM_PCIERCX_BAR0U(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_BAR0U(a) "PCIERCX_BAR0U"
+#define busnum_CAVM_PCIERCX_BAR0U(a) (a)
+#define arguments_CAVM_PCIERCX_BAR0U(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_bnum
+ *
+ * PCIe RC Bus Number Register
+ */
+union cavm_pciercx_bnum
+{
+    uint32_t u;
+    struct cavm_pciercx_bnum_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
+        uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number.
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
+        uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number.
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
+        uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number. */
+#else /* Word 0 - Little Endian */
+        uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number. */
+        uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number.
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
+        uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number.
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
+        uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_bnum_s cn; */
+};
+typedef union cavm_pciercx_bnum cavm_pciercx_bnum_t;
+
+static inline uint64_t CAVM_PCIERCX_BNUM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_BNUM(uint64_t a)
+{
+    if (a<=3)
+        return 0x18 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_BNUM", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_BNUM(a) cavm_pciercx_bnum_t
+#define bustype_CAVM_PCIERCX_BNUM(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_BNUM(a) "PCIERCX_BNUM"
+#define busnum_CAVM_PCIERCX_BNUM(a) (a)
+#define arguments_CAVM_PCIERCX_BNUM(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_c_rcv_credit
+ *
+ * PCIe RC VC0 Completion Receive Queue Control Register
+ */
+union cavm_pciercx_c_rcv_credit
+{
+    uint32_t u;
+    struct cavm_pciercx_c_rcv_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](RO/WRSL) VC0 scale completion header credits.
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t reserved_20           : 1;
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 completion header credits. The number of initial completion header credits for VC0,
+                                                                 used for all receive queue buffer configurations. This field is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x50.
+                                                                 _ BPEM:      0x28. */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 completion data credits. The number of initial completion data credits for VC0, used
+                                                                 for all receive queue buffer configurations. This field is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x600.
+                                                                 _ BPEM:      0x300. */
+#else /* Word 0 - Little Endian */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 completion data credits. The number of initial completion data credits for VC0, used
+                                                                 for all receive queue buffer configurations. This field is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x600.
+                                                                 _ BPEM:      0x300. */
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 completion header credits. The number of initial completion header credits for VC0,
+                                                                 used for all receive queue buffer configurations. This field is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x50.
+                                                                 _ BPEM:      0x28. */
+        uint32_t reserved_20           : 1;
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](RO/WRSL) VC0 scale completion header credits.
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_c_rcv_credit_s cn; */
+};
+typedef union cavm_pciercx_c_rcv_credit cavm_pciercx_c_rcv_credit_t;
+
+static inline uint64_t CAVM_PCIERCX_C_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_C_RCV_CREDIT(uint64_t a)
+{
+    if (a<=3)
+        return 0x750 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_C_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_C_RCV_CREDIT(a) cavm_pciercx_c_rcv_credit_t
+#define bustype_CAVM_PCIERCX_C_RCV_CREDIT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_C_RCV_CREDIT(a) "PCIERCX_C_RCV_CREDIT"
+#define busnum_CAVM_PCIERCX_C_RCV_CREDIT(a) (a)
+#define arguments_CAVM_PCIERCX_C_RCV_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_c_xmit_credit
+ *
+ * PCIe RC Transmit Completion FC Credit Status Register
+ */
+union cavm_pciercx_c_xmit_credit
+{
+    uint32_t u;
+    struct cavm_pciercx_c_xmit_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t tchfcc                : 12; /**< [ 27: 16](RO/H) Transmit completion header FC credits. The completion header credits advertised by the
+                                                                 receiver at the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t tcdfcc                : 16; /**< [ 15:  0](RO/H) Transmit completion data FC credits. The completion data credits advertised by the
+                                                                 receiver at the other end of the link, updated with each UpdateFC DLLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t tcdfcc                : 16; /**< [ 15:  0](RO/H) Transmit completion data FC credits. The completion data credits advertised by the
+                                                                 receiver at the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t tchfcc                : 12; /**< [ 27: 16](RO/H) Transmit completion header FC credits. The completion header credits advertised by the
+                                                                 receiver at the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_c_xmit_credit_s cn; */
+};
+typedef union cavm_pciercx_c_xmit_credit cavm_pciercx_c_xmit_credit_t;
+
+static inline uint64_t CAVM_PCIERCX_C_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_C_XMIT_CREDIT(uint64_t a)
+{
+    if (a<=3)
+        return 0x738 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_C_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_C_XMIT_CREDIT(a) cavm_pciercx_c_xmit_credit_t
+#define bustype_CAVM_PCIERCX_C_XMIT_CREDIT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_C_XMIT_CREDIT(a) "PCIERCX_C_XMIT_CREDIT"
+#define busnum_CAVM_PCIERCX_C_XMIT_CREDIT(a) (a)
+#define arguments_CAVM_PCIERCX_C_XMIT_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cap_ptr
+ *
+ * PCIe RC Capability Pointer Register
+ */
+union cavm_pciercx_cap_ptr
+{
+    uint32_t u;
+    struct cavm_pciercx_cap_ptr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t cp                    : 8;  /**< [  7:  0](RO/WRSL) First capability pointer. Points to power management capability structure by default,
+                                                                 writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t cp                    : 8;  /**< [  7:  0](RO/WRSL) First capability pointer. Points to power management capability structure by default,
+                                                                 writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_cap_ptr_s cn; */
+};
+typedef union cavm_pciercx_cap_ptr cavm_pciercx_cap_ptr_t;
+
+static inline uint64_t CAVM_PCIERCX_CAP_PTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_CAP_PTR(uint64_t a)
+{
+    if (a<=3)
+        return 0x34 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_CAP_PTR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_CAP_PTR(a) cavm_pciercx_cap_ptr_t
+#define bustype_CAVM_PCIERCX_CAP_PTR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_CAP_PTR(a) "PCIERCX_CAP_PTR"
+#define busnum_CAVM_PCIERCX_CAP_PTR(a) (a)
+#define arguments_CAVM_PCIERCX_CAP_PTR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_clk_gating_ctl
+ *
+ * PCIe RC RADM Clock Gating Enable Control Register
+ */
+union cavm_pciercx_clk_gating_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_clk_gating_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t radm_clk_gating_en    : 1;  /**< [  0:  0](R/W) Enable RADM clock gating feature when there is no
+                                                                 receive traffic, receive queues and pre/post-queue pipelines
+                                                                 are empty, RADM completion LUT is empty, and there
+                                                                 are no FLR actions pending.
+                                                                 0x0 = Disable.
+                                                                 0x1 = Enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t radm_clk_gating_en    : 1;  /**< [  0:  0](R/W) Enable RADM clock gating feature when there is no
+                                                                 receive traffic, receive queues and pre/post-queue pipelines
+                                                                 are empty, RADM completion LUT is empty, and there
+                                                                 are no FLR actions pending.
+                                                                 0x0 = Disable.
+                                                                 0x1 = Enable. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_clk_gating_ctl_s cn; */
+};
+typedef union cavm_pciercx_clk_gating_ctl cavm_pciercx_clk_gating_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_CLK_GATING_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_CLK_GATING_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x88c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_CLK_GATING_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_CLK_GATING_CTL(a) cavm_pciercx_clk_gating_ctl_t
+#define bustype_CAVM_PCIERCX_CLK_GATING_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_CLK_GATING_CTL(a) "PCIERCX_CLK_GATING_CTL"
+#define busnum_CAVM_PCIERCX_CLK_GATING_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_CLK_GATING_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_clsize
+ *
+ * PCIe RC BIST, Header Type, Master Latency Timer, Cache Line Size Register
+ */
+union cavm_pciercx_clsize
+{
+    uint32_t u;
+    struct cavm_pciercx_clsize_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register
+                                                                 are hardwired to zero. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. Writing to the cache line size
+                                                                 register does not impact functionality of the PCI Express bus. */
+#else /* Word 0 - Little Endian */
+        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. Writing to the cache line size
+                                                                 register does not impact functionality of the PCI Express bus. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register
+                                                                 are hardwired to zero. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_clsize_s cn; */
+};
+typedef union cavm_pciercx_clsize cavm_pciercx_clsize_t;
+
+static inline uint64_t CAVM_PCIERCX_CLSIZE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_CLSIZE(uint64_t a)
+{
+    if (a<=3)
+        return 0xc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_CLSIZE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_CLSIZE(a) cavm_pciercx_clsize_t
+#define bustype_CAVM_PCIERCX_CLSIZE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_CLSIZE(a) "PCIERCX_CLSIZE"
+#define busnum_CAVM_PCIERCX_CLSIZE(a) (a)
+#define arguments_CAVM_PCIERCX_CLSIZE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cmd
+ *
+ * PCIe RC Command/Status Register
+ */
+union cavm_pciercx_cmd
+{
+    uint32_t u;
+    struct cavm_pciercx_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t reserved_22           : 1;
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to one. */
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
+        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
+                                                                 There are no I/O BARs supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
+                                                                 There are no I/O BARs supported. */
+        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to zero. */
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to one. */
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t reserved_22           : 1;
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_cmd_s cn; */
+};
+typedef union cavm_pciercx_cmd cavm_pciercx_cmd_t;
+
+static inline uint64_t CAVM_PCIERCX_CMD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_CMD(uint64_t a)
+{
+    if (a<=3)
+        return 4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_CMD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_CMD(a) cavm_pciercx_cmd_t
+#define bustype_CAVM_PCIERCX_CMD(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_CMD(a) "PCIERCX_CMD"
+#define busnum_CAVM_PCIERCX_CMD(a) (a)
+#define arguments_CAVM_PCIERCX_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cor_err_msk
+ *
+ * PCIe RC Correctable Error Mask Register
+ */
+union cavm_pciercx_cor_err_msk
+{
+    uint32_t u;
+    struct cavm_pciercx_cor_err_msk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t chlom                 : 1;  /**< [ 15: 15](R/W) Corrected header log overflow error mask. */
+        uint32_t ciem                  : 1;  /**< [ 14: 14](R/W) Corrected internal error mask. */
+        uint32_t anfem                 : 1;  /**< [ 13: 13](R/W) Advisory nonfatal error mask. */
+        uint32_t rttm                  : 1;  /**< [ 12: 12](R/W) Replay timer timeout mask. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t rnrm                  : 1;  /**< [  8:  8](R/W) REPLAY_NUM rollover mask. */
+        uint32_t bdllpm                : 1;  /**< [  7:  7](R/W) Bad DLLP mask. */
+        uint32_t btlpm                 : 1;  /**< [  6:  6](R/W) Bad TLP mask. */
+        uint32_t reserved_1_5          : 5;
+        uint32_t rem                   : 1;  /**< [  0:  0](R/W) Receiver error mask. */
+#else /* Word 0 - Little Endian */
+        uint32_t rem                   : 1;  /**< [  0:  0](R/W) Receiver error mask. */
+        uint32_t reserved_1_5          : 5;
+        uint32_t btlpm                 : 1;  /**< [  6:  6](R/W) Bad TLP mask. */
+        uint32_t bdllpm                : 1;  /**< [  7:  7](R/W) Bad DLLP mask. */
+        uint32_t rnrm                  : 1;  /**< [  8:  8](R/W) REPLAY_NUM rollover mask. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t rttm                  : 1;  /**< [ 12: 12](R/W) Replay timer timeout mask. */
+        uint32_t anfem                 : 1;  /**< [ 13: 13](R/W) Advisory nonfatal error mask. */
+        uint32_t ciem                  : 1;  /**< [ 14: 14](R/W) Corrected internal error mask. */
+        uint32_t chlom                 : 1;  /**< [ 15: 15](R/W) Corrected header log overflow error mask. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_cor_err_msk_s cn; */
+};
+typedef union cavm_pciercx_cor_err_msk cavm_pciercx_cor_err_msk_t;
+
+static inline uint64_t CAVM_PCIERCX_COR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_COR_ERR_MSK(uint64_t a)
+{
+    if (a<=3)
+        return 0x114 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_COR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_COR_ERR_MSK(a) cavm_pciercx_cor_err_msk_t
+#define bustype_CAVM_PCIERCX_COR_ERR_MSK(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_COR_ERR_MSK(a) "PCIERCX_COR_ERR_MSK"
+#define busnum_CAVM_PCIERCX_COR_ERR_MSK(a) (a)
+#define arguments_CAVM_PCIERCX_COR_ERR_MSK(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cor_err_stat
+ *
+ * PCIe RC Correctable Error Status Register
+ */
+union cavm_pciercx_cor_err_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_cor_err_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C/H) Corrected header log overflow status. */
+        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C/H) Corrected internal error status. */
+        uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
+        uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t rnrs                  : 1;  /**< [  8:  8](R/W1C/H) REPLAY_NUM rollover status. */
+        uint32_t bdllps                : 1;  /**< [  7:  7](R/W1C/H) Bad DLLP status. */
+        uint32_t btlps                 : 1;  /**< [  6:  6](R/W1C/H) Bad TLP status. */
+        uint32_t reserved_1_5          : 5;
+        uint32_t res                   : 1;  /**< [  0:  0](R/W1C/H) Receiver error status. */
+#else /* Word 0 - Little Endian */
+        uint32_t res                   : 1;  /**< [  0:  0](R/W1C/H) Receiver error status. */
+        uint32_t reserved_1_5          : 5;
+        uint32_t btlps                 : 1;  /**< [  6:  6](R/W1C/H) Bad TLP status. */
+        uint32_t bdllps                : 1;  /**< [  7:  7](R/W1C/H) Bad DLLP status. */
+        uint32_t rnrs                  : 1;  /**< [  8:  8](R/W1C/H) REPLAY_NUM rollover status. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
+        uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
+        uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C/H) Corrected internal error status. */
+        uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C/H) Corrected header log overflow status. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_cor_err_stat_s cn; */
+};
+typedef union cavm_pciercx_cor_err_stat cavm_pciercx_cor_err_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_COR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_COR_ERR_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x110 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_COR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_COR_ERR_STAT(a) cavm_pciercx_cor_err_stat_t
+#define bustype_CAVM_PCIERCX_COR_ERR_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_COR_ERR_STAT(a) "PCIERCX_COR_ERR_STAT"
+#define busnum_CAVM_PCIERCX_COR_ERR_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_COR_ERR_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dbg0
+ *
+ * PCIe RC Debug Register 0
+ */
+union cavm_pciercx_dbg0
+{
+    uint32_t u;
+    struct cavm_pciercx_dbg0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dbg_info_l32          : 32; /**< [ 31:  0](RO/H) Debug info lower 32 bits. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbg_info_l32          : 32; /**< [ 31:  0](RO/H) Debug info lower 32 bits. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dbg0_s cn; */
+};
+typedef union cavm_pciercx_dbg0 cavm_pciercx_dbg0_t;
+
+static inline uint64_t CAVM_PCIERCX_DBG0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DBG0(uint64_t a)
+{
+    if (a<=3)
+        return 0x728 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DBG0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DBG0(a) cavm_pciercx_dbg0_t
+#define bustype_CAVM_PCIERCX_DBG0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DBG0(a) "PCIERCX_DBG0"
+#define busnum_CAVM_PCIERCX_DBG0(a) (a)
+#define arguments_CAVM_PCIERCX_DBG0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dbg1
+ *
+ * PCIe RC Debug Register 1
+ */
+union cavm_pciercx_dbg1
+{
+    uint32_t u;
+    struct cavm_pciercx_dbg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dbg_info_u32          : 32; /**< [ 31:  0](RO/H) Debug info upper 32 bits. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbg_info_u32          : 32; /**< [ 31:  0](RO/H) Debug info upper 32 bits. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dbg1_s cn; */
+};
+typedef union cavm_pciercx_dbg1 cavm_pciercx_dbg1_t;
+
+static inline uint64_t CAVM_PCIERCX_DBG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DBG1(uint64_t a)
+{
+    if (a<=3)
+        return 0x72c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DBG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DBG1(a) cavm_pciercx_dbg1_t
+#define bustype_CAVM_PCIERCX_DBG1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DBG1(a) "PCIERCX_DBG1"
+#define busnum_CAVM_PCIERCX_DBG1(a) (a)
+#define arguments_CAVM_PCIERCX_DBG1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dev_cap
+ *
+ * PCIe RC Device Capabilities Register
+ */
+union cavm_pciercx_dev_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_dev_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
+        uint32_t reserved_16_17        : 2;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_12_14        : 3;
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Endpoint L1 acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Endpoint L0s acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO/WRSL) Extended tag field supported. This bit is writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO/WRSL) Phantom function supported. This field is writable through
+                                                                 PEM()_CFG_TBL(). However, phantom function is not supported. Therefore, the application
+                                                                 must not write any value other than 0x0 to this field. */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO/WRSL) Max_Payload_Size supported, writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO/WRSL) Max_Payload_Size supported, writable through PEM()_CFG_TBL(). */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO/WRSL) Phantom function supported. This field is writable through
+                                                                 PEM()_CFG_TBL(). However, phantom function is not supported. Therefore, the application
+                                                                 must not write any value other than 0x0 to this field. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO/WRSL) Extended tag field supported. This bit is writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Endpoint L0s acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Endpoint L1 acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_16_17        : 2;
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_pciercx_dev_cap_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
+        uint32_t reserved_16_17        : 2;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_14           : 1;
+        uint32_t reserved_13           : 1;
+        uint32_t reserved_12           : 1;
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Endpoint L1 acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Endpoint L0s acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO/WRSL) Extended tag field supported. This bit is writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO/WRSL) Phantom function supported. This field is writable through
+                                                                 PEM()_CFG_TBL(). However, phantom function is not supported. Therefore, the application
+                                                                 must not write any value other than 0x0 to this field. */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO/WRSL) Max_Payload_Size supported, writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO/WRSL) Max_Payload_Size supported, writable through PEM()_CFG_TBL(). */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO/WRSL) Phantom function supported. This field is writable through
+                                                                 PEM()_CFG_TBL(). However, phantom function is not supported. Therefore, the application
+                                                                 must not write any value other than 0x0 to this field. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO/WRSL) Extended tag field supported. This bit is writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Endpoint L0s acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Endpoint L1 acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t reserved_12           : 1;
+        uint32_t reserved_13           : 1;
+        uint32_t reserved_14           : 1;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_16_17        : 2;
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_pciercx_dev_cap cavm_pciercx_dev_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_DEV_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DEV_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x74 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DEV_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DEV_CAP(a) cavm_pciercx_dev_cap_t
+#define bustype_CAVM_PCIERCX_DEV_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DEV_CAP(a) "PCIERCX_DEV_CAP"
+#define busnum_CAVM_PCIERCX_DEV_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_DEV_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dev_cap2
+ *
+ * PCIe RC Device Capabilities 2 Register
+ */
+union cavm_pciercx_dev_cap2
+{
+    uint32_t u;
+    struct cavm_pciercx_dev_cap2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes (Not Supported).
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix (Not Supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field (Not Supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF Not Supported). */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported. */
+        uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (Not Supported). */
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer (Not Supported). */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO/WRSL) Latency tolerance reporting (LTR) mechanism supported. */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO/WRSL) Latency tolerance reporting (LTR) mechanism supported. */
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer (Not Supported). */
+        uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (Not Supported). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported. */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF Not Supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field (Not Supported). */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix (Not Supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes (Not Supported).
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dev_cap2_s cn; */
+};
+typedef union cavm_pciercx_dev_cap2 cavm_pciercx_dev_cap2_t;
+
+static inline uint64_t CAVM_PCIERCX_DEV_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DEV_CAP2(uint64_t a)
+{
+    if (a<=3)
+        return 0x94 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DEV_CAP2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DEV_CAP2(a) cavm_pciercx_dev_cap2_t
+#define bustype_CAVM_PCIERCX_DEV_CAP2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DEV_CAP2(a) "PCIERCX_DEV_CAP2"
+#define busnum_CAVM_PCIERCX_DEV_CAP2(a) (a)
+#define arguments_CAVM_PCIERCX_DEV_CAP2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dev_ctl
+ *
+ * PCIe RC Device Control/Device Status Register
+ */
+union cavm_pciercx_dev_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_dev_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO) Transaction pending. Hardwired to zero. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) AUX power detected. Set to one if AUX power detected. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](R/W1C/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. [UR_D] occurs when PEM receives
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so [UR_D] should cause
+                                                                 [NFE_D]. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](R/W1C/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to fatal. Malformed
+                                                                 TLPs generally fit into this category. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](R/W1C/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to Nonfatal and does
+                                                                 not meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIERC_COR_ERR_STAT, for example, a replay timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIERC_UCOR_ERR_MSK that has a
+                                                                 severity set to nonfatal and meets the advisory nonfatal criteria, which most ECRC errors should. */
+        uint32_t reserved_15           : 1;
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
+                                                                 0x0 =128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 0x4 = 2048 bytes.
+                                                                 0x5 = 4096 bytes. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W) AUX power PM enable. */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable.
+
+                                                                 To write this bit, PCIERC_DEV_CAP[PFS] must be non-zero, but
+                                                                 CNXXXX requests never uses phantom functions. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 Larger sizes are not supported by CNXXXX.
+
+                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
+                                                                 functionality. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](R/W) Nonfatal error reporting enable. */
+        uint32_t ce_en                 : 1;  /**< [  0:  0](R/W) Correctable error reporting enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t ce_en                 : 1;  /**< [  0:  0](R/W) Correctable error reporting enable. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](R/W) Nonfatal error reporting enable. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 Larger sizes are not supported by CNXXXX.
+
+                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
+                                                                 functionality. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable.
+
+                                                                 To write this bit, PCIERC_DEV_CAP[PFS] must be non-zero, but
+                                                                 CNXXXX requests never uses phantom functions. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W) AUX power PM enable. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
+                                                                 0x0 =128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 0x4 = 2048 bytes.
+                                                                 0x5 = 4096 bytes. */
+        uint32_t reserved_15           : 1;
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIERC_COR_ERR_STAT, for example, a replay timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIERC_UCOR_ERR_MSK that has a
+                                                                 severity set to nonfatal and meets the advisory nonfatal criteria, which most ECRC errors should. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](R/W1C/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to Nonfatal and does
+                                                                 not meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](R/W1C/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to fatal. Malformed
+                                                                 TLPs generally fit into this category. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](R/W1C/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. [UR_D] occurs when PEM receives
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so [UR_D] should cause
+                                                                 [NFE_D]. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) AUX power detected. Set to one if AUX power detected. */
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO) Transaction pending. Hardwired to zero. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dev_ctl_s cn; */
+};
+typedef union cavm_pciercx_dev_ctl cavm_pciercx_dev_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_DEV_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DEV_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x78 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DEV_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DEV_CTL(a) cavm_pciercx_dev_ctl_t
+#define bustype_CAVM_PCIERCX_DEV_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DEV_CTL(a) "PCIERCX_DEV_CTL"
+#define busnum_CAVM_PCIERCX_DEV_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_DEV_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dev_ctl2
+ *
+ * PCIe RC Device Control 2 Register/Device Status 2 Register
+ */
+union cavm_pciercx_dev_ctl2
+{
+    uint32_t u;
+    struct cavm_pciercx_dev_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not suppoted). */
+        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requester enabled (not supported). */
+        uint32_t reserved_11           : 1;
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s (not supported).
+                                                                 0xE = 17 s to 64 s (not supported).
+
+                                                                 Values not defined are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s (not supported).
+                                                                 0xE = 17 s to 64 s (not supported).
+
+                                                                 Values not defined are reserved. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t reserved_11           : 1;
+        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requester enabled (not supported). */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not suppoted). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dev_ctl2_s cn; */
+};
+typedef union cavm_pciercx_dev_ctl2 cavm_pciercx_dev_ctl2_t;
+
+static inline uint64_t CAVM_PCIERCX_DEV_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DEV_CTL2(uint64_t a)
+{
+    if (a<=3)
+        return 0x98 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DEV_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DEV_CTL2(a) cavm_pciercx_dev_ctl2_t
+#define bustype_CAVM_PCIERCX_DEV_CTL2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DEV_CTL2(a) "PCIERCX_DEV_CTL2"
+#define busnum_CAVM_PCIERCX_DEV_CTL2(a) (a)
+#define arguments_CAVM_PCIERCX_DEV_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dl_feature_cap
+ *
+ * PCIe RC Data Link Feature Capabilities Register
+ */
+union cavm_pciercx_dl_feature_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_dl_feature_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dl_fex_en             : 1;  /**< [ 31: 31](RO/WRSL) Data link feature exchange enable. */
+        uint32_t reserved_23_30        : 8;
+        uint32_t lfdlfs                : 22; /**< [ 22:  1](RO/WRSL) Local future data link feature supported. */
+        uint32_t lsfcs                 : 1;  /**< [  0:  0](RO/WRSL) Local scaled flow control supported, */
+#else /* Word 0 - Little Endian */
+        uint32_t lsfcs                 : 1;  /**< [  0:  0](RO/WRSL) Local scaled flow control supported, */
+        uint32_t lfdlfs                : 22; /**< [ 22:  1](RO/WRSL) Local future data link feature supported. */
+        uint32_t reserved_23_30        : 8;
+        uint32_t dl_fex_en             : 1;  /**< [ 31: 31](RO/WRSL) Data link feature exchange enable. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dl_feature_cap_s cn; */
+};
+typedef union cavm_pciercx_dl_feature_cap cavm_pciercx_dl_feature_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_DL_FEATURE_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DL_FEATURE_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x388 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DL_FEATURE_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DL_FEATURE_CAP(a) cavm_pciercx_dl_feature_cap_t
+#define bustype_CAVM_PCIERCX_DL_FEATURE_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DL_FEATURE_CAP(a) "PCIERCX_DL_FEATURE_CAP"
+#define busnum_CAVM_PCIERCX_DL_FEATURE_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_DL_FEATURE_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dl_feature_ext_hdr
+ *
+ * PCIe RC Data Link Feature Extended Capability Header Register
+ */
+union cavm_pciercx_dl_feature_ext_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_dl_feature_ext_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dl_feature_ext_hdr_s cn; */
+};
+typedef union cavm_pciercx_dl_feature_ext_hdr cavm_pciercx_dl_feature_ext_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_DL_FEATURE_EXT_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DL_FEATURE_EXT_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x384 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DL_FEATURE_EXT_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DL_FEATURE_EXT_HDR(a) cavm_pciercx_dl_feature_ext_hdr_t
+#define bustype_CAVM_PCIERCX_DL_FEATURE_EXT_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DL_FEATURE_EXT_HDR(a) "PCIERCX_DL_FEATURE_EXT_HDR"
+#define busnum_CAVM_PCIERCX_DL_FEATURE_EXT_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_DL_FEATURE_EXT_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_dl_feature_status
+ *
+ * PCIe RC Data Link Feature Status Register
+ */
+union cavm_pciercx_dl_feature_status
+{
+    uint32_t u;
+    struct cavm_pciercx_dl_feature_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dlfsv                 : 1;  /**< [ 31: 31](RO) Remote data link feature supported valid. */
+        uint32_t reserved_23_30        : 8;
+        uint32_t rdlfs                 : 23; /**< [ 22:  0](RO/H) Features Currently defined are: Bit 0 - Remote Scaled Flow Control Supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t rdlfs                 : 23; /**< [ 22:  0](RO/H) Features Currently defined are: Bit 0 - Remote Scaled Flow Control Supported. */
+        uint32_t reserved_23_30        : 8;
+        uint32_t dlfsv                 : 1;  /**< [ 31: 31](RO) Remote data link feature supported valid. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dl_feature_status_s cn; */
+};
+typedef union cavm_pciercx_dl_feature_status cavm_pciercx_dl_feature_status_t;
+
+static inline uint64_t CAVM_PCIERCX_DL_FEATURE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_DL_FEATURE_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x38c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_DL_FEATURE_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_DL_FEATURE_STATUS(a) cavm_pciercx_dl_feature_status_t
+#define bustype_CAVM_PCIERCX_DL_FEATURE_STATUS(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_DL_FEATURE_STATUS(a) "PCIERCX_DL_FEATURE_STATUS"
+#define busnum_CAVM_PCIERCX_DL_FEATURE_STATUS(a) (a)
+#define arguments_CAVM_PCIERCX_DL_FEATURE_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_e_cap_list
+ *
+ * PCIe RC PCIe Capabilities/PCIe Capabilities List Register
+ */
+union cavm_pciercx_e_cap_list
+{
+    uint32_t u;
+    struct cavm_pciercx_e_cap_list_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t imn                   : 5;  /**< [ 29: 25](RO/WRSL) Interrupt message number. Updated by hardware, writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t si                    : 1;  /**< [ 24: 24](RO/WRSL) Slot implemented. This bit is writable through PEM()_CFG_TBL(). */
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device port type. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCI Express capability version. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCI Express capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCI Express capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Writable through PEM()_CFG_TBL(). */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCI Express capability version. */
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device port type. */
+        uint32_t si                    : 1;  /**< [ 24: 24](RO/WRSL) Slot implemented. This bit is writable through PEM()_CFG_TBL(). */
+        uint32_t imn                   : 5;  /**< [ 29: 25](RO/WRSL) Interrupt message number. Updated by hardware, writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_e_cap_list_s cn; */
+};
+typedef union cavm_pciercx_e_cap_list cavm_pciercx_e_cap_list_t;
+
+static inline uint64_t CAVM_PCIERCX_E_CAP_LIST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_E_CAP_LIST(uint64_t a)
+{
+    if (a<=3)
+        return 0x70 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_E_CAP_LIST", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_E_CAP_LIST(a) cavm_pciercx_e_cap_list_t
+#define bustype_CAVM_PCIERCX_E_CAP_LIST(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_E_CAP_LIST(a) "PCIERCX_E_CAP_LIST"
+#define busnum_CAVM_PCIERCX_E_CAP_LIST(a) (a)
+#define arguments_CAVM_PCIERCX_E_CAP_LIST(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ea_cap_hdr
+ *
+ * PCIe RC Enhanced Allocation Capability ID Register
+ */
+union cavm_pciercx_ea_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ea_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ea_rsvd               : 10; /**< [ 31: 22](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t num_entries           : 6;  /**< [ 21: 16](RO/WRSL) Number of entries following the first DW of the capability.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t eacid                 : 8;  /**< [  7:  0](RO/WRSL) Enhanced allocation capability ID.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t eacid                 : 8;  /**< [  7:  0](RO/WRSL) Enhanced allocation capability ID.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t num_entries           : 6;  /**< [ 21: 16](RO/WRSL) Number of entries following the first DW of the capability.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd               : 10; /**< [ 31: 22](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ea_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_ea_cap_hdr cavm_pciercx_ea_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_EA_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EA_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x50 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EA_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EA_CAP_HDR(a) cavm_pciercx_ea_cap_hdr_t
+#define bustype_CAVM_PCIERCX_EA_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EA_CAP_HDR(a) "PCIERCX_EA_CAP_HDR"
+#define busnum_CAVM_PCIERCX_EA_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_EA_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ea_entry0
+ *
+ * PCIe RC Enhanced Allocation Capability Second DW Register
+ */
+union cavm_pciercx_ea_entry0
+{
+    uint32_t u;
+    struct cavm_pciercx_ea_entry0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ea_rsvd               : 16; /**< [ 31: 16](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t fixed_subnum          : 8;  /**< [ 15:  8](RO/WRSL) Fixed subordinate bus number.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t fixed_secnum          : 8;  /**< [  7:  0](RO/WRSL) Fixed secondary bus number.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t fixed_secnum          : 8;  /**< [  7:  0](RO/WRSL) Fixed secondary bus number.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t fixed_subnum          : 8;  /**< [ 15:  8](RO/WRSL) Fixed subordinate bus number.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd               : 16; /**< [ 31: 16](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ea_entry0_s cn; */
+};
+typedef union cavm_pciercx_ea_entry0 cavm_pciercx_ea_entry0_t;
+
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY0(uint64_t a)
+{
+    if (a<=3)
+        return 0x54 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EA_ENTRY0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EA_ENTRY0(a) cavm_pciercx_ea_entry0_t
+#define bustype_CAVM_PCIERCX_EA_ENTRY0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EA_ENTRY0(a) "PCIERCX_EA_ENTRY0"
+#define busnum_CAVM_PCIERCX_EA_ENTRY0(a) (a)
+#define arguments_CAVM_PCIERCX_EA_ENTRY0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ea_entry1
+ *
+ * PCIe RC Enhanced Allocation Entry 0 First DW Register
+ */
+union cavm_pciercx_ea_entry1
+{
+    uint32_t u;
+    struct cavm_pciercx_ea_entry1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ena                   : 1;  /**< [ 31: 31](RO/WRSL) Enable for this entry.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t wr                    : 1;  /**< [ 30: 30](RO/WRSL) Writable.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd_1             : 6;  /**< [ 29: 24](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t sprop                 : 8;  /**< [ 23: 16](RO/WRSL) Secondary properties.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t pprop                 : 8;  /**< [ 15:  8](RO/WRSL) Primary properties.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t bei                   : 4;  /**< [  7:  4](RO/WRSL) Bar equivalent indicator.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd_0             : 1;  /**< [  3:  3](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t esize                 : 3;  /**< [  2:  0](RO/WRSL) Entry size - the number of DW following the initial DW in this entry.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t esize                 : 3;  /**< [  2:  0](RO/WRSL) Entry size - the number of DW following the initial DW in this entry.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd_0             : 1;  /**< [  3:  3](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t bei                   : 4;  /**< [  7:  4](RO/WRSL) Bar equivalent indicator.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t pprop                 : 8;  /**< [ 15:  8](RO/WRSL) Primary properties.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t sprop                 : 8;  /**< [ 23: 16](RO/WRSL) Secondary properties.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd_1             : 6;  /**< [ 29: 24](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t wr                    : 1;  /**< [ 30: 30](RO/WRSL) Writable.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ena                   : 1;  /**< [ 31: 31](RO/WRSL) Enable for this entry.  This field is writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ea_entry1_s cn; */
+};
+typedef union cavm_pciercx_ea_entry1 cavm_pciercx_ea_entry1_t;
+
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY1(uint64_t a)
+{
+    if (a<=3)
+        return 0x58 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EA_ENTRY1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EA_ENTRY1(a) cavm_pciercx_ea_entry1_t
+#define bustype_CAVM_PCIERCX_EA_ENTRY1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EA_ENTRY1(a) "PCIERCX_EA_ENTRY1"
+#define busnum_CAVM_PCIERCX_EA_ENTRY1(a) (a)
+#define arguments_CAVM_PCIERCX_EA_ENTRY1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ea_entry2
+ *
+ * PCIe RC Enhanced Allocation Entry 0 Lower Base Register
+ */
+union cavm_pciercx_ea_entry2
+{
+    uint32_t u;
+    struct cavm_pciercx_ea_entry2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbase                 : 30; /**< [ 31:  2](RO/WRSL) Lower base. This field is writable through PEM()_CFG_TBL(). */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t lbase                 : 30; /**< [ 31:  2](RO/WRSL) Lower base. This field is writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ea_entry2_s cn; */
+};
+typedef union cavm_pciercx_ea_entry2 cavm_pciercx_ea_entry2_t;
+
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY2(uint64_t a)
+{
+    if (a<=3)
+        return 0x5c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EA_ENTRY2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EA_ENTRY2(a) cavm_pciercx_ea_entry2_t
+#define bustype_CAVM_PCIERCX_EA_ENTRY2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EA_ENTRY2(a) "PCIERCX_EA_ENTRY2"
+#define busnum_CAVM_PCIERCX_EA_ENTRY2(a) (a)
+#define arguments_CAVM_PCIERCX_EA_ENTRY2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ea_entry3
+ *
+ * PCIe RC Enhanced Allocation Entry 0 Max Offset Register
+ */
+union cavm_pciercx_ea_entry3
+{
+    uint32_t u;
+    struct cavm_pciercx_ea_entry3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_TBL().
+                                                                 Internal:
+                                                                 This is the offset to cover PEMRC BAR4 0xfffff & 0xffffc \>\>2 */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_TBL(). */
+        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_TBL().
+                                                                 Internal:
+                                                                 This is the offset to cover PEMRC BAR4 0xfffff & 0xffffc \>\>2 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ea_entry3_s cn; */
+};
+typedef union cavm_pciercx_ea_entry3 cavm_pciercx_ea_entry3_t;
+
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY3(uint64_t a)
+{
+    if (a<=3)
+        return 0x60 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EA_ENTRY3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EA_ENTRY3(a) cavm_pciercx_ea_entry3_t
+#define bustype_CAVM_PCIERCX_EA_ENTRY3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EA_ENTRY3(a) "PCIERCX_EA_ENTRY3"
+#define busnum_CAVM_PCIERCX_EA_ENTRY3(a) (a)
+#define arguments_CAVM_PCIERCX_EA_ENTRY3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ea_entry4
+ *
+ * PCIe RC Enhanced Allocation Entry 0 Upper Base Register
+ */
+union cavm_pciercx_ea_entry4
+{
+    uint32_t u;
+    struct cavm_pciercx_ea_entry4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_TBL().
+                                                                 Internal:
+                                                                 This is the upper 32 bits of PEM_BAR_E::PEM()_PF_BAR0 */
+#else /* Word 0 - Little Endian */
+        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_TBL().
+                                                                 Internal:
+                                                                 This is the upper 32 bits of PEM_BAR_E::PEM()_PF_BAR0 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ea_entry4_s cn; */
+};
+typedef union cavm_pciercx_ea_entry4 cavm_pciercx_ea_entry4_t;
+
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EA_ENTRY4(uint64_t a)
+{
+    if (a<=3)
+        return 0x64 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EA_ENTRY4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EA_ENTRY4(a) cavm_pciercx_ea_entry4_t
+#define bustype_CAVM_PCIERCX_EA_ENTRY4(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EA_ENTRY4(a) "PCIERCX_EA_ENTRY4"
+#define busnum_CAVM_PCIERCX_EA_ENTRY4(a) (a)
+#define arguments_CAVM_PCIERCX_EA_ENTRY4(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ebar
+ *
+ * PCIe RC Expansion ROM Base Address Register
+ */
+union cavm_pciercx_ebar
+{
+    uint32_t u;
+    struct cavm_pciercx_ebar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL/H) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t unused                : 32; /**< [ 31:  0](RO/WRSL/H) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ebar_s cn; */
+};
+typedef union cavm_pciercx_ebar cavm_pciercx_ebar_t;
+
+static inline uint64_t CAVM_PCIERCX_EBAR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EBAR(uint64_t a)
+{
+    if (a<=3)
+        return 0x38 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EBAR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EBAR(a) cavm_pciercx_ebar_t
+#define bustype_CAVM_PCIERCX_EBAR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EBAR(a) "PCIERCX_EBAR"
+#define busnum_CAVM_PCIERCX_EBAR(a) (a)
+#define arguments_CAVM_PCIERCX_EBAR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl01
+ *
+ * PCIe RC Equalization Control Lane 0/1 Register
+ */
+union cavm_pciercx_eq_ctl01
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl01_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 0 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l0drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 0 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l0utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 0 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l0urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 0 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l1dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 1 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l1drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 1 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l1utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 1 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l1urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 1 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl01_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl01 cavm_pciercx_eq_ctl01_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL01(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL01(uint64_t a)
+{
+    if (a<=3)
+        return 0x174 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL01", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL01(a) cavm_pciercx_eq_ctl01_t
+#define bustype_CAVM_PCIERCX_EQ_CTL01(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL01(a) "PCIERCX_EQ_CTL01"
+#define busnum_CAVM_PCIERCX_EQ_CTL01(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL01(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl23
+ *
+ * PCIe RC Equalization Control Lane 2/3 Register
+ */
+union cavm_pciercx_eq_ctl23
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl23_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). How */
+        uint32_t reserved_7            : 1;
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). How */
+        uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l3drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 3 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l3utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 3 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l3urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 3 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl23_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl23 cavm_pciercx_eq_ctl23_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL23(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL23(uint64_t a)
+{
+    if (a<=3)
+        return 0x178 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL23", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL23(a) cavm_pciercx_eq_ctl23_t
+#define bustype_CAVM_PCIERCX_EQ_CTL23(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL23(a) "PCIERCX_EQ_CTL23"
+#define busnum_CAVM_PCIERCX_EQ_CTL23(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL23(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_err_source
+ *
+ * PCIe RC Error Source Identification Register
+ */
+union cavm_pciercx_err_source
+{
+    uint32_t u;
+    struct cavm_pciercx_err_source_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t efnfsi                : 16; /**< [ 31: 16](RO/H) ERR_FATAL/NONFATAL source identification. */
+        uint32_t ecsi                  : 16; /**< [ 15:  0](RO/H) ERR_COR source identification. */
+#else /* Word 0 - Little Endian */
+        uint32_t ecsi                  : 16; /**< [ 15:  0](RO/H) ERR_COR source identification. */
+        uint32_t efnfsi                : 16; /**< [ 31: 16](RO/H) ERR_FATAL/NONFATAL source identification. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_err_source_s cn; */
+};
+typedef union cavm_pciercx_err_source cavm_pciercx_err_source_t;
+
+static inline uint64_t CAVM_PCIERCX_ERR_SOURCE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ERR_SOURCE(uint64_t a)
+{
+    if (a<=3)
+        return 0x134 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ERR_SOURCE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ERR_SOURCE(a) cavm_pciercx_err_source_t
+#define bustype_CAVM_PCIERCX_ERR_SOURCE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ERR_SOURCE(a) "PCIERCX_ERR_SOURCE"
+#define busnum_CAVM_PCIERCX_ERR_SOURCE(a) (a)
+#define arguments_CAVM_PCIERCX_ERR_SOURCE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ext_cap
+ *
+ * PCIe RC PCI Express Extended Capability Header Register
+ */
+union cavm_pciercx_ext_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_ext_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ext_cap_s cn; */
+};
+typedef union cavm_pciercx_ext_cap cavm_pciercx_ext_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_EXT_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EXT_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x100 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_EXT_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EXT_CAP(a) cavm_pciercx_ext_cap_t
+#define bustype_CAVM_PCIERCX_EXT_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EXT_CAP(a) "PCIERCX_EXT_CAP"
+#define busnum_CAVM_PCIERCX_EXT_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_EXT_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_filt_msk2
+ *
+ * PCIe RC Filter Mask Register 2
+ */
+union cavm_pciercx_filt_msk2
+{
+    uint32_t u;
+    struct cavm_pciercx_filt_msk2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Disable unmask TD bit. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Disable unmask UR Poison with TRGT0 destination. */
+        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
+        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
+        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
+        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) Mask vendor MSG type 1 dropped silently. */
+        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) Mask vendor MSG type 0 dropped with UR error reporting. */
+#else /* Word 0 - Little Endian */
+        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) Mask vendor MSG type 0 dropped with UR error reporting. */
+        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) Mask vendor MSG type 1 dropped silently. */
+        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
+        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
+        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Disable unmask UR Poison with TRGT0 destination. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Disable unmask TD bit. */
+        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_filt_msk2_s cn; */
+};
+typedef union cavm_pciercx_filt_msk2 cavm_pciercx_filt_msk2_t;
+
+static inline uint64_t CAVM_PCIERCX_FILT_MSK2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_FILT_MSK2(uint64_t a)
+{
+    if (a<=3)
+        return 0x720 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_FILT_MSK2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_FILT_MSK2(a) cavm_pciercx_filt_msk2_t
+#define bustype_CAVM_PCIERCX_FILT_MSK2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_FILT_MSK2(a) "PCIERCX_FILT_MSK2"
+#define busnum_CAVM_PCIERCX_FILT_MSK2(a) (a)
+#define arguments_CAVM_PCIERCX_FILT_MSK2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_gen2_port
+ *
+ * PCIe RC Gen2 Port Logic Register
+ */
+union cavm_pciercx_gen2_port
+{
+    uint32_t u;
+    struct cavm_pciercx_gen2_port_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mod_ts_en             : 1;  /**< [ 31: 31](RO/WRSL) Enable the controller to send the Modified TS OS if both sides of
+                                                                 the link agree. */
+        uint32_t force_lflip           : 1;  /**< [ 30: 30](R/W) Enable to force LANE_UTEST physical lane flips to logical
+                                                                 lane 0.  All the other physical lanes are turned off.
+                                                                 The PCIERC_PORT_CTL[LME] must be set to 0x1. */
+        uint32_t tx_mcmpl_pat_for_lpbk : 1;  /**< [ 29: 29](R/W) Require Loopback slave to transmit Modified Compliance
+                                                                 Pattern in Loopback.Active state at Gen5 rate. */
+        uint32_t eq_for_lpbk           : 1;  /**< [ 28: 28](R/W) Perform EQ in Loopback in Gen5 rate.
+                                                                 Loopback master enters Loopback.Active only because
+                                                                 of receiving 2 TS1s with Loopback but asserted. */
+        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane selct for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 0x3 = Lane3.
+                                                                 0x4-0xF = Reserved. */
+        uint32_t sel_deemph_bit        : 1;  /**< [ 23: 23](R/W) The select deemphasis bit (Symbol 4 bit 6) of the
+                                                                 transmitted TS2 Ordered Sets for DSP in Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = from PCIERC_LINK_CTL2[SDE].
+                                                                  1 = Requested by Upstream Port in Recovery.RcvrLock state. */
+        uint32_t sel_deemph_var        : 1;  /**< [ 22: 22](R/W) The select deemphasis variable for DSP on entry to Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = Requested by Upstream Port in Recovery.RcvrLock state.
+                                                                  1 = from PCIERC_LINK_CTL2[SDE]. */
+        uint32_t gen1_ei_inf           : 1;  /**< [ 21: 21](R/W) Electrical idle inference mode at Gen1 Rate. Programmable mode to determine
+                                                                 inferred electrical idle (EI) in Recovery.Speed or Loopback.Active (as slave)
+                                                                 state at Gen1 speed by looking for a one value on RxElecIdle instead of looking
+                                                                 for a zero on RxValid. If the PHY fails to deassert the RxValid signal in
+                                                                 Recovery.Speed or Loopback.Active (because of corrupted EIOS for example),
+                                                                 then EI cannot be inferred successfully in the controller by just detecting the
+                                                                 condition RxValid=0.
+                                                                   0 = Use RxElecIdle signal to infer electrical idle.
+                                                                   1 = Use RxValid signal to infer electrical idle. */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) Set the deemphasis level for upstream ports.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to one, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to one). */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to one,
+                                                                 indicates low swing. When set to 0, indicates full swing. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of one initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+
+                                                                 When non-zero, this field is used to restrict the receiver detect
+                                                                 procedure to a particular lane when the default detect and polling
+                                                                 procedure performed on all lanes cannot be successful. A notable
+                                                                 example of when it is useful to program this field to a value
+                                                                 different from the default, is when a lane is asymmetrically
+                                                                 broken, that is, it is detected in Detect LTSSM state but it
+                                                                 cannot exit Electrical Idle in Polling LTSSM state.
+
+                                                                   0x0 = Connect logical Lane0 to physical lane 0 or lane 15,7,3,1
+                                                                         depending on which lane is detected.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes.
+                                                                 0x3 = 3 lanes.
+                                                                 0x4 = 4 lanes.
+                                                                 0x5-0x1F = Reserved.
+
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIERC_PORT_CTL[LME]. */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
+#else /* Word 0 - Little Endian */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes.
+                                                                 0x3 = 3 lanes.
+                                                                 0x4 = 4 lanes.
+                                                                 0x5-0x1F = Reserved.
+
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIERC_PORT_CTL[LME]. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+
+                                                                 When non-zero, this field is used to restrict the receiver detect
+                                                                 procedure to a particular lane when the default detect and polling
+                                                                 procedure performed on all lanes cannot be successful. A notable
+                                                                 example of when it is useful to program this field to a value
+                                                                 different from the default, is when a lane is asymmetrically
+                                                                 broken, that is, it is detected in Detect LTSSM state but it
+                                                                 cannot exit Electrical Idle in Polling LTSSM state.
+
+                                                                   0x0 = Connect logical Lane0 to physical lane 0 or lane 15,7,3,1
+                                                                         depending on which lane is detected.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of one initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to one,
+                                                                 indicates low swing. When set to 0, indicates full swing. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to one, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to one). */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) Set the deemphasis level for upstream ports.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB. */
+        uint32_t gen1_ei_inf           : 1;  /**< [ 21: 21](R/W) Electrical idle inference mode at Gen1 Rate. Programmable mode to determine
+                                                                 inferred electrical idle (EI) in Recovery.Speed or Loopback.Active (as slave)
+                                                                 state at Gen1 speed by looking for a one value on RxElecIdle instead of looking
+                                                                 for a zero on RxValid. If the PHY fails to deassert the RxValid signal in
+                                                                 Recovery.Speed or Loopback.Active (because of corrupted EIOS for example),
+                                                                 then EI cannot be inferred successfully in the controller by just detecting the
+                                                                 condition RxValid=0.
+                                                                   0 = Use RxElecIdle signal to infer electrical idle.
+                                                                   1 = Use RxValid signal to infer electrical idle. */
+        uint32_t sel_deemph_var        : 1;  /**< [ 22: 22](R/W) The select deemphasis variable for DSP on entry to Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = Requested by Upstream Port in Recovery.RcvrLock state.
+                                                                  1 = from PCIERC_LINK_CTL2[SDE]. */
+        uint32_t sel_deemph_bit        : 1;  /**< [ 23: 23](R/W) The select deemphasis bit (Symbol 4 bit 6) of the
+                                                                 transmitted TS2 Ordered Sets for DSP in Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = from PCIERC_LINK_CTL2[SDE].
+                                                                  1 = Requested by Upstream Port in Recovery.RcvrLock state. */
+        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane selct for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 0x3 = Lane3.
+                                                                 0x4-0xF = Reserved. */
+        uint32_t eq_for_lpbk           : 1;  /**< [ 28: 28](R/W) Perform EQ in Loopback in Gen5 rate.
+                                                                 Loopback master enters Loopback.Active only because
+                                                                 of receiving 2 TS1s with Loopback but asserted. */
+        uint32_t tx_mcmpl_pat_for_lpbk : 1;  /**< [ 29: 29](R/W) Require Loopback slave to transmit Modified Compliance
+                                                                 Pattern in Loopback.Active state at Gen5 rate. */
+        uint32_t force_lflip           : 1;  /**< [ 30: 30](R/W) Enable to force LANE_UTEST physical lane flips to logical
+                                                                 lane 0.  All the other physical lanes are turned off.
+                                                                 The PCIERC_PORT_CTL[LME] must be set to 0x1. */
+        uint32_t mod_ts_en             : 1;  /**< [ 31: 31](RO/WRSL) Enable the controller to send the Modified TS OS if both sides of
+                                                                 the link agree. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_gen2_port_s cn; */
+};
+typedef union cavm_pciercx_gen2_port cavm_pciercx_gen2_port_t;
+
+static inline uint64_t CAVM_PCIERCX_GEN2_PORT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_GEN2_PORT(uint64_t a)
+{
+    if (a<=3)
+        return 0x80c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_GEN2_PORT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_GEN2_PORT(a) cavm_pciercx_gen2_port_t
+#define bustype_CAVM_PCIERCX_GEN2_PORT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_GEN2_PORT(a) "PCIERCX_GEN2_PORT"
+#define busnum_CAVM_PCIERCX_GEN2_PORT(a) (a)
+#define arguments_CAVM_PCIERCX_GEN2_PORT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_gen3_eq_ctl
+ *
+ * PCIe RC Gen3 EQ Control Register
+ */
+union cavm_pciercx_gen3_eq_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_gen3_eq_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_27_31        : 5;
+        uint32_t scefpm                : 1;  /**< [ 26: 26](R/W) Request core to send back-to-back EIEOS in Recovery.RcvrLock state until
+                                                                 presets to coefficient mapping is complete. */
+        uint32_t eq_pset_req           : 1;  /**< [ 25: 25](R/W) Reserved. */
+        uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
+                                                                 performed in the EQ master, when finding the highest FOM among all preset evaluations. */
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
+                                                                 phase. Encoding scheme as follows:
+
+                                                                 Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
+
+                                                                 Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
+
+                                                                 _ 0b0000000000000000 = No preset req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxxxxx1 = Preset 0 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxxxx1x = Preset 1 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxxx1xx = Preset 2 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxx1xxx = Preset 3 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxx1xxxx = Preset 4 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxx1xxxxx = Preset 5 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxx1xxxxxx = Preset 6 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxx1xxxxxxx = Preset 7 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xx1xxxxxxxx = Preset 8 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000x1xxxxxxxxx = Preset 9 req/evaluated in EQ master phase.
+
+                                                                 _ 0b000001xxxxxxxxxx = Preset 10 req/evaluated in EQ master phase.
+
+                                                                 _ All other encodings = Reserved. */
+        uint32_t reserved_7            : 1;
+        uint32_t eq_redo_en            : 1;  /**< [  6:  6](R/W) Support EQ redo and lower rate change. */
+        uint32_t p23td                 : 1;  /**< [  5:  5](R/W) Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
+                                                                 the PHY does not respond within 2 ms to the assertion of RxEqEval:
+                                                                 0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
+                                                                 settings. Phase2 will be terminated by the 24 ms timeout.
+                                                                 1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
+                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
+        uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
+
+                                                                 For a USP: determine the next LTSSM state from Phase2:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.Phase3.
+
+                                                                 For a DSP: determine the next LTSSM state from Phase3:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.RcrLock.
+
+                                                                 When optimal settings are not found:
+                                                                 * Equalization phase 3 successful status bit is not set in the link status register.
+                                                                 * Equalization phase 3 complete status bit is set in the link status register. */
+        uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
+                                                                 0 = Direction of change.
+                                                                 1 = Figure of merit.
+                                                                 2-15 = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
+                                                                 0 = Direction of change.
+                                                                 1 = Figure of merit.
+                                                                 2-15 = Reserved. */
+        uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
+
+                                                                 For a USP: determine the next LTSSM state from Phase2:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.Phase3.
+
+                                                                 For a DSP: determine the next LTSSM state from Phase3:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.RcrLock.
+
+                                                                 When optimal settings are not found:
+                                                                 * Equalization phase 3 successful status bit is not set in the link status register.
+                                                                 * Equalization phase 3 complete status bit is set in the link status register. */
+        uint32_t p23td                 : 1;  /**< [  5:  5](R/W) Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
+                                                                 the PHY does not respond within 2 ms to the assertion of RxEqEval:
+                                                                 0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
+                                                                 settings. Phase2 will be terminated by the 24 ms timeout.
+                                                                 1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
+                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
+        uint32_t eq_redo_en            : 1;  /**< [  6:  6](R/W) Support EQ redo and lower rate change. */
+        uint32_t reserved_7            : 1;
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
+                                                                 phase. Encoding scheme as follows:
+
+                                                                 Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
+
+                                                                 Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
+
+                                                                 _ 0b0000000000000000 = No preset req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxxxxx1 = Preset 0 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxxxx1x = Preset 1 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxxx1xx = Preset 2 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxxx1xxx = Preset 3 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxxx1xxxx = Preset 4 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxxx1xxxxx = Preset 5 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxxx1xxxxxx = Preset 6 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xxx1xxxxxxx = Preset 7 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000xx1xxxxxxxx = Preset 8 req/evaluated in EQ master phase.
+
+                                                                 _ 0b00000x1xxxxxxxxx = Preset 9 req/evaluated in EQ master phase.
+
+                                                                 _ 0b000001xxxxxxxxxx = Preset 10 req/evaluated in EQ master phase.
+
+                                                                 _ All other encodings = Reserved. */
+        uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
+                                                                 performed in the EQ master, when finding the highest FOM among all preset evaluations. */
+        uint32_t eq_pset_req           : 1;  /**< [ 25: 25](R/W) Reserved. */
+        uint32_t scefpm                : 1;  /**< [ 26: 26](R/W) Request core to send back-to-back EIEOS in Recovery.RcvrLock state until
+                                                                 presets to coefficient mapping is complete. */
+        uint32_t reserved_27_31        : 5;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_gen3_eq_ctl_s cn; */
+};
+typedef union cavm_pciercx_gen3_eq_ctl cavm_pciercx_gen3_eq_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_GEN3_EQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_GEN3_EQ_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x8a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_GEN3_EQ_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_GEN3_EQ_CTL(a) cavm_pciercx_gen3_eq_ctl_t
+#define bustype_CAVM_PCIERCX_GEN3_EQ_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_GEN3_EQ_CTL(a) "PCIERCX_GEN3_EQ_CTL"
+#define busnum_CAVM_PCIERCX_GEN3_EQ_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_GEN3_EQ_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_gen3_pipe_lb
+ *
+ * PCIe RC Gen3 PIPE Loopback Register
+ */
+union cavm_pciercx_gen3_pipe_lb
+{
+    uint32_t u;
+    struct cavm_pciercx_gen3_pipe_lb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
+        uint32_t reserved_27_30        : 4;
+        uint32_t rx_stat               : 3;  /**< [ 26: 24](RO) Reserved. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t rxstat_ln             : 6;  /**< [ 21: 16](R/W) Reserved. */
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane). */
+#else /* Word 0 - Little Endian */
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane). */
+        uint32_t rxstat_ln             : 6;  /**< [ 21: 16](R/W) Reserved. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t rx_stat               : 3;  /**< [ 26: 24](RO) Reserved. */
+        uint32_t reserved_27_30        : 4;
+        uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_gen3_pipe_lb_s cn; */
+};
+typedef union cavm_pciercx_gen3_pipe_lb cavm_pciercx_gen3_pipe_lb_t;
+
+static inline uint64_t CAVM_PCIERCX_GEN3_PIPE_LB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_GEN3_PIPE_LB(uint64_t a)
+{
+    if (a<=3)
+        return 0x8b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_GEN3_PIPE_LB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_GEN3_PIPE_LB(a) cavm_pciercx_gen3_pipe_lb_t
+#define bustype_CAVM_PCIERCX_GEN3_PIPE_LB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_GEN3_PIPE_LB(a) "PCIERCX_GEN3_PIPE_LB"
+#define busnum_CAVM_PCIERCX_GEN3_PIPE_LB(a) (a)
+#define arguments_CAVM_PCIERCX_GEN3_PIPE_LB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_gen4_lane_margining_1
+ *
+ * PCIe RC Gen4 Lane Marginging Register 1
+ */
+union cavm_pciercx_gen4_lane_margining_1
+{
+    uint32_t u;
+    struct cavm_pciercx_gen4_lane_margining_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver (Not supported). */
+        uint32_t reserved_23           : 1;
+        uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver (Not supported). */
+#else /* Word 0 - Little Endian */
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver (Not supported). */
+        uint32_t reserved_6_7          : 2;
+        uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
+        uint32_t reserved_23           : 1;
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver (Not supported). */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_gen4_lane_margining_1_s cn; */
+};
+typedef union cavm_pciercx_gen4_lane_margining_1 cavm_pciercx_gen4_lane_margining_1_t;
+
+static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_1(uint64_t a)
+{
+    if (a<=3)
+        return 0xb80 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_GEN4_LANE_MARGINING_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_GEN4_LANE_MARGINING_1(a) cavm_pciercx_gen4_lane_margining_1_t
+#define bustype_CAVM_PCIERCX_GEN4_LANE_MARGINING_1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_GEN4_LANE_MARGINING_1(a) "PCIERCX_GEN4_LANE_MARGINING_1"
+#define busnum_CAVM_PCIERCX_GEN4_LANE_MARGINING_1(a) (a)
+#define arguments_CAVM_PCIERCX_GEN4_LANE_MARGINING_1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_gen4_lane_margining_2
+ *
+ * PCIe RC Gen4 Lane Margining Register 2
+ */
+union cavm_pciercx_gen4_lane_margining_2
+{
+    uint32_t u;
+    struct cavm_pciercx_gen4_lane_margining_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver (Not supported). */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver (Not supported). */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver (not supported). */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver (Not supported). */
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver (Not supported). */
+        uint32_t reserved_21_23        : 3;
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t srv                   : 6;  /**< [  5:  0](R/W) Sample rate voltage for lane margining at the receiver. */
+#else /* Word 0 - Little Endian */
+        uint32_t srv                   : 6;  /**< [  5:  0](R/W) Sample rate voltage for lane margining at the receiver. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver (Not supported). */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver (Not supported). */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver (not supported). */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver (Not supported). */
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver (Not supported). */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_gen4_lane_margining_2_s cn; */
+};
+typedef union cavm_pciercx_gen4_lane_margining_2 cavm_pciercx_gen4_lane_margining_2_t;
+
+static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_2(uint64_t a)
+{
+    if (a<=3)
+        return 0xb84 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_GEN4_LANE_MARGINING_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) cavm_pciercx_gen4_lane_margining_2_t
+#define bustype_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) "PCIERCX_GEN4_LANE_MARGINING_2"
+#define busnum_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) (a)
+#define arguments_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_hdr_log1
+ *
+ * PCIe RC Header Log Register 1
+ * The header log registers collect the header for the TLP corresponding to a detected error.
+ */
+union cavm_pciercx_hdr_log1
+{
+    uint32_t u;
+    struct cavm_pciercx_hdr_log1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword1                : 32; /**< [ 31:  0](RO/H) Header log register (first DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword1                : 32; /**< [ 31:  0](RO/H) Header log register (first DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_hdr_log1_s cn; */
+};
+typedef union cavm_pciercx_hdr_log1 cavm_pciercx_hdr_log1_t;
+
+static inline uint64_t CAVM_PCIERCX_HDR_LOG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_HDR_LOG1(uint64_t a)
+{
+    if (a<=3)
+        return 0x11c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_HDR_LOG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_HDR_LOG1(a) cavm_pciercx_hdr_log1_t
+#define bustype_CAVM_PCIERCX_HDR_LOG1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_HDR_LOG1(a) "PCIERCX_HDR_LOG1"
+#define busnum_CAVM_PCIERCX_HDR_LOG1(a) (a)
+#define arguments_CAVM_PCIERCX_HDR_LOG1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_hdr_log2
+ *
+ * PCIe RC Header Log Register 2
+ * The header log registers collect the header for the TLP corresponding to a detected error.
+ */
+union cavm_pciercx_hdr_log2
+{
+    uint32_t u;
+    struct cavm_pciercx_hdr_log2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword2                : 32; /**< [ 31:  0](RO/H) Header log register (second DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword2                : 32; /**< [ 31:  0](RO/H) Header log register (second DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_hdr_log2_s cn; */
+};
+typedef union cavm_pciercx_hdr_log2 cavm_pciercx_hdr_log2_t;
+
+static inline uint64_t CAVM_PCIERCX_HDR_LOG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_HDR_LOG2(uint64_t a)
+{
+    if (a<=3)
+        return 0x120 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_HDR_LOG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_HDR_LOG2(a) cavm_pciercx_hdr_log2_t
+#define bustype_CAVM_PCIERCX_HDR_LOG2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_HDR_LOG2(a) "PCIERCX_HDR_LOG2"
+#define busnum_CAVM_PCIERCX_HDR_LOG2(a) (a)
+#define arguments_CAVM_PCIERCX_HDR_LOG2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_hdr_log3
+ *
+ * PCIe RC Header Log Register 3
+ * The header log registers collect the header for the TLP corresponding to a detected error.
+ */
+union cavm_pciercx_hdr_log3
+{
+    uint32_t u;
+    struct cavm_pciercx_hdr_log3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword3                : 32; /**< [ 31:  0](RO/H) Header log register (third DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword3                : 32; /**< [ 31:  0](RO/H) Header log register (third DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_hdr_log3_s cn; */
+};
+typedef union cavm_pciercx_hdr_log3 cavm_pciercx_hdr_log3_t;
+
+static inline uint64_t CAVM_PCIERCX_HDR_LOG3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_HDR_LOG3(uint64_t a)
+{
+    if (a<=3)
+        return 0x124 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_HDR_LOG3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_HDR_LOG3(a) cavm_pciercx_hdr_log3_t
+#define bustype_CAVM_PCIERCX_HDR_LOG3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_HDR_LOG3(a) "PCIERCX_HDR_LOG3"
+#define busnum_CAVM_PCIERCX_HDR_LOG3(a) (a)
+#define arguments_CAVM_PCIERCX_HDR_LOG3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_hdr_log4
+ *
+ * PCIe RC Header Log Register 4
+ * The header log registers collect the header for the TLP corresponding to a detected error.
+ */
+union cavm_pciercx_hdr_log4
+{
+    uint32_t u;
+    struct cavm_pciercx_hdr_log4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword4                : 32; /**< [ 31:  0](RO/H) Header log register (fourth DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword4                : 32; /**< [ 31:  0](RO/H) Header log register (fourth DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_hdr_log4_s cn; */
+};
+typedef union cavm_pciercx_hdr_log4 cavm_pciercx_hdr_log4_t;
+
+static inline uint64_t CAVM_PCIERCX_HDR_LOG4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_HDR_LOG4(uint64_t a)
+{
+    if (a<=3)
+        return 0x128 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_HDR_LOG4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_HDR_LOG4(a) cavm_pciercx_hdr_log4_t
+#define bustype_CAVM_PCIERCX_HDR_LOG4(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_HDR_LOG4(a) "PCIERCX_HDR_LOG4"
+#define busnum_CAVM_PCIERCX_HDR_LOG4(a) (a)
+#define arguments_CAVM_PCIERCX_HDR_LOG4(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_id
+ *
+ * PCIe RC Device ID and Vendor ID Register
+ */
+union cavm_pciercx_id
+{
+    uint32_t u;
+    struct cavm_pciercx_id_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for PCIERC, writable through PEM()_CFG_TBL().
+                                                                  Firmware must configure this field prior to starting the link.
+                                                                  _ \<15:8\> is typically set to the appropriate chip number, from the
+                                                                 FUS_FUSE_NUM_E::CHIP_TYPE() fuses, and as enumerated by PCC_PROD_E::CNXXXX.
+                                                                  _ \<7:0\> is typically set to PCC_DEV_IDL_E::PCIERC. */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Vendor ID, writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Vendor ID, writable through PEM()_CFG_TBL(). */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for PCIERC, writable through PEM()_CFG_TBL().
+                                                                  Firmware must configure this field prior to starting the link.
+                                                                  _ \<15:8\> is typically set to the appropriate chip number, from the
+                                                                 FUS_FUSE_NUM_E::CHIP_TYPE() fuses, and as enumerated by PCC_PROD_E::CNXXXX.
+                                                                  _ \<7:0\> is typically set to PCC_DEV_IDL_E::PCIERC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_id_s cn; */
+};
+typedef union cavm_pciercx_id cavm_pciercx_id_t;
+
+static inline uint64_t CAVM_PCIERCX_ID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ID(uint64_t a)
+{
+    if (a<=3)
+        return 0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ID(a) cavm_pciercx_id_t
+#define bustype_CAVM_PCIERCX_ID(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ID(a) "PCIERCX_ID"
+#define busnum_CAVM_PCIERCX_ID(a) (a)
+#define arguments_CAVM_PCIERCX_ID(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_int
+ *
+ * PCIe RC Interrupt Line Register/Interrupt Pin/Bridge Control Register
+ */
+union cavm_pciercx_int
+{
+    uint32_t u;
+    struct cavm_pciercx_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t dtsees                : 1;  /**< [ 27: 27](RO) Discard timer SERR enable status. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t dts                   : 1;  /**< [ 26: 26](RO) Discard timer status. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t sdt                   : 1;  /**< [ 25: 25](RO) Secondary discard timer. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t pdt                   : 1;  /**< [ 24: 24](RO) Primary discard timer. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t fbbe                  : 1;  /**< [ 23: 23](RO) Fast back-to-back transactions enable. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t sbrst                 : 1;  /**< [ 22: 22](R/W) Secondary bus reset. Hot reset. Causes TS1s with the hot reset bit to be sent to the link
+                                                                 partner. When set, software should wait 2 ms before clearing. The link partner normally
+                                                                 responds by sending TS1s with the hot reset bit set, which will cause a link down event.
+                                                                 Refer to 'PCIe Link-Down Reset in RC Mode' section. */
+        uint32_t mam                   : 1;  /**< [ 21: 21](RO) Master abort mode. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t vga16d                : 1;  /**< [ 20: 20](RO) VGA 16-bit decode. */
+        uint32_t vgae                  : 1;  /**< [ 19: 19](RO) VGA enable. */
+        uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
+        uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
+        uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
+                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_TBL(). */
+        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
+#else /* Word 0 - Little Endian */
+        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
+                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_TBL(). */
+        uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
+        uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
+        uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
+        uint32_t vgae                  : 1;  /**< [ 19: 19](RO) VGA enable. */
+        uint32_t vga16d                : 1;  /**< [ 20: 20](RO) VGA 16-bit decode. */
+        uint32_t mam                   : 1;  /**< [ 21: 21](RO) Master abort mode. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t sbrst                 : 1;  /**< [ 22: 22](R/W) Secondary bus reset. Hot reset. Causes TS1s with the hot reset bit to be sent to the link
+                                                                 partner. When set, software should wait 2 ms before clearing. The link partner normally
+                                                                 responds by sending TS1s with the hot reset bit set, which will cause a link down event.
+                                                                 Refer to 'PCIe Link-Down Reset in RC Mode' section. */
+        uint32_t fbbe                  : 1;  /**< [ 23: 23](RO) Fast back-to-back transactions enable. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t pdt                   : 1;  /**< [ 24: 24](RO) Primary discard timer. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t sdt                   : 1;  /**< [ 25: 25](RO) Secondary discard timer. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t dts                   : 1;  /**< [ 26: 26](RO) Discard timer status. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t dtsees                : 1;  /**< [ 27: 27](RO) Discard timer SERR enable status. Not applicable to PCI Express, hardwired to zero. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_int_s cn; */
+};
+typedef union cavm_pciercx_int cavm_pciercx_int_t;
+
+static inline uint64_t CAVM_PCIERCX_INT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_INT(uint64_t a)
+{
+    if (a<=3)
+        return 0x3c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_INT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_INT(a) cavm_pciercx_int_t
+#define bustype_CAVM_PCIERCX_INT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_INT(a) "PCIERCX_INT"
+#define busnum_CAVM_PCIERCX_INT(a) (a)
+#define arguments_CAVM_PCIERCX_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_iobasel
+ *
+ * PCIe RC I/O Base and I/O Limit/Secondary Status Register
+ */
+union cavm_pciercx_iobasel
+{
+    uint32_t u;
+    struct cavm_pciercx_iobasel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error */
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t reserved_22           : 1;
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t reserved_16_20        : 5;
+        uint32_t lio_limi              : 4;  /**< [ 15: 12](R/W) I/O space limit. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t io32b                 : 1;  /**< [  8:  8](RO/H) 32-bit I/O space.
+                                                                 This is a read-only copy of [IO32A]. */
+        uint32_t lio_base              : 4;  /**< [  7:  4](R/W) I/O space base. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t io32a                 : 1;  /**< [  0:  0](RO/WRSL) 32-bit I/O space.
+                                                                 0 = 16-bit I/O addressing.
+                                                                 1 = 32-bit I/O addressing.
+                                                                 This bit is writable through PEM()_CFG_TBL(). When the application writes to this bit
+                                                                 through PEM()_CFG_TBL(), the same value is written to [IO32B]. */
+#else /* Word 0 - Little Endian */
+        uint32_t io32a                 : 1;  /**< [  0:  0](RO/WRSL) 32-bit I/O space.
+                                                                 0 = 16-bit I/O addressing.
+                                                                 1 = 32-bit I/O addressing.
+                                                                 This bit is writable through PEM()_CFG_TBL(). When the application writes to this bit
+                                                                 through PEM()_CFG_TBL(), the same value is written to [IO32B]. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t lio_base              : 4;  /**< [  7:  4](R/W) I/O space base. */
+        uint32_t io32b                 : 1;  /**< [  8:  8](RO/H) 32-bit I/O space.
+                                                                 This is a read-only copy of [IO32A]. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t lio_limi              : 4;  /**< [ 15: 12](R/W) I/O space limit. */
+        uint32_t reserved_16_20        : 5;
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t reserved_22           : 1;
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to zero. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_iobasel_s cn; */
+};
+typedef union cavm_pciercx_iobasel cavm_pciercx_iobasel_t;
+
+static inline uint64_t CAVM_PCIERCX_IOBASEL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_IOBASEL(uint64_t a)
+{
+    if (a<=3)
+        return 0x1c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_IOBASEL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_IOBASEL(a) cavm_pciercx_iobasel_t
+#define bustype_CAVM_PCIERCX_IOBASEL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_IOBASEL(a) "PCIERCX_IOBASEL"
+#define busnum_CAVM_PCIERCX_IOBASEL(a) (a)
+#define arguments_CAVM_PCIERCX_IOBASEL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_iobaseu
+ *
+ * PCIe RC I/O Base and Limit Upper 16 Bits Register
+ */
+union cavm_pciercx_iobaseu
+{
+    uint32_t u;
+    struct cavm_pciercx_iobaseu_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t uio_limit             : 16; /**< [ 31: 16](R/W) Upper 16 bits of I/O limit (if 32-bit I/O decoding is supported for devices on the secondary side). */
+        uint32_t uio_base              : 16; /**< [ 15:  0](R/W) Upper 16 bits of I/O base (if 32-bit I/O decoding is supported for devices on the secondary side). */
+#else /* Word 0 - Little Endian */
+        uint32_t uio_base              : 16; /**< [ 15:  0](R/W) Upper 16 bits of I/O base (if 32-bit I/O decoding is supported for devices on the secondary side). */
+        uint32_t uio_limit             : 16; /**< [ 31: 16](R/W) Upper 16 bits of I/O limit (if 32-bit I/O decoding is supported for devices on the secondary side). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_iobaseu_s cn; */
+};
+typedef union cavm_pciercx_iobaseu cavm_pciercx_iobaseu_t;
+
+static inline uint64_t CAVM_PCIERCX_IOBASEU(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_IOBASEU(uint64_t a)
+{
+    if (a<=3)
+        return 0x30 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_IOBASEU", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_IOBASEU(a) cavm_pciercx_iobaseu_t
+#define bustype_CAVM_PCIERCX_IOBASEU(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_IOBASEU(a) "PCIERCX_IOBASEU"
+#define busnum_CAVM_PCIERCX_IOBASEU(a) (a)
+#define arguments_CAVM_PCIERCX_IOBASEU(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_l1_substates
+ *
+ * PCIe RC L1 Substates Timing Register
+ */
+union cavm_pciercx_l1_substates
+{
+    uint32_t u;
+    struct cavm_pciercx_l1_substates_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t l1sub_lpwr_clksm      : 1;  /**< [  8:  8](R/W) "Low Power Clock Switch Mode.
+                                                                 If this bit is set to 1'b1 the reference clock will be running
+                                                                 regardless of the CLKREQ# setting. If this bit is set to 1'b0
+                                                                 the reference clock may be gated off when CLKREQ# is deasserted.
+                                                                 If the bit is set to 1'b1 the controller will delay the
+                                                                 switching of aux_clk to the slow platform clock until it detects
+                                                                 that the link partner has de-asserted CLKREQ#." */
+        uint32_t l1sub_t_pclkack       : 2;  /**< [  7:  6](R/W) Max delay (in 1 us units) between a MAC request to remove
+                                                                 the clock on mac_phy_pclkreq_n and a PHY response on
+                                                                 phy_mac_pclkack_n. If the PHY does not respond within this
+                                                                 time the request is aborted. */
+        uint32_t l1sub_t_l1_2          : 4;  /**< [  5:  2](R/W) Duration (in us) of L1.2. */
+        uint32_t l1sub_t_power_off     : 2;  /**< [  1:  0](R/W) Duration (in us) of L1.2 entry. */
+#else /* Word 0 - Little Endian */
+        uint32_t l1sub_t_power_off     : 2;  /**< [  1:  0](R/W) Duration (in us) of L1.2 entry. */
+        uint32_t l1sub_t_l1_2          : 4;  /**< [  5:  2](R/W) Duration (in us) of L1.2. */
+        uint32_t l1sub_t_pclkack       : 2;  /**< [  7:  6](R/W) Max delay (in 1 us units) between a MAC request to remove
+                                                                 the clock on mac_phy_pclkreq_n and a PHY response on
+                                                                 phy_mac_pclkack_n. If the PHY does not respond within this
+                                                                 time the request is aborted. */
+        uint32_t l1sub_lpwr_clksm      : 1;  /**< [  8:  8](R/W) "Low Power Clock Switch Mode.
+                                                                 If this bit is set to 1'b1 the reference clock will be running
+                                                                 regardless of the CLKREQ# setting. If this bit is set to 1'b0
+                                                                 the reference clock may be gated off when CLKREQ# is deasserted.
+                                                                 If the bit is set to 1'b1 the controller will delay the
+                                                                 switching of aux_clk to the slow platform clock until it detects
+                                                                 that the link partner has de-asserted CLKREQ#." */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_l1_substates_s cn; */
+};
+typedef union cavm_pciercx_l1_substates cavm_pciercx_l1_substates_t;
+
+static inline uint64_t CAVM_PCIERCX_L1_SUBSTATES(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_L1_SUBSTATES(uint64_t a)
+{
+    if (a<=3)
+        return 0xb44 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_L1_SUBSTATES", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_L1_SUBSTATES(a) cavm_pciercx_l1_substates_t
+#define bustype_CAVM_PCIERCX_L1_SUBSTATES(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_L1_SUBSTATES(a) "PCIERCX_L1_SUBSTATES"
+#define busnum_CAVM_PCIERCX_L1_SUBSTATES(a) (a)
+#define arguments_CAVM_PCIERCX_L1_SUBSTATES(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_l1sub_cap
+ *
+ * PCIe RC L1 PM Substates Capability Register
+ */
+union cavm_pciercx_l1sub_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_l1sub_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t pwron_val             : 5;  /**< [ 23: 19](RO/WRSL) Port T power on value.
+                                                                 Along with [PWRON_SCALE] sets the time (in us) that this
+                                                                 Port requires the port on the opposite side of the Link to
+                                                                 wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted before
+                                                                 actively driving the interface. */
+        uint32_t reserved_18           : 1;
+        uint32_t pwron_scale           : 2;  /**< [ 17: 16](RO/WRSL) Port T power on scale.
+                                                                 0x0 = 2 us.
+                                                                 0x1 = 10 us.
+                                                                 0x2 = 100 us.
+                                                                 0x3 = Reserved. */
+        uint32_t com_md_supp           : 8;  /**< [ 15:  8](RO/WRSL) Port common mode restore time.
+                                                                 Time (in us) required for this Port to reestablish
+                                                                 common mode. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t l1_pmsub_sup          : 1;  /**< [  4:  4](RO/WRSL) L1 PM substates ECN supported. */
+        uint32_t l1_1_aspm_sup         : 1;  /**< [  3:  3](RO/WRSL) ASPM L11 supported. */
+        uint32_t l1_2_aspm_sup         : 1;  /**< [  2:  2](RO/WRSL) ASPM L12 supported. */
+        uint32_t l1_1_pcipm_sup        : 1;  /**< [  1:  1](RO/WRSL) PCI-PM L11 supported. */
+        uint32_t l1_2_pcipm_sup        : 1;  /**< [  0:  0](RO/WRSL) PCI-PM L12 supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t l1_2_pcipm_sup        : 1;  /**< [  0:  0](RO/WRSL) PCI-PM L12 supported. */
+        uint32_t l1_1_pcipm_sup        : 1;  /**< [  1:  1](RO/WRSL) PCI-PM L11 supported. */
+        uint32_t l1_2_aspm_sup         : 1;  /**< [  2:  2](RO/WRSL) ASPM L12 supported. */
+        uint32_t l1_1_aspm_sup         : 1;  /**< [  3:  3](RO/WRSL) ASPM L11 supported. */
+        uint32_t l1_pmsub_sup          : 1;  /**< [  4:  4](RO/WRSL) L1 PM substates ECN supported. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t com_md_supp           : 8;  /**< [ 15:  8](RO/WRSL) Port common mode restore time.
+                                                                 Time (in us) required for this Port to reestablish
+                                                                 common mode. */
+        uint32_t pwron_scale           : 2;  /**< [ 17: 16](RO/WRSL) Port T power on scale.
+                                                                 0x0 = 2 us.
+                                                                 0x1 = 10 us.
+                                                                 0x2 = 100 us.
+                                                                 0x3 = Reserved. */
+        uint32_t reserved_18           : 1;
+        uint32_t pwron_val             : 5;  /**< [ 23: 19](RO/WRSL) Port T power on value.
+                                                                 Along with [PWRON_SCALE] sets the time (in us) that this
+                                                                 Port requires the port on the opposite side of the Link to
+                                                                 wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted before
+                                                                 actively driving the interface. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_l1sub_cap_s cn; */
+};
+typedef union cavm_pciercx_l1sub_cap cavm_pciercx_l1sub_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_L1SUB_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_L1SUB_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x240 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_L1SUB_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_L1SUB_CAP(a) cavm_pciercx_l1sub_cap_t
+#define bustype_CAVM_PCIERCX_L1SUB_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_L1SUB_CAP(a) "PCIERCX_L1SUB_CAP"
+#define busnum_CAVM_PCIERCX_L1SUB_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_L1SUB_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_l1sub_cap_hdr
+ *
+ * PCIe RC L1 Substates Capability Header Register
+ */
+union cavm_pciercx_l1sub_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_l1sub_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_l1sub_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_l1sub_cap_hdr cavm_pciercx_l1sub_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_L1SUB_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_L1SUB_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x23c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_L1SUB_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_L1SUB_CAP_HDR(a) cavm_pciercx_l1sub_cap_hdr_t
+#define bustype_CAVM_PCIERCX_L1SUB_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_L1SUB_CAP_HDR(a) "PCIERCX_L1SUB_CAP_HDR"
+#define busnum_CAVM_PCIERCX_L1SUB_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_L1SUB_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_l1sub_ctl1
+ *
+ * PCIe RC L1 Substates Control 1 Register
+ */
+union cavm_pciercx_l1sub_ctl1
+{
+    uint32_t u;
+    struct cavm_pciercx_l1sub_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
+        uint32_t reserved_26_28        : 3;
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value */
+        uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO/WRSL) Common mode restore time.
+                                                                 The value (in us), which must be used by the downstream port
+                                                                 for timing the reestablishment of common mode.
+
+                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
+                                                                 and cannot be written. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
+        uint32_t l1_2_aspm_en          : 1;  /**< [  2:  2](R/W) ASPM L12 enable. */
+        uint32_t l1_1_pcipm_en         : 1;  /**< [  1:  1](R/W) PCI-PM L11 enable. */
+        uint32_t l1_2_pcipm_en         : 1;  /**< [  0:  0](R/W) PCI-PM L12 enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t l1_2_pcipm_en         : 1;  /**< [  0:  0](R/W) PCI-PM L12 enable. */
+        uint32_t l1_1_pcipm_en         : 1;  /**< [  1:  1](R/W) PCI-PM L11 enable. */
+        uint32_t l1_2_aspm_en          : 1;  /**< [  2:  2](R/W) ASPM L12 enable. */
+        uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO/WRSL) Common mode restore time.
+                                                                 The value (in us), which must be used by the downstream port
+                                                                 for timing the reestablishment of common mode.
+
+                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
+                                                                 and cannot be written. */
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value */
+        uint32_t reserved_26_28        : 3;
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_l1sub_ctl1_s cn; */
+};
+typedef union cavm_pciercx_l1sub_ctl1 cavm_pciercx_l1sub_ctl1_t;
+
+static inline uint64_t CAVM_PCIERCX_L1SUB_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_L1SUB_CTL1(uint64_t a)
+{
+    if (a<=3)
+        return 0x244 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_L1SUB_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_L1SUB_CTL1(a) cavm_pciercx_l1sub_ctl1_t
+#define bustype_CAVM_PCIERCX_L1SUB_CTL1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_L1SUB_CTL1(a) "PCIERCX_L1SUB_CTL1"
+#define busnum_CAVM_PCIERCX_L1SUB_CTL1(a) (a)
+#define arguments_CAVM_PCIERCX_L1SUB_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_l1sub_ctl2
+ *
+ * PCIe RC L1 Substates Control 2 Register
+ */
+union cavm_pciercx_l1sub_ctl2
+{
+    uint32_t u;
+    struct cavm_pciercx_l1sub_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t t_pwr_on_val          : 5;  /**< [  7:  3](R/W) T power on value.
+                                                                 Along with the [T_PWR_ON_SCA], sets the minimum amount of time (in us)
+                                                                 that the Port must wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted
+                                                                 before actively driving the interface.
+
+                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
+                                                                 and cannot be written. */
+        uint32_t reserved_2            : 1;
+        uint32_t t_pwr_on_sca          : 2;  /**< [  1:  0](R/W) T power on scale.
+                                                                 0x0 = 2 us.
+                                                                 0x1 = 10 us.
+                                                                 0x2 = 100 us.
+                                                                 0x3 = Reserved.
+
+                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
+                                                                 and cannot be written. */
+#else /* Word 0 - Little Endian */
+        uint32_t t_pwr_on_sca          : 2;  /**< [  1:  0](R/W) T power on scale.
+                                                                 0x0 = 2 us.
+                                                                 0x1 = 10 us.
+                                                                 0x2 = 100 us.
+                                                                 0x3 = Reserved.
+
+                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
+                                                                 and cannot be written. */
+        uint32_t reserved_2            : 1;
+        uint32_t t_pwr_on_val          : 5;  /**< [  7:  3](R/W) T power on value.
+                                                                 Along with the [T_PWR_ON_SCA], sets the minimum amount of time (in us)
+                                                                 that the Port must wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted
+                                                                 before actively driving the interface.
+
+                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
+                                                                 and cannot be written. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_l1sub_ctl2_s cn; */
+};
+typedef union cavm_pciercx_l1sub_ctl2 cavm_pciercx_l1sub_ctl2_t;
+
+static inline uint64_t CAVM_PCIERCX_L1SUB_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_L1SUB_CTL2(uint64_t a)
+{
+    if (a<=3)
+        return 0x248 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_L1SUB_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_L1SUB_CTL2(a) cavm_pciercx_l1sub_ctl2_t
+#define bustype_CAVM_PCIERCX_L1SUB_CTL2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_L1SUB_CTL2(a) "PCIERCX_L1SUB_CTL2"
+#define busnum_CAVM_PCIERCX_L1SUB_CTL2(a) (a)
+#define arguments_CAVM_PCIERCX_L1SUB_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_lane_skew
+ *
+ * PCIe RC Lane Skew Register
+ */
+union cavm_pciercx_lane_skew
+{
+    uint32_t u;
+    struct cavm_pciercx_lane_skew_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
+        uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one). */
+        uint32_t ebm                   : 1;  /**< [ 26: 26](R/W) Selects Gen3/Gen4 elasticity buffer operating mode.
+                                                                 0 = Nominal half full buffer mode.
+                                                                 1 = Nominal empty buffer mode */
+        uint32_t ack_nak               : 1;  /**< [ 25: 25](R/W) ACK/NAK disable. Prevents the PCI Express bus from sending Ack and Nak DLLPs. */
+        uint32_t fcd                   : 1;  /**< [ 24: 24](R/W) Flow control disable. Prevents the PCI Express bus from sending FC DLLPs. */
+        uint32_t ilst                  : 24; /**< [ 23:  0](R/W) Insert lane skew for transmit (not supported for *16). Causes skew between lanes for test
+                                                                 purposes. There are three bits per lane. The value is in units of one symbol time. For
+                                                                 example, the value 0x2 for a lane forces a skew of two symbol times for that lane. The
+                                                                 maximum skew value for any lane is five symbol times. */
+#else /* Word 0 - Little Endian */
+        uint32_t ilst                  : 24; /**< [ 23:  0](R/W) Insert lane skew for transmit (not supported for *16). Causes skew between lanes for test
+                                                                 purposes. There are three bits per lane. The value is in units of one symbol time. For
+                                                                 example, the value 0x2 for a lane forces a skew of two symbol times for that lane. The
+                                                                 maximum skew value for any lane is five symbol times. */
+        uint32_t fcd                   : 1;  /**< [ 24: 24](R/W) Flow control disable. Prevents the PCI Express bus from sending FC DLLPs. */
+        uint32_t ack_nak               : 1;  /**< [ 25: 25](R/W) ACK/NAK disable. Prevents the PCI Express bus from sending Ack and Nak DLLPs. */
+        uint32_t ebm                   : 1;  /**< [ 26: 26](R/W) Selects Gen3/Gen4 elasticity buffer operating mode.
+                                                                 0 = Nominal half full buffer mode.
+                                                                 1 = Nominal empty buffer mode */
+        uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one). */
+        uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_lane_skew_s cn; */
+};
+typedef union cavm_pciercx_lane_skew cavm_pciercx_lane_skew_t;
+
+static inline uint64_t CAVM_PCIERCX_LANE_SKEW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LANE_SKEW(uint64_t a)
+{
+    if (a<=3)
+        return 0x714 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LANE_SKEW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LANE_SKEW(a) cavm_pciercx_lane_skew_t
+#define bustype_CAVM_PCIERCX_LANE_SKEW(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LANE_SKEW(a) "PCIERCX_LANE_SKEW"
+#define busnum_CAVM_PCIERCX_LANE_SKEW(a) (a)
+#define arguments_CAVM_PCIERCX_LANE_SKEW(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_link_cap
+ *
+ * PCIe RC Link Capabilities Register
+ */
+union cavm_pciercx_link_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_link_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO/WRSL) Link bandwidth notification capability. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO/WRSL) Surprise down error reporting capable.  Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Clock power management. Set to 0 for root complex devices. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software
+                                                                 specifies during hardware configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. Only L1 is supported (L0s not supported).
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.  Legal encodings are 0x1 (l lane), 0x2 (2 lanes), 0x4 (4 lanes),
+                                                                 0x8 (8 lanes), and 0x10 (16 lanes).  Some encodings may not be legal for all PEMs.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL) Maximum link speed.
+
+                                                                 0x1 = 2.5 GHz supported.
+                                                                 0x2 = 5.0 GHz and 2.5 GHz supported.
+                                                                 0x3 = 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+                                                                 0x4 = 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+                                                                 0x5 = 32.0 GHz, 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL) Maximum link speed.
+
+                                                                 0x1 = 2.5 GHz supported.
+                                                                 0x2 = 5.0 GHz and 2.5 GHz supported.
+                                                                 0x3 = 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+                                                                 0x4 = 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+                                                                 0x5 = 32.0 GHz, 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.  Legal encodings are 0x1 (l lane), 0x2 (2 lanes), 0x4 (4 lanes),
+                                                                 0x8 (8 lanes), and 0x10 (16 lanes).  Some encodings may not be legal for all PEMs.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. Only L1 is supported (L0s not supported).
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software
+                                                                 specifies during hardware configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Clock power management. Set to 0 for root complex devices. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO/WRSL) Surprise down error reporting capable.  Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO/WRSL) Link bandwidth notification capability. */
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t reserved_23           : 1;
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_link_cap_s cn; */
+};
+typedef union cavm_pciercx_link_cap cavm_pciercx_link_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_LINK_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LINK_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x7c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LINK_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LINK_CAP(a) cavm_pciercx_link_cap_t
+#define bustype_CAVM_PCIERCX_LINK_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LINK_CAP(a) "PCIERCX_LINK_CAP"
+#define busnum_CAVM_PCIERCX_LINK_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_LINK_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_link_cap2
+ *
+ * PCIe RC Link Capabilities 2 Register
+ */
+union cavm_pciercx_link_cap2
+{
+    uint32_t u;
+    struct cavm_pciercx_link_cap2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t trtds                 : 1;  /**< [ 24: 24](RO/WRSL) Two retimers presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher.
+
+                                                                 It is permitted to be set to 1b regardless of the SLSV if the RTDS bit
+                                                                 is also set to 1b. */
+        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported. */
+        uint32_t reserved_9_22         : 14;
+        uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
+        uint32_t slsv                  : 7;  /**< [  7:  1](RO/WRSL) Supported link speeds vector. Indicates the supported link speeds of the associated port.
+                                                                 For each bit, a value of 1 b indicates that the corresponding link speed is supported;
+                                                                 otherwise, the link speed is not supported. Bit definitions are:
+
+                                                                 _ Bit \<1\> = 2.5 GT/s.
+                                                                 _ Bit \<2\> = 5.0 GT/s.
+                                                                 _ Bit \<3\> = 8.0 GT/s.
+                                                                 _ Bit \<4\> = 16.0 GT/s
+                                                                 _ Bit \<5\> = 32.0 GT/s
+
+                                                                 _ Bits \<7:6\> are reserved. */
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t slsv                  : 7;  /**< [  7:  1](RO/WRSL) Supported link speeds vector. Indicates the supported link speeds of the associated port.
+                                                                 For each bit, a value of 1 b indicates that the corresponding link speed is supported;
+                                                                 otherwise, the link speed is not supported. Bit definitions are:
+
+                                                                 _ Bit \<1\> = 2.5 GT/s.
+                                                                 _ Bit \<2\> = 5.0 GT/s.
+                                                                 _ Bit \<3\> = 8.0 GT/s.
+                                                                 _ Bit \<4\> = 16.0 GT/s
+                                                                 _ Bit \<5\> = 32.0 GT/s
+
+                                                                 _ Bits \<7:6\> are reserved. */
+        uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
+        uint32_t reserved_9_22         : 14;
+        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported. */
+        uint32_t trtds                 : 1;  /**< [ 24: 24](RO/WRSL) Two retimers presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher.
+
+                                                                 It is permitted to be set to 1b regardless of the SLSV if the RTDS bit
+                                                                 is also set to 1b. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_link_cap2_s cn; */
+};
+typedef union cavm_pciercx_link_cap2 cavm_pciercx_link_cap2_t;
+
+static inline uint64_t CAVM_PCIERCX_LINK_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LINK_CAP2(uint64_t a)
+{
+    if (a<=3)
+        return 0x9c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LINK_CAP2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LINK_CAP2(a) cavm_pciercx_link_cap2_t
+#define bustype_CAVM_PCIERCX_LINK_CAP2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LINK_CAP2(a) "PCIERCX_LINK_CAP2"
+#define busnum_CAVM_PCIERCX_LINK_CAP2(a) (a)
+#define arguments_CAVM_PCIERCX_LINK_CAP2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_link_ctl
+ *
+ * PCIe RC Link Control/Link Status Register
+ */
+union cavm_pciercx_link_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_link_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
+                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
+                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
+        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
+                                                                 occurred without the port transitioning through DL_Down status:
+
+                                                                 * A link retraining has completed following a write of 1b to the retrain link bit.
+
+                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
+                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
+                                                                 the physical layer reports a speed or width change was initiated by the downstream
+                                                                 component that was not indicated as an autonomous change. */
+        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
+        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
+                                                                 clock that the platform provides on the connector. The default value is the value
+                                                                 selected during hardware configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
+        uint32_t reserved_26           : 1;
+        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
+                                                                 undefined when link is not up. */
+        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
+                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
+                                                                 speed.
+                                                                 0x1 = Supported link speeds vector field bit 0.
+                                                                 0x2 = Supported link speeds vector field bit 1.
+                                                                 0x3 = Supported link speeds vector field bit 2.
+                                                                 0x4 = Supported link speeds vector field bit 3. */
+        uint32_t drs_ctl               : 2;  /**< [ 15: 14](RO) DRS signaling control. */
+        uint32_t reserved_12_13        : 2;
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable. */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](RO) Enable clock power management. Set to zero for root complex devices. */
+        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
+        uint32_t rl                    : 1;  /**< [  5:  5](R/W/H) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
+        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through PEM()_CFG_TBL().
+                                                                 However, the application must not change this field because an RCB of 64
+                                                                 bytes is not supported. */
+        uint32_t reserved_2            : 1;
+        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
+#else /* Word 0 - Little Endian */
+        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
+        uint32_t reserved_2            : 1;
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through PEM()_CFG_TBL().
+                                                                 However, the application must not change this field because an RCB of 64
+                                                                 bytes is not supported. */
+        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
+        uint32_t rl                    : 1;  /**< [  5:  5](R/W/H) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
+        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](RO) Enable clock power management. Set to zero for root complex devices. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable. */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
+        uint32_t reserved_12_13        : 2;
+        uint32_t drs_ctl               : 2;  /**< [ 15: 14](RO) DRS signaling control. */
+        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
+                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
+                                                                 speed.
+                                                                 0x1 = Supported link speeds vector field bit 0.
+                                                                 0x2 = Supported link speeds vector field bit 1.
+                                                                 0x3 = Supported link speeds vector field bit 2.
+                                                                 0x4 = Supported link speeds vector field bit 3. */
+        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
+                                                                 undefined when link is not up. */
+        uint32_t reserved_26           : 1;
+        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
+        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
+                                                                 clock that the platform provides on the connector. The default value is the value
+                                                                 selected during hardware configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
+        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
+                                                                 occurred without the port transitioning through DL_Down status:
+
+                                                                 * A link retraining has completed following a write of 1b to the retrain link bit.
+
+                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
+                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
+                                                                 the physical layer reports a speed or width change was initiated by the downstream
+                                                                 component that was not indicated as an autonomous change. */
+        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
+                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
+                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_link_ctl_s cn; */
+};
+typedef union cavm_pciercx_link_ctl cavm_pciercx_link_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_LINK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LINK_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x80 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LINK_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LINK_CTL(a) cavm_pciercx_link_ctl_t
+#define bustype_CAVM_PCIERCX_LINK_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LINK_CTL(a) "PCIERCX_LINK_CTL"
+#define busnum_CAVM_PCIERCX_LINK_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_LINK_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_link_ctl2
+ *
+ * PCIe RC Link Control 2 Register/Link Status 2 Register
+ */
+union cavm_pciercx_link_ctl2
+{
+    uint32_t u;
+    struct cavm_pciercx_link_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t drs_mr                : 1;  /**< [ 31: 31](R/W1C) DRS message received. */
+        uint32_t dcp                   : 3;  /**< [ 30: 28](RO) Downstream component presence. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution (not supported). */
+        uint32_t trtd                  : 1;  /**< [ 23: 23](RO) Two retimers presence detected. */
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request 8.0 GT/s. */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization 8.0 GT/s phase 3 successful. */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization 8.0 GT/s phase 2 successful. */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization 8.0 GT/s phase 1 successful. */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization 8.0 GT/s complete. */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in Polling.Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being one.
+                                                                 0x0 = -6 dB.
+                                                                 0x1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to one, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to one, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters Polling.Compliance state. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for half-swing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM Polling.Compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
+                                                                 deemphasis on the downstream device.  Must be set prior to link training.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
+
+                                                                 PCIERC_GEN2_PORT[S_D_E] can be used to change the deemphasis on the upstream ports. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to one in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+                                                                 0x4 = 16 Gb/s target link speed.
+                                                                 0x5 = 32 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+
+                                                                 Reset values:
+                                                                 _ PF0:          0x5.
+                                                                 _ PF1:          0x0.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+#else /* Word 0 - Little Endian */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+                                                                 0x4 = 16 Gb/s target link speed.
+                                                                 0x5 = 32 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+
+                                                                 _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+                                                                 _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x2, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+
+                                                                 _ MD is 0x3, reset to 0x3: 8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+
+                                                                 Reset values:
+                                                                 _ PF0:          0x5.
+                                                                 _ PF1:          0x0.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to one in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
+                                                                 deemphasis on the downstream device.  Must be set prior to link training.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
+
+                                                                 PCIERC_GEN2_PORT[S_D_E] can be used to change the deemphasis on the upstream ports. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for half-swing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM Polling.Compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to one, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters Polling.Compliance state. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to one, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in Polling.Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being one.
+                                                                 0x0 = -6 dB.
+                                                                 0x1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization 8.0 GT/s complete. */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization 8.0 GT/s phase 1 successful. */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization 8.0 GT/s phase 2 successful. */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization 8.0 GT/s phase 3 successful. */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request 8.0 GT/s. */
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t trtd                  : 1;  /**< [ 23: 23](RO) Two retimers presence detected. */
+        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution (not supported). */
+        uint32_t reserved_26_27        : 2;
+        uint32_t dcp                   : 3;  /**< [ 30: 28](RO) Downstream component presence. */
+        uint32_t drs_mr                : 1;  /**< [ 31: 31](R/W1C) DRS message received. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_link_ctl2_s cn; */
+};
+typedef union cavm_pciercx_link_ctl2 cavm_pciercx_link_ctl2_t;
+
+static inline uint64_t CAVM_PCIERCX_LINK_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LINK_CTL2(uint64_t a)
+{
+    if (a<=3)
+        return 0xa0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LINK_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LINK_CTL2(a) cavm_pciercx_link_ctl2_t
+#define bustype_CAVM_PCIERCX_LINK_CTL2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LINK_CTL2(a) "PCIERCX_LINK_CTL2"
+#define busnum_CAVM_PCIERCX_LINK_CTL2(a) (a)
+#define arguments_CAVM_PCIERCX_LINK_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_link_ctl3
+ *
+ * PCIe RC Link Control 3 Register
+ */
+union cavm_pciercx_link_ctl3
+{
+    uint32_t u;
+    struct cavm_pciercx_link_ctl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t ler                   : 1;  /**< [  1:  1](RO/WRSL) Link equalization request interrupt enable. */
+        uint32_t pe                    : 1;  /**< [  0:  0](RO/WRSL) Perform equalization. */
+#else /* Word 0 - Little Endian */
+        uint32_t pe                    : 1;  /**< [  0:  0](RO/WRSL) Perform equalization. */
+        uint32_t ler                   : 1;  /**< [  1:  1](RO/WRSL) Link equalization request interrupt enable. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_link_ctl3_s cn; */
+};
+typedef union cavm_pciercx_link_ctl3 cavm_pciercx_link_ctl3_t;
+
+static inline uint64_t CAVM_PCIERCX_LINK_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LINK_CTL3(uint64_t a)
+{
+    if (a<=3)
+        return 0x16c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LINK_CTL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LINK_CTL3(a) cavm_pciercx_link_ctl3_t
+#define bustype_CAVM_PCIERCX_LINK_CTL3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LINK_CTL3(a) "PCIERCX_LINK_CTL3"
+#define busnum_CAVM_PCIERCX_LINK_CTL3(a) (a)
+#define arguments_CAVM_PCIERCX_LINK_CTL3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_link_err_status
+ *
+ * Lane Error Status Register
+ */
+union cavm_pciercx_link_err_status
+{
+    uint32_t u;
+    struct cavm_pciercx_link_err_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t les                   : 16; /**< [ 15:  0](R/W1C) Lane error status bits. */
+#else /* Word 0 - Little Endian */
+        uint32_t les                   : 16; /**< [ 15:  0](R/W1C) Lane error status bits. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_link_err_status_s cn; */
+};
+typedef union cavm_pciercx_link_err_status cavm_pciercx_link_err_status_t;
+
+static inline uint64_t CAVM_PCIERCX_LINK_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LINK_ERR_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x170 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LINK_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LINK_ERR_STATUS(a) cavm_pciercx_link_err_status_t
+#define bustype_CAVM_PCIERCX_LINK_ERR_STATUS(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LINK_ERR_STATUS(a) "PCIERCX_LINK_ERR_STATUS"
+#define busnum_CAVM_PCIERCX_LINK_ERR_STATUS(a) (a)
+#define arguments_CAVM_PCIERCX_LINK_ERR_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_margin_ext_cap_hdr
+ *
+ * PCIe RC Margining Extended Capability Header Register
+ */
+union cavm_pciercx_margin_ext_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_margin_ext_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_margin_ext_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_margin_ext_cap_hdr cavm_pciercx_margin_ext_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x1ac + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MARGIN_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(a) cavm_pciercx_margin_ext_cap_hdr_t
+#define bustype_CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(a) "PCIERCX_MARGIN_EXT_CAP_HDR"
+#define busnum_CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mem
+ *
+ * PCIe RC Memory Base and Memory Limit Register
+ */
+union cavm_pciercx_mem
+{
+    uint32_t u;
+    struct cavm_pciercx_mem_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ml_addr               : 12; /**< [ 31: 20](R/W) Memory limit address. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t mb_addr               : 12; /**< [ 15:  4](R/W) Memory base address. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t mb_addr               : 12; /**< [ 15:  4](R/W) Memory base address. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t ml_addr               : 12; /**< [ 31: 20](R/W) Memory limit address. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mem_s cn; */
+};
+typedef union cavm_pciercx_mem cavm_pciercx_mem_t;
+
+static inline uint64_t CAVM_PCIERCX_MEM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MEM(uint64_t a)
+{
+    if (a<=3)
+        return 0x20 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MEM", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MEM(a) cavm_pciercx_mem_t
+#define bustype_CAVM_PCIERCX_MEM(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MEM(a) "PCIERCX_MEM"
+#define busnum_CAVM_PCIERCX_MEM(a) (a)
+#define arguments_CAVM_PCIERCX_MEM(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_misc_ctl1
+ *
+ * PCIe RC Miscellaneous Control 1 Register
+ */
+union cavm_pciercx_misc_ctl1
+{
+    uint32_t u;
+    struct cavm_pciercx_misc_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t port_logic_wr_dis     : 1;  /**< [ 22: 22](R/W) Determines port logic register write from wire side. */
+        uint32_t p2p_err_rpt           : 1;  /**< [ 21: 21](R/W) Determines whether to enable P2P error reporting.
+                                                                 0 = Disable P2P error reporting.
+                                                                 1 = Enable P2P error reporting. */
+        uint32_t p2p_track_cpl         : 1;  /**< [ 20: 20](R/W) Determines whether to track completion of transmitted Non-Posted TLPs in
+                                                                 P2P mode. */
+        uint32_t trgt_above_cfg_limit  : 2;  /**< [ 19: 18](R/W) Cfg requests with an address greater then CFG_LIMIT are directed to either
+                                                                 ELBI or TRTG1 based on the setting of this field.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = ELBI.
+                                                                 0x2 - TRGT1.
+                                                                 0x3 = Reserved. */
+        uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
+                                                                 - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
+                                                                 - Cfg requests with an address grether then CFG_LIMIT are directed to
+                                                                   ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the desitination of Configuration Requests.
+                                                                 0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
+                                                                     the setting of CFG_LIMIT.
+                                                                 1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
+                                                                     of the value of CFG_LIMIT. */
+        uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
+                                                                 which is not supported. */
+        uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
+        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](R/W) Disable the autonomous generation of LTR clear message in upstream port.
+                                                                 0 = Allow the autonomous generation of LTR clear message.
+                                                                 1 = Disable the autonomous generation of LTR clear message. */
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Enables Simplified Replay Timer (Gen4).  Simplified replay timer values are:
+
+                                                                   A value from 24,000 to 31,000 symbol times when extended synch is 0.
+                                                                   A value from 80,000 to 100,000 symbol times when extended synch is 1. */
+        uint32_t ur_c4_mask_4_trgt1    : 1;  /**< [  2:  2](R/W) This field only applies to request TLPs (with UR filtering status) that are
+                                                                 chosen to forward to the application (when [DEF_TARGET] is set).
+
+                                                                 When set, the core suppresses error logging, error message generation, and CPL
+                                                                 generation (for non-posted requests). */
+        uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
+                                                                 is sent to be the controller.
+                                                                 0x0 = The controller drops all incoming I/O or Mem (after
+                                                                      corresponding error reporting). A completion with
+                                                                      UR status will be generated for non-posted requests.
+                                                                 0x1 = The controller forwards all incoming I/O or MEM
+                                                                      requests with UR/CA/CRS status to your application. */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writable from the DBI. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writable from the DBI. */
+        uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
+                                                                 is sent to be the controller.
+                                                                 0x0 = The controller drops all incoming I/O or Mem (after
+                                                                      corresponding error reporting). A completion with
+                                                                      UR status will be generated for non-posted requests.
+                                                                 0x1 = The controller forwards all incoming I/O or MEM
+                                                                      requests with UR/CA/CRS status to your application. */
+        uint32_t ur_c4_mask_4_trgt1    : 1;  /**< [  2:  2](R/W) This field only applies to request TLPs (with UR filtering status) that are
+                                                                 chosen to forward to the application (when [DEF_TARGET] is set).
+
+                                                                 When set, the core suppresses error logging, error message generation, and CPL
+                                                                 generation (for non-posted requests). */
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Enables Simplified Replay Timer (Gen4).  Simplified replay timer values are:
+
+                                                                   A value from 24,000 to 31,000 symbol times when extended synch is 0.
+                                                                   A value from 80,000 to 100,000 symbol times when extended synch is 1. */
+        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](R/W) Disable the autonomous generation of LTR clear message in upstream port.
+                                                                 0 = Allow the autonomous generation of LTR clear message.
+                                                                 1 = Disable the autonomous generation of LTR clear message. */
+        uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
+        uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
+                                                                 which is not supported. */
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the desitination of Configuration Requests.
+                                                                 0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
+                                                                     the setting of CFG_LIMIT.
+                                                                 1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
+                                                                     of the value of CFG_LIMIT. */
+        uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
+                                                                 - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
+                                                                 - Cfg requests with an address grether then CFG_LIMIT are directed to
+                                                                   ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
+        uint32_t trgt_above_cfg_limit  : 2;  /**< [ 19: 18](R/W) Cfg requests with an address greater then CFG_LIMIT are directed to either
+                                                                 ELBI or TRTG1 based on the setting of this field.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = ELBI.
+                                                                 0x2 - TRGT1.
+                                                                 0x3 = Reserved. */
+        uint32_t p2p_track_cpl         : 1;  /**< [ 20: 20](R/W) Determines whether to track completion of transmitted Non-Posted TLPs in
+                                                                 P2P mode. */
+        uint32_t p2p_err_rpt           : 1;  /**< [ 21: 21](R/W) Determines whether to enable P2P error reporting.
+                                                                 0 = Disable P2P error reporting.
+                                                                 1 = Enable P2P error reporting. */
+        uint32_t port_logic_wr_dis     : 1;  /**< [ 22: 22](R/W) Determines port logic register write from wire side. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_misc_ctl1_s cn; */
+};
+typedef union cavm_pciercx_misc_ctl1 cavm_pciercx_misc_ctl1_t;
+
+static inline uint64_t CAVM_PCIERCX_MISC_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MISC_CTL1(uint64_t a)
+{
+    if (a<=3)
+        return 0x8bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MISC_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MISC_CTL1(a) cavm_pciercx_misc_ctl1_t
+#define bustype_CAVM_PCIERCX_MISC_CTL1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MISC_CTL1(a) "PCIERCX_MISC_CTL1"
+#define busnum_CAVM_PCIERCX_MISC_CTL1(a) (a)
+#define arguments_CAVM_PCIERCX_MISC_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat0
+ *
+ * PCIe RC Margining Lane Control and Status Register 0
+ */
+union cavm_pciercx_mrg_lane_ctl_stat0
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat0_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat0 cavm_pciercx_mrg_lane_ctl_stat0_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT0(uint64_t a)
+{
+    if (a<=3)
+        return 0x1b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT0(a) cavm_pciercx_mrg_lane_ctl_stat0_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT0(a) "PCIERCX_MRG_LANE_CTL_STAT0"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT0(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat1
+ *
+ * PCIe RC Margining Lane Control and Status Register 1
+ */
+union cavm_pciercx_mrg_lane_ctl_stat1
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat1_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat1 cavm_pciercx_mrg_lane_ctl_stat1_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT1(uint64_t a)
+{
+    if (a<=3)
+        return 0x1b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) cavm_pciercx_mrg_lane_ctl_stat1_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) "PCIERCX_MRG_LANE_CTL_STAT1"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat2
+ *
+ * PCIe RC Margining Lane Control and Status Register 2
+ */
+union cavm_pciercx_mrg_lane_ctl_stat2
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat2_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat2 cavm_pciercx_mrg_lane_ctl_stat2_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT2(uint64_t a)
+{
+    if (a<=3)
+        return 0x1bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT2(a) cavm_pciercx_mrg_lane_ctl_stat2_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT2(a) "PCIERCX_MRG_LANE_CTL_STAT2"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT2(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat3
+ *
+ * PCIe RC Margining Lane Control and Status Register 3
+ */
+union cavm_pciercx_mrg_lane_ctl_stat3
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat3_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat3 cavm_pciercx_mrg_lane_ctl_stat3_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT3(uint64_t a)
+{
+    if (a<=3)
+        return 0x1c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) cavm_pciercx_mrg_lane_ctl_stat3_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) "PCIERCX_MRG_LANE_CTL_STAT3"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_port_cap_stat
+ *
+ * PCIe RC Margining Port Capabilities and Status Register
+ */
+union cavm_pciercx_mrg_port_cap_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_port_cap_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t m_swrdy               : 1;  /**< [ 17: 17](RO/H) Margining software ready. */
+        uint32_t m_rdy                 : 1;  /**< [ 16: 16](RO/H) Margining ready. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t m_drv                 : 1;  /**< [  0:  0](RO/WRSL) Margining uses driver software. */
+#else /* Word 0 - Little Endian */
+        uint32_t m_drv                 : 1;  /**< [  0:  0](RO/WRSL) Margining uses driver software. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t m_rdy                 : 1;  /**< [ 16: 16](RO/H) Margining ready. */
+        uint32_t m_swrdy               : 1;  /**< [ 17: 17](RO/H) Margining software ready. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_port_cap_stat_s cn; */
+};
+typedef union cavm_pciercx_mrg_port_cap_stat cavm_pciercx_mrg_port_cap_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_PORT_CAP_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_PORT_CAP_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x1b0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MRG_PORT_CAP_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_PORT_CAP_STAT(a) cavm_pciercx_mrg_port_cap_stat_t
+#define bustype_CAVM_PCIERCX_MRG_PORT_CAP_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_PORT_CAP_STAT(a) "PCIERCX_MRG_PORT_CAP_STAT"
+#define busnum_CAVM_PCIERCX_MRG_PORT_CAP_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_PORT_CAP_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_msix_cap_cntrl
+ *
+ * PCIe RC PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
+ */
+union cavm_pciercx_msix_cap_cntrl
+{
+    uint32_t u;
+    struct cavm_pciercx_msix_cap_cntrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t msixen                : 1;  /**< [ 31: 31](R/W) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
+        uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
+                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
+                                                                 1 = All vectors associated with the function are masked, regardless of their respective
+                                                                 per-vector mask bits. */
+        uint32_t reserved_27_29        : 3;
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability offset. End of list.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO/H) MSI-X capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO/H) MSI-X capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability offset. End of list.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
+        uint32_t reserved_27_29        : 3;
+        uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
+                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
+                                                                 1 = All vectors associated with the function are masked, regardless of their respective
+                                                                 per-vector mask bits. */
+        uint32_t msixen                : 1;  /**< [ 31: 31](R/W) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_msix_cap_cntrl_s cn; */
+};
+typedef union cavm_pciercx_msix_cap_cntrl cavm_pciercx_msix_cap_cntrl_t;
+
+static inline uint64_t CAVM_PCIERCX_MSIX_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MSIX_CAP_CNTRL(uint64_t a)
+{
+    if (a<=3)
+        return 0xb0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MSIX_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MSIX_CAP_CNTRL(a) cavm_pciercx_msix_cap_cntrl_t
+#define bustype_CAVM_PCIERCX_MSIX_CAP_CNTRL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MSIX_CAP_CNTRL(a) "PCIERCX_MSIX_CAP_CNTRL"
+#define busnum_CAVM_PCIERCX_MSIX_CAP_CNTRL(a) (a)
+#define arguments_CAVM_PCIERCX_MSIX_CAP_CNTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_msix_pba
+ *
+ * PCIe RC PCI Express MSI-X PBA Offset and BIR Register
+ */
+union cavm_pciercx_msix_pba
+{
+    uint32_t u;
+    struct cavm_pciercx_msix_pba_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_TBL(). */
+        uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+                                                                 pending bit array into memory space.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+                                                                 pending bit array into memory space.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_msix_pba_s cn; */
+};
+typedef union cavm_pciercx_msix_pba cavm_pciercx_msix_pba_t;
+
+static inline uint64_t CAVM_PCIERCX_MSIX_PBA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MSIX_PBA(uint64_t a)
+{
+    if (a<=3)
+        return 0xb8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MSIX_PBA", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MSIX_PBA(a) cavm_pciercx_msix_pba_t
+#define bustype_CAVM_PCIERCX_MSIX_PBA(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MSIX_PBA(a) "PCIERCX_MSIX_PBA"
+#define busnum_CAVM_PCIERCX_MSIX_PBA(a) (a)
+#define arguments_CAVM_PCIERCX_MSIX_PBA(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_msix_table
+ *
+ * PCIe RC PCI Express MSI-X Table Offset and BIR Register
+ */
+union cavm_pciercx_msix_table
+{
+    uint32_t u;
+    struct cavm_pciercx_msix_table_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X table, as an offset from the base
+                                                                 address of the BAR indicated by the table BIR bits. Writable through PEM()_CFG_TBL(). */
+        uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the
+                                                                 MSI-X table into memory space. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the
+                                                                 MSI-X table into memory space. Writable through PEM()_CFG_TBL(). */
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X table, as an offset from the base
+                                                                 address of the BAR indicated by the table BIR bits. Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_msix_table_s cn; */
+};
+typedef union cavm_pciercx_msix_table cavm_pciercx_msix_table_t;
+
+static inline uint64_t CAVM_PCIERCX_MSIX_TABLE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MSIX_TABLE(uint64_t a)
+{
+    if (a<=3)
+        return 0xb4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_MSIX_TABLE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MSIX_TABLE(a) cavm_pciercx_msix_table_t
+#define bustype_CAVM_PCIERCX_MSIX_TABLE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MSIX_TABLE(a) "PCIERCX_MSIX_TABLE"
+#define busnum_CAVM_PCIERCX_MSIX_TABLE(a) (a)
+#define arguments_CAVM_PCIERCX_MSIX_TABLE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_np_rcv_credit
+ *
+ * PCIe RC VC0 Nonposted Receive Queue Control Register
+ */
+union cavm_pciercx_np_rcv_credit
+{
+    uint32_t u;
+    struct cavm_pciercx_np_rcv_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale non-posted data credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits. */
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t reserved_20           : 1;
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL) VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
+                                                                 for all receive queue buffer configurations. This field is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x3f.
+                                                                 _ BPEM:      0x1f. */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL) VC0 nonposted data credits. The number of initial nonposted data credits for VC0, used for
+                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x3f.
+                                                                 _ BPEM:      0x1f. */
+#else /* Word 0 - Little Endian */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL) VC0 nonposted data credits. The number of initial nonposted data credits for VC0, used for
+                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x3f.
+                                                                 _ BPEM:      0x1f. */
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL) VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
+                                                                 for all receive queue buffer configurations. This field is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x3f.
+                                                                 _ BPEM:      0x1f. */
+        uint32_t reserved_20           : 1;
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale non-posted data credits. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_np_rcv_credit_s cn; */
+};
+typedef union cavm_pciercx_np_rcv_credit cavm_pciercx_np_rcv_credit_t;
+
+static inline uint64_t CAVM_PCIERCX_NP_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_NP_RCV_CREDIT(uint64_t a)
+{
+    if (a<=3)
+        return 0x74c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_NP_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_NP_RCV_CREDIT(a) cavm_pciercx_np_rcv_credit_t
+#define bustype_CAVM_PCIERCX_NP_RCV_CREDIT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_NP_RCV_CREDIT(a) "PCIERCX_NP_RCV_CREDIT"
+#define busnum_CAVM_PCIERCX_NP_RCV_CREDIT(a) (a)
+#define arguments_CAVM_PCIERCX_NP_RCV_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_np_xmit_credit
+ *
+ * PCIe RC Transmit Nonposted FC Credit Status Register
+ */
+union cavm_pciercx_np_xmit_credit
+{
+    uint32_t u;
+    struct cavm_pciercx_np_xmit_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t tchfcc                : 12; /**< [ 27: 16](RO/H) Transmit nonposted header FC credits. The nonposted header credits advertised by the
+                                                                 receiver at the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t tcdfcc                : 16; /**< [ 15:  0](RO/H) Transmit nonposted data FC credits. The nonposted data credits advertised by the receiver
+                                                                 at the other end of the link, updated with each UpdateFC DLLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t tcdfcc                : 16; /**< [ 15:  0](RO/H) Transmit nonposted data FC credits. The nonposted data credits advertised by the receiver
+                                                                 at the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t tchfcc                : 12; /**< [ 27: 16](RO/H) Transmit nonposted header FC credits. The nonposted header credits advertised by the
+                                                                 receiver at the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_np_xmit_credit_s cn; */
+};
+typedef union cavm_pciercx_np_xmit_credit cavm_pciercx_np_xmit_credit_t;
+
+static inline uint64_t CAVM_PCIERCX_NP_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_NP_XMIT_CREDIT(uint64_t a)
+{
+    if (a<=3)
+        return 0x734 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_NP_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_NP_XMIT_CREDIT(a) cavm_pciercx_np_xmit_credit_t
+#define bustype_CAVM_PCIERCX_NP_XMIT_CREDIT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_NP_XMIT_CREDIT(a) "PCIERCX_NP_XMIT_CREDIT"
+#define busnum_CAVM_PCIERCX_NP_XMIT_CREDIT(a) (a)
+#define arguments_CAVM_PCIERCX_NP_XMIT_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_omsg_ptr
+ *
+ * PCIe RC Other Message Register
+ */
+union cavm_pciercx_omsg_ptr
+{
+    uint32_t u;
+    struct cavm_pciercx_omsg_ptr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t omr                   : 32; /**< [ 31:  0](R/W) Other message register. This register can be used for either of the following purposes:
+
+                                                                 * To send a specific PCI Express message, the application writes the payload of the
+                                                                 message into this register, then sets bit 0 of the port link control register to send the
+                                                                 message.
+
+                                                                 * To store a corruption pattern for corrupting the LCRC on all TLPs, the application
+                                                                 places a 32-bit corruption pattern into this register and enables this function by setting
+                                                                 bit 25 of the port link control register. When enabled, the transmit LCRC result is XORed
+                                                                 with this pattern before inserting it into the packet. */
+#else /* Word 0 - Little Endian */
+        uint32_t omr                   : 32; /**< [ 31:  0](R/W) Other message register. This register can be used for either of the following purposes:
+
+                                                                 * To send a specific PCI Express message, the application writes the payload of the
+                                                                 message into this register, then sets bit 0 of the port link control register to send the
+                                                                 message.
+
+                                                                 * To store a corruption pattern for corrupting the LCRC on all TLPs, the application
+                                                                 places a 32-bit corruption pattern into this register and enables this function by setting
+                                                                 bit 25 of the port link control register. When enabled, the transmit LCRC result is XORed
+                                                                 with this pattern before inserting it into the packet. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_omsg_ptr_s cn; */
+};
+typedef union cavm_pciercx_omsg_ptr cavm_pciercx_omsg_ptr_t;
+
+static inline uint64_t CAVM_PCIERCX_OMSG_PTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_OMSG_PTR(uint64_t a)
+{
+    if (a<=3)
+        return 0x704 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_OMSG_PTR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_OMSG_PTR(a) cavm_pciercx_omsg_ptr_t
+#define bustype_CAVM_PCIERCX_OMSG_PTR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_OMSG_PTR(a) "PCIERCX_OMSG_PTR"
+#define busnum_CAVM_PCIERCX_OMSG_PTR(a) (a)
+#define arguments_CAVM_PCIERCX_OMSG_PTR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ord_rule_ctrl
+ *
+ * PCIe RC Order Rule Control Register
+ */
+union cavm_pciercx_ord_rule_ctrl
+{
+    uint32_t u;
+    struct cavm_pciercx_ord_rule_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t cpl_pass_p            : 8;  /**< [ 15:  8](R/W) Completion passing posted ordering rule control.
+                                                                 Determines if a CPL can pass halted P queue.
+                                                                 0x0 = CPL can not pass P (recommended).
+                                                                 0x1 = CPL can pass P.
+                                                                 0x2-0xFF = Reserved. */
+        uint32_t np_pass_p             : 8;  /**< [  7:  0](R/W) Non-Posted passing posted ordering rule control.
+                                                                 Determines if a NP can pass halted P queue.
+                                                                 0x0 = NP can not pass P (recommended).
+                                                                 0x1 = NP can pass P.
+                                                                 0x2-0xFF = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t np_pass_p             : 8;  /**< [  7:  0](R/W) Non-Posted passing posted ordering rule control.
+                                                                 Determines if a NP can pass halted P queue.
+                                                                 0x0 = NP can not pass P (recommended).
+                                                                 0x1 = NP can pass P.
+                                                                 0x2-0xFF = Reserved. */
+        uint32_t cpl_pass_p            : 8;  /**< [ 15:  8](R/W) Completion passing posted ordering rule control.
+                                                                 Determines if a CPL can pass halted P queue.
+                                                                 0x0 = CPL can not pass P (recommended).
+                                                                 0x1 = CPL can pass P.
+                                                                 0x2-0xFF = Reserved. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ord_rule_ctrl_s cn; */
+};
+typedef union cavm_pciercx_ord_rule_ctrl cavm_pciercx_ord_rule_ctrl_t;
+
+static inline uint64_t CAVM_PCIERCX_ORD_RULE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ORD_RULE_CTRL(uint64_t a)
+{
+    if (a<=3)
+        return 0x8b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ORD_RULE_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ORD_RULE_CTRL(a) cavm_pciercx_ord_rule_ctrl_t
+#define bustype_CAVM_PCIERCX_ORD_RULE_CTRL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ORD_RULE_CTRL(a) "PCIERCX_ORD_RULE_CTRL"
+#define busnum_CAVM_PCIERCX_ORD_RULE_CTRL(a) (a)
+#define arguments_CAVM_PCIERCX_ORD_RULE_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_p_rcv_credit
+ *
+ * PCIe RC VC0 Posted Receive Queue Control Register
+ */
+union cavm_pciercx_p_rcv_credit
+{
+    uint32_t u;
+    struct cavm_pciercx_p_rcv_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_queue_order        : 1;  /**< [ 31: 31](R/W) VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL():
+                                                                 0 = Round robin.
+                                                                 1 = Strict ordering, higher numbered VCs have higher priority. */
+        uint32_t type_ordering         : 1;  /**< [ 30: 30](RO/WRSL) TLP type ordering for VC0. Determines the TLP type ordering rule for VC0 receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL():
+                                                                 0 = Strict ordering for received TLPs: Posted, then completion, then NonPosted.
+                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification.
+
+                                                                 The application must not change this field. */
+        uint32_t reserved_28_29        : 2;
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale posted header credits.
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
+                                                                 only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward. */
+        uint32_t reserved_20           : 1;
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 posted header credits. The number of initial posted header credits for VC0, used for
+                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x20.
+                                                                 _ BPEM:      0x10. */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 posted data credits. The number of initial posted data credits for VC0, used for all
+                                                                 receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x200.
+                                                                 _ BPEM:      0x100. */
+#else /* Word 0 - Little Endian */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 posted data credits. The number of initial posted data credits for VC0, used for all
+                                                                 receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x200.
+                                                                 _ BPEM:      0x100. */
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 posted header credits. The number of initial posted header credits for VC0, used for
+                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x20.
+                                                                 _ BPEM:      0x10. */
+        uint32_t reserved_20           : 1;
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
+                                                                 only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale posted header credits.
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits. */
+        uint32_t reserved_28_29        : 2;
+        uint32_t type_ordering         : 1;  /**< [ 30: 30](RO/WRSL) TLP type ordering for VC0. Determines the TLP type ordering rule for VC0 receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL():
+                                                                 0 = Strict ordering for received TLPs: Posted, then completion, then NonPosted.
+                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification.
+
+                                                                 The application must not change this field. */
+        uint32_t rx_queue_order        : 1;  /**< [ 31: 31](R/W) VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL():
+                                                                 0 = Round robin.
+                                                                 1 = Strict ordering, higher numbered VCs have higher priority. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_p_rcv_credit_s cn; */
+};
+typedef union cavm_pciercx_p_rcv_credit cavm_pciercx_p_rcv_credit_t;
+
+static inline uint64_t CAVM_PCIERCX_P_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_P_RCV_CREDIT(uint64_t a)
+{
+    if (a<=3)
+        return 0x748 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_P_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_P_RCV_CREDIT(a) cavm_pciercx_p_rcv_credit_t
+#define bustype_CAVM_PCIERCX_P_RCV_CREDIT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_P_RCV_CREDIT(a) "PCIERCX_P_RCV_CREDIT"
+#define busnum_CAVM_PCIERCX_P_RCV_CREDIT(a) (a)
+#define arguments_CAVM_PCIERCX_P_RCV_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_p_xmit_credit
+ *
+ * PCIe RC Transmit Posted FC Credit Status Register
+ */
+union cavm_pciercx_p_xmit_credit
+{
+    uint32_t u;
+    struct cavm_pciercx_p_xmit_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t tphfcc                : 12; /**< [ 27: 16](RO/H) Transmit posted header FC credits. The posted header credits advertised by the receiver at
+                                                                 the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t tpdfcc                : 16; /**< [ 15:  0](RO/H) Transmit posted data FC credits. The posted data credits advertised by the receiver at the
+                                                                 other end of the link, updated with each UpdateFC DLLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t tpdfcc                : 16; /**< [ 15:  0](RO/H) Transmit posted data FC credits. The posted data credits advertised by the receiver at the
+                                                                 other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t tphfcc                : 12; /**< [ 27: 16](RO/H) Transmit posted header FC credits. The posted header credits advertised by the receiver at
+                                                                 the other end of the link, updated with each UpdateFC DLLP. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_p_xmit_credit_s cn; */
+};
+typedef union cavm_pciercx_p_xmit_credit cavm_pciercx_p_xmit_credit_t;
+
+static inline uint64_t CAVM_PCIERCX_P_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_P_XMIT_CREDIT(uint64_t a)
+{
+    if (a<=3)
+        return 0x730 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_P_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_P_XMIT_CREDIT(a) cavm_pciercx_p_xmit_credit_t
+#define bustype_CAVM_PCIERCX_P_XMIT_CREDIT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_P_XMIT_CREDIT(a) "PCIERCX_P_XMIT_CREDIT"
+#define busnum_CAVM_PCIERCX_P_XMIT_CREDIT(a) (a)
+#define arguments_CAVM_PCIERCX_P_XMIT_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_phy_ctl
+ *
+ * PCIe RC PHY Control Register
+ */
+union cavm_pciercx_phy_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_phy_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control.  Sideband control signaling (not supported). */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control.  Sideband control signaling (not supported). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_phy_ctl_s cn; */
+};
+typedef union cavm_pciercx_phy_ctl cavm_pciercx_phy_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PHY_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PHY_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x814 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PHY_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PHY_CTL(a) cavm_pciercx_phy_ctl_t
+#define bustype_CAVM_PCIERCX_PHY_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PHY_CTL(a) "PCIERCX_PHY_CTL"
+#define busnum_CAVM_PCIERCX_PHY_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PHY_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_phy_gen3_ctl
+ *
+ * PCIe RC Gen3 Control Register
+ */
+union cavm_pciercx_phy_gen3_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_phy_gen3_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t rss                   : 2;  /**< [ 25: 24](R/W) Rate Shadow Select. This register value decide the Data Rate of shadow register.
+                                                                 0x0 = Gen3 Data Rate is selected for shadow register.
+                                                                 0x1 = Gen4 Data Rate is selected for shadow register.
+                                                                 0x2 or 0x3 = Reserved.
+
+                                                                 The following shadow registers are controlled by this field.
+                                                                 _ PCIERC_PHY_GEN3_CTL[EP2P3D].
+                                                                 _ PCIERC_PHY_GEN3_CTL[RXEQ_PH01_EN].
+                                                                 _ PCIERC_PHY_GEN3_CTL[AED].
+                                                                 _ PCIERC_PHY_GEN3_CTL[US8ETD].
+                                                                 _ PCIERC_GEN3_EQ_CTL[FM].
+                                                                 _ PCIERC_GEN3_EQ_CTL[BT].
+                                                                 _ PCIERC_GEN3_EQ_CTL[P23TD].
+                                                                 _ PCIERC_GEN3_EQ_CTL[PRV].
+                                                                 _ PCIERC_GEN3_EQ_CTL[IIF].
+                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[N_EVALS].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+        uint32_t eiedd                 : 1;  /**< [ 23: 23](R/W) Eq InvalidRequest and RxEqEval different time assertion disable.  Disable the assertion of
+                                                                 Eq InvalidRequest and RxEqEval at different time. */
+        uint32_t us8etd                : 1;  /**< [ 22: 22](R/W/H) Upstream port send 8GT/s EQ TS2 disable. The base spec defines that USP can
+                                                                 optionally send 8GT EQ TS2 and it means USP can set DSP TxPreset value in Gen4
+                                                                 Data Rate. If this register set to 0, USP sends 8GT EQ TS2. If this register
+                                                                 set to 1, USP does not send 8GT EQ TS2. This applies to upstream ports only.
+                                                                 No Function for downstream ports.
+                                                                 Note: When CX_GEN4_SPEED, this register is shadow register for Gen3 and Gen4 data
+                                                                 rate. If PCIERC_PHY_GEN3_CTL[RSS]=0x0, this register is RSVD and cannot be written.
+                                                                 If PCIERC_PHY_GEN3_CTL[RSS]=0x1, this register is for Gen4 data rate and can be written. */
+        uint32_t aed                   : 1;  /**< [ 21: 21](R/W/H) Autonomous equalization disable. When the controller is in L0 state at Gen3
+                                                                 data rate and equalization was completed successfully in Autonomous EQ Mechanism,
+                                                                 setting this bit in DSP will not direct the controller to Recovery state to
+                                                                 perform Gen4 equalization. Link stays in Gen3 rate and DSP sends DLLPs to USP.
+                                                                 If the bit is 0, DSP will block DLLPs and direct the link to perform Gen4 EQ
+                                                                 in Autonomous Mechanism.
+                                                                 Note: When CX_GEN4_SPEED, this register is shadow register for Gen3 and Gen4 data
+                                                                 rate. If PCIERC_PHY_GEN3_CTL[RSS]=0x0, this register is RSVD and cannot be written.
+                                                                 If PCIERC_PHY_GEN3_CTL[RSS]=0x1, this register is for Gen4 data rate and can be written. */
+        uint32_t reserved_19_20        : 2;
+        uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
+        uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
+        uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t rxeq_rgrdless_rsts    : 1;  /**< [ 13: 13](R/W) The controller as Gen3 EQ master asserts RxEqEval to instruct the
+                                                                 PHY to do Rx adaptation and evaluation.
+                                                                 0x0 = Asserts after 1 us and 2 TS1 received from remote partner.
+                                                                 0x1 = Asserts after 500 ns regardless of TS's received or not. */
+        uint32_t rxeq_ph01_en          : 1;  /**< [ 12: 12](R/W) Rx equalization phase 0/phase 1 hold enable. */
+        uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable autonomous mechanism for requesting to
+                                                                 redo the equalization process. */
+        uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
+                                                                 equalization. */
+        uint32_t ep2p3d                : 1;  /**< [  9:  9](R/W) Equalization phase 2 and phase 3 disable. This applies to downstream ports only. */
+        uint32_t dsg3                  : 1;  /**< [  8:  8](R/W) Disable scrambler for Gen3 data rate. The Gen3 scrambler/descrambler within the core needs
+                                                                 to be disabled when the scrambling function is implemented outside of the core (within the
+                                                                 PHY). */
+        uint32_t reserved_2_7          : 6;
+        uint32_t no_seed_value_change  : 1;  /**< [  1:  1](R/W) When set, the seed value of LFSR for scrambler at Gen3/Gen4 rate
+                                                                 does not change after LinkUp = 1. This feature requires both sides of the link. */
+        uint32_t grizdnc               : 1;  /**< [  0:  0](R/W) Gen3 receiver impedance ZRX-DC not compliant. */
+#else /* Word 0 - Little Endian */
+        uint32_t grizdnc               : 1;  /**< [  0:  0](R/W) Gen3 receiver impedance ZRX-DC not compliant. */
+        uint32_t no_seed_value_change  : 1;  /**< [  1:  1](R/W) When set, the seed value of LFSR for scrambler at Gen3/Gen4 rate
+                                                                 does not change after LinkUp = 1. This feature requires both sides of the link. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t dsg3                  : 1;  /**< [  8:  8](R/W) Disable scrambler for Gen3 data rate. The Gen3 scrambler/descrambler within the core needs
+                                                                 to be disabled when the scrambling function is implemented outside of the core (within the
+                                                                 PHY). */
+        uint32_t ep2p3d                : 1;  /**< [  9:  9](R/W) Equalization phase 2 and phase 3 disable. This applies to downstream ports only. */
+        uint32_t ecrd                  : 1;  /**< [ 10: 10](R/W) Equalization EIEOS count reset disable. Disable requesting reset of EIEOS count during
+                                                                 equalization. */
+        uint32_t erd                   : 1;  /**< [ 11: 11](R/W) Equalization redo disable. Disable autonomous mechanism for requesting to
+                                                                 redo the equalization process. */
+        uint32_t rxeq_ph01_en          : 1;  /**< [ 12: 12](R/W) Rx equalization phase 0/phase 1 hold enable. */
+        uint32_t rxeq_rgrdless_rsts    : 1;  /**< [ 13: 13](R/W) The controller as Gen3 EQ master asserts RxEqEval to instruct the
+                                                                 PHY to do Rx adaptation and evaluation.
+                                                                 0x0 = Asserts after 1 us and 2 TS1 received from remote partner.
+                                                                 0x1 = Asserts after 500 ns regardless of TS's received or not. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t ed                    : 1;  /**< [ 16: 16](R/W) Equalization disable. Disable equalization feature. */
+        uint32_t dtdd                  : 1;  /**< [ 17: 17](R/W) DLLP transmission delay disable. Disable delay transmission of DLLPs before equalization. */
+        uint32_t dcbd                  : 1;  /**< [ 18: 18](R/W) Disable balance disable. Disable DC balance feature. */
+        uint32_t reserved_19_20        : 2;
+        uint32_t aed                   : 1;  /**< [ 21: 21](R/W/H) Autonomous equalization disable. When the controller is in L0 state at Gen3
+                                                                 data rate and equalization was completed successfully in Autonomous EQ Mechanism,
+                                                                 setting this bit in DSP will not direct the controller to Recovery state to
+                                                                 perform Gen4 equalization. Link stays in Gen3 rate and DSP sends DLLPs to USP.
+                                                                 If the bit is 0, DSP will block DLLPs and direct the link to perform Gen4 EQ
+                                                                 in Autonomous Mechanism.
+                                                                 Note: When CX_GEN4_SPEED, this register is shadow register for Gen3 and Gen4 data
+                                                                 rate. If PCIERC_PHY_GEN3_CTL[RSS]=0x0, this register is RSVD and cannot be written.
+                                                                 If PCIERC_PHY_GEN3_CTL[RSS]=0x1, this register is for Gen4 data rate and can be written. */
+        uint32_t us8etd                : 1;  /**< [ 22: 22](R/W/H) Upstream port send 8GT/s EQ TS2 disable. The base spec defines that USP can
+                                                                 optionally send 8GT EQ TS2 and it means USP can set DSP TxPreset value in Gen4
+                                                                 Data Rate. If this register set to 0, USP sends 8GT EQ TS2. If this register
+                                                                 set to 1, USP does not send 8GT EQ TS2. This applies to upstream ports only.
+                                                                 No Function for downstream ports.
+                                                                 Note: When CX_GEN4_SPEED, this register is shadow register for Gen3 and Gen4 data
+                                                                 rate. If PCIERC_PHY_GEN3_CTL[RSS]=0x0, this register is RSVD and cannot be written.
+                                                                 If PCIERC_PHY_GEN3_CTL[RSS]=0x1, this register is for Gen4 data rate and can be written. */
+        uint32_t eiedd                 : 1;  /**< [ 23: 23](R/W) Eq InvalidRequest and RxEqEval different time assertion disable.  Disable the assertion of
+                                                                 Eq InvalidRequest and RxEqEval at different time. */
+        uint32_t rss                   : 2;  /**< [ 25: 24](R/W) Rate Shadow Select. This register value decide the Data Rate of shadow register.
+                                                                 0x0 = Gen3 Data Rate is selected for shadow register.
+                                                                 0x1 = Gen4 Data Rate is selected for shadow register.
+                                                                 0x2 or 0x3 = Reserved.
+
+                                                                 The following shadow registers are controlled by this field.
+                                                                 _ PCIERC_PHY_GEN3_CTL[EP2P3D].
+                                                                 _ PCIERC_PHY_GEN3_CTL[RXEQ_PH01_EN].
+                                                                 _ PCIERC_PHY_GEN3_CTL[AED].
+                                                                 _ PCIERC_PHY_GEN3_CTL[US8ETD].
+                                                                 _ PCIERC_GEN3_EQ_CTL[FM].
+                                                                 _ PCIERC_GEN3_EQ_CTL[BT].
+                                                                 _ PCIERC_GEN3_EQ_CTL[P23TD].
+                                                                 _ PCIERC_GEN3_EQ_CTL[PRV].
+                                                                 _ PCIERC_GEN3_EQ_CTL[IIF].
+                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[N_EVALS].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
+                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_phy_gen3_ctl_s cn; */
+};
+typedef union cavm_pciercx_phy_gen3_ctl cavm_pciercx_phy_gen3_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PHY_GEN3_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PHY_GEN3_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x890 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PHY_GEN3_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PHY_GEN3_CTL(a) cavm_pciercx_phy_gen3_ctl_t
+#define bustype_CAVM_PCIERCX_PHY_GEN3_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PHY_GEN3_CTL(a) "PCIERCX_PHY_GEN3_CTL"
+#define busnum_CAVM_PCIERCX_PHY_GEN3_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PHY_GEN3_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_phy_intop_ctl
+ *
+ * PCIe RC PHY Interoperability Control Register
+ */
+union cavm_pciercx_phy_intop_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_phy_intop_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cyc,es the PHY reset is asserted.
+                                                                 0x0 = Zero cycles.
+                                                                 0x1 = 1 cycle.
+
+                                                                 0x3f = 63 cycles. */
+        uint32_t p2nobeacon_en         : 1;  /**< [ 11: 11](RO) P2 NoBeacon Enable (Not Supported). */
+        uint32_t l1_clk_sel            : 1;  /**< [ 10: 10](R/W) L1 clock control bit.
+                                                                   0 = Controller requests aux_clk switch and core_clk gating in L1.
+                                                                   1 = Controller does not request aux_clk switch and core_clk gating in L1. */
+        uint32_t l1_nowait_p1          : 1;  /**< [  9:  9](R/W) L1 entry control bit.  This field is reserved for internal use. */
+        uint32_t l1sub_exit_mode       : 1;  /**< [  8:  8](R/W) L1 exit control using phy_mac_pclkack_n.
+                                                                   0 = Core waits for the PHY to assert phy_mac_pclkack_n before exiting L1.
+                                                                   1 = Core exits L1 without waiting for the PHY to assert phy_mac_pclkack_n. */
+        uint32_t reserved_7            : 1;
+        uint32_t rxstby_ctl            : 7;  /**< [  6:  0](R/W) Rxstandby control. Bits 0..5 determine if the controller asserts the RxStandby signal
+                                                                 (mac_phy_rxstandby) in the indicated condition. Bit 6 enables the controller
+                                                                 to perform the RxStandby/RxStandbyStatus handshake.
+                                                                   0x0 = Rx EIOS and subsequent T TX-IDLE-MIN.
+                                                                   0x1 = Rate Change.
+                                                                   0x2 = Inactive lane for upconfigure/downconfigure.
+                                                                   0x3 = PowerDown = P1orP2.
+                                                                   0x4 = RxL0s.Idle.
+                                                                   0x5 = EI Infer in L0.
+                                                                   0x6 = Execute RxStandby/RxStandbyStatus Handshake. */
+#else /* Word 0 - Little Endian */
+        uint32_t rxstby_ctl            : 7;  /**< [  6:  0](R/W) Rxstandby control. Bits 0..5 determine if the controller asserts the RxStandby signal
+                                                                 (mac_phy_rxstandby) in the indicated condition. Bit 6 enables the controller
+                                                                 to perform the RxStandby/RxStandbyStatus handshake.
+                                                                   0x0 = Rx EIOS and subsequent T TX-IDLE-MIN.
+                                                                   0x1 = Rate Change.
+                                                                   0x2 = Inactive lane for upconfigure/downconfigure.
+                                                                   0x3 = PowerDown = P1orP2.
+                                                                   0x4 = RxL0s.Idle.
+                                                                   0x5 = EI Infer in L0.
+                                                                   0x6 = Execute RxStandby/RxStandbyStatus Handshake. */
+        uint32_t reserved_7            : 1;
+        uint32_t l1sub_exit_mode       : 1;  /**< [  8:  8](R/W) L1 exit control using phy_mac_pclkack_n.
+                                                                   0 = Core waits for the PHY to assert phy_mac_pclkack_n before exiting L1.
+                                                                   1 = Core exits L1 without waiting for the PHY to assert phy_mac_pclkack_n. */
+        uint32_t l1_nowait_p1          : 1;  /**< [  9:  9](R/W) L1 entry control bit.  This field is reserved for internal use. */
+        uint32_t l1_clk_sel            : 1;  /**< [ 10: 10](R/W) L1 clock control bit.
+                                                                   0 = Controller requests aux_clk switch and core_clk gating in L1.
+                                                                   1 = Controller does not request aux_clk switch and core_clk gating in L1. */
+        uint32_t p2nobeacon_en         : 1;  /**< [ 11: 11](RO) P2 NoBeacon Enable (Not Supported). */
+        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cyc,es the PHY reset is asserted.
+                                                                 0x0 = Zero cycles.
+                                                                 0x1 = 1 cycle.
+
+                                                                 0x3f = 63 cycles. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_phy_intop_ctl_s cn; */
+};
+typedef union cavm_pciercx_phy_intop_ctl cavm_pciercx_phy_intop_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PHY_INTOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PHY_INTOP_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x8c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PHY_INTOP_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PHY_INTOP_CTL(a) cavm_pciercx_phy_intop_ctl_t
+#define bustype_CAVM_PCIERCX_PHY_INTOP_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PHY_INTOP_CTL(a) "PCIERCX_PHY_INTOP_CTL"
+#define busnum_CAVM_PCIERCX_PHY_INTOP_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PHY_INTOP_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_phy_status
+ *
+ * PCIe RC PHY Status Register
+ */
+union cavm_pciercx_phy_status
+{
+    uint32_t u;
+    struct cavm_pciercx_phy_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t phy_stat              : 32; /**< [ 31:  0](RO/H) PHY status.  Sideband control signaling (not supported). */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_stat              : 32; /**< [ 31:  0](RO/H) PHY status.  Sideband control signaling (not supported). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_phy_status_s cn; */
+};
+typedef union cavm_pciercx_phy_status cavm_pciercx_phy_status_t;
+
+static inline uint64_t CAVM_PCIERCX_PHY_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PHY_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x810 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PHY_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PHY_STATUS(a) cavm_pciercx_phy_status_t
+#define bustype_CAVM_PCIERCX_PHY_STATUS(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PHY_STATUS(a) "PCIERCX_PHY_STATUS"
+#define busnum_CAVM_PCIERCX_PHY_STATUS(a) (a)
+#define arguments_CAVM_PCIERCX_PHY_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pipe_rel
+ *
+ * PCIe RC Pipe Related Register
+ */
+union cavm_pciercx_pipe_rel
+{
+    uint32_t u;
+    struct cavm_pciercx_pipe_rel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t pipe_garbage_dm       : 1;  /**< [  8:  8](R/W) PIPE garbage date mode.
+                                                                 0 = PIPE spec compliant mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until RxValid is deasserted.
+
+                                                                 1 = Special PHY support mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until any of the following
+                                                                 three conditions are true:
+                                                                   * RxValid is deasserted.
+                                                                   * a valid RxStartBlock is received at 128b/130b encoding.
+                                                                   * a valid COM symbol is received at 8b/10b encoding. */
+        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO/H) Tx message bus write buffer depth. */
+        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](RO/H) Rx message bus write buffer depth. */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](RO/H) Rx message bus write buffer depth. */
+        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO/H) Tx message bus write buffer depth. */
+        uint32_t pipe_garbage_dm       : 1;  /**< [  8:  8](R/W) PIPE garbage date mode.
+                                                                 0 = PIPE spec compliant mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until RxValid is deasserted.
+
+                                                                 1 = Special PHY support mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until any of the following
+                                                                 three conditions are true:
+                                                                   * RxValid is deasserted.
+                                                                   * a valid RxStartBlock is received at 128b/130b encoding.
+                                                                   * a valid COM symbol is received at 8b/10b encoding. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pipe_rel_s cn; */
+};
+typedef union cavm_pciercx_pipe_rel cavm_pciercx_pipe_rel_t;
+
+static inline uint64_t CAVM_PCIERCX_PIPE_REL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PIPE_REL(uint64_t a)
+{
+    if (a<=3)
+        return 0xb90 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PIPE_REL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PIPE_REL(a) cavm_pciercx_pipe_rel_t
+#define bustype_CAVM_PCIERCX_PIPE_REL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PIPE_REL(a) "PCIERCX_PIPE_REL"
+#define busnum_CAVM_PCIERCX_PIPE_REL(a) (a)
+#define arguments_CAVM_PCIERCX_PIPE_REL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_cap
+ *
+ * PCIe RC 16.0 GT/s Capabilities Register
+ */
+union cavm_pciercx_pl16g_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_cap_s cn; */
+};
+typedef union cavm_pciercx_pl16g_cap cavm_pciercx_pl16g_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x18c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_CAP(a) cavm_pciercx_pl16g_cap_t
+#define bustype_CAVM_PCIERCX_PL16G_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_CAP(a) "PCIERCX_PL16G_CAP"
+#define busnum_CAVM_PCIERCX_PL16G_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_ctl
+ *
+ * PCIe RC 16.0 GT/s Control Register
+ */
+union cavm_pciercx_pl16g_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_ctl_s cn; */
+};
+typedef union cavm_pciercx_pl16g_ctl cavm_pciercx_pl16g_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x190 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_CTL(a) cavm_pciercx_pl16g_ctl_t
+#define bustype_CAVM_PCIERCX_PL16G_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_CTL(a) "PCIERCX_PL16G_CTL"
+#define busnum_CAVM_PCIERCX_PL16G_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_eq_ctl0123
+ *
+ * PCIe RC 16.0 GT/s Lane Equalization Control for Lane 0-3 Register
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ *
+ * Equalization as an EP:
+ *   \<pre\>
+ *   - The EP latches the transmitter preset hint received during the speed change from
+ *     GEN1-\>GEN3 (L*UTP).
+ *   - Upon exiting speed, the EP transitions to EQ PHASE 0 (Note the RC does not use
+ *     EQ PHASE 0) and sets its transmitter setting to use (L*UTP) which it received
+ *     during the speed change.  If any lane received a reserved or unsupported preset,
+ *     the EP will use an implementation specific value determined by the EP.
+ *   - EP will transition to EQ PHASE 1 after seeing two consecutive TS1s with phase 1 bits set.
+ *   - During EQ PHASE 1, the EP communicates it's FS & LF to the upstream port. Again, NO
+ *     presets are exchanged.
+ *   - EP transitions to EQ PHASE 2 and begins making requests of the RC to adjust it's transmitter.
+ *     These requests are communicated via TS1s and the EP's PHY determines which
+ *     settings are best for its receiver.
+ *     This is an implementation specific algorithm and not covered by the PCIe spec
+ *     other than the mechanism which is used to make a request.
+ *   - During EQ PHASE 3, the EPs transmitter settings are adjusted by the RC.
+ *   \</pre\>
+ */
+union cavm_pciercx_pl16g_eq_ctl0123
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_eq_ctl0123_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l3utp                 : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l3dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l2utp                 : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l2dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l1utp                 : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l1dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l0utp                 : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+#else /* Word 0 - Little Endian */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l0utp                 : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l1dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l1utp                 : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l2dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l2utp                 : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l3dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l3utp                 : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_eq_ctl0123_s cn; */
+};
+typedef union cavm_pciercx_pl16g_eq_ctl0123 cavm_pciercx_pl16g_eq_ctl0123_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL0123(uint64_t a)
+{
+    if (a<=3)
+        return 0x1a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) cavm_pciercx_pl16g_eq_ctl0123_t
+#define bustype_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) "PCIERCX_PL16G_EQ_CTL0123"
+#define busnum_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_ext_cap_hdr
+ *
+ * PCIe RC Pysical Layer 16.0 GT/s Extended Capability Header Register
+ */
+union cavm_pciercx_pl16g_ext_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_ext_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_ext_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_pl16g_ext_cap_hdr cavm_pciercx_pl16g_ext_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_EXT_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x188 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_EXT_CAP_HDR(a) cavm_pciercx_pl16g_ext_cap_hdr_t
+#define bustype_CAVM_PCIERCX_PL16G_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_EXT_CAP_HDR(a) "PCIERCX_PL16G_EXT_CAP_HDR"
+#define busnum_CAVM_PCIERCX_PL16G_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_EXT_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_fret_dpar_stat
+ *
+ * PCIe RC 16.0 GT/s First Retimer Data Parity Mismatch Status Register
+ */
+union cavm_pciercx_pl16g_fret_dpar_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_fret_dpar_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t frt_dp_status         : 16; /**< [ 15:  0](R/W/H) First retimer data parity mismatch status. */
+#else /* Word 0 - Little Endian */
+        uint32_t frt_dp_status         : 16; /**< [ 15:  0](R/W/H) First retimer data parity mismatch status. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_fret_dpar_stat_s cn; */
+};
+typedef union cavm_pciercx_pl16g_fret_dpar_stat cavm_pciercx_pl16g_fret_dpar_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x19c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_FRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(a) cavm_pciercx_pl16g_fret_dpar_stat_t
+#define bustype_CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(a) "PCIERCX_PL16G_FRET_DPAR_STAT"
+#define busnum_CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_lc_dpar_stat
+ *
+ * PCIe RC 16.0 GT/s Local Data Parity Mismatch Status Register
+ */
+union cavm_pciercx_pl16g_lc_dpar_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_lc_dpar_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t ldp_status            : 16; /**< [ 15:  0](R/W/H) Local data parity mismatch status. */
+#else /* Word 0 - Little Endian */
+        uint32_t ldp_status            : 16; /**< [ 15:  0](R/W/H) Local data parity mismatch status. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_lc_dpar_stat_s cn; */
+};
+typedef union cavm_pciercx_pl16g_lc_dpar_stat cavm_pciercx_pl16g_lc_dpar_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_LC_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_LC_DPAR_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x198 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_LC_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_LC_DPAR_STAT(a) cavm_pciercx_pl16g_lc_dpar_stat_t
+#define bustype_CAVM_PCIERCX_PL16G_LC_DPAR_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_LC_DPAR_STAT(a) "PCIERCX_PL16G_LC_DPAR_STAT"
+#define busnum_CAVM_PCIERCX_PL16G_LC_DPAR_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_LC_DPAR_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_sret_dpar_stat
+ *
+ * PCIe RC 16.0 GT/s Second Retimer Data Parity Mismatch Status Register
+ */
+union cavm_pciercx_pl16g_sret_dpar_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_sret_dpar_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t srt_dp_status         : 16; /**< [ 15:  0](R/W/H) Second retimer data parity mismatch status. */
+#else /* Word 0 - Little Endian */
+        uint32_t srt_dp_status         : 16; /**< [ 15:  0](R/W/H) Second retimer data parity mismatch status. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_sret_dpar_stat_s cn; */
+};
+typedef union cavm_pciercx_pl16g_sret_dpar_stat cavm_pciercx_pl16g_sret_dpar_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x1a0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_SRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(a) cavm_pciercx_pl16g_sret_dpar_stat_t
+#define bustype_CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(a) "PCIERCX_PL16G_SRET_DPAR_STAT"
+#define busnum_CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_status
+ *
+ * PCIe RC 16.0 GT/s Status Register
+ */
+union cavm_pciercx_pl16g_status
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t leq_req               : 1;  /**< [  4:  4](R/W1C) Link equalization request 16.0 GT/s */
+        uint32_t eq_cpl_p3             : 1;  /**< [  3:  3](RO/H) Equalization 16.0 GT/s phase 3 successful. */
+        uint32_t eq_cpl_p2             : 1;  /**< [  2:  2](RO/H) Equalization 16.0 GT/s phase 3 successful. */
+        uint32_t eq_cpl_p1             : 1;  /**< [  1:  1](RO/H) Equalization 16.0 GT/s phase 3 successful. */
+        uint32_t eq_cpl                : 1;  /**< [  0:  0](RO/H) Equalization 16.0 GT/s complete. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_cpl                : 1;  /**< [  0:  0](RO/H) Equalization 16.0 GT/s complete. */
+        uint32_t eq_cpl_p1             : 1;  /**< [  1:  1](RO/H) Equalization 16.0 GT/s phase 3 successful. */
+        uint32_t eq_cpl_p2             : 1;  /**< [  2:  2](RO/H) Equalization 16.0 GT/s phase 3 successful. */
+        uint32_t eq_cpl_p3             : 1;  /**< [  3:  3](RO/H) Equalization 16.0 GT/s phase 3 successful. */
+        uint32_t leq_req               : 1;  /**< [  4:  4](R/W1C) Link equalization request 16.0 GT/s */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_status_s cn; */
+};
+typedef union cavm_pciercx_pl16g_status cavm_pciercx_pl16g_status_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x194 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL16G_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_STATUS(a) cavm_pciercx_pl16g_status_t
+#define bustype_CAVM_PCIERCX_PL16G_STATUS(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_STATUS(a) "PCIERCX_PL16G_STATUS"
+#define busnum_CAVM_PCIERCX_PL16G_STATUS(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_cap
+ *
+ * PCIe RC 32.0 GT/s Capabilities Register
+ */
+union cavm_pciercx_pl32g_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t mod_ts_rsvd_use_supp  : 5;  /**< [ 15: 11](RO) Modified TS reserved usage modes.
+                                                                 Reserved bits for future usage modes. */
+        uint32_t mod_ts_alt_prot_supp  : 1;  /**< [ 10: 10](RO) Modified (alternate protocol) TS usage mode 2 supported. */
+        uint32_t mod_ts_tset_msg_supp  : 1;  /**< [  9:  9](RO) Modified (vendor specific training set) TS usage mode 1 supported. */
+        uint32_t mod_ts_pcie_supp      : 1;  /**< [  8:  8](RO/WRSL) Modified (vendor specific) TS usage mode 0 supported. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t no_eq_need_supp       : 1;  /**< [  1:  1](RO/WRSL) No equalization needed supported. */
+        uint32_t eq_byp_hirate         : 1;  /**< [  0:  0](RO/WRSL) Equalization bypass to highest rate supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_byp_hirate         : 1;  /**< [  0:  0](RO/WRSL) Equalization bypass to highest rate supported. */
+        uint32_t no_eq_need_supp       : 1;  /**< [  1:  1](RO/WRSL) No equalization needed supported. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t mod_ts_pcie_supp      : 1;  /**< [  8:  8](RO/WRSL) Modified (vendor specific) TS usage mode 0 supported. */
+        uint32_t mod_ts_tset_msg_supp  : 1;  /**< [  9:  9](RO) Modified (vendor specific training set) TS usage mode 1 supported. */
+        uint32_t mod_ts_alt_prot_supp  : 1;  /**< [ 10: 10](RO) Modified (alternate protocol) TS usage mode 2 supported. */
+        uint32_t mod_ts_rsvd_use_supp  : 5;  /**< [ 15: 11](RO) Modified TS reserved usage modes.
+                                                                 Reserved bits for future usage modes. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_cap_s cn; */
+};
+typedef union cavm_pciercx_pl32g_cap cavm_pciercx_pl32g_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x1c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_CAP(a) cavm_pciercx_pl32g_cap_t
+#define bustype_CAVM_PCIERCX_PL32G_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_CAP(a) "PCIERCX_PL32G_CAP"
+#define busnum_CAVM_PCIERCX_PL32G_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_ctl
+ *
+ * PCIe RC 32.0 GT/s Control Register
+ */
+union cavm_pciercx_pl32g_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t mod_ts_use_mode_sel   : 3;  /**< [ 10:  8](RO) Modified TS usage mode selected (not supported). */
+        uint32_t reserved_2_7          : 6;
+        uint32_t no_eq_need_dis        : 1;  /**< [  1:  1](RO/WRSL) No equalization needed disable. */
+        uint32_t eq_byp_hirate_dis     : 1;  /**< [  0:  0](R/W) Equalization bypass to highest rate disable. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_byp_hirate_dis     : 1;  /**< [  0:  0](R/W) Equalization bypass to highest rate disable. */
+        uint32_t no_eq_need_dis        : 1;  /**< [  1:  1](RO/WRSL) No equalization needed disable. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t mod_ts_use_mode_sel   : 3;  /**< [ 10:  8](RO) Modified TS usage mode selected (not supported). */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_ctl_s cn; */
+};
+typedef union cavm_pciercx_pl32g_ctl cavm_pciercx_pl32g_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x1cc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_CTL(a) cavm_pciercx_pl32g_ctl_t
+#define bustype_CAVM_PCIERCX_PL32G_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_CTL(a) "PCIERCX_PL32G_CTL"
+#define busnum_CAVM_PCIERCX_PL32G_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_eq_ctl0123
+ *
+ * PCIe RC 32.0 GT/s Equalization Control Lane 0/12/3 Register
+ */
+union cavm_pciercx_pl32g_eq_ctl0123
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_eq_ctl0123_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l3utp                 : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l3dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l2utp                 : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l2dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l1utp                 : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l1dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l0utp                 : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t l0dtp                 : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l0utp                 : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l1dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l1utp                 : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l2dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l2utp                 : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l3dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l3utp                 : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_eq_ctl0123_s cn; */
+};
+typedef union cavm_pciercx_pl32g_eq_ctl0123 cavm_pciercx_pl32g_eq_ctl0123_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL0123(uint64_t a)
+{
+    if (a<=3)
+        return 0x1e4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) cavm_pciercx_pl32g_eq_ctl0123_t
+#define bustype_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) "PCIERCX_PL32G_EQ_CTL0123"
+#define busnum_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_ext_cap_hdr
+ *
+ * PCIe RC Pysical Layer 32.0 GT/s Extended Capability Header Register
+ */
+union cavm_pciercx_pl32g_ext_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_ext_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_ext_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_pl32g_ext_cap_hdr cavm_pciercx_pl32g_ext_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_EXT_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x1c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_EXT_CAP_HDR(a) cavm_pciercx_pl32g_ext_cap_hdr_t
+#define bustype_CAVM_PCIERCX_PL32G_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_EXT_CAP_HDR(a) "PCIERCX_PL32G_EXT_CAP_HDR"
+#define busnum_CAVM_PCIERCX_PL32G_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_EXT_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_rmod_ts_data1
+ *
+ * PCIe RC 32.0 GT/s Received Modified TS Data 1 Register
+ */
+union cavm_pciercx_pl32g_rmod_ts_data1
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_rmod_ts_data1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rcvd_mod_ts_vend_id   : 16; /**< [ 31: 16](RO/H) Received Modified TS Vendor ID.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set received.
+
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+        uint32_t rcvd_mod_ts_info1     : 13; /**< [ 15:  3](RO/H) Received Modified TS information 1.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 1 field from the Modified TS1/TS2 ordered set.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+        uint32_t rcvd_mod_ts_use_mode  : 3;  /**< [  2:  0](RO/H) Received Modified TS Usage Mode.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Usage field from the Modified TS/1TS2 Ordered Set. */
+#else /* Word 0 - Little Endian */
+        uint32_t rcvd_mod_ts_use_mode  : 3;  /**< [  2:  0](RO/H) Received Modified TS Usage Mode.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Usage field from the Modified TS/1TS2 Ordered Set. */
+        uint32_t rcvd_mod_ts_info1     : 13; /**< [ 15:  3](RO/H) Received Modified TS information 1.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 1 field from the Modified TS1/TS2 ordered set.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+        uint32_t rcvd_mod_ts_vend_id   : 16; /**< [ 31: 16](RO/H) Received Modified TS Vendor ID.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set received.
+
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_rmod_ts_data1_s cn; */
+};
+typedef union cavm_pciercx_pl32g_rmod_ts_data1 cavm_pciercx_pl32g_rmod_ts_data1_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(uint64_t a)
+{
+    if (a<=3)
+        return 0x1d4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_RMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(a) cavm_pciercx_pl32g_rmod_ts_data1_t
+#define bustype_CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(a) "PCIERCX_PL32G_RMOD_TS_DATA1"
+#define busnum_CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_rmod_ts_data2
+ *
+ * PCIe RC 32.0 GT/s Received Modified TS Data 2 Register
+ */
+union cavm_pciercx_pl32g_rmod_ts_data2
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_rmod_ts_data2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t rcvd_alt_prot_neg_stat : 2; /**< [ 25: 24](RO/H) Alternate Protocol Negotiation Status.  Indicates the status of the Alternate
+                                                                 Protocol Negotiation.
+
+                                                                 0x0: Not Supported.
+                                                                 0x1: Disabled.
+                                                                 0x2: Failed.
+                                                                 0x3: Succeeded. */
+        uint32_t rcvd_mod_ts_info2     : 24; /**< [ 23:  0](RO/H) Received Modified TS information 2.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 2 field from the Modified TS1/TS2 ordered set.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+#else /* Word 0 - Little Endian */
+        uint32_t rcvd_mod_ts_info2     : 24; /**< [ 23:  0](RO/H) Received Modified TS information 2.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 2 field from the Modified TS1/TS2 ordered set.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+        uint32_t rcvd_alt_prot_neg_stat : 2; /**< [ 25: 24](RO/H) Alternate Protocol Negotiation Status.  Indicates the status of the Alternate
+                                                                 Protocol Negotiation.
+
+                                                                 0x0: Not Supported.
+                                                                 0x1: Disabled.
+                                                                 0x2: Failed.
+                                                                 0x3: Succeeded. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_rmod_ts_data2_s cn; */
+};
+typedef union cavm_pciercx_pl32g_rmod_ts_data2 cavm_pciercx_pl32g_rmod_ts_data2_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(uint64_t a)
+{
+    if (a<=3)
+        return 0x1d8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_RMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(a) cavm_pciercx_pl32g_rmod_ts_data2_t
+#define bustype_CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(a) "PCIERCX_PL32G_RMOD_TS_DATA2"
+#define busnum_CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_status
+ *
+ * PCIe RC 32.0 GT/s Status Register
+ */
+union cavm_pciercx_pl32g_status
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t no_eq_needed_rcvd     : 1;  /**< [ 10: 10](RO/H) No Equalization Needed Received.
+                                                                 This bit is Set when this Port either received a Modified
+                                                                 TS1/TS2 with the No Equalization Needed bit Set or
+                                                                 received a non-modified TS1/TS2 was received with the
+                                                                 No Equalization Needed encoding. This bit is cleared on DL_Down. */
+        uint32_t tx_precode_req        : 1;  /**< [  9:  9](R/W) Transmitter Precode Request.
+                                                                 When set, this port will request the transmitter to use precoding by setting
+                                                                 the Precoding Request bit in the TS1s/TS2s it transmits prior to entry to
+                                                                 Recovery Speed. */
+        uint32_t tx_precode_on         : 1;  /**< [  8:  8](RO/H) Transmitter Precoding on.
+                                                                 This field indicates whether the receiver asked this transmitter to
+                                                                 enable precoding.  This bit is cleard on DL_Down. */
+        uint32_t rcvd_elbc             : 2;  /**< [  7:  6](RO/H) Received Enhanced Link behavior control.
+                                                                 This field contains the Enhanced Link Behavior Control bits
+                                                                 from the most recent TS1 or TS2 received in the Polling or Config states. */
+        uint32_t mod_ts_rcvd           : 1;  /**< [  5:  5](RO/H) Modified TS Received.
+                                                                 This bit is cleared with the link is down.
+                                                                 This bit is set when the modified TS1/TS2 Ordered Set is received. */
+        uint32_t leq_32g_req           : 1;  /**< [  4:  4](R/W1C) Link equalization request 32.0 GT/s */
+        uint32_t eq_32g_cpl_p3         : 1;  /**< [  3:  3](RO/H) Equalization 32.0 GT/s phase 3 successful. */
+        uint32_t eq_32g_cpl_p2         : 1;  /**< [  2:  2](RO/H) Equalization 32.0 GT/s phase 2 successful. */
+        uint32_t eq_32g_cpl_p1         : 1;  /**< [  1:  1](RO/H) Equalization 32.0 GT/s phase 1 successful. */
+        uint32_t eq_32g_cpl            : 1;  /**< [  0:  0](RO/H) Equalization 32.0 GT/s complete. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_32g_cpl            : 1;  /**< [  0:  0](RO/H) Equalization 32.0 GT/s complete. */
+        uint32_t eq_32g_cpl_p1         : 1;  /**< [  1:  1](RO/H) Equalization 32.0 GT/s phase 1 successful. */
+        uint32_t eq_32g_cpl_p2         : 1;  /**< [  2:  2](RO/H) Equalization 32.0 GT/s phase 2 successful. */
+        uint32_t eq_32g_cpl_p3         : 1;  /**< [  3:  3](RO/H) Equalization 32.0 GT/s phase 3 successful. */
+        uint32_t leq_32g_req           : 1;  /**< [  4:  4](R/W1C) Link equalization request 32.0 GT/s */
+        uint32_t mod_ts_rcvd           : 1;  /**< [  5:  5](RO/H) Modified TS Received.
+                                                                 This bit is cleared with the link is down.
+                                                                 This bit is set when the modified TS1/TS2 Ordered Set is received. */
+        uint32_t rcvd_elbc             : 2;  /**< [  7:  6](RO/H) Received Enhanced Link behavior control.
+                                                                 This field contains the Enhanced Link Behavior Control bits
+                                                                 from the most recent TS1 or TS2 received in the Polling or Config states. */
+        uint32_t tx_precode_on         : 1;  /**< [  8:  8](RO/H) Transmitter Precoding on.
+                                                                 This field indicates whether the receiver asked this transmitter to
+                                                                 enable precoding.  This bit is cleard on DL_Down. */
+        uint32_t tx_precode_req        : 1;  /**< [  9:  9](R/W) Transmitter Precode Request.
+                                                                 When set, this port will request the transmitter to use precoding by setting
+                                                                 the Precoding Request bit in the TS1s/TS2s it transmits prior to entry to
+                                                                 Recovery Speed. */
+        uint32_t no_eq_needed_rcvd     : 1;  /**< [ 10: 10](RO/H) No Equalization Needed Received.
+                                                                 This bit is Set when this Port either received a Modified
+                                                                 TS1/TS2 with the No Equalization Needed bit Set or
+                                                                 received a non-modified TS1/TS2 was received with the
+                                                                 No Equalization Needed encoding. This bit is cleared on DL_Down. */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_status_s cn; */
+};
+typedef union cavm_pciercx_pl32g_status cavm_pciercx_pl32g_status_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x1d0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_STATUS(a) cavm_pciercx_pl32g_status_t
+#define bustype_CAVM_PCIERCX_PL32G_STATUS(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_STATUS(a) "PCIERCX_PL32G_STATUS"
+#define busnum_CAVM_PCIERCX_PL32G_STATUS(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_tmod_ts_data1
+ *
+ * PCIe RC 32.0 GT/s Transmitted Modified TS Data 1 Register
+ */
+union cavm_pciercx_pl32g_tmod_ts_data1
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_tmod_ts_data1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_mod_ts_vend_id     : 16; /**< [ 31: 16](RO/H) Transmitted Modified TS Vendor ID.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set transmitted
+                                                                 during the most recent LTSSM state.
+
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+        uint32_t tx_mod_ts_info1       : 13; /**< [ 15:  3](RO/H) Transmitted Modified TS information 1.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 1 field from the Modified TS1/TS2 ordered set transmitted
+                                                                 during the most recent LTSSM state.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+        uint32_t tx_mod_ts_use_mode    : 3;  /**< [  2:  0](RO/H) Transmitted Modified TS Usage Mode.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Usage field from the Modified TS/1TS2 Ordered Set transmitted
+                                                                 during the most recent LTSSM state. */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_mod_ts_use_mode    : 3;  /**< [  2:  0](RO/H) Transmitted Modified TS Usage Mode.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Usage field from the Modified TS/1TS2 Ordered Set transmitted
+                                                                 during the most recent LTSSM state. */
+        uint32_t tx_mod_ts_info1       : 13; /**< [ 15:  3](RO/H) Transmitted Modified TS information 1.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 1 field from the Modified TS1/TS2 ordered set transmitted
+                                                                 during the most recent LTSSM state.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+        uint32_t tx_mod_ts_vend_id     : 16; /**< [ 31: 16](RO/H) Transmitted Modified TS Vendor ID.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set transmitted
+                                                                 during the most recent LTSSM state.
+
+                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_tmod_ts_data1_s cn; */
+};
+typedef union cavm_pciercx_pl32g_tmod_ts_data1 cavm_pciercx_pl32g_tmod_ts_data1_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(uint64_t a)
+{
+    if (a<=3)
+        return 0x1dc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_TMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(a) cavm_pciercx_pl32g_tmod_ts_data1_t
+#define bustype_CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(a) "PCIERCX_PL32G_TMOD_TS_DATA1"
+#define busnum_CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_tmod_ts_data2
+ *
+ * PCIe RC 32.0 GT/s Transmitted Modified TS Data 2 Register
+ */
+union cavm_pciercx_pl32g_tmod_ts_data2
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_tmod_ts_data2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tx_alt_prot_neg_stat  : 2;  /**< [ 25: 24](RO/H) Alternate Protocol Negotiation Status.  Indicates the status of the Alternate
+                                                                 Protocol Negotiation.
+
+                                                                 0x0: Not Supported.
+                                                                 0x1: Disabled.
+                                                                 0x2: Failed.
+                                                                 0x3: Succeeded. */
+        uint32_t tx_mod_ts_info2       : 24; /**< [ 23:  0](RO/H) Received Modified TS information 2.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 2 field from the Modified TS1/TS2 ordered set
+                                                                 transmitted during the most recent LTSSM state.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_mod_ts_info2       : 24; /**< [ 23:  0](RO/H) Received Modified TS information 2.
+                                                                 If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
+                                                                 Modified TS Information 2 field from the Modified TS1/TS2 ordered set
+                                                                 transmitted during the most recent LTSSM state.
+
+                                                                 synopsys documentation looks wrong.
+                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
+                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+        uint32_t tx_alt_prot_neg_stat  : 2;  /**< [ 25: 24](RO/H) Alternate Protocol Negotiation Status.  Indicates the status of the Alternate
+                                                                 Protocol Negotiation.
+
+                                                                 0x0: Not Supported.
+                                                                 0x1: Disabled.
+                                                                 0x2: Failed.
+                                                                 0x3: Succeeded. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_tmod_ts_data2_s cn; */
+};
+typedef union cavm_pciercx_pl32g_tmod_ts_data2 cavm_pciercx_pl32g_tmod_ts_data2_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(uint64_t a)
+{
+    if (a<=3)
+        return 0x1e0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL32G_TMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) cavm_pciercx_pl32g_tmod_ts_data2_t
+#define bustype_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) "PCIERCX_PL32G_TMOD_TS_DATA2"
+#define busnum_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl_ltr_latency
+ *
+ * PCIe RC LTR Latency Register
+ */
+union cavm_pciercx_pl_ltr_latency
+{
+    uint32_t u;
+    struct cavm_pciercx_pl_ltr_latency_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nslreq                : 1;  /**< [ 31: 31](R/W) No snoop latency requirement. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t nsls                  : 3;  /**< [ 28: 26](R/W) No snoop latency scale. */
+        uint32_t nslv                  : 10; /**< [ 25: 16](R/W) No snoop latency value. */
+        uint32_t slr                   : 1;  /**< [ 15: 15](R/W) Snoop latency requirement. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t sls                   : 3;  /**< [ 12: 10](R/W) Snoop latency scale. */
+        uint32_t slv                   : 10; /**< [  9:  0](R/W) Snoop latency value. */
+#else /* Word 0 - Little Endian */
+        uint32_t slv                   : 10; /**< [  9:  0](R/W) Snoop latency value. */
+        uint32_t sls                   : 3;  /**< [ 12: 10](R/W) Snoop latency scale. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t slr                   : 1;  /**< [ 15: 15](R/W) Snoop latency requirement. */
+        uint32_t nslv                  : 10; /**< [ 25: 16](R/W) No snoop latency value. */
+        uint32_t nsls                  : 3;  /**< [ 28: 26](R/W) No snoop latency scale. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t nslreq                : 1;  /**< [ 31: 31](R/W) No snoop latency requirement. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl_ltr_latency_s cn; */
+};
+typedef union cavm_pciercx_pl_ltr_latency cavm_pciercx_pl_ltr_latency_t;
+
+static inline uint64_t CAVM_PCIERCX_PL_LTR_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL_LTR_LATENCY(uint64_t a)
+{
+    if (a<=3)
+        return 0xb30 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PL_LTR_LATENCY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL_LTR_LATENCY(a) cavm_pciercx_pl_ltr_latency_t
+#define bustype_CAVM_PCIERCX_PL_LTR_LATENCY(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL_LTR_LATENCY(a) "PCIERCX_PL_LTR_LATENCY"
+#define busnum_CAVM_PCIERCX_PL_LTR_LATENCY(a) (a)
+#define arguments_CAVM_PCIERCX_PL_LTR_LATENCY(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pm_cap_id
+ *
+ * PCIe RC Power Management Capability ID Register
+ */
+union cavm_pciercx_pm_cap_id
+{
+    uint32_t u;
+    struct cavm_pciercx_pm_cap_id_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+                                                                 capable of generating PME messages while in that power state:
+
+                                                                 _ Bit 27: If set, PME Messages can be generated from D0.
+
+                                                                 _ Bit 28: If set, PME Messages can be generated from D1.
+
+                                                                 _ Bit 29: If set, PME Messages can be generated from D2.
+
+                                                                 _ Bit 30: If set, PME Messages can be generated from D3hot.
+
+                                                                 _ Bit 31: If set, PME Messages can be generated from D3cold.
+
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_TBL(). */
+        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_TBL(). */
+        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_TBL(). */
+        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_20           : 1;
+        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to zero. */
+        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the PCIe capabilities list by default, writable
+                                                                 through PEM()_CFG_TBL().  For a root complex, should be changed by configuration software
+                                                                 to 0x50 (Enhanced Allocation). */
+        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the PCIe capabilities list by default, writable
+                                                                 through PEM()_CFG_TBL().  For a root complex, should be changed by configuration software
+                                                                 to 0x50 (Enhanced Allocation). */
+        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to zero. */
+        uint32_t reserved_20           : 1;
+        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_TBL(). */
+        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_TBL(). */
+        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_TBL(). */
+        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_TBL(). */
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+                                                                 capable of generating PME messages while in that power state:
+
+                                                                 _ Bit 27: If set, PME Messages can be generated from D0.
+
+                                                                 _ Bit 28: If set, PME Messages can be generated from D1.
+
+                                                                 _ Bit 29: If set, PME Messages can be generated from D2.
+
+                                                                 _ Bit 30: If set, PME Messages can be generated from D3hot.
+
+                                                                 _ Bit 31: If set, PME Messages can be generated from D3cold.
+
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pm_cap_id_s cn; */
+};
+typedef union cavm_pciercx_pm_cap_id cavm_pciercx_pm_cap_id_t;
+
+static inline uint64_t CAVM_PCIERCX_PM_CAP_ID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PM_CAP_ID(uint64_t a)
+{
+    if (a<=3)
+        return 0x40 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PM_CAP_ID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PM_CAP_ID(a) cavm_pciercx_pm_cap_id_t
+#define bustype_CAVM_PCIERCX_PM_CAP_ID(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PM_CAP_ID(a) "PCIERCX_PM_CAP_ID"
+#define busnum_CAVM_PCIERCX_PM_CAP_ID(a) (a)
+#define arguments_CAVM_PCIERCX_PM_CAP_ID(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pm_ctl
+ *
+ * PCIe RC Power Management Control and Status Register
+ */
+union cavm_pciercx_pm_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_pm_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pmdia                 : 8;  /**< [ 31: 24](RO) Data register for additional information (not supported). */
+        uint32_t bpccee                : 1;  /**< [ 23: 23](RO) Bus power/clock control enable, hardwired to zero. */
+        uint32_t bd3h                  : 1;  /**< [ 22: 22](RO) B2/B3 support, hardwired to zero. */
+        uint32_t reserved_16_21        : 6;
+        uint32_t pmess                 : 1;  /**< [ 15: 15](R/W1C/H) PME status. Indicates whether or not a previously enabled PME event occurred. */
+        uint32_t pmedsia               : 2;  /**< [ 14: 13](RO) Data scale (not supported). */
+        uint32_t pmds                  : 4;  /**< [ 12:  9](RO) Data select (not supported). */
+        uint32_t pmeens                : 1;  /**< [  8:  8](R/W) PME enable. A value of one indicates that the device is enabled to generate PME. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t nsr                   : 1;  /**< [  3:  3](RO/WRSL) No soft reset, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_2            : 1;
+        uint32_t ps                    : 2;  /**< [  1:  0](R/W/H) Power state. Controls the device power state:
+                                                                 0x0 = D0.
+                                                                 0x1 = D1.
+                                                                 0x2 = D2.
+                                                                 0x3 = D3.
+
+                                                                 The written value is ignored if the specific state is not supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t ps                    : 2;  /**< [  1:  0](R/W/H) Power state. Controls the device power state:
+                                                                 0x0 = D0.
+                                                                 0x1 = D1.
+                                                                 0x2 = D2.
+                                                                 0x3 = D3.
+
+                                                                 The written value is ignored if the specific state is not supported. */
+        uint32_t reserved_2            : 1;
+        uint32_t nsr                   : 1;  /**< [  3:  3](RO/WRSL) No soft reset, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_4_7          : 4;
+        uint32_t pmeens                : 1;  /**< [  8:  8](R/W) PME enable. A value of one indicates that the device is enabled to generate PME. */
+        uint32_t pmds                  : 4;  /**< [ 12:  9](RO) Data select (not supported). */
+        uint32_t pmedsia               : 2;  /**< [ 14: 13](RO) Data scale (not supported). */
+        uint32_t pmess                 : 1;  /**< [ 15: 15](R/W1C/H) PME status. Indicates whether or not a previously enabled PME event occurred. */
+        uint32_t reserved_16_21        : 6;
+        uint32_t bd3h                  : 1;  /**< [ 22: 22](RO) B2/B3 support, hardwired to zero. */
+        uint32_t bpccee                : 1;  /**< [ 23: 23](RO) Bus power/clock control enable, hardwired to zero. */
+        uint32_t pmdia                 : 8;  /**< [ 31: 24](RO) Data register for additional information (not supported). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pm_ctl_s cn; */
+};
+typedef union cavm_pciercx_pm_ctl cavm_pciercx_pm_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PM_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x44 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PM_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PM_CTL(a) cavm_pciercx_pm_ctl_t
+#define bustype_CAVM_PCIERCX_PM_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PM_CTL(a) "PCIERCX_PM_CTL"
+#define busnum_CAVM_PCIERCX_PM_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PM_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pmem
+ *
+ * PCIe RC Prefetchable Memory and Limit Register
+ */
+union cavm_pciercx_pmem
+{
+    uint32_t u;
+    struct cavm_pciercx_pmem_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lmem_limit            : 12; /**< [ 31: 20](R/W) Upper 12 bits of 32-bit prefetchable memory end address. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t mem64b                : 1;  /**< [ 16: 16](RO) 64-bit memory addressing:
+                                                                 0 = 32-bit memory addressing.
+                                                                 1 = 64-bit memory addressing. */
+        uint32_t lmem_base             : 12; /**< [ 15:  4](R/W) Upper 12 bits of 32-bit prefetchable memory start address. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t mem64a                : 1;  /**< [  0:  0](RO/WRSL) 64-bit memory addressing:
+                                                                 0 = 32-bit memory addressing.
+                                                                 1 = 64-bit memory addressing.
+
+                                                                 This bit is writable through PEM()_CFG_TBL(). When the application writes to this bit
+                                                                 through PEM()_CFG_TBL(), the same value is written to bit 16 of this register. */
+#else /* Word 0 - Little Endian */
+        uint32_t mem64a                : 1;  /**< [  0:  0](RO/WRSL) 64-bit memory addressing:
+                                                                 0 = 32-bit memory addressing.
+                                                                 1 = 64-bit memory addressing.
+
+                                                                 This bit is writable through PEM()_CFG_TBL(). When the application writes to this bit
+                                                                 through PEM()_CFG_TBL(), the same value is written to bit 16 of this register. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t lmem_base             : 12; /**< [ 15:  4](R/W) Upper 12 bits of 32-bit prefetchable memory start address. */
+        uint32_t mem64b                : 1;  /**< [ 16: 16](RO) 64-bit memory addressing:
+                                                                 0 = 32-bit memory addressing.
+                                                                 1 = 64-bit memory addressing. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t lmem_limit            : 12; /**< [ 31: 20](R/W) Upper 12 bits of 32-bit prefetchable memory end address. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pmem_s cn; */
+};
+typedef union cavm_pciercx_pmem cavm_pciercx_pmem_t;
+
+static inline uint64_t CAVM_PCIERCX_PMEM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PMEM(uint64_t a)
+{
+    if (a<=3)
+        return 0x24 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PMEM", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PMEM(a) cavm_pciercx_pmem_t
+#define bustype_CAVM_PCIERCX_PMEM(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PMEM(a) "PCIERCX_PMEM"
+#define busnum_CAVM_PCIERCX_PMEM(a) (a)
+#define arguments_CAVM_PCIERCX_PMEM(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_port_ctl
+ *
+ * PCIe RC Port Link Control Register
+ */
+union cavm_pciercx_port_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_port_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t xlr_en                : 1;  /**< [ 27: 27](R/W) Transmit lane reversible enable.  Internally reserved field, do not set. */
+        uint32_t ex_synch              : 1;  /**< [ 26: 26](R/W) Extended synch.  Internally reserved field, do not set. */
+        uint32_t clcrc_en              : 1;  /**< [ 25: 25](R/W) Corrupt LCRC enable.  Internally reserved field, do not set. */
+        uint32_t beacon_en             : 1;  /**< [ 24: 24](R/W) Beacon enable.  Internally reserved field, do not set. */
+        uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
+        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
+                                                                 0x1 = x1.
+                                                                 0x3 = x2.
+                                                                 0x7 = x4.
+                                                                 0xF = x8 (not supported).
+                                                                 0x1F = x16 (not supported).
+                                                                 0x3F = x32 (not supported).
+
+                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
+                                                                 be set less than 0x1F to limit the number of lanes that the PCIe will attempt to use. The
+                                                                 programming of this field needs to be done by software before enabling the link. See also
+                                                                 PCIERC_LINK_CAP[MLW].
+                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
+                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x16, x8,
+                                                                 x4, x2, and x1 are supported when
+                                                                 [LME] = 0x1F, for example.
+
+                                                                 This field is required to be set to a value which is greater then or equal to the
+                                                                 configured pipe width in PEM()_CFG[LANES].  Smaller values will result in interoperability
+                                                                 issues with the PHY. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint32_t flm                   : 1;  /**< [  7:  7](R/W) Fast link mode. Sets all internal timers to fast mode for simulation purposes.
+                                                                 The scaling factor is configured by PCIERC_TIMER_CTL[FLMSF]. */
+        uint32_t ldis                  : 1;  /**< [  6:  6](R/W) Link disable. Internally reserved field, do not set. */
+        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
+                                                                 does not transmit InitFC DLLPs and does not establish a link. */
+        uint32_t reserved_4            : 1;
+        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
+                                                                 port only). */
+        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0-\>1 transition, the PCIe core
+                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
+                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
+                                                                 mode, take the link through a reset sequence. */
+        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
+        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a one to this bit, the PCI Express bus transmits
+                                                                 the message contained in the other message register. */
+#else /* Word 0 - Little Endian */
+        uint32_t omr                   : 1;  /**< [  0:  0](WO/H) Other message request. When software writes a one to this bit, the PCI Express bus transmits
+                                                                 the message contained in the other message register. */
+        uint32_t sd                    : 1;  /**< [  1:  1](R/W) Scramble disable. Setting this bit turns off data scrambling. */
+        uint32_t le                    : 1;  /**< [  2:  2](R/W) Loopback enable. Initiate loopback mode as a master. On a 0-\>1 transition, the PCIe core
+                                                                 sends TS ordered sets with the loopback bit set to cause the link partner to enter into
+                                                                 loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
+                                                                 mode, take the link through a reset sequence. */
+        uint32_t ra                    : 1;  /**< [  3:  3](R/W) Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
+                                                                 port only). */
+        uint32_t reserved_4            : 1;
+        uint32_t dllle                 : 1;  /**< [  5:  5](R/W) DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
+                                                                 does not transmit InitFC DLLPs and does not establish a link. */
+        uint32_t ldis                  : 1;  /**< [  6:  6](R/W) Link disable. Internally reserved field, do not set. */
+        uint32_t flm                   : 1;  /**< [  7:  7](R/W) Fast link mode. Sets all internal timers to fast mode for simulation purposes.
+                                                                 The scaling factor is configured by PCIERC_TIMER_CTL[FLMSF]. */
+        uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
+                                                                 0x1 = x1.
+                                                                 0x3 = x2.
+                                                                 0x7 = x4.
+                                                                 0xF = x8 (not supported).
+                                                                 0x1F = x16 (not supported).
+                                                                 0x3F = x32 (not supported).
+
+                                                                 This field indicates the maximum number of lanes supported by the PCIe port. The value can
+                                                                 be set less than 0x1F to limit the number of lanes that the PCIe will attempt to use. The
+                                                                 programming of this field needs to be done by software before enabling the link. See also
+                                                                 PCIERC_LINK_CAP[MLW].
+                                                                 The value of this field does not indicate the number of lanes in use by the PCIe. This
+                                                                 field sets the maximum number of lanes in the PCIe core that could be used. As per the
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x16, x8,
+                                                                 x4, x2, and x1 are supported when
+                                                                 [LME] = 0x1F, for example.
+
+                                                                 This field is required to be set to a value which is greater then or equal to the
+                                                                 configured pipe width in PEM()_CFG[LANES].  Smaller values will result in interoperability
+                                                                 issues with the PHY. */
+        uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
+        uint32_t beacon_en             : 1;  /**< [ 24: 24](R/W) Beacon enable.  Internally reserved field, do not set. */
+        uint32_t clcrc_en              : 1;  /**< [ 25: 25](R/W) Corrupt LCRC enable.  Internally reserved field, do not set. */
+        uint32_t ex_synch              : 1;  /**< [ 26: 26](R/W) Extended synch.  Internally reserved field, do not set. */
+        uint32_t xlr_en                : 1;  /**< [ 27: 27](R/W) Transmit lane reversible enable.  Internally reserved field, do not set. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_port_ctl_s cn; */
+};
+typedef union cavm_pciercx_port_ctl cavm_pciercx_port_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PORT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PORT_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x710 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PORT_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PORT_CTL(a) cavm_pciercx_port_ctl_t
+#define bustype_CAVM_PCIERCX_PORT_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PORT_CTL(a) "PCIERCX_PORT_CTL"
+#define busnum_CAVM_PCIERCX_PORT_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PORT_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_port_flink
+ *
+ * PCIe RC Port Force Link Register
+ */
+union cavm_pciercx_port_flink
+{
+    uint32_t u;
+    struct cavm_pciercx_port_flink_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t deskew_for_sris       : 1;  /**< [ 23: 23](R/W) Use the transitions from TS2 to logical idle symbol, SKP OS to logical idle symbol,
+                                                                 and FTS sequence to SKP OS to do deskew for SRIS instead of using received SKP OS
+                                                                 if [DESKEW_FOR_SRIS] is one. */
+        uint32_t supp_planes_rxei_exit : 1;  /**< [ 22: 22](R/W) Support LTSSM transition from Polling.Active to
+                                                                 Polling.Config based on Rx 8 TSs on any lanes which are Rx
+                                                                 EI exit too from base spec after 24ms timeout. This prevents
+                                                                 some lanes detected but not Rx EI exit and LTSSM cannot
+                                                                 move to Polling.Config. */
+        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
+                                                                 is set. State encoding:
+                                                                 0x0 = DETECT_QUIET.
+                                                                 0x1 = DETECT_ACT.
+                                                                 0x2 = POLL_ACTIVE.
+                                                                 0x3 = POLL_COMPLIANCE.
+                                                                 0x4 = POLL_CONFIG.
+                                                                 0x5 = PRE_DETECT_QUIET.
+                                                                 0x6 = DETECT_WAIT.
+                                                                 0x7 = CFG_LINKWD_START.
+                                                                 0x8 = CFG_LINKWD_ACEPT.
+                                                                 0x9 = CFG_LANENUM_WAIT.
+                                                                 0xA = CFG_LANENUM_ACEPT.
+                                                                 0xB = CFG_COMPLETE.
+                                                                 0xC = CFG_IDLE.
+                                                                 0xD = RCVRY_LOCK.
+                                                                 0xE = RCVRY_SPEED.
+                                                                 0xF = RCVRY_RCVRCFG.
+                                                                 0x10 = RCVRY_IDLE.
+                                                                 0x11 = L0.
+                                                                 0x12 = L0S.
+                                                                 0x13 = L123_SEND_EIDLE.
+                                                                 0x14 = L1_IDLE.
+                                                                 0x15 = L2_IDLE.
+                                                                 0x16 = L2_WAKE.
+                                                                 0x17 = DISABLED_ENTRY.
+                                                                 0x18 = DISABLED_IDLE.
+                                                                 0x19 = DISABLED.
+                                                                 0x1A = LPBK_ENTRY.
+                                                                 0x1B = LPBK_ACTIVE.
+                                                                 0x1C = LPBK_EXIT.
+                                                                 0x1D = LPBK_EXIT_TIMEOUT.
+                                                                 0x1E = HOT_RESET_ENTRY.
+                                                                 0x1F = HOT_RESET. */
+        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by [LINK_STATE]. The force link
+                                                                 pulse triggers link renegotiation.
+                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
+                                                                 even though reading it always returns a 0. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t forced_ltssm          : 4;  /**< [ 11:  8](R/W) Forced link command. */
+        uint32_t link_num              : 8;  /**< [  7:  0](R/W) Link number. */
+#else /* Word 0 - Little Endian */
+        uint32_t link_num              : 8;  /**< [  7:  0](R/W) Link number. */
+        uint32_t forced_ltssm          : 4;  /**< [ 11:  8](R/W) Forced link command. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by [LINK_STATE]. The force link
+                                                                 pulse triggers link renegotiation.
+                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
+                                                                 even though reading it always returns a 0. */
+        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
+                                                                 is set. State encoding:
+                                                                 0x0 = DETECT_QUIET.
+                                                                 0x1 = DETECT_ACT.
+                                                                 0x2 = POLL_ACTIVE.
+                                                                 0x3 = POLL_COMPLIANCE.
+                                                                 0x4 = POLL_CONFIG.
+                                                                 0x5 = PRE_DETECT_QUIET.
+                                                                 0x6 = DETECT_WAIT.
+                                                                 0x7 = CFG_LINKWD_START.
+                                                                 0x8 = CFG_LINKWD_ACEPT.
+                                                                 0x9 = CFG_LANENUM_WAIT.
+                                                                 0xA = CFG_LANENUM_ACEPT.
+                                                                 0xB = CFG_COMPLETE.
+                                                                 0xC = CFG_IDLE.
+                                                                 0xD = RCVRY_LOCK.
+                                                                 0xE = RCVRY_SPEED.
+                                                                 0xF = RCVRY_RCVRCFG.
+                                                                 0x10 = RCVRY_IDLE.
+                                                                 0x11 = L0.
+                                                                 0x12 = L0S.
+                                                                 0x13 = L123_SEND_EIDLE.
+                                                                 0x14 = L1_IDLE.
+                                                                 0x15 = L2_IDLE.
+                                                                 0x16 = L2_WAKE.
+                                                                 0x17 = DISABLED_ENTRY.
+                                                                 0x18 = DISABLED_IDLE.
+                                                                 0x19 = DISABLED.
+                                                                 0x1A = LPBK_ENTRY.
+                                                                 0x1B = LPBK_ACTIVE.
+                                                                 0x1C = LPBK_EXIT.
+                                                                 0x1D = LPBK_EXIT_TIMEOUT.
+                                                                 0x1E = HOT_RESET_ENTRY.
+                                                                 0x1F = HOT_RESET. */
+        uint32_t supp_planes_rxei_exit : 1;  /**< [ 22: 22](R/W) Support LTSSM transition from Polling.Active to
+                                                                 Polling.Config based on Rx 8 TSs on any lanes which are Rx
+                                                                 EI exit too from base spec after 24ms timeout. This prevents
+                                                                 some lanes detected but not Rx EI exit and LTSSM cannot
+                                                                 move to Polling.Config. */
+        uint32_t deskew_for_sris       : 1;  /**< [ 23: 23](R/W) Use the transitions from TS2 to logical idle symbol, SKP OS to logical idle symbol,
+                                                                 and FTS sequence to SKP OS to do deskew for SRIS instead of using received SKP OS
+                                                                 if [DESKEW_FOR_SRIS] is one. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_port_flink_s cn; */
+};
+typedef union cavm_pciercx_port_flink cavm_pciercx_port_flink_t;
+
+static inline uint64_t CAVM_PCIERCX_PORT_FLINK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PORT_FLINK(uint64_t a)
+{
+    if (a<=3)
+        return 0x708 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PORT_FLINK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PORT_FLINK(a) cavm_pciercx_port_flink_t
+#define bustype_CAVM_PCIERCX_PORT_FLINK(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PORT_FLINK(a) "PCIERCX_PORT_FLINK"
+#define busnum_CAVM_PCIERCX_PORT_FLINK(a) (a)
+#define arguments_CAVM_PCIERCX_PORT_FLINK(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pre_base
+ *
+ * PCIe RC Prefetchable Base Upper 32 Bits Register
+ */
+union cavm_pciercx_pre_base
+{
+    uint32_t u;
+    struct cavm_pciercx_pre_base_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t umem_base             : 32; /**< [ 31:  0](R/W) Upper 32 bits of base address of prefetchable memory space. Used only when 64-bit
+                                                                 prefetchable memory addressing is enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t umem_base             : 32; /**< [ 31:  0](R/W) Upper 32 bits of base address of prefetchable memory space. Used only when 64-bit
+                                                                 prefetchable memory addressing is enabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pre_base_s cn; */
+};
+typedef union cavm_pciercx_pre_base cavm_pciercx_pre_base_t;
+
+static inline uint64_t CAVM_PCIERCX_PRE_BASE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PRE_BASE(uint64_t a)
+{
+    if (a<=3)
+        return 0x28 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PRE_BASE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PRE_BASE(a) cavm_pciercx_pre_base_t
+#define bustype_CAVM_PCIERCX_PRE_BASE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PRE_BASE(a) "PCIERCX_PRE_BASE"
+#define busnum_CAVM_PCIERCX_PRE_BASE(a) (a)
+#define arguments_CAVM_PCIERCX_PRE_BASE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pre_limit
+ *
+ * PCIe RC Prefetchable Limit Upper 32 Bits Register
+ */
+union cavm_pciercx_pre_limit
+{
+    uint32_t u;
+    struct cavm_pciercx_pre_limit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t umem_limit            : 32; /**< [ 31:  0](R/W) Upper 32 bits of limit address of prefetchable memory space. Used only when 64-bit
+                                                                 prefetchable memory addressing is enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t umem_limit            : 32; /**< [ 31:  0](R/W) Upper 32 bits of limit address of prefetchable memory space. Used only when 64-bit
+                                                                 prefetchable memory addressing is enabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pre_limit_s cn; */
+};
+typedef union cavm_pciercx_pre_limit cavm_pciercx_pre_limit_t;
+
+static inline uint64_t CAVM_PCIERCX_PRE_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PRE_LIMIT(uint64_t a)
+{
+    if (a<=3)
+        return 0x2c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PRE_LIMIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PRE_LIMIT(a) cavm_pciercx_pre_limit_t
+#define bustype_CAVM_PCIERCX_PRE_LIMIT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PRE_LIMIT(a) "PCIERCX_PRE_LIMIT"
+#define busnum_CAVM_PCIERCX_PRE_LIMIT(a) (a)
+#define arguments_CAVM_PCIERCX_PRE_LIMIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_cap
+ *
+ * PCIe RC Precision Time Measurement Capabilities Register
+ */
+union cavm_pciercx_ptm_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL) PTM local clock granularity. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t eptm                  : 1;  /**< [  3:  3](RO/WRSL) ePTM capable. */
+        uint32_t rtc                   : 1;  /**< [  2:  2](RO/WRSL) PTM root capable. */
+        uint32_t rsc                   : 1;  /**< [  1:  1](RO/WRSL) PTM responder capable. */
+        uint32_t rqc                   : 1;  /**< [  0:  0](RO/WRSL) PTM requester capable. */
+#else /* Word 0 - Little Endian */
+        uint32_t rqc                   : 1;  /**< [  0:  0](RO/WRSL) PTM requester capable. */
+        uint32_t rsc                   : 1;  /**< [  1:  1](RO/WRSL) PTM responder capable. */
+        uint32_t rtc                   : 1;  /**< [  2:  2](RO/WRSL) PTM root capable. */
+        uint32_t eptm                  : 1;  /**< [  3:  3](RO/WRSL) ePTM capable. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL) PTM local clock granularity. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_cap_s cn; */
+};
+typedef union cavm_pciercx_ptm_cap cavm_pciercx_ptm_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x394 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_CAP(a) cavm_pciercx_ptm_cap_t
+#define bustype_CAVM_PCIERCX_PTM_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_CAP(a) "PCIERCX_PTM_CAP"
+#define busnum_CAVM_PCIERCX_PTM_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_ctl
+ *
+ * PCIe RC Precision Time Measurement Control Register
+ */
+union cavm_pciercx_ptm_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eff_gran              : 8;  /**< [ 15:  8](R/W) PTM effective granularity. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t rt_sel                : 1;  /**< [  1:  1](R/W) PTM root select. When set this time source is the PTM root.
+                                                                 Writable only when PCIERC_PTM_CAP[RTC] is set. */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) PTM enable. When set, this function is permitted to participate in the PTM mechanism. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) PTM enable. When set, this function is permitted to participate in the PTM mechanism. */
+        uint32_t rt_sel                : 1;  /**< [  1:  1](R/W) PTM root select. When set this time source is the PTM root.
+                                                                 Writable only when PCIERC_PTM_CAP[RTC] is set. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t eff_gran              : 8;  /**< [ 15:  8](R/W) PTM effective granularity. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_ctl_s cn; */
+};
+typedef union cavm_pciercx_ptm_ctl cavm_pciercx_ptm_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x398 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_CTL(a) cavm_pciercx_ptm_ctl_t
+#define bustype_CAVM_PCIERCX_PTM_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_CTL(a) "PCIERCX_PTM_CTL"
+#define busnum_CAVM_PCIERCX_PTM_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_ext_cap_hdr
+ *
+ * PCIe RC Precision Time Measurement Capability Header Register
+ */
+union cavm_pciercx_ptm_ext_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_ext_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_ext_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_ptm_ext_cap_hdr cavm_pciercx_ptm_ext_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_EXT_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x390 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_EXT_CAP_HDR(a) cavm_pciercx_ptm_ext_cap_hdr_t
+#define bustype_CAVM_PCIERCX_PTM_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_EXT_CAP_HDR(a) "PCIERCX_PTM_EXT_CAP_HDR"
+#define busnum_CAVM_PCIERCX_PTM_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_EXT_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_cap_hdr
+ *
+ * PCIe RC Precision Time Measurement Responder Capability Header Register
+ */
+union cavm_pciercx_ptm_res_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_cap_hdr cavm_pciercx_ptm_res_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x39c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_CAP_HDR(a) cavm_pciercx_ptm_res_cap_hdr_t
+#define bustype_CAVM_PCIERCX_PTM_RES_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_CAP_HDR(a) "PCIERCX_PTM_RES_CAP_HDR"
+#define busnum_CAVM_PCIERCX_PTM_RES_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_ctl
+ *
+ * PCIe RC Precision Time Measurement Responder Control Register
+ */
+union cavm_pciercx_ptm_res_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t pd_byterev            : 1;  /**< [  1:  1](R/W) PTM requester propagation delay byte reverse
+
+                                                                 0 = The PTM propagation delay word in the PTM response
+                                                                 message is implemented as high order byte first.
+
+                                                                 1 = The PTM propagation delay word in the PTM response
+                                                                 message is implemented as low order byte first, which is not
+                                                                 in accordance with the PCI-SIG interpretation. */
+        uint32_t pres_ctx_vld          : 1;  /**< [  0:  0](RO/WRSL/H) PTM responder control context valid - PTM local timing is valid.
+                                                                 A speed change or aux_clk_active will set this bit low. */
+#else /* Word 0 - Little Endian */
+        uint32_t pres_ctx_vld          : 1;  /**< [  0:  0](RO/WRSL/H) PTM responder control context valid - PTM local timing is valid.
+                                                                 A speed change or aux_clk_active will set this bit low. */
+        uint32_t pd_byterev            : 1;  /**< [  1:  1](R/W) PTM requester propagation delay byte reverse
+
+                                                                 0 = The PTM propagation delay word in the PTM response
+                                                                 message is implemented as high order byte first.
+
+                                                                 1 = The PTM propagation delay word in the PTM response
+                                                                 message is implemented as low order byte first, which is not
+                                                                 in accordance with the PCI-SIG interpretation. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_ctl_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_ctl cavm_pciercx_ptm_res_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x3a4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_CTL(a) cavm_pciercx_ptm_res_ctl_t
+#define bustype_CAVM_PCIERCX_PTM_RES_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_CTL(a) "PCIERCX_PTM_RES_CTL"
+#define busnum_CAVM_PCIERCX_PTM_RES_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_hdr
+ *
+ * PCIe RC Precision Time Measurement Responder Vendor Specific Header Register
+ */
+union cavm_pciercx_ptm_res_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vlen                  : 12; /**< [ 31: 20](RO/WRSL) PTM responder VSEC length. */
+        uint32_t vrev                  : 4;  /**< [ 19: 16](RO/WRSL) PTM responder VSEC revision. */
+        uint32_t vid                   : 16; /**< [ 15:  0](RO/WRSL) PTM responder VSEC ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t vid                   : 16; /**< [ 15:  0](RO/WRSL) PTM responder VSEC ID. */
+        uint32_t vrev                  : 4;  /**< [ 19: 16](RO/WRSL) PTM responder VSEC revision. */
+        uint32_t vlen                  : 12; /**< [ 31: 20](RO/WRSL) PTM responder VSEC length. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_hdr_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_hdr cavm_pciercx_ptm_res_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x3a0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_HDR(a) cavm_pciercx_ptm_res_hdr_t
+#define bustype_CAVM_PCIERCX_PTM_RES_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_HDR(a) "PCIERCX_PTM_RES_HDR"
+#define busnum_CAVM_PCIERCX_PTM_RES_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_local_lsb
+ *
+ * PCIe RC PTM Responder Local Clock LSB Register
+ */
+union cavm_pciercx_ptm_res_local_lsb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_local_lsb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t clk_lsb               : 32; /**< [ 31:  0](RO/WRSL) PTM responder local clock LSB. Lower 32 bits of local timer value. */
+#else /* Word 0 - Little Endian */
+        uint32_t clk_lsb               : 32; /**< [ 31:  0](RO/WRSL) PTM responder local clock LSB. Lower 32 bits of local timer value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_local_lsb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_local_lsb cavm_pciercx_ptm_res_local_lsb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_LSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_LSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3ac + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_LOCAL_LSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_LOCAL_LSB(a) cavm_pciercx_ptm_res_local_lsb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_LOCAL_LSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_LOCAL_LSB(a) "PCIERCX_PTM_RES_LOCAL_LSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_LOCAL_LSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_LOCAL_LSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_local_msb
+ *
+ * PCIe RC PTM Responder Local Clock MSB Register
+ */
+union cavm_pciercx_ptm_res_local_msb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_local_msb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t clk_msb               : 32; /**< [ 31:  0](RO/WRSL) PTM responder local clock MSB. Upper 32 bits of local timer value. */
+#else /* Word 0 - Little Endian */
+        uint32_t clk_msb               : 32; /**< [ 31:  0](RO/WRSL) PTM responder local clock MSB. Upper 32 bits of local timer value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_local_msb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_local_msb cavm_pciercx_ptm_res_local_msb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3b0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_LOCAL_MSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) cavm_pciercx_ptm_res_local_msb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) "PCIERCX_PTM_RES_LOCAL_MSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_rx_latency
+ *
+ * PCIe RC PTM Responder RX Latency Register
+ */
+union cavm_pciercx_ptm_res_rx_latency
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_rx_latency_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency. */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_rx_latency_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_rx_latency cavm_pciercx_ptm_res_rx_latency_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a)
+{
+    if (a<=3)
+        return 0x3d8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_RX_LATENCY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) cavm_pciercx_ptm_res_rx_latency_t
+#define bustype_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) "PCIERCX_PTM_RES_RX_LATENCY"
+#define busnum_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_status
+ *
+ * PCIe RC PTM Responder Status Register
+ */
+union cavm_pciercx_ptm_res_status
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t first_req_rcv         : 1;  /**< [  1:  1](RO/H) PTM first request received. */
+        uint32_t ctxt_vld              : 1;  /**< [  0:  0](RO/H) PTM responder status context valid. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctxt_vld              : 1;  /**< [  0:  0](RO/H) PTM responder status context valid. */
+        uint32_t first_req_rcv         : 1;  /**< [  1:  1](RO/H) PTM first request received. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_status_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_status cavm_pciercx_ptm_res_status_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x3a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_STATUS(a) cavm_pciercx_ptm_res_status_t
+#define bustype_CAVM_PCIERCX_PTM_RES_STATUS(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_STATUS(a) "PCIERCX_PTM_RES_STATUS"
+#define busnum_CAVM_PCIERCX_PTM_RES_STATUS(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t2_lsb
+ *
+ * PCIe RC PTM Responder T2 Timestamp LSB Register
+ */
+union cavm_pciercx_ptm_res_t2_lsb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t2_lsb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ts_lsb                : 32; /**< [ 31:  0](RO/H) PTM responder T2 timestamp LSB. Lower 32 bits of the T2 timestamp value. */
+#else /* Word 0 - Little Endian */
+        uint32_t ts_lsb                : 32; /**< [ 31:  0](RO/H) PTM responder T2 timestamp LSB. Lower 32 bits of the T2 timestamp value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t2_lsb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t2_lsb cavm_pciercx_ptm_res_t2_lsb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_LSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_LSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T2_LSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T2_LSB(a) cavm_pciercx_ptm_res_t2_lsb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T2_LSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T2_LSB(a) "PCIERCX_PTM_RES_T2_LSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T2_LSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T2_LSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t2_msb
+ *
+ * PCIe RC PTM Responder T2 Timestamp MSB Register
+ */
+union cavm_pciercx_ptm_res_t2_msb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t2_msb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ts_msb                : 32; /**< [ 31:  0](RO/H) PTM responder T2 timestamp MSB. Upper 32 bits of the T2 timestamp value. */
+#else /* Word 0 - Little Endian */
+        uint32_t ts_msb                : 32; /**< [ 31:  0](RO/H) PTM responder T2 timestamp MSB. Upper 32 bits of the T2 timestamp value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t2_msb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t2_msb cavm_pciercx_ptm_res_t2_msb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_MSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_MSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T2_MSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T2_MSB(a) cavm_pciercx_ptm_res_t2_msb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T2_MSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T2_MSB(a) "PCIERCX_PTM_RES_T2_MSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T2_MSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T2_MSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t2p_lsb
+ *
+ * PCIe RC PTM Responder T2 Previous Timestamp LSB Register
+ */
+union cavm_pciercx_ptm_res_t2p_lsb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t2p_lsb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t t2p_lsb               : 32; /**< [ 31:  0](RO/H) PTM responder T2 previous timestamp LSB. */
+#else /* Word 0 - Little Endian */
+        uint32_t t2p_lsb               : 32; /**< [ 31:  0](RO/H) PTM responder T2 previous timestamp LSB. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t2p_lsb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t2p_lsb cavm_pciercx_ptm_res_t2p_lsb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_LSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_LSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T2P_LSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T2P_LSB(a) cavm_pciercx_ptm_res_t2p_lsb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T2P_LSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T2P_LSB(a) "PCIERCX_PTM_RES_T2P_LSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T2P_LSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T2P_LSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t2p_msb
+ *
+ * PCIe RC PTM Responder T2 Previous Timestamp MSB Register
+ */
+union cavm_pciercx_ptm_res_t2p_msb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t2p_msb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t t2p_msb               : 32; /**< [ 31:  0](RO/H) PTM responder T2 previous timestamp MSB. */
+#else /* Word 0 - Little Endian */
+        uint32_t t2p_msb               : 32; /**< [ 31:  0](RO/H) PTM responder T2 previous timestamp MSB. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t2p_msb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t2p_msb cavm_pciercx_ptm_res_t2p_msb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_MSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_MSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T2P_MSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T2P_MSB(a) cavm_pciercx_ptm_res_t2p_msb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T2P_MSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T2P_MSB(a) "PCIERCX_PTM_RES_T2P_MSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T2P_MSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T2P_MSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t3_lsb
+ *
+ * PCIe RC PTM Responder T3 Timestamp LSB Register
+ */
+union cavm_pciercx_ptm_res_t3_lsb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t3_lsb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t t3_lsb                : 32; /**< [ 31:  0](RO/H) PTM responder T3 timestamp LSB. */
+#else /* Word 0 - Little Endian */
+        uint32_t t3_lsb                : 32; /**< [ 31:  0](RO/H) PTM responder T3 timestamp LSB. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t3_lsb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t3_lsb cavm_pciercx_ptm_res_t3_lsb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_LSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_LSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T3_LSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T3_LSB(a) cavm_pciercx_ptm_res_t3_lsb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T3_LSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T3_LSB(a) "PCIERCX_PTM_RES_T3_LSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T3_LSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T3_LSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t3_msb
+ *
+ * PCIe RC PTM Responder T3 Timestamp MSB Register
+ */
+union cavm_pciercx_ptm_res_t3_msb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t3_msb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t t3                    : 32; /**< [ 31:  0](RO/H) PTM responder T3 timestamp MSB. */
+#else /* Word 0 - Little Endian */
+        uint32_t t3                    : 32; /**< [ 31:  0](RO/H) PTM responder T3 timestamp MSB. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t3_msb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t3_msb cavm_pciercx_ptm_res_t3_msb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_MSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_MSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T3_MSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T3_MSB(a) cavm_pciercx_ptm_res_t3_msb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T3_MSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T3_MSB(a) "PCIERCX_PTM_RES_T3_MSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T3_MSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T3_MSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t3p_lsb
+ *
+ * PCIe RC PTM Responder T3 Previous Timestamp LSB Register
+ */
+union cavm_pciercx_ptm_res_t3p_lsb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t3p_lsb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t t3p_lsb               : 32; /**< [ 31:  0](RO/H) PTM responder T3 previous timestamp LSB. */
+#else /* Word 0 - Little Endian */
+        uint32_t t3p_lsb               : 32; /**< [ 31:  0](RO/H) PTM responder T3 previous timestamp LSB. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t3p_lsb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t3p_lsb cavm_pciercx_ptm_res_t3p_lsb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_LSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_LSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3cc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T3P_LSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T3P_LSB(a) cavm_pciercx_ptm_res_t3p_lsb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T3P_LSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T3P_LSB(a) "PCIERCX_PTM_RES_T3P_LSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T3P_LSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T3P_LSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_t3p_msb
+ *
+ * PCIe RC PTM Responder T3 Previous Timestamp MSB Register
+ */
+union cavm_pciercx_ptm_res_t3p_msb
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_t3p_msb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t t3p_msb               : 32; /**< [ 31:  0](RO/H) PTM responder T3 previous timestamp MSB. */
+#else /* Word 0 - Little Endian */
+        uint32_t t3p_msb               : 32; /**< [ 31:  0](RO/H) PTM responder T3 previous timestamp MSB. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_t3p_msb_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_t3p_msb cavm_pciercx_ptm_res_t3p_msb_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_MSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_MSB(uint64_t a)
+{
+    if (a<=3)
+        return 0x3d0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_T3P_MSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_T3P_MSB(a) cavm_pciercx_ptm_res_t3p_msb_t
+#define bustype_CAVM_PCIERCX_PTM_RES_T3P_MSB(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_T3P_MSB(a) "PCIERCX_PTM_RES_T3P_MSB"
+#define busnum_CAVM_PCIERCX_PTM_RES_T3P_MSB(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_T3P_MSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_tx_latency
+ *
+ * PCIe RC PTM Responder TX Latency Register
+ */
+union cavm_pciercx_ptm_res_tx_latency
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_tx_latency_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM responder TX latency. */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM responder TX latency. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_tx_latency_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_tx_latency cavm_pciercx_ptm_res_tx_latency_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_TX_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_TX_LATENCY(uint64_t a)
+{
+    if (a<=3)
+        return 0x3d4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_TX_LATENCY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_TX_LATENCY(a) cavm_pciercx_ptm_res_tx_latency_t
+#define bustype_CAVM_PCIERCX_PTM_RES_TX_LATENCY(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_TX_LATENCY(a) "PCIERCX_PTM_RES_TX_LATENCY"
+#define busnum_CAVM_PCIERCX_PTM_RES_TX_LATENCY(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_TX_LATENCY(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_queue_status
+ *
+ * PCIe RC Queue Status Register
+ */
+union cavm_pciercx_queue_status
+{
+    uint32_t u;
+    struct cavm_pciercx_queue_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t fcltoe                : 1;  /**< [ 31: 31](R/W) FC latency timer override enable. When this bit is set, the value in
+                                                                 PCIERC_QUEUE_STATUS[FCLTOV] will override the FC latency timer value that the
+                                                                 core calculates according to the PCIe specification. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t fcltov                : 13; /**< [ 28: 16](R/W) FC latency timer override value. When you set PCIERC_QUEUE_STATUS[FCLTOE], the
+                                                                 value in this field will override the FC latency timer value that the core
+                                                                 calculates according to the PCIe specification. */
+        uint32_t rsqre                 : 1;  /**< [ 15: 15](R/W1C) Receive serialization queue read error. Indicates the serialization queue has
+                                                                 attempted to read an incorrectly formatted TLP. */
+        uint32_t rsqwe                 : 1;  /**< [ 14: 14](R/W1C) Receive serialization queue write error. Indicates insufficient buffer space
+                                                                 available to write to the serialization queue. */
+        uint32_t rsqne                 : 1;  /**< [ 13: 13](RO/H) Receive serialization queue not empty. Indicates there is data in the serialization queue. */
+        uint32_t reserved_4_12         : 9;
+        uint32_t rqof                  : 1;  /**< [  3:  3](R/W1C) Receive credit queue overflow. Indicates insufficient buffer space available to
+                                                                 write to the P/NP/CPL credit queue. */
+        uint32_t rqne                  : 1;  /**< [  2:  2](RO/H) Received queue not empty. Indicates there is data in one or more of the receive buffers. */
+        uint32_t trbne                 : 1;  /**< [  1:  1](RO/H) Transmit retry buffer not empty. Indicates that there is data in the transmit retry buffer. */
+        uint32_t rtlpfccnr             : 1;  /**< [  0:  0](RO/H) Received TLP FC credits not returned. Indicates that the PCI Express bus has sent a TLP
+                                                                 but has not yet received an UpdateFC DLLP indicating that the credits for that TLP have
+                                                                 been restored by the receiver at the other end of the link. */
+#else /* Word 0 - Little Endian */
+        uint32_t rtlpfccnr             : 1;  /**< [  0:  0](RO/H) Received TLP FC credits not returned. Indicates that the PCI Express bus has sent a TLP
+                                                                 but has not yet received an UpdateFC DLLP indicating that the credits for that TLP have
+                                                                 been restored by the receiver at the other end of the link. */
+        uint32_t trbne                 : 1;  /**< [  1:  1](RO/H) Transmit retry buffer not empty. Indicates that there is data in the transmit retry buffer. */
+        uint32_t rqne                  : 1;  /**< [  2:  2](RO/H) Received queue not empty. Indicates there is data in one or more of the receive buffers. */
+        uint32_t rqof                  : 1;  /**< [  3:  3](R/W1C) Receive credit queue overflow. Indicates insufficient buffer space available to
+                                                                 write to the P/NP/CPL credit queue. */
+        uint32_t reserved_4_12         : 9;
+        uint32_t rsqne                 : 1;  /**< [ 13: 13](RO/H) Receive serialization queue not empty. Indicates there is data in the serialization queue. */
+        uint32_t rsqwe                 : 1;  /**< [ 14: 14](R/W1C) Receive serialization queue write error. Indicates insufficient buffer space
+                                                                 available to write to the serialization queue. */
+        uint32_t rsqre                 : 1;  /**< [ 15: 15](R/W1C) Receive serialization queue read error. Indicates the serialization queue has
+                                                                 attempted to read an incorrectly formatted TLP. */
+        uint32_t fcltov                : 13; /**< [ 28: 16](R/W) FC latency timer override value. When you set PCIERC_QUEUE_STATUS[FCLTOE], the
+                                                                 value in this field will override the FC latency timer value that the core
+                                                                 calculates according to the PCIe specification. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t fcltoe                : 1;  /**< [ 31: 31](R/W) FC latency timer override enable. When this bit is set, the value in
+                                                                 PCIERC_QUEUE_STATUS[FCLTOV] will override the FC latency timer value that the
+                                                                 core calculates according to the PCIe specification. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_queue_status_s cn; */
+};
+typedef union cavm_pciercx_queue_status cavm_pciercx_queue_status_t;
+
+static inline uint64_t CAVM_PCIERCX_QUEUE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_QUEUE_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x73c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_QUEUE_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_QUEUE_STATUS(a) cavm_pciercx_queue_status_t
+#define bustype_CAVM_PCIERCX_QUEUE_STATUS(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_QUEUE_STATUS(a) "PCIERCX_QUEUE_STATUS"
+#define busnum_CAVM_PCIERCX_QUEUE_STATUS(a) (a)
+#define arguments_CAVM_PCIERCX_QUEUE_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_des_cap_hdr
+ *
+ * PCIe RC Vendor Specific RAS DES Capability Header Register
+ */
+union cavm_pciercx_ras_des_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_des_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_des_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_ras_des_cap_hdr cavm_pciercx_ras_des_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_DES_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_DES_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x24c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_DES_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_DES_CAP_HDR(a) cavm_pciercx_ras_des_cap_hdr_t
+#define bustype_CAVM_PCIERCX_RAS_DES_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_DES_CAP_HDR(a) "PCIERCX_RAS_DES_CAP_HDR"
+#define busnum_CAVM_PCIERCX_RAS_DES_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_DES_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_ec_ctl
+ *
+ * PCIe RC Vendor RAS DES Event Counter Control Register
+ */
+union cavm_pciercx_ras_ec_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_ec_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t ev_cntr_data_sel      : 12; /**< [ 27: 16](R/W) Event counter data select.  This field in conjunction with [EV_CNTR_LANE_SEL]
+                                                                 selects PCIERC_RAS_EC_DATA[EV_CNTR_DATA].
+                                                                 _ \<27:24\> = Group number (0..0x7).
+                                                                 _ \<23:16\> = Event number (0..0x13). */
+        uint32_t reserved_12_15        : 4;
+        uint32_t ev_cntr_lane_sel      : 4;  /**< [ 11:  8](R/W) Event counter lane select.  This field in conjunction with [EV_CNTR_DATA_SEL]
+                                                                 indexes the event counter data returned in the PCIERC_RAS_EC_DATA[EV_CNTR_DATA].
+
+                                                                 0x0-0x7 = Lane number.
+                                                                 0x8-0xF = Reserved. */
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO/H) Event counter status.  Returns the enable status of the event counter
+                                                                 selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t ev_cntr_en            : 3;  /**< [  4:  2](WO) Event counter enable.  Enables/disables the event counter
+                                                                 selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL].
+                                                                 By default, all event counters are disabled.  This field
+                                                                 always reads zeros.
+
+                                                                 0x0 = No change.
+                                                                 0x1 = Per event off.
+                                                                 0x2 = No change.
+                                                                 0x3 = Per event on.
+                                                                 0x4 = No change.
+                                                                 0x5 = All off.
+                                                                 0x6 = No change.
+                                                                 0x7 = All on. */
+        uint32_t ev_cntr_clr           : 2;  /**< [  1:  0](WO) Event counter clear. Clears the event counters
+                                                                 selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL].
+                                                                 By default, all event counters are disabled.  This field
+                                                                 always reads zeros.
+
+                                                                 0x0 = No change.
+                                                                 0x1 = Per clear.
+                                                                 0x2 = No change.
+                                                                 0x3 = All clear. */
+#else /* Word 0 - Little Endian */
+        uint32_t ev_cntr_clr           : 2;  /**< [  1:  0](WO) Event counter clear. Clears the event counters
+                                                                 selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL].
+                                                                 By default, all event counters are disabled.  This field
+                                                                 always reads zeros.
+
+                                                                 0x0 = No change.
+                                                                 0x1 = Per clear.
+                                                                 0x2 = No change.
+                                                                 0x3 = All clear. */
+        uint32_t ev_cntr_en            : 3;  /**< [  4:  2](WO) Event counter enable.  Enables/disables the event counter
+                                                                 selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL].
+                                                                 By default, all event counters are disabled.  This field
+                                                                 always reads zeros.
+
+                                                                 0x0 = No change.
+                                                                 0x1 = Per event off.
+                                                                 0x2 = No change.
+                                                                 0x3 = Per event on.
+                                                                 0x4 = No change.
+                                                                 0x5 = All off.
+                                                                 0x6 = No change.
+                                                                 0x7 = All on. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO/H) Event counter status.  Returns the enable status of the event counter
+                                                                 selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
+        uint32_t ev_cntr_lane_sel      : 4;  /**< [ 11:  8](R/W) Event counter lane select.  This field in conjunction with [EV_CNTR_DATA_SEL]
+                                                                 indexes the event counter data returned in the PCIERC_RAS_EC_DATA[EV_CNTR_DATA].
+
+                                                                 0x0-0x7 = Lane number.
+                                                                 0x8-0xF = Reserved. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t ev_cntr_data_sel      : 12; /**< [ 27: 16](R/W) Event counter data select.  This field in conjunction with [EV_CNTR_LANE_SEL]
+                                                                 selects PCIERC_RAS_EC_DATA[EV_CNTR_DATA].
+                                                                 _ \<27:24\> = Group number (0..0x7).
+                                                                 _ \<23:16\> = Event number (0..0x13). */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_ec_ctl_s cn; */
+};
+typedef union cavm_pciercx_ras_ec_ctl cavm_pciercx_ras_ec_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EC_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x254 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EC_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EC_CTL(a) cavm_pciercx_ras_ec_ctl_t
+#define bustype_CAVM_PCIERCX_RAS_EC_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EC_CTL(a) "PCIERCX_RAS_EC_CTL"
+#define busnum_CAVM_PCIERCX_RAS_EC_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EC_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_ec_data
+ *
+ * PCIe RC Vendor RAS DES Data Register
+ */
+union cavm_pciercx_ras_ec_data
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_ec_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ev_cntr_data          : 32; /**< [ 31:  0](RO/H) Event counter data.  This field returns data selected by
+                                                                 PCIERC_RAS_EC_CTL[EV_CNTR_DATA_SEL]
+                                                                 and PCIERC_RAS_EC_CTL[EV_CNTR_LANE_SEL]. */
+#else /* Word 0 - Little Endian */
+        uint32_t ev_cntr_data          : 32; /**< [ 31:  0](RO/H) Event counter data.  This field returns data selected by
+                                                                 PCIERC_RAS_EC_CTL[EV_CNTR_DATA_SEL]
+                                                                 and PCIERC_RAS_EC_CTL[EV_CNTR_LANE_SEL]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_ec_data_s cn; */
+};
+typedef union cavm_pciercx_ras_ec_data cavm_pciercx_ras_ec_data_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EC_DATA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EC_DATA(uint64_t a)
+{
+    if (a<=3)
+        return 0x258 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EC_DATA", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EC_DATA(a) cavm_pciercx_ras_ec_data_t
+#define bustype_CAVM_PCIERCX_RAS_EC_DATA(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EC_DATA(a) "PCIERCX_RAS_EC_DATA"
+#define busnum_CAVM_PCIERCX_RAS_EC_DATA(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EC_DATA(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl0
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 0 (CRC) Register
+ */
+union cavm_pciercx_ras_einj_ctl0
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t einj0_crc_type        : 4;  /**< [ 11:  8](R/W) Error injection type.  Selects the type of CRC error tp in inserted.
+
+                                                                 TX path:
+                                                                 0x0 = New TLP's LCRC error injection.
+                                                                 0x1 = 16bCRC error injection of ACK/NAK DLLP.
+                                                                 0x2 = 16bCRC error injection of Update-FC DLLP.
+                                                                 0x3 = New TLP's ECRC error injection.
+                                                                 0x4 = TLP's FCRC error injection (128b/130b).
+                                                                 0x5 = Parity error of TSOS (128b/130b).
+                                                                 0x6 = Parity error of SKPOS (128b/130b).
+                                                                 0x7 = Reserved.
+
+                                                                 RX path:
+                                                                 0x8 = LCRC error injection.
+                                                                 0x9 = ECRC error injection.
+                                                                 0xA - 0xF = Reserved. */
+        uint32_t einj0_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ0_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ0_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ0_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj0_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ0_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ0_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ0_EN] is cleared. */
+        uint32_t einj0_crc_type        : 4;  /**< [ 11:  8](R/W) Error injection type.  Selects the type of CRC error tp in inserted.
+
+                                                                 TX path:
+                                                                 0x0 = New TLP's LCRC error injection.
+                                                                 0x1 = 16bCRC error injection of ACK/NAK DLLP.
+                                                                 0x2 = 16bCRC error injection of Update-FC DLLP.
+                                                                 0x3 = New TLP's ECRC error injection.
+                                                                 0x4 = TLP's FCRC error injection (128b/130b).
+                                                                 0x5 = Parity error of TSOS (128b/130b).
+                                                                 0x6 = Parity error of SKPOS (128b/130b).
+                                                                 0x7 = Reserved.
+
+                                                                 RX path:
+                                                                 0x8 = LCRC error injection.
+                                                                 0x9 = ECRC error injection.
+                                                                 0xA - 0xF = Reserved. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl0_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl0 cavm_pciercx_ras_einj_ctl0_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL0(uint64_t a)
+{
+    if (a<=3)
+        return 0x280 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL0(a) cavm_pciercx_ras_einj_ctl0_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL0(a) "PCIERCX_RAS_EINJ_CTL0"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL0(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl1
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 1 (SEQNUM) Register
+ */
+union cavm_pciercx_ras_einj_ctl1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t einj1_bad_seqnum      : 13; /**< [ 28: 16](R/W) Bad sequence number. Indicates the value to add/subtract
+                                                                 from the naturally-assigned sequence numbers. This value is
+                                                                 represented by two's complement.
+
+                                                                 0x0FFF = +4095.
+
+                                                                 0x0002 = +2.
+                                                                 0x0001 = +1.
+                                                                 0x0000 = 0.
+                                                                 0x1FFF = -1.
+                                                                 0x1FFE = -2.
+
+                                                                 0x1001 = -4095. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t einj1_seqnum_type     : 1;  /**< [  8:  8](R/W) Sequence number type.  Selects the type of sequence number.
+
+                                                                 0x0 = Insertion of New TLP's SEQ error.
+                                                                 0x1 = Insertion of ACK/NAK DLLP's SEQ error. */
+        uint32_t einj1_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ1_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ1_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ1_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj1_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ1_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ1_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ1_EN] is cleared. */
+        uint32_t einj1_seqnum_type     : 1;  /**< [  8:  8](R/W) Sequence number type.  Selects the type of sequence number.
+
+                                                                 0x0 = Insertion of New TLP's SEQ error.
+                                                                 0x1 = Insertion of ACK/NAK DLLP's SEQ error. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t einj1_bad_seqnum      : 13; /**< [ 28: 16](R/W) Bad sequence number. Indicates the value to add/subtract
+                                                                 from the naturally-assigned sequence numbers. This value is
+                                                                 represented by two's complement.
+
+                                                                 0x0FFF = +4095.
+
+                                                                 0x0002 = +2.
+                                                                 0x0001 = +1.
+                                                                 0x0000 = 0.
+                                                                 0x1FFF = -1.
+                                                                 0x1FFE = -2.
+
+                                                                 0x1001 = -4095. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl1_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl1 cavm_pciercx_ras_einj_ctl1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL1(uint64_t a)
+{
+    if (a<=3)
+        return 0x284 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL1(a) cavm_pciercx_ras_einj_ctl1_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL1(a) "PCIERCX_RAS_EINJ_CTL1"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl2
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 2 (DLLP) Register
+ */
+union cavm_pciercx_ras_einj_ctl2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_10_31        : 22;
+        uint32_t einj2_dllp_type       : 2;  /**< [  9:  8](R/W) DLLP type.  Selects the type of DLLP errors to be inserted.
+
+                                                                 0x0 = ACK/NAK DLLP transmission block.
+                                                                 0x1 = Update FC DLLP's transmission block.
+                                                                 0x2 = Always transmission for NAK DLLP.
+                                                                 0x3 = Reserved. */
+        uint32_t einj2_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ2_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ2_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ2_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj2_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ2_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ2_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ2_EN] is cleared. */
+        uint32_t einj2_dllp_type       : 2;  /**< [  9:  8](R/W) DLLP type.  Selects the type of DLLP errors to be inserted.
+
+                                                                 0x0 = ACK/NAK DLLP transmission block.
+                                                                 0x1 = Update FC DLLP's transmission block.
+                                                                 0x2 = Always transmission for NAK DLLP.
+                                                                 0x3 = Reserved. */
+        uint32_t reserved_10_31        : 22;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl2_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl2 cavm_pciercx_ras_einj_ctl2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL2(uint64_t a)
+{
+    if (a<=3)
+        return 0x288 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL2(a) cavm_pciercx_ras_einj_ctl2_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL2(a) "PCIERCX_RAS_EINJ_CTL2"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl3
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 3 (Symbol) Register
+ */
+union cavm_pciercx_ras_einj_ctl3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t einj3_symbol_type     : 3;  /**< [ 10:  8](R/W) Error type, 8 b/10 b encoding - Mask K symbol.
+
+                                                                 0x0 = Reserved.
+                                                                 0x1 = COM/PAD(TS1 Order Set).
+                                                                 0x2 = COM/PAD(TS2 Order Set).
+                                                                 0x3 = COM/FTS(FTS Order Set).
+                                                                 0x4 = COM/IDLE(E-Idle Order Set).
+                                                                 0x5 = END/EDB Symbol.
+                                                                 0x6 = STP/SDP Symbol.
+                                                                 0x7 = COM/SKP(SKP Order set). */
+        uint32_t einj3_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ3_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ3_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ3_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj3_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ3_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ3_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ3_EN] is cleared. */
+        uint32_t einj3_symbol_type     : 3;  /**< [ 10:  8](R/W) Error type, 8 b/10 b encoding - Mask K symbol.
+
+                                                                 0x0 = Reserved.
+                                                                 0x1 = COM/PAD(TS1 Order Set).
+                                                                 0x2 = COM/PAD(TS2 Order Set).
+                                                                 0x3 = COM/FTS(FTS Order Set).
+                                                                 0x4 = COM/IDLE(E-Idle Order Set).
+                                                                 0x5 = END/EDB Symbol.
+                                                                 0x6 = STP/SDP Symbol.
+                                                                 0x7 = COM/SKP(SKP Order set). */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl3_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl3 cavm_pciercx_ras_einj_ctl3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL3(uint64_t a)
+{
+    if (a<=3)
+        return 0x28c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL3(a) cavm_pciercx_ras_einj_ctl3_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL3(a) "PCIERCX_RAS_EINJ_CTL3"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl4
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 4 (FC Credit) Register
+ */
+union cavm_pciercx_ras_einj_ctl4
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t einj4_bad_updfc_val   : 13; /**< [ 28: 16](R/W) Bad update-FC credit value.  Indicates the value to add/subtract
+                                                                 from the UpdateFC credit.  The value is represented by two's
+                                                                 compliment.
+
+                                                                 0x0FFF = +4095.
+
+                                                                 0x0002 = +2.
+                                                                 0x0001 = +1.
+                                                                 0x0000 = 0.
+                                                                 0x1FFF = -1.
+                                                                 0x1FFE = -2.
+
+                                                                 0x1001 = -4095. */
+        uint32_t reserved_15           : 1;
+        uint32_t einj4_vc_num          : 3;  /**< [ 14: 12](R/W) VC number.  Indicates the target VC number. */
+        uint32_t reserved_11           : 1;
+        uint32_t einj4_vc_type         : 3;  /**< [ 10:  8](R/W) Update-FC type.  Selects the credit type.
+
+                                                                 0x0 = Posted TLP header credit value control.
+                                                                 0x1 = Non-Posted TLP header credit value control.
+                                                                 0x2 = Completion TLP header credit value control.
+                                                                 0x3 = Reserved.
+                                                                 0x4 = Posted TLP data credit value control.
+                                                                 0x5 = Non-Posted TLP data credit value control.
+                                                                 0x6 = Completion TLP data credit value control.
+                                                                 0x7 = Reserved. */
+        uint32_t einj4_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ4_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ4_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ4_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj4_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ4_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ4_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ4_EN] is cleared. */
+        uint32_t einj4_vc_type         : 3;  /**< [ 10:  8](R/W) Update-FC type.  Selects the credit type.
+
+                                                                 0x0 = Posted TLP header credit value control.
+                                                                 0x1 = Non-Posted TLP header credit value control.
+                                                                 0x2 = Completion TLP header credit value control.
+                                                                 0x3 = Reserved.
+                                                                 0x4 = Posted TLP data credit value control.
+                                                                 0x5 = Non-Posted TLP data credit value control.
+                                                                 0x6 = Completion TLP data credit value control.
+                                                                 0x7 = Reserved. */
+        uint32_t reserved_11           : 1;
+        uint32_t einj4_vc_num          : 3;  /**< [ 14: 12](R/W) VC number.  Indicates the target VC number. */
+        uint32_t reserved_15           : 1;
+        uint32_t einj4_bad_updfc_val   : 13; /**< [ 28: 16](R/W) Bad update-FC credit value.  Indicates the value to add/subtract
+                                                                 from the UpdateFC credit.  The value is represented by two's
+                                                                 compliment.
+
+                                                                 0x0FFF = +4095.
+
+                                                                 0x0002 = +2.
+                                                                 0x0001 = +1.
+                                                                 0x0000 = 0.
+                                                                 0x1FFF = -1.
+                                                                 0x1FFE = -2.
+
+                                                                 0x1001 = -4095. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl4_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl4 cavm_pciercx_ras_einj_ctl4_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL4(uint64_t a)
+{
+    if (a<=3)
+        return 0x290 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL4(a) cavm_pciercx_ras_einj_ctl4_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL4(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL4(a) "PCIERCX_RAS_EINJ_CTL4"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL4(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL4(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl5
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 5 (Specific TLP) Register
+ */
+union cavm_pciercx_ras_einj_ctl5
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t einj5_sp_tlp          : 1;  /**< [  8:  8](R/W) Specified TLP.  Selects the specified TLP to be inserted.
+
+                                                                 0x0 = Generates duplicate TLPs by handling ACK DLLP as NAK DLLP.
+                                                                 0x1 = Generates nullified TLP (Original TLP will be stored in retry buffer). */
+        uint32_t einj5_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ5_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ5_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ5_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj5_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ5_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ5_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ5_EN] is cleared. */
+        uint32_t einj5_sp_tlp          : 1;  /**< [  8:  8](R/W) Specified TLP.  Selects the specified TLP to be inserted.
+
+                                                                 0x0 = Generates duplicate TLPs by handling ACK DLLP as NAK DLLP.
+                                                                 0x1 = Generates nullified TLP (Original TLP will be stored in retry buffer). */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl5_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl5 cavm_pciercx_ras_einj_ctl5_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL5(uint64_t a)
+{
+    if (a<=3)
+        return 0x294 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL5(a) cavm_pciercx_ras_einj_ctl5_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL5(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL5(a) "PCIERCX_RAS_EINJ_CTL5"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL5(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL5(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgp0
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Point H0) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgp0
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgp0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_pt_h0       : 32; /**< [ 31:  0](R/W) Packet change point first DWORD.
+                                                                 Specifies which TX TLP header DWORD0 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV0[EINJ6_CHG_VAL_H0]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_pt_h0       : 32; /**< [ 31:  0](R/W) Packet change point first DWORD.
+                                                                 Specifies which TX TLP header DWORD0 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV0[EINJ6_CHG_VAL_H0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgp0_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgp0 cavm_pciercx_ras_einj_ctl6chgp0_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(uint64_t a)
+{
+    if (a<=3)
+        return 0x2b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(a) cavm_pciercx_ras_einj_ctl6chgp0_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(a) "PCIERCX_RAS_EINJ_CTL6CHGP0"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgp1
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Point H1) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgp1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgp1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_pt_h1       : 32; /**< [ 31:  0](R/W) Packet change point second DWORD.
+                                                                 Specifies which TX TLP header DWORD0 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV1[EINJ6_CHG_VAL_H1]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_pt_h1       : 32; /**< [ 31:  0](R/W) Packet change point second DWORD.
+                                                                 Specifies which TX TLP header DWORD0 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV1[EINJ6_CHG_VAL_H1]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgp1_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgp1 cavm_pciercx_ras_einj_ctl6chgp1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(uint64_t a)
+{
+    if (a<=3)
+        return 0x2bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(a) cavm_pciercx_ras_einj_ctl6chgp1_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(a) "PCIERCX_RAS_EINJ_CTL6CHGP1"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgp2
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Point H2) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgp2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgp2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_pt_h2       : 32; /**< [ 31:  0](R/W) Packet change point third DWORD.
+                                                                 Specifies which TX TLP header DWORD2 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV2[EINJ6_CHG_VAL_H2]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_pt_h2       : 32; /**< [ 31:  0](R/W) Packet change point third DWORD.
+                                                                 Specifies which TX TLP header DWORD2 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV2[EINJ6_CHG_VAL_H2]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgp2_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgp2 cavm_pciercx_ras_einj_ctl6chgp2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(uint64_t a)
+{
+    if (a<=3)
+        return 0x2c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(a) cavm_pciercx_ras_einj_ctl6chgp2_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(a) "PCIERCX_RAS_EINJ_CTL6CHGP2"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgp3
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Point H3) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgp3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgp3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_pt_h3       : 32; /**< [ 31:  0](R/W) Packet change point first DWORD.
+                                                                 Specifies which TX TLP header DWORD3 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV3[EINJ6_CHG_VAL_H3]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_pt_h3       : 32; /**< [ 31:  0](R/W) Packet change point first DWORD.
+                                                                 Specifies which TX TLP header DWORD3 bits to replace
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CHGV3[EINJ6_CHG_VAL_H3]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgp3_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgp3 cavm_pciercx_ras_einj_ctl6chgp3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(uint64_t a)
+{
+    if (a<=3)
+        return 0x2c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(a) cavm_pciercx_ras_einj_ctl6chgp3_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(a) "PCIERCX_RAS_EINJ_CTL6CHGP3"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgv0
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Value H0) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgv0
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgv0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_val_h0      : 32; /**< [ 31:  0](R/W) Packet change value first DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD0 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP0[EINJ6_CHG_PT_H0].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_val_h0      : 32; /**< [ 31:  0](R/W) Packet change value first DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD0 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP0[EINJ6_CHG_PT_H0].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgv0_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgv0 cavm_pciercx_ras_einj_ctl6chgv0_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(uint64_t a)
+{
+    if (a<=3)
+        return 0x2c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(a) cavm_pciercx_ras_einj_ctl6chgv0_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(a) "PCIERCX_RAS_EINJ_CTL6CHGV0"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgv1
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Value H1) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgv1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgv1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_val_h1      : 32; /**< [ 31:  0](R/W) Packet change value second DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD1 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP1[EINJ6_CHG_PT_H1].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_val_h1      : 32; /**< [ 31:  0](R/W) Packet change value second DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD1 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP1[EINJ6_CHG_PT_H1].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgv1_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgv1 cavm_pciercx_ras_einj_ctl6chgv1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(uint64_t a)
+{
+    if (a<=3)
+        return 0x2cc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(a) cavm_pciercx_ras_einj_ctl6chgv1_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(a) "PCIERCX_RAS_EINJ_CTL6CHGV1"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgv2
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Value H2) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgv2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgv2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_val_h2      : 32; /**< [ 31:  0](R/W) Packet change value third DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD2 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP2[EINJ6_CHG_PT_H2].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set." */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_val_h2      : 32; /**< [ 31:  0](R/W) Packet change value third DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD2 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP2[EINJ6_CHG_PT_H2].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set." */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgv2_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgv2 cavm_pciercx_ras_einj_ctl6chgv2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(uint64_t a)
+{
+    if (a<=3)
+        return 0x2d0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(a) cavm_pciercx_ras_einj_ctl6chgv2_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(a) "PCIERCX_RAS_EINJ_CTL6CHGV2"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6chgv3
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Change Value H3) Register
+ */
+union cavm_pciercx_ras_einj_ctl6chgv3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6chgv3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_chg_val_h3      : 32; /**< [ 31:  0](R/W) Packet change value fourth DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD3 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP3[EINJ6_CHG_PT_H3].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_chg_val_h3      : 32; /**< [ 31:  0](R/W) Packet change value fourth DWORD.
+                                                                 Specifies replacement values for the TX TLP header
+                                                                 DWORD3 bits defined in the PCIERC_RAS_EINJ_CTL6CHGP3[EINJ6_CHG_PT_H3].
+                                                                 Only applies when PCIERC_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6chgv3_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6chgv3 cavm_pciercx_ras_einj_ctl6chgv3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(uint64_t a)
+{
+    if (a<=3)
+        return 0x2d4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(a) cavm_pciercx_ras_einj_ctl6chgv3_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(a) "PCIERCX_RAS_EINJ_CTL6CHGV3"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpp0
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Point H0) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpp0
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpp0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_pt_h0       : 32; /**< [ 31:  0](R/W) Packet compare point first DWORD.
+                                                                 Specifies which TX TLP header DWORD0 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV0[EINJ6_COM_VAL_H0].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV0[EINJ6_COM_VAL_H0] match, an error is inserted into the TLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_pt_h0       : 32; /**< [ 31:  0](R/W) Packet compare point first DWORD.
+                                                                 Specifies which TX TLP header DWORD0 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV0[EINJ6_COM_VAL_H0].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV0[EINJ6_COM_VAL_H0] match, an error is inserted into the TLP. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpp0_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpp0 cavm_pciercx_ras_einj_ctl6cmpp0_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(uint64_t a)
+{
+    if (a<=3)
+        return 0x298 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(a) cavm_pciercx_ras_einj_ctl6cmpp0_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(a) "PCIERCX_RAS_EINJ_CTL6CMPP0"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpp1
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Point H1) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpp1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpp1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_pt_h1       : 32; /**< [ 31:  0](R/W) Packet compare point second DWORD.
+                                                                 Specifies which TX TLP header DWORD1 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV1[EINJ6_COM_VAL_H1].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV1[EINJ6_COM_VAL_H1] match, an error is inserted into the TLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_pt_h1       : 32; /**< [ 31:  0](R/W) Packet compare point second DWORD.
+                                                                 Specifies which TX TLP header DWORD1 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV1[EINJ6_COM_VAL_H1].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV1[EINJ6_COM_VAL_H1] match, an error is inserted into the TLP. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpp1_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpp1 cavm_pciercx_ras_einj_ctl6cmpp1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(uint64_t a)
+{
+    if (a<=3)
+        return 0x29c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(a) cavm_pciercx_ras_einj_ctl6cmpp1_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(a) "PCIERCX_RAS_EINJ_CTL6CMPP1"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpp2
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Point H2) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpp2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpp2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_pt_h2       : 32; /**< [ 31:  0](R/W) Packet compare point third DWORD.
+                                                                 Specifies which TX TLP header DWORD2 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV2[EINJ6_COM_VAL_H2].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV2[EINJ6_COM_VAL_H2] match, an error is inserted into the TLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_pt_h2       : 32; /**< [ 31:  0](R/W) Packet compare point third DWORD.
+                                                                 Specifies which TX TLP header DWORD2 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV2[EINJ6_COM_VAL_H2].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV2[EINJ6_COM_VAL_H2] match, an error is inserted into the TLP. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpp2_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpp2 cavm_pciercx_ras_einj_ctl6cmpp2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(uint64_t a)
+{
+    if (a<=3)
+        return 0x2a0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(a) cavm_pciercx_ras_einj_ctl6cmpp2_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(a) "PCIERCX_RAS_EINJ_CTL6CMPP2"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpp3
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Point H3) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpp3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpp3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_pt_h3       : 32; /**< [ 31:  0](R/W) Packet compare point fourth DWORD.
+                                                                 Specifies which TX TLP header DWORD3 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV3[EINJ6_COM_VAL_H3].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV3[EINJ6_COM_VAL_H3] match, an error is inserted into the TLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_pt_h3       : 32; /**< [ 31:  0](R/W) Packet compare point fourth DWORD.
+                                                                 Specifies which TX TLP header DWORD3 bits to compare
+                                                                 with the corresponding bits in PCIERC_RAS_EINJ_CTL6CMPV3[EINJ6_COM_VAL_H3].
+                                                                 When all specified bits (in the TX TLP header and
+                                                                 PCIERC_RAS_EINJ_CTL6CMPV3[EINJ6_COM_VAL_H3] match, an error is inserted into the TLP. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpp3_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpp3 cavm_pciercx_ras_einj_ctl6cmpp3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(uint64_t a)
+{
+    if (a<=3)
+        return 0x2a4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(a) cavm_pciercx_ras_einj_ctl6cmpp3_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(a) "PCIERCX_RAS_EINJ_CTL6CMPP3"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpv0
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Value H0) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpv0
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpv0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_val_h0      : 32; /**< [ 31:  0](R/W) Packet compare value first DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD0 bits specified in PCIERC_RAS_EINJ_CTL6CMPP0[EINJ6_COM_PT_H0]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_val_h0      : 32; /**< [ 31:  0](R/W) Packet compare value first DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD0 bits specified in PCIERC_RAS_EINJ_CTL6CMPP0[EINJ6_COM_PT_H0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpv0_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpv0 cavm_pciercx_ras_einj_ctl6cmpv0_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(uint64_t a)
+{
+    if (a<=3)
+        return 0x2a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(a) cavm_pciercx_ras_einj_ctl6cmpv0_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(a) "PCIERCX_RAS_EINJ_CTL6CMPV0"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpv1
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Value H1) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpv1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpv1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_val_h1      : 32; /**< [ 31:  0](R/W) Packet compare value second DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD1 bits specified in PCIERC_RAS_EINJ_CTL6CMPP1[EINJ6_COM_PT_H1]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_val_h1      : 32; /**< [ 31:  0](R/W) Packet compare value second DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD1 bits specified in PCIERC_RAS_EINJ_CTL6CMPP1[EINJ6_COM_PT_H1]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpv1_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpv1 cavm_pciercx_ras_einj_ctl6cmpv1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(uint64_t a)
+{
+    if (a<=3)
+        return 0x2ac + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(a) cavm_pciercx_ras_einj_ctl6cmpv1_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(a) "PCIERCX_RAS_EINJ_CTL6CMPV1"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpv2
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Value H2) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpv2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpv2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_val_h2      : 32; /**< [ 31:  0](R/W) Packet compare value third DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD2 bits specified in the PCIERC_RAS_EINJ_CTL6CMPP2[EINJ6_COM_PT_H2]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_val_h2      : 32; /**< [ 31:  0](R/W) Packet compare value third DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD2 bits specified in the PCIERC_RAS_EINJ_CTL6CMPP2[EINJ6_COM_PT_H2]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpv2_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpv2 cavm_pciercx_ras_einj_ctl6cmpv2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(uint64_t a)
+{
+    if (a<=3)
+        return 0x2b0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(a) cavm_pciercx_ras_einj_ctl6cmpv2_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(a) "PCIERCX_RAS_EINJ_CTL6CMPV2"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6cmpv3
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Compare Value H3) Register
+ */
+union cavm_pciercx_ras_einj_ctl6cmpv3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6cmpv3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t einj6_com_val_h3      : 32; /**< [ 31:  0](R/W) Packet compare value fourth DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD3 bits specified in the PCIERC_RAS_EINJ_CTL6CMPP3[EINJ6_COM_PT_H3]. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_com_val_h3      : 32; /**< [ 31:  0](R/W) Packet compare value fourth DWORD.
+                                                                 Specifies the value to compare against TX the TLP header
+                                                                 DWORD3 bits specified in the PCIERC_RAS_EINJ_CTL6CMPP3[EINJ6_COM_PT_H3]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6cmpv3_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6cmpv3 cavm_pciercx_ras_einj_ctl6cmpv3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(uint64_t a)
+{
+    if (a<=3)
+        return 0x2b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(a) cavm_pciercx_ras_einj_ctl6cmpv3_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(a) "PCIERCX_RAS_EINJ_CTL6CMPV3"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_ctl6pe
+ *
+ * PCIe RC Vendor RAS DES Error Injection Control 6 (Packet Error) Register
+ */
+union cavm_pciercx_ras_einj_ctl6pe
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_ctl6pe_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t einj6_pkt_typ         : 3;  /**< [ 11:  9](R/W) Packet type.  Selects the TLP packets to inject errors into.
+
+                                                                 0x0 = TLP header.
+                                                                 0x1 = TLP prefix 1st 4-DWORDs.
+                                                                 0x2 = TLP prefix 2nd 4-DWORDs.
+                                                                 0x3 - 0x7 = Reserved. */
+        uint32_t einj6_inv_cntrl       : 1;  /**< [  8:  8](R/W) Inverted error injection control.
+
+                                                                 0x0 = EINJ6_CHG_VAL_H[0/1/2/3] is used to replace bits specified by
+                                                                 EINJ6_CHG_PT_H[0/1/2/3].
+                                                                 0x1 = EINJ6_CHG_VAL_H[0/1/2/3] is ignored and inverts bits specified by
+                                                                 EINJ6_CHG_PT_H[0/1/2/3]. */
+        uint32_t einj6_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ6_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ6_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ6_EN] is cleared. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj6_cnt             : 8;  /**< [  7:  0](R/W) Error injection count.  Indicates the number of errors.
+                                                                 This register is decremented when errors are inserted.
+
+                                                                 If the counter value is 0x1 and error is inserted,
+                                                                 PCIERC_RAS_EINJ_EN[EINJ6_EN] returns zero.
+
+                                                                 If the counter value is 0x0 and PCIERC_RAS_EINJ_EN[EINJ6_EN] is set,
+                                                                 errors are inserted until PCIERC_RAS_EINJ_EN[EINJ6_EN] is cleared. */
+        uint32_t einj6_inv_cntrl       : 1;  /**< [  8:  8](R/W) Inverted error injection control.
+
+                                                                 0x0 = EINJ6_CHG_VAL_H[0/1/2/3] is used to replace bits specified by
+                                                                 EINJ6_CHG_PT_H[0/1/2/3].
+                                                                 0x1 = EINJ6_CHG_VAL_H[0/1/2/3] is ignored and inverts bits specified by
+                                                                 EINJ6_CHG_PT_H[0/1/2/3]. */
+        uint32_t einj6_pkt_typ         : 3;  /**< [ 11:  9](R/W) Packet type.  Selects the TLP packets to inject errors into.
+
+                                                                 0x0 = TLP header.
+                                                                 0x1 = TLP prefix 1st 4-DWORDs.
+                                                                 0x2 = TLP prefix 2nd 4-DWORDs.
+                                                                 0x3 - 0x7 = Reserved. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_ctl6pe_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_ctl6pe cavm_pciercx_ras_einj_ctl6pe_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6PE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6PE(uint64_t a)
+{
+    if (a<=3)
+        return 0x2d8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6PE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_CTL6PE(a) cavm_pciercx_ras_einj_ctl6pe_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_CTL6PE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_CTL6PE(a) "PCIERCX_RAS_EINJ_CTL6PE"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_CTL6PE(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_CTL6PE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_einj_en
+ *
+ * PCIe RC Vendor RAS DES Error Injection Enable Register
+ */
+union cavm_pciercx_ras_einj_en
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_einj_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t einj6_en              : 1;  /**< [  6:  6](R/W) Specific TLP error injection enable.  Enables insertion of errors into the
+                                                                 packet selected.  For more details, refer to PCIERC_RAS_EINJ_CTL6CMPP0. */
+        uint32_t einj5_en              : 1;  /**< [  5:  5](R/W) TLP duplicate/nullify error injection enable.  Enables insertion of duplicate/nullified
+                                                                 TLPs.  For more details, refer to PCIERC_RAS_EINJ_CTL5. */
+        uint32_t einj4_en              : 1;  /**< [  4:  4](R/W) FC credit update error injection enable.  Enables insertion of errors into
+                                                                 Updated FCs. See PCIERC_RAS_EINJ_CTL4. */
+        uint32_t einj3_en              : 1;  /**< [  3:  3](R/W) Symbol data mask or sync header error enable.  Enables data masking of special
+                                                                 symbols or the breaking of the sync header.  See PCIERC_RAS_EINJ_CTL3. */
+        uint32_t einj2_en              : 1;  /**< [  2:  2](R/W) DLLP error injection enable.  enables insertion of DLLP errors.
+                                                                 See PCIERC_RAS_EINJ_CTL2. */
+        uint32_t einj1_en              : 1;  /**< [  1:  1](R/W) Sequence number error injection enable.  Enables insertion of errors into
+                                                                 sequence numbers.
+                                                                 See PCIERC_RAS_EINJ_CTL1. */
+        uint32_t einj0_en              : 1;  /**< [  0:  0](R/W) CRC error injection enable.  Enables insertion of errors into various CRC.
+                                                                 See PCIERC_RAS_EINJ_CTL0. */
+#else /* Word 0 - Little Endian */
+        uint32_t einj0_en              : 1;  /**< [  0:  0](R/W) CRC error injection enable.  Enables insertion of errors into various CRC.
+                                                                 See PCIERC_RAS_EINJ_CTL0. */
+        uint32_t einj1_en              : 1;  /**< [  1:  1](R/W) Sequence number error injection enable.  Enables insertion of errors into
+                                                                 sequence numbers.
+                                                                 See PCIERC_RAS_EINJ_CTL1. */
+        uint32_t einj2_en              : 1;  /**< [  2:  2](R/W) DLLP error injection enable.  enables insertion of DLLP errors.
+                                                                 See PCIERC_RAS_EINJ_CTL2. */
+        uint32_t einj3_en              : 1;  /**< [  3:  3](R/W) Symbol data mask or sync header error enable.  Enables data masking of special
+                                                                 symbols or the breaking of the sync header.  See PCIERC_RAS_EINJ_CTL3. */
+        uint32_t einj4_en              : 1;  /**< [  4:  4](R/W) FC credit update error injection enable.  Enables insertion of errors into
+                                                                 Updated FCs. See PCIERC_RAS_EINJ_CTL4. */
+        uint32_t einj5_en              : 1;  /**< [  5:  5](R/W) TLP duplicate/nullify error injection enable.  Enables insertion of duplicate/nullified
+                                                                 TLPs.  For more details, refer to PCIERC_RAS_EINJ_CTL5. */
+        uint32_t einj6_en              : 1;  /**< [  6:  6](R/W) Specific TLP error injection enable.  Enables insertion of errors into the
+                                                                 packet selected.  For more details, refer to PCIERC_RAS_EINJ_CTL6CMPP0. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_einj_en_s cn; */
+};
+typedef union cavm_pciercx_ras_einj_en cavm_pciercx_ras_einj_en_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_EN(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_EINJ_EN(uint64_t a)
+{
+    if (a<=3)
+        return 0x27c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_EINJ_EN", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_EINJ_EN(a) cavm_pciercx_ras_einj_en_t
+#define bustype_CAVM_PCIERCX_RAS_EINJ_EN(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_EINJ_EN(a) "PCIERCX_RAS_EINJ_EN"
+#define busnum_CAVM_PCIERCX_RAS_EINJ_EN(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_EINJ_EN(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_hdr
+ *
+ * PCIe RC Vendor RAS DES Header Register
+ */
+union cavm_pciercx_ras_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSEC ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSEC ID. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_hdr_s cn; */
+};
+typedef union cavm_pciercx_ras_hdr cavm_pciercx_ras_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x250 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_HDR(a) cavm_pciercx_ras_hdr_t
+#define bustype_CAVM_PCIERCX_RAS_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_HDR(a) "PCIERCX_RAS_HDR"
+#define busnum_CAVM_PCIERCX_RAS_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_ctl1
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Control 1 Register
+ */
+union cavm_pciercx_ras_sd_ctl1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t lp_intv               : 2;  /**< [ 23: 22](R/W) Low power entry interval time.
+                                                                 Interval time that the core starts monitoring RXELECIDLE
+                                                                 signal after L0s/L1/L2 entry. You should set the value
+                                                                 according to the latency from receiving EIOS to,
+                                                                 RXELECIDLE assertion at the PHY
+
+                                                                 0x0 = 40ns.
+                                                                 0x1 = 160ns.
+                                                                 0x2 = 320ns.
+                                                                 0x3 - 640ns. */
+        uint32_t tx_eios_num           : 2;  /**< [ 21: 20](R/W) Number of TX EIOS.
+                                                                 This register sets the number of transmit EIOS for L0s/L1
+                                                                 entry and disable/loopback/hot-reset exit. The core selects
+                                                                 the greater value between this register and the value defined
+                                                                 by the PCI-SIG specification.
+
+                                                                 Gen1 or Gen3
+                                                                 0x0 = 1.
+                                                                 0x1 = 4.
+                                                                 0x2 = 8.
+                                                                 0x3 - 16.
+
+                                                                 Gen2
+                                                                 0x0 = 2.
+                                                                 0x1 = 8.
+                                                                 0x2 = 16.
+                                                                 0x3 - 32. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t force_detect_lane_en  : 1;  /**< [ 16: 16](R/W) Force detect lane enable.
+                                                                 When this bit is set, the core ignores receiver detection from
+                                                                 PHY during LTSSM detect state and uses
+                                                                 [FORCE_DETECT_LANE]. */
+        uint32_t force_detect_lane     : 16; /**< [ 15:  0](R/W) Force detect lane.
+                                                                 When set, the core ignores receiver detection from PHY
+                                                                 during LTSSM detect state and uses this value instead.
+                                                                 _ Bit \<0\> = Lane 0.
+                                                                 _ Bit \<1\> = Lane 1.
+                                                                 _ Bit \<2\> = Lane 2.
+                                                                 _ Bit \<3\> = Lane 3.
+
+                                                                 _ Bit \<15:4\> = Lanes 4 thru 15 (not supported). */
+#else /* Word 0 - Little Endian */
+        uint32_t force_detect_lane     : 16; /**< [ 15:  0](R/W) Force detect lane.
+                                                                 When set, the core ignores receiver detection from PHY
+                                                                 during LTSSM detect state and uses this value instead.
+                                                                 _ Bit \<0\> = Lane 0.
+                                                                 _ Bit \<1\> = Lane 1.
+                                                                 _ Bit \<2\> = Lane 2.
+                                                                 _ Bit \<3\> = Lane 3.
+
+                                                                 _ Bit \<15:4\> = Lanes 4 thru 15 (not supported). */
+        uint32_t force_detect_lane_en  : 1;  /**< [ 16: 16](R/W) Force detect lane enable.
+                                                                 When this bit is set, the core ignores receiver detection from
+                                                                 PHY during LTSSM detect state and uses
+                                                                 [FORCE_DETECT_LANE]. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t tx_eios_num           : 2;  /**< [ 21: 20](R/W) Number of TX EIOS.
+                                                                 This register sets the number of transmit EIOS for L0s/L1
+                                                                 entry and disable/loopback/hot-reset exit. The core selects
+                                                                 the greater value between this register and the value defined
+                                                                 by the PCI-SIG specification.
+
+                                                                 Gen1 or Gen3
+                                                                 0x0 = 1.
+                                                                 0x1 = 4.
+                                                                 0x2 = 8.
+                                                                 0x3 - 16.
+
+                                                                 Gen2
+                                                                 0x0 = 2.
+                                                                 0x1 = 8.
+                                                                 0x2 = 16.
+                                                                 0x3 - 32. */
+        uint32_t lp_intv               : 2;  /**< [ 23: 22](R/W) Low power entry interval time.
+                                                                 Interval time that the core starts monitoring RXELECIDLE
+                                                                 signal after L0s/L1/L2 entry. You should set the value
+                                                                 according to the latency from receiving EIOS to,
+                                                                 RXELECIDLE assertion at the PHY
+
+                                                                 0x0 = 40ns.
+                                                                 0x1 = 160ns.
+                                                                 0x2 = 320ns.
+                                                                 0x3 - 640ns. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_ctl1_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_ctl1 cavm_pciercx_ras_sd_ctl1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL1(uint64_t a)
+{
+    if (a<=3)
+        return 0x2ec + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_CTL1(a) cavm_pciercx_ras_sd_ctl1_t
+#define bustype_CAVM_PCIERCX_RAS_SD_CTL1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_CTL1(a) "PCIERCX_RAS_SD_CTL1"
+#define busnum_CAVM_PCIERCX_RAS_SD_CTL1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_ctl2
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Control 2 Register
+ */
+union cavm_pciercx_ras_sd_ctl2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t fr_err_rcvy_dis       : 1;  /**< [ 16: 16](R/W) Framing error recovery disable.
+                                                                 This bit disables a transition to recovery state when a framing
+                                                                 error has occurred. */
+        uint32_t reserved_11_15        : 5;
+        uint32_t dir_lpbslv_to_exit    : 1;  /**< [ 10: 10](R/W) Direct loopback slave to exit.
+                                                                 When set and the LTSSM is in loopback slave active state,
+                                                                 the LTSSM transitions to the loopback slave exit state. */
+        uint32_t dir_polcmp_to_det     : 1;  /**< [  9:  9](R/W) Direct Polling.Compliance to detect.
+                                                                 When this bit is set and the LTSSM is in polling compliance
+                                                                 state, the LTSSM transitions to detect state. */
+        uint32_t dir_recidle_config    : 1;  /**< [  8:  8](R/W) Direct Recovery.Idle to configuration.
+                                                                 When this bit is set and the LTSSM is in recovery idle state,
+                                                                 the LTSSM transitions to configuration state. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t noack_force_lnkdn     : 1;  /**< [  2:  2](R/W) Force link down.
+                                                                 When this bit is set and the core detects REPLY_NUM rolling
+                                                                 over 4 times, the LTSSM transitions to detect state. */
+        uint32_t rcry_req              : 1;  /**< [  1:  1](WO) Recovery request.
+                                                                 When this bit is set in L0 or L0s, the LTSSM starts
+                                                                 transitioning to recovery state. This request does not cause
+                                                                 a speed change or reequalization. This bit always reads
+                                                                 a zero. */
+        uint32_t hold_ltssm            : 1;  /**< [  0:  0](R/W) Hold and release LTSSM.
+                                                                 For as long as this is set, the core stays in the current
+                                                                 LTSSM. */
+#else /* Word 0 - Little Endian */
+        uint32_t hold_ltssm            : 1;  /**< [  0:  0](R/W) Hold and release LTSSM.
+                                                                 For as long as this is set, the core stays in the current
+                                                                 LTSSM. */
+        uint32_t rcry_req              : 1;  /**< [  1:  1](WO) Recovery request.
+                                                                 When this bit is set in L0 or L0s, the LTSSM starts
+                                                                 transitioning to recovery state. This request does not cause
+                                                                 a speed change or reequalization. This bit always reads
+                                                                 a zero. */
+        uint32_t noack_force_lnkdn     : 1;  /**< [  2:  2](R/W) Force link down.
+                                                                 When this bit is set and the core detects REPLY_NUM rolling
+                                                                 over 4 times, the LTSSM transitions to detect state. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t dir_recidle_config    : 1;  /**< [  8:  8](R/W) Direct Recovery.Idle to configuration.
+                                                                 When this bit is set and the LTSSM is in recovery idle state,
+                                                                 the LTSSM transitions to configuration state. */
+        uint32_t dir_polcmp_to_det     : 1;  /**< [  9:  9](R/W) Direct Polling.Compliance to detect.
+                                                                 When this bit is set and the LTSSM is in polling compliance
+                                                                 state, the LTSSM transitions to detect state. */
+        uint32_t dir_lpbslv_to_exit    : 1;  /**< [ 10: 10](R/W) Direct loopback slave to exit.
+                                                                 When set and the LTSSM is in loopback slave active state,
+                                                                 the LTSSM transitions to the loopback slave exit state. */
+        uint32_t reserved_11_15        : 5;
+        uint32_t fr_err_rcvy_dis       : 1;  /**< [ 16: 16](R/W) Framing error recovery disable.
+                                                                 This bit disables a transition to recovery state when a framing
+                                                                 error has occurred. */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_ctl2_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_ctl2 cavm_pciercx_ras_sd_ctl2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL2(uint64_t a)
+{
+    if (a<=3)
+        return 0x2f0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_CTL2(a) cavm_pciercx_ras_sd_ctl2_t
+#define bustype_CAVM_PCIERCX_RAS_SD_CTL2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_CTL2(a) "PCIERCX_RAS_SD_CTL2"
+#define busnum_CAVM_PCIERCX_RAS_SD_CTL2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_eq_ctl1
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug EQ Control 1 Register
+ */
+union cavm_pciercx_ras_sd_eq_ctl1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_eq_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t fom_target            : 8;  /**< [ 31: 24](R/W) FOM target.
+                                                                 Indicates figure of merit target criteria value of EQ
+                                                                 master (DSP in EQ Phase3/USP in EQ Phase2).
+                                                                 This field is only valid when PCIERC_GEN3_EQ_CTL[FM] is
+                                                                 0x1 (figure of merit). */
+        uint32_t fom_target_en         : 1;  /**< [ 23: 23](R/W) FOM target enable.
+                                                                 Enables the [FOM_TARGET] field. */
+        uint32_t reserved_18_22        : 5;
+        uint32_t eval_interval_time    : 2;  /**< [ 17: 16](R/W) Eval interval time.
+                                                                 Indicates interval time of RxEqEval assertion.
+                                                                 0x0 = 500 ns.
+                                                                 0x1 = 1 us.
+                                                                 0x2 = 2 us.
+                                                                 0x3 = 4 us.
+
+                                                                 This field is used for EQ master (DSP in EQ Phase3/USP in
+                                                                 EQ Phase2). */
+        uint32_t reserved_10_15        : 6;
+        uint32_t ext_eq_timeout        : 2;  /**< [  9:  8](R/W) Extends EQ Phase2/3 timeout.
+                                                                 This field is used when the ltssm is in Recovery.EQ2/3.
+                                                                 When this field is set, the value of the EQ2/3 timeout is
+                                                                 extended.
+
+                                                                 EQ master (DSP in EQ Phase 3/USP in EQ Phaase2)
+                                                                 0x0 = 24 ms (default).
+                                                                 0x1 = 48 ms
+                                                                 0x2 = 240 ms.
+                                                                 0x3 = No timeout.
+
+                                                                 EQ slave (DSP in EQ Phase 2/USP in EQ Phaase3)
+                                                                 0x0 = 32 ms (default).
+                                                                 0x1 = 56 ms
+                                                                 0x2 = 248 ms.
+                                                                 0x3 = No timeout. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t eq_rate_sel           : 2;  /**< [  5:  4](R/W) EQ status rate select.
+                                                                 Setting this field in conjunction with [EQ_LANE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = 8.0 GT/s speed.
+                                                                 0x1 = 16.0 GT/s speed.
+                                                                 0x2 = 32.0 GT/s speed.
+                                                                 0x3 = Reserved. */
+        uint32_t eq_lane_sel           : 4;  /**< [  3:  0](R/W) EQ status lane select.
+                                                                 Setting this field in conjunction with [EQ_RATE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 _ ...
+                                                                 0x7 = Lane7.
+                                                                 0x8-0xF = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_lane_sel           : 4;  /**< [  3:  0](R/W) EQ status lane select.
+                                                                 Setting this field in conjunction with [EQ_RATE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 _ ...
+                                                                 0x7 = Lane7.
+                                                                 0x8-0xF = Reserved. */
+        uint32_t eq_rate_sel           : 2;  /**< [  5:  4](R/W) EQ status rate select.
+                                                                 Setting this field in conjunction with [EQ_LANE_SEL]
+                                                                 determines the per-lane silicon debug EQ status data
+                                                                 returned by the SD_EQ_CONTROL[2/3] and
+                                                                 SD_EQ_STATUS[1/2/3] viewport registers.
+                                                                 0x0 = 8.0 GT/s speed.
+                                                                 0x1 = 16.0 GT/s speed.
+                                                                 0x2 = 32.0 GT/s speed.
+                                                                 0x3 = Reserved. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t ext_eq_timeout        : 2;  /**< [  9:  8](R/W) Extends EQ Phase2/3 timeout.
+                                                                 This field is used when the ltssm is in Recovery.EQ2/3.
+                                                                 When this field is set, the value of the EQ2/3 timeout is
+                                                                 extended.
+
+                                                                 EQ master (DSP in EQ Phase 3/USP in EQ Phaase2)
+                                                                 0x0 = 24 ms (default).
+                                                                 0x1 = 48 ms
+                                                                 0x2 = 240 ms.
+                                                                 0x3 = No timeout.
+
+                                                                 EQ slave (DSP in EQ Phase 2/USP in EQ Phaase3)
+                                                                 0x0 = 32 ms (default).
+                                                                 0x1 = 56 ms
+                                                                 0x2 = 248 ms.
+                                                                 0x3 = No timeout. */
+        uint32_t reserved_10_15        : 6;
+        uint32_t eval_interval_time    : 2;  /**< [ 17: 16](R/W) Eval interval time.
+                                                                 Indicates interval time of RxEqEval assertion.
+                                                                 0x0 = 500 ns.
+                                                                 0x1 = 1 us.
+                                                                 0x2 = 2 us.
+                                                                 0x3 = 4 us.
+
+                                                                 This field is used for EQ master (DSP in EQ Phase3/USP in
+                                                                 EQ Phase2). */
+        uint32_t reserved_18_22        : 5;
+        uint32_t fom_target_en         : 1;  /**< [ 23: 23](R/W) FOM target enable.
+                                                                 Enables the [FOM_TARGET] field. */
+        uint32_t fom_target            : 8;  /**< [ 31: 24](R/W) FOM target.
+                                                                 Indicates figure of merit target criteria value of EQ
+                                                                 master (DSP in EQ Phase3/USP in EQ Phase2).
+                                                                 This field is only valid when PCIERC_GEN3_EQ_CTL[FM] is
+                                                                 0x1 (figure of merit). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_eq_ctl1_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_eq_ctl1 cavm_pciercx_ras_sd_eq_ctl1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL1(uint64_t a)
+{
+    if (a<=3)
+        return 0x31c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_EQ_CTL1(a) cavm_pciercx_ras_sd_eq_ctl1_t
+#define bustype_CAVM_PCIERCX_RAS_SD_EQ_CTL1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_EQ_CTL1(a) "PCIERCX_RAS_SD_EQ_CTL1"
+#define busnum_CAVM_PCIERCX_RAS_SD_EQ_CTL1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_EQ_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_eq_ctl2
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug EQ Control 2 Register
+ */
+union cavm_pciercx_ras_sd_eq_ctl2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_eq_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t force_loc_txpre_en    : 1;  /**< [ 30: 30](R/W) Force local transmitter preset enable. Enables [FORCE_LOC_TXPRE]. */
+        uint32_t force_loc_rxhint_en   : 1;  /**< [ 29: 29](R/W) Force local receiver preset hint enable. Enables [FORCE_LOC_RXHINT]. */
+        uint32_t force_loc_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force local transmitter coefficient enable.
+                                                                 Enables the following fields:
+                                                                 [FORCE_LOC_TXPRE_CUR],
+                                                                 [FORCE_LOC_TX_CUR],
+                                                                 [FORCE_LOC_TXPOST_CUR]. */
+        uint32_t force_loc_txpre       : 4;  /**< [ 27: 24](R/W) Force local transmitter preset.
+                                                                 Indicates initial preset value of USP in EQ slave (EQ Phase2)
+                                                                 instead of receiving EQ TS2. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t force_loc_rxhint      : 3;  /**< [ 20: 18](R/W) Force local receiver preset hint.
+                                                                 Indicates the RxPresetHint value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of received or set value. */
+        uint32_t force_loc_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force local transmitter postcursor.
+                                                                 Indicates the coefficient value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_loc_tx_cur      : 6;  /**< [ 11:  6](R/W) Force local transmitter cursor.
+                                                                 Indicates the coefficient value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_loc_txpre_cur   : 6;  /**< [  5:  0](R/W) Force local transmitter precursor.
+                                                                 Indicates the coefficient value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of the value instructed
+                                                                 from link partner. */
+#else /* Word 0 - Little Endian */
+        uint32_t force_loc_txpre_cur   : 6;  /**< [  5:  0](R/W) Force local transmitter precursor.
+                                                                 Indicates the coefficient value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_loc_tx_cur      : 6;  /**< [ 11:  6](R/W) Force local transmitter cursor.
+                                                                 Indicates the coefficient value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_loc_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force local transmitter postcursor.
+                                                                 Indicates the coefficient value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_loc_rxhint      : 3;  /**< [ 20: 18](R/W) Force local receiver preset hint.
+                                                                 Indicates the RxPresetHint value of EQ slave (DSP in EQ
+                                                                 Phase2/USP in EQ Phase3), instead of received or set value. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t force_loc_txpre       : 4;  /**< [ 27: 24](R/W) Force local transmitter preset.
+                                                                 Indicates initial preset value of USP in EQ slave (EQ Phase2)
+                                                                 instead of receiving EQ TS2. */
+        uint32_t force_loc_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force local transmitter coefficient enable.
+                                                                 Enables the following fields:
+                                                                 [FORCE_LOC_TXPRE_CUR],
+                                                                 [FORCE_LOC_TX_CUR],
+                                                                 [FORCE_LOC_TXPOST_CUR]. */
+        uint32_t force_loc_rxhint_en   : 1;  /**< [ 29: 29](R/W) Force local receiver preset hint enable. Enables [FORCE_LOC_RXHINT]. */
+        uint32_t force_loc_txpre_en    : 1;  /**< [ 30: 30](R/W) Force local transmitter preset enable. Enables [FORCE_LOC_TXPRE]. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_eq_ctl2_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_eq_ctl2 cavm_pciercx_ras_sd_eq_ctl2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL2(uint64_t a)
+{
+    if (a<=3)
+        return 0x320 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_EQ_CTL2(a) cavm_pciercx_ras_sd_eq_ctl2_t
+#define bustype_CAVM_PCIERCX_RAS_SD_EQ_CTL2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_EQ_CTL2(a) "PCIERCX_RAS_SD_EQ_CTL2"
+#define busnum_CAVM_PCIERCX_RAS_SD_EQ_CTL2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_EQ_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_eq_ctl3
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug EQ Control 3 Register
+ */
+union cavm_pciercx_ras_sd_eq_ctl3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_eq_ctl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t force_rem_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force remote transmitter coefficient enable as selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Enables the following fields:
+                                                                 [FORCE_REM_TXPRE_CUR],
+                                                                 [FORCE_REM_TX_CUR],
+                                                                 [FORCE_REM_TXPOST_CUR]. */
+        uint32_t reserved_18_27        : 10;
+        uint32_t force_rem_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force remote transmitter postcursor as selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Indicates the coefficient value of EQ master (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_rem_tx_cur      : 6;  /**< [ 11:  6](R/W) Force remote transmitter cursors selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Indicates the coefficient value of EQ master (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_rem_txpre_cur   : 6;  /**< [  5:  0](RAZ) Force remote transmitter precursors selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Indicates the coefficient value of EQ master (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2), instead of the value instructed
+                                                                 from link partner. */
+#else /* Word 0 - Little Endian */
+        uint32_t force_rem_txpre_cur   : 6;  /**< [  5:  0](RAZ) Force remote transmitter precursors selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Indicates the coefficient value of EQ master (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_rem_tx_cur      : 6;  /**< [ 11:  6](R/W) Force remote transmitter cursors selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Indicates the coefficient value of EQ master (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t force_rem_txpost_cur  : 6;  /**< [ 17: 12](R/W) Force remote transmitter postcursor as selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Indicates the coefficient value of EQ master (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2), instead of the value instructed
+                                                                 from link partner. */
+        uint32_t reserved_18_27        : 10;
+        uint32_t force_rem_txcoef_en   : 1;  /**< [ 28: 28](R/W) Force remote transmitter coefficient enable as selected by
+                                                                 PCIERC_RAS_SD_EQ_CTL1[EQ_LANE_SEL].
+                                                                 Enables the following fields:
+                                                                 [FORCE_REM_TXPRE_CUR],
+                                                                 [FORCE_REM_TX_CUR],
+                                                                 [FORCE_REM_TXPOST_CUR]. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_eq_ctl3_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_eq_ctl3 cavm_pciercx_ras_sd_eq_ctl3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL3(uint64_t a)
+{
+    if (a<=3)
+        return 0x324 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_CTL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_EQ_CTL3(a) cavm_pciercx_ras_sd_eq_ctl3_t
+#define bustype_CAVM_PCIERCX_RAS_SD_EQ_CTL3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_EQ_CTL3(a) "PCIERCX_RAS_SD_EQ_CTL3"
+#define busnum_CAVM_PCIERCX_RAS_SD_EQ_CTL3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_EQ_CTL3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_eq_stat1
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug EQ Status 1 Register
+ */
+union cavm_pciercx_ras_sd_eq_stat1
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_eq_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t eq_reject_event       : 1;  /**< [  7:  7](RO/H) EQ reject event.
+                                                                 Indicates that the core receives two consecutive TS1 OS
+                                                                 w/Reject=1b during EQ master phase (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2). This bit is automatically cleared
+                                                                 when the core starts EQ master phase again. */
+        uint32_t eq_rulec_viol         : 1;  /**< [  6:  6](RO/H) EQ rule C violation.
+                                                                 Indicates that coefficient rule C violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). The coefficients rule C
+                                                                 correspond to the rules c) from section "Rules for
+                                                                 Transmitter Coefficients" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ master phase again. */
+        uint32_t eq_ruleb_viol         : 1;  /**< [  5:  5](RO/H) EQ rule B violation.
+                                                                 Indicates that coefficient rule B violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). The coefficients rules B
+                                                                 correspond to the rules b) from section "Rules for
+                                                                 Transmitter Coefficients" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ master phase again. */
+        uint32_t eq_rulea_viol         : 1;  /**< [  4:  4](RO/H) EQ rule A violation.
+                                                                 Indicates that coefficient rule A violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2).  The coefficients rules A
+                                                                 correspond to the rules a) from section "Rules for
+                                                                 Transmitter Coefficients" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ master phase again. */
+        uint32_t reserved_3            : 1;
+        uint32_t eq_conv_info          : 2;  /**< [  2:  1](RO/H) EQ convergence info.
+                                                                 Indicates equalization convergence information.
+                                                                 0x0 = Equalization is not attempted.
+                                                                 0x1 = Equalization finished successfully.
+                                                                 0x2 = Equalization finished unsuccessfully.
+                                                                 0x3 = Reserved.
+                                                                 This bit is automatically cleared when the core starts EQ
+                                                                 master phase again. */
+        uint32_t eq_sequence           : 1;  /**< [  0:  0](RO) EQ sequence.
+                                                                 Indicates that the core is starting the equalization sequence. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_sequence           : 1;  /**< [  0:  0](RO) EQ sequence.
+                                                                 Indicates that the core is starting the equalization sequence. */
+        uint32_t eq_conv_info          : 2;  /**< [  2:  1](RO/H) EQ convergence info.
+                                                                 Indicates equalization convergence information.
+                                                                 0x0 = Equalization is not attempted.
+                                                                 0x1 = Equalization finished successfully.
+                                                                 0x2 = Equalization finished unsuccessfully.
+                                                                 0x3 = Reserved.
+                                                                 This bit is automatically cleared when the core starts EQ
+                                                                 master phase again. */
+        uint32_t reserved_3            : 1;
+        uint32_t eq_rulea_viol         : 1;  /**< [  4:  4](RO/H) EQ rule A violation.
+                                                                 Indicates that coefficient rule A violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2).  The coefficients rules A
+                                                                 correspond to the rules a) from section "Rules for
+                                                                 Transmitter Coefficients" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ master phase again. */
+        uint32_t eq_ruleb_viol         : 1;  /**< [  5:  5](RO/H) EQ rule B violation.
+                                                                 Indicates that coefficient rule B violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). The coefficients rules B
+                                                                 correspond to the rules b) from section "Rules for
+                                                                 Transmitter Coefficients" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ master phase again. */
+        uint32_t eq_rulec_viol         : 1;  /**< [  6:  6](RO/H) EQ rule C violation.
+                                                                 Indicates that coefficient rule C violation is detected in the
+                                                                 values provided by PHY using direction change method
+                                                                 during EQ master phase (DSP in EQ Phase3/USP in EQ
+                                                                 Phase2). The coefficients rule C
+                                                                 correspond to the rules c) from section "Rules for
+                                                                 Transmitter Coefficients" in the PCI Express Base Specification.
+                                                                 This bit is automatically cleared when the controller starts
+                                                                 EQ master phase again. */
+        uint32_t eq_reject_event       : 1;  /**< [  7:  7](RO/H) EQ reject event.
+                                                                 Indicates that the core receives two consecutive TS1 OS
+                                                                 w/Reject=1b during EQ master phase (DSP in EQ
+                                                                 Phase3/USP in EQ Phase2). This bit is automatically cleared
+                                                                 when the core starts EQ master phase again. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_eq_stat1_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_eq_stat1 cavm_pciercx_ras_sd_eq_stat1_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT1(uint64_t a)
+{
+    if (a<=3)
+        return 0x32c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_STAT1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_EQ_STAT1(a) cavm_pciercx_ras_sd_eq_stat1_t
+#define bustype_CAVM_PCIERCX_RAS_SD_EQ_STAT1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_EQ_STAT1(a) "PCIERCX_RAS_SD_EQ_STAT1"
+#define busnum_CAVM_PCIERCX_RAS_SD_EQ_STAT1(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_EQ_STAT1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_eq_stat2
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug EQ Status 2 Register
+ */
+union cavm_pciercx_ras_sd_eq_stat2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_eq_stat2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO/H) EQ local figure of merit.
+                                                                 Indicates local maximum figure of merit value. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
+                                                                 Indicates local receiver preset hint value. */
+        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ local postcursor.
+                                                                 Indicates local post cursor coefficient value. */
+        uint32_t eq_loc_cur            : 6;  /**< [ 11:  6](RO/H) EQ local cursor.
+                                                                 Indicates local cursor coefficient value. */
+        uint32_t eq_loc_pre_cur        : 6;  /**< [  5:  0](RO/H) EQ local precursor.
+                                                                 Indicates local precursor coefficient value. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_loc_pre_cur        : 6;  /**< [  5:  0](RO/H) EQ local precursor.
+                                                                 Indicates local precursor coefficient value. */
+        uint32_t eq_loc_cur            : 6;  /**< [ 11:  6](RO/H) EQ local cursor.
+                                                                 Indicates local cursor coefficient value. */
+        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ local postcursor.
+                                                                 Indicates local post cursor coefficient value. */
+        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
+                                                                 Indicates local receiver preset hint value. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO/H) EQ local figure of merit.
+                                                                 Indicates local maximum figure of merit value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_eq_stat2_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_eq_stat2 cavm_pciercx_ras_sd_eq_stat2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT2(uint64_t a)
+{
+    if (a<=3)
+        return 0x330 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_STAT2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_EQ_STAT2(a) cavm_pciercx_ras_sd_eq_stat2_t
+#define bustype_CAVM_PCIERCX_RAS_SD_EQ_STAT2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_EQ_STAT2(a) "PCIERCX_RAS_SD_EQ_STAT2"
+#define busnum_CAVM_PCIERCX_RAS_SD_EQ_STAT2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_EQ_STAT2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_eq_stat3
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug EQ Status 3 Register
+ */
+union cavm_pciercx_ras_sd_eq_stat3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_eq_stat3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t eq_rem_fs             : 6;  /**< [ 29: 24](RO/H) EQ remote FS.
+                                                                 Indicates remote FS value. */
+        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO/H) EQ remote LF.
+                                                                 Indicates remote LF value. */
+        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ remote postcursor.
+                                                                 Indicates remote postcursor coefficient value. */
+        uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO/H) EQ remote cursor.
+                                                                 Indicates remote cursor coefficient value. */
+        uint32_t eq_rem_pre_cur        : 6;  /**< [  5:  0](RO/H) EQ remote precursor.
+                                                                 Indicates remote postcursor coefficient value. */
+#else /* Word 0 - Little Endian */
+        uint32_t eq_rem_pre_cur        : 6;  /**< [  5:  0](RO/H) EQ remote precursor.
+                                                                 Indicates remote postcursor coefficient value. */
+        uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO/H) EQ remote cursor.
+                                                                 Indicates remote cursor coefficient value. */
+        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ remote postcursor.
+                                                                 Indicates remote postcursor coefficient value. */
+        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO/H) EQ remote LF.
+                                                                 Indicates remote LF value. */
+        uint32_t eq_rem_fs             : 6;  /**< [ 29: 24](RO/H) EQ remote FS.
+                                                                 Indicates remote FS value. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_eq_stat3_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_eq_stat3 cavm_pciercx_ras_sd_eq_stat3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT3(uint64_t a)
+{
+    if (a<=3)
+        return 0x334 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_STAT3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_EQ_STAT3(a) cavm_pciercx_ras_sd_eq_stat3_t
+#define bustype_CAVM_PCIERCX_RAS_SD_EQ_STAT3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_EQ_STAT3(a) "PCIERCX_RAS_SD_EQ_STAT3"
+#define busnum_CAVM_PCIERCX_RAS_SD_EQ_STAT3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_EQ_STAT3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_l1lane
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Status L1Lane Register
+ */
+union cavm_pciercx_ras_sd_l1lane
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_l1lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t deskew_ptr            : 8;  /**< [ 31: 24](RO/H) Deskew pointer.
+                                                                 Indicates deskew pointer of internal deskew buffer of
+                                                                 selected lane number ([LANE_SELECT]). */
+        uint32_t reserved_21_23        : 3;
+        uint32_t pipe_txelecidle       : 1;  /**< [ 20: 20](RO/H) PIPE:TxElecIdle.
+                                                                 Indicates PIPE TXELECIDLE signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t pipe_rxelecidle       : 1;  /**< [ 19: 19](RO/H) PIPE:RxElecIdle.
+                                                                 Indicates PIPE RXELECIDLE signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t pipe_rxvalid          : 1;  /**< [ 18: 18](RO/H) PIPE:RxValid.
+                                                                 Indicates PIPE RXVALID signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t pipe_det_lane         : 1;  /**< [ 17: 17](RO/H) PIPE:Detect Lane.
+                                                                 Indicates whether PHY indicates receiver detection or not on
+                                                                 selected lane number ([LANE_SELECT]). */
+        uint32_t pipe_rxpol            : 1;  /**< [ 16: 16](RO/H) PIPE:RxPolarity.
+                                                                 Indicates PIPE RXPOLARITY signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lane_select           : 4;  /**< [  3:  0](R/W) Lane select.
+                                                                 Lane select register for silicon debug status register of
+                                                                 Layer1-PerLane.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 0x3 = Lane3.
+                                                                 0x4-0xF = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t lane_select           : 4;  /**< [  3:  0](R/W) Lane select.
+                                                                 Lane select register for silicon debug status register of
+                                                                 Layer1-PerLane.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1.
+                                                                 0x2 = Lane2.
+                                                                 0x3 = Lane3.
+                                                                 0x4-0xF = Reserved. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pipe_rxpol            : 1;  /**< [ 16: 16](RO/H) PIPE:RxPolarity.
+                                                                 Indicates PIPE RXPOLARITY signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t pipe_det_lane         : 1;  /**< [ 17: 17](RO/H) PIPE:Detect Lane.
+                                                                 Indicates whether PHY indicates receiver detection or not on
+                                                                 selected lane number ([LANE_SELECT]). */
+        uint32_t pipe_rxvalid          : 1;  /**< [ 18: 18](RO/H) PIPE:RxValid.
+                                                                 Indicates PIPE RXVALID signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t pipe_rxelecidle       : 1;  /**< [ 19: 19](RO/H) PIPE:RxElecIdle.
+                                                                 Indicates PIPE RXELECIDLE signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t pipe_txelecidle       : 1;  /**< [ 20: 20](RO/H) PIPE:TxElecIdle.
+                                                                 Indicates PIPE TXELECIDLE signal of selected lane
+                                                                 number ([LANE_SELECT]). */
+        uint32_t reserved_21_23        : 3;
+        uint32_t deskew_ptr            : 8;  /**< [ 31: 24](RO/H) Deskew pointer.
+                                                                 Indicates deskew pointer of internal deskew buffer of
+                                                                 selected lane number ([LANE_SELECT]). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_l1lane_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_l1lane cavm_pciercx_ras_sd_l1lane_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LANE(uint64_t a)
+{
+    if (a<=3)
+        return 0x2fc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_L1LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_L1LANE(a) cavm_pciercx_ras_sd_l1lane_t
+#define bustype_CAVM_PCIERCX_RAS_SD_L1LANE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_L1LANE(a) "PCIERCX_RAS_SD_L1LANE"
+#define busnum_CAVM_PCIERCX_RAS_SD_L1LANE(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_L1LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_l1ltssm
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Status L1LTSSM Register
+ */
+union cavm_pciercx_ras_sd_l1ltssm
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_l1ltssm_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ltssm_var             : 16; /**< [ 31: 16](RO/H) LTSSM variable.
+                                                                 Indicates internal LTSSM variables defined in the PCI
+                                                                 Express base specification.
+                                                                 0x0 = directed_speed change.
+                                                                 0x1 = changed_speed_recovery.
+                                                                 0x2 = successful_speed_negotiation.
+                                                                 0x3 = upconfigure_capable; Set to one if both ports advertised
+                                                                 the UpConfigure capability in the last Config.Complete.
+                                                                 0x4 = select_deemphasis.
+                                                                 0x5 = start_equalization_w_preset.
+                                                                 0x6 = equalization_done_8GT_data_rate.
+                                                                 0x7 = equalization_done_16GT_data_rate.
+                                                                 0x8-0xF = idle_to_rlock_transitioned. */
+        uint32_t lane_rev              : 1;  /**< [ 15: 15](RO/H) Lane reversal operation.
+                                                                 Receiver detected lane reversal. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t pipe_pwr_dwn          : 3;  /**< [ 10:  8](RO/H) PIPE:PowerDown.
+                                                                 Indicates PIPE PowerDown signal. */
+        uint32_t framing_err           : 1;  /**< [  7:  7](R/W1C/H) Framing error.
+                                                                 Indicates framing error detection status. */
+        uint32_t framing_err_ptr       : 7;  /**< [  6:  0](RO/H) First framing error pointer.
+                                                                 Identifies the first framing error using the following
+                                                                 encoding. The field contents are only valid value when
+                                                                 [FRAMING_ERR] = 1.
+
+                                                                 Received unexpected framing token:
+                                                                 0x1 = When non-STP/SDP/IDL token was received and it
+                                                                 was not in TLP/DLLP reception.
+                                                                 0x02 = When current token was not a valid EDB token and
+                                                                 previous token was an EDB. (128/256 bit core only).
+                                                                 0x03 = When SDP token was received but not expected.
+                                                                 0x04 = When STP token was received but not expected.
+                                                                 0x05 = When EDS token was expected but not received or
+                                                                 whenever an EDS token was received but not expected.
+                                                                 0x06 = When a framing error was detected in the deskew
+                                                                 block while a packet has been in progress in token_finder.
+                                                                 Received Unexpected STP Token
+                                                                 0x11 = When framing CRC in STP token did not match.
+                                                                 0x12 = When framing parity in STP token did not match.
+                                                                 0x13 = When framing TLP length in STP token was
+                                                                 smaller than 5 DWORDs.
+
+                                                                 \<page\>
+
+                                                                 Received unexpected block:
+                                                                 0x21 = When receiving an OS block following SDS in datastream state.n.
+                                                                 0x22 = When data block followed by OS block different.
+                                                                 from SKP, EI, EIE in datastream state.
+                                                                 0x23 = When block with an undefined block type in datastream state.
+                                                                 0x24 = When data stream without data over three cycles in datastream state.
+                                                                 0x25 = When OS block during data stream in datastream state.
+                                                                 0x26 = When RxStatus error was detected in datastream state.
+                                                                 0x27 = When not all active lanes receiving SKP OS starting
+                                                                 at same cycle time in SKPOS state.
+                                                                 0x28 = When a two-block timeout occurs for SKP OS in SKPOS state.
+                                                                 0x29 = When receiving consecutive OS blocks within a data stream in SKPOS state.n.
+                                                                 0x2A = When PHY status error was detected in SKPOS state.
+                                                                 0x2B = When not all active lanes receiving EIOS starting at
+                                                                 same cycle time in EIOS state.
+                                                                 0x2C = When at least one symbol from the first 4 symbols
+                                                                 is not EIOS symbol in EIOS state (CX_NB=2 only).
+                                                                 0x2D = When not all active lanes receiving EIEOS starting
+                                                                 at same cycle time in EIEOS state.
+                                                                 0x2E = When not full 16 EIEOS symbols are received in EIEOS state.
+
+                                                                 All other values not listed above are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t framing_err_ptr       : 7;  /**< [  6:  0](RO/H) First framing error pointer.
+                                                                 Identifies the first framing error using the following
+                                                                 encoding. The field contents are only valid value when
+                                                                 [FRAMING_ERR] = 1.
+
+                                                                 Received unexpected framing token:
+                                                                 0x1 = When non-STP/SDP/IDL token was received and it
+                                                                 was not in TLP/DLLP reception.
+                                                                 0x02 = When current token was not a valid EDB token and
+                                                                 previous token was an EDB. (128/256 bit core only).
+                                                                 0x03 = When SDP token was received but not expected.
+                                                                 0x04 = When STP token was received but not expected.
+                                                                 0x05 = When EDS token was expected but not received or
+                                                                 whenever an EDS token was received but not expected.
+                                                                 0x06 = When a framing error was detected in the deskew
+                                                                 block while a packet has been in progress in token_finder.
+                                                                 Received Unexpected STP Token
+                                                                 0x11 = When framing CRC in STP token did not match.
+                                                                 0x12 = When framing parity in STP token did not match.
+                                                                 0x13 = When framing TLP length in STP token was
+                                                                 smaller than 5 DWORDs.
+
+                                                                 \<page\>
+
+                                                                 Received unexpected block:
+                                                                 0x21 = When receiving an OS block following SDS in datastream state.n.
+                                                                 0x22 = When data block followed by OS block different.
+                                                                 from SKP, EI, EIE in datastream state.
+                                                                 0x23 = When block with an undefined block type in datastream state.
+                                                                 0x24 = When data stream without data over three cycles in datastream state.
+                                                                 0x25 = When OS block during data stream in datastream state.
+                                                                 0x26 = When RxStatus error was detected in datastream state.
+                                                                 0x27 = When not all active lanes receiving SKP OS starting
+                                                                 at same cycle time in SKPOS state.
+                                                                 0x28 = When a two-block timeout occurs for SKP OS in SKPOS state.
+                                                                 0x29 = When receiving consecutive OS blocks within a data stream in SKPOS state.n.
+                                                                 0x2A = When PHY status error was detected in SKPOS state.
+                                                                 0x2B = When not all active lanes receiving EIOS starting at
+                                                                 same cycle time in EIOS state.
+                                                                 0x2C = When at least one symbol from the first 4 symbols
+                                                                 is not EIOS symbol in EIOS state (CX_NB=2 only).
+                                                                 0x2D = When not all active lanes receiving EIEOS starting
+                                                                 at same cycle time in EIEOS state.
+                                                                 0x2E = When not full 16 EIEOS symbols are received in EIEOS state.
+
+                                                                 All other values not listed above are reserved. */
+        uint32_t framing_err           : 1;  /**< [  7:  7](R/W1C/H) Framing error.
+                                                                 Indicates framing error detection status. */
+        uint32_t pipe_pwr_dwn          : 3;  /**< [ 10:  8](RO/H) PIPE:PowerDown.
+                                                                 Indicates PIPE PowerDown signal. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t lane_rev              : 1;  /**< [ 15: 15](RO/H) Lane reversal operation.
+                                                                 Receiver detected lane reversal. */
+        uint32_t ltssm_var             : 16; /**< [ 31: 16](RO/H) LTSSM variable.
+                                                                 Indicates internal LTSSM variables defined in the PCI
+                                                                 Express base specification.
+                                                                 0x0 = directed_speed change.
+                                                                 0x1 = changed_speed_recovery.
+                                                                 0x2 = successful_speed_negotiation.
+                                                                 0x3 = upconfigure_capable; Set to one if both ports advertised
+                                                                 the UpConfigure capability in the last Config.Complete.
+                                                                 0x4 = select_deemphasis.
+                                                                 0x5 = start_equalization_w_preset.
+                                                                 0x6 = equalization_done_8GT_data_rate.
+                                                                 0x7 = equalization_done_16GT_data_rate.
+                                                                 0x8-0xF = idle_to_rlock_transitioned. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_l1ltssm_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_l1ltssm cavm_pciercx_ras_sd_l1ltssm_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LTSSM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LTSSM(uint64_t a)
+{
+    if (a<=3)
+        return 0x300 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_L1LTSSM", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_L1LTSSM(a) cavm_pciercx_ras_sd_l1ltssm_t
+#define bustype_CAVM_PCIERCX_RAS_SD_L1LTSSM(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_L1LTSSM(a) "PCIERCX_RAS_SD_L1LTSSM"
+#define busnum_CAVM_PCIERCX_RAS_SD_L1LTSSM(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_L1LTSSM(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_statusl2
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Status L2 Register
+ */
+union cavm_pciercx_ras_sd_statusl2
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_statusl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t fc_init2              : 1;  /**< [ 27: 27](RO) Indicates the core is in FC_INIT2(VC0) state. */
+        uint32_t fc_init1              : 1;  /**< [ 26: 26](RO) Indicates the core is in FC_INIT1(VC0) state. */
+        uint32_t dlcmsm                : 2;  /**< [ 25: 24](RO/H) Indicates the current DLCMSM.
+                                                                 0x0 = DL_INACTIVE.
+                                                                 0x1 = DL_FC_INIT.
+                                                                 0x2 = Reserved.
+                                                                 0x3 = DL_ACTIVE. */
+        uint32_t rx_ack_seq_no         : 12; /**< [ 23: 12](RO/H) RX ACK sequence number.
+                                                                 Indicates the ACK sequence number which is updated by receiving
+                                                                 ACK/NAK DLLP. */
+        uint32_t tx_ack_seq_no         : 12; /**< [ 11:  0](RO/H) TX ACK sequence number.
+                                                                 Indicates next transmit sequence number for transmit TLP. */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_ack_seq_no         : 12; /**< [ 11:  0](RO/H) TX ACK sequence number.
+                                                                 Indicates next transmit sequence number for transmit TLP. */
+        uint32_t rx_ack_seq_no         : 12; /**< [ 23: 12](RO/H) RX ACK sequence number.
+                                                                 Indicates the ACK sequence number which is updated by receiving
+                                                                 ACK/NAK DLLP. */
+        uint32_t dlcmsm                : 2;  /**< [ 25: 24](RO/H) Indicates the current DLCMSM.
+                                                                 0x0 = DL_INACTIVE.
+                                                                 0x1 = DL_FC_INIT.
+                                                                 0x2 = Reserved.
+                                                                 0x3 = DL_ACTIVE. */
+        uint32_t fc_init1              : 1;  /**< [ 26: 26](RO) Indicates the core is in FC_INIT1(VC0) state. */
+        uint32_t fc_init2              : 1;  /**< [ 27: 27](RO) Indicates the core is in FC_INIT2(VC0) state. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_statusl2_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_statusl2 cavm_pciercx_ras_sd_statusl2_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL2(uint64_t a)
+{
+    if (a<=3)
+        return 0x308 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_STATUSL2(a) cavm_pciercx_ras_sd_statusl2_t
+#define bustype_CAVM_PCIERCX_RAS_SD_STATUSL2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_STATUSL2(a) "PCIERCX_RAS_SD_STATUSL2"
+#define busnum_CAVM_PCIERCX_RAS_SD_STATUSL2(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_STATUSL2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_statusl3
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Status L3 Register
+ */
+union cavm_pciercx_ras_sd_statusl3
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_statusl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t mftlp_status          : 1;  /**< [  7:  7](R/W1C) Malformed TLP status.
+                                                                 Indicates malformed TLP has occurred. */
+        uint32_t mftlp_ptr             : 7;  /**< [  6:  0](RO) First malformed TLP error pointer.
+                                                                 Indicates the element of the received first malformed TLP.
+                                                                 This pointer is validated by [MFTLP_STATUS].
+                                                                 0x01 = AtomicOp address alignment.
+                                                                 0x02 = AtomicOp operand.
+                                                                 0x03 = AtomicOp byte enable.
+                                                                 0x04 = TLP length miss match.
+                                                                 0x05 = Max payload size.
+                                                                 0x06 = Message TLP without TC0.
+                                                                 0x07 = Invalid TC.
+                                                                 0x08 = Unexpected route bit in message TLP.
+                                                                 0x09 = Unexpected CRS status in completion TLP.
+                                                                 0x0A = Byte enable.
+                                                                 0x0B = Memory address 4KB boundary.
+                                                                 0x0C = TLP prefix rules.
+                                                                 0x0D = Translation request rules.
+                                                                 0x0E = Invalid TLP type.
+                                                                 0x0F = Completion rules.
+                                                                 0x10-0x7E = Reserved.
+                                                                 0x7F = Application. */
+#else /* Word 0 - Little Endian */
+        uint32_t mftlp_ptr             : 7;  /**< [  6:  0](RO) First malformed TLP error pointer.
+                                                                 Indicates the element of the received first malformed TLP.
+                                                                 This pointer is validated by [MFTLP_STATUS].
+                                                                 0x01 = AtomicOp address alignment.
+                                                                 0x02 = AtomicOp operand.
+                                                                 0x03 = AtomicOp byte enable.
+                                                                 0x04 = TLP length miss match.
+                                                                 0x05 = Max payload size.
+                                                                 0x06 = Message TLP without TC0.
+                                                                 0x07 = Invalid TC.
+                                                                 0x08 = Unexpected route bit in message TLP.
+                                                                 0x09 = Unexpected CRS status in completion TLP.
+                                                                 0x0A = Byte enable.
+                                                                 0x0B = Memory address 4KB boundary.
+                                                                 0x0C = TLP prefix rules.
+                                                                 0x0D = Translation request rules.
+                                                                 0x0E = Invalid TLP type.
+                                                                 0x0F = Completion rules.
+                                                                 0x10-0x7E = Reserved.
+                                                                 0x7F = Application. */
+        uint32_t mftlp_status          : 1;  /**< [  7:  7](R/W1C) Malformed TLP status.
+                                                                 Indicates malformed TLP has occurred. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_statusl3_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_statusl3 cavm_pciercx_ras_sd_statusl3_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3(uint64_t a)
+{
+    if (a<=3)
+        return 0x310 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_STATUSL3(a) cavm_pciercx_ras_sd_statusl3_t
+#define bustype_CAVM_PCIERCX_RAS_SD_STATUSL3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_STATUSL3(a) "PCIERCX_RAS_SD_STATUSL3"
+#define busnum_CAVM_PCIERCX_RAS_SD_STATUSL3(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_STATUSL3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_statusl3fc
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Status L2 Register
+ */
+union cavm_pciercx_ras_sd_statusl3fc
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_statusl3fc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t credit_data1          : 12; /**< [ 31: 20](RO/H) Credit data 1.
+                                                                 Current FC credit data selected by the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], [CREDIT_SEL_TLP_TYPE],
+                                                                 and [CREDIT_SEL_HD] viewport-select fields.
+                                                                 RX = Credit allocated value.
+                                                                 TX = Credit limit value. This value is valid when DLCMSM=0x3(DL_ACTIVE). */
+        uint32_t credit_data0          : 12; /**< [ 19:  8](RO/H) Credit data 0.
+                                                                 Current FC credit data selected by the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], [CREDIT_SEL_TLP_TYPE],
+                                                                 and [CREDIT_SEL_HD] viewport-select fields.
+                                                                 RX = Credit received value.
+                                                                 TX = Credit consumed value. */
+        uint32_t reserved_7            : 1;
+        uint32_t credit_sel_hd         : 1;  /**< [  6:  6](R/W) Credit select (HeaderData).
+                                                                 This field in conjunction with the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], and
+                                                                 [CREDIT_SEL_TLP_TYPE] viewport-select fields determines
+                                                                 that data that is returned by the [CREDIT_DATA0] and
+                                                                 [CREDIT_DATA1] data fields.
+                                                                 0x0 = Header credit.
+                                                                 0x1 = Data credit. */
+        uint32_t credit_sel_tlp_type   : 2;  /**< [  5:  4](R/W) Credit select (TLP Type).
+                                                                 This field in conjunction with the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], and [CREDIT_SEL_HD]
+                                                                 viewport-select fields determines that data that is returned
+                                                                 by the [CREDIT_DATA0] and [CREDIT_DATA1] data fields.
+                                                                 0x0 = Posted.
+                                                                 0x1 = Non-posted.
+                                                                 0x2 = Completion.
+                                                                 0x3 = Reserved. */
+        uint32_t credit_sel_credit_type : 1; /**< [  3:  3](R/W) Credit select (credit type).
+                                                                 This field in conjunction with the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_TLP_TYPE], and [CREDIT_SEL_HD] viewport-select
+                                                                 fields determines that data that is returned by the
+                                                                 [CREDIT_DATA0] and [CREDIT_DATA1] data fields.
+                                                                 0x0 = RX.
+                                                                 0x1 = TX. */
+        uint32_t credit_sel_vc         : 3;  /**< [  2:  0](R/W) Credit select (VC).
+                                                                 This field in conjunction with the
+                                                                 [CREDIT_SEL_CREDIT_TYPE], [CREDIT_SEL_TLP_TYPE],
+                                                                 and [CREDIT_SEL_HD] viewport-select fields determines that
+                                                                 data that is returned by the [CREDIT_DATA0] and
+                                                                 [CREDIT_DATA1] data fields.
+                                                                 0x0 = VC0.
+                                                                 0x1 = VC1.
+                                                                 0x2 = VC2.
+                                                                 ...
+                                                                 0x7 = VC7. */
+#else /* Word 0 - Little Endian */
+        uint32_t credit_sel_vc         : 3;  /**< [  2:  0](R/W) Credit select (VC).
+                                                                 This field in conjunction with the
+                                                                 [CREDIT_SEL_CREDIT_TYPE], [CREDIT_SEL_TLP_TYPE],
+                                                                 and [CREDIT_SEL_HD] viewport-select fields determines that
+                                                                 data that is returned by the [CREDIT_DATA0] and
+                                                                 [CREDIT_DATA1] data fields.
+                                                                 0x0 = VC0.
+                                                                 0x1 = VC1.
+                                                                 0x2 = VC2.
+                                                                 ...
+                                                                 0x7 = VC7. */
+        uint32_t credit_sel_credit_type : 1; /**< [  3:  3](R/W) Credit select (credit type).
+                                                                 This field in conjunction with the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_TLP_TYPE], and [CREDIT_SEL_HD] viewport-select
+                                                                 fields determines that data that is returned by the
+                                                                 [CREDIT_DATA0] and [CREDIT_DATA1] data fields.
+                                                                 0x0 = RX.
+                                                                 0x1 = TX. */
+        uint32_t credit_sel_tlp_type   : 2;  /**< [  5:  4](R/W) Credit select (TLP Type).
+                                                                 This field in conjunction with the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], and [CREDIT_SEL_HD]
+                                                                 viewport-select fields determines that data that is returned
+                                                                 by the [CREDIT_DATA0] and [CREDIT_DATA1] data fields.
+                                                                 0x0 = Posted.
+                                                                 0x1 = Non-posted.
+                                                                 0x2 = Completion.
+                                                                 0x3 = Reserved. */
+        uint32_t credit_sel_hd         : 1;  /**< [  6:  6](R/W) Credit select (HeaderData).
+                                                                 This field in conjunction with the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], and
+                                                                 [CREDIT_SEL_TLP_TYPE] viewport-select fields determines
+                                                                 that data that is returned by the [CREDIT_DATA0] and
+                                                                 [CREDIT_DATA1] data fields.
+                                                                 0x0 = Header credit.
+                                                                 0x1 = Data credit. */
+        uint32_t reserved_7            : 1;
+        uint32_t credit_data0          : 12; /**< [ 19:  8](RO/H) Credit data 0.
+                                                                 Current FC credit data selected by the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], [CREDIT_SEL_TLP_TYPE],
+                                                                 and [CREDIT_SEL_HD] viewport-select fields.
+                                                                 RX = Credit received value.
+                                                                 TX = Credit consumed value. */
+        uint32_t credit_data1          : 12; /**< [ 31: 20](RO/H) Credit data 1.
+                                                                 Current FC credit data selected by the [CREDIT_SEL_VC],
+                                                                 [CREDIT_SEL_CREDIT_TYPE], [CREDIT_SEL_TLP_TYPE],
+                                                                 and [CREDIT_SEL_HD] viewport-select fields.
+                                                                 RX = Credit allocated value.
+                                                                 TX = Credit limit value. This value is valid when DLCMSM=0x3(DL_ACTIVE). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_statusl3fc_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_statusl3fc cavm_pciercx_ras_sd_statusl3fc_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3FC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3FC(uint64_t a)
+{
+    if (a<=3)
+        return 0x30c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSL3FC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_STATUSL3FC(a) cavm_pciercx_ras_sd_statusl3fc_t
+#define bustype_CAVM_PCIERCX_RAS_SD_STATUSL3FC(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_STATUSL3FC(a) "PCIERCX_RAS_SD_STATUSL3FC"
+#define busnum_CAVM_PCIERCX_RAS_SD_STATUSL3FC(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_STATUSL3FC(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_sd_statuspm
+ *
+ * PCIe RC Vendor RAS DES Silicon Debug Status PM Register
+ */
+union cavm_pciercx_ras_sd_statuspm
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_sd_statuspm_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
+                                                                 Indicates the value of N_FTS in the received TS ordered
+                                                                 sets from the link partner. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
+                                                                 Internal:
+                                                                 0x0 = Idle state.
+                                                                 0x1 = Wait for aux_clk_active.
+                                                                 0x2 = Wait for pclkack.
+                                                                 0x3 = Wait for clkreq.
+                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
+                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
+                                                                      and rx electrical idle detection circuits.
+                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
+                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t pme_rsnd_flag         : 1;  /**< [ 12: 12](RO) PME resend flag.
+                                                                 When the DUT sends a PM_PME message TLP, the DUT
+                                                                 sets PME_Status bit. If host software does not clear
+                                                                 PME_Status bit for 100ms (+50%/-5%), the DUT resends the
+                                                                 PM_PME message. This bit indicates that a PM_PME was
+                                                                 resent. */
+        uint32_t int_pm_sstate         : 4;  /**< [ 11:  8](RO/H) Internal PM state (slave).
+                                                                 Indicates internal state machine of power management
+                                                                 slave controller.
+                                                                 0x00 = S_IDLE.
+                                                                 0x01 = S_RESPOND_NAK.
+                                                                 0x02 = S_BLOCK_TLP.
+                                                                 0x03 = S_WAIT_LAST_TLP_ACK.
+                                                                 0x04 = S_WAIT_EIDLE.
+                                                                 0x08 = S_LINK_ENTR_L1.
+                                                                 0x09 = S_L1.
+                                                                 0x0A = S_L1_EXIT.
+                                                                 0x0B = S_L23RDY.
+                                                                 0x0C = S_LINK_ENTR_L23.
+                                                                 0x0D = S_L23RDY_WAIT4ALIVE.
+                                                                 0x0F = S_L23RDY_WAIT4IDLE.
+                                                                 0x10 = S_WAIT_LAST_PMDLLP.
+                                                                 0x10-0x1F = Reserved. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t int_pm_mstate         : 5;  /**< [  4:  0](RO/H) Internal PM state (master).
+                                                                 Indicates internal state machine of power management
+                                                                 master controller.
+                                                                 0x00 = IDLE.
+                                                                 0x01 = L0.
+                                                                 0x02 = L0S.
+                                                                 0x03 = ENTER_L0S.
+                                                                 0x04 = L0S_EXIT.
+                                                                 0x08 = L1.
+                                                                 0x09 = L1_BLOCK_TLP.
+                                                                 0x0A = L1_WAIT_LAST_TLP_ACK.
+                                                                 0x0B = L1_WAIT_PMDLLP_ACK.
+                                                                 0x0C = L1_LINK_ENTR_L1.
+                                                                 0x0D = L1_EXIT.
+                                                                 0x0F = PREP_4L1.
+                                                                 0x10 = L23_BLOCK_TLP.
+                                                                 0x11 = L23_WAIT_LAST_TLP_ACK.
+                                                                 0x12 = L23_WAIT_PMDLLP_ACK.
+                                                                 0x13 = L23_ENTR_L23.
+                                                                 0x14 = L23RDY.
+                                                                 0x15 = PREP_4L23.
+                                                                 0x16 = L23RDY_WAIT4ALIVE.
+                                                                 0x17 = L0S_BLOCK_TLP.
+                                                                 0x18 = WAIT_LAST_PMDLLP.
+                                                                 0x19 = WAIT_DSTATE_UPDATE.
+                                                                 0x20-0x1F = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t int_pm_mstate         : 5;  /**< [  4:  0](RO/H) Internal PM state (master).
+                                                                 Indicates internal state machine of power management
+                                                                 master controller.
+                                                                 0x00 = IDLE.
+                                                                 0x01 = L0.
+                                                                 0x02 = L0S.
+                                                                 0x03 = ENTER_L0S.
+                                                                 0x04 = L0S_EXIT.
+                                                                 0x08 = L1.
+                                                                 0x09 = L1_BLOCK_TLP.
+                                                                 0x0A = L1_WAIT_LAST_TLP_ACK.
+                                                                 0x0B = L1_WAIT_PMDLLP_ACK.
+                                                                 0x0C = L1_LINK_ENTR_L1.
+                                                                 0x0D = L1_EXIT.
+                                                                 0x0F = PREP_4L1.
+                                                                 0x10 = L23_BLOCK_TLP.
+                                                                 0x11 = L23_WAIT_LAST_TLP_ACK.
+                                                                 0x12 = L23_WAIT_PMDLLP_ACK.
+                                                                 0x13 = L23_ENTR_L23.
+                                                                 0x14 = L23RDY.
+                                                                 0x15 = PREP_4L23.
+                                                                 0x16 = L23RDY_WAIT4ALIVE.
+                                                                 0x17 = L0S_BLOCK_TLP.
+                                                                 0x18 = WAIT_LAST_PMDLLP.
+                                                                 0x19 = WAIT_DSTATE_UPDATE.
+                                                                 0x20-0x1F = Reserved. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t int_pm_sstate         : 4;  /**< [ 11:  8](RO/H) Internal PM state (slave).
+                                                                 Indicates internal state machine of power management
+                                                                 slave controller.
+                                                                 0x00 = S_IDLE.
+                                                                 0x01 = S_RESPOND_NAK.
+                                                                 0x02 = S_BLOCK_TLP.
+                                                                 0x03 = S_WAIT_LAST_TLP_ACK.
+                                                                 0x04 = S_WAIT_EIDLE.
+                                                                 0x08 = S_LINK_ENTR_L1.
+                                                                 0x09 = S_L1.
+                                                                 0x0A = S_L1_EXIT.
+                                                                 0x0B = S_L23RDY.
+                                                                 0x0C = S_LINK_ENTR_L23.
+                                                                 0x0D = S_L23RDY_WAIT4ALIVE.
+                                                                 0x0F = S_L23RDY_WAIT4IDLE.
+                                                                 0x10 = S_WAIT_LAST_PMDLLP.
+                                                                 0x10-0x1F = Reserved. */
+        uint32_t pme_rsnd_flag         : 1;  /**< [ 12: 12](RO) PME resend flag.
+                                                                 When the DUT sends a PM_PME message TLP, the DUT
+                                                                 sets PME_Status bit. If host software does not clear
+                                                                 PME_Status bit for 100ms (+50%/-5%), the DUT resends the
+                                                                 PM_PME message. This bit indicates that a PM_PME was
+                                                                 resent. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
+                                                                 Internal:
+                                                                 0x0 = Idle state.
+                                                                 0x1 = Wait for aux_clk_active.
+                                                                 0x2 = Wait for pclkack.
+                                                                 0x3 = Wait for clkreq.
+                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
+                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
+                                                                      and rx electrical idle detection circuits.
+                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
+                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
+                                                                 Indicates the value of N_FTS in the received TS ordered
+                                                                 sets from the link partner. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_sd_statuspm_s cn; */
+};
+typedef union cavm_pciercx_ras_sd_statuspm cavm_pciercx_ras_sd_statuspm_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSPM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSPM(uint64_t a)
+{
+    if (a<=3)
+        return 0x304 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSPM", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_SD_STATUSPM(a) cavm_pciercx_ras_sd_statuspm_t
+#define bustype_CAVM_PCIERCX_RAS_SD_STATUSPM(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_SD_STATUSPM(a) "PCIERCX_RAS_SD_STATUSPM"
+#define busnum_CAVM_PCIERCX_RAS_SD_STATUSPM(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_SD_STATUSPM(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_tba_ctl
+ *
+ * PCIe RC Vendor RAS DES Time Based Analysis Control Register
+ */
+union cavm_pciercx_ras_tba_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_tba_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tbase_rpt_sel         : 8;  /**< [ 31: 24](R/W) Time-based report select. Selects what type of data is measured for the selected
+                                                                 duration [TBASE_DUR_SEL]. Data is returned in PCIERC_RAS_TBA_DATA[TBASE_DATA].
+
+                                                                 Each type of data is measured using one of three types of units.
+
+                                                                 Core clock cycles.
+                                                                 0x0 = Duration of 1 cycle.
+                                                                 0x1 = TxL0s.
+                                                                 0x2 = RxL0s.
+                                                                 0x3 = L0.
+                                                                 0x4 = L1.
+                                                                 0x7 = Configuration/recovery.
+
+                                                                 Aux_clk cycles.
+                                                                 0x5 = L1.1.
+                                                                 0x6 = L1.2.
+
+                                                                 Data bytes.  Actual amount is 16x value.
+                                                                 0x20 = TX TLP Bytes.
+                                                                 0x21 = RX TLP Bytes. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t tbase_dur_sel         : 8;  /**< [ 15:  8](R/W) Time-based duration select.  Selects the duration of time-based
+                                                                 analysis.
+
+                                                                 0x0 = Manual control.  Analysis controlled by [TIMER_START].
+                                                                 0x1 = 1 ms.
+                                                                 0x2 = 10 ms.
+                                                                 0x3 = 100 ms.
+                                                                 0x4 = 1 s.
+                                                                 0x5 = 2 s.
+                                                                 0x6 = 4 s.
+                                                                 0x7 - 0xF = Reserved. */
+        uint32_t reserved_1_7          : 7;
+        uint32_t timer_start           : 1;  /**< [  0:  0](R/W) Timer start.
+
+                                                                 0x0 = Start/restart.
+                                                                 0x1 = Stop.
+
+                                                                 This bit will be cleared automatically when the measurement is finished. */
+#else /* Word 0 - Little Endian */
+        uint32_t timer_start           : 1;  /**< [  0:  0](R/W) Timer start.
+
+                                                                 0x0 = Start/restart.
+                                                                 0x1 = Stop.
+
+                                                                 This bit will be cleared automatically when the measurement is finished. */
+        uint32_t reserved_1_7          : 7;
+        uint32_t tbase_dur_sel         : 8;  /**< [ 15:  8](R/W) Time-based duration select.  Selects the duration of time-based
+                                                                 analysis.
+
+                                                                 0x0 = Manual control.  Analysis controlled by [TIMER_START].
+                                                                 0x1 = 1 ms.
+                                                                 0x2 = 10 ms.
+                                                                 0x3 = 100 ms.
+                                                                 0x4 = 1 s.
+                                                                 0x5 = 2 s.
+                                                                 0x6 = 4 s.
+                                                                 0x7 - 0xF = Reserved. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t tbase_rpt_sel         : 8;  /**< [ 31: 24](R/W) Time-based report select. Selects what type of data is measured for the selected
+                                                                 duration [TBASE_DUR_SEL]. Data is returned in PCIERC_RAS_TBA_DATA[TBASE_DATA].
+
+                                                                 Each type of data is measured using one of three types of units.
+
+                                                                 Core clock cycles.
+                                                                 0x0 = Duration of 1 cycle.
+                                                                 0x1 = TxL0s.
+                                                                 0x2 = RxL0s.
+                                                                 0x3 = L0.
+                                                                 0x4 = L1.
+                                                                 0x7 = Configuration/recovery.
+
+                                                                 Aux_clk cycles.
+                                                                 0x5 = L1.1.
+                                                                 0x6 = L1.2.
+
+                                                                 Data bytes.  Actual amount is 16x value.
+                                                                 0x20 = TX TLP Bytes.
+                                                                 0x21 = RX TLP Bytes. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_tba_ctl_s cn; */
+};
+typedef union cavm_pciercx_ras_tba_ctl cavm_pciercx_ras_tba_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_TBA_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x25c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_TBA_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_TBA_CTL(a) cavm_pciercx_ras_tba_ctl_t
+#define bustype_CAVM_PCIERCX_RAS_TBA_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_TBA_CTL(a) "PCIERCX_RAS_TBA_CTL"
+#define busnum_CAVM_PCIERCX_RAS_TBA_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_TBA_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ras_tba_data
+ *
+ * PCIe RC Vendor RAS DES Time Based Analysis Data Register
+ */
+union cavm_pciercx_ras_tba_data
+{
+    uint32_t u;
+    struct cavm_pciercx_ras_tba_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tbase_data            : 32; /**< [ 31:  0](RO/H) Time-based analysis data.  This register returns data selected in the
+                                                                 PCIERC_RAS_TBA_CTL[TBASE_RPT_SEL] field.  The results are cleared when
+                                                                 the next measurement starts. */
+#else /* Word 0 - Little Endian */
+        uint32_t tbase_data            : 32; /**< [ 31:  0](RO/H) Time-based analysis data.  This register returns data selected in the
+                                                                 PCIERC_RAS_TBA_CTL[TBASE_RPT_SEL] field.  The results are cleared when
+                                                                 the next measurement starts. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ras_tba_data_s cn; */
+};
+typedef union cavm_pciercx_ras_tba_data cavm_pciercx_ras_tba_data_t;
+
+static inline uint64_t CAVM_PCIERCX_RAS_TBA_DATA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RAS_TBA_DATA(uint64_t a)
+{
+    if (a<=3)
+        return 0x260 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RAS_TBA_DATA", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RAS_TBA_DATA(a) cavm_pciercx_ras_tba_data_t
+#define bustype_CAVM_PCIERCX_RAS_TBA_DATA(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RAS_TBA_DATA(a) "PCIERCX_RAS_TBA_DATA"
+#define busnum_CAVM_PCIERCX_RAS_TBA_DATA(a) (a)
+#define arguments_CAVM_PCIERCX_RAS_TBA_DATA(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_cap_hdr
+ *
+ * PCIe RC Vendor RAS Data Path Protection Header Register
+ */
+union cavm_pciercx_rasdp_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL().
+
+                                                                 Points to the Data Link Feature Extended Capabilities. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL().
+
+                                                                 Points to the Data Link Feature Extended Capabilities. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_rasdp_cap_hdr cavm_pciercx_rasdp_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_CAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x34c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_CAP_HDR(a) cavm_pciercx_rasdp_cap_hdr_t
+#define bustype_CAVM_PCIERCX_RASDP_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_CAP_HDR(a) "PCIERCX_RASDP_CAP_HDR"
+#define busnum_CAVM_PCIERCX_RASDP_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_ce_ctl
+ *
+ * PCIe RC RAS Data Path Correctable Error Control Register
+ */
+union cavm_pciercx_rasdp_ce_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_ce_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by [CORR_CNT_SEL_REG]) whose contents
+                                                                 can be read from PCIERC_RAS_TBA_CTL.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine inbound (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t corr_en_cntrs         : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all correctable error counters. */
+#else /* Word 0 - Little Endian */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all correctable error counters. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t corr_en_cntrs         : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine inbound (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by [CORR_CNT_SEL_REG]) whose contents
+                                                                 can be read from PCIERC_RAS_TBA_CTL.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_ce_ctl_s cn; */
+};
+typedef union cavm_pciercx_rasdp_ce_ctl cavm_pciercx_rasdp_ce_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x358 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_CE_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_CE_CTL(a) cavm_pciercx_rasdp_ce_ctl_t
+#define bustype_CAVM_PCIERCX_RASDP_CE_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_CE_CTL(a) "PCIERCX_RASDP_CE_CTL"
+#define busnum_CAVM_PCIERCX_RASDP_CE_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_CE_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_ce_ictl
+ *
+ * PCIe RC RAS Data Correctable Error Injection Control Register
+ */
+union cavm_pciercx_rasdp_ce_ictl
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_ce_ictl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t err_inj_loc           : 8;  /**< [ 23: 16](R/W) Error injection location.  Selects where error injection takes place.  You
+                                                                 can cycle this field value from 0 to 255 to access all locations. */
+        uint32_t err_inj_cnt           : 8;  /**< [ 15:  8](R/W) Error injection count.
+                                                                 0x0 = errors are injected in every TLP until [ERR_INJ_EN] is cleared.
+                                                                 0x1 - 0xFF = number of errors injected. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t err_inj_type          : 2;  /**< [  5:  4](R/W) Error injection type.
+                                                                 0x0 = None.
+                                                                 0x1 = 1-bit.
+                                                                 0x2 = 2-bit.
+                                                                 0x3 = Reserved. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t err_inj_en            : 1;  /**< [  0:  0](R/W) Error injection global enable.  When set, enables the error
+                                                                 insertion logic. */
+#else /* Word 0 - Little Endian */
+        uint32_t err_inj_en            : 1;  /**< [  0:  0](R/W) Error injection global enable.  When set, enables the error
+                                                                 insertion logic. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t err_inj_type          : 2;  /**< [  5:  4](R/W) Error injection type.
+                                                                 0x0 = None.
+                                                                 0x1 = 1-bit.
+                                                                 0x2 = 2-bit.
+                                                                 0x3 = Reserved. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t err_inj_cnt           : 8;  /**< [ 15:  8](R/W) Error injection count.
+                                                                 0x0 = errors are injected in every TLP until [ERR_INJ_EN] is cleared.
+                                                                 0x1 - 0xFF = number of errors injected. */
+        uint32_t err_inj_loc           : 8;  /**< [ 23: 16](R/W) Error injection location.  Selects where error injection takes place.  You
+                                                                 can cycle this field value from 0 to 255 to access all locations. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_ce_ictl_s cn; */
+};
+typedef union cavm_pciercx_rasdp_ce_ictl cavm_pciercx_rasdp_ce_ictl_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_ICTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_ICTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x368 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_CE_ICTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_CE_ICTL(a) cavm_pciercx_rasdp_ce_ictl_t
+#define bustype_CAVM_PCIERCX_RASDP_CE_ICTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_CE_ICTL(a) "PCIERCX_RASDP_CE_ICTL"
+#define busnum_CAVM_PCIERCX_RASDP_CE_ICTL(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_CE_ICTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_ce_loc
+ *
+ * PCIe RC RAS Data Correctable Error Location Register
+ */
+union cavm_pciercx_rasdp_ce_loc
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_ce_loc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
+                                                                 [REG_LAST_CORR_ERR]. */
+        uint32_t reg_last_corr_err     : 4;  /**< [ 23: 20](RO) Region of last corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t loc_first_corr_err    : 8;  /**< [ 15:  8](RO) Location/ID of the first corrected error within the region defined by
+                                                                 [REG_FIRST_CORR_ERR]. */
+        uint32_t reg_first_corr_err    : 4;  /**< [  7:  4](RO) Region of first corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t reg_first_corr_err    : 4;  /**< [  7:  4](RO) Region of first corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t loc_first_corr_err    : 8;  /**< [ 15:  8](RO) Location/ID of the first corrected error within the region defined by
+                                                                 [REG_FIRST_CORR_ERR]. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t reg_last_corr_err     : 4;  /**< [ 23: 20](RO) Region of last corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
+                                                                 [REG_LAST_CORR_ERR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_ce_loc_s cn; */
+};
+typedef union cavm_pciercx_rasdp_ce_loc cavm_pciercx_rasdp_ce_loc_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_LOC(uint64_t a)
+{
+    if (a<=3)
+        return 0x36c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_CE_LOC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_CE_LOC(a) cavm_pciercx_rasdp_ce_loc_t
+#define bustype_CAVM_PCIERCX_RASDP_CE_LOC(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_CE_LOC(a) "PCIERCX_RASDP_CE_LOC"
+#define busnum_CAVM_PCIERCX_RASDP_CE_LOC(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_CE_LOC(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_ce_rp
+ *
+ * PCIe RC RAS Data Path Correctable Error Report Register
+ */
+union cavm_pciercx_rasdp_ce_rp
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_ce_rp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIERC_RASDP_CE_CTL[CORR_CNT_SEL]. */
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t corr_count            : 8;  /**< [  7:  0](RO) Current corrected count for the selected counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t corr_count            : 8;  /**< [  7:  0](RO) Current corrected count for the selected counter. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIERC_RASDP_CE_CTL[CORR_CNT_SEL]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_ce_rp_s cn; */
+};
+typedef union cavm_pciercx_rasdp_ce_rp cavm_pciercx_rasdp_ce_rp_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_RP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_CE_RP(uint64_t a)
+{
+    if (a<=3)
+        return 0x35c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_CE_RP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_CE_RP(a) cavm_pciercx_rasdp_ce_rp_t
+#define bustype_CAVM_PCIERCX_RASDP_CE_RP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_CE_RP(a) "PCIERCX_RASDP_CE_RP"
+#define busnum_CAVM_PCIERCX_RASDP_CE_RP(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_CE_RP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_de_mc
+ *
+ * PCIe RC RAS Data Error Mode Clear Register
+ */
+union cavm_pciercx_rasdp_de_mc
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_de_mc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t err_mode_clr          : 1;  /**< [  0:  0](R/W1C) Set this bit to take the core out of RASDP error mode.  The core will then report
+                                                                 uncorrectable
+                                                                 errors (through AER internal error reporting) and also stop nullifying/discarding TLPs. */
+#else /* Word 0 - Little Endian */
+        uint32_t err_mode_clr          : 1;  /**< [  0:  0](R/W1C) Set this bit to take the core out of RASDP error mode.  The core will then report
+                                                                 uncorrectable
+                                                                 errors (through AER internal error reporting) and also stop nullifying/discarding TLPs. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_de_mc_s cn; */
+};
+typedef union cavm_pciercx_rasdp_de_mc cavm_pciercx_rasdp_de_mc_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_DE_MC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_DE_MC(uint64_t a)
+{
+    if (a<=3)
+        return 0x378 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_DE_MC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_DE_MC(a) cavm_pciercx_rasdp_de_mc_t
+#define bustype_CAVM_PCIERCX_RASDP_DE_MC(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_DE_MC(a) "PCIERCX_RASDP_DE_MC"
+#define busnum_CAVM_PCIERCX_RASDP_DE_MC(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_DE_MC(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_de_me
+ *
+ * PCIe RC RAS Data Error Mode Enable Register
+ */
+union cavm_pciercx_rasdp_de_me
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_de_me_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t auto_lnk_dn_en        : 1;  /**< [  1:  1](R/W) Set this bit to enable the core to bring the link down when RASDP error mode is entered. */
+        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enable the core to enter RASDP error mode when it detects an uncorrectable error. */
+#else /* Word 0 - Little Endian */
+        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enable the core to enter RASDP error mode when it detects an uncorrectable error. */
+        uint32_t auto_lnk_dn_en        : 1;  /**< [  1:  1](R/W) Set this bit to enable the core to bring the link down when RASDP error mode is entered. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_de_me_s cn; */
+};
+typedef union cavm_pciercx_rasdp_de_me cavm_pciercx_rasdp_de_me_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_DE_ME(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_DE_ME(uint64_t a)
+{
+    if (a<=3)
+        return 0x374 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_DE_ME", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_DE_ME(a) cavm_pciercx_rasdp_de_me_t
+#define bustype_CAVM_PCIERCX_RASDP_DE_ME(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_DE_ME(a) "PCIERCX_RASDP_DE_ME"
+#define busnum_CAVM_PCIERCX_RASDP_DE_ME(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_DE_ME(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_ep_ctl
+ *
+ * PCIe RC RAS Data Path Error Protection Control Register
+ */
+union cavm_pciercx_rasdp_ep_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_ep_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t ep_dis_cxs_rx         : 1;  /**< [ 23: 23](R/W) Error correction disable for CXS (PCIe) TX path. */
+        uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM RX path. */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for layer 3 RX path. */
+        uint32_t ep_dis_l2_rx          : 1;  /**< [ 20: 20](R/W) Error correction disable for layer 2 RX path. */
+        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA read (not supported). */
+        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI bridge inbound request path (not supported). */
+        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI bridge inbound completion composer (not supported). */
+        uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX layers. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t ep_dis_dtim_tx        : 1;  /**< [  8:  8](R/W) Error correction disable for DTIM TX path. */
+        uint32_t ep_dis_cxs_tx         : 1;  /**< [  7:  7](R/W) Error correction disable for CXS (PCIe) TX path. */
+        uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
+        uint32_t ep_dis_l3_tx          : 1;  /**< [  5:  5](R/W) Error correction disable for layer 3 TX path. */
+        uint32_t ep_dis_l2_tx          : 1;  /**< [  4:  4](R/W) Error correction disable for layer 2 TX path. */
+        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA write (not supported). */
+        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI bridge outbound request path (not supported). */
+        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI bridge master completion buffer (not supported). */
+        uint32_t ep_dis_tx             : 1;  /**< [  0:  0](R/W) Global error correction disable for all TX layers. */
+#else /* Word 0 - Little Endian */
+        uint32_t ep_dis_tx             : 1;  /**< [  0:  0](R/W) Global error correction disable for all TX layers. */
+        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI bridge master completion buffer (not supported). */
+        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI bridge outbound request path (not supported). */
+        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA write (not supported). */
+        uint32_t ep_dis_l2_tx          : 1;  /**< [  4:  4](R/W) Error correction disable for layer 2 TX path. */
+        uint32_t ep_dis_l3_tx          : 1;  /**< [  5:  5](R/W) Error correction disable for layer 3 TX path. */
+        uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
+        uint32_t ep_dis_cxs_tx         : 1;  /**< [  7:  7](R/W) Error correction disable for CXS (PCIe) TX path. */
+        uint32_t ep_dis_dtim_tx        : 1;  /**< [  8:  8](R/W) Error correction disable for DTIM TX path. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX layers. */
+        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI bridge inbound completion composer (not supported). */
+        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI bridge inbound request path (not supported). */
+        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA read (not supported). */
+        uint32_t ep_dis_l2_rx          : 1;  /**< [ 20: 20](R/W) Error correction disable for layer 2 RX path. */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for layer 3 RX path. */
+        uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM RX path. */
+        uint32_t ep_dis_cxs_rx         : 1;  /**< [ 23: 23](R/W) Error correction disable for CXS (PCIe) TX path. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_ep_ctl_s cn; */
+};
+typedef union cavm_pciercx_rasdp_ep_ctl cavm_pciercx_rasdp_ep_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_EP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_EP_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x354 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_EP_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_EP_CTL(a) cavm_pciercx_rasdp_ep_ctl_t
+#define bustype_CAVM_PCIERCX_RASDP_EP_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_EP_CTL(a) "PCIERCX_RASDP_EP_CTL"
+#define busnum_CAVM_PCIERCX_RASDP_EP_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_EP_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_hdr
+ *
+ * PCIe RC RAS Data Path Extended Capability Register
+ */
+union cavm_pciercx_rasdp_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSEC ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) VSEC ID. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_hdr_s cn; */
+};
+typedef union cavm_pciercx_rasdp_hdr cavm_pciercx_rasdp_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x350 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_HDR(a) cavm_pciercx_rasdp_hdr_t
+#define bustype_CAVM_PCIERCX_RASDP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_HDR(a) "PCIERCX_RASDP_HDR"
+#define busnum_CAVM_PCIERCX_RASDP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_radr_ce
+ *
+ * PCIe RC RAS RAM Address Corrected Error Register
+ */
+union cavm_pciercx_rasdp_radr_ce
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_radr_ce_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ram_idx_corr_err      : 4;  /**< [ 31: 28](RO) RAM index where a corrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_addr_corr_err     : 27; /**< [ 26:  0](RO) RAM address where a corrected error has been detected. */
+#else /* Word 0 - Little Endian */
+        uint32_t ram_addr_corr_err     : 27; /**< [ 26:  0](RO) RAM address where a corrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_idx_corr_err      : 4;  /**< [ 31: 28](RO) RAM index where a corrected error has been detected. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_radr_ce_s cn; */
+};
+typedef union cavm_pciercx_rasdp_radr_ce cavm_pciercx_rasdp_radr_ce_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_RADR_CE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_RADR_CE(uint64_t a)
+{
+    if (a<=3)
+        return 0x37c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_RADR_CE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_RADR_CE(a) cavm_pciercx_rasdp_radr_ce_t
+#define bustype_CAVM_PCIERCX_RASDP_RADR_CE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_RADR_CE(a) "PCIERCX_RASDP_RADR_CE"
+#define busnum_CAVM_PCIERCX_RASDP_RADR_CE(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_RADR_CE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_radr_uce
+ *
+ * PCIe RC RAS RAM Address Uncorrected Error Register
+ */
+union cavm_pciercx_rasdp_radr_uce
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_radr_uce_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ram_idx_ucorr_err     : 4;  /**< [ 31: 28](RO) RAM index where a uncorrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_addr_ucorr_err    : 27; /**< [ 26:  0](RO) RAM address where a uncorrected error has been detected. */
+#else /* Word 0 - Little Endian */
+        uint32_t ram_addr_ucorr_err    : 27; /**< [ 26:  0](RO) RAM address where a uncorrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_idx_ucorr_err     : 4;  /**< [ 31: 28](RO) RAM index where a uncorrected error has been detected. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_radr_uce_s cn; */
+};
+typedef union cavm_pciercx_rasdp_radr_uce cavm_pciercx_rasdp_radr_uce_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_RADR_UCE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_RADR_UCE(uint64_t a)
+{
+    if (a<=3)
+        return 0x380 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_RADR_UCE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_RADR_UCE(a) cavm_pciercx_rasdp_radr_uce_t
+#define bustype_CAVM_PCIERCX_RASDP_RADR_UCE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_RADR_UCE(a) "PCIERCX_RASDP_RADR_UCE"
+#define busnum_CAVM_PCIERCX_RASDP_RADR_UCE(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_RADR_UCE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_uce_ctl
+ *
+ * PCIe RC RAS Data Path Uncorrectable Error Control Register
+ */
+union cavm_pciercx_rasdp_uce_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_uce_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by [UCORR_CNT_SEL_REG]) whose contents
+                                                                 can be read from PCIERC_RAS_TBA_CTL.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t ucorr_en_cntrs        : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all uncorrectable error counters. */
+#else /* Word 0 - Little Endian */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all uncorrectable error counters. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ucorr_en_cntrs        : 1;  /**< [  4:  4](R/W) Error correction disable for ADM RX path. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
+                                                                 the region defined by [UCORR_CNT_SEL_REG]) whose contents
+                                                                 can be read from PCIERC_RAS_TBA_CTL.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_uce_ctl_s cn; */
+};
+typedef union cavm_pciercx_rasdp_uce_ctl cavm_pciercx_rasdp_uce_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_UCE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_UCE_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x360 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_UCE_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_UCE_CTL(a) cavm_pciercx_rasdp_uce_ctl_t
+#define bustype_CAVM_PCIERCX_RASDP_UCE_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_UCE_CTL(a) "PCIERCX_RASDP_UCE_CTL"
+#define busnum_CAVM_PCIERCX_RASDP_UCE_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_UCE_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_uce_loc
+ *
+ * PCIe RC RAS Data Uncorrectable Error Location Register
+ */
+union cavm_pciercx_rasdp_uce_loc
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_uce_loc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
+                                                                 [REG_LAST_UCORR_ERR]. */
+        uint32_t reg_last_ucorr_err    : 4;  /**< [ 23: 20](RO) Region of last uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t loc_first_ucorr_err   : 8;  /**< [ 15:  8](RO) Location/ID of the first uncorrected error within the region defined by
+                                                                 [REG_FIRST_UCORR_ERR]. */
+        uint32_t reg_first_ucorr_err   : 4;  /**< [  7:  4](RO) Region of first uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t reg_first_ucorr_err   : 4;  /**< [  7:  4](RO) Region of first uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t loc_first_ucorr_err   : 8;  /**< [ 15:  8](RO) Location/ID of the first uncorrected error within the region defined by
+                                                                 [REG_FIRST_UCORR_ERR]. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t reg_last_ucorr_err    : 4;  /**< [ 23: 20](RO) Region of last uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion path (not supported).
+                                                                 0xC = CXS Tx/Rx path (not supported).
+                                                                 0xD = DTIM Tx/Rx path (not supported).
+                                                                 0xE - 0xF = Reserved. */
+        uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
+                                                                 [REG_LAST_UCORR_ERR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_uce_loc_s cn; */
+};
+typedef union cavm_pciercx_rasdp_uce_loc cavm_pciercx_rasdp_uce_loc_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_UCE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_UCE_LOC(uint64_t a)
+{
+    if (a<=3)
+        return 0x370 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_UCE_LOC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_UCE_LOC(a) cavm_pciercx_rasdp_uce_loc_t
+#define bustype_CAVM_PCIERCX_RASDP_UCE_LOC(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_UCE_LOC(a) "PCIERCX_RASDP_UCE_LOC"
+#define busnum_CAVM_PCIERCX_RASDP_UCE_LOC(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_UCE_LOC(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rasdp_uce_rp
+ *
+ * PCIe RC RAS Data Path Uncorrectable Error Report Register
+ */
+union cavm_pciercx_rasdp_uce_rp
+{
+    uint32_t u;
+    struct cavm_pciercx_rasdp_uce_rp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIERC_RASDP_UCE_CTL[UCORR_CNT_SEL]. */
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t ucorr_count           : 8;  /**< [  7:  0](RO) Current uncorrected count for the selected counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t ucorr_count           : 8;  /**< [  7:  0](RO) Current uncorrected count for the selected counter. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO/H) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA inbound path (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer path (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA outbound path (not supported).
+                                                                 0xA = AXI bridge outbound request path (not supported).
+                                                                 0xB = AXI bridge outbound master completion buffer path (not supported).
+                                                                 0xC - 0xF = Reserved. */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIERC_RASDP_UCE_CTL[UCORR_CNT_SEL]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rasdp_uce_rp_s cn; */
+};
+typedef union cavm_pciercx_rasdp_uce_rp cavm_pciercx_rasdp_uce_rp_t;
+
+static inline uint64_t CAVM_PCIERCX_RASDP_UCE_RP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_RASDP_UCE_RP(uint64_t a)
+{
+    if (a<=3)
+        return 0x364 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_RASDP_UCE_RP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_RASDP_UCE_RP(a) cavm_pciercx_rasdp_uce_rp_t
+#define bustype_CAVM_PCIERCX_RASDP_UCE_RP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_RASDP_UCE_RP(a) "PCIERCX_RASDP_UCE_RP"
+#define busnum_CAVM_PCIERCX_RASDP_UCE_RP(a) (a)
+#define arguments_CAVM_PCIERCX_RASDP_UCE_RP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_rev
+ *
+ * PCIe RC Class Code/Revision ID Register
+ */
+union cavm_pciercx_rev
+{
+    uint32_t u;
+    struct cavm_pciercx_rev_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_TBL().
+
+                                                                 0x6 = Bridge. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_TBL().
+
+                                                                 0x4 = PCI-to-PCI. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_TBL().
+
+                                                                 0x0 = No standard interface. */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_TBL().
+
+                                                                 Software must initialize this register if desired to represent the proper
+                                                                 revision number, i.e. as read from FUS_FUSE_NUM_E::CHIP_ID(). */
+#else /* Word 0 - Little Endian */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_TBL().
+
+                                                                 Software must initialize this register if desired to represent the proper
+                                                                 revision number, i.e. as read from FUS_FUSE_NUM_E::CHIP_ID(). */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_TBL().
+
+                                                                 0x0 = No standard interface. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_TBL().
+
+                                                                 0x4 = PCI-to-PCI. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_TBL().
+
+                                                                 0x6 = Bridge. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_rev_s cn; */
+};
+typedef union cavm_pciercx_rev cavm_pciercx_rev_t;
+
+static inline uint64_t CAVM_PCIERCX_REV(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_REV(uint64_t a)
+{
+    if (a<=3)
+        return 8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_REV", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_REV(a) cavm_pciercx_rev_t
+#define bustype_CAVM_PCIERCX_REV(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_REV(a) "PCIERCX_REV"
+#define busnum_CAVM_PCIERCX_REV(a) (a)
+#define arguments_CAVM_PCIERCX_REV(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_root_ctl_cap
+ *
+ * PCIe RC Root Control/Root Capabilities Register
+ */
+union cavm_pciercx_root_ctl_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_root_ctl_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t crssv                 : 1;  /**< [ 16: 16](R/W) CRS software visibility. Not supported, hardwired to zero. */
+        uint32_t reserved_5_15         : 11;
+        uint32_t crssve                : 1;  /**< [  4:  4](RO) CRS software visibility enable. Not supported, hardwired to zero. */
+        uint32_t pmeie                 : 1;  /**< [  3:  3](R/W) PME interrupt enable. */
+        uint32_t sefee                 : 1;  /**< [  2:  2](R/W) System error on fatal error enable. */
+        uint32_t senfee                : 1;  /**< [  1:  1](R/W) System error on nonfatal error enable. */
+        uint32_t secee                 : 1;  /**< [  0:  0](R/W) System error on correctable error enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t secee                 : 1;  /**< [  0:  0](R/W) System error on correctable error enable. */
+        uint32_t senfee                : 1;  /**< [  1:  1](R/W) System error on nonfatal error enable. */
+        uint32_t sefee                 : 1;  /**< [  2:  2](R/W) System error on fatal error enable. */
+        uint32_t pmeie                 : 1;  /**< [  3:  3](R/W) PME interrupt enable. */
+        uint32_t crssve                : 1;  /**< [  4:  4](RO) CRS software visibility enable. Not supported, hardwired to zero. */
+        uint32_t reserved_5_15         : 11;
+        uint32_t crssv                 : 1;  /**< [ 16: 16](R/W) CRS software visibility. Not supported, hardwired to zero. */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_root_ctl_cap_s cn; */
+};
+typedef union cavm_pciercx_root_ctl_cap cavm_pciercx_root_ctl_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_ROOT_CTL_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ROOT_CTL_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x8c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ROOT_CTL_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ROOT_CTL_CAP(a) cavm_pciercx_root_ctl_cap_t
+#define bustype_CAVM_PCIERCX_ROOT_CTL_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ROOT_CTL_CAP(a) "PCIERCX_ROOT_CTL_CAP"
+#define busnum_CAVM_PCIERCX_ROOT_CTL_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_ROOT_CTL_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_root_err_cmd
+ *
+ * PCIe RC Root Error Command Register
+ */
+union cavm_pciercx_root_err_cmd
+{
+    uint32_t u;
+    struct cavm_pciercx_root_err_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t fere                  : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
+        uint32_t nfere                 : 1;  /**< [  1:  1](R/W) Nonfatal error reporting enable. */
+        uint32_t cere                  : 1;  /**< [  0:  0](R/W) Correctable error reporting enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t cere                  : 1;  /**< [  0:  0](R/W) Correctable error reporting enable. */
+        uint32_t nfere                 : 1;  /**< [  1:  1](R/W) Nonfatal error reporting enable. */
+        uint32_t fere                  : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_root_err_cmd_s cn; */
+};
+typedef union cavm_pciercx_root_err_cmd cavm_pciercx_root_err_cmd_t;
+
+static inline uint64_t CAVM_PCIERCX_ROOT_ERR_CMD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ROOT_ERR_CMD(uint64_t a)
+{
+    if (a<=3)
+        return 0x12c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ROOT_ERR_CMD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ROOT_ERR_CMD(a) cavm_pciercx_root_err_cmd_t
+#define bustype_CAVM_PCIERCX_ROOT_ERR_CMD(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ROOT_ERR_CMD(a) "PCIERCX_ROOT_ERR_CMD"
+#define busnum_CAVM_PCIERCX_ROOT_ERR_CMD(a) (a)
+#define arguments_CAVM_PCIERCX_ROOT_ERR_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_root_err_stat
+ *
+ * PCIe RC Root Error Status Register
+ */
+union cavm_pciercx_root_err_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_root_err_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t aeimn                 : 5;  /**< [ 31: 27](RO/WRSL) Advanced error interrupt message number, writable through
+                                                                 PEM()_CFG_TBL(). */
+        uint32_t reserved_7_26         : 20;
+        uint32_t femr                  : 1;  /**< [  6:  6](R/W1C/H) Fatal error messages received. */
+        uint32_t nfemr                 : 1;  /**< [  5:  5](R/W1C/H) Nonfatal error messages received. */
+        uint32_t fuf                   : 1;  /**< [  4:  4](R/W1C/H) First uncorrectable fatal. */
+        uint32_t multi_efnfr           : 1;  /**< [  3:  3](R/W1C/H) Multiple ERR_FATAL/NONFATAL received. */
+        uint32_t efnfr                 : 1;  /**< [  2:  2](R/W1C/H) ERR_FATAL/NONFATAL received. */
+        uint32_t multi_ecr             : 1;  /**< [  1:  1](R/W1C/H) Multiple ERR_COR received. */
+        uint32_t ecr                   : 1;  /**< [  0:  0](R/W1C/H) ERR_COR received. */
+#else /* Word 0 - Little Endian */
+        uint32_t ecr                   : 1;  /**< [  0:  0](R/W1C/H) ERR_COR received. */
+        uint32_t multi_ecr             : 1;  /**< [  1:  1](R/W1C/H) Multiple ERR_COR received. */
+        uint32_t efnfr                 : 1;  /**< [  2:  2](R/W1C/H) ERR_FATAL/NONFATAL received. */
+        uint32_t multi_efnfr           : 1;  /**< [  3:  3](R/W1C/H) Multiple ERR_FATAL/NONFATAL received. */
+        uint32_t fuf                   : 1;  /**< [  4:  4](R/W1C/H) First uncorrectable fatal. */
+        uint32_t nfemr                 : 1;  /**< [  5:  5](R/W1C/H) Nonfatal error messages received. */
+        uint32_t femr                  : 1;  /**< [  6:  6](R/W1C/H) Fatal error messages received. */
+        uint32_t reserved_7_26         : 20;
+        uint32_t aeimn                 : 5;  /**< [ 31: 27](RO/WRSL) Advanced error interrupt message number, writable through
+                                                                 PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_root_err_stat_s cn; */
+};
+typedef union cavm_pciercx_root_err_stat cavm_pciercx_root_err_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_ROOT_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ROOT_ERR_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x130 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ROOT_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ROOT_ERR_STAT(a) cavm_pciercx_root_err_stat_t
+#define bustype_CAVM_PCIERCX_ROOT_ERR_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ROOT_ERR_STAT(a) "PCIERCX_ROOT_ERR_STAT"
+#define busnum_CAVM_PCIERCX_ROOT_ERR_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_ROOT_ERR_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_root_stat
+ *
+ * PCIe RC Root Status Register
+ */
+union cavm_pciercx_root_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_root_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t pme_pend              : 1;  /**< [ 17: 17](RO) PME pending. */
+        uint32_t pme_stat              : 1;  /**< [ 16: 16](R/W1C/H) PME status. */
+        uint32_t pme_rid               : 16; /**< [ 15:  0](RO) PME requester ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pme_rid               : 16; /**< [ 15:  0](RO) PME requester ID. */
+        uint32_t pme_stat              : 1;  /**< [ 16: 16](R/W1C/H) PME status. */
+        uint32_t pme_pend              : 1;  /**< [ 17: 17](RO) PME pending. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_root_stat_s cn; */
+};
+typedef union cavm_pciercx_root_stat cavm_pciercx_root_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_ROOT_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ROOT_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x90 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_ROOT_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ROOT_STAT(a) cavm_pciercx_root_stat_t
+#define bustype_CAVM_PCIERCX_ROOT_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ROOT_STAT(a) "PCIERCX_ROOT_STAT"
+#define busnum_CAVM_PCIERCX_ROOT_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_ROOT_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_scap_hdr
+ *
+ * PCIe RC PCI Express Secondary Capability (Gen3) Header Register
+ */
+union cavm_pciercx_scap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_scap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_scap_hdr_s cn; */
+};
+typedef union cavm_pciercx_scap_hdr cavm_pciercx_scap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_SCAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SCAP_HDR(uint64_t a)
+{
+    if (a<=3)
+        return 0x168 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SCAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SCAP_HDR(a) cavm_pciercx_scap_hdr_t
+#define bustype_CAVM_PCIERCX_SCAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SCAP_HDR(a) "PCIERCX_SCAP_HDR"
+#define busnum_CAVM_PCIERCX_SCAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_SCAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ser_num_1
+ *
+ * PCIe RC Serial Number 1 Register
+ */
+union cavm_pciercx_ser_num_1
+{
+    uint32_t u;
+    struct cavm_pciercx_ser_num_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword1                : 32; /**< [ 31:  0](R/W) IEEE 64-bit device serial number (doubleword 1). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword1                : 32; /**< [ 31:  0](R/W) IEEE 64-bit device serial number (doubleword 1). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ser_num_1_s cn; */
+};
+typedef union cavm_pciercx_ser_num_1 cavm_pciercx_ser_num_1_t;
+
+static inline uint64_t CAVM_PCIERCX_SER_NUM_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SER_NUM_1(uint64_t a)
+{
+    if (a<=3)
+        return 0x14c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SER_NUM_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SER_NUM_1(a) cavm_pciercx_ser_num_1_t
+#define bustype_CAVM_PCIERCX_SER_NUM_1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SER_NUM_1(a) "PCIERCX_SER_NUM_1"
+#define busnum_CAVM_PCIERCX_SER_NUM_1(a) (a)
+#define arguments_CAVM_PCIERCX_SER_NUM_1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ser_num_2
+ *
+ * PCIe RC Serial Number 2 Register
+ */
+union cavm_pciercx_ser_num_2
+{
+    uint32_t u;
+    struct cavm_pciercx_ser_num_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword2                : 32; /**< [ 31:  0](R/W) IEEE 64-bit device serial number (doubleword 2). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword2                : 32; /**< [ 31:  0](R/W) IEEE 64-bit device serial number (doubleword 2). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ser_num_2_s cn; */
+};
+typedef union cavm_pciercx_ser_num_2 cavm_pciercx_ser_num_2_t;
+
+static inline uint64_t CAVM_PCIERCX_SER_NUM_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SER_NUM_2(uint64_t a)
+{
+    if (a<=3)
+        return 0x150 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SER_NUM_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SER_NUM_2(a) cavm_pciercx_ser_num_2_t
+#define bustype_CAVM_PCIERCX_SER_NUM_2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SER_NUM_2(a) "PCIERCX_SER_NUM_2"
+#define busnum_CAVM_PCIERCX_SER_NUM_2(a) (a)
+#define arguments_CAVM_PCIERCX_SER_NUM_2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_slot_cap
+ *
+ * PCIe RC Slot Capabilities Register
+ */
+union cavm_pciercx_slot_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_slot_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ps_num                : 13; /**< [ 31: 19](RO/WRSL) Physical slot number, writable through PEM()_CFG_TBL(). */
+        uint32_t nccs                  : 1;  /**< [ 18: 18](RO/WRSL) No command complete support, writable through PEM()_CFG_TBL(). */
+        uint32_t emip                  : 1;  /**< [ 17: 17](RO/WRSL) Electromechanical interlock present, writable through PEM()_CFG_TBL(). */
+        uint32_t sp_ls                 : 2;  /**< [ 16: 15](RO/WRSL) Slot power limit scale, writable through PEM()_CFG_TBL(). */
+        uint32_t sp_lv                 : 8;  /**< [ 14:  7](RO/WRSL) Slot power limit value, writable through PEM()_CFG_TBL(). */
+        uint32_t hp_c                  : 1;  /**< [  6:  6](RO/WRSL) Hot plug capable, writable through PEM()_CFG_TBL(). */
+        uint32_t hp_s                  : 1;  /**< [  5:  5](RO/WRSL) Hot plug surprise, writable through PEM()_CFG_TBL(). */
+        uint32_t pip                   : 1;  /**< [  4:  4](RO/WRSL) Power indicator present, writable through PEM()_CFG_TBL(). */
+        uint32_t aip                   : 1;  /**< [  3:  3](RO/WRSL) Attention indicator present, writable through PEM()_CFG_TBL(). */
+        uint32_t mrlsp                 : 1;  /**< [  2:  2](RO/WRSL) MRL sensor present, writable through PEM()_CFG_TBL(). */
+        uint32_t pcp                   : 1;  /**< [  1:  1](RO/WRSL) Power controller present, writable through PEM()_CFG_TBL(). */
+        uint32_t abp                   : 1;  /**< [  0:  0](RO/WRSL) Attention button present, writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t abp                   : 1;  /**< [  0:  0](RO/WRSL) Attention button present, writable through PEM()_CFG_TBL(). */
+        uint32_t pcp                   : 1;  /**< [  1:  1](RO/WRSL) Power controller present, writable through PEM()_CFG_TBL(). */
+        uint32_t mrlsp                 : 1;  /**< [  2:  2](RO/WRSL) MRL sensor present, writable through PEM()_CFG_TBL(). */
+        uint32_t aip                   : 1;  /**< [  3:  3](RO/WRSL) Attention indicator present, writable through PEM()_CFG_TBL(). */
+        uint32_t pip                   : 1;  /**< [  4:  4](RO/WRSL) Power indicator present, writable through PEM()_CFG_TBL(). */
+        uint32_t hp_s                  : 1;  /**< [  5:  5](RO/WRSL) Hot plug surprise, writable through PEM()_CFG_TBL(). */
+        uint32_t hp_c                  : 1;  /**< [  6:  6](RO/WRSL) Hot plug capable, writable through PEM()_CFG_TBL(). */
+        uint32_t sp_lv                 : 8;  /**< [ 14:  7](RO/WRSL) Slot power limit value, writable through PEM()_CFG_TBL(). */
+        uint32_t sp_ls                 : 2;  /**< [ 16: 15](RO/WRSL) Slot power limit scale, writable through PEM()_CFG_TBL(). */
+        uint32_t emip                  : 1;  /**< [ 17: 17](RO/WRSL) Electromechanical interlock present, writable through PEM()_CFG_TBL(). */
+        uint32_t nccs                  : 1;  /**< [ 18: 18](RO/WRSL) No command complete support, writable through PEM()_CFG_TBL(). */
+        uint32_t ps_num                : 13; /**< [ 31: 19](RO/WRSL) Physical slot number, writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_slot_cap_s cn; */
+};
+typedef union cavm_pciercx_slot_cap cavm_pciercx_slot_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_SLOT_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SLOT_CAP(uint64_t a)
+{
+    if (a<=3)
+        return 0x84 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SLOT_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SLOT_CAP(a) cavm_pciercx_slot_cap_t
+#define bustype_CAVM_PCIERCX_SLOT_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SLOT_CAP(a) "PCIERCX_SLOT_CAP"
+#define busnum_CAVM_PCIERCX_SLOT_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_SLOT_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_slot_cap2
+ *
+ * PCIe RC Slot Capabilities 2 Register
+ */
+union cavm_pciercx_slot_cap2
+{
+    uint32_t u;
+    struct cavm_pciercx_slot_cap2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_slot_cap2_s cn; */
+};
+typedef union cavm_pciercx_slot_cap2 cavm_pciercx_slot_cap2_t;
+
+static inline uint64_t CAVM_PCIERCX_SLOT_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SLOT_CAP2(uint64_t a)
+{
+    if (a<=3)
+        return 0xa4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SLOT_CAP2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SLOT_CAP2(a) cavm_pciercx_slot_cap2_t
+#define bustype_CAVM_PCIERCX_SLOT_CAP2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SLOT_CAP2(a) "PCIERCX_SLOT_CAP2"
+#define busnum_CAVM_PCIERCX_SLOT_CAP2(a) (a)
+#define arguments_CAVM_PCIERCX_SLOT_CAP2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_slot_ctl
+ *
+ * PCIe RC Slot Control/Slot Status Register
+ */
+union cavm_pciercx_slot_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_slot_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t dlls_c                : 1;  /**< [ 24: 24](R/W1C/H) Data link layer state changed. */
+        uint32_t emis                  : 1;  /**< [ 23: 23](RO) Electromechanical interlock status. */
+        uint32_t pds                   : 1;  /**< [ 22: 22](RO/H) Presence detect state. */
+        uint32_t mrlss                 : 1;  /**< [ 21: 21](RO) MRL sensor state. */
+        uint32_t ccint_d               : 1;  /**< [ 20: 20](R/W1C/H) Command completed. */
+        uint32_t pd_c                  : 1;  /**< [ 19: 19](R/W1C/H) Presence detect changed. */
+        uint32_t mrls_c                : 1;  /**< [ 18: 18](R/W1C/H) MRL sensor changed. */
+        uint32_t pf_d                  : 1;  /**< [ 17: 17](R/W1C/H) Power fault detected. */
+        uint32_t abp_d                 : 1;  /**< [ 16: 16](R/W1C/H) Attention button pressed. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t dlls_en               : 1;  /**< [ 12: 12](R/W) Data link layer state changed enable. */
+        uint32_t emic                  : 1;  /**< [ 11: 11](WO) Electromechanical interlock control. */
+        uint32_t pcc                   : 1;  /**< [ 10: 10](R/W) Power controller control. */
+        uint32_t pic                   : 2;  /**< [  9:  8](R/W) Power indicator control. */
+        uint32_t aic                   : 2;  /**< [  7:  6](R/W) Attention indicator control. */
+        uint32_t hpint_en              : 1;  /**< [  5:  5](R/W) Hot-plug interrupt enable. */
+        uint32_t ccint_en              : 1;  /**< [  4:  4](R/W) Command completed interrupt enable. */
+        uint32_t pd_en                 : 1;  /**< [  3:  3](R/W) Presence detect changed enable. */
+        uint32_t mrls_en               : 1;  /**< [  2:  2](R/W) MRL sensor changed enable. */
+        uint32_t pf_en                 : 1;  /**< [  1:  1](R/W) Power fault detected enable. */
+        uint32_t abp_en                : 1;  /**< [  0:  0](R/W) Attention button pressed enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t abp_en                : 1;  /**< [  0:  0](R/W) Attention button pressed enable. */
+        uint32_t pf_en                 : 1;  /**< [  1:  1](R/W) Power fault detected enable. */
+        uint32_t mrls_en               : 1;  /**< [  2:  2](R/W) MRL sensor changed enable. */
+        uint32_t pd_en                 : 1;  /**< [  3:  3](R/W) Presence detect changed enable. */
+        uint32_t ccint_en              : 1;  /**< [  4:  4](R/W) Command completed interrupt enable. */
+        uint32_t hpint_en              : 1;  /**< [  5:  5](R/W) Hot-plug interrupt enable. */
+        uint32_t aic                   : 2;  /**< [  7:  6](R/W) Attention indicator control. */
+        uint32_t pic                   : 2;  /**< [  9:  8](R/W) Power indicator control. */
+        uint32_t pcc                   : 1;  /**< [ 10: 10](R/W) Power controller control. */
+        uint32_t emic                  : 1;  /**< [ 11: 11](WO) Electromechanical interlock control. */
+        uint32_t dlls_en               : 1;  /**< [ 12: 12](R/W) Data link layer state changed enable. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t abp_d                 : 1;  /**< [ 16: 16](R/W1C/H) Attention button pressed. */
+        uint32_t pf_d                  : 1;  /**< [ 17: 17](R/W1C/H) Power fault detected. */
+        uint32_t mrls_c                : 1;  /**< [ 18: 18](R/W1C/H) MRL sensor changed. */
+        uint32_t pd_c                  : 1;  /**< [ 19: 19](R/W1C/H) Presence detect changed. */
+        uint32_t ccint_d               : 1;  /**< [ 20: 20](R/W1C/H) Command completed. */
+        uint32_t mrlss                 : 1;  /**< [ 21: 21](RO) MRL sensor state. */
+        uint32_t pds                   : 1;  /**< [ 22: 22](RO/H) Presence detect state. */
+        uint32_t emis                  : 1;  /**< [ 23: 23](RO) Electromechanical interlock status. */
+        uint32_t dlls_c                : 1;  /**< [ 24: 24](R/W1C/H) Data link layer state changed. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_slot_ctl_s cn; */
+};
+typedef union cavm_pciercx_slot_ctl cavm_pciercx_slot_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_SLOT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SLOT_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x88 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SLOT_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SLOT_CTL(a) cavm_pciercx_slot_ctl_t
+#define bustype_CAVM_PCIERCX_SLOT_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SLOT_CTL(a) "PCIERCX_SLOT_CTL"
+#define busnum_CAVM_PCIERCX_SLOT_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_SLOT_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_slot_ctl_stat2
+ *
+ * PCIe RC Slot Control 2 Register/Slot Status 2 Register
+ */
+union cavm_pciercx_slot_ctl_stat2
+{
+    uint32_t u;
+    struct cavm_pciercx_slot_ctl_stat2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_slot_ctl_stat2_s cn; */
+};
+typedef union cavm_pciercx_slot_ctl_stat2 cavm_pciercx_slot_ctl_stat2_t;
+
+static inline uint64_t CAVM_PCIERCX_SLOT_CTL_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SLOT_CTL_STAT2(uint64_t a)
+{
+    if (a<=3)
+        return 0xa8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SLOT_CTL_STAT2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SLOT_CTL_STAT2(a) cavm_pciercx_slot_ctl_stat2_t
+#define bustype_CAVM_PCIERCX_SLOT_CTL_STAT2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SLOT_CTL_STAT2(a) "PCIERCX_SLOT_CTL_STAT2"
+#define busnum_CAVM_PCIERCX_SLOT_CTL_STAT2(a) (a)
+#define arguments_CAVM_PCIERCX_SLOT_CTL_STAT2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_sn_base
+ *
+ * Device Serial Number Extended Capability Header Register
+ * Device Serial Number Extended Capability Header
+ */
+union cavm_pciercx_sn_base
+{
+    uint32_t u;
+    struct cavm_pciercx_sn_base_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_sn_base_s cn; */
+};
+typedef union cavm_pciercx_sn_base cavm_pciercx_sn_base_t;
+
+static inline uint64_t CAVM_PCIERCX_SN_BASE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SN_BASE(uint64_t a)
+{
+    if (a<=3)
+        return 0x148 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SN_BASE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SN_BASE(a) cavm_pciercx_sn_base_t
+#define bustype_CAVM_PCIERCX_SN_BASE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SN_BASE(a) "PCIERCX_SN_BASE"
+#define busnum_CAVM_PCIERCX_SN_BASE(a) (a)
+#define arguments_CAVM_PCIERCX_SN_BASE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_symb_timer
+ *
+ * PCIe RC Symbol Timer/Filter Mask Register 1
+ */
+union cavm_pciercx_symb_timer
+{
+    uint32_t u;
+    struct cavm_pciercx_symb_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
+        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only). */
+        uint32_t msg_ctrl              : 1;  /**< [ 29: 29](R/W) Message control. The application must not change this field. */
+        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Mask ECRC error filtering for completions. */
+        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) Mask ECRC error filtering. */
+        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) Mask length mismatch error for received completions. */
+        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) Mask attributes mismatch error for received completions. */
+        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) Mask traffic class mismatch error for received completions. */
+        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) Mask function mismatch error for received completions. */
+        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) Mask requester ID mismatch error for received completions. */
+        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) Mask tag error rules for received completions. */
+        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) Mask locked request filtering. */
+        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) Mask type 1 configuration request filtering. */
+        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) Mask BAR match filtering. */
+        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) Mask poisoned TLP filtering. */
+        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) Mask function. */
+        uint32_t dfcwt                 : 1;  /**< [ 15: 15](R/W) Disable FC watchdog timer. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t skpiv                 : 11; /**< [ 10:  0](R/W) SKP interval value.  The number of symbol times to wait
+                                                                 between transmitting SKP ordered sets. Note that the
+                                                                 controller actually waits the number of symbol times in this
+                                                                 register plus one between transmitting SKP ordered sets.
+
+                                                                 This value is not used at Gen3 speed; the skip interval
+                                                                 is hardcoded to 370 blocks. */
+#else /* Word 0 - Little Endian */
+        uint32_t skpiv                 : 11; /**< [ 10:  0](R/W) SKP interval value.  The number of symbol times to wait
+                                                                 between transmitting SKP ordered sets. Note that the
+                                                                 controller actually waits the number of symbol times in this
+                                                                 register plus one between transmitting SKP ordered sets.
+
+                                                                 This value is not used at Gen3 speed; the skip interval
+                                                                 is hardcoded to 370 blocks. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t dfcwt                 : 1;  /**< [ 15: 15](R/W) Disable FC watchdog timer. */
+        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) Mask function. */
+        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) Mask poisoned TLP filtering. */
+        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) Mask BAR match filtering. */
+        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) Mask type 1 configuration request filtering. */
+        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) Mask locked request filtering. */
+        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) Mask tag error rules for received completions. */
+        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) Mask requester ID mismatch error for received completions. */
+        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) Mask function mismatch error for received completions. */
+        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) Mask traffic class mismatch error for received completions. */
+        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) Mask attributes mismatch error for received completions. */
+        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) Mask length mismatch error for received completions. */
+        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) Mask ECRC error filtering. */
+        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Mask ECRC error filtering for completions. */
+        uint32_t msg_ctrl              : 1;  /**< [ 29: 29](R/W) Message control. The application must not change this field. */
+        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only). */
+        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_symb_timer_s cn; */
+};
+typedef union cavm_pciercx_symb_timer cavm_pciercx_symb_timer_t;
+
+static inline uint64_t CAVM_PCIERCX_SYMB_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_SYMB_TIMER(uint64_t a)
+{
+    if (a<=3)
+        return 0x71c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_SYMB_TIMER", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_SYMB_TIMER(a) cavm_pciercx_symb_timer_t
+#define bustype_CAVM_PCIERCX_SYMB_TIMER(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_SYMB_TIMER(a) "PCIERCX_SYMB_TIMER"
+#define busnum_CAVM_PCIERCX_SYMB_TIMER(a) (a)
+#define arguments_CAVM_PCIERCX_SYMB_TIMER(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_timer_ctl
+ *
+ * PCIe RC PF Timer Control and Max Function Number Register
+ */
+union cavm_pciercx_timer_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_timer_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t flmsf                 : 2;  /**< [ 30: 29](R/W) Fast link timer scaling factor. Sets the scaling factor of
+                                                                 LTSSM timer when PCIERC_PORT_CTL[FLM] is set.
+                                                                 0x0 = Scaling factor is 1024 (1 ms is 1 us).
+                                                                 0x1 = Scaling factor is 256 (1 ms is 4 us).
+                                                                 0x2 = Scaling factor is 64 (1 ms is 16 us).
+                                                                 0x3 = Scaling factor is 16 (1 ms is 64 us). */
+        uint32_t updft                 : 5;  /**< [ 28: 24](R/W) Update frequency timer.  This is an internally reserved field, do not use. */
+        uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for ACK/NAK latency timer. Increases the timer value for the ACK/NAK
+                                                                 latency timer, in increments of 64 clock cycles. */
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+                                                                 increments of 64 clock cycles. */
+        uint32_t reserved_8_13         : 6;
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported.
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x1.
+                                                                 _ BPEM:      0x0. */
+#else /* Word 0 - Little Endian */
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported.
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t reserved_8_13         : 6;
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+                                                                 increments of 64 clock cycles. */
+        uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for ACK/NAK latency timer. Increases the timer value for the ACK/NAK
+                                                                 latency timer, in increments of 64 clock cycles. */
+        uint32_t updft                 : 5;  /**< [ 28: 24](R/W) Update frequency timer.  This is an internally reserved field, do not use. */
+        uint32_t flmsf                 : 2;  /**< [ 30: 29](R/W) Fast link timer scaling factor. Sets the scaling factor of
+                                                                 LTSSM timer when PCIERC_PORT_CTL[FLM] is set.
+                                                                 0x0 = Scaling factor is 1024 (1 ms is 1 us).
+                                                                 0x1 = Scaling factor is 256 (1 ms is 4 us).
+                                                                 0x2 = Scaling factor is 64 (1 ms is 16 us).
+                                                                 0x3 = Scaling factor is 16 (1 ms is 64 us). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_timer_ctl_s cn; */
+};
+typedef union cavm_pciercx_timer_ctl cavm_pciercx_timer_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_TIMER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_TIMER_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x718 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_TIMER_CTL(a) cavm_pciercx_timer_ctl_t
+#define bustype_CAVM_PCIERCX_TIMER_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_TIMER_CTL(a) "PCIERCX_TIMER_CTL"
+#define busnum_CAVM_PCIERCX_TIMER_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_TIMER_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_tlp_plog1
+ *
+ * PCIe RC TLP Prefix Log Register 1
+ * PCIe RC TLP Prefix Log Register 1
+ */
+union cavm_pciercx_tlp_plog1
+{
+    uint32_t u;
+    struct cavm_pciercx_tlp_plog1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword1                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (first DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword1                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (first DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_tlp_plog1_s cn; */
+};
+typedef union cavm_pciercx_tlp_plog1 cavm_pciercx_tlp_plog1_t;
+
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG1(uint64_t a)
+{
+    if (a<=3)
+        return 0x138 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_TLP_PLOG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_TLP_PLOG1(a) cavm_pciercx_tlp_plog1_t
+#define bustype_CAVM_PCIERCX_TLP_PLOG1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_TLP_PLOG1(a) "PCIERCX_TLP_PLOG1"
+#define busnum_CAVM_PCIERCX_TLP_PLOG1(a) (a)
+#define arguments_CAVM_PCIERCX_TLP_PLOG1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_tlp_plog2
+ *
+ * PCIe RC TLP Prefix Log Register 2
+ * PCIe RC TLP Prefix Log Register 2
+ */
+union cavm_pciercx_tlp_plog2
+{
+    uint32_t u;
+    struct cavm_pciercx_tlp_plog2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword2                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (second DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword2                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (second DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_tlp_plog2_s cn; */
+};
+typedef union cavm_pciercx_tlp_plog2 cavm_pciercx_tlp_plog2_t;
+
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG2(uint64_t a)
+{
+    if (a<=3)
+        return 0x13c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_TLP_PLOG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_TLP_PLOG2(a) cavm_pciercx_tlp_plog2_t
+#define bustype_CAVM_PCIERCX_TLP_PLOG2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_TLP_PLOG2(a) "PCIERCX_TLP_PLOG2"
+#define busnum_CAVM_PCIERCX_TLP_PLOG2(a) (a)
+#define arguments_CAVM_PCIERCX_TLP_PLOG2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_tlp_plog3
+ *
+ * PCIe RC TLP Prefix Log Register 3
+ * PCIe RC TLP Prefix Log Register 3
+ */
+union cavm_pciercx_tlp_plog3
+{
+    uint32_t u;
+    struct cavm_pciercx_tlp_plog3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword3                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (third DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword3                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (third DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_tlp_plog3_s cn; */
+};
+typedef union cavm_pciercx_tlp_plog3 cavm_pciercx_tlp_plog3_t;
+
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG3(uint64_t a)
+{
+    if (a<=3)
+        return 0x140 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_TLP_PLOG3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_TLP_PLOG3(a) cavm_pciercx_tlp_plog3_t
+#define bustype_CAVM_PCIERCX_TLP_PLOG3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_TLP_PLOG3(a) "PCIERCX_TLP_PLOG3"
+#define busnum_CAVM_PCIERCX_TLP_PLOG3(a) (a)
+#define arguments_CAVM_PCIERCX_TLP_PLOG3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_tlp_plog4
+ *
+ * PCIe RC TLP Prefix Log Register 4
+ * PCIe RC TLP Prefix Log Register 4
+ */
+union cavm_pciercx_tlp_plog4
+{
+    uint32_t u;
+    struct cavm_pciercx_tlp_plog4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dword4                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (fourth DWORD). */
+#else /* Word 0 - Little Endian */
+        uint32_t dword4                : 32; /**< [ 31:  0](RO/H) TLP Prefix log register (fourth DWORD). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_tlp_plog4_s cn; */
+};
+typedef union cavm_pciercx_tlp_plog4 cavm_pciercx_tlp_plog4_t;
+
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_TLP_PLOG4(uint64_t a)
+{
+    if (a<=3)
+        return 0x144 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_TLP_PLOG4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_TLP_PLOG4(a) cavm_pciercx_tlp_plog4_t
+#define bustype_CAVM_PCIERCX_TLP_PLOG4(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_TLP_PLOG4(a) "PCIERCX_TLP_PLOG4"
+#define busnum_CAVM_PCIERCX_TLP_PLOG4(a) (a)
+#define arguments_CAVM_PCIERCX_TLP_PLOG4(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_trgt_cpl_lut_del_ent
+ *
+ * PCIe RC TRGT_CPL_LUT Delete Entry Control Register
+ */
+union cavm_pciercx_trgt_cpl_lut_del_ent
+{
+    uint32_t u;
+    struct cavm_pciercx_trgt_cpl_lut_del_ent_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t del_en                : 1;  /**< [ 31: 31](R/W1C/H) This is a one-shot bit. Writing a one triggers the deletion of the target
+                                                                 completion LUT entry that is specified in [LKUP_ID]. This is a self-clearing
+                                                                 register field. Reading from this register field always returns a zero. */
+        uint32_t lkup_id               : 31; /**< [ 30:  0](R/W) This number selects one entry to delete from the target completion LUT. */
+#else /* Word 0 - Little Endian */
+        uint32_t lkup_id               : 31; /**< [ 30:  0](R/W) This number selects one entry to delete from the target completion LUT. */
+        uint32_t del_en                : 1;  /**< [ 31: 31](R/W1C/H) This is a one-shot bit. Writing a one triggers the deletion of the target
+                                                                 completion LUT entry that is specified in [LKUP_ID]. This is a self-clearing
+                                                                 register field. Reading from this register field always returns a zero. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_trgt_cpl_lut_del_ent_s cn; */
+};
+typedef union cavm_pciercx_trgt_cpl_lut_del_ent cavm_pciercx_trgt_cpl_lut_del_ent_t;
+
+static inline uint64_t CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(uint64_t a)
+{
+    if (a<=3)
+        return 0x8c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_TRGT_CPL_LUT_DEL_ENT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(a) cavm_pciercx_trgt_cpl_lut_del_ent_t
+#define bustype_CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(a) "PCIERCX_TRGT_CPL_LUT_DEL_ENT"
+#define busnum_CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(a) (a)
+#define arguments_CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_trgt_map_ctl
+ *
+ * PCIe RC Programmable Target Map Control Register
+ */
+union cavm_pciercx_trgt_map_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_trgt_map_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_21_31        : 11;
+        uint32_t map_idx               : 5;  /**< [ 20: 16](R/W/H) The number of the PF function on which target values are set. This register does
+                                                                 not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t map_vf                : 6;  /**< [ 12:  7](R/W) Target values for each BAR on the VF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_rom               : 1;  /**< [  6:  6](R/W) Target values for the ROM page of the PF Function selected by the index number. This
+                                                                 register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_pf                : 6;  /**< [  5:  0](R/W) Target values for each BAR on the PF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+#else /* Word 0 - Little Endian */
+        uint32_t map_pf                : 6;  /**< [  5:  0](R/W) Target values for each BAR on the PF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_rom               : 1;  /**< [  6:  6](R/W) Target values for the ROM page of the PF Function selected by the index number. This
+                                                                 register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_vf                : 6;  /**< [ 12:  7](R/W) Target values for each BAR on the VF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t map_idx               : 5;  /**< [ 20: 16](R/W/H) The number of the PF function on which target values are set. This register does
+                                                                 not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t reserved_21_31        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_trgt_map_ctl_s cn; */
+};
+typedef union cavm_pciercx_trgt_map_ctl cavm_pciercx_trgt_map_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_TRGT_MAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_TRGT_MAP_CTL(uint64_t a)
+{
+    if (a<=3)
+        return 0x81c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_TRGT_MAP_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_TRGT_MAP_CTL(a) cavm_pciercx_trgt_map_ctl_t
+#define bustype_CAVM_PCIERCX_TRGT_MAP_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_TRGT_MAP_CTL(a) "PCIERCX_TRGT_MAP_CTL"
+#define busnum_CAVM_PCIERCX_TRGT_MAP_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_TRGT_MAP_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ucor_err_msk
+ *
+ * PCIe RC Uncorrectable Error Mask Register
+ */
+union cavm_pciercx_ucor_err_msk
+{
+    uint32_t u;
+    struct cavm_pciercx_ucor_err_msk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t avm                   : 1;  /**< [ 21: 21](R/W) ACS violation mask. */
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdem                  : 1;  /**< [  5:  5](R/W) Surprise down error mask. Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as clear. */
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t sdem                  : 1;  /**< [  5:  5](R/W) Surprise down error mask. Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as clear. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t avm                   : 1;  /**< [ 21: 21](R/W) ACS violation mask. */
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_pciercx_ucor_err_msk_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t avm                   : 1;  /**< [ 21: 21](R/W) ACS violation mask. */
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdem                  : 1;  /**< [  5:  5](R/W) Surprise down error mask. Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as clear. */
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t sdem                  : 1;  /**< [  5:  5](R/W) Surprise down error mask. Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as clear. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t avm                   : 1;  /**< [ 21: 21](R/W) ACS violation mask. */
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_pciercx_ucor_err_msk cavm_pciercx_ucor_err_msk_t;
+
+static inline uint64_t CAVM_PCIERCX_UCOR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UCOR_ERR_MSK(uint64_t a)
+{
+    if (a<=3)
+        return 0x108 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UCOR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UCOR_ERR_MSK(a) cavm_pciercx_ucor_err_msk_t
+#define bustype_CAVM_PCIERCX_UCOR_ERR_MSK(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UCOR_ERR_MSK(a) "PCIERCX_UCOR_ERR_MSK"
+#define busnum_CAVM_PCIERCX_UCOR_ERR_MSK(a) (a)
+#define arguments_CAVM_PCIERCX_UCOR_ERR_MSK(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ucor_err_sev
+ *
+ * PCIe RC Uncorrectable Error Severity Register
+ */
+union cavm_pciercx_ucor_err_sev
+{
+    uint32_t u;
+    struct cavm_pciercx_ucor_err_sev_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t reserved_23           : 1;
+        uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W) AVCS violation severity. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W) Surprise down error severity.  Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as set. */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W) Surprise down error severity.  Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as set. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W) AVCS violation severity. */
+        uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_pciercx_ucor_err_sev_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t reserved_23           : 1;
+        uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W) AVCS violation severity. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W) Surprise down error severity.  Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as set. */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W) Surprise down error severity.  Writable when PCIERC_LINK_CAP[SDERC] is set.
+                                                                 When PCIERC_LINK_CAP[SDERC] is clear, will always read as set. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W) AVCS violation severity. */
+        uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_pciercx_ucor_err_sev cavm_pciercx_ucor_err_sev_t;
+
+static inline uint64_t CAVM_PCIERCX_UCOR_ERR_SEV(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UCOR_ERR_SEV(uint64_t a)
+{
+    if (a<=3)
+        return 0x10c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UCOR_ERR_SEV", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UCOR_ERR_SEV(a) cavm_pciercx_ucor_err_sev_t
+#define bustype_CAVM_PCIERCX_UCOR_ERR_SEV(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UCOR_ERR_SEV(a) "PCIERCX_UCOR_ERR_SEV"
+#define busnum_CAVM_PCIERCX_UCOR_ERR_SEV(a) (a)
+#define arguments_CAVM_PCIERCX_UCOR_ERR_SEV(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ucor_err_stat
+ *
+ * PCIe RC Uncorrectable Error Status Register
+ */
+union cavm_pciercx_ucor_err_stat
+{
+    uint32_t u;
+    struct cavm_pciercx_ucor_err_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t reserved_23           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_pciercx_ucor_err_stat_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t reserved_23           : 1;
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W1C/H) Data link protocol error status. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](R/W1C/H) Surprise link down error status. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W1C/H) Poisoned TLP status. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W1C/H) Flow control protocol error status. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W1C/H) Completion timeout status. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W1C/H) Completer abort status. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W1C/H) Unexpected completion status. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W1C/H) Receiver overflow status. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W1C/H) Malformed TLP status. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W1C/H) ECRC error status. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W1C/H) Unsupported request error status. */
+        uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
+        uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_pciercx_ucor_err_stat cavm_pciercx_ucor_err_stat_t;
+
+static inline uint64_t CAVM_PCIERCX_UCOR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UCOR_ERR_STAT(uint64_t a)
+{
+    if (a<=3)
+        return 0x104 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UCOR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UCOR_ERR_STAT(a) cavm_pciercx_ucor_err_stat_t
+#define bustype_CAVM_PCIERCX_UCOR_ERR_STAT(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UCOR_ERR_STAT(a) "PCIERCX_UCOR_ERR_STAT"
+#define busnum_CAVM_PCIERCX_UCOR_ERR_STAT(a) (a)
+#define arguments_CAVM_PCIERCX_UCOR_ERR_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap0
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap0
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap0_s cn; */
+};
+typedef union cavm_pciercx_unused_cap0 cavm_pciercx_unused_cap0_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP0(uint64_t a)
+{
+    if (a<=3)
+        return 0xbc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP0(a) cavm_pciercx_unused_cap0_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP0(a) "PCIERCX_UNUSED_CAP0"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP0(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap1
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap1
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap1_s cn; */
+};
+typedef union cavm_pciercx_unused_cap1 cavm_pciercx_unused_cap1_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP1(uint64_t a)
+{
+    if (a<=3)
+        return 0xc0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP1(a) cavm_pciercx_unused_cap1_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP1(a) "PCIERCX_UNUSED_CAP1"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP1(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap10
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap10
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap10_s cn; */
+};
+typedef union cavm_pciercx_unused_cap10 cavm_pciercx_unused_cap10_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP10(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP10(uint64_t a)
+{
+    if (a<=3)
+        return 0xe4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP10", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP10(a) cavm_pciercx_unused_cap10_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP10(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP10(a) "PCIERCX_UNUSED_CAP10"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP10(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP10(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap11
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap11
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap11_s cn; */
+};
+typedef union cavm_pciercx_unused_cap11 cavm_pciercx_unused_cap11_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP11(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP11(uint64_t a)
+{
+    if (a<=3)
+        return 0xe8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP11", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP11(a) cavm_pciercx_unused_cap11_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP11(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP11(a) "PCIERCX_UNUSED_CAP11"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP11(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP11(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap12
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap12
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap12_s cn; */
+};
+typedef union cavm_pciercx_unused_cap12 cavm_pciercx_unused_cap12_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP12(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP12(uint64_t a)
+{
+    if (a<=3)
+        return 0xec + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP12", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP12(a) cavm_pciercx_unused_cap12_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP12(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP12(a) "PCIERCX_UNUSED_CAP12"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP12(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP12(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap13
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap13
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap13_s cn; */
+};
+typedef union cavm_pciercx_unused_cap13 cavm_pciercx_unused_cap13_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP13(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP13(uint64_t a)
+{
+    if (a<=3)
+        return 0xf0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP13", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP13(a) cavm_pciercx_unused_cap13_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP13(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP13(a) "PCIERCX_UNUSED_CAP13"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP13(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP13(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap14
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap14
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap14_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap14_s cn; */
+};
+typedef union cavm_pciercx_unused_cap14 cavm_pciercx_unused_cap14_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP14(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP14(uint64_t a)
+{
+    if (a<=3)
+        return 0xf4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP14", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP14(a) cavm_pciercx_unused_cap14_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP14(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP14(a) "PCIERCX_UNUSED_CAP14"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP14(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP14(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap15
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap15
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap15_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap15_s cn; */
+};
+typedef union cavm_pciercx_unused_cap15 cavm_pciercx_unused_cap15_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP15(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP15(uint64_t a)
+{
+    if (a<=3)
+        return 0xf8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP15", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP15(a) cavm_pciercx_unused_cap15_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP15(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP15(a) "PCIERCX_UNUSED_CAP15"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP15(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP15(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap16
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap16
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap16_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap16_s cn; */
+};
+typedef union cavm_pciercx_unused_cap16 cavm_pciercx_unused_cap16_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP16(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP16(uint64_t a)
+{
+    if (a<=3)
+        return 0xfc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP16", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP16(a) cavm_pciercx_unused_cap16_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP16(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP16(a) "PCIERCX_UNUSED_CAP16"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP16(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP16(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap2
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap2
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap2_s cn; */
+};
+typedef union cavm_pciercx_unused_cap2 cavm_pciercx_unused_cap2_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP2(uint64_t a)
+{
+    if (a<=3)
+        return 0xc4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP2(a) cavm_pciercx_unused_cap2_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP2(a) "PCIERCX_UNUSED_CAP2"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP2(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap3
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap3
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap3_s cn; */
+};
+typedef union cavm_pciercx_unused_cap3 cavm_pciercx_unused_cap3_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP3(uint64_t a)
+{
+    if (a<=3)
+        return 0xc8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP3(a) cavm_pciercx_unused_cap3_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP3(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP3(a) "PCIERCX_UNUSED_CAP3"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP3(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap4
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap4
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap4_s cn; */
+};
+typedef union cavm_pciercx_unused_cap4 cavm_pciercx_unused_cap4_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP4(uint64_t a)
+{
+    if (a<=3)
+        return 0xcc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP4(a) cavm_pciercx_unused_cap4_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP4(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP4(a) "PCIERCX_UNUSED_CAP4"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP4(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP4(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap5
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap5
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap5_s cn; */
+};
+typedef union cavm_pciercx_unused_cap5 cavm_pciercx_unused_cap5_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP5(uint64_t a)
+{
+    if (a<=3)
+        return 0xd0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP5(a) cavm_pciercx_unused_cap5_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP5(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP5(a) "PCIERCX_UNUSED_CAP5"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP5(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP5(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap6
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap6
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap6_s cn; */
+};
+typedef union cavm_pciercx_unused_cap6 cavm_pciercx_unused_cap6_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP6(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP6(uint64_t a)
+{
+    if (a<=3)
+        return 0xd4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP6", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP6(a) cavm_pciercx_unused_cap6_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP6(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP6(a) "PCIERCX_UNUSED_CAP6"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP6(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP6(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap7
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap7
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap7_s cn; */
+};
+typedef union cavm_pciercx_unused_cap7 cavm_pciercx_unused_cap7_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP7(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP7(uint64_t a)
+{
+    if (a<=3)
+        return 0xd8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP7", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP7(a) cavm_pciercx_unused_cap7_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP7(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP7(a) "PCIERCX_UNUSED_CAP7"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP7(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP7(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap8
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap8
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap8_s cn; */
+};
+typedef union cavm_pciercx_unused_cap8 cavm_pciercx_unused_cap8_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP8(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP8(uint64_t a)
+{
+    if (a<=3)
+        return 0xdc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP8", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP8(a) cavm_pciercx_unused_cap8_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP8(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP8(a) "PCIERCX_UNUSED_CAP8"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP8(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP8(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_unused_cap9
+ *
+ * PCIe RC Unused Capability Registers
+ */
+union cavm_pciercx_unused_cap9
+{
+    uint32_t u;
+    struct cavm_pciercx_unused_cap9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_unused_cap9_s cn; */
+};
+typedef union cavm_pciercx_unused_cap9 cavm_pciercx_unused_cap9_t;
+
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP9(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UNUSED_CAP9(uint64_t a)
+{
+    if (a<=3)
+        return 0xe0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UNUSED_CAP9", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UNUSED_CAP9(a) cavm_pciercx_unused_cap9_t
+#define bustype_CAVM_PCIERCX_UNUSED_CAP9(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UNUSED_CAP9(a) "PCIERCX_UNUSED_CAP9"
+#define busnum_CAVM_PCIERCX_UNUSED_CAP9(a) (a)
+#define arguments_CAVM_PCIERCX_UNUSED_CAP9(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_upconfig
+ *
+ * PCIe RC UpConfigure Multi-lane Control Register
+ */
+union cavm_pciercx_upconfig
+{
+    uint32_t u;
+    struct cavm_pciercx_upconfig_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
+                                                                 The core sends this value to the link upconfigure capability in TS2 ordered
+                                                                 sets in Configuration.Complete state. */
+        uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W/H) Directed link width change.
+                                                                 The core always moves to configuration state through recovery state
+                                                                 when this bit is set.
+
+                                                                 If PCIERC_RAS_EINJ_CTL6PE[LTSSM_VAR] is set and PCIERC_LINK_CTL2[HASD]
+                                                                 is zero, the core starts upconfigure or autonomous width
+                                                                 downsizing (to the [TRGT_LNK_WDTH] value) in the configuration
+                                                                 state.
+
+                                                                 If [TRGT_LNK_WDTH] is 0x0, the core does not start upconfigure or autonomous
+                                                                 width downsizing in the configuration state.
+
+                                                                 The core self-clears this field when the core accepts this
+                                                                 request. */
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target link width.
+                                                                 0x0  = Core does not start upconfigure or autonomous width downsizing in configuration
+                                                                 state.
+                                                                 0x1  = x1.
+                                                                 0x2  = x2.
+                                                                 0x4  = x4.
+                                                                 0x8  = x8 (Not supported).
+                                                                 0x10 = x16 (Not supported).
+                                                                 0x20 = x32 (Not supported). */
+#else /* Word 0 - Little Endian */
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target link width.
+                                                                 0x0  = Core does not start upconfigure or autonomous width downsizing in configuration
+                                                                 state.
+                                                                 0x1  = x1.
+                                                                 0x2  = x2.
+                                                                 0x4  = x4.
+                                                                 0x8  = x8 (Not supported).
+                                                                 0x10 = x16 (Not supported).
+                                                                 0x20 = x32 (Not supported). */
+        uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W/H) Directed link width change.
+                                                                 The core always moves to configuration state through recovery state
+                                                                 when this bit is set.
+
+                                                                 If PCIERC_RAS_EINJ_CTL6PE[LTSSM_VAR] is set and PCIERC_LINK_CTL2[HASD]
+                                                                 is zero, the core starts upconfigure or autonomous width
+                                                                 downsizing (to the [TRGT_LNK_WDTH] value) in the configuration
+                                                                 state.
+
+                                                                 If [TRGT_LNK_WDTH] is 0x0, the core does not start upconfigure or autonomous
+                                                                 width downsizing in the configuration state.
+
+                                                                 The core self-clears this field when the core accepts this
+                                                                 request. */
+        uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
+                                                                 The core sends this value to the link upconfigure capability in TS2 ordered
+                                                                 sets in Configuration.Complete state. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_upconfig_s cn; */
+};
+typedef union cavm_pciercx_upconfig cavm_pciercx_upconfig_t;
+
+static inline uint64_t CAVM_PCIERCX_UPCONFIG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_UPCONFIG(uint64_t a)
+{
+    if (a<=3)
+        return 0x8c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_UPCONFIG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_UPCONFIG(a) cavm_pciercx_upconfig_t
+#define bustype_CAVM_PCIERCX_UPCONFIG(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_UPCONFIG(a) "PCIERCX_UPCONFIG"
+#define busnum_CAVM_PCIERCX_UPCONFIG(a) (a)
+#define arguments_CAVM_PCIERCX_UPCONFIG(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ver_num
+ *
+ * PCIe RC Controller IIP Release Version Number Register
+ */
+union cavm_pciercx_ver_num
+{
+    uint32_t u;
+    struct cavm_pciercx_ver_num_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vn                    : 32; /**< [ 31:  0](RO) Version number. Convert hex characters to ASCII to interpret. */
+#else /* Word 0 - Little Endian */
+        uint32_t vn                    : 32; /**< [ 31:  0](RO) Version number. Convert hex characters to ASCII to interpret. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ver_num_s cn; */
+};
+typedef union cavm_pciercx_ver_num cavm_pciercx_ver_num_t;
+
+static inline uint64_t CAVM_PCIERCX_VER_NUM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_VER_NUM(uint64_t a)
+{
+    if (a<=3)
+        return 0x8f8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_VER_NUM", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_VER_NUM(a) cavm_pciercx_ver_num_t
+#define bustype_CAVM_PCIERCX_VER_NUM(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_VER_NUM(a) "PCIERCX_VER_NUM"
+#define busnum_CAVM_PCIERCX_VER_NUM(a) (a)
+#define arguments_CAVM_PCIERCX_VER_NUM(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ver_type
+ *
+ * PCIe RC Contorller IIP Release Version Type Register
+ */
+union cavm_pciercx_ver_type
+{
+    uint32_t u;
+    struct cavm_pciercx_ver_type_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vt                    : 32; /**< [ 31:  0](RO) Version type. Convert hex characters to ASCII to interpret. */
+#else /* Word 0 - Little Endian */
+        uint32_t vt                    : 32; /**< [ 31:  0](RO) Version type. Convert hex characters to ASCII to interpret. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ver_type_s cn; */
+};
+typedef union cavm_pciercx_ver_type cavm_pciercx_ver_type_t;
+
+static inline uint64_t CAVM_PCIERCX_VER_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_VER_TYPE(uint64_t a)
+{
+    if (a<=3)
+        return 0x8fc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_VER_TYPE(a) cavm_pciercx_ver_type_t
+#define bustype_CAVM_PCIERCX_VER_TYPE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_VER_TYPE(a) "PCIERCX_VER_TYPE"
+#define busnum_CAVM_PCIERCX_VER_TYPE(a) (a)
+#define arguments_CAVM_PCIERCX_VER_TYPE(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_xmit_arb1
+ *
+ * PCIe RC VC Transmit Arbitration Register 1
+ */
+union cavm_pciercx_xmit_arb1
+{
+    uint32_t u;
+    struct cavm_pciercx_xmit_arb1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR weight for VC3. */
+        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO) WRR weight for VC2. */
+        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO) WRR weight for VC1. */
+        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO) WRR weight for VC0. */
+#else /* Word 0 - Little Endian */
+        uint32_t wrr_vc0               : 8;  /**< [  7:  0](RO) WRR weight for VC0. */
+        uint32_t wrr_vc1               : 8;  /**< [ 15:  8](RO) WRR weight for VC1. */
+        uint32_t wrr_vc2               : 8;  /**< [ 23: 16](RO) WRR weight for VC2. */
+        uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR weight for VC3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_xmit_arb1_s cn; */
+};
+typedef union cavm_pciercx_xmit_arb1 cavm_pciercx_xmit_arb1_t;
+
+static inline uint64_t CAVM_PCIERCX_XMIT_ARB1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_XMIT_ARB1(uint64_t a)
+{
+    if (a<=3)
+        return 0x740 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_XMIT_ARB1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_XMIT_ARB1(a) cavm_pciercx_xmit_arb1_t
+#define bustype_CAVM_PCIERCX_XMIT_ARB1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_XMIT_ARB1(a) "PCIERCX_XMIT_ARB1"
+#define busnum_CAVM_PCIERCX_XMIT_ARB1(a) (a)
+#define arguments_CAVM_PCIERCX_XMIT_ARB1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_xmit_arb2
+ *
+ * PCIe RC VC Transmit Arbitration Register 2
+ */
+union cavm_pciercx_xmit_arb2
+{
+    uint32_t u;
+    struct cavm_pciercx_xmit_arb2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR weight for VC7. */
+        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO) WRR weight for VC6. */
+        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO) WRR weight for VC5. */
+        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO) WRR weight for VC4. */
+#else /* Word 0 - Little Endian */
+        uint32_t wrr_vc4               : 8;  /**< [  7:  0](RO) WRR weight for VC4. */
+        uint32_t wrr_vc5               : 8;  /**< [ 15:  8](RO) WRR weight for VC5. */
+        uint32_t wrr_vc6               : 8;  /**< [ 23: 16](RO) WRR weight for VC6. */
+        uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR weight for VC7. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_xmit_arb2_s cn; */
+};
+typedef union cavm_pciercx_xmit_arb2 cavm_pciercx_xmit_arb2_t;
+
+static inline uint64_t CAVM_PCIERCX_XMIT_ARB2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_XMIT_ARB2(uint64_t a)
+{
+    if (a<=3)
+        return 0x744 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_XMIT_ARB2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_XMIT_ARB2(a) cavm_pciercx_xmit_arb2_t
+#define bustype_CAVM_PCIERCX_XMIT_ARB2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_XMIT_ARB2(a) "PCIERCX_XMIT_ARB2"
+#define busnum_CAVM_PCIERCX_XMIT_ARB2(a) (a)
+#define arguments_CAVM_PCIERCX_XMIT_ARB2(a) (a),-1,-1,-1
+
+#endif /* __CAVM_CSRS_PCIERC_H__ */

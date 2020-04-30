@@ -32,6 +32,7 @@
 #define F95PARTNUM	0xB3
 #define LOKIPARTNUM	0xB4
 #define F95MMPARTNUM	0xB5
+#define T106PARTNUM	0xB9
 
 /* Boot type definitions */
 #define OCTEONTX_BOOT_UNSUPPORTED	1

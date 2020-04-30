@@ -19,7 +19,7 @@
 
 extern void *scmi_handle;
 
-WEAK uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
+WEAK uintptr_t otx3_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
 				    u_register_t x2,
 				    u_register_t x3,
@@ -61,7 +61,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 	case PLAT_OCTEONTX_OOO_CONFIG:
 		INFO("SVC OOO CONFIG: x1 = 0x%lx\n", x1);
-		ret = octeontx2_configure_ooo(x1);
+		ret = octeontx3_configure_ooo(x1);
 		SMC_RET1(handle, ret);
 		break;
 
@@ -94,7 +94,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
 	default:
-		return otx2_svc_smc_handler(smc_fid, x1, x2, x3, x4,
+		return otx3_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);
 	}
 }

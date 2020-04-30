@@ -710,7 +710,7 @@ static void rvu_errata_35948(void)
 }
 
 /* Exported functions */
-int octeontx2_clear_lf_to_pf_mapping(void)
+int octeontx_clear_lf_to_pf_mapping(void)
 {
 	int pf, lf;
 
