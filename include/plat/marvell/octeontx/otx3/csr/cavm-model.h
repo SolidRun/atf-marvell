@@ -46,11 +46,13 @@
    [31:24] are the implemntor code (0x43), bits [23:16] are the architecture
    (0xf) */
 #define __OM_BASE                   0x430f0000
+#define __OM_OTX3_BASE              0x410f0000
 
 /* Build a full MIDR_EL1 value from the part number, major, and minor pass
    numbers. Generally people refer to the first chip as pass 1.0, so major needs
    one subtracted */
 #define __OM_BUILD(partnum, major, minor)  (__OM_BASE | ((partnum) << __OM_PARTNUM_SHIFT) | ((major - 1) << __OM_PASS_SHIFT) | (minor))
+#define __OM_OTX3_BUILD(partnum, major, minor)  (__OM_OTX3_BASE | ((partnum) << __OM_PARTNUM_SHIFT) | ((major - 1) << __OM_PASS_SHIFT) | (minor))
 
 /* Per chip definitions */
 #define OCTEONTX_CN83XX_PASS1_0   __OM_BUILD(0xa3, 1, 0)
@@ -87,9 +89,14 @@
 #define OCTEONTX_F95MM             (OCTEONTX_F95MM_PASS1_0 | __OM_IGNORE_REVISION)
 #define OCTEONTX_F95MM_PASS1_X     (OCTEONTX_F95MM_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 
+#define OCTEONTX_CN106XX_PASS1_0     __OM_OTX3_BUILD(0xd49, 1, 0) /* Called A0 */
+#define OCTEONTX_CN106XX             (OCTEONTX_CN106XX_PASS1_0 | __OM_IGNORE_REVISION)
+#define OCTEONTX_CN106XX_PASS1_X     (OCTEONTX_CN106XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
+
 /* These match entire families of chips */
 #define OCTEONTX_CN8XXX           (OCTEONTX_CN83XX_PASS1_0 | __OM_IGNORE_MODEL)
 #define OCTEONTX_CN9XXX           (OCTEONTX_CN96XX_PASS1_0 | __OM_IGNORE_MODEL)
+#define OCTEONTX_CN10XXX           (OCTEONTX_CN106XX_PASS1_0 | __OM_IGNORE_MODEL)
 
 /* CN96XX part number is reused in a number of different chips, which are
    handled in the CAVM as alternate packages. These constants represent the
