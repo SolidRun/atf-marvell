@@ -207,6 +207,8 @@
 /* TODO for t106: update to correct value (32) when ASIM is updated */
 #define MAX_RVU_PFS		24
 
+#define SW_RVU_SDP_NUM_PF       2
+
 /* Priority levels for OcteonTX platforms */
 #if SDEI_SUPPORT
 /* Non-interrupt SDEI explicit events are used by RAS for EL0-2 notification;
