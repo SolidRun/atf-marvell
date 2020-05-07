@@ -34,6 +34,7 @@
 #include "cavm-csrs-rvu.h"
 #include "cavm-csrs-sso.h"
 #include "cavm-csrs-tim.h"
+#include "cavm-csrs-ree.h"
 
 #ifdef DEBUG_ATF_RVU
 #define debug_rvu printf
@@ -868,6 +869,8 @@ static void conf_msix_admin_blk_offset(void)
 	union cavm_tim_priv_af_int_cfg tim_int_cfg;
 	union cavm_ndcx_priv_af_int_cfg ndc_int_cfg;
 	union cavm_cptx_priv_af_int_cfg	cpt_int_cfg;
+	union cavm_reex_priv_af_int_cfg ree_int_cfg;
+	rvu_sw_rvu_pf_t *sw_pf;
 	int af_msix_used = 0, i = 0;
 	uint64_t midr;
 
@@ -929,6 +932,20 @@ static void conf_msix_admin_blk_offset(void)
 		cpt_int_cfg.s.msix_offset = af_msix_used;
 		CSR_WRITE(CAVM_CPTX_PRIV_AF_INT_CFG(0), cpt_int_cfg.u);
 		af_msix_used += cpt_int_cfg.s.msix_size;
+	}
+
+	for (i = 0; i < SW_RVU_REE_NUM_PF; i++) {
+		sw_pf = find_sw_rvu_pf_info(SW_RVU_REE_PF(i));
+		assert(sw_pf != NULL);
+
+		if ((sw_pf->mapping != SW_RVU_MAP_FORCE) &&
+		    (sw_pf->mapping != SW_RVU_MAP_AVAILABLE))
+			continue;
+
+		ree_int_cfg.u = CSR_READ(CAVM_REEX_PRIV_AF_INT_CFG(i));
+		ree_int_cfg.s.msix_offset = af_msix_used;
+		CSR_WRITE(CAVM_REEX_PRIV_AF_INT_CFG(i), ree_int_cfg.u);
+		af_msix_used += ree_int_cfg.s.msix_size;
 	}
 
 	/* Sanity check for incorrect FDT setup */
