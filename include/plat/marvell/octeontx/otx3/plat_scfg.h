@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (C) 2020 Marvell International Ltd.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -16,7 +16,7 @@ typedef struct plat_octeontx_scfg {
 
 	uint8_t qlm_max_lane_num[MAX_QLM];
 	uint8_t iobn_count;
-	uint8_t cgx_count;
+	uint8_t rpm_count;
 	uint8_t gser_count;
 	uint8_t mcc_count;
 } plat_octeontx_scfg_t;

@@ -231,19 +231,25 @@ void twsi_send_ack(unsigned int twsi_num)
 void twsi_set_speed(unsigned int twsi_num, unsigned int speed)
 {
 	cavm_mio_twsx_sw_twsi_t sw_twsi;
+#if !defined(PLAT_t106)
 	cavm_rst_boot_t rst_boot;
+#endif
 	uint8_t twsi_clkctl;
 	unsigned int div_n, div_m, div_d;
 	unsigned long pnr_clk, tclk;
 	unsigned long thp;
 
+#if !defined(PLAT_t106)
 	rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 
 	if (cavm_is_model(OCTEONTX_CN8XXX))
 		pnr_clk = rst_boot.s.pnr_mul * PLL_REF_CLK_CN8XXX;
 	else
 		pnr_clk = rst_boot.s.pnr_mul * PLL_REF_CLK_CN9XXX;
-
+#else
+	/* FIXME for T106 platform as pnr_mul is not defined */
+	pnr_clk = 1;
+#endif
 	sw_twsi.u = 0;
 	sw_twsi.s.eop_ia = 0x4;
 

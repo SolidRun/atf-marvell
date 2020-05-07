@@ -109,8 +109,8 @@ static void init_gpio(uint64_t config_base, uint64_t config_size)
 
 	/* Block can have mix of secure and non-secure MSI-X interrupts */
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
-	vsec_sctl.cn9.msix_sec_en = 1;
-	vsec_sctl.cn9.msix_sec_phys = 1;
+	vsec_sctl.s.msix_sec_en = 1;
+	vsec_sctl.s.msix_sec_phys = 1;
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 
@@ -119,7 +119,7 @@ static void init_cpt_rid(uint64_t config_base, uint64_t config_size)
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
 
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
-	vsec_sctl.cn9.rid = plat_configure_cpt_rid();
+	vsec_sctl.s.rid = plat_configure_cpt_rid();
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 
@@ -128,7 +128,7 @@ static void init_rvu_rid(uint64_t config_base, uint64_t config_size)
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
 
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
-	vsec_sctl.cn9.rid = plat_configure_rid();
+	vsec_sctl.s.rid = plat_configure_rid();
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 
@@ -137,7 +137,7 @@ static void init_rvu(uint64_t config_base, uint64_t config_size)
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
 
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
-	vsec_sctl.cn9.rid = plat_configure_rid();
+	vsec_sctl.s.rid = plat_configure_rid();
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 
 	octeontx_rvu_init();

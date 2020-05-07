@@ -88,7 +88,7 @@
 
 #define MAX_XLAT_TABLES			130
 
-/* Location of trusted dram on the base OcteonTX2 */
+/* Location of trusted dram on the base OcteonTX3 */
 #define TZDRAM_BASE			0x00000000
 #define TZDRAM_SIZE			0x01000000
 
@@ -112,7 +112,7 @@
 #define MAILBOX_MAX_SIZE		0x1000      /* 4 KB */
 #define MAILBOX_BASE			(MAILBOX_LIMIT - MAILBOX_MAX_SIZE)
 
-#define ARM_TRACE_SECURE_BUFFER
+//#define ARM_TRACE_SECURE_BUFFER
 
 #define BL31_LIMIT			MAILBOX_BASE
 #define BL31_MAX_SIZE			(0x00118000 + \
@@ -184,18 +184,23 @@
 /* Signals used to communicate with MCU */
 #define OCTEONTX_MCU_SHUTDOWN_SIGNAL	0x96
 
-#define MAX_GPIO_INTERRUPTS		64
+#define MAX_GPIO_INTERRUPTS		84
 
 #define GIC_RDIST_OFFSET	0x800000ll
-#define GIC_PF_BAR4				(CAVM_GIC_BAR_E_GIC_PF_BAR4_CN9 + GIC_RDIST_OFFSET)
-#define GIC_PF_BAR4_SIZE	CAVM_GIC_BAR_E_GIC_PF_BAR4_CN9_SIZE
+#define GIC_PF_BAR4		(CAVM_GIC_BAR_E_GIC_PF_BAR4 + GIC_RDIST_OFFSET)
+#define GIC_PF_BAR4_SIZE	CAVM_GIC_BAR_E_GIC_PF_BAR4_SIZE
 
-#define PEM_INT_VEC_E_INTA			CAVM_PEM_INT_VEC_E_INTA_CN9
-#define PEM_INT_VEC_E_INT_SUM		CAVM_PEM_INT_VEC_E_INT_SUM_CN9
+#define PEM_INT_VEC_E_INTA		CAVM_PEM_INT_VEC_E_INTA
+#define PEM_INT_VEC_E_INT_SUM		CAVM_PEM_INT_VEC_E_INT_SUM
 
-#define UAAX_PF_BAR0(x)		CAVM_UAA_BAR_E_UAAX_PF_BAR0_CN9(x)
+#define UAAX_PF_BAR0(x)		CAVM_UAA_BAR_E_UAAX_PF_BAR0(x)
 
-#define ECAM_PF_BAR2(x)		CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_CN9(x)
+#define ECAM_PF_BAR2(x)		CAVM_ECAM_BAR_E_ECAMX_PF_BAR2(x)
+
+/* FIXME DEV_CON_E removed temporarily in csrs-pccpf.h for GPIO, GTI */
+#define CAVM_PCC_DEV_CON_E_GTI (0x28)
+#define CAVM_PCC_DEV_CON_E_GPIO (0x78)
+#define CAVM_PCC_DEV_CON_E_MIO_EMM (0x10c)
 
 /* Number of MBOX for AFPF and PFVF */
 #define RVU_MBOX_NUM		2

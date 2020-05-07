@@ -15,7 +15,7 @@
 #include <octeontx_utils.h>
 #include <platform_def.h>
 #include <octeontx_irqs_def.h>
-#include <plat_otx2_configuration.h>
+#include <plat_otx3_configuration.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-iobn.h"
@@ -80,9 +80,8 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 	/* Settings in this table are common to all OTX2 platforms. */
 	struct otx2_stream_security_setting common_streams[] = {
 		/* To get secure interrupts for GPIO, PHYS_NSEC must == 0 */
-		{ CAVM_PCC_DEV_CON_E_GPIO_CN9, 1, 1 /* strm */, 0 /* phys */ },
-		/* To get secure interrupts for BPHY, PHYS_NSEC must == 0 */
-		{ CAVM_PCC_DEV_CON_E_BPHY, 1, 1 /* strm */, 0 /* phys */ },
+		{ CAVM_PCC_DEV_CON_E_GPIO, 1, 1 /* strm */, 0 /* phys */ },
+		//{ CAVM_PCC_DEV_CON_E_BPHY, 1, 1 /* strm */, 0 /* phys */ },
 #if RAS_EXTENSION
 		/* for RAS secure IRQs, these need strm_nsec==phys_nsec==0 */
 		{ CAVM_PCC_DEV_CON_E_LMCX(0), MAX_LMC, 0, 0 },
@@ -116,7 +115,7 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 	iobn_nr = vsec_ctl.s.inst_num;
 
 	/* Retrieve platform stream settings and determine count. */
-	plat_streams = plat_get_otx2_stream_security(&j);
+	plat_streams = plat_get_otx3_stream_security(&j);
 
 	num_common = ARRAY_SIZE(common_streams);
 	num_stream_settings = num_common + j;

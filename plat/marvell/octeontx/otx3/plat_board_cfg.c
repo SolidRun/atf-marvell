@@ -35,6 +35,7 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
+#if 0
 /* List of GPIO types - used as expanders in case of SFP/QSFP/PHY */
 static const gpio_compat_t gpio_compat_list[] = {
 	{ "cavium,thunder-8890-gpio", GPIO_PIN_DEFAULT, 64 },	/* 64 pins for T9x */
@@ -108,10 +109,12 @@ static const phy_compatible_type_t phy_compat_list[] = {
 	{ "ethernet-phy-ieee802.3-c22", PHY_GENERIC_8023_C22},
 	{ "ethernet-phy-ieee802.3-c45", PHY_GENERIC_8023_C45},
 };
+#endif
 
 extern int cgx_read_flash_fec(int cgx_id, int lmac_id, int *fec);
 extern int cgx_read_flash_phy_mod(int cgx_id, int lmac_id, int *phy_mod);
 
+#if 0
 /* Output information specific for OCTEONTX2, for now only CGX. */
 void plat_octeontx_print_board_variables(void)
 {
@@ -238,6 +241,7 @@ static int octeontx2_fdt_lookup_phandle(const void *fdt_addr, int offset,
 	else
 		return -FDT_ERR_NOTFOUND;
 }
+#endif
 
 /* Return numeric representation of the BDK field required. Return -1, if such
  * field isn't defined. Note that -1 can be value for the field.
@@ -261,6 +265,7 @@ static long octeontx2_fdtbdk_get_num(const void *fdt_addr, const char *prop,
 	return ret;
 }
 
+#if 0
 /**
  * octeontx2_handle_num_rvu_vfs - handle errors and report user about
  * @req_vfs: requested (via FDT) number of VFs
@@ -508,7 +513,7 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	/* Here we can mark FDT RVU config as valid */
 	plat_octeontx_bcfg->rvu_config.valid = 1;
 }
-
+#endif
 
 static void octeontx2_boot_device_from_strapx()
 {
@@ -519,7 +524,7 @@ static void octeontx2_boot_device_from_strapx()
 	boot_medium = (gpio_strap.u) & 0x7;
 
 	switch (boot_medium) {
-		case CAVM_RST_BOOT_METHOD_E_REMOTE_CN9:
+		case CAVM_RST_BOOT_METHOD_E_REMOTE:
 			plat_octeontx_bcfg->bcfg.boot_dev.boot_type = OCTEONTX_BOOT_REMOTE;
 			break;
 		case CAVM_RST_BOOT_METHOD_E_SPI0_CS0:
@@ -624,6 +629,7 @@ static int octeontx2_parse_boot_device(const void *fdt, const int offset)
 	return 0;
 }
 
+#if 0
 static int octeontx2_fdt_get_bus(const void *fdt, int offset,
 		int cgx_idx, int lmac_idx)
 {
@@ -1937,6 +1943,7 @@ static void octeontx2_fill_cgx_details(const void *fdt)
 	octeontx2_cgx_check_linux(fdt);
 	octeontx2_cgx_assign_mac(fdt);
 }
+#endif
 
 static void octeontx2_fill_qlm_details(const void *fdt)
 {
@@ -2160,7 +2167,7 @@ int plat_octeontx_fill_board_details(void)
 		octeontx2_boot_device_from_strapx();
 	}
 
-	octeontx2_fill_cgx_details(fdt);
+	//octeontx2_fill_cgx_details(fdt);
 	octeontx2_fill_qlm_details(fdt);
 	octeontx2_fill_ras_details(fdt);
 

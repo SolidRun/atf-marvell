@@ -32,20 +32,12 @@ int plat_octeontx_get_ecams_count(void)
 
 int plat_octeontx_get_iobn_count(void)
 {
-	return 2;
+	return 4;
 }
 
 int plat_octeontx_is_lmc_enabled(unsigned lmc)
 {
 	union cavm_lmcx_dll_ctl2 lmcx_dll_ctl2;
-
-	if ((plat_get_altpkg() == CN95XXE_PKG)
-	    && (lmc == 1)) {
-		return 0;
-	} else if ((plat_get_altpkg() == CN93XX_PKG)
-	    && (lmc == 2)) {
-		return 0;
-	}
 
 	lmcx_dll_ctl2.u = CSR_READ(CAVM_LMCX_DLL_CTL2(lmc));
 
@@ -92,32 +84,24 @@ int plat_octeontx_get_cpt_count(void)
 	return 1;
 }
 
-int plat_octeontx_get_cgx_count(void)
+int plat_octeontx_get_rpm_count(void)
 {
-	return 3;
+	return 5;
 }
 
 int plat_octeontx_get_pem_count(void)
 {
-	if (plat_get_altpkg() == CN95XXE_PKG)
-		return 1;
-
-	return 3;
+	return 0;
 }
 
 int plat_octeontx_get_gser_count(void)
 {
-	if (plat_get_altpkg() == CN93XX_PKG)
-		return 6;
-
-	return 8;
+	/* FIXME */
+	return 0;
 }
 
 int plat_octeontx_get_gserp_count(void)
 {
-	if (IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 3))
-		return 5;
-
 	return 0;
 }
 
@@ -146,7 +130,7 @@ int plat_otx3_get_gserx(int qlm, int *shift_from_first)
 
 const qlm_ops_t *plat_otx3_get_qlm_ops(int rpm_idx)
 {
-	if (rpm_idx < 0 || rpm_idx >= plat_octeontx_get_cgx_count())
+	if (rpm_idx < 0 || rpm_idx >= plat_octeontx_get_rpm_count())
 		return NULL;
 
 	/* FIXME to return gserm_ops */
@@ -171,47 +155,15 @@ int plat_octeontx_get_mcc_count(void)
 /* Return number of lanes available for different QLMs. */
 int plat_get_max_lane_num(int qlm)
 {
-	if (IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 3))
-		return 4;
-
-	if ((qlm == 4) || (qlm == 5))
-		return 2;
-	return 4;
+	/* FIXME */
+	return 0;
 }
 
-/* Return the CGX<->QLM mapping */
-int plat_get_cgx_idx(int qlm)
+/* Return the RPM<->QLM mapping */
+int plat_get_rpm_idx(int qlm)
 {
-	int idx;
-
-	switch (qlm) {
-	case 3:
-		if (IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 1))
-			idx = 0;
-		else
-			idx = -1;
-		break;
-	case 7:
-		idx = 0;
-		break;
-	case 4:
-		if (IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 1))
-			idx = 1;
-		else
-			idx = -1;
-		break;
-	case 5:
-		idx = 1;
-		break;
-	case 6:
-		idx = 2;
-		break;
-	default:
-		idx = -1;
-		break;
-	}
-
-	return idx;
+	/* FIXME */
+	return 0;
 }
 
 /*
@@ -245,13 +197,13 @@ void plat_add_mmio()
 	int i, device_type_count;
 
 	attr = MT_DEVICE | MT_RW | MT_SECURE;
-	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR0_CN9, CAVM_RST_BAR_E_RST_PF_BAR0_CN9_SIZE, attr);
+	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR0, CAVM_RST_BAR_E_RST_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR2, CAVM_RST_BAR_E_RST_PF_BAR2_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR4, CAVM_RST_BAR_E_RST_PF_BAR4_SIZE, attr);
 
 	add_map_record(CAVM_CCS_BAR_E_CCS_PF_BAR0, CAVM_CCS_BAR_E_CCS_PF_BAR0_SIZE, attr);
 
-	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_CN9, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_CN9_SIZE, attr);
+	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4_SIZE, attr);
 	add_map_record(CAVM_FUSF_BAR_E_FUSF_PF_BAR0,
 		       CAVM_FUSF_BAR_E_FUSF_PF_BAR0_SIZE, attr);
@@ -272,10 +224,10 @@ void plat_add_mmio()
 
 	device_type_count = plat_octeontx_get_smmu_count();
 	for (i = 0; i < device_type_count; i++)
-		add_map_record(CAVM_SMMU_BAR_E_SMMUX_PF_BAR0_CN8(i), CAVM_SMMU_BAR_E_SMMUX_PF_BAR0_CN8_SIZE, attr);
+		add_map_record(CAVM_SMMU_BAR_E_SMMUX_PF_BAR0(i), CAVM_SMMU_BAR_E_SMMUX_PF_BAR0_SIZE, attr);
 
-	add_map_record(CAVM_GTI_BAR_E_GTI_PF_BAR0_CN9, CAVM_GTI_BAR_E_GTI_PF_BAR0_CN9_SIZE, attr);
-	add_map_record(CAVM_GTI_BAR_E_GTI_PF_BAR4_CN9, CAVM_GTI_BAR_E_GTI_PF_BAR4_CN9_SIZE, attr);
+	add_map_record(CAVM_GTI_BAR_E_GTI_PF_BAR0, CAVM_GTI_BAR_E_GTI_PF_BAR0_SIZE, attr);
+	add_map_record(CAVM_GTI_BAR_E_GTI_PF_BAR4, CAVM_GTI_BAR_E_GTI_PF_BAR4_SIZE, attr);
 
 	for (i = 0; i < MAX_LMC; i++) {
 		add_map_record(CAVM_LMC_BAR_E_LMCX_PF_BAR0(i), CAVM_LMC_BAR_E_LMCX_PF_BAR0_SIZE, attr);
@@ -284,10 +236,11 @@ void plat_add_mmio()
 
 	device_type_count = plat_octeontx_get_twsi_count();
 	for (i = 0; i < device_type_count; i++) {
-		add_map_record(CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0_CN9(i), CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0_CN9_SIZE, attr);
+		add_map_record(CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0(i), CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(i), CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4_SIZE, attr);
 	}
 
+#if 0
 	device_type_count = plat_octeontx_get_cpt_count();
 	for (i = 0; i < device_type_count; i++) {
 		add_map_record(CAVM_CPT_BAR_E_CPTX_PF_BAR0(i), CAVM_CPT_BAR_E_CPTX_PF_BAR0_SIZE, attr);
@@ -295,51 +248,35 @@ void plat_add_mmio()
 		add_map_record(CAVM_CPT_BAR_E_CPTX_VFX_BAR0(i, 0), 64*CAVM_CPT_BAR_E_CPTX_VFX_BAR0_SIZE, attr);
 		add_map_record(CAVM_CPT_BAR_E_CPTX_VFX_BAR4(i, 0), 64*CAVM_CPT_BAR_E_CPTX_VFX_BAR4_SIZE, attr);
 	}
-
-	device_type_count = plat_octeontx_get_cgx_count();
-	for (i = 0; i < device_type_count; i++) {
-		add_map_record(CAVM_CGX_BAR_E_CGXX_PF_BAR0(i), CAVM_CGX_BAR_E_CGXX_PF_BAR0_SIZE, attr);
-		add_map_record(CAVM_CGX_BAR_E_CGXX_PF_BAR4(i), CAVM_CGX_BAR_E_CGXX_PF_BAR4_SIZE, attr);
-	}
+#endif
 
 	device_type_count = plat_octeontx_get_pem_count();
 	for (i = 0; i < device_type_count; i++) {
-		add_map_record(CAVM_PEM_BAR_E_PEMX_PF_BAR0_CN9(i), CAVM_PEM_BAR_E_PEMX_PF_BAR0_CN9_SIZE, attr);
-		add_map_record(CAVM_PEM_BAR_E_PEMX_PF_BAR4_CN9(i), CAVM_PEM_BAR_E_PEMX_PF_BAR4_CN9_SIZE, attr);
+		add_map_record(CAVM_PEM_BAR_E_PEMX_PF_BAR0(i), CAVM_PEM_BAR_E_PEMX_PF_BAR0_SIZE, attr);
+		add_map_record(CAVM_PEM_BAR_E_PEMX_PF_BAR4(i), CAVM_PEM_BAR_E_PEMX_PF_BAR4_SIZE, attr);
 	}
 
-	if (IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 3)) {
-		device_type_count = plat_octeontx_get_cgx_count();
-		for (i = 0; i < device_type_count; i++)
-			add_map_record(CAVM_GSERR_BAR_E_GSERRX_PF_BAR0(i),
-				       CAVM_GSERR_BAR_E_GSERRX_PF_BAR0_SIZE, attr);
-	} else {
-		device_type_count = plat_octeontx_get_gser_count();
-		for (i = 0; i < device_type_count; i++)
-			add_map_record(CAVM_GSERN_BAR_E_GSERNX_PF_BAR0(i),
-				       CAVM_GSERN_BAR_E_GSERNX_PF_BAR0_SIZE, attr);
-	}
-
-	add_map_record(CAVM_GPIO_BAR_E_GPIO_PF_BAR0_CN9, CAVM_GPIO_BAR_E_GPIO_PF_BAR0_CN9_SIZE, attr);
+	/* FIXME: mmap for GSER, RPM.. */
+	add_map_record(CAVM_GPIO_BAR_E_GPIO_PF_BAR0, CAVM_GPIO_BAR_E_GPIO_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_GPIO_BAR_E_GPIO_PF_BAR4, CAVM_GPIO_BAR_E_GPIO_PF_BAR4_SIZE, attr);
 
 	device_type_count = plat_octeontx_get_uaa_count();
 	for (i = 0; i < device_type_count; i++) {
-		add_map_record(UAAX_PF_BAR0(i), CAVM_UAA_BAR_E_UAAX_PF_BAR0_CN9_SIZE, attr);
+		add_map_record(UAAX_PF_BAR0(i), CAVM_UAA_BAR_E_UAAX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_UAA_BAR_E_UAAX_PF_BAR4(i), CAVM_UAA_BAR_E_UAAX_PF_BAR4_SIZE, attr);
 	}
 
 	device_type_count = plat_octeontx_get_ecams_count();
 	for (i = 0; i < device_type_count; i++) {
-		add_map_record(CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_CN9(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_CN9_SIZE, attr);
-		add_map_record(ECAM_PF_BAR2(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_CN9_SIZE, attr);
+		add_map_record(CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE, attr);
+		add_map_record(ECAM_PF_BAR2(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_SIZE, attr);
 	}
 
 	add_map_record(CAVM_ROM_BAR_E_ROM_PF_BAR0, CAVM_ROM_BAR_E_ROM_PF_BAR0_SIZE, attr);
 
 	device_type_count = plat_octeontx_get_iobn_count();
 	for (i = 0; i < device_type_count; ++i) {
-		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_CN9(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_CN9_SIZE , attr);
+		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE , attr);
 		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR4(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR4_SIZE, attr);
 	}
 
@@ -377,8 +314,8 @@ void plat_add_mmio()
 				CAVM_RVU_BLOCK_ADDR_E_NDCX(2) * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
 				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 
-	add_map_record(CAVM_SMI_BAR_E_SMI_PF_BAR0_CN9,
-				CAVM_SMI_BAR_E_SMI_PF_BAR0_CN9_SIZE, attr);
+	add_map_record(CAVM_SMI_BAR_E_SMI_PF_BAR0,
+				CAVM_SMI_BAR_E_SMI_PF_BAR0_SIZE, attr);
 
 	plat_map_cpc_mem();
 
@@ -409,8 +346,8 @@ void plat_add_mmio()
 	 * Map random number generator for gser intertnal
 	 * get random function
 	 */
-	add_map_record(CAVM_RNM_BAR_E_RNM_VF_BAR0_CN9,
-				CAVM_RNM_BAR_E_RNM_VF_BAR0_CN9_SIZE, attr);
+	add_map_record(CAVM_RNM_BAR_E_RNM_VF_BAR0,
+				CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE, attr);
 
 	/*
 	 * Shared memory configuration.
@@ -446,7 +383,7 @@ void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)
 	int intr_pinx;
 
 	/* Get the offset of interrupt vector for that GPIO line */
-	intr_pinx = CAVM_GPIO_INT_VEC_E_INTR_PINX_CN96XX(gpio_num);
+	intr_pinx = CAVM_GPIO_INT_VEC_E_INTR_PINX(gpio_num);
 
 	/* INTR_PINX vector address */
 	vector_ptr =  CAVM_GPIO_BAR_E_GPIO_PF_BAR4 + intr_pinx * 0x10;
@@ -495,9 +432,9 @@ void plat_gti_access_secure_memory_setup(int do_secure)
 	 * dev_idx - Stream's dev number (stream_id<7:0>)
 	 * bus_idx - Stream's bus number (stream_id<15:8>).
 	 */
-	uint64_t bus_idx = (CAVM_PCC_DEV_CON_E_GTI_CN9 >> 8) & 0xFF;
-	uint64_t domain_idx = (CAVM_PCC_DEV_CON_E_GTI_CN9 >> 16) & 0xFF;
-	uint64_t dev_idx = (CAVM_PCC_DEV_CON_E_GTI_CN9 >> 3) & 0xFF;
+	uint64_t bus_idx = (CAVM_PCC_DEV_CON_E_GTI >> 8) & 0xFF;
+	uint64_t domain_idx = (CAVM_PCC_DEV_CON_E_GTI >> 16) & 0xFF;
+	uint64_t dev_idx = (CAVM_PCC_DEV_CON_E_GTI >> 3) & 0xFF;
 
 	cavm_iobnx_domx_busx_streams_t iobn_domx_busx_stream;
 	cavm_iobnx_domx_devx_streams_t iobn_domx_devx_stream;
@@ -537,10 +474,10 @@ void plat_gti_irq_setup(int core)
 	int intr_pinx;
 
 	/* Get the offset of interrupt vector for this core */
-	intr_pinx = CAVM_GTI_INT_VEC_E_CORE_WDOGX_INT_CN9(core);
+	intr_pinx = CAVM_GTI_INT_VEC_E_CORE_WDOGX_INT(core);
 
 	/* INTR_PINX vector address */
-	vector_ptr = CAVM_GTI_BAR_E_GTI_PF_BAR4_CN9 + (intr_pinx << 4);
+	vector_ptr = CAVM_GTI_BAR_E_GTI_PF_BAR4 + (intr_pinx << 4);
 
 	/* Enable SECVEC to make the vector secure */
 	octeontx_write64(vector_ptr, CAVM_GICD_SETSPI_SR | 1);
@@ -549,7 +486,7 @@ void plat_gti_irq_setup(int core)
 }
 
 /*
- * This API should be provided by each [otx2] platform that requires
+ * This API should be provided by each [otx3] platform that requires
  * individual IOBN security settings.
  *
  * During IOBN initialization, this API is invoked to retrieve any
@@ -564,10 +501,10 @@ void plat_gti_irq_setup(int core)
  *   void
  *
  * Returns,
- *   array of 'struct otx2_stream_security_setting'
+ *   array of 'struct otx3_stream_security_setting'
  *   size of array (via ptr)
  */
-struct otx2_stream_security_setting *plat_get_otx2_stream_security(int *count)
+struct otx2_stream_security_setting *plat_get_otx3_stream_security(int *count)
 {
 	static struct otx2_stream_security_setting stream_settings[] = {
 		/* no platform-specific stream security settings */

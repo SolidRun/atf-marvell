@@ -27,8 +27,8 @@ ARM_ARCH_MINOR		:=	2
 # Allow to use armv8.2 specific instructions
 TF_CFLAGS_aarch64	:=	$(patsubst -march=%, -march=armv8.2-a, $(TF_CFLAGS_aarch64))
 
-PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx3			\
-				-Iinclude/plat/marvell/octeontx/otx3/csr 			\
+PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx3/csr 		\
+				-Iinclude/plat/marvell/octeontx/otx3			\
 				-Iplat/marvell/octeontx/otx3/t106/include		\
 				-Ilib/libphy/marvell_88x5113/include			\
 				-Ilib/libphy/marvell_88x5113/serdes/src/include		\
@@ -54,7 +54,6 @@ BL2_SOURCES		+=	plat/marvell/octeontx/otx3/t106/plat_t106_ecam.c		\
 BL31_LIBS               +=      lib/libphy/libphy_88x5113.a     \
 
 BL31_SOURCES		+=	plat/marvell/octeontx/otx3/plat_topology.c		\
-				plat/marvell/octeontx/otx3/octeontx_trace.c		\
 				drivers/marvell/sh_fwdata.c		\
 				drivers/marvell/rvu.c		\
 				drivers/marvell/phy/phy_gen.c		\

@@ -29,7 +29,6 @@ PLAT_INCLUDES		:=	-Iinclude/common/tbbr				\
 				-Iinclude/common 				\
 				-Iinclude/lib/libfdt 				\
 				-Iinclude/plat/marvell/octeontx 			\
-				-Iinclude/plat/marvell/octeontx/csr 			\
 				-Iinclude/plat/marvell/octeontx/aarch64 			\
 				-Iinclude/drivers/marvell				\
 				-Iinclude/lib				\

@@ -209,14 +209,19 @@ static void gti_watchdog_set(uint64_t timeout_ms, uint64_t cores)
 {
 	if (timeout_ms > 0) {
 		uint64_t sclk;
+#if !defined(PLAT_t106)
 		union cavm_rst_boot rst_boot;
+#endif
 		union cavm_gti_cwd_wdogx wdog;
 		cavm_gti_cwd_int_ena_set_t gti_cwd_ena;
 		static int intr_hndlrs_registered;
 		int i, rc;
-
+#if !defined(PLAT_t106)
 		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 		sclk = PLL_REF_CLK * rst_boot.s.pnr_mul;
+#else
+		sclk = 1;	/* FIXME: use APA block to read the sclk */
+#endif
 		uint64_t timeout_sclk = sclk * timeout_ms / 1000;
 
 		/* Watchdog counts in 1024 cycle steps */

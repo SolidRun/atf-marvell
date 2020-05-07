@@ -184,6 +184,7 @@ static inline int smmu_get_irq(int smmunr, int vectornr)
 #endif
 }
 
+#if !defined(PLAT_t106)
 static void init_smmu(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -237,6 +238,7 @@ static void init_smmu(uint64_t config_base, uint64_t config_size)
 		}
 	}
 }
+#endif
 
 static void init_uaa(uint64_t config_base, uint64_t config_size)
 {
@@ -294,6 +296,7 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	}
 }
 
+#if !defined(PLAT_t106)
 static void init_pem(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -336,6 +339,7 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 		}
 	}
 }
+#endif
 
 static void init_gti(uint64_t config_base, uint64_t config_size)
 {
@@ -408,10 +412,10 @@ static void init_iobn(uint64_t config_base, uint64_t config_size)
  * different devices.
  */
 struct ecam_init_callback init_callbacks[] = {
-	{0xa008, 0x177d, init_smmu},
+	//{0xa008, 0x177d, init_smmu},
 	{0xa00f, 0x177d, init_uaa},
 	{0xa017, 0x177d, init_gti},
-	{0xa020, 0x177d, init_pem},
+	//{0xa020, 0x177d, init_pem},
 	{0xa027, 0x177d, init_iobn},
 	{0xa06b, 0x177d, init_iobn},
 	{ECAM_INVALID_DEV_ID, 0, 0},	//no more callbacks

@@ -69,10 +69,12 @@ static int octeontx_signal_mcu(uint8_t signal)
 
 static void plat_disable_all_cores(void)
 {
+#if !defined (PLAT_t106)
 	uint64_t cores;
 
 	cores = CSR_READ(CAVM_RST_PP_AVAILABLE);
 	CSR_WRITE(CAVM_RST_PP_RESET, cores);
+#endif
 }
 
 static void octeontx_signal_shutdown(void)
@@ -232,14 +234,16 @@ static void __dead2 octeontx_legacy_system_off(void)
 
 static void __dead2 octeontx_legacy_system_reset(void)
 {
+#if !defined(PLAT_t106)
 	union cavm_rst_soft_rst rst_soft_rst;
 	union cavm_rst_ocx rst_ocx;
-
+#endif
 	dcsw_op_all(DCCISW);
 	l2c_flush();
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
 
+#if !defined(PLAT_t106)
 	rst_ocx.u = 0;
 	CSR_WRITE(CAVM_RST_OCX, rst_ocx.u);
 
@@ -248,7 +252,7 @@ static void __dead2 octeontx_legacy_system_reset(void)
 	rst_soft_rst.u = 0;
 	rst_soft_rst.s.soft_rst = 1;
 	CSR_WRITE(CAVM_RST_SOFT_RST, rst_soft_rst.u);
-
+#endif
 	ERROR("OcteonTX System Reset: operation not handled.\n");
 	panic();
 }

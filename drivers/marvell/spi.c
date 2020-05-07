@@ -27,6 +27,7 @@ static file_state_t current_file = { 0 };
 
 uint32_t spi_mode;
 
+#if !defined(PLAT_t106)
 static int spi_config_cn8xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	int cpha, int spi_con, int cs)
 {
@@ -115,6 +116,7 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	} else {
 		return -1;
 	}
+	return -1;
 }
 
 static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
@@ -411,6 +413,7 @@ int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 
 	return 0;
 }
+#endif
 
 /*
  * APIs to read from SPI NOR flash
@@ -447,6 +450,10 @@ static int spi_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 		current_file.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
 		entity->info = (uintptr_t)&current_file;
 
+#if defined(PLAT_t106)
+		/* FIXME: add support for SPI operations for T106 */
+		return 0;
+#endif
 		return spi_config(CONFIG_SPI_FREQUENCY, spi_mode, 0, 0,
 				  current_file.spi_con, current_file.cs);
 	} else {
@@ -481,6 +488,7 @@ static int spi_block_seek(io_entity_t *entity, int mode,
 
 static inline void spi_update_addr_mode(int *addr_mode)
 {
+#if !defined(PLAT_t106)
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		int boot_method;
 
@@ -488,6 +496,7 @@ static inline void spi_update_addr_mode(int *addr_mode)
 		if (boot_method == CAVM_RST_BOOT_METHOD_E_SPI32)
 			*addr_mode = SPI_ADDRESSING_32BIT;
 	}
+#endif
 }
 
 static int spi_block_read(io_entity_t *entity, uintptr_t buffer,
@@ -496,7 +505,10 @@ static int spi_block_read(io_entity_t *entity, uintptr_t buffer,
 	file_state_t *fp;
 	ssize_t ret;
 	int addr_mode = SPI_ADDRESSING_24BIT;
-
+#if defined(PLAT_t106)
+	/* FIXME: add support for SPI operations for T106 */
+	return 0;
+#endif
 	assert(entity != NULL);
 	assert(buffer != (uintptr_t)NULL);
 	assert(length_read != NULL);

@@ -15,6 +15,7 @@
 
 #include "cavm-csrs-rst.h"
 
+#if !defined(PLAT_t106)
 static int wait_for_core()
 {
 
@@ -49,9 +50,11 @@ static int wait_for_core()
     return 0;
 
 }
+#endif
 
 void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 {
+#if !defined(PLAT_t106)
 	union cavm_rst_pp_reset pp_reset;
 	unsigned long octeontx_core_id = (unsigned long)(plat_core_pos_by_mpidr
 					((u_register_t)mpidr));
@@ -83,6 +86,7 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 		WARN("Failed to release core:%lu\n ",
 				octeontx_core_id);
 	}
+#endif
 }
 
 /* Nothing else to do here apart from initializing the lock */

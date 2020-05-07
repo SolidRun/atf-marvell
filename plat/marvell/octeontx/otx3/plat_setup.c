@@ -32,7 +32,9 @@
 
 static int disable_ooo;
 
+#if defined(ARM_TRACE_SECURE_BUFFER)
 extern void plat_armtrace_init(void);
+#endif
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -68,8 +70,10 @@ void plat_octeontx_setup(void)
 	 */
 	octeontx_configure_pem_ep_security(0 /* PEM0 */, 1 /* secure */);
 
+#if defined(ARM_TRACE_SECURE_BUFFER)
 	/* otx2 trace init */
 	plat_armtrace_init();
+#endif
 }
 
 /*
@@ -191,45 +195,13 @@ void plat_setup_psci_ops(uintptr_t sec_entrypoint,
 }
 
 /*
- * Get ROM_T_CNT value from the FUSF_RCMD
+ * FIXME: FUSF replaced by eHSM module. 
  *
  * Return: Value in 0-32 range
  */
 unsigned int plat_get_rom_t_cnt()
 {
-	cavm_fusf_rcmd_t read_cmd;
-	uint64_t dat;
-	uint32_t nv_count_val = 0;
-	unsigned int ret = 0;
-
-	read_cmd.u = 0;
-	/* In CN9XXX fuses take a 128 bit bank, not a byte address.
-	 * ROM_T_CNT is at bank 0 */
-	read_cmd.cn9.addr = CAVM_FUSF_FUSE_NUM_E_ROM_T_CNTX(0) >> 7;
-	read_cmd.s.pend = 1;
-	CSR_WRITE(CAVM_FUSF_RCMD, read_cmd.u);
-	do {
-		read_cmd.u = CSR_READ(CAVM_FUSF_RCMD);
-	} while (read_cmd.s.pend);
-
-	/* ASIM returns 0 on FUSF_RCMD accesses */
-	if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "asim-", 5))
-		dat = CSR_READ(CAVM_FUSF_CTL);
-	else
-		dat = CSR_READ(CAVM_FUSF_BNK_DATX(0));
-
-	/*
-	 * FUSF_BNK_DATX contains all 128 fuses
-	 * in the bank associated with FUSF_RCMD[ADDR].
-	 * ROM_T_CNT is stored on FUSF_BNK_DATX(0)[63:32]
-	 */
-	nv_count_val = octeontx_bit_extract(dat, CAVM_FUSF_FUSE_NUM_E_ROM_T_CNTX(0), 32);
-
-	/* Convert value from rom_t_cnt to unsigned int */
-	if (nv_count_val)
-		ret = 32 - __builtin_clz(nv_count_val);
-
-	return ret;
+	return 0;
 }
 
 /*

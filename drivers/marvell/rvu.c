@@ -18,7 +18,11 @@
 #include <debug.h>
 #include <octeontx_utils.h>
 #include <plat_scfg.h>
+#if defined(PLAT_t106)
+#include <plat_otx3_configuration.h>
+#else
 #include <plat_otx2_configuration.h>
+#endif
 
 #include "cavm-csrs-cpt.h"
 #include "cavm-csrs-ndc.h"
@@ -157,7 +161,11 @@ static int octeontx_is_in_ep_mode(void)
 		/* Check pemon and hostmd bits of PEM0 for EP mode */
 		pemx_on.u = CSR_READ(CAVM_PEMX_ON(pem));
 		pemx_cfg.u = CSR_READ(CAVM_PEMX_CFG(pem));
+#if defined(PLAT_t106)
+		if (pemx_on.s.pemon && !pemx_cfg.s.hostmd)
+#else
 		if (pemx_on.cn9.pemon && !pemx_cfg.cn9.hostmd)
+#endif
 			return 1;
 	}
 
@@ -308,10 +316,18 @@ static void mailbox_enable(void)
 {
 	int pf;
 	static uint64_t vf_base = VF_MBOX_BASE;
+#if defined(PLAT_t106)
+	//cavm_rvu_af_pfx_bar4_addr_t pf_bar4_addr;
+	/* FIXME: Bar4 address is per PF.
+	* should each PF should have a own
+	* mailbox. which mailbox base address
+	* to be programmed in BAR4 addr?
+	*/		
+#else
 	union cavm_rvu_af_pf_bar4_addr pf_bar4_addr;
-
 	pf_bar4_addr.u = PF_MBOX_BASE;
 	CSR_WRITE(CAVM_RVU_AF_PF_BAR4_ADDR, pf_bar4_addr.u);
+#endif
 
 	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (rvu_dev[pf].enable && rvu_dev[pf].num_vfs) {
