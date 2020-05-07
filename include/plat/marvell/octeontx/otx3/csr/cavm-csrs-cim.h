@@ -1350,6 +1350,7 @@ static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_NS(uint64_t a)
  * information about the features implemented.
  * It is accessed in EL1 secure mode.
  */
+#if 0
 union cavm_cimx_icc_ctlr_el1_s
 {
     uint64_t u;
@@ -1417,7 +1418,8 @@ union cavm_cimx_icc_ctlr_el1_s
     } s;
     /* struct cavm_cimx_icc_ctlr_el1_s_s cn; */
 };
-typedef union cavm_cimx_icc_ctlr_el1_s cavm_cimx_icc_ctlr_el1_s_t;
+#endif
+//typedef union cavm_cimx_icc_ctlr_el1_s cavm_cimx_icc_ctlr_el1_s_t;
 
 static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_S(uint64_t a)
@@ -1427,7 +1429,7 @@ static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_S(uint64_t a)
     __cavm_csr_fatal("CIMX_ICC_CTLR_EL1_S", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_CIMX_ICC_CTLR_EL1_S(a) cavm_cimx_icc_ctlr_el1_s_t
+//#define typedef_CAVM_CIMX_ICC_CTLR_EL1_S(a) cavm_cimx_icc_ctlr_el1_s_t
 #define bustype_CAVM_CIMX_ICC_CTLR_EL1_S(a) CSR_TYPE_NCB
 #define basename_CAVM_CIMX_ICC_CTLR_EL1_S(a) "CIMX_ICC_CTLR_EL1_S"
 #define busnum_CAVM_CIMX_ICC_CTLR_EL1_S(a) (a)

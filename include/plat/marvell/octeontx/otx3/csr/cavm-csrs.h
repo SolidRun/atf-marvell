@@ -53,7 +53,7 @@
  */
 
 /* Include all CSR files for easy access */
-#include "cavm-srs-apbr.h"
+#include "cavm-csrs-apbr.h"
 #include "cavm-csrs-ap.h"
 #include "cavm-csrs-apa.h"
 #include "cavm-csrs-apr.h"
@@ -123,7 +123,7 @@
 #include "cavm-csrs-pemrc.h"
 #include "cavm-csrs-psbm.h"
 #include "cavm-csrs-psbs.h"
-#include "cavm-csrs-psm.h"
+//#include "cavm-csrs-psm.h"
 #include "cavm-csrs-rnm.h"
 #include "cavm-csrs-rom.h"
 #include "cavm-csrs-rpm.h"
