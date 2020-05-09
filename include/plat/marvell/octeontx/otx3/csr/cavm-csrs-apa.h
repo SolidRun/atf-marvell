@@ -36,7 +36,160 @@
  * APA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_APA_INT_VEC_E_APA_INT (0)
+#define CAVM_APA_INT_VEC_E_APA_APAT_INT (1)
+#define CAVM_APA_INT_VEC_E_APA_WDOG_INT (0)
+
+/**
+ * Register (RSL) apa#_apat_int_ena_w1c
+ *
+ * APA APAT Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_apax_apat_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_apax_apat_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_apat_int_ena_w1c_s cn; */
+};
+typedef union cavm_apax_apat_int_ena_w1c cavm_apax_apat_int_ena_w1c_t;
+
+static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f10ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_APAT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_APAT_INT_ENA_W1C(a) cavm_apax_apat_int_ena_w1c_t
+#define bustype_CAVM_APAX_APAT_INT_ENA_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_APAT_INT_ENA_W1C(a) "APAX_APAT_INT_ENA_W1C"
+#define device_bar_CAVM_APAX_APAT_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_APAT_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_APAX_APAT_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_apat_int_ena_w1s
+ *
+ * APA APAT Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_apax_apat_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_apax_apat_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_apat_int_ena_w1s_s cn; */
+};
+typedef union cavm_apax_apat_int_ena_w1s cavm_apax_apat_int_ena_w1s_t;
+
+static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f18ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_APAT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_APAT_INT_ENA_W1S(a) cavm_apax_apat_int_ena_w1s_t
+#define bustype_CAVM_APAX_APAT_INT_ENA_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_APAT_INT_ENA_W1S(a) "APAX_APAT_INT_ENA_W1S"
+#define device_bar_CAVM_APAX_APAT_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_APAT_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_APAX_APAT_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_apat_int_w1c
+ *
+ * APA APAT Interrupt Register
+ * This register is reports interrupt status.
+ */
+union cavm_apax_apat_int_w1c
+{
+    uint64_t u;
+    struct cavm_apax_apat_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Address trapper triggered. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Address trapper triggered. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_apat_int_w1c_s cn; */
+};
+typedef union cavm_apax_apat_int_w1c cavm_apax_apat_int_w1c_t;
+
+static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f00ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_APAT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_APAT_INT_W1C(a) cavm_apax_apat_int_w1c_t
+#define bustype_CAVM_APAX_APAT_INT_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_APAT_INT_W1C(a) "APAX_APAT_INT_W1C"
+#define device_bar_CAVM_APAX_APAT_INT_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_APAT_INT_W1C(a) (a)
+#define arguments_CAVM_APAX_APAT_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_apat_int_w1s
+ *
+ * APA APAT Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+union cavm_apax_apat_int_w1s
+{
+    uint64_t u;
+    struct cavm_apax_apat_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_apat_int_w1s_s cn; */
+};
+typedef union cavm_apax_apat_int_w1s cavm_apax_apat_int_w1s_t;
+
+static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f08ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_APAT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_APAT_INT_W1S(a) cavm_apax_apat_int_w1s_t
+#define bustype_CAVM_APAX_APAT_INT_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_APAT_INT_W1S(a) "APAX_APAT_INT_W1S"
+#define device_bar_CAVM_APAX_APAT_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_APAT_INT_W1S(a) (a)
+#define arguments_CAVM_APAX_APAT_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_apat_rdat#
@@ -64,7 +217,7 @@ static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=3))
-        return 0x87e051000c40ll + 0x40000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+        return 0x87e051001240ll + 0x40000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_RDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -115,7 +268,7 @@ static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000c00ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001200ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_REQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -157,7 +310,7 @@ static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000c08ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001208ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_REQ_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -196,7 +349,7 @@ static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000c10ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001210ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -240,7 +393,7 @@ static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=31))
-        return 0x87e051000a00ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
+        return 0x87e051001000ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -282,7 +435,7 @@ static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=31))
-        return 0x87e051000a08ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
+        return 0x87e051001008ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_MASK", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -317,7 +470,7 @@ static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=3))
-        return 0x87e051000c20ll + 0x40000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+        return 0x87e051001220ll + 0x40000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_WDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -436,7 +589,7 @@ static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e00ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001510ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -446,6 +599,60 @@ static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
 #define device_bar_CAVM_APAX_BP_TEST0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_BP_TEST0(a) (a)
 #define arguments_CAVM_APAX_BP_TEST0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) apa#_clusterpch
+ *
+ * APA Cluster P-Channel Interface Register
+ * This register is read-only when
+ * [STATUS]=1. Any write to any part of this register when [STATUS]=0, even if the
+ * contents are unchanged, will set [STATUS] and trigger a request to transition to the
+ * power state indicated by [STATE]. Upon protocol completion, [STATUS] is reset to 0
+ * and [ACCEPT] is updated.  Refer to DSU TRM for STATE/ACTIVE encoding.
+ */
+union cavm_apax_clusterpch
+{
+    uint32_t u;
+    struct cavm_apax_clusterpch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
+        uint32_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
+                                                                 0 = the last transition request was rejected.
+                                                                 1 = the last transition request was accepted. */
+        uint32_t reserved_28_29        : 2;
+        uint32_t active                : 20; /**< [ 27:  8](SRO/H) Indicates the current cluster power requirements to the power controller for diagnostic purposes. */
+        uint32_t reserved_7            : 1;
+        uint32_t state                 : 7;  /**< [  6:  0](SR/W) The power state to which a transition is requested. */
+#else /* Word 0 - Little Endian */
+        uint32_t state                 : 7;  /**< [  6:  0](SR/W) The power state to which a transition is requested. */
+        uint32_t reserved_7            : 1;
+        uint32_t active                : 20; /**< [ 27:  8](SRO/H) Indicates the current cluster power requirements to the power controller for diagnostic purposes. */
+        uint32_t reserved_28_29        : 2;
+        uint32_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
+                                                                 0 = the last transition request was rejected.
+                                                                 1 = the last transition request was accepted. */
+        uint32_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_clusterpch_s cn; */
+};
+typedef union cavm_apax_clusterpch cavm_apax_clusterpch_t;
+
+static inline uint64_t CAVM_APAX_CLUSTERPCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTERPCH(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001420ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTERPCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTERPCH(a) cavm_apax_clusterpch_t
+#define bustype_CAVM_APAX_CLUSTERPCH(a) CSR_TYPE_RSL32b
+#define basename_CAVM_APAX_CLUSTERPCH(a) "APAX_CLUSTERPCH"
+#define device_bar_CAVM_APAX_CLUSTERPCH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTERPCH(a) (a)
+#define arguments_CAVM_APAX_CLUSTERPCH(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_core_clk_ctl
@@ -478,7 +685,7 @@ static inline uint64_t CAVM_APAX_CORE_CLK_CTL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_CORE_CLK_CTL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000d20ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001408ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CLK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -516,7 +723,7 @@ static inline uint64_t CAVM_APAX_CORE_RESET(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_APAX_CORE_RESET(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000d28ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001410ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_RESET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -526,6 +733,60 @@ static inline uint64_t CAVM_APAX_CORE_RESET(uint64_t a)
 #define device_bar_CAVM_APAX_CORE_RESET(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_CORE_RESET(a) (a)
 #define arguments_CAVM_APAX_CORE_RESET(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) apa#_corepch
+ *
+ * APA Core P-Channel Interface Register
+ * This register is read-only when
+ * [STATUS]=1. Any write to any part of this register when [STATUS]=0, even if the
+ * contents are unchanged, will set [STATUS] and trigger a request to transition to the
+ * power state indicated by [STATE]. Upon protocol completion, [STATUS] is reset to 0
+ * and [ACCEPT] is updated.  Refer to processor core TRM for STATE/ACTIVE encoding.
+ */
+union cavm_apax_corepch
+{
+    uint32_t u;
+    struct cavm_apax_corepch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
+        uint32_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
+                                                                 0 = the last transition request was rejected.
+                                                                 1 = the last transition request was accepted. */
+        uint32_t reserved_26_29        : 4;
+        uint32_t active                : 18; /**< [ 25:  8](SRO/H) Indicates the current core power requirements to the power controller for diagnostic purposes. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t state                 : 6;  /**< [  5:  0](SR/W) The power state to which a transition is requested. */
+#else /* Word 0 - Little Endian */
+        uint32_t state                 : 6;  /**< [  5:  0](SR/W) The power state to which a transition is requested. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t active                : 18; /**< [ 25:  8](SRO/H) Indicates the current core power requirements to the power controller for diagnostic purposes. */
+        uint32_t reserved_26_29        : 4;
+        uint32_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
+                                                                 0 = the last transition request was rejected.
+                                                                 1 = the last transition request was accepted. */
+        uint32_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_corepch_s cn; */
+};
+typedef union cavm_apax_corepch cavm_apax_corepch_t;
+
+static inline uint64_t CAVM_APAX_COREPCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_COREPCH(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001418ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_COREPCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_COREPCH(a) cavm_apax_corepch_t
+#define bustype_CAVM_APAX_COREPCH(a) CSR_TYPE_RSL32b
+#define basename_CAVM_APAX_COREPCH(a) "APAX_COREPCH"
+#define device_bar_CAVM_APAX_COREPCH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_COREPCH(a) (a)
+#define arguments_CAVM_APAX_COREPCH(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_ctl
@@ -540,19 +801,19 @@ union cavm_apax_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. */
-        uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. */
+        uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
+        uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
         uint64_t reserved_10_31        : 22;
         uint64_t dvm_filter            : 2;  /**< [  9:  8](SR/W) APA filter to prevent certain DVM snoops from reaching the core.
                                                                  APA responds to them instead.
 
                                                                  0x0 = No filtering.
-                                                                 0x1 = Filter TLB Invalidate.
-                                                                 0x2 = Filter TLB Invalidate
-                                                                     + Branch Predictor Invalidate
-                                                                     + Physical Instruction Cache Invalidate
-                                                                     + Virtual Instruction Cache Invalidate.
-                                                                 0x3 = All of the above + Synchronization. */
+                                                                 0x1 = Filter TLB invalidate.
+                                                                 0x2 = Filter TLB invalidate
+                                                                     + Branch predictor invalidate
+                                                                     + Physical instruction cache invalidate
+                                                                     + Virtual instruction cache invalidate.
+                                                                 0x3 = All of the above + synchronization. */
         uint64_t dis_wdog_struct_crd_clean : 1;/**< [  7:  7](SR/W) Disable cleaning of stale CRD entries. */
         uint64_t dis_wdog_struct_txnid_clean : 1;/**< [  6:  6](SR/W) Disable cleaning of stale TXNID entries. */
         uint64_t dis_wdog_struct_rqb_clean : 1;/**< [  5:  5](SR/W) Disable cleaning of stale RQB entries. */
@@ -574,15 +835,15 @@ union cavm_apax_ctl
                                                                  APA responds to them instead.
 
                                                                  0x0 = No filtering.
-                                                                 0x1 = Filter TLB Invalidate.
-                                                                 0x2 = Filter TLB Invalidate
-                                                                     + Branch Predictor Invalidate
-                                                                     + Physical Instruction Cache Invalidate
-                                                                     + Virtual Instruction Cache Invalidate.
-                                                                 0x3 = All of the above + Synchronization. */
+                                                                 0x1 = Filter TLB invalidate.
+                                                                 0x2 = Filter TLB invalidate
+                                                                     + Branch predictor invalidate
+                                                                     + Physical instruction cache invalidate
+                                                                     + Virtual instruction cache invalidate.
+                                                                 0x3 = All of the above + synchronization. */
         uint64_t reserved_10_31        : 22;
-        uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. */
-        uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. */
+        uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
+        uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
@@ -594,7 +855,7 @@ static inline uint64_t CAVM_APAX_CTL(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_CTL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000d10ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001500ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -649,7 +910,7 @@ static inline uint64_t CAVM_APAX_DIAG(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_APAX_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e18ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001680ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -683,7 +944,7 @@ typedef union cavm_apax_diag_datx_wordx cavm_apax_diag_datx_wordx_t;
 static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=63) && (b<=63) && (c<=4))
+    if ((a<=63) && (b<=63) && (c<=5))
         return 0x87e051000000ll + 0x40000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
     __cavm_csr_fatal("APAX_DIAG_DATX_WORDX", 3, a, b, c, 0, 0, 0);
 }
@@ -694,6 +955,54 @@ static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_
 #define device_bar_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) (a)
 #define arguments_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) apa#_ecc_ctl
+ *
+ * APA ECC Generation/Checking Control Register
+ * Controls ECC Generation/Checking
+ */
+union cavm_apax_ecc_ctl
+{
+    uint64_t u;
+    struct cavm_apax_ecc_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t cor_dis               : 1;  /**< [  5:  5](SR/W) Disable ECC error correction. */
+        uint64_t psn_dis               : 1;  /**< [  4:  4](SR/W) Disable ECC poison insertion. */
+        uint64_t flip_datacheck_10     : 1;  /**< [  3:  3](SR/W) Flip datacheck bit 10 to force ECC error */
+        uint64_t flip_datacheck_9      : 1;  /**< [  2:  2](SR/W) Flip datacheck bit 9 to force ECC error */
+        uint64_t flip_datacheck_1      : 1;  /**< [  1:  1](SR/W) Flip datacheck bit 1 to force ECC error */
+        uint64_t flip_datacheck_0      : 1;  /**< [  0:  0](SR/W) Flip datacheck bit 0 to force ECC error */
+#else /* Word 0 - Little Endian */
+        uint64_t flip_datacheck_0      : 1;  /**< [  0:  0](SR/W) Flip datacheck bit 0 to force ECC error */
+        uint64_t flip_datacheck_1      : 1;  /**< [  1:  1](SR/W) Flip datacheck bit 1 to force ECC error */
+        uint64_t flip_datacheck_9      : 1;  /**< [  2:  2](SR/W) Flip datacheck bit 9 to force ECC error */
+        uint64_t flip_datacheck_10     : 1;  /**< [  3:  3](SR/W) Flip datacheck bit 10 to force ECC error */
+        uint64_t psn_dis               : 1;  /**< [  4:  4](SR/W) Disable ECC poison insertion. */
+        uint64_t cor_dis               : 1;  /**< [  5:  5](SR/W) Disable ECC error correction. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_ecc_ctl_s cn; */
+};
+typedef union cavm_apax_ecc_ctl cavm_apax_ecc_ctl_t;
+
+static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001508ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_ECC_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_ECC_CTL(a) cavm_apax_ecc_ctl_t
+#define bustype_CAVM_APAX_ECC_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_ECC_CTL(a) "APAX_ECC_CTL"
+#define device_bar_CAVM_APAX_ECC_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_ECC_CTL(a) (a)
+#define arguments_CAVM_APAX_ECC_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_eco
@@ -721,7 +1030,7 @@ static inline uint64_t CAVM_APAX_ECO(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_ECO(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e10ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001518ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -731,214 +1040,6 @@ static inline uint64_t CAVM_APAX_ECO(uint64_t a)
 #define device_bar_CAVM_APAX_ECO(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_ECO(a) (a)
 #define arguments_CAVM_APAX_ECO(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_int_ena_w1c
- *
- * APA Interrupt Enable Clear Registers
- * This register clears interrupt enable bits.
- */
-union cavm_apax_int_ena_w1c
-{
-    uint64_t u;
-    struct cavm_apax_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_CORE]. */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[APAT].
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-#else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[APAT].
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for APA(0..63)_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_int_ena_w1c_s cn; */
-};
-typedef union cavm_apax_int_ena_w1c cavm_apax_int_ena_w1c_t;
-
-static inline uint64_t CAVM_APAX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_INT_ENA_W1C(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e051000f10ll + 0x40000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_INT_ENA_W1C(a) cavm_apax_int_ena_w1c_t
-#define bustype_CAVM_APAX_INT_ENA_W1C(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_INT_ENA_W1C(a) "APAX_INT_ENA_W1C"
-#define device_bar_CAVM_APAX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_INT_ENA_W1C(a) (a)
-#define arguments_CAVM_APAX_INT_ENA_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_int_ena_w1s
- *
- * APA Interrupt Enable Set Registers
- * This register sets interrupt enable bits.
- */
-union cavm_apax_int_ena_w1s
-{
-    uint64_t u;
-    struct cavm_apax_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_CORE]. */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[APAT].
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-#else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[APAT].
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for APA(0..63)_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_int_ena_w1s_s cn; */
-};
-typedef union cavm_apax_int_ena_w1s cavm_apax_int_ena_w1s_t;
-
-static inline uint64_t CAVM_APAX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_INT_ENA_W1S(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e051000f18ll + 0x40000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_INT_ENA_W1S(a) cavm_apax_int_ena_w1s_t
-#define bustype_CAVM_APAX_INT_ENA_W1S(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_INT_ENA_W1S(a) "APAX_INT_ENA_W1S"
-#define device_bar_CAVM_APAX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_INT_ENA_W1S(a) (a)
-#define arguments_CAVM_APAX_INT_ENA_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_int_w1c
- *
- * APA Interrupt Register
- * This register is reports interrupt status.
- */
-union cavm_apax_int_w1c
-{
-    uint64_t u;
-    struct cavm_apax_int_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1C/H) Stale entry was detected in CRD. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Stale entry was detected in TXNID. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Stale entry was detected in RQB. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Stale entry was detected in CRD. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1C/H) Core did not receive expected responses before timeout. */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Address trapper triggered.
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-#else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Address trapper triggered.
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1C/H) Core did not receive expected responses before timeout. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Stale entry was detected in CRD. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Stale entry was detected in RQB. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Stale entry was detected in TXNID. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1C/H) Stale entry was detected in CRD. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_int_w1c_s cn; */
-};
-typedef union cavm_apax_int_w1c cavm_apax_int_w1c_t;
-
-static inline uint64_t CAVM_APAX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_INT_W1C(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e051000f00ll + 0x40000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_INT_W1C(a) cavm_apax_int_w1c_t
-#define bustype_CAVM_APAX_INT_W1C(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_INT_W1C(a) "APAX_INT_W1C"
-#define device_bar_CAVM_APAX_INT_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_INT_W1C(a) (a)
-#define arguments_CAVM_APAX_INT_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_int_w1s
- *
- * APA Interrupt Set Registers
- * This register sets interrupt bits.
- */
-union cavm_apax_int_w1s
-{
-    uint64_t u;
-    struct cavm_apax_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_CORE]. */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[APAT].
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-#else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[APAT].
-                                                                 Internal:
-                                                                 FIXME this must be a separate int register/vector as goes to CPC. */
-        uint64_t wdog_core             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets APA(0..63)_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_int_w1s_s cn; */
-};
-typedef union cavm_apax_int_w1s cavm_apax_int_w1s_t;
-
-static inline uint64_t CAVM_APAX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_INT_W1S(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e051000f08ll + 0x40000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_INT_W1S(a) cavm_apax_int_w1s_t
-#define bustype_CAVM_APAX_INT_W1S(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_INT_W1S(a) "APAX_INT_W1S"
-#define device_bar_CAVM_APAX_INT_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_INT_W1S(a) (a)
-#define arguments_CAVM_APAX_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_lsa#_diag_counts
@@ -979,7 +1080,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e051001008ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e051001608ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_COUNTS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1029,7 +1130,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e051001018ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e051001618ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_LMTMAP", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1083,7 +1184,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e051001010ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e051001610ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_REQ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1127,16 +1228,16 @@ union cavm_apax_lsax_diag_status
         uint64_t wns_cnt               : 5;  /**< [ 41: 37](SRO/H) Number of WriteNoSnps issued. */
         uint64_t ro_cnt                : 5;  /**< [ 36: 32](SRO/H) Number of ReadOnce for LMTLINEs issued. */
         uint64_t thread_status         : 32; /**< [ 31:  0](SRO/H) Status of each of 16 LSA threads. For each thread:
-                                                                 2'b00: Not Started
-                                                                 2'b01: Active
-                                                                 2'b10: Done
-                                                                 2'b11: Reserved */
+                                                                 0x0 = Not started.
+                                                                 0x1 = Active.
+                                                                 0x2 = Done.
+                                                                 0x3 = Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t thread_status         : 32; /**< [ 31:  0](SRO/H) Status of each of 16 LSA threads. For each thread:
-                                                                 2'b00: Not Started
-                                                                 2'b01: Active
-                                                                 2'b10: Done
-                                                                 2'b11: Reserved */
+                                                                 0x0 = Not started.
+                                                                 0x1 = Active.
+                                                                 0x2 = Done.
+                                                                 0x3 = Reserved. */
         uint64_t ro_cnt                : 5;  /**< [ 36: 32](SRO/H) Number of ReadOnce for LMTLINEs issued. */
         uint64_t wns_cnt               : 5;  /**< [ 41: 37](SRO/H) Number of WriteNoSnps issued. */
         uint64_t comp_cnt              : 5;  /**< [ 46: 42](SRO/H) Number of CompDBIDResps received from IOB. */
@@ -1167,7 +1268,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e051001000ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e051001600ll + 0x40000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1205,7 +1306,7 @@ static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b==0))
-        return 0x87e051018000ll + 0x40000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+        return 0x87e05101fe00ll + 0x40000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("APAX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1262,8 +1363,8 @@ typedef union cavm_apax_msix_vecx_addr cavm_apax_msix_vecx_addr_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b==0))
-        return 0x87e051010000ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if ((a<=63) && (b<=1))
+        return 0x87e051010000ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1302,8 +1403,8 @@ typedef union cavm_apax_msix_vecx_ctl cavm_apax_msix_vecx_ctl_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b==0))
-        return 0x87e051010008ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if ((a<=63) && (b<=1))
+        return 0x87e051010008ll + 0x40000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1342,7 +1443,7 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000d18ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001400ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_RVBARADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1382,7 +1483,7 @@ static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000d00ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001300ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_CORE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1433,7 +1534,7 @@ static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e20ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001310ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_CORE_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1443,6 +1544,190 @@ static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a)
 #define device_bar_CAVM_APAX_WDOG_CORE_DIAG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_WDOG_CORE_DIAG(a) (a)
 #define arguments_CAVM_APAX_WDOG_CORE_DIAG(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_wdog_int_ena_w1c
+ *
+ * APA Watchdog Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_apax_wdog_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_apax_wdog_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_wdog_int_ena_w1c_s cn; */
+};
+typedef union cavm_apax_wdog_int_ena_w1c cavm_apax_wdog_int_ena_w1c_t;
+
+static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f30ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_WDOG_INT_ENA_W1C(a) cavm_apax_wdog_int_ena_w1c_t
+#define bustype_CAVM_APAX_WDOG_INT_ENA_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_WDOG_INT_ENA_W1C(a) "APAX_WDOG_INT_ENA_W1C"
+#define device_bar_CAVM_APAX_WDOG_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_WDOG_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_APAX_WDOG_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_wdog_int_ena_w1s
+ *
+ * APA Watchdog Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_apax_wdog_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_apax_wdog_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_wdog_int_ena_w1s_s cn; */
+};
+typedef union cavm_apax_wdog_int_ena_w1s cavm_apax_wdog_int_ena_w1s_t;
+
+static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f38ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_WDOG_INT_ENA_W1S(a) cavm_apax_wdog_int_ena_w1s_t
+#define bustype_CAVM_APAX_WDOG_INT_ENA_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_WDOG_INT_ENA_W1S(a) "APAX_WDOG_INT_ENA_W1S"
+#define device_bar_CAVM_APAX_WDOG_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_WDOG_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_APAX_WDOG_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_wdog_int_w1c
+ *
+ * APA Watchdog Interrupt Register
+ * This register reports watchdog interrupt status.
+ */
+union cavm_apax_wdog_int_w1c
+{
+    uint64_t u;
+    struct cavm_apax_wdog_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Stale entry was detected in TXNID. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Stale entry was detected in RQB. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Stale entry was detected in CRD. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Stale entry was detected in CRD. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Core did not receive expected responses before timeout. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Core did not receive expected responses before timeout. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Stale entry was detected in CRD. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Stale entry was detected in CRD. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Stale entry was detected in RQB. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Stale entry was detected in TXNID. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_wdog_int_w1c_s cn; */
+};
+typedef union cavm_apax_wdog_int_w1c cavm_apax_wdog_int_w1c_t;
+
+static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f20ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_WDOG_INT_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_WDOG_INT_W1C(a) cavm_apax_wdog_int_w1c_t
+#define bustype_CAVM_APAX_WDOG_INT_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_WDOG_INT_W1C(a) "APAX_WDOG_INT_W1C"
+#define device_bar_CAVM_APAX_WDOG_INT_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_WDOG_INT_W1C(a) (a)
+#define arguments_CAVM_APAX_WDOG_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_wdog_int_w1s
+ *
+ * APA Watchdog Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+union cavm_apax_wdog_int_w1s
+{
+    uint64_t u;
+    struct cavm_apax_wdog_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_wdog_int_w1s_s cn; */
+};
+typedef union cavm_apax_wdog_int_w1s cavm_apax_wdog_int_w1s_t;
+
+static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e051001f28ll + 0x40000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_WDOG_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_WDOG_INT_W1S(a) cavm_apax_wdog_int_w1s_t
+#define bustype_CAVM_APAX_WDOG_INT_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_WDOG_INT_W1S(a) "APAX_WDOG_INT_W1S"
+#define device_bar_CAVM_APAX_WDOG_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_WDOG_INT_W1S(a) (a)
+#define arguments_CAVM_APAX_WDOG_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_wdog_struct
@@ -1473,7 +1758,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000d08ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001308ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1520,7 +1805,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e28ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001318ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_CRD_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1577,7 +1862,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e40ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001330ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_DAT_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1630,7 +1915,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e38ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001328ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_RQB_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1677,7 +1962,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a) __attribute_
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e051000e30ll + 0x40000ll * ((a) & 0x3f);
+        return 0x87e051001320ll + 0x40000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_TXNID_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 

@@ -20,6 +20,15 @@
  */
 
 /**
+ * Enumeration msw_bar_e
+ *
+ * MSW Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define CAVM_MSW_BAR_E_MSWX_PF_BAR0(a) (0x87e057000000ll + 0x40000ll * (a))
+#define CAVM_MSW_BAR_E_MSWX_PF_BAR0_SIZE 0x10000ull
+
+/**
  * Register (RSL) msw#_bp_test0
  *
  * INTERNAL: MSW Backpressure Test Register 0
@@ -110,14 +119,15 @@ typedef union cavm_mswx_bp_test0 cavm_mswx_bp_test0_t;
 static inline uint64_t CAVM_MSWX_BP_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_BP_TEST0(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e057000018ll + 0x40000ll * ((a) & 0x3f);
+    if (a<=23)
+        return 0x87e057000018ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_BP_TEST0(a) cavm_mswx_bp_test0_t
 #define bustype_CAVM_MSWX_BP_TEST0(a) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_BP_TEST0(a) "MSWX_BP_TEST0"
+#define device_bar_CAVM_MSWX_BP_TEST0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_BP_TEST0(a) (a)
 #define arguments_CAVM_MSWX_BP_TEST0(a) (a),-1,-1,-1
 
@@ -212,14 +222,15 @@ typedef union cavm_mswx_bp_test1 cavm_mswx_bp_test1_t;
 static inline uint64_t CAVM_MSWX_BP_TEST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_BP_TEST1(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e057000020ll + 0x40000ll * ((a) & 0x3f);
+    if (a<=23)
+        return 0x87e057000020ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_BP_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_BP_TEST1(a) cavm_mswx_bp_test1_t
 #define bustype_CAVM_MSWX_BP_TEST1(a) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_BP_TEST1(a) "MSWX_BP_TEST1"
+#define device_bar_CAVM_MSWX_BP_TEST1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_BP_TEST1(a) (a)
 #define arguments_CAVM_MSWX_BP_TEST1(a) (a),-1,-1,-1
 
@@ -330,14 +341,15 @@ typedef union cavm_mswx_bp_test2 cavm_mswx_bp_test2_t;
 static inline uint64_t CAVM_MSWX_BP_TEST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_BP_TEST2(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e057000028ll + 0x40000ll * ((a) & 0x3f);
+    if (a<=23)
+        return 0x87e057000028ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_BP_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_BP_TEST2(a) cavm_mswx_bp_test2_t
 #define bustype_CAVM_MSWX_BP_TEST2(a) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_BP_TEST2(a) "MSWX_BP_TEST2"
+#define device_bar_CAVM_MSWX_BP_TEST2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_BP_TEST2(a) (a)
 #define arguments_CAVM_MSWX_BP_TEST2(a) (a),-1,-1,-1
 
@@ -389,14 +401,15 @@ typedef union cavm_mswx_chk_fail cavm_mswx_chk_fail_t;
 static inline uint64_t CAVM_MSWX_CHK_FAIL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_CHK_FAIL(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e057000010ll + 0x40000ll * ((a) & 0x3f);
+    if (a<=23)
+        return 0x87e057000010ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_CHK_FAIL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_CHK_FAIL(a) cavm_mswx_chk_fail_t
 #define bustype_CAVM_MSWX_CHK_FAIL(a) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_CHK_FAIL(a) "MSWX_CHK_FAIL"
+#define device_bar_CAVM_MSWX_CHK_FAIL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_CHK_FAIL(a) (a)
 #define arguments_CAVM_MSWX_CHK_FAIL(a) (a),-1,-1,-1
 
@@ -427,14 +440,15 @@ typedef union cavm_mswx_ctl cavm_mswx_ctl_t;
 static inline uint64_t CAVM_MSWX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_CTL(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e057000008ll + 0x40000ll * ((a) & 0x3f);
+    if (a<=23)
+        return 0x87e057000008ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_CTL(a) cavm_mswx_ctl_t
 #define bustype_CAVM_MSWX_CTL(a) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_CTL(a) "MSWX_CTL"
+#define device_bar_CAVM_MSWX_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_CTL(a) (a)
 #define arguments_CAVM_MSWX_CTL(a) (a),-1,-1,-1
 
@@ -513,14 +527,15 @@ typedef union cavm_mswx_drop cavm_mswx_drop_t;
 static inline uint64_t CAVM_MSWX_DROP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_DROP(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e057000080ll + 0x40000ll * ((a) & 0x3f);
+    if (a<=23)
+        return 0x87e057000080ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_DROP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_DROP(a) cavm_mswx_drop_t
 #define bustype_CAVM_MSWX_DROP(a) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_DROP(a) "MSWX_DROP"
+#define device_bar_CAVM_MSWX_DROP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_DROP(a) (a)
 #define arguments_CAVM_MSWX_DROP(a) (a),-1,-1,-1
 
@@ -547,14 +562,15 @@ typedef union cavm_mswx_mshx_pfcx cavm_mswx_mshx_pfcx_t;
 static inline uint64_t CAVM_MSWX_MSHX_PFCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_MSHX_PFCX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=63) && (b<=3) && (c<=3))
-        return 0x87e057000060ll + 0x40000ll * ((a) & 0x3f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    if ((a<=23) && (b<=3) && (c<=3))
+        return 0x87e057000060ll + 0x40000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("MSWX_MSHX_PFCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_MSHX_PFCX(a,b,c) cavm_mswx_mshx_pfcx_t
 #define bustype_CAVM_MSWX_MSHX_PFCX(a,b,c) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_MSHX_PFCX(a,b,c) "MSWX_MSHX_PFCX"
+#define device_bar_CAVM_MSWX_MSHX_PFCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_MSHX_PFCX(a,b,c) (a)
 #define arguments_CAVM_MSWX_MSHX_PFCX(a,b,c) (a),(b),(c),-1
 
@@ -596,14 +612,15 @@ typedef union cavm_mswx_mshx_prf cavm_mswx_mshx_prf_t;
 static inline uint64_t CAVM_MSWX_MSHX_PRF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_MSHX_PRF(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=3))
-        return 0x87e057000058ll + 0x40000ll * ((a) & 0x3f) + 0x4000ll * ((b) & 0x3);
+    if ((a<=23) && (b<=3))
+        return 0x87e057000058ll + 0x40000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3);
     __cavm_csr_fatal("MSWX_MSHX_PRF", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_MSHX_PRF(a,b) cavm_mswx_mshx_prf_t
 #define bustype_CAVM_MSWX_MSHX_PRF(a,b) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_MSHX_PRF(a,b) "MSWX_MSHX_PRF"
+#define device_bar_CAVM_MSWX_MSHX_PRF(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_MSHX_PRF(a,b) (a)
 #define arguments_CAVM_MSWX_MSHX_PRF(a,b) (a),(b),-1,-1
 
@@ -635,14 +652,15 @@ typedef union cavm_mswx_scratch cavm_mswx_scratch_t;
 static inline uint64_t CAVM_MSWX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MSWX_SCRATCH(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e057000000ll + 0x40000ll * ((a) & 0x3f);
+    if (a<=23)
+        return 0x87e057000000ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MSWX_SCRATCH(a) cavm_mswx_scratch_t
 #define bustype_CAVM_MSWX_SCRATCH(a) CSR_TYPE_RSL
 #define basename_CAVM_MSWX_SCRATCH(a) "MSWX_SCRATCH"
+#define device_bar_CAVM_MSWX_SCRATCH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MSWX_SCRATCH(a) (a)
 #define arguments_CAVM_MSWX_SCRATCH(a) (a),-1,-1,-1
 

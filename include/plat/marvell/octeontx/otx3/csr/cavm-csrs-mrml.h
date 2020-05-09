@@ -691,19 +691,21 @@ union cavm_mrml_ncbx_permit
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */
-        uint64_t reserved_4_6          : 3;
+        uint64_t reserved_5_6          : 2;
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1. */
+                                                                 excluding XCP0/XCP1/XCP2. */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
 #else /* Word 0 - Little Endian */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1. */
+                                                                 excluding XCP0/XCP1/XCP2. */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t reserved_4_6          : 3;
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
+        uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */
@@ -745,19 +747,21 @@ union cavm_mrml_rslx_permit
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */
-        uint64_t reserved_4_6          : 3;
+        uint64_t reserved_5_6          : 2;
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1. */
+                                                                 excluding XCP0/XCP1/XCP2. */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
 #else /* Word 0 - Little Endian */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1. */
+                                                                 excluding XCP0/XCP1/XCP2. */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t reserved_4_6          : 3;
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
+        uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */

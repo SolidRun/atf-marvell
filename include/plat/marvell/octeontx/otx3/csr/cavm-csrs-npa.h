@@ -102,9 +102,9 @@
  * Enumerates the bit index of enables for the various interface signals.
  * Note, width must be npa_defs::NPA_INTERFACES
  */
-#define CAVM_NPA_INPQ_ENAS_E_NOTIF_DISABLE (0x1f5)
+#define CAVM_NPA_INPQ_ENAS_E_NOTIF_DISABLE (0xfaf)
 #define CAVM_NPA_INPQ_ENAS_E_REMOTE_PORT (0)
-#define CAVM_NPA_INPQ_ENAS_E_RESP_DISABLE (0x1c0)
+#define CAVM_NPA_INPQ_ENAS_E_RESP_DISABLE (0xe02)
 
 /**
  * Enumeration npa_lf_int_vec_e
@@ -873,6 +873,94 @@ union cavm_npa_batch_alloc_swap_s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_batch_alloc_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_end_compare_s
+ *
+ * NPA LF POOL OP Pointer END COMPARE Structure
+ * This structure specifies the compare data format of a 64-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_END register.
+ */
+union cavm_npa_pool_ptr_end_compare_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_end_compare_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ptr_end               : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_END]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ptr_end               : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_END]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_end_compare_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_end_swap_s
+ *
+ * NPA LF POOL OP Pointer END SWAP Structure
+ * This structure specifies the swap data format of a 64-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_END register.
+ */
+union cavm_npa_pool_ptr_end_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_end_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t aura                  : 20; /**< [ 19:  0] Value written to NPA_POOL_S[PTR_START]. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0] Value written to NPA_POOL_S[PTR_START]. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_end_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_start_compare_s
+ *
+ * NPA LF POOL OP Pointer Start COMPARE Structure
+ * This structure specifies the compare data format of a 64-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_START register.
+ */
+union cavm_npa_pool_ptr_start_compare_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_start_compare_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ptr_start             : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_START]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ptr_start             : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_START]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_start_compare_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_start_swap_s
+ *
+ * NPA LF POOL OP Pointer START SWAP Structure
+ * This structure specifies the swap data format of a 64-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_START register.
+ */
+union cavm_npa_pool_ptr_start_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_start_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t aura                  : 20; /**< [ 19:  0] Value written to NPA_POOL_S[PTR_START]. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0] Value written to NPA_POOL_S[PTR_START]. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_start_swap_s_s cn; */
 };
 
 /**
@@ -2247,19 +2335,19 @@ union cavm_npa_af_batch_accept_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for bulk alloc pointer returns
+        uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for batch alloc pointer returns
                                                                  and instead uses STP commands. Defaults to 0, enabling stashing if requested by
-                                                                 LMTST pointer alloc request. */
-        uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore Disable Wait control bit in Bulk Allocate command. For diagnostic use only. */
+                                                                 batch pointer alloc command. */
+        uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore Disable Wait control bit in Batch Allocate command. For diagnostic use only. */
         uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO Acceptance Threshold */
         uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP Acceptance Threshold */
 #else /* Word 0 - Little Endian */
         uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP Acceptance Threshold */
         uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO Acceptance Threshold */
-        uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore Disable Wait control bit in Bulk Allocate command. For diagnostic use only. */
-        uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for bulk alloc pointer returns
+        uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore Disable Wait control bit in Batch Allocate command. For diagnostic use only. */
+        uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for batch alloc pointer returns
                                                                  and instead uses STP commands. Defaults to 0, enabling stashing if requested by
-                                                                 LMTST pointer alloc request. */
+                                                                 batch pointer alloc command. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -4367,7 +4455,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_BATCH_ALLOC_FUNC(void)
 /**
  * Register (RVU_PFVF_BAR2) npa_lf_aura_batch_free#
  *
- * NPA LF Batch Allocate Registers
+ * NPA LF Batch Free Registers
  */
 union cavm_npa_lf_aura_batch_freex
 {
@@ -4413,15 +4501,41 @@ union cavm_npa_lf_aura_batch_free0
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free Absolute. If set, the pointers are absolute and pushed to the pool exactly as
                                                                  provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
                                                                  NPA_POOL_S[BUF_SIZE]. */
-        uint64_t reserved_36_62        : 27;
-        uint64_t count                 : 4;  /**< [ 35: 32](R/W/H) Count of number of pointers to free. Maximum value of 15 and minimum value 1. */
+        uint64_t reserved_40_62        : 23;
+        uint64_t count                 : 4;  /**< [ 39: 36](R/W/H) Fake - temp - to be deleted. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
+                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
+                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
+                                                                 and word[127:64] have valid pointers.
+
+                                                                 Internal:
+                                                                 COUNT_EOT is defined so that it would be consistent as the LSB of a full COUNT
+                                                                 field which would range from 1 to 15.  If SW provides feedback that the full
+                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
+                                                                 case we decide to revert to the original definition and add error reporting.
+                                                                 For reference, the original 4b COUNT field definition was - Count of number of
+                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
         uint64_t reserved_20_31        : 12;
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
 #else /* Word 0 - Little Endian */
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
         uint64_t reserved_20_31        : 12;
-        uint64_t count                 : 4;  /**< [ 35: 32](R/W/H) Count of number of pointers to free. Maximum value of 15 and minimum value 1. */
-        uint64_t reserved_36_62        : 27;
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
+                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
+                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
+                                                                 and word[127:64] have valid pointers.
+
+                                                                 Internal:
+                                                                 COUNT_EOT is defined so that it would be consistent as the LSB of a full COUNT
+                                                                 field which would range from 1 to 15.  If SW provides feedback that the full
+                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
+                                                                 case we decide to revert to the original definition and add error reporting.
+                                                                 For reference, the original 4b COUNT field definition was - Count of number of
+                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t count                 : 4;  /**< [ 39: 36](R/W/H) Fake - temp - to be deleted. */
+        uint64_t reserved_40_62        : 23;
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free Absolute. If set, the pointers are absolute and pushed to the pool exactly as
                                                                  provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
                                                                  NPA_POOL_S[BUF_SIZE]. */

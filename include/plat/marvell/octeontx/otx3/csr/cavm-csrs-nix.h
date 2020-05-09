@@ -140,8 +140,9 @@
  * Enumerates the receive and transmit links, and LINK index of
  * NIX_AF_RX_LINK()_CFG, NIX_AF_RX_LINK()_WRR_CFG,
  * NIX_AF_TX_LINK()_NORM_CREDIT,
- * NIX_AF_TX_LINK()_HW_XOFF and
- * NIX_AF_TL3_TL2()_LINK()_CFG.
+ * NIX_AF_TX_LINK()_HW_XOFF,
+ * NIX_AF_TL3_TL2()_LINK()_CFG and
+ * NIX_AF_TX_LINK()_CFG.
  */
 #define CAVM_NIX_LINK_E_CGXX_LMACX(a,b) (0 + 4 * (a) + (b))
 #define CAVM_NIX_LINK_E_LBKX(a) (4 + (a))
@@ -6404,11 +6405,13 @@ union cavm_nixx_af_const
     struct cavm_nixx_af_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
+        uint64_t reserved_61_63        : 3;
+        uint64_t prog_chan             : 1;  /**< [ 60: 60](RO) Programmable channel numbers are supported. */
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
-        uint64_t reserved_32_47        : 16;
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Number of Replay CPT. */
+        uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Number of SDP links enumerated in NIX_LINK_E. */
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Number of LBK links enumerated in NIX_LINK_E. */
         uint64_t lbk_channels          : 8;  /**< [ 23: 16](RO) Number of channels per LBK interface/link. */
@@ -6422,11 +6425,13 @@ union cavm_nixx_af_const
         uint64_t lbk_channels          : 8;  /**< [ 23: 16](RO) Number of channels per LBK interface/link. */
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Number of LBK links enumerated in NIX_LINK_E. */
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Number of SDP links enumerated in NIX_LINK_E. */
-        uint64_t reserved_32_47        : 16;
+        uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Number of Replay CPT. */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
-        uint64_t reserved_60_63        : 4;
+        uint64_t prog_chan             : 1;  /**< [ 60: 60](RO) Programmable channel numbers are supported. */
+        uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const_s cn; */
@@ -12646,7 +12651,12 @@ union cavm_nixx_af_rx_bpidx_status
     struct cavm_nixx_af_rx_bpidx_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cq_cnt                : 32; /**< [ 63: 32](R/W/H) Backpressure CQ count. Number of completion queues that are backpressuring (XOFF) this
+        uint64_t cpt_cnt               : 4;  /**< [ 63: 60](R/W/H) Backpressure CPT count. Number of CPTs that are backpressuring (XOFF) this
+                                                                 BPID.
+
+                                                                 Writes to this field are for diagnostic use only. The write data is a two's
+                                                                 complement signed value added to the CPT count. */
+        uint64_t cq_cnt                : 28; /**< [ 59: 32](R/W/H) Backpressure CQ count. Number of completion queues that are backpressuring (XOFF) this
                                                                  BPID.
 
                                                                  Writes to this field are for diagnostic use only. The write data is a two's
@@ -12660,11 +12670,16 @@ union cavm_nixx_af_rx_bpidx_status
 
                                                                  Writes to this field are for diagnostic use only. The write data is a two's
                                                                  complement signed value added to the aura count. */
-        uint64_t cq_cnt                : 32; /**< [ 63: 32](R/W/H) Backpressure CQ count. Number of completion queues that are backpressuring (XOFF) this
+        uint64_t cq_cnt                : 28; /**< [ 59: 32](R/W/H) Backpressure CQ count. Number of completion queues that are backpressuring (XOFF) this
                                                                  BPID.
 
                                                                  Writes to this field are for diagnostic use only. The write data is a two's
                                                                  complement signed value added to the CQ count. */
+        uint64_t cpt_cnt               : 4;  /**< [ 63: 60](R/W/H) Backpressure CPT count. Number of CPTs that are backpressuring (XOFF) this
+                                                                 BPID.
+
+                                                                 Writes to this field are for diagnostic use only. The write data is a two's
+                                                                 complement signed value added to the CPT count. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_rx_bpidx_status_s cn; */
@@ -12801,7 +12816,16 @@ union cavm_nixx_af_rx_cptx_credit
     struct cavm_nixx_af_rx_cptx_credit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_22_63        : 42;
+        uint64_t reserved_62_63        : 2;
+        uint64_t hysteresis            : 6;  /**< [ 61: 56](RAZ) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
+        uint64_t reserved_54_55        : 2;
+        uint64_t inst_credit_th        : 22; /**< [ 53: 32](RAZ) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
+                                                                 is asserted. When INST_CRED_CNT goes above the (INST_CRED_CNT+2^HYSTERESIS) the
+                                                                 back-pressure is released. Value of 0 disables CPT backpressure mechanism.
+                                                                 (INST_CRED_CNT+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
+                                                                 value. */
+        uint64_t reserved_31           : 1;
+        uint64_t bpid                  : 9;  /**< [ 30: 22](RAZ) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
         uint64_t inst_cred_cnt         : 22; /**< [ 21:  0](R/W/H) Instruction credit count. This value, plus 1, represents the maximum number
                                                                  of outstanding CPT_INST_S that NIX may send to CPT. Note that this field
                                                                  represents a two's complement signed value that decrements towards zero as
@@ -12835,7 +12859,16 @@ union cavm_nixx_af_rx_cptx_credit
                                                                  NIX_AF_LF()_RX_IPSEC_CFG0 allows this CPT to be selected), software should
                                                                  initialize this field (by adding a positive value) to the number of
                                                                  outstanding instructions that NIX may send to CPT, minus 1. */
-        uint64_t reserved_22_63        : 42;
+        uint64_t bpid                  : 9;  /**< [ 30: 22](RAZ) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
+        uint64_t reserved_31           : 1;
+        uint64_t inst_credit_th        : 22; /**< [ 53: 32](RAZ) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
+                                                                 is asserted. When INST_CRED_CNT goes above the (INST_CRED_CNT+2^HYSTERESIS) the
+                                                                 back-pressure is released. Value of 0 disables CPT backpressure mechanism.
+                                                                 (INST_CRED_CNT+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
+                                                                 value. */
+        uint64_t reserved_54_55        : 2;
+        uint64_t hysteresis            : 6;  /**< [ 61: 56](RAZ) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_rx_cptx_credit_s cn; */
@@ -16701,23 +16734,23 @@ union cavm_nixx_af_sqm_sclk_cnt
     struct cavm_nixx_af_sqm_sclk_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
-        uint64_t div_cnt               : 8;  /**< [ 36: 29](R/W/H) This value is the divider value to apply on rst__gbl_100mhz_sclk_edge. The
+        uint64_t reserved_38_63        : 26;
+        uint64_t div_cnt               : 8;  /**< [ 37: 30](R/W/H) This value is the divider value to apply on rst__gbl_100mhz_sclk_edge. The
                                                                  default value is 1us i.e. 100. For verification purpose this register could be
                                                                  loaded to other values. */
-        uint64_t sclk_cnt              : 29; /**< [ 28:  0](R/W/H) After reset and before traffic starts this register can be programmed with a
+        uint64_t sclk_cnt              : 30; /**< [ 29:  0](R/W/H) After reset and before traffic starts this register can be programmed with a
                                                                  sclk_cnt value. Based on this register value the sclk count is going to start.
                                                                  This is to test wrap conditions on SQM timer and test corner cases of latency
                                                                  timeout and drop mechanism */
 #else /* Word 0 - Little Endian */
-        uint64_t sclk_cnt              : 29; /**< [ 28:  0](R/W/H) After reset and before traffic starts this register can be programmed with a
+        uint64_t sclk_cnt              : 30; /**< [ 29:  0](R/W/H) After reset and before traffic starts this register can be programmed with a
                                                                  sclk_cnt value. Based on this register value the sclk count is going to start.
                                                                  This is to test wrap conditions on SQM timer and test corner cases of latency
                                                                  timeout and drop mechanism */
-        uint64_t div_cnt               : 8;  /**< [ 36: 29](R/W/H) This value is the divider value to apply on rst__gbl_100mhz_sclk_edge. The
+        uint64_t div_cnt               : 8;  /**< [ 37: 30](R/W/H) This value is the divider value to apply on rst__gbl_100mhz_sclk_edge. The
                                                                  default value is 1us i.e. 100. For verification purpose this register could be
                                                                  loaded to other values. */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_sqm_sclk_cnt_s cn; */
@@ -22070,6 +22103,63 @@ static inline uint64_t CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(uint64_t a)
 #define device_bar_CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(a) (a)
 #define arguments_CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_tx_link#_cfg
+ *
+ * NIX AF Transmit Link Channel Configuration Registers
+ * These registers specifies the base channel (start channel)  number and the range of
+ * channels associated with the
+ * CGX,LBK and SDP links.
+ * Link index enumerated by NIX_LINK_E.
+ */
+union cavm_nixx_af_tx_linkx_cfg
+{
+    uint64_t u;
+    struct cavm_nixx_af_tx_linkx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this linl is 2^[LOG2_RANGE].
+                                                                 2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST.
+                                                                 When LOG2_RANGE==0, link is considered invalid.
+                                                                 For example, if [LOG2_RANGE]=3, number of channels for the link is 8. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel for the link. This channel number must be multiple of the range.
+                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
+                                                                 the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
+                                                                 0x15C, 0x15D, 0x15E, 0x15F */
+#else /* Word 0 - Little Endian */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel for the link. This channel number must be multiple of the range.
+                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
+                                                                 the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
+                                                                 0x15C, 0x15D, 0x15E, 0x15F */
+        uint64_t reserved_12_15        : 4;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this linl is 2^[LOG2_RANGE].
+                                                                 2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST.
+                                                                 When LOG2_RANGE==0, link is considered invalid.
+                                                                 For example, if [LOG2_RANGE]=3, number of channels for the link is 8. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_tx_linkx_cfg_s cn; */
+};
+typedef union cavm_nixx_af_tx_linkx_cfg cavm_nixx_af_tx_linkx_cfg_t;
+
+static inline uint64_t CAVM_NIXX_AF_TX_LINKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TX_LINKX_CFG(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=5))
+        return 0x840040004900ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    __cavm_csr_fatal("NIXX_AF_TX_LINKX_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) cavm_nixx_af_tx_linkx_cfg_t
+#define bustype_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) "NIXX_AF_TX_LINKX_CFG"
+#define device_bar_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_tx_link#_hw_xoff

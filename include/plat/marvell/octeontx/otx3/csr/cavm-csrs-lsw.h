@@ -51,7 +51,7 @@ typedef union cavm_lsw_bp_test cavm_lsw_bp_test_t;
 static inline uint64_t CAVM_LSW_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LSW_BP_TEST_FUNC(void)
 {
-    return 0x87e030080000ll;
+    return 0x87e140080000ll;
 }
 
 #define typedef_CAVM_LSW_BP_TEST cavm_lsw_bp_test_t
@@ -84,7 +84,7 @@ typedef union cavm_lsw_eco cavm_lsw_eco_t;
 static inline uint64_t CAVM_LSW_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LSW_ECO_FUNC(void)
 {
-    return 0x87e030080010ll;
+    return 0x87e140080010ll;
 }
 
 #define typedef_CAVM_LSW_ECO cavm_lsw_eco_t
@@ -119,7 +119,7 @@ typedef union cavm_lsw_scratch cavm_lsw_scratch_t;
 static inline uint64_t CAVM_LSW_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LSW_SCRATCH_FUNC(void)
 {
-    return 0x87e030080008ll;
+    return 0x87e140080008ll;
 }
 
 #define typedef_CAVM_LSW_SCRATCH cavm_lsw_scratch_t

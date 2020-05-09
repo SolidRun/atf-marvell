@@ -94,6 +94,112 @@ static inline uint64_t CAVM_TAD_CMN_CACHE_FLUSH_FUNC(void)
 #define arguments_CAVM_TAD_CMN_CACHE_FLUSH -1,-1,-1,-1
 
 /**
+ * Register (RSL) tad_cmn_cbusy
+ *
+ * TAD_CMN CBUSY Control Register
+ * Controls CBUSY behavior.
+ */
+union cavm_tad_cmn_cbusy
+{
+    uint64_t u;
+    struct cavm_tad_cmn_cbusy_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t tad_cbusy1_busy_trsh  : 7;  /**< [ 31: 25](R/W) This register sets the threshold at which TAD resources are considered busy.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy1_free_trsh  : 7;  /**< [ 24: 18](R/W) This register sets the threshold at which TAD resources are considered free.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy0_busy_trsh  : 7;  /**< [ 17: 11](R/W) This register sets the threshold at which MPAM PartID is considered busy.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy0_free_trsh  : 7;  /**< [ 10:  4](R/W) This register sets the threshold at which MPAM PartID is considered free.
+                                                                 Max value is 72. */
+        uint64_t ddr_cbusy_en          : 2;  /**< [  3:  2](R/W) This register enables ORing DDR bits into CBUSY responses. */
+        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](R/W) This register enabless ORing TAD bits into CBUSY responses. */
+#else /* Word 0 - Little Endian */
+        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](R/W) This register enabless ORing TAD bits into CBUSY responses. */
+        uint64_t ddr_cbusy_en          : 2;  /**< [  3:  2](R/W) This register enables ORing DDR bits into CBUSY responses. */
+        uint64_t tad_cbusy0_free_trsh  : 7;  /**< [ 10:  4](R/W) This register sets the threshold at which MPAM PartID is considered free.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy0_busy_trsh  : 7;  /**< [ 17: 11](R/W) This register sets the threshold at which MPAM PartID is considered busy.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy1_free_trsh  : 7;  /**< [ 24: 18](R/W) This register sets the threshold at which TAD resources are considered free.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy1_busy_trsh  : 7;  /**< [ 31: 25](R/W) This register sets the threshold at which TAD resources are considered busy.
+                                                                 Max value is 72. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_cbusy_s cn; */
+};
+typedef union cavm_tad_cmn_cbusy cavm_tad_cmn_cbusy_t;
+
+#define CAVM_TAD_CMN_CBUSY CAVM_TAD_CMN_CBUSY_FUNC()
+static inline uint64_t CAVM_TAD_CMN_CBUSY_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_CBUSY_FUNC(void)
+{
+    return 0x87e053000020ll;
+}
+
+#define typedef_CAVM_TAD_CMN_CBUSY cavm_tad_cmn_cbusy_t
+#define bustype_CAVM_TAD_CMN_CBUSY CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_CBUSY "TAD_CMN_CBUSY"
+#define device_bar_CAVM_TAD_CMN_CBUSY 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_CBUSY 0
+#define arguments_CAVM_TAD_CMN_CBUSY -1,-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_const
+ *
+ * TAD Constants Register
+ * This register contains TAD constants for software discovery.
+ * Internal:
+ * FIXME: How to specify this in an IP-centric way?
+ */
+union cavm_tad_cmn_const
+{
+    uint64_t u;
+    struct cavm_tad_cmn_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t dtgways               : 8;  /**< [ 55: 48](RO) Specifies the number of DTG ways in a TAD. */
+        uint64_t dtgsets               : 12; /**< [ 47: 36](RO) Specifies the number of DTG sets in a TAD. */
+        uint64_t ltgways               : 8;  /**< [ 35: 28](RO) Specifies the number of LTG ways in a TAD. */
+        uint64_t ltgsets               : 12; /**< [ 27: 16](RO) Specifies the number of LTG sets in a TAD. */
+        uint64_t num_tads              : 8;  /**< [ 15:  8](RO) Specifies the number of TADs. */
+        uint64_t num_rows              : 4;  /**< [  7:  4](RO) Specifies the number of columns of tiles. */
+        uint64_t num_cols              : 4;  /**< [  3:  0](RO) Specifies the number of columns of tiles. */
+#else /* Word 0 - Little Endian */
+        uint64_t num_cols              : 4;  /**< [  3:  0](RO) Specifies the number of columns of tiles. */
+        uint64_t num_rows              : 4;  /**< [  7:  4](RO) Specifies the number of columns of tiles. */
+        uint64_t num_tads              : 8;  /**< [ 15:  8](RO) Specifies the number of TADs. */
+        uint64_t ltgsets               : 12; /**< [ 27: 16](RO) Specifies the number of LTG sets in a TAD. */
+        uint64_t ltgways               : 8;  /**< [ 35: 28](RO) Specifies the number of LTG ways in a TAD. */
+        uint64_t dtgsets               : 12; /**< [ 47: 36](RO) Specifies the number of DTG sets in a TAD. */
+        uint64_t dtgways               : 8;  /**< [ 55: 48](RO) Specifies the number of DTG ways in a TAD. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_const_s cn; */
+};
+typedef union cavm_tad_cmn_const cavm_tad_cmn_const_t;
+
+#define CAVM_TAD_CMN_CONST CAVM_TAD_CMN_CONST_FUNC()
+static inline uint64_t CAVM_TAD_CMN_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_CONST_FUNC(void)
+{
+    return 0x87e053000028ll;
+}
+
+#define typedef_CAVM_TAD_CMN_CONST cavm_tad_cmn_const_t
+#define bustype_CAVM_TAD_CMN_CONST CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_CONST "TAD_CMN_CONST"
+#define device_bar_CAVM_TAD_CMN_CONST 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_CONST 0
+#define arguments_CAVM_TAD_CMN_CONST -1,-1,-1,-1
+
+/**
  * Register (RSL) tad_cmn_ctl
  *
  * TAD_CMN Control Register
@@ -120,7 +226,10 @@ union cavm_tad_cmn_ctl
         uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
-        uint64_t reserved_4_48         : 45;
+        uint64_t reserved_7_48         : 42;
+        uint64_t discor                : 1;  /**< [  6:  6](R/W) Disable correction in the mesh ECC checkers/generators. */
+        uint64_t dispsn                : 1;  /**< [  5:  5](R/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
+        uint64_t disstash              : 1;  /**< [  4:  4](R/W) When set, disable stash behavior. */
         uint64_t disdmt                : 1;  /**< [  3:  3](R/W) When set, disable direct memory transfer. */
         uint64_t disdct                : 1;  /**< [  2:  2](R/W) When set, disable direct cache transfer. */
         uint64_t disdwt                : 1;  /**< [  1:  1](R/W) When set, disable direct write transfer. */
@@ -130,7 +239,10 @@ union cavm_tad_cmn_ctl
         uint64_t disdwt                : 1;  /**< [  1:  1](R/W) When set, disable direct write transfer. */
         uint64_t disdct                : 1;  /**< [  2:  2](R/W) When set, disable direct cache transfer. */
         uint64_t disdmt                : 1;  /**< [  3:  3](R/W) When set, disable direct memory transfer. */
-        uint64_t reserved_4_48         : 45;
+        uint64_t disstash              : 1;  /**< [  4:  4](R/W) When set, disable stash behavior. */
+        uint64_t dispsn                : 1;  /**< [  5:  5](R/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
+        uint64_t discor                : 1;  /**< [  6:  6](R/W) Disable correction in the mesh ECC checkers/generators. */
+        uint64_t reserved_7_48         : 42;
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
@@ -223,11 +335,12 @@ union cavm_tad_cmn_req_retry
     struct cavm_tad_cmn_req_retry_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
+        uint64_t reserved_20_63        : 44;
+        uint64_t sadr_pcrdtype_dis     : 8;  /**< [ 19: 12](R/W) This register disables same address retry hardware. */
         uint64_t sadr_req_high_wmark   : 6;  /**< [ 11:  6](R/W) This register controls the number of same address REQs that can be stored in
                                                                  buffers before issuing a same address retry.
 
-                                                                 If set to 0, same address retries are disabled. */
+                                                                 If set to 0, same address retries are all disabled. */
         uint64_t sadr_req_low_wmark    : 6;  /**< [  5:  0](R/W) After same address REQS exceed [SADR_REQ_HIGH_WMARK] and a retry is issued,
                                                                  this register controls the number of same address REQs allowed in buffers
                                                                  before issuing PcrdGrants. PcrdGrants are issued whenever the number of
@@ -240,8 +353,9 @@ union cavm_tad_cmn_req_retry
         uint64_t sadr_req_high_wmark   : 6;  /**< [ 11:  6](R/W) This register controls the number of same address REQs that can be stored in
                                                                  buffers before issuing a same address retry.
 
-                                                                 If set to 0, same address retries are disabled. */
-        uint64_t reserved_12_63        : 52;
+                                                                 If set to 0, same address retries are all disabled. */
+        uint64_t sadr_pcrdtype_dis     : 8;  /**< [ 19: 12](R/W) This register disables same address retry hardware. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tad_cmn_req_retry_s cn; */

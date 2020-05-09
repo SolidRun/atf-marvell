@@ -3169,21 +3169,37 @@ union cavm_rpmx_cmrx_activity
     struct cavm_rpmx_cmrx_activity_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t pause_rx              : 1;  /**< [  5:  5](R/W1C/H) Set whenever MAC receives PAUSE or PFC packets. */
-        uint64_t act_rx_hi             : 1;  /**< [  4:  4](R/W1C/H) Set whenever MAC receive activity signal is high. */
-        uint64_t act_rx_lo             : 1;  /**< [  3:  3](R/W1C/H) Set whenever MAC receive side activity signal is low. */
-        uint64_t pause_tx              : 1;  /**< [  2:  2](R/W1C/H) Set whenever MAC transmits PAUSE or PFC packets. */
+        uint64_t reserved_7_63         : 57;
+        uint64_t stop_tx_lat           : 1;  /**< [  6:  6](R/W1C/H) Set upon CMR request from MAC to defer Tx traffic (stop_tx).
+                                                                 Note that stop_tx is a consequence of pause_on from MAC (Rx Pause/PFC packet).
+                                                                 Sticky bit, SW writes 1 to clear.
+                                                                 For current value (status) of stop_tx, see FC_STATUS CSR. */
+        uint64_t pause_rx_lat          : 1;  /**< [  5:  5](R/W1C/H) Set upon MAC request from CMR following PAUSE/PFC packet receive from link partner (|pause_on).
+                                                                 Sticky bit, SW writes 1 to clear.
+                                                                 For current value (status) of pause_on, see FC_STATUS CSR. */
+        uint64_t pause_tx_lat          : 1;  /**< [  4:  4](R/W1C/H) Set upon CMR request for Pause/PFC generation from MAC towards link partner (|xoff_gen).
+                                                                 Sticky bit, SW writes 1 to clear.
+                                                                 For current value (status) of xoff_gen, see FC_STATUS CSR. */
+        uint64_t act_rx_hi             : 1;  /**< [  3:  3](R/W1C/H) Set whenever MAC receive activity signal is high. */
+        uint64_t act_rx_lo             : 1;  /**< [  2:  2](R/W1C/H) Set whenever MAC receive side activity signal is low. */
         uint64_t act_tx_hi             : 1;  /**< [  1:  1](R/W1C/H) Set whenever MAC transmit activity signal is high. */
         uint64_t act_tx_lo             : 1;  /**< [  0:  0](R/W1C/H) Set whenever MAC transmit side activity signal is low. */
 #else /* Word 0 - Little Endian */
         uint64_t act_tx_lo             : 1;  /**< [  0:  0](R/W1C/H) Set whenever MAC transmit side activity signal is low. */
         uint64_t act_tx_hi             : 1;  /**< [  1:  1](R/W1C/H) Set whenever MAC transmit activity signal is high. */
-        uint64_t pause_tx              : 1;  /**< [  2:  2](R/W1C/H) Set whenever MAC transmits PAUSE or PFC packets. */
-        uint64_t act_rx_lo             : 1;  /**< [  3:  3](R/W1C/H) Set whenever MAC receive side activity signal is low. */
-        uint64_t act_rx_hi             : 1;  /**< [  4:  4](R/W1C/H) Set whenever MAC receive activity signal is high. */
-        uint64_t pause_rx              : 1;  /**< [  5:  5](R/W1C/H) Set whenever MAC receives PAUSE or PFC packets. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t act_rx_lo             : 1;  /**< [  2:  2](R/W1C/H) Set whenever MAC receive side activity signal is low. */
+        uint64_t act_rx_hi             : 1;  /**< [  3:  3](R/W1C/H) Set whenever MAC receive activity signal is high. */
+        uint64_t pause_tx_lat          : 1;  /**< [  4:  4](R/W1C/H) Set upon CMR request for Pause/PFC generation from MAC towards link partner (|xoff_gen).
+                                                                 Sticky bit, SW writes 1 to clear.
+                                                                 For current value (status) of xoff_gen, see FC_STATUS CSR. */
+        uint64_t pause_rx_lat          : 1;  /**< [  5:  5](R/W1C/H) Set upon MAC request from CMR following PAUSE/PFC packet receive from link partner (|pause_on).
+                                                                 Sticky bit, SW writes 1 to clear.
+                                                                 For current value (status) of pause_on, see FC_STATUS CSR. */
+        uint64_t stop_tx_lat           : 1;  /**< [  6:  6](R/W1C/H) Set upon CMR request from MAC to defer Tx traffic (stop_tx).
+                                                                 Note that stop_tx is a consequence of pause_on from MAC (Rx Pause/PFC packet).
+                                                                 Sticky bit, SW writes 1 to clear.
+                                                                 For current value (status) of stop_tx, see FC_STATUS CSR. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_activity_s cn; */
@@ -3545,6 +3561,53 @@ static inline uint64_t CAVM_RPMX_CMRX_CONFIG(uint64_t a, uint64_t b)
 #define arguments_CAVM_RPMX_CMRX_CONFIG(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rpm#_cmr#_fc_status
+ *
+ * RPM CMR Activity Registers
+ */
+union cavm_rpmx_cmrx_fc_status
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_fc_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t stop_tx_stat          : 1;  /**< [ 32: 32](RO/H) Samples the current value of CMR request from MAC to defer Tx traffic (stop_tx).
+                                                                 Note that stop_tx is a consequence of pause_on from MAC (Rx Pause/PFC packet) */
+        uint64_t pause_rx_stat         : 16; /**< [ 31: 16](RO/H) Samples the current value of MAC request from CMR following PAUSE/PFC packet receive (pause_on)
+                                                                 Internal:
+                                                                 replaces CMR_RX_BP_STATUS */
+        uint64_t pause_tx_stat         : 16; /**< [ 15:  0](RO/H) Samples the current value of CMR request from MAC for Pause/PFC generation (xoff_gen). */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_tx_stat         : 16; /**< [ 15:  0](RO/H) Samples the current value of CMR request from MAC for Pause/PFC generation (xoff_gen). */
+        uint64_t pause_rx_stat         : 16; /**< [ 31: 16](RO/H) Samples the current value of MAC request from CMR following PAUSE/PFC packet receive (pause_on)
+                                                                 Internal:
+                                                                 replaces CMR_RX_BP_STATUS */
+        uint64_t stop_tx_stat          : 1;  /**< [ 32: 32](RO/H) Samples the current value of CMR request from MAC to defer Tx traffic (stop_tx).
+                                                                 Note that stop_tx is a consequence of pause_on from MAC (Rx Pause/PFC packet) */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_fc_status_s cn; */
+};
+typedef union cavm_rpmx_cmrx_fc_status cavm_rpmx_cmrx_fc_status_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_FC_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_FC_STATUS(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e8000610ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_CMRX_FC_STATUS", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_FC_STATUS(a,b) cavm_rpmx_cmrx_fc_status_t
+#define bustype_CAVM_RPMX_CMRX_FC_STATUS(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_FC_STATUS(a,b) "RPMX_CMRX_FC_STATUS"
+#define device_bar_CAVM_RPMX_CMRX_FC_STATUS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_FC_STATUS(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_FC_STATUS(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) rpm#_cmr#_int
  *
  * RPM CMR Interrupt Register
@@ -3574,9 +3637,9 @@ union cavm_rpmx_cmrx_int
                                                                  Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
                                                                  Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+        uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
         uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved.
                                                                  Internal:
@@ -3640,9 +3703,9 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
                                                                  Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..4)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..4)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..4)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..4)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..4)_CMR(0..3)_INT[NIC_NXC].
                                                                  Internal:
@@ -3698,9 +3761,9 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
                                                                  Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..4)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..4)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..4)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..4)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..4)_CMR(0..3)_INT[NIC_NXC].
                                                                  Internal:
@@ -3756,9 +3819,9 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
                                                                  Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..4)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..4)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..4)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..4)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..4)_CMR(0..3)_INT[NIC_NXC].
                                                                  Internal:
@@ -3862,7 +3925,7 @@ static inline uint64_t CAVM_RPMX_CMRX_LED_TIMING(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_prt_cbfc_ctl
  *
  * RPM CMR LMAC PFC Control Registers
- * See RPM()_CMR()_RX_LOGL_XOFF[XOFF].
+ * Controls for masking the effect of specific classes and channels on FC logic
  */
 union cavm_rpmx_cmrx_prt_cbfc_ctl
 {
@@ -3870,23 +3933,77 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
     struct cavm_rpmx_cmrx_prt_cbfc_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs (from either DFC or PFC packets or
+        uint64_t reserved_49_63        : 15;
+        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, the relevant bit in xoff_gen (request MAC FC generation to
+                                                                 link partner) may be asserted.
+                                                                 This field is only relevant for PFC mode (PFC_MODE==1). For Link Pause, see
+                                                                 equivalent RX_OVR_BP CSR, EN and BP fields.
+                                                                 In PFC mode, this field is AND with the result of: chan_bp, OR with LOGL_XON and
+                                                                 LOGL_XOFF CSRs logic, OR with FIFO fill BP.
+                                                                 For FIFO fill BP, see CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN. FIFO fill BP will
+                                                                 cause all bits on xoff_gen to be high,
+                                                                 except those masked with LOGL_EN_RX.
+
+                                                                 Internal:
+                                                                 replaces SMU_CBFC_CTL.LOGL_EN
+                                                                 TODO: set default value to 0xFF as in SMU_CBFC_CTL.LOGL_EN ? */
+        uint64_t pause_mode_stop_tx_en : 1;  /**< [ 32: 32](R/W) When high, and MTI MAC is in Link Pause mode, bit 0 of (pause_on) will cause Tx
+                                                                 traffic defer (stop_tx).
+                                                                 Note, this field has no effect when MTI MAC works in PFC mode.
+                                                                 By default, MTI MAC should perform Tx traffic deferring by itself when working in Pause mode. */
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the link partner is backpressuring any LMACs (from incoming FC packets or by override via
                                                                  RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
                                                                  backpressured, simulate physical backpressure by deferring all packets on the
-                                                                 transmitter (i.e. signal to the MAC an assertion of physical backpressure).
-                                                                 If LMAC_TYPE != SGMII/QSGMII, RPM()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 RPM()_SMU()_HG2_CONTROL[HG2RX_EN] also need to be set. */
-        uint64_t reserved_0_15         : 16;
+                                                                 transmitter (i.e. signal to the MAC to stop transmission via stop_tx). Affects
+                                                                 the MAC on frame boundary.
+                                                                 Note that this applies only when MAC is in PFC mode. */
+        uint64_t logl_en_tx            : 16; /**< [ 15:  0](R/W) When bit i is high, the relevant bit in MAC PFC status indication to CMR
+                                                                 (pause_on) may cause Tx traffic defer (stop_tx).
+                                                                 Note, this field is only used when MTI MAC works in PFC mode. Also note that
+                                                                 PHYS_BP will also mask this result.
+                                                                 The difference is that LOGL_EN_TX is mask per-bit, and PHYS_BP is a global mask
+                                                                 which requires all 16 bits to match the mask value.
+                                                                 So, first, LOGL_EN_TX is ANDed with p2x_bp, and then (after OR with TX_CHAN_BP)
+                                                                 goes through the PHYS_BP masking.
+
+                                                                 Internal:
+                                                                 replaces SMU_HG2_CONTROL.LOGL_EN */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_15         : 16;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs (from either DFC or PFC packets or
+        uint64_t logl_en_tx            : 16; /**< [ 15:  0](R/W) When bit i is high, the relevant bit in MAC PFC status indication to CMR
+                                                                 (pause_on) may cause Tx traffic defer (stop_tx).
+                                                                 Note, this field is only used when MTI MAC works in PFC mode. Also note that
+                                                                 PHYS_BP will also mask this result.
+                                                                 The difference is that LOGL_EN_TX is mask per-bit, and PHYS_BP is a global mask
+                                                                 which requires all 16 bits to match the mask value.
+                                                                 So, first, LOGL_EN_TX is ANDed with p2x_bp, and then (after OR with TX_CHAN_BP)
+                                                                 goes through the PHYS_BP masking.
+
+                                                                 Internal:
+                                                                 replaces SMU_HG2_CONTROL.LOGL_EN */
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the link partner is backpressuring any LMACs (from incoming FC packets or by override via
                                                                  RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
                                                                  backpressured, simulate physical backpressure by deferring all packets on the
-                                                                 transmitter (i.e. signal to the MAC an assertion of physical backpressure).
-                                                                 If LMAC_TYPE != SGMII/QSGMII, RPM()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 RPM()_SMU()_HG2_CONTROL[HG2RX_EN] also need to be set. */
-        uint64_t reserved_32_63        : 32;
+                                                                 transmitter (i.e. signal to the MAC to stop transmission via stop_tx). Affects
+                                                                 the MAC on frame boundary.
+                                                                 Note that this applies only when MAC is in PFC mode. */
+        uint64_t pause_mode_stop_tx_en : 1;  /**< [ 32: 32](R/W) When high, and MTI MAC is in Link Pause mode, bit 0 of (pause_on) will cause Tx
+                                                                 traffic defer (stop_tx).
+                                                                 Note, this field has no effect when MTI MAC works in PFC mode.
+                                                                 By default, MTI MAC should perform Tx traffic deferring by itself when working in Pause mode. */
+        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, the relevant bit in xoff_gen (request MAC FC generation to
+                                                                 link partner) may be asserted.
+                                                                 This field is only relevant for PFC mode (PFC_MODE==1). For Link Pause, see
+                                                                 equivalent RX_OVR_BP CSR, EN and BP fields.
+                                                                 In PFC mode, this field is AND with the result of: chan_bp, OR with LOGL_XON and
+                                                                 LOGL_XOFF CSRs logic, OR with FIFO fill BP.
+                                                                 For FIFO fill BP, see CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN. FIFO fill BP will
+                                                                 cause all bits on xoff_gen to be high,
+                                                                 except those masked with LOGL_EN_RX.
+
+                                                                 Internal:
+                                                                 replaces SMU_CBFC_CTL.LOGL_EN
+                                                                 TODO: set default value to 0xFF as in SMU_CBFC_CTL.LOGL_EN ? */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_s cn; */
@@ -4052,47 +4169,6 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_BP_ON(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_RX_BP_ON(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_RX_BP_ON(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_RX_BP_ON(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_rx_bp_status
- *
- * RPM CMR Receive Backpressure Status Registers
- */
-union cavm_rpmx_cmrx_rx_bp_status
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_rx_bp_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t bp                    : 1;  /**< [  0:  0](RO/H) Per-LMAC backpressure status.
-                                                                 0 = LMAC is not backpressured.
-                                                                 1 = LMAC is backpressured. */
-#else /* Word 0 - Little Endian */
-        uint64_t bp                    : 1;  /**< [  0:  0](RO/H) Per-LMAC backpressure status.
-                                                                 0 = LMAC is not backpressured.
-                                                                 1 = LMAC is backpressured. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_rx_bp_status_s cn; */
-};
-typedef union cavm_rpmx_cmrx_rx_bp_status cavm_rpmx_cmrx_rx_bp_status_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_RX_BP_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_RX_BP_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=4) && (b<=3))
-        return 0x87e0e80000f0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_RX_BP_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_RX_BP_STATUS(a,b) cavm_rpmx_cmrx_rx_bp_status_t
-#define bustype_CAVM_RPMX_CMRX_RX_BP_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_RX_BP_STATUS(a,b) "RPMX_CMRX_RX_BP_STATUS"
-#define device_bar_CAVM_RPMX_CMRX_RX_BP_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_RX_BP_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_RX_BP_STATUS(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_rx_dmac_ctl0
@@ -4654,45 +4730,6 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_MERGE_STAT4(uint64_t a, uint64_t b)
 #define arguments_CAVM_RPMX_CMRX_RX_MERGE_STAT4(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) rpm#_cmr#_rx_pause_drop_time
- *
- * RPM CMR Receive Pause Drop-Time Register
- */
-union cavm_rpmx_cmrx_rx_pause_drop_time
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_rx_pause_drop_time_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t pause_time_e          : 16; /**< [ 31: 16](R/W1C/H) Time extracted from the dropped PAUSE packet dropped due to RXB FIFO full or during partner reset. */
-        uint64_t pause_time            : 16; /**< [ 15:  0](R/W1C/H) Time extracted from the dropped PAUSE packet dropped due to RXB FIFO full or during partner reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t pause_time            : 16; /**< [ 15:  0](R/W1C/H) Time extracted from the dropped PAUSE packet dropped due to RXB FIFO full or during partner reset. */
-        uint64_t pause_time_e          : 16; /**< [ 31: 16](R/W1C/H) Time extracted from the dropped PAUSE packet dropped due to RXB FIFO full or during partner reset. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_rx_pause_drop_time_s cn; */
-};
-typedef union cavm_rpmx_cmrx_rx_pause_drop_time cavm_rpmx_cmrx_rx_pause_drop_time_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(uint64_t a, uint64_t b)
-{
-    if ((a<=4) && (b<=3))
-        return 0x87e0e8000068ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_RX_PAUSE_DROP_TIME", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(a,b) cavm_rpmx_cmrx_rx_pause_drop_time_t
-#define bustype_CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(a,b) "RPMX_CMRX_RX_PAUSE_DROP_TIME"
-#define device_bar_CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_RX_PAUSE_DROP_TIME(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) rpm#_cmr#_rx_stat0
  *
  * RPM Receive Status Register 0
@@ -5104,6 +5141,51 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT8(uint64_t a, uint64_t b)
 #define arguments_CAVM_RPMX_CMRX_RX_STAT8(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rpm#_cmr#_rx_stat_defer_xoff
+ *
+ * RPM CMR Tx Defer XON to XOFF transition Registers
+ */
+union cavm_rpmx_cmrx_rx_stat_defer_xoff
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_rx_stat_defer_xoff_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of Tx defer XON to XOFF transitions due to received PFC or pause packets,
+                                                                 equals number of posedges of stop_tx bits to MAC.
+                                                                 Note that stop_tx can occur also because of SW override - see TX_OVR_BP.
+                                                                 Note that PRT_CBFC_CTL.PHYS_BP, PRT_CBFC_CTL.LOGL_EN_TX, COMMAND_CONFIG.PFC_MODE
+                                                                 values affect occurances of stop_tx due to pause_on. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of Tx defer XON to XOFF transitions due to received PFC or pause packets,
+                                                                 equals number of posedges of stop_tx bits to MAC.
+                                                                 Note that stop_tx can occur also because of SW override - see TX_OVR_BP.
+                                                                 Note that PRT_CBFC_CTL.PHYS_BP, PRT_CBFC_CTL.LOGL_EN_TX, COMMAND_CONFIG.PFC_MODE
+                                                                 values affect occurances of stop_tx due to pause_on. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_stat_defer_xoff_s cn; */
+};
+typedef union cavm_rpmx_cmrx_rx_stat_defer_xoff cavm_rpmx_cmrx_rx_stat_defer_xoff_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e8000880ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_CMRX_RX_STAT_DEFER_XOFF", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(a,b) cavm_rpmx_cmrx_rx_stat_defer_xoff_t
+#define bustype_CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(a,b) "RPMX_CMRX_RX_STAT_DEFER_XOFF"
+#define device_bar_CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) rpm#_cmr#_rx_stat_pri#_xoff
  *
  * RPM CMR RX XON to XOFF transition Registers
@@ -5115,15 +5197,15 @@ union cavm_rpmx_cmrx_rx_stat_prix_xoff
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to received PFC or pause packets
-                                                                 for channels 0-7 on each LMAC. When LMAC is configured to use PAUSE (physical
-                                                                 backpressure) instead of PFC, see name: RPM()_SMU()_CBFC_CTL[PHYS_EN], only
-                                                                 priority(channel) 0's counters will count physical XON-\>XOFF transitions on the link. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to received PFC or pause packets, equals
+                                                                 number of posedges of pause_on bits from MAC.
+                                                                 Counter per class.
+                                                                 When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to received PFC or pause packets
-                                                                 for channels 0-7 on each LMAC. When LMAC is configured to use PAUSE (physical
-                                                                 backpressure) instead of PFC, see name: RPM()_SMU()_CBFC_CTL[PHYS_EN], only
-                                                                 priority(channel) 0's counters will count physical XON-\>XOFF transitions on the link. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to received PFC or pause packets, equals
+                                                                 number of posedges of pause_on bits from MAC.
+                                                                 Counter per class.
+                                                                 When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -5134,8 +5216,8 @@ typedef union cavm_rpmx_cmrx_rx_stat_prix_xoff cavm_rpmx_cmrx_rx_stat_prix_xoff_
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=3) && (c<=7))
-        return 0x87e0e80007c0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    if ((a<=4) && (b<=3) && (c<=15))
+        return 0x87e0e8000800ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT_PRIX_XOFF", 3, a, b, c, 0, 0, 0);
 }
 
@@ -5423,51 +5505,6 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_FIFO_LEN(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_TX_FIFO_LEN(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_TX_FIFO_LEN(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_TX_FIFO_LEN(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_hg2_status
- *
- * RPM CMR Transmit HiGig2 Status Registers
- */
-union cavm_rpmx_cmrx_tx_hg2_status
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_hg2_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t xof                   : 16; /**< [ 31: 16](RO/H) 16-bit XOF back pressure vector from HiGig2 message packet or from PFC packets. Non-
-                                                                 zero only when logical back pressure is active. All bits are 0 when [LGTIM2GO] = 0x0. */
-        uint64_t lgtim2go              : 16; /**< [ 15:  0](RO/H) Logical packet flow back pressure time remaining. Initial value set from XOF time field of
-                                                                 HiGig2 message packet received or a function of the enabled and current timers for
-                                                                 PFC packets. Nonzero only when logical back pressure is active. */
-#else /* Word 0 - Little Endian */
-        uint64_t lgtim2go              : 16; /**< [ 15:  0](RO/H) Logical packet flow back pressure time remaining. Initial value set from XOF time field of
-                                                                 HiGig2 message packet received or a function of the enabled and current timers for
-                                                                 PFC packets. Nonzero only when logical back pressure is active. */
-        uint64_t xof                   : 16; /**< [ 31: 16](RO/H) 16-bit XOF back pressure vector from HiGig2 message packet or from PFC packets. Non-
-                                                                 zero only when logical back pressure is active. All bits are 0 when [LGTIM2GO] = 0x0. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_hg2_status_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_hg2_status cavm_rpmx_cmrx_tx_hg2_status_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_HG2_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_HG2_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=4) && (b<=3))
-        return 0x87e0e8000610ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_HG2_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_HG2_STATUS(a,b) cavm_rpmx_cmrx_tx_hg2_status_t
-#define bustype_CAVM_RPMX_CMRX_TX_HG2_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_HG2_STATUS(a,b) "RPMX_CMRX_TX_HG2_STATUS"
-#define device_bar_CAVM_RPMX_CMRX_TX_HG2_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_HG2_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_HG2_STATUS(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_tx_merge_stat0
@@ -6429,15 +6466,31 @@ union cavm_rpmx_cmrx_tx_stat_prix_xoff
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions signaled by transmitted PFC or pause packets
-                                                                 for channels 0-7 on each LMAC. When LMAC is configured to use PAUSE (physical
-                                                                 backpressure) instead of PFC, see name: RPM()_SMU()_CBFC_CTL[PHYS_EN], only
-                                                                 priority(channel) 0's counters will count physical XON-\>XOFF transitions on the link. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets, equals
+                                                                 number of posedges of xoff_gen bits from CMR.
+                                                                 Counter per class.
+                                                                 When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle.
+                                                                 Note that When Working in PFC mode (COMMAND_CONFIG.PFC_MODE==1), xoff_gen is affected by:
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
+                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs RX_LOGL_XOFF, RX_LOGL_XON
+                                                                 - enable logic PRT_CBFC_CTL.LOGL_EN_RX[15:0]
+                                                                 When working in Link Pause mode (COMMAND_CONFIG.PFC_MODE==0), xoff_gen is affected by:
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
+                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR
+                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions signaled by transmitted PFC or pause packets
-                                                                 for channels 0-7 on each LMAC. When LMAC is configured to use PAUSE (physical
-                                                                 backpressure) instead of PFC, see name: RPM()_SMU()_CBFC_CTL[PHYS_EN], only
-                                                                 priority(channel) 0's counters will count physical XON-\>XOFF transitions on the link. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets, equals
+                                                                 number of posedges of xoff_gen bits from CMR.
+                                                                 Counter per class.
+                                                                 When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle.
+                                                                 Note that When Working in PFC mode (COMMAND_CONFIG.PFC_MODE==1), xoff_gen is affected by:
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
+                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs RX_LOGL_XOFF, RX_LOGL_XON
+                                                                 - enable logic PRT_CBFC_CTL.LOGL_EN_RX[15:0]
+                                                                 When working in Link Pause mode (COMMAND_CONFIG.PFC_MODE==0), xoff_gen is affected by:
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
+                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR
+                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -6448,8 +6501,8 @@ typedef union cavm_rpmx_cmrx_tx_stat_prix_xoff cavm_rpmx_cmrx_tx_stat_prix_xoff_
 static inline uint64_t CAVM_RPMX_CMRX_TX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_CMRX_TX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=3) && (c<=7))
-        return 0x87e0e8000800ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    if ((a<=4) && (b<=3) && (c<=15))
+        return 0x87e0e8000900ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("RPMX_CMRX_TX_STAT_PRIX_XOFF", 3, a, b, c, 0, 0, 0);
 }
 
@@ -7375,12 +7428,6 @@ static inline uint64_t CAVM_RPMX_CMR_RX_LMACS(uint64_t a)
  *
  * RPM CMR Receive-Ports Backpressure Override Registers
  * Per-LMAC backpressure override register.
- * For SMU, RPM()_CMR_RX_OVR_BP[EN]\<0\> must be set to one and RPM()_CMR_RX_OVR_BP[BP]\<0\> must be
- * cleared to zero (to forcibly disable hardware-automatic 802.3 PAUSE packet generation) with
- * the HiGig2 Protocol when RPM()_SMU()_HG2_CONTROL[HG2TX_EN]=0. (The HiGig2 protocol is
- * indicated by RPM()_SMU()_TX_CTL[HG_EN]=1 and RPM()_SMU()_RX_UDD_SKP[LEN]=16).
- * Hardware can only auto-generate backpressure through HiGig2 messages (optionally, when
- * RPM()_SMU()_HG2_CONTROL[HG2TX_EN]=1) with the HiGig2 protocol.
  */
 union cavm_rpmx_cmr_rx_ovr_bp
 {
@@ -7389,31 +7436,47 @@ union cavm_rpmx_cmr_rx_ovr_bp
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override.
+        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override, for Link Pause mode only.
                                                                  0 = Don't enable.
                                                                  1 = Enable override.
 
-                                                                 Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3. */
-        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use:
+                                                                 Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
+        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only):
                                                                  0 = LMAC is available.
                                                                  1 = LMAC should be backpressured.
 
-                                                                 Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3. */
+                                                                 Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
         uint64_t ign_fifo_bp           : 4;  /**< [  3:  0](R/W) Ignore RPM()_CMR()_RX_BP_ON[MARK] when computing backpressure. CMR does not
-                                                                 backpressure the MAC due to the FIFO length passing RPM()_CMR()_RX_BP_ON[MARK]. */
+                                                                 backpressure the MAC due to the FIFO length passing RPM()_CMR()_RX_BP_ON[MARK].
+                                                                 This field applies both for PFC and Link Pause modes (either values of PFC_MODE CSR).
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause xoff_gen[0] to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 all xoff_gen[15:0] bits to be asserted,
+                                                                 if the respective bit in PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
 #else /* Word 0 - Little Endian */
         uint64_t ign_fifo_bp           : 4;  /**< [  3:  0](R/W) Ignore RPM()_CMR()_RX_BP_ON[MARK] when computing backpressure. CMR does not
-                                                                 backpressure the MAC due to the FIFO length passing RPM()_CMR()_RX_BP_ON[MARK]. */
-        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use:
+                                                                 backpressure the MAC due to the FIFO length passing RPM()_CMR()_RX_BP_ON[MARK].
+                                                                 This field applies both for PFC and Link Pause modes (either values of PFC_MODE CSR).
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause xoff_gen[0] to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 all xoff_gen[15:0] bits to be asserted,
+                                                                 if the respective bit in PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
+        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only):
                                                                  0 = LMAC is available.
                                                                  1 = LMAC should be backpressured.
 
-                                                                 Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3. */
-        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override.
+                                                                 Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
+        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override, for Link Pause mode only.
                                                                  0 = Don't enable.
                                                                  1 = Enable override.
 
-                                                                 Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3. */
+                                                                 Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;

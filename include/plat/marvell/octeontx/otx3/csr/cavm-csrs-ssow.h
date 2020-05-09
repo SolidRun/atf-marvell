@@ -1606,7 +1606,7 @@ union cavm_ssow_lf_gws_prf_tag
         uint64_t reserved_46_51        : 6;
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
         uint64_t tag                   : 32; /**< [ 31:  0](RO/H) The tag attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL, or
@@ -1616,7 +1616,7 @@ union cavm_ssow_lf_gws_prf_tag
                                                                  SWTAG_DESCHED.) */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t reserved_46_51        : 6;
@@ -1671,7 +1671,7 @@ union cavm_ssow_lf_gws_prf_wqe0
         uint64_t reserved_46_51        : 6;
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
         uint64_t tag                   : 32; /**< [ 31:  0](RO/H) The tag attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL, or
@@ -1681,7 +1681,7 @@ union cavm_ssow_lf_gws_prf_wqe0
                                                                  SWTAG_DESCHED.) */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t reserved_46_51        : 6;
@@ -1862,7 +1862,7 @@ union cavm_ssow_lf_gws_tag
         uint64_t reserved_46_51        : 6;
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
         uint64_t tag                   : 32; /**< [ 31:  0](RO/H) The tag attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL, or
@@ -1872,7 +1872,7 @@ union cavm_ssow_lf_gws_tag
                                                                  SWTAG_DESCHED.) */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t reserved_46_51        : 6;
@@ -1927,7 +1927,7 @@ union cavm_ssow_lf_gws_wqe0
         uint64_t reserved_46_51        : 6;
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
         uint64_t tag                   : 32; /**< [ 31:  0](RO/H) The tag attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL, or
@@ -1937,7 +1937,7 @@ union cavm_ssow_lf_gws_wqe0
                                                                  SWTAG_DESCHED.) */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the GWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
                                                                  or SWTAG_DESCHED.) Enumerated by SSO_TT_E. */
-        uint64_t reserved_34           : 1;
+        uint64_t dq                    : 1;  /**< [ 34: 34](RO/H) Set when this entry came off the DQ. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list or when in the UNTAGGED state. */
         uint64_t ggrp                  : 10; /**< [ 45: 36](RO/H) The guest group attached to the GWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t reserved_46_51        : 6;

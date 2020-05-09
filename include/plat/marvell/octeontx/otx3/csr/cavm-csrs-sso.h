@@ -59,6 +59,7 @@
 #define CAVM_SSO_OP_E_GWC_INVAL (0xc)
 #define CAVM_SSO_OP_E_NOP (0)
 #define CAVM_SSO_OP_E_RST (0xb)
+#define CAVM_SSO_OP_E_SWITCH_ACTIVE (0xf)
 #define CAVM_SSO_OP_E_SWTAG (1)
 #define CAVM_SSO_OP_E_SWTAG_DESCH (4)
 #define CAVM_SSO_OP_E_SWTAG_FLUSH (3)
@@ -5194,17 +5195,17 @@ union cavm_sso_af_ws_cfg
                                                                  inside the cores.  Reads as zero. For diagnostic use only. */
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
         uint64_t gw_clk_dis            : 1;  /**< [  5:  5](R/W) Reserved. */
-        uint64_t disable_pw            : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint64_t disable_prefetch      : 1;  /**< [  4:  4](R/W) Disable GETWORK prefetching to the GWCs. */
         uint64_t issue_step_en         : 1;  /**< [  3:  3](R/W) Enable single-stepping issue unit, 1 command at a time. For diagnostic use only. */
         uint64_t ncbo_step_en          : 1;  /**< [  2:  2](R/W) Enable single-stepping commands from NCBO, once per 32 clocks. For diagnostic use only. */
-        uint64_t ssc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
+        uint64_t soc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
         uint64_t sso_cclk_dis          : 1;  /**< [  0:  0](R/W) Disable power saving SSO conditional clocking, */
 #else /* Word 0 - Little Endian */
         uint64_t sso_cclk_dis          : 1;  /**< [  0:  0](R/W) Disable power saving SSO conditional clocking, */
-        uint64_t ssc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
+        uint64_t soc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
         uint64_t ncbo_step_en          : 1;  /**< [  2:  2](R/W) Enable single-stepping commands from NCBO, once per 32 clocks. For diagnostic use only. */
         uint64_t issue_step_en         : 1;  /**< [  3:  3](R/W) Enable single-stepping issue unit, 1 command at a time. For diagnostic use only. */
-        uint64_t disable_pw            : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint64_t disable_prefetch      : 1;  /**< [  4:  4](R/W) Disable GETWORK prefetching to the GWCs. */
         uint64_t gw_clk_dis            : 1;  /**< [  5:  5](R/W) Reserved. */
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
         uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the GW cache

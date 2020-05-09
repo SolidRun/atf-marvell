@@ -53,7 +53,7 @@ typedef union cavm_psbs_apx_accumx cavm_psbs_apx_accumx_t;
 static inline uint64_t CAVM_PSBS_APX_ACCUMX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_APX_ACCUMX(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=3))
+    if ((a<=26) && (b<=3))
         return 0x87e0df000600ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("PSBS_APX_ACCUMX", 2, a, b, 0, 0, 0, 0);
 }
@@ -92,7 +92,7 @@ typedef union cavm_psbs_apx_accumx_sel cavm_psbs_apx_accumx_sel_t;
 static inline uint64_t CAVM_PSBS_APX_ACCUMX_SEL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_APX_ACCUMX_SEL(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=3))
+    if ((a<=26) && (b<=3))
         return 0x87e0df000400ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("PSBS_APX_ACCUMX_SEL", 2, a, b, 0, 0, 0, 0);
 }
@@ -127,7 +127,7 @@ typedef union cavm_psbs_apx_activity cavm_psbs_apx_activity_t;
 static inline uint64_t CAVM_PSBS_APX_ACTIVITY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_APX_ACTIVITY(uint64_t a)
 {
-    if (a<=23)
+    if (a<=26)
         return 0x87e0df000620ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_APX_ACTIVITY", 1, a, 0, 0, 0, 0, 0);
 }
@@ -164,7 +164,7 @@ typedef union cavm_psbs_apx_cfg cavm_psbs_apx_cfg_t;
 static inline uint64_t CAVM_PSBS_APX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_APX_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=26)
         return 0x87e0df000000ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_APX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -203,7 +203,7 @@ typedef union cavm_psbs_apx_const cavm_psbs_apx_const_t;
 static inline uint64_t CAVM_PSBS_APX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_APX_CONST(uint64_t a)
 {
-    if (a<=23)
+    if (a<=26)
         return 0x87e0df000008ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_APX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -285,7 +285,7 @@ typedef union cavm_psbs_apx_eventx_cfg cavm_psbs_apx_eventx_cfg_t;
 static inline uint64_t CAVM_PSBS_APX_EVENTX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_APX_EVENTX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=63))
+    if ((a<=26) && (b<=63))
         return 0x87e0df000200ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f);
     __cavm_csr_fatal("PSBS_APX_EVENTX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -322,7 +322,7 @@ typedef union cavm_psbs_apx_throttle cavm_psbs_apx_throttle_t;
 static inline uint64_t CAVM_PSBS_APX_THROTTLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_APX_THROTTLE(uint64_t a)
 {
-    if (a<=23)
+    if (a<=26)
         return 0x87e0df000630ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_APX_THROTTLE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -359,8 +359,8 @@ typedef union cavm_psbs_sysx_accumx cavm_psbs_sysx_accumx_t;
 static inline uint64_t CAVM_PSBS_SYSX_ACCUMX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_SYSX_ACCUMX(uint64_t a, uint64_t b)
 {
-    if ((a<=13) && (b<=3))
-        return 0x87e0df800600ll + 0x10000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
+    if ((a<=16) && (b<=3))
+        return 0x87e0df800600ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("PSBS_SYSX_ACCUMX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -400,8 +400,8 @@ typedef union cavm_psbs_sysx_accumx_sel cavm_psbs_sysx_accumx_sel_t;
 static inline uint64_t CAVM_PSBS_SYSX_ACCUMX_SEL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_SYSX_ACCUMX_SEL(uint64_t a, uint64_t b)
 {
-    if ((a<=13) && (b<=3))
-        return 0x87e0df800400ll + 0x10000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
+    if ((a<=16) && (b<=3))
+        return 0x87e0df800400ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("PSBS_SYSX_ACCUMX_SEL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -435,8 +435,8 @@ typedef union cavm_psbs_sysx_activity cavm_psbs_sysx_activity_t;
 static inline uint64_t CAVM_PSBS_SYSX_ACTIVITY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_SYSX_ACTIVITY(uint64_t a)
 {
-    if (a<=13)
-        return 0x87e0df800620ll + 0x10000ll * ((a) & 0xf);
+    if (a<=16)
+        return 0x87e0df800620ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_SYSX_ACTIVITY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -472,8 +472,8 @@ typedef union cavm_psbs_sysx_cfg cavm_psbs_sysx_cfg_t;
 static inline uint64_t CAVM_PSBS_SYSX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_SYSX_CFG(uint64_t a)
 {
-    if (a<=13)
-        return 0x87e0df800000ll + 0x10000ll * ((a) & 0xf);
+    if (a<=16)
+        return 0x87e0df800000ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_SYSX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -511,8 +511,8 @@ typedef union cavm_psbs_sysx_const cavm_psbs_sysx_const_t;
 static inline uint64_t CAVM_PSBS_SYSX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_SYSX_CONST(uint64_t a)
 {
-    if (a<=13)
-        return 0x87e0df800008ll + 0x10000ll * ((a) & 0xf);
+    if (a<=16)
+        return 0x87e0df800008ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_SYSX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -594,8 +594,8 @@ typedef union cavm_psbs_sysx_eventx_cfg cavm_psbs_sysx_eventx_cfg_t;
 static inline uint64_t CAVM_PSBS_SYSX_EVENTX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_SYSX_EVENTX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=13) && (b<=63))
-        return 0x87e0df800200ll + 0x10000ll * ((a) & 0xf) + 8ll * ((b) & 0x3f);
+    if ((a<=16) && (b<=63))
+        return 0x87e0df800200ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f);
     __cavm_csr_fatal("PSBS_SYSX_EVENTX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -631,8 +631,8 @@ typedef union cavm_psbs_sysx_throttle cavm_psbs_sysx_throttle_t;
 static inline uint64_t CAVM_PSBS_SYSX_THROTTLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBS_SYSX_THROTTLE(uint64_t a)
 {
-    if (a<=13)
-        return 0x87e0df800630ll + 0x10000ll * ((a) & 0xf);
+    if (a<=16)
+        return 0x87e0df800630ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBS_SYSX_THROTTLE", 1, a, 0, 0, 0, 0, 0);
 }
 

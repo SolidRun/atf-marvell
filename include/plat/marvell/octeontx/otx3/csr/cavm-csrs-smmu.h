@@ -4798,14 +4798,14 @@ static inline uint64_t CAVM_SMMUX_PMCGX_SVRX(uint64_t a, uint64_t b, uint64_t c)
 #define arguments_CAVM_SMMUX_PMCGX_SVRX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) smmu#_qcp_cmdq_base_#
+ * Register (NCB) smmu#_qcp_cmdq_base#
  *
  * SMMU Enhance Command Queue Base Register
  */
-union cavm_smmux_qcp_cmdq_base_x
+union cavm_smmux_qcp_cmdq_basex
 {
     uint64_t u;
-    struct cavm_smmux_qcp_cmdq_base_x_s
+    struct cavm_smmux_qcp_cmdq_basex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -4835,34 +4835,34 @@ union cavm_smmux_qcp_cmdq_base_x
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smmux_qcp_cmdq_base_x_s cn; */
+    /* struct cavm_smmux_qcp_cmdq_basex_s cn; */
 };
-typedef union cavm_smmux_qcp_cmdq_base_x cavm_smmux_qcp_cmdq_base_x_t;
+typedef union cavm_smmux_qcp_cmdq_basex cavm_smmux_qcp_cmdq_basex_t;
 
-static inline uint64_t CAVM_SMMUX_QCP_CMDQ_BASE_X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_QCP_CMDQ_BASE_X(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SMMUX_QCP_CMDQ_BASEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_QCP_CMDQ_BASEX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=63))
         return 0x830000001800ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
-    __cavm_csr_fatal("SMMUX_QCP_CMDQ_BASE_X", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("SMMUX_QCP_CMDQ_BASEX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMMUX_QCP_CMDQ_BASE_X(a,b) cavm_smmux_qcp_cmdq_base_x_t
-#define bustype_CAVM_SMMUX_QCP_CMDQ_BASE_X(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_QCP_CMDQ_BASE_X(a,b) "SMMUX_QCP_CMDQ_BASE_X"
-#define device_bar_CAVM_SMMUX_QCP_CMDQ_BASE_X(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_QCP_CMDQ_BASE_X(a,b) (a)
-#define arguments_CAVM_SMMUX_QCP_CMDQ_BASE_X(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SMMUX_QCP_CMDQ_BASEX(a,b) cavm_smmux_qcp_cmdq_basex_t
+#define bustype_CAVM_SMMUX_QCP_CMDQ_BASEX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_QCP_CMDQ_BASEX(a,b) "SMMUX_QCP_CMDQ_BASEX"
+#define device_bar_CAVM_SMMUX_QCP_CMDQ_BASEX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_QCP_CMDQ_BASEX(a,b) (a)
+#define arguments_CAVM_SMMUX_QCP_CMDQ_BASEX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) smmu#_qcp_cmdq_cons_#
+ * Register (NCB32b) smmu#_qcp_cmdq_cons#
  *
  * SMMU Enhance Command Queue Consumer Register
  */
-union cavm_smmux_qcp_cmdq_cons_x
+union cavm_smmux_qcp_cmdq_consx
 {
     uint32_t u;
-    struct cavm_smmux_qcp_cmdq_cons_x_s
+    struct cavm_smmux_qcp_cmdq_consx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -4888,34 +4888,34 @@ union cavm_smmux_qcp_cmdq_cons_x
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smmux_qcp_cmdq_cons_x_s cn; */
+    /* struct cavm_smmux_qcp_cmdq_consx_s cn; */
 };
-typedef union cavm_smmux_qcp_cmdq_cons_x cavm_smmux_qcp_cmdq_cons_x_t;
+typedef union cavm_smmux_qcp_cmdq_consx cavm_smmux_qcp_cmdq_consx_t;
 
-static inline uint64_t CAVM_SMMUX_QCP_CMDQ_CONS_X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_QCP_CMDQ_CONS_X(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SMMUX_QCP_CMDQ_CONSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_QCP_CMDQ_CONSX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=63))
         return 0x83000000180cll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
-    __cavm_csr_fatal("SMMUX_QCP_CMDQ_CONS_X", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("SMMUX_QCP_CMDQ_CONSX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMMUX_QCP_CMDQ_CONS_X(a,b) cavm_smmux_qcp_cmdq_cons_x_t
-#define bustype_CAVM_SMMUX_QCP_CMDQ_CONS_X(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_QCP_CMDQ_CONS_X(a,b) "SMMUX_QCP_CMDQ_CONS_X"
-#define device_bar_CAVM_SMMUX_QCP_CMDQ_CONS_X(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_QCP_CMDQ_CONS_X(a,b) (a)
-#define arguments_CAVM_SMMUX_QCP_CMDQ_CONS_X(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SMMUX_QCP_CMDQ_CONSX(a,b) cavm_smmux_qcp_cmdq_consx_t
+#define bustype_CAVM_SMMUX_QCP_CMDQ_CONSX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_QCP_CMDQ_CONSX(a,b) "SMMUX_QCP_CMDQ_CONSX"
+#define device_bar_CAVM_SMMUX_QCP_CMDQ_CONSX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_QCP_CMDQ_CONSX(a,b) (a)
+#define arguments_CAVM_SMMUX_QCP_CMDQ_CONSX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) smmu#_qcp_cmdq_prod_#
+ * Register (NCB32b) smmu#_qcp_cmdq_prod#
  *
  * SMMU Enhance Command Queue Producer Register
  */
-union cavm_smmux_qcp_cmdq_prod_x
+union cavm_smmux_qcp_cmdq_prodx
 {
     uint32_t u;
-    struct cavm_smmux_qcp_cmdq_prod_x_s
+    struct cavm_smmux_qcp_cmdq_prodx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
@@ -4927,24 +4927,24 @@ union cavm_smmux_qcp_cmdq_prod_x
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smmux_qcp_cmdq_prod_x_s cn; */
+    /* struct cavm_smmux_qcp_cmdq_prodx_s cn; */
 };
-typedef union cavm_smmux_qcp_cmdq_prod_x cavm_smmux_qcp_cmdq_prod_x_t;
+typedef union cavm_smmux_qcp_cmdq_prodx cavm_smmux_qcp_cmdq_prodx_t;
 
-static inline uint64_t CAVM_SMMUX_QCP_CMDQ_PROD_X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_QCP_CMDQ_PROD_X(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SMMUX_QCP_CMDQ_PRODX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_QCP_CMDQ_PRODX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=63))
         return 0x830000001808ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
-    __cavm_csr_fatal("SMMUX_QCP_CMDQ_PROD_X", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("SMMUX_QCP_CMDQ_PRODX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMMUX_QCP_CMDQ_PROD_X(a,b) cavm_smmux_qcp_cmdq_prod_x_t
-#define bustype_CAVM_SMMUX_QCP_CMDQ_PROD_X(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_QCP_CMDQ_PROD_X(a,b) "SMMUX_QCP_CMDQ_PROD_X"
-#define device_bar_CAVM_SMMUX_QCP_CMDQ_PROD_X(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_QCP_CMDQ_PROD_X(a,b) (a)
-#define arguments_CAVM_SMMUX_QCP_CMDQ_PROD_X(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SMMUX_QCP_CMDQ_PRODX(a,b) cavm_smmux_qcp_cmdq_prodx_t
+#define bustype_CAVM_SMMUX_QCP_CMDQ_PRODX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_QCP_CMDQ_PRODX(a,b) "SMMUX_QCP_CMDQ_PRODX"
+#define device_bar_CAVM_SMMUX_QCP_CMDQ_PRODX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_QCP_CMDQ_PRODX(a,b) (a)
+#define arguments_CAVM_SMMUX_QCP_CMDQ_PRODX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) smmu#_s_agbpa

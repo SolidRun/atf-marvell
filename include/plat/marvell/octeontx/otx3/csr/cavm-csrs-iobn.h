@@ -25,9 +25,9 @@
  * IOBN Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(a) (0x87e0f0000000ll + 0x1000000ll * (a))
+#define CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(a) (0x87e120000000ll + 0x1000000ll * (a))
 #define CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE 0x100000ull
-#define CAVM_IOBN_BAR_E_IOBNX_PF_BAR4(a) (0x87e0f0f00000ll + 0x1000000ll * (a))
+#define CAVM_IOBN_BAR_E_IOBNX_PF_BAR4(a) (0x87e120f00000ll + 0x1000000ll * (a))
 #define CAVM_IOBN_BAR_E_IOBNX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -1001,8 +1001,8 @@ typedef union cavm_iobnx_bp_testx cavm_iobnx_bp_testx_t;
 static inline uint64_t CAVM_IOBNX_BP_TESTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_BP_TESTX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=5))
-        return 0x87e0f0083800ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if ((a<=2) && (b<=5))
+        return 0x87e120083800ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("IOBNX_BP_TESTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1024,7 +1024,9 @@ union cavm_iobnx_cfg0
     struct cavm_iobnx_cfg0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_12_63        : 52;
+        uint64_t clken                 : 4;  /**< [ 11:  8](R/W) Force the NCBO clock enable to be always on. For diagnostic use only.
+                                                                 Each bit is control for a given NCB bus, where bit 8 is for NCB bus 0 and bit 11 is for NCB bus 3. */
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
                                                                  [5] == NCB1, [5] == NCB1, [7] == NCB1 */
         uint64_t force_immx_sclk_cond_clk_en : 1;/**< [  3:  3](R/W) Force on IMMX clocks. For diagnostic use only. */
@@ -1038,7 +1040,9 @@ union cavm_iobnx_cfg0
         uint64_t force_immx_sclk_cond_clk_en : 1;/**< [  3:  3](R/W) Force on IMMX clocks. For diagnostic use only. */
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
                                                                  [5] == NCB1, [5] == NCB1, [7] == NCB1 */
-        uint64_t reserved_8_63         : 56;
+        uint64_t clken                 : 4;  /**< [ 11:  8](R/W) Force the NCBO clock enable to be always on. For diagnostic use only.
+                                                                 Each bit is control for a given NCB bus, where bit 8 is for NCB bus 0 and bit 11 is for NCB bus 3. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_cfg0_s cn; */
@@ -1048,8 +1052,8 @@ typedef union cavm_iobnx_cfg0 cavm_iobnx_cfg0_t;
 static inline uint64_t CAVM_IOBNX_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_CFG0(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120002000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1105,8 +1109,8 @@ typedef union cavm_iobnx_cfg1 cavm_iobnx_cfg1_t;
 static inline uint64_t CAVM_IOBNX_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_CFG1(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0082010ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120082010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1208,8 +1212,8 @@ typedef union cavm_iobnx_dll cavm_iobnx_dll_t;
 static inline uint64_t CAVM_IOBNX_DLL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_DLL(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f00b0180ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_DLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1311,8 +1315,8 @@ typedef union cavm_iobnx_domx_busx_streams cavm_iobnx_domx_busx_streams_t;
 static inline uint64_t CAVM_IOBNX_DOMX_BUSX_STREAMS(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_DOMX_BUSX_STREAMS(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=14) && (c<=255))
-        return 0x87e0f0040000ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
+    if ((a<=2) && (b<=14) && (c<=255))
+        return 0x87e120040000ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("IOBNX_DOMX_BUSX_STREAMS", 3, a, b, c, 0, 0, 0);
 }
 
@@ -1410,8 +1414,8 @@ typedef union cavm_iobnx_domx_devx_streams cavm_iobnx_domx_devx_streams_t;
 static inline uint64_t CAVM_IOBNX_DOMX_DEVX_STREAMS(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_DOMX_DEVX_STREAMS(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=14) && (c<=31))
-        return 0x87e0f0010000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xf) + 8ll * ((c) & 0x1f);
+    if ((a<=2) && (b<=14) && (c<=31))
+        return 0x87e120010000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xf) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("IOBNX_DOMX_DEVX_STREAMS", 3, a, b, c, 0, 0, 0);
 }
 
@@ -1445,8 +1449,8 @@ typedef union cavm_iobnx_eco_rclk cavm_iobnx_eco_rclk_t;
 static inline uint64_t CAVM_IOBNX_ECO_RCLK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_ECO_RCLK(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0083038ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120083038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_ECO_RCLK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1480,8 +1484,8 @@ typedef union cavm_iobnx_eco_sclk cavm_iobnx_eco_sclk_t;
 static inline uint64_t CAVM_IOBNX_ECO_SCLK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_ECO_SCLK(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0003030ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120003030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_ECO_SCLK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1522,8 +1526,8 @@ typedef union cavm_iobnx_err_ena cavm_iobnx_err_ena_t;
 static inline uint64_t CAVM_IOBNX_ERR_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_ERR_ENA(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0083080ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120083080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_ERR_ENA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1588,8 +1592,8 @@ typedef union cavm_iobnx_ill_bptest_sel cavm_iobnx_ill_bptest_sel_t;
 static inline uint64_t CAVM_IOBNX_ILL_BPTEST_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_ILL_BPTEST_SEL(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0083098ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120083098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_ILL_BPTEST_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1638,8 +1642,8 @@ typedef union cavm_iobnx_inb_err_status cavm_iobnx_inb_err_status_t;
 static inline uint64_t CAVM_IOBNX_INB_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_INB_ERR_STATUS(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0083088ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120083088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_INB_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1663,39 +1667,39 @@ union cavm_iobnx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_TO]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
+        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
+        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_TO]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..3)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_TO]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
+        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
+        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
@@ -1706,8 +1710,8 @@ typedef union cavm_iobnx_int_ena_w1c cavm_iobnx_int_ena_w1c_t;
 static inline uint64_t CAVM_IOBNX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0088000ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120088000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1731,39 +1735,39 @@ union cavm_iobnx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_TO]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
+        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
+        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_TO]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..3)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_TO]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
+        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
+        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
@@ -1774,8 +1778,8 @@ typedef union cavm_iobnx_int_ena_w1s cavm_iobnx_int_ena_w1s_t;
 static inline uint64_t CAVM_IOBNX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0089000ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120089000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1845,8 +1849,8 @@ typedef union cavm_iobnx_int_sum cavm_iobnx_int_sum_t;
 static inline uint64_t CAVM_IOBNX_INT_SUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_INT_SUM(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0086000ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120086000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1870,39 +1874,39 @@ union cavm_iobnx_int_sum_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_TO]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
+        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
+        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_TO]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..3)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_TO]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
+        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
+        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
@@ -1913,8 +1917,8 @@ typedef union cavm_iobnx_int_sum_w1s cavm_iobnx_int_sum_w1s_t;
 static inline uint64_t CAVM_IOBNX_INT_SUM_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_INT_SUM_W1S(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0087000ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120087000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1951,8 +1955,8 @@ typedef union cavm_iobnx_msix_pbax cavm_iobnx_msix_pbax_t;
 static inline uint64_t CAVM_IOBNX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b==0))
-        return 0x87e0f0ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x87e120ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2035,8 +2039,8 @@ typedef union cavm_iobnx_msix_vecx_addr cavm_iobnx_msix_vecx_addr_t;
 static inline uint64_t CAVM_IOBNX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b==0))
-        return 0x87e0f0f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x87e120f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2075,8 +2079,8 @@ typedef union cavm_iobnx_msix_vecx_ctl cavm_iobnx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_IOBNX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b==0))
-        return 0x87e0f0f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x87e120f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2127,8 +2131,8 @@ typedef union cavm_iobnx_ncbx_acc cavm_iobnx_ncbx_acc_t;
 static inline uint64_t CAVM_IOBNX_NCBX_ACC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_NCBX_ACC(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=255))
-        return 0x87e0f00c0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if ((a<=2) && (b<=255))
+        return 0x87e1200c0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("IOBNX_NCBX_ACC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2177,8 +2181,8 @@ typedef union cavm_iobnx_ncbx_mrml_permit_shadow cavm_iobnx_ncbx_mrml_permit_sha
 static inline uint64_t CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=255))
-        return 0x87e0f00d0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if ((a<=2) && (b<=255))
+        return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("IOBNX_NCBX_MRML_PERMIT_SHADOW", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2215,8 +2219,8 @@ typedef union cavm_iobnx_ncbix_cr_err_status cavm_iobnx_ncbix_cr_err_status_t;
 static inline uint64_t CAVM_IOBNX_NCBIX_CR_ERR_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_NCBIX_CR_ERR_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
-        return 0x87e0f0000100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x87e120000100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBIX_CR_ERR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2255,8 +2259,8 @@ typedef union cavm_iobnx_ncbox_cr_err_status cavm_iobnx_ncbox_cr_err_status_t;
 static inline uint64_t CAVM_IOBNX_NCBOX_CR_ERR_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_NCBOX_CR_ERR_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
-        return 0x87e0f0000120ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x87e120000120ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBOX_CR_ERR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2298,8 +2302,8 @@ typedef union cavm_iobnx_ncbox_psn_status cavm_iobnx_ncbox_psn_status_t;
 static inline uint64_t CAVM_IOBNX_NCBOX_PSN_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_NCBOX_PSN_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
-        return 0x87e0f0003040ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x87e120003040ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBOX_PSN_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2309,48 +2313,6 @@ static inline uint64_t CAVM_IOBNX_NCBOX_PSN_STATUS(uint64_t a, uint64_t b)
 #define device_bar_CAVM_IOBNX_NCBOX_PSN_STATUS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_IOBNX_NCBOX_PSN_STATUS(a,b) (a)
 #define arguments_CAVM_IOBNX_NCBOX_PSN_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) iobn#_ncbo_ctl
- *
- * IOBN NCBO control Registers
- * This register set controls for NCBO processing.
- */
-union cavm_iobnx_ncbo_ctl
-{
-    uint64_t u;
-    struct cavm_iobnx_ncbo_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t clken                 : 3;  /**< [  6:  4](R/W) Force the NCBO clock enable to be always on. For diagnostic use only.
-                                                                 Each bit is control for a given NCB bus, where bit 4 is for NCB bus 0 and bit 6 is for NCB bus 2. */
-        uint64_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t clken                 : 3;  /**< [  6:  4](R/W) Force the NCBO clock enable to be always on. For diagnostic use only.
-                                                                 Each bit is control for a given NCB bus, where bit 4 is for NCB bus 0 and bit 6 is for NCB bus 2. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_ncbo_ctl_s cn; */
-};
-typedef union cavm_iobnx_ncbo_ctl cavm_iobnx_ncbo_ctl_t;
-
-static inline uint64_t CAVM_IOBNX_NCBO_CTL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_NCBO_CTL(uint64_t a)
-{
-    if (a<=3)
-        return 0x87e0f0082200ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("IOBNX_NCBO_CTL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_NCBO_CTL(a) cavm_iobnx_ncbo_ctl_t
-#define bustype_CAVM_IOBNX_NCBO_CTL(a) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_NCBO_CTL(a) "IOBNX_NCBO_CTL"
-#define device_bar_CAVM_IOBNX_NCBO_CTL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_NCBO_CTL(a) (a)
-#define arguments_CAVM_IOBNX_NCBO_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) iobn#_ncbo_to
@@ -2384,8 +2346,8 @@ typedef union cavm_iobnx_ncbo_to cavm_iobnx_ncbo_to_t;
 static inline uint64_t CAVM_IOBNX_NCBO_TO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_NCBO_TO(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0000008ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120000008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBO_TO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2427,8 +2389,8 @@ typedef union cavm_iobnx_ncbo_to_errx cavm_iobnx_ncbo_to_errx_t;
 static inline uint64_t CAVM_IOBNX_NCBO_TO_ERRX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_NCBO_TO_ERRX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
-        return 0x87e0f00a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x87e1200a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBO_TO_ERRX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2475,8 +2437,8 @@ typedef union cavm_iobnx_outb_err_status cavm_iobnx_outb_err_status_t;
 static inline uint64_t CAVM_IOBNX_OUTB_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_OUTB_ERR_STATUS(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0083090ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120083090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_OUTB_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2514,8 +2476,8 @@ typedef union cavm_iobnx_psn_ctl cavm_iobnx_psn_ctl_t;
 static inline uint64_t CAVM_IOBNX_PSN_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_PSN_CTL(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0083050ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120083050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_PSN_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2549,8 +2511,8 @@ typedef union cavm_iobnx_rperf_cntrx cavm_iobnx_rperf_cntrx_t;
 static inline uint64_t CAVM_IOBNX_RPERF_CNTRX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_RPERF_CNTRX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
-        return 0x87e0f00b0080ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x87e1200b0080ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_RPERF_CNTRX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2629,8 +2591,8 @@ typedef union cavm_iobnx_rperf_ctrlx cavm_iobnx_rperf_ctrlx_t;
 static inline uint64_t CAVM_IOBNX_RPERF_CTRLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_RPERF_CTRLX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
-        return 0x87e0f00b0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x87e1200b0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_RPERF_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2687,8 +2649,8 @@ typedef union cavm_iobnx_rperf_inrmx cavm_iobnx_rperf_inrmx_t;
 static inline uint64_t CAVM_IOBNX_RPERF_INRMX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_RPERF_INRMX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b==0))
-        return 0x87e0f00b0100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x87e1200b0100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_RPERF_INRMX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2792,8 +2754,8 @@ typedef union cavm_iobnx_rslx_streams cavm_iobnx_rslx_streams_t;
 static inline uint64_t CAVM_IOBNX_RSLX_STREAMS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_RSLX_STREAMS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1023))
-        return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3ff);
+    if ((a<=2) && (b<=1023))
+        return 0x87e120004000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3ff);
     __cavm_csr_fatal("IOBNX_RSLX_STREAMS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2827,8 +2789,8 @@ typedef union cavm_iobnx_scratch cavm_iobnx_scratch_t;
 static inline uint64_t CAVM_IOBNX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_SCRATCH(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f0083020ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e120083020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2864,8 +2826,8 @@ typedef union cavm_iobnx_sow_ord_dis cavm_iobnx_sow_ord_dis_t;
 static inline uint64_t CAVM_IOBNX_SOW_ORD_DIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_IOBNX_SOW_ORD_DIS(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0f00830a0ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x87e1200830a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("IOBNX_SOW_ORD_DIS", 1, a, 0, 0, 0, 0, 0);
 }
 

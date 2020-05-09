@@ -27117,7 +27117,7 @@ static inline uint64_t CAVM_AP_TRCIDRX(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_AP_TRCIDRX(uint64_t a)
 {
     if (a<=13)
-        return 0x020100000600 | (((8-((a>>3)<<3))|(a&7))<<16 | (1-(a>>3))<<8);
+        return 0x020100000600 | ((8-((a>>3)<<3)|(a&7))<<16 | (1-(a>>3))<<8);
     __cavm_csr_fatal("AP_TRCIDRX", 1, a, 0, 0, 0, 0, 0);
 }
 

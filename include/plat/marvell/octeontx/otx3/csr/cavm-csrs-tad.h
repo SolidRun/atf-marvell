@@ -25,10 +25,10 @@
  * TAD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_TAD_BAR_E_TADX_PF_BAR0(a) (0x87e054000000ll + 0x20000ll * (a))
-#define CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE 0x10000ull
-#define CAVM_TAD_BAR_E_TADX_PF_BAR4(a) (0x87e054010000ll + 0x20000ll * (a))
-#define CAVM_TAD_BAR_E_TADX_PF_BAR4_SIZE 0x10000ull
+#define CAVM_TAD_BAR_E_TADX_PF_BAR0(a) (0x87e200000000ll + 0x1000000ll * (a))
+#define CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE 0x800000ull
+#define CAVM_TAD_BAR_E_TADX_PF_BAR4(a) (0x87e200800000ll + 0x1000000ll * (a))
+#define CAVM_TAD_BAR_E_TADX_PF_BAR4_SIZE 0x800000ull
 
 /**
  * Enumeration tad_pf_int_vec_e
@@ -37,6 +37,44 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_TAD_PF_INT_VEC_E_TAD_INT (0)
+
+/**
+ * Register (RSL) tad#_asc_err
+ *
+ * TAD ASC Error Info Register
+ * ASC errors
+ * Internal:
+ * FIXME: Needs to be architected. Compare with T9X CCU_TAD_NXM_ERR.
+ */
+union cavm_tadx_asc_err
+{
+    uint64_t u;
+    struct cavm_tadx_asc_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_asc_err_s cn; */
+};
+typedef union cavm_tadx_asc_err cavm_tadx_asc_err_t;
+
+static inline uint64_t CAVM_TADX_ASC_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_ASC_ERR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e200000040ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("TADX_ASC_ERR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_ASC_ERR(a) cavm_tadx_asc_err_t
+#define bustype_CAVM_TADX_ASC_ERR(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_ASC_ERR(a) "TADX_ASC_ERR"
+#define device_bar_CAVM_TADX_ASC_ERR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_ASC_ERR(a) (a)
+#define arguments_CAVM_TADX_ASC_ERR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tad#_bp_test1
@@ -99,8 +137,8 @@ typedef union cavm_tadx_bp_test1 cavm_tadx_bp_test1_t;
 static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000010ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000010ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_BP_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -172,8 +210,8 @@ typedef union cavm_tadx_bp_test2 cavm_tadx_bp_test2_t;
 static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000018ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000018ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_BP_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -245,8 +283,8 @@ typedef union cavm_tadx_bp_test3 cavm_tadx_bp_test3_t;
 static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000020ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000020ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_BP_TEST3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -318,8 +356,8 @@ typedef union cavm_tadx_bp_test4 cavm_tadx_bp_test4_t;
 static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000028ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000028ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_BP_TEST4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -391,8 +429,8 @@ typedef union cavm_tadx_bp_test5 cavm_tadx_bp_test5_t;
 static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000030ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000030ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_BP_TEST5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -431,8 +469,8 @@ typedef union cavm_tadx_cache_flush_status cavm_tadx_cache_flush_status_t;
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000038ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000038ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_CACHE_FLUSH_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -442,6 +480,140 @@ static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 #define device_bar_CAVM_TADX_CACHE_FLUSH_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TADX_CACHE_FLUSH_STATUS(a) (a)
 #define arguments_CAVM_TADX_CACHE_FLUSH_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad#_dat_err
+ *
+ * TAD DAT Error Info Register
+ * TAD DAT errors
+ * Internal:
+ * FIXME: Needs to be architected. Compare with T9X CCU_TAD_DAT_ERR.
+ * Will there be a separate TAD_XBF_ERR?
+ * Will there be a separate TAD_TAG_ERR?
+ */
+union cavm_tadx_dat_err
+{
+    uint64_t u;
+    struct cavm_tadx_dat_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_dat_err_s cn; */
+};
+typedef union cavm_tadx_dat_err cavm_tadx_dat_err_t;
+
+static inline uint64_t CAVM_TADX_DAT_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_DAT_ERR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e200000048ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("TADX_DAT_ERR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_DAT_ERR(a) cavm_tadx_dat_err_t
+#define bustype_CAVM_TADX_DAT_ERR(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_DAT_ERR(a) "TADX_DAT_ERR"
+#define device_bar_CAVM_TADX_DAT_ERR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_DAT_ERR(a) (a)
+#define arguments_CAVM_TADX_DAT_ERR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad#_dbe_dbg_cnt
+ *
+ * INTERNAL: TAD DBE Detection Counter Registers
+ *
+ * This register keeps track of the number of double-bit errors arriving on the DAT
+ * mesh into the TAD from MSW in saturating counters. For debug purposes only - no
+ * correction.
+ *
+ * Internal:
+ * FIXME: Not really architected yet.
+ */
+union cavm_tadx_dbe_dbg_cnt
+{
+    uint64_t u;
+    struct cavm_tadx_dbe_dbg_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ow3                   : 16; /**< [ 63: 48](R/W/H) Current double-bit error counter value for OW3. */
+        uint64_t ow2                   : 16; /**< [ 47: 32](R/W/H) Current double-bit error counter value for OW2. */
+        uint64_t ow1                   : 16; /**< [ 31: 16](R/W/H) Current double-bit error counter value for OW1. */
+        uint64_t ow0                   : 16; /**< [ 15:  0](R/W/H) Current double-bit error counter value for OW0. */
+#else /* Word 0 - Little Endian */
+        uint64_t ow0                   : 16; /**< [ 15:  0](R/W/H) Current double-bit error counter value for OW0. */
+        uint64_t ow1                   : 16; /**< [ 31: 16](R/W/H) Current double-bit error counter value for OW1. */
+        uint64_t ow2                   : 16; /**< [ 47: 32](R/W/H) Current double-bit error counter value for OW2. */
+        uint64_t ow3                   : 16; /**< [ 63: 48](R/W/H) Current double-bit error counter value for OW3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_dbe_dbg_cnt_s cn; */
+};
+typedef union cavm_tadx_dbe_dbg_cnt cavm_tadx_dbe_dbg_cnt_t;
+
+static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e200000060ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("TADX_DBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_DBE_DBG_CNT(a) cavm_tadx_dbe_dbg_cnt_t
+#define bustype_CAVM_TADX_DBE_DBG_CNT(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_DBE_DBG_CNT(a) "TADX_DBE_DBG_CNT"
+#define device_bar_CAVM_TADX_DBE_DBG_CNT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_DBE_DBG_CNT(a) (a)
+#define arguments_CAVM_TADX_DBE_DBG_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad#_ecc_dbg_en
+ *
+ * INTERNAL: TAD ECC Error Detection Counter Control Registers
+ *
+ * This register enables counting of the number of single and double bit errors on the
+ * DAT mesh coming into the TAD from MSW.
+ * For debug purposes only, no SBE correction.
+ *
+ * Internal:
+ * FIXME: Not really architected yet.
+ */
+union cavm_tadx_ecc_dbg_en
+{
+    uint64_t u;
+    struct cavm_tadx_ecc_dbg_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t sbe                   : 1;  /**< [  1:  1](R/W) Enable counting the number of SBEs seen on the DAT mesh in TAD_SBE_DBG_CNT. */
+        uint64_t dbe                   : 1;  /**< [  0:  0](R/W) Enable counting the number of DBEs seen on the DAT mesh in TAD_DBE_DBG_CNT. */
+#else /* Word 0 - Little Endian */
+        uint64_t dbe                   : 1;  /**< [  0:  0](R/W) Enable counting the number of DBEs seen on the DAT mesh in TAD_DBE_DBG_CNT. */
+        uint64_t sbe                   : 1;  /**< [  1:  1](R/W) Enable counting the number of SBEs seen on the DAT mesh in TAD_SBE_DBG_CNT. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_ecc_dbg_en_s cn; */
+};
+typedef union cavm_tadx_ecc_dbg_en cavm_tadx_ecc_dbg_en_t;
+
+static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e200000050ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("TADX_ECC_DBG_EN", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_ECC_DBG_EN(a) cavm_tadx_ecc_dbg_en_t
+#define bustype_CAVM_TADX_ECC_DBG_EN(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_ECC_DBG_EN(a) "TADX_ECC_DBG_EN"
+#define device_bar_CAVM_TADX_ECC_DBG_EN(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_ECC_DBG_EN(a) (a)
+#define arguments_CAVM_TADX_ECC_DBG_EN(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tad#_eco
@@ -470,8 +642,8 @@ typedef union cavm_tadx_eco cavm_tadx_eco_t;
 static inline uint64_t CAVM_TADX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_ECO(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000008ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000008ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -495,11 +667,11 @@ union cavm_tadx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..31)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..31)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..31)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..31)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[WRNXM]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -510,8 +682,8 @@ typedef union cavm_tadx_int_ena_w1c cavm_tadx_int_ena_w1c_t;
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054008010ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200008010ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -535,11 +707,11 @@ union cavm_tadx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..31)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..31)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..31)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..31)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[WRNXM]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -550,8 +722,8 @@ typedef union cavm_tadx_int_ena_w1s cavm_tadx_int_ena_w1s_t;
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054008018ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200008018ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -590,8 +762,8 @@ typedef union cavm_tadx_int_w1c cavm_tadx_int_w1c_t;
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054008000ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200008000ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -615,11 +787,11 @@ union cavm_tadx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..31)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..31)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..31)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..31)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[WRNXM]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -630,8 +802,8 @@ typedef union cavm_tadx_int_w1s cavm_tadx_int_w1s_t;
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054008008ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200008008ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -669,8 +841,8 @@ typedef union cavm_tadx_mpamx_acnt cavm_tadx_mpamx_acnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_ACNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_ACNT(uint64_t a, uint64_t b)
 {
-    if ((a<=31) && (b<=255))
-        return 0x87e054001000ll + 0x20000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0xff);
+    if ((a<=63) && (b<=255))
+        return 0x87e200001000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("TADX_MPAMX_ACNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -708,8 +880,8 @@ typedef union cavm_tadx_mpamx_hcnt cavm_tadx_mpamx_hcnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_HCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_HCNT(uint64_t a, uint64_t b)
 {
-    if ((a<=31) && (b<=255))
-        return 0x87e054001008ll + 0x20000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0xff);
+    if ((a<=63) && (b<=255))
+        return 0x87e200001008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("TADX_MPAMX_HCNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -719,6 +891,47 @@ static inline uint64_t CAVM_TADX_MPAMX_HCNT(uint64_t a, uint64_t b)
 #define device_bar_CAVM_TADX_MPAMX_HCNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TADX_MPAMX_HCNT(a,b) (a)
 #define arguments_CAVM_TADX_MPAMX_HCNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) tad#_mpam#_rcnt
+ *
+ * TAD Memory Paritioning Resource Count Registers
+ */
+union cavm_tadx_mpamx_rcnt
+{
+    uint64_t u;
+    struct cavm_tadx_mpamx_rcnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
+                                                                 Buffers/IFBs. Decremented when request is deallocated from Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[0] in TAD responses. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
+                                                                 Buffers/IFBs. Decremented when request is deallocated from Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[0] in TAD responses. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_mpamx_rcnt_s cn; */
+};
+typedef union cavm_tadx_mpamx_rcnt cavm_tadx_mpamx_rcnt_t;
+
+static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b)
+{
+    if ((a<=63) && (b<=255))
+        return 0x87e200002000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xff);
+    __cavm_csr_fatal("TADX_MPAMX_RCNT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_MPAMX_RCNT(a,b) cavm_tadx_mpamx_rcnt_t
+#define bustype_CAVM_TADX_MPAMX_RCNT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_TADX_MPAMX_RCNT(a,b) "TADX_MPAMX_RCNT"
+#define device_bar_CAVM_TADX_MPAMX_RCNT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_MPAMX_RCNT(a,b) (a)
+#define arguments_CAVM_TADX_MPAMX_RCNT(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) tad#_msix_pba#
@@ -745,8 +958,8 @@ typedef union cavm_tadx_msix_pbax cavm_tadx_msix_pbax_t;
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=31) && (b==0))
-        return 0x87e054018000ll + 0x20000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
+    if ((a<=63) && (b==0))
+        return 0x87e200808000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -787,8 +1000,8 @@ typedef union cavm_tadx_msix_vecx_addr cavm_tadx_msix_vecx_addr_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=31) && (b==0))
-        return 0x87e054010000ll + 0x20000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
+    if ((a<=63) && (b==0))
+        return 0x87e200800000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -827,8 +1040,8 @@ typedef union cavm_tadx_msix_vecx_ctl cavm_tadx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=31) && (b==0))
-        return 0x87e054010008ll + 0x20000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
+    if ((a<=63) && (b==0))
+        return 0x87e200800008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -838,6 +1051,177 @@ static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_TADX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_TADX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_TADX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) tad#_pfc#
+ *
+ * TAD Performance Counter Registers
+ * Internal:
+ * FIXME: TAD_PRF_SEL_E not yet defined.
+ * FIXME: add attribute: rtlgen_extern: "TAD_PFC"
+ */
+union cavm_tadx_pfcx
+{
+    uint64_t u;
+    struct cavm_tadx_pfcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_pfcx_s cn; */
+};
+typedef union cavm_tadx_pfcx cavm_tadx_pfcx_t;
+
+static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
+{
+    if ((a<=63) && (b<=3))
+        return 0x87e200000800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("TADX_PFCX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_PFCX(a,b) cavm_tadx_pfcx_t
+#define bustype_CAVM_TADX_PFCX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_TADX_PFCX(a,b) "TADX_PFCX"
+#define device_bar_CAVM_TADX_PFCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_PFCX(a,b) (a)
+#define arguments_CAVM_TADX_PFCX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) tad#_prf
+ *
+ * TAD Performance Counter Control Registers
+ * All four counters are equivalent and can use any of the defined selects.
+ * Internal:
+ * FIXME: TAD_PRF_SEL_E not yet defined.
+ */
+union cavm_tadx_prf
+{
+    uint64_t u;
+    struct cavm_tadx_prf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for TAD_PFC(3). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for TAD_PFC(2). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for TAD_PFC(1). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(0). Enumerated by TAD_PRF_SEL_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(0). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for TAD_PFC(1). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for TAD_PFC(2). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for TAD_PFC(3). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_prf_s cn; */
+};
+typedef union cavm_tadx_prf cavm_tadx_prf_t;
+
+static inline uint64_t CAVM_TADX_PRF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_PRF(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e200000068ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("TADX_PRF", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_PRF(a) cavm_tadx_prf_t
+#define bustype_CAVM_TADX_PRF(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_PRF(a) "TADX_PRF"
+#define device_bar_CAVM_TADX_PRF(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_PRF(a) (a)
+#define arguments_CAVM_TADX_PRF(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad#_req_rcnt
+ *
+ * TAD Request Resource Count Registers
+ */
+union cavm_tadx_req_rcnt
+{
+    uint64_t u;
+    struct cavm_tadx_req_rcnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t cnt                   : 7;  /**< [  6:  0](R/W/H) Number of requests stored in Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[1] in TAD responses. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 7;  /**< [  6:  0](R/W/H) Number of requests stored in Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[1] in TAD responses. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_req_rcnt_s cn; */
+};
+typedef union cavm_tadx_req_rcnt cavm_tadx_req_rcnt_t;
+
+static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e200002008ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("TADX_REQ_RCNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_REQ_RCNT(a) cavm_tadx_req_rcnt_t
+#define bustype_CAVM_TADX_REQ_RCNT(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_REQ_RCNT(a) "TADX_REQ_RCNT"
+#define device_bar_CAVM_TADX_REQ_RCNT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_REQ_RCNT(a) (a)
+#define arguments_CAVM_TADX_REQ_RCNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad#_sbe_dbg_cnt
+ *
+ * INTERNAL: TAD SBE Detection Counter Registers
+ *
+ * This register keeps track of the number of single-bit errors arriving on the DAT
+ * mesh into the TAD from MSW in saturating counters. For debug purposes only - no
+ * correction.
+ *
+ * Internal:
+ * FIXME: Not really architected yet.
+ */
+union cavm_tadx_sbe_dbg_cnt
+{
+    uint64_t u;
+    struct cavm_tadx_sbe_dbg_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ow3                   : 16; /**< [ 63: 48](R/W/H) Current single-bit error counter value for OW3. */
+        uint64_t ow2                   : 16; /**< [ 47: 32](R/W/H) Current single-bit error counter value for OW2. */
+        uint64_t ow1                   : 16; /**< [ 31: 16](R/W/H) Current single-bit error counter value for OW1. */
+        uint64_t ow0                   : 16; /**< [ 15:  0](R/W/H) Current single-bit error counter value for OW0. */
+#else /* Word 0 - Little Endian */
+        uint64_t ow0                   : 16; /**< [ 15:  0](R/W/H) Current single-bit error counter value for OW0. */
+        uint64_t ow1                   : 16; /**< [ 31: 16](R/W/H) Current single-bit error counter value for OW1. */
+        uint64_t ow2                   : 16; /**< [ 47: 32](R/W/H) Current single-bit error counter value for OW2. */
+        uint64_t ow3                   : 16; /**< [ 63: 48](R/W/H) Current single-bit error counter value for OW3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_sbe_dbg_cnt_s cn; */
+};
+typedef union cavm_tadx_sbe_dbg_cnt cavm_tadx_sbe_dbg_cnt_t;
+
+static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e200000058ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("TADX_SBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_SBE_DBG_CNT(a) cavm_tadx_sbe_dbg_cnt_t
+#define bustype_CAVM_TADX_SBE_DBG_CNT(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_SBE_DBG_CNT(a) "TADX_SBE_DBG_CNT"
+#define device_bar_CAVM_TADX_SBE_DBG_CNT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_SBE_DBG_CNT(a) (a)
+#define arguments_CAVM_TADX_SBE_DBG_CNT(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tad#_scratch
@@ -867,8 +1251,8 @@ typedef union cavm_tadx_scratch cavm_tadx_scratch_t;
 static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a)
 {
-    if (a<=31)
-        return 0x87e054000000ll + 0x20000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e200000000ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TADX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 

@@ -425,8 +425,8 @@ union cavm_cpc_boot_rom_limit
     struct cavm_cpc_boot_rom_limit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t addr                  : 14; /**< [ 15:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
+        uint32_t reserved_17_31        : 15;
+        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
                                                                  access to a ROM_MEM() address at or above this address will return a "br -1"
                                                                  (branch-to-self) instruction opcode. Writes to this register which attempt to
                                                                  set an [ADDR] greater than the previous [ADDR] setting are ignored.
@@ -434,12 +434,12 @@ union cavm_cpc_boot_rom_limit
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t addr                  : 14; /**< [ 15:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
+        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
                                                                  access to a ROM_MEM() address at or above this address will return a "br -1"
                                                                  (branch-to-self) instruction opcode. Writes to this register which attempt to
                                                                  set an [ADDR] greater than the previous [ADDR] setting are ignored.
                                                                  Address is word aligned. */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cpc_boot_rom_limit_s cn; */
@@ -1118,8 +1118,8 @@ typedef union cavm_cpc_rom_memx cavm_cpc_rom_memx_t;
 static inline uint64_t CAVM_CPC_ROM_MEMX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPC_ROM_MEMX(uint64_t a)
 {
-    if (a<=4095)
-        return 0x86d000010000ll + 8ll * ((a) & 0xfff);
+    if (a<=8191)
+        return 0x86d000010000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("CPC_ROM_MEMX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1146,8 +1146,8 @@ union cavm_cpc_scp_boot_rom_limit
     struct cavm_cpc_scp_boot_rom_limit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t addr                  : 14; /**< [ 15:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
+        uint32_t reserved_17_31        : 15;
+        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
                                                                  access to a ROM_MEM() address at or above this address will return a "br -1"
                                                                  (branch-to-self) instruction opcode. Writes to this register which attempt to
                                                                  set an [ADDR] greater than the previous [ADDR] setting are ignored.
@@ -1155,12 +1155,12 @@ union cavm_cpc_scp_boot_rom_limit
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t addr                  : 14; /**< [ 15:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
+        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
                                                                  access to a ROM_MEM() address at or above this address will return a "br -1"
                                                                  (branch-to-self) instruction opcode. Writes to this register which attempt to
                                                                  set an [ADDR] greater than the previous [ADDR] setting are ignored.
                                                                  Address is word aligned. */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cpc_scp_boot_rom_limit_s cn; */
@@ -1182,7 +1182,7 @@ static inline uint64_t CAVM_CPC_SCP_BOOT_ROM_LIMIT_FUNC(void)
 #define arguments_CAVM_CPC_SCP_BOOT_ROM_LIMIT -1,-1,-1,-1
 
 /**
- * Register (NCB32b) cpc_timer100
+ * Register (NCB) cpc_timer100
  *
  * CPC Timer 100 MHz Register
  * This register contains the common 100 MHz timer register for the XCP cores.
@@ -1193,13 +1193,13 @@ static inline uint64_t CAVM_CPC_SCP_BOOT_ROM_LIMIT_FUNC(void)
  */
 union cavm_cpc_timer100
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_cpc_timer100_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tmr                   : 32; /**< [ 31:  0](R/W/H) Free running count of 100 MHz clock cycles. */
+        uint64_t tmr                   : 64; /**< [ 63:  0](R/W/H) Free running count of 100 MHz clock cycles. */
 #else /* Word 0 - Little Endian */
-        uint32_t tmr                   : 32; /**< [ 31:  0](R/W/H) Free running count of 100 MHz clock cycles. */
+        uint64_t tmr                   : 64; /**< [ 63:  0](R/W/H) Free running count of 100 MHz clock cycles. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cpc_timer100_s cn; */
@@ -1214,7 +1214,7 @@ static inline uint64_t CAVM_CPC_TIMER100_FUNC(void)
 }
 
 #define typedef_CAVM_CPC_TIMER100 cavm_cpc_timer100_t
-#define bustype_CAVM_CPC_TIMER100 CSR_TYPE_NCB32b
+#define bustype_CAVM_CPC_TIMER100 CSR_TYPE_NCB
 #define basename_CAVM_CPC_TIMER100 "CPC_TIMER100"
 #define device_bar_CAVM_CPC_TIMER100 0x0 /* PF_BAR0 */
 #define busnum_CAVM_CPC_TIMER100 0

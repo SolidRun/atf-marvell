@@ -22,7 +22,7 @@
 /**
  * Structure apr_lmt_map_entry_s
  *
- * PF_FUNC LMTLINE region configuration Structure
+ * APR PF_FUNC LMTLINE Region Configuration Structure
  */
 union cavm_apr_lmt_map_entry_s
 {
@@ -30,35 +30,49 @@ union cavm_apr_lmt_map_entry_s
     struct cavm_apr_lmt_map_entry_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t lmtline_base          : 64; /**< [ 63:  0] physical address. Bits 63:48,6:0 must be zero (i.e., 48-bit physical
+        uint64_t lmtline_base          : 64; /**< [ 63:  0] Physical address. Bits 63:48, 6:0 must be zero (i.e., 48-bit physical
                                                                  address, must be 128-byte aligned). */
 #else /* Word 0 - Little Endian */
-        uint64_t lmtline_base          : 64; /**< [ 63:  0] physical address. Bits 63:48,6:0 must be zero (i.e., 48-bit physical
+        uint64_t lmtline_base          : 64; /**< [ 63:  0] Physical address. Bits 63:48, 6:0 must be zero (i.e., 48-bit physical
                                                                  address, must be 128-byte aligned). */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_88_127       : 40;
-        uint64_t dis_sched_early_comp  : 1;  /**< [ 87: 87] When set, disables early completion for Scheduled LMTSTs. */
-        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, Ordered LMTSTs to this PF_FUNC are faulted (CHI NDErr=1). */
+        uint64_t dis_sched_early_comp  : 1;  /**< [ 87: 87] When set, disables early completion for scheduled LMTSTs. */
+        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, ordered LMTSTs to this PF_FUNC are faulted.
+                                                                 Internal:
+                                                                 Sends CHI NDErr=1. */
         uint64_t dis_line_pref         : 1;  /**< [ 85: 85] When set, disables LMTLINE prefetch before receiving store data. */
-        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted (CHI NDErr=1), */
+        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted.
+                                                                 Internal:
+                                                                 Sends CHI NDErr=1. */
         uint64_t reserved_83           : 1;
-        uint64_t num_lmtlines          : 3;  /**< [ 82: 80] number of LMTLINES at [LMTLINE_BASE] is 2^(5+[NUM_LMTLINES]). 0=32 (CAVM),
-                                                                 4=512 (16 cores), 6=2k (64 cores) LMTLINES, other values are
-                                                                 reserved (behavior undefined). */
+        uint64_t num_lmtlines          : 3;  /**< [ 82: 80] Number of LMTLINES at [LMTLINE_BASE]. Expressed in 2^(5+[NUM_LMTLINES]).
+                                                                 0 = 32 LMTLINEs.
+                                                                 4 = 512 LMTLINEs.
+                                                                 6 = 2048 LMTLINEs.
+
+                                                                 Other values are reserved. */
         uint64_t reserved_77_79        : 3;
         uint64_t ssow_pf_func          : 13; /**< [ 76: 64] The SSOW PF_FUNC used for ordering the LMTST with SSO. */
 #else /* Word 1 - Little Endian */
         uint64_t ssow_pf_func          : 13; /**< [ 76: 64] The SSOW PF_FUNC used for ordering the LMTST with SSO. */
         uint64_t reserved_77_79        : 3;
-        uint64_t num_lmtlines          : 3;  /**< [ 82: 80] number of LMTLINES at [LMTLINE_BASE] is 2^(5+[NUM_LMTLINES]). 0=32 (CAVM),
-                                                                 4=512 (16 cores), 6=2k (64 cores) LMTLINES, other values are
-                                                                 reserved (behavior undefined). */
+        uint64_t num_lmtlines          : 3;  /**< [ 82: 80] Number of LMTLINES at [LMTLINE_BASE]. Expressed in 2^(5+[NUM_LMTLINES]).
+                                                                 0 = 32 LMTLINEs.
+                                                                 4 = 512 LMTLINEs.
+                                                                 6 = 2048 LMTLINEs.
+
+                                                                 Other values are reserved. */
         uint64_t reserved_83           : 1;
-        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted (CHI NDErr=1), */
+        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted.
+                                                                 Internal:
+                                                                 Sends CHI NDErr=1. */
         uint64_t dis_line_pref         : 1;  /**< [ 85: 85] When set, disables LMTLINE prefetch before receiving store data. */
-        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, Ordered LMTSTs to this PF_FUNC are faulted (CHI NDErr=1). */
-        uint64_t dis_sched_early_comp  : 1;  /**< [ 87: 87] When set, disables early completion for Scheduled LMTSTs. */
+        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, ordered LMTSTs to this PF_FUNC are faulted.
+                                                                 Internal:
+                                                                 Sends CHI NDErr=1. */
+        uint64_t dis_sched_early_comp  : 1;  /**< [ 87: 87] When set, disables early completion for scheduled LMTSTs. */
         uint64_t reserved_88_127       : 40;
 #endif /* Word 1 - End */
     } s;
@@ -463,37 +477,61 @@ union cavm_apr_af_lmt_cfg
                                                                  recorded, but will not affect transactions issued for the LMTST in any other way. */
         uint64_t ignore_poison_pa      : 1;  /**< [ 13: 13](R/W) When set, poison in CompData fetching an LMTLINE's physical address will be
                                                                  recorded, but will not affect transactions issued for the LMTST in any other way. */
-        uint64_t sec_lmt               : 1;  /**< [ 12: 12](SR/W) When set, the LMT Map and LMTLINE reqgions all reside in secure memory,
-                                                                 otherwise, LMT Map and LMTLINE regions reside in non-secure memory. */
-        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all Scheduled LMTSTs (CHI NDerr=1 for any attempts). */
+        uint64_t sec_lmt               : 1;  /**< [ 12: 12](SR/W) When set, the LMT map and LMTLINE regions all reside in secure memory,
+                                                                 otherwise, LMT map and LMTLINE regions reside in non-secure memory. */
+        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts.
+                                                                 Internal:
+                                                                 Sends CHI NDErr=1. */
         uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, LMTLINE_BASE will not be cached in the LPC. LPC will not be updated or
                                                                  looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is issued with each
                                                                  STEOR/STSMAX. */
         uint64_t gbl_dis_line_pref     : 1;  /**< [  9:  9](R/W) When set disables prefetching of LMTLINE before receiving store data. */
-        uint64_t gbl_dis_sched_early_comp : 1;/**< [  8:  8](R/W) When set disables early completion for Scheduled LMTSTs. */
+        uint64_t gbl_dis_sched_early_comp : 1;/**< [  8:  8](R/W) When set disables early completion for scheduled LMTSTs. */
         uint64_t reserved_7            : 1;
-        uint64_t pfs                   : 3;  /**< [  6:  4](R/W) Log base 2 of the number of PFs that are supported, and impacts the size of the
-                                                                 LMT Map table. 0=1 PF, 1 = 2 PFs, ..., 5=32 PFs. values greater than 5 are
-                                                                 reserved/undefined. */
-        uint64_t funcs                 : 4;  /**< [  3:  0](R/W) Log base 2 of the number of FUNCs per PF that are supported, and impacts the
-                                                                 size of te LMT Map table. 0=1 Func-per-PF, 4=16 FUNCs-per-PF, 6=64 FUNCs-per-PF,
-                                                                 8 = 256 FUNCs-per-PF, other values are reserved/undefined. */
+        uint64_t pfs                   : 3;  /**< [  6:  4](R/W) Number of PFs that are supported as power-of-two. Also impacts the size of the
+                                                                 LMT map table.
+                                                                     0 = 1 PF.
+                                                                     1 = 2 PFs.
+                                                                     2 = 4 PFs.
+                                                                     3 = 8 PFs.
+                                                                     4 = 16 PFs.
+                                                                     5 = 32 PFs.
+                                                                     _ else Reserved. */
+        uint64_t funcs                 : 4;  /**< [  3:  0](R/W) Nmber of FUNCs per PF that are supported as power-of-two. Also impacts the
+                                                                 size of te LMT map table.
+                                                                     0 = 1 Function per PF.
+                                                                     4 = 16 Functions per PF.
+                                                                     6 = 64 Functions per PF.
+                                                                     8 = 256 Functions per PF.
+                                                                     _ else Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t funcs                 : 4;  /**< [  3:  0](R/W) Log base 2 of the number of FUNCs per PF that are supported, and impacts the
-                                                                 size of te LMT Map table. 0=1 Func-per-PF, 4=16 FUNCs-per-PF, 6=64 FUNCs-per-PF,
-                                                                 8 = 256 FUNCs-per-PF, other values are reserved/undefined. */
-        uint64_t pfs                   : 3;  /**< [  6:  4](R/W) Log base 2 of the number of PFs that are supported, and impacts the size of the
-                                                                 LMT Map table. 0=1 PF, 1 = 2 PFs, ..., 5=32 PFs. values greater than 5 are
-                                                                 reserved/undefined. */
+        uint64_t funcs                 : 4;  /**< [  3:  0](R/W) Nmber of FUNCs per PF that are supported as power-of-two. Also impacts the
+                                                                 size of te LMT map table.
+                                                                     0 = 1 Function per PF.
+                                                                     4 = 16 Functions per PF.
+                                                                     6 = 64 Functions per PF.
+                                                                     8 = 256 Functions per PF.
+                                                                     _ else Reserved. */
+        uint64_t pfs                   : 3;  /**< [  6:  4](R/W) Number of PFs that are supported as power-of-two. Also impacts the size of the
+                                                                 LMT map table.
+                                                                     0 = 1 PF.
+                                                                     1 = 2 PFs.
+                                                                     2 = 4 PFs.
+                                                                     3 = 8 PFs.
+                                                                     4 = 16 PFs.
+                                                                     5 = 32 PFs.
+                                                                     _ else Reserved. */
         uint64_t reserved_7            : 1;
-        uint64_t gbl_dis_sched_early_comp : 1;/**< [  8:  8](R/W) When set disables early completion for Scheduled LMTSTs. */
+        uint64_t gbl_dis_sched_early_comp : 1;/**< [  8:  8](R/W) When set disables early completion for scheduled LMTSTs. */
         uint64_t gbl_dis_line_pref     : 1;  /**< [  9:  9](R/W) When set disables prefetching of LMTLINE before receiving store data. */
         uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, LMTLINE_BASE will not be cached in the LPC. LPC will not be updated or
                                                                  looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is issued with each
                                                                  STEOR/STSMAX. */
-        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all Scheduled LMTSTs (CHI NDerr=1 for any attempts). */
-        uint64_t sec_lmt               : 1;  /**< [ 12: 12](SR/W) When set, the LMT Map and LMTLINE reqgions all reside in secure memory,
-                                                                 otherwise, LMT Map and LMTLINE regions reside in non-secure memory. */
+        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts.
+                                                                 Internal:
+                                                                 Sends CHI NDErr=1. */
+        uint64_t sec_lmt               : 1;  /**< [ 12: 12](SR/W) When set, the LMT map and LMTLINE regions all reside in secure memory,
+                                                                 otherwise, LMT map and LMTLINE regions reside in non-secure memory. */
         uint64_t ignore_poison_pa      : 1;  /**< [ 13: 13](R/W) When set, poison in CompData fetching an LMTLINE's physical address will be
                                                                  recorded, but will not affect transactions issued for the LMTST in any other way. */
         uint64_t ignore_resperr_pa     : 1;  /**< [ 14: 14](R/W) When set, RespErr in CompData fetching an LMTLINE's physical address will be
@@ -571,13 +609,14 @@ static inline uint64_t CAVM_APR_AF_LMT_CTL_FUNC(void)
  * Register (RVU_PF_BAR0) apr_af_lmt_map_base
  *
  * APR AF LMT Map Base Address Register
- * Base address of LMT map table.
- * Table contains [PFS]x[FUNCS] entries of 16 bytes each (128 KB total), with each
- * entry formatted as APR_LMT_MAP_ENTRY_S.
- * Table is indexed by a (PF, FUNC) extracted from the address of an LMTST.
- * Note that RVU_PF_FUNC_S defines a 16-bit PF_FUNC with 6-bit PF and 10-bit FUNC, but
- * in practice 10xxx addresses only contain a 5-bit PF and 8-bit FUNC.
- * The APR_AF_LMT_CFG[PFS,FUNCS] fields further restrict the bitwidth of the PF and FUNC fields.
+ * Base address of LMT map table. The table contains APR_AF_LMT_CFG[PFS] *
+ * APR_AF_LMT_CFG[FUNCS] entries of 16 bytes each (128 KB total), with each entry
+ * formatted as APR_LMT_MAP_ENTRY_S.
+ *
+ * The table is indexed by a (PF, FUNC) extracted from the address of an LMTST.  Note
+ * that RVU_PF_FUNC_S defines a 16-bit PF_FUNC with 6-bit PF and 10-bit FUNC, but in
+ * practice CNXXXX addresses only contain a 5-bit PF and 8-bit FUNC, which may be
+ * limited further by the counts in APR_AF_LMT_CFG[PFS,FUNCS].
  */
 union cavm_apr_af_lmt_map_base
 {

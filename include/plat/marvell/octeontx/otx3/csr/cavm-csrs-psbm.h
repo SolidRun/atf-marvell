@@ -55,10 +55,10 @@
  * PSBM SYS Slave Enumeration
  * Enumerates the PSB system slave identifiers.
  */
-#define CAVM_PSBM_SYS_MAP_E_CPTX(a) (0xd + (a))
-#define CAVM_PSBM_SYS_MAP_E_GSERX(a) (5 + (a))
-#define CAVM_PSBM_SYS_MAP_E_IOBX(a) (3 + (a))
+#define CAVM_PSBM_SYS_MAP_E_CPTX(a) (0x10 + (a))
+#define CAVM_PSBM_SYS_MAP_E_GSERX(a) (8 + (a))
 #define CAVM_PSBM_SYS_MAP_E_LMCX(a) (0 + (a))
+#define CAVM_PSBM_SYS_MAP_E_NCBX(a) (3 + (a))
 
 /**
  * Register (NCB32b) psbm_ap#_data#
@@ -96,7 +96,7 @@ typedef union cavm_psbm_apx_datax cavm_psbm_apx_datax_t;
 static inline uint64_t CAVM_PSBM_APX_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_APX_DATAX(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
+    if ((a<=26) && (b<=5))
         return 0x87e0de010000ll + 0x100ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PSBM_APX_DATAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -139,7 +139,7 @@ typedef union cavm_psbm_apx_hdr cavm_psbm_apx_hdr_t;
 static inline uint64_t CAVM_PSBM_APX_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_APX_HDR(uint64_t a)
 {
-    if (a<=23)
+    if (a<=26)
         return 0x87e0de018000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBM_APX_HDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -518,8 +518,8 @@ typedef union cavm_psbm_sysx_datax cavm_psbm_sysx_datax_t;
 static inline uint64_t CAVM_PSBM_SYSX_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_SYSX_DATAX(uint64_t a, uint64_t b)
 {
-    if ((a<=13) && (b<=5))
-        return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
+    if ((a<=16) && (b<=5))
+        return 0x87e0de020000ll + 0x100ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PSBM_SYSX_DATAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -561,8 +561,8 @@ typedef union cavm_psbm_sysx_hdr cavm_psbm_sysx_hdr_t;
 static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a)
 {
-    if (a<=13)
-        return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);
+    if (a<=16)
+        return 0x87e0de028000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSBM_SYSX_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 

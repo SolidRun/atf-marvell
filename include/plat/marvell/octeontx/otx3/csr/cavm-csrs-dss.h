@@ -722,7 +722,7 @@ static inline uint64_t CAVM_DSSX_SAC_CTRL(uint64_t a)
 /**
  * Register (RSL) dss_mct#_cmn_ctrl
  *
- * MCT common control Register
+ * DSS MCT common control Register
  * MCT module common control register for two channels.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
@@ -797,7 +797,7 @@ static inline uint64_t CAVM_DSS_MCTX_CMN_CTRL(uint64_t a)
 /**
  * Register (RSL) dss_mct#_ctrl
  *
- * MCT control Register
+ * DSS MCT control Register
  * MCT module control register.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
@@ -904,7 +904,7 @@ static inline uint64_t CAVM_DSS_MCTX_CTRL(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_data_high
  *
- * MCT SW debug data Register
+ * DSS MCT SW debug data Register
  * Holds the higher bits of the debug data used for the encryption/decryption operation
  * of SW commands.
  */
@@ -943,7 +943,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_HIGH(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_data_low
  *
- * MCT SW debug data Register
+ * DSS MCT SW debug data Register
  * Holds the lower bits of the debug data used for the encryption/decryption operation
  * of SW commands.
  */
@@ -982,7 +982,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_LOW(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_key_high
  *
- * MCT SW debug KEY Register
+ * DSS MCT SW debug KEY Register
  * Holds the higher bits of the debug key used for the encryption/decryption operation
  * of SW commands.
  */
@@ -1021,7 +1021,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_HIGH(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_key_low
  *
- * MCT SW debug KEY Register
+ * DSS MCT SW debug KEY Register
  * Holds the lower bits of the debug key used for the encryption/decryption operation
  * of SW commands.
  */
@@ -1060,7 +1060,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_LOW(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_op_cmd_ctrl
  *
- * MCT SoftWare operation control Register
+ * DSS MCT SoftWare operation control Register
  * This register is RW/HW handshake control, using DBG_* registers SW can initiate
  * encryption / decryption commands to MCT.
  */
@@ -1125,7 +1125,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CMD_CTRL(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_op_ctrl
  *
- * MCT SoftWare operation control Register
+ * DSS MCT SoftWare operation control Register
  * This register is RW/HW handshake control, using DBG_* registers SW can initiate
  * encryption / decryption commands to MCT.
  */
@@ -1174,7 +1174,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CTRL(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_resp_high
  *
- * MCT SW debug response Register
+ * DSS MCT SW debug response Register
  * Holds the higher bits of the debug response data for the
  * encryption/decryption operation of SW commands.
  */
@@ -1213,7 +1213,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_HIGH(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_resp_low
  *
- * MCT SW debug response Register
+ * DSS MCT SW debug response Register
  * Holds the lower bits of the debug response data for the
  * encryption/decryption operation of SW commands.
  */
@@ -1252,7 +1252,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_LOW(uint64_t a)
 /**
  * Register (RSL) dss_mct#_default_win_cfg
  *
- * MCT default window configuration Register
+ * DSS MCT default window configuration Register
  * Defines the default window configuration.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
@@ -1295,7 +1295,7 @@ static inline uint64_t CAVM_DSS_MCTX_DEFAULT_WIN_CFG(uint64_t a)
 /**
  * Register (RSL) dss_mct#_enable
  *
- * MCT enable Register
+ * DSS MCT enable Register
  * MCT block enable register.
  */
 union cavm_dss_mctx_enable
@@ -1339,7 +1339,7 @@ static inline uint64_t CAVM_DSS_MCTX_ENABLE(uint64_t a)
 /**
  * Register (RSL) dss_mct#_int_register
  *
- * MCT Interrupts Register
+ * DSS MCT Interrupts Register
  * This register defines the crypto Interrupts.
  */
 union cavm_dss_mctx_int_register
@@ -1387,7 +1387,7 @@ static inline uint64_t CAVM_DSS_MCTX_INT_REGISTER(uint64_t a)
 /**
  * Register (RSL) dss_mct#_key_hi
  *
- * MCT KEY Register
+ * DSS MCT KEY Register
  * Holds the higher bits of the key used for the encryption/decryption.
  */
 union cavm_dss_mctx_key_hi
@@ -1423,7 +1423,7 @@ static inline uint64_t CAVM_DSS_MCTX_KEY_HI(uint64_t a)
 /**
  * Register (RSL) dss_mct#_key_lo
  *
- * MCT KEY Register
+ * DSS MCT KEY Register
  * Holds the lower bits of the key used for the encryption/decryption.
  */
 union cavm_dss_mctx_key_lo
@@ -1459,7 +1459,7 @@ static inline uint64_t CAVM_DSS_MCTX_KEY_LO(uint64_t a)
 /**
  * Register (RSL) dss_mct#_tmg_param_mc_side
  *
- * MCT timing parameters - MC side Register
+ * DSS MCT timing parameters - MC side Register
  * Timing parameters configured in the memory controller.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
@@ -1534,7 +1534,7 @@ static inline uint64_t CAVM_DSS_MCTX_TMG_PARAM_MC_SIDE(uint64_t a)
 /**
  * Register (RSL) dss_mct#_tmg_param_phy_side
  *
- * MCT timing parameters - PHY side Register
+ * DSS MCT timing parameters - PHY side Register
  * Timing parameters towards PHY on DFI interface.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
@@ -1609,7 +1609,7 @@ static inline uint64_t CAVM_DSS_MCTX_TMG_PARAM_PHY_SIDE(uint64_t a)
 /**
  * Register (RSL) dss_mct#_win_addr_hi#
  *
- * MCT WIN ADDR HI Register
+ * DSS MCT WIN ADDR HI Register
  * This register defines the crypto high address windows.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
@@ -1648,7 +1648,7 @@ static inline uint64_t CAVM_DSS_MCTX_WIN_ADDR_HIX(uint64_t a, uint64_t b)
 /**
  * Register (RSL) dss_mct#_win_addr_lo#
  *
- * MCT WIN ADDR LO Register
+ * DSS MCT WIN ADDR LO Register
  * This register defines the crypto low address windows.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
@@ -1687,7 +1687,7 @@ static inline uint64_t CAVM_DSS_MCTX_WIN_ADDR_LOX(uint64_t a, uint64_t b)
 /**
  * Register (RSL) dss_mct#_win_ctrl#
  *
- * MCT WINDOW CTRL Register
+ * DSS MCT WINDOW CTRL Register
  * This register defines the crypto address windows attributes.
  * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
  */
