@@ -110,9 +110,21 @@ union cavm_rnm_const
     struct cavm_rnm_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_4_63         : 60;
+        uint64_t zucs                  : 4;  /**< [  3:  0](RO) Number of ZUC engines minus one, and corresponding RNM_ZUC()_INIT_LFSR() and
+                                                                 RNM_ZUC()_INIT_NLF() registers.
+
+                                                                 If 0xF, no ZUC engines.
+
+                                                                 For CNXXXX, 0x0, for one set of ZUC engines. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t zucs                  : 4;  /**< [  3:  0](RO) Number of ZUC engines minus one, and corresponding RNM_ZUC()_INIT_LFSR() and
+                                                                 RNM_ZUC()_INIT_NLF() registers.
+
+                                                                 If 0xF, no ZUC engines.
+
+                                                                 For CNXXXX, 0x0, for one set of ZUC engines. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_const_s cn; */

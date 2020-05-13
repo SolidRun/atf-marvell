@@ -3305,7 +3305,8 @@ union cavm_rpmx_cmrx_config
                                                                    -------------------------------------------
                                                                    0                 --        Reserved
                                                                    1                 P2X1      NIX0
-                                                                   2..7              --        Reserved
+                                                                   2                 P2X2      NIX1
+                                                                   3..7              --        Reserved
                                                                  \</pre\> */
         uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects interior side X2P interface over which the LMAC will communicate:
                                                                  \<pre\>
@@ -3313,7 +3314,8 @@ union cavm_rpmx_cmrx_config
                                                                    -------------------------------------------
                                                                    0                 --        Reserved
                                                                    1                 X2P1      NIX0
-                                                                   2..7              --        Reserved
+                                                                   2                 X2P2      NIX1
+                                                                   3..7              --        Reserved
                                                                  \</pre\> */
         uint64_t enable                : 1;  /**< [ 55: 55](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
                                                                  dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
@@ -3528,7 +3530,8 @@ union cavm_rpmx_cmrx_config
                                                                    -------------------------------------------
                                                                    0                 --        Reserved
                                                                    1                 X2P1      NIX0
-                                                                   2..7              --        Reserved
+                                                                   2                 X2P2      NIX1
+                                                                   3..7              --        Reserved
                                                                  \</pre\> */
         uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects interior side P2X interface over which the LMAC will communicate:
                                                                  \<pre\>
@@ -3536,7 +3539,8 @@ union cavm_rpmx_cmrx_config
                                                                    -------------------------------------------
                                                                    0                 --        Reserved
                                                                    1                 P2X1      NIX0
-                                                                   2..7              --        Reserved
+                                                                   2                 P2X2      NIX1
+                                                                   3..7              --        Reserved
                                                                  \</pre\> */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
@@ -6471,26 +6475,26 @@ union cavm_rpmx_cmrx_tx_stat_prix_xoff
                                                                  Counter per class.
                                                                  When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle.
                                                                  Note that When Working in PFC mode (COMMAND_CONFIG.PFC_MODE==1), xoff_gen is affected by:
-                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN.
                                                                  - channel BP from NIX (x2p_bp) - combined with CSRs RX_LOGL_XOFF, RX_LOGL_XON
-                                                                 - enable logic PRT_CBFC_CTL.LOGL_EN_RX[15:0]
+                                                                 - enable logic PRT_CBFC_CTL.LOGL_EN_RX[15:0].
                                                                  When working in Link Pause mode (COMMAND_CONFIG.PFC_MODE==0), xoff_gen is affected by:
-                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
-                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR
-                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP */
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN.
+                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR.
+                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP. */
 #else /* Word 0 - Little Endian */
         uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets, equals
                                                                  number of posedges of xoff_gen bits from CMR.
                                                                  Counter per class.
                                                                  When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle.
                                                                  Note that When Working in PFC mode (COMMAND_CONFIG.PFC_MODE==1), xoff_gen is affected by:
-                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN.
                                                                  - channel BP from NIX (x2p_bp) - combined with CSRs RX_LOGL_XOFF, RX_LOGL_XON
-                                                                 - enable logic PRT_CBFC_CTL.LOGL_EN_RX[15:0]
+                                                                 - enable logic PRT_CBFC_CTL.LOGL_EN_RX[15:0].
                                                                  When working in Link Pause mode (COMMAND_CONFIG.PFC_MODE==0), xoff_gen is affected by:
-                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN
-                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR
-                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP */
+                                                                 - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN.
+                                                                 - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR.
+                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -6793,7 +6797,8 @@ union cavm_rpmx_cmr_global_config
                                                                  ---------------  ---------  ------------------------
                                                                    0..1           --         Reserved
                                                                    2              X2P1       NIX0
-                                                                   3..7           --         Reserved
+                                                                   3              X2P2       NIX1
+                                                                   4..7           --         Reserved
                                                                  \</pre\>
 
                                                                  If the master block connected to X2P interface N is reset, software also needs
@@ -6826,7 +6831,8 @@ union cavm_rpmx_cmr_global_config
                                                                  ---------------  ---------  ------------------------
                                                                    0..1           --         Reserved
                                                                    2              X2P1       NIX0
-                                                                   3..7           --         Reserved
+                                                                   3              X2P2       NIX1
+                                                                   4..7           --         Reserved
                                                                  \</pre\>
 
                                                                  If the master block connected to X2P interface N is reset, software also needs

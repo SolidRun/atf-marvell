@@ -34,9 +34,11 @@
  * TIM Clock Sources Enumeration
  * Enumerates TIM_AF_RING()_CTL1[CLK_SRC].
  */
+#define CAVM_TIM_CLK_SRCS_E_BTS (5)
 #define CAVM_TIM_CLK_SRCS_E_GPIO (1)
 #define CAVM_TIM_CLK_SRCS_E_GTI (2)
 #define CAVM_TIM_CLK_SRCS_E_PTP (3)
+#define CAVM_TIM_CLK_SRCS_E_SYNCE (4)
 #define CAVM_TIM_CLK_SRCS_E_TENNS (0)
 
 /**
@@ -601,6 +603,76 @@ static inline uint64_t CAVM_TIM_AF_BP_TESTX(uint64_t a)
 #define arguments_CAVM_TIM_AF_BP_TESTX(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) tim_af_bts_adjust
+ *
+ * TIM AF BTS Timer Adjust Register
+ */
+union cavm_tim_af_bts_adjust
+{
+    uint64_t u;
+    struct cavm_tim_af_bts_adjust_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the BTS timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the BTS timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_bts_adjust_s cn; */
+};
+typedef union cavm_tim_af_bts_adjust cavm_tim_af_bts_adjust_t;
+
+#define CAVM_TIM_AF_BTS_ADJUST CAVM_TIM_AF_BTS_ADJUST_FUNC()
+static inline uint64_t CAVM_TIM_AF_BTS_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_BTS_ADJUST_FUNC(void)
+{
+    return 0x840090000230ll;
+}
+
+#define typedef_CAVM_TIM_AF_BTS_ADJUST cavm_tim_af_bts_adjust_t
+#define bustype_CAVM_TIM_AF_BTS_ADJUST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_BTS_ADJUST "TIM_AF_BTS_ADJUST"
+#define device_bar_CAVM_TIM_AF_BTS_ADJUST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_BTS_ADJUST 0
+#define arguments_CAVM_TIM_AF_BTS_ADJUST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_timers
+ *
+ * TIM AF capture or lock all (External & internal) timers Register
+ */
+union cavm_tim_af_capture_timers
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_timers_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t lock_timers           : 1;  /**< [  0:  0](R/W) When set it lock all timers including two external timers. */
+#else /* Word 0 - Little Endian */
+        uint64_t lock_timers           : 1;  /**< [  0:  0](R/W) When set it lock all timers including two external timers. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_timers_s cn; */
+};
+typedef union cavm_tim_af_capture_timers cavm_tim_af_capture_timers_t;
+
+#define CAVM_TIM_AF_CAPTURE_TIMERS CAVM_TIM_AF_CAPTURE_TIMERS_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_TIMERS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_TIMERS_FUNC(void)
+{
+    return 0x840090000240ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_TIMERS cavm_tim_af_capture_timers_t
+#define bustype_CAVM_TIM_AF_CAPTURE_TIMERS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_TIMERS "TIM_AF_CAPTURE_TIMERS"
+#define device_bar_CAVM_TIM_AF_CAPTURE_TIMERS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_TIMERS 0
+#define arguments_CAVM_TIM_AF_CAPTURE_TIMERS -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) tim_af_const
  *
  * TIM Const Register
@@ -764,6 +836,40 @@ static inline uint64_t CAVM_TIM_AF_ENGX_ACTIVE(uint64_t a)
 #define arguments_CAVM_TIM_AF_ENGX_ACTIVE(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) tim_af_fr_rn_bts
+ *
+ * TIM Free Running BTS Count Register
+ */
+union cavm_tim_af_fr_rn_bts
+{
+    uint64_t u;
+    struct cavm_tim_af_fr_rn_bts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of BTS cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of BTS cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_fr_rn_bts_s cn; */
+};
+typedef union cavm_tim_af_fr_rn_bts cavm_tim_af_fr_rn_bts_t;
+
+#define CAVM_TIM_AF_FR_RN_BTS CAVM_TIM_AF_FR_RN_BTS_FUNC()
+static inline uint64_t CAVM_TIM_AF_FR_RN_BTS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_FR_RN_BTS_FUNC(void)
+{
+    return 0x840090000150ll;
+}
+
+#define typedef_CAVM_TIM_AF_FR_RN_BTS cavm_tim_af_fr_rn_bts_t
+#define bustype_CAVM_TIM_AF_FR_RN_BTS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_FR_RN_BTS "TIM_AF_FR_RN_BTS"
+#define device_bar_CAVM_TIM_AF_FR_RN_BTS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_FR_RN_BTS 0
+#define arguments_CAVM_TIM_AF_FR_RN_BTS -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) tim_af_fr_rn_cycles
  *
  * TIM AF Free Running Cycle Count Register
@@ -798,6 +904,74 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_CYCLES_FUNC(void)
 #define device_bar_CAVM_TIM_AF_FR_RN_CYCLES 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_FR_RN_CYCLES 0
 #define arguments_CAVM_TIM_AF_FR_RN_CYCLES -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_fr_rn_ext_gti
+ *
+ * TIM External Free Running GTI Count Register
+ */
+union cavm_tim_af_fr_rn_ext_gti
+{
+    uint64_t u;
+    struct cavm_tim_af_fr_rn_ext_gti_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external GTI cycles. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external GTI cycles. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_fr_rn_ext_gti_s cn; */
+};
+typedef union cavm_tim_af_fr_rn_ext_gti cavm_tim_af_fr_rn_ext_gti_t;
+
+#define CAVM_TIM_AF_FR_RN_EXT_GTI CAVM_TIM_AF_FR_RN_EXT_GTI_FUNC()
+static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_GTI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_GTI_FUNC(void)
+{
+    return 0x840090000170ll;
+}
+
+#define typedef_CAVM_TIM_AF_FR_RN_EXT_GTI cavm_tim_af_fr_rn_ext_gti_t
+#define bustype_CAVM_TIM_AF_FR_RN_EXT_GTI CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_FR_RN_EXT_GTI "TIM_AF_FR_RN_EXT_GTI"
+#define device_bar_CAVM_TIM_AF_FR_RN_EXT_GTI 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_FR_RN_EXT_GTI 0
+#define arguments_CAVM_TIM_AF_FR_RN_EXT_GTI -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_fr_rn_ext_mio
+ *
+ * TIM External Free Running MIO Count Register
+ */
+union cavm_tim_af_fr_rn_ext_mio
+{
+    uint64_t u;
+    struct cavm_tim_af_fr_rn_ext_mio_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external MIO cycles. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external MIO cycles. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_fr_rn_ext_mio_s cn; */
+};
+typedef union cavm_tim_af_fr_rn_ext_mio cavm_tim_af_fr_rn_ext_mio_t;
+
+#define CAVM_TIM_AF_FR_RN_EXT_MIO CAVM_TIM_AF_FR_RN_EXT_MIO_FUNC()
+static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_MIO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_MIO_FUNC(void)
+{
+    return 0x840090000160ll;
+}
+
+#define typedef_CAVM_TIM_AF_FR_RN_EXT_MIO cavm_tim_af_fr_rn_ext_mio_t
+#define bustype_CAVM_TIM_AF_FR_RN_EXT_MIO CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_FR_RN_EXT_MIO "TIM_AF_FR_RN_EXT_MIO"
+#define device_bar_CAVM_TIM_AF_FR_RN_EXT_MIO 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_FR_RN_EXT_MIO 0
+#define arguments_CAVM_TIM_AF_FR_RN_EXT_MIO -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_fr_rn_gpios
@@ -904,6 +1078,40 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_PTP_FUNC(void)
 #define arguments_CAVM_TIM_AF_FR_RN_PTP -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) tim_af_fr_rn_synce
+ *
+ * TIM Free Running SYNCE Count Register
+ */
+union cavm_tim_af_fr_rn_synce
+{
+    uint64_t u;
+    struct cavm_tim_af_fr_rn_synce_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_fr_rn_synce_s cn; */
+};
+typedef union cavm_tim_af_fr_rn_synce cavm_tim_af_fr_rn_synce_t;
+
+#define CAVM_TIM_AF_FR_RN_SYNCE CAVM_TIM_AF_FR_RN_SYNCE_FUNC()
+static inline uint64_t CAVM_TIM_AF_FR_RN_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_FR_RN_SYNCE_FUNC(void)
+{
+    return 0x840090000140ll;
+}
+
+#define typedef_CAVM_TIM_AF_FR_RN_SYNCE cavm_tim_af_fr_rn_synce_t
+#define bustype_CAVM_TIM_AF_FR_RN_SYNCE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_FR_RN_SYNCE "TIM_AF_FR_RN_SYNCE"
+#define device_bar_CAVM_TIM_AF_FR_RN_SYNCE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_FR_RN_SYNCE 0
+#define arguments_CAVM_TIM_AF_FR_RN_SYNCE -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) tim_af_fr_rn_tenns
  *
  * TIM AF Free Running 10ns Clock Count Register
@@ -938,6 +1146,74 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_TENNS_FUNC(void)
 #define device_bar_CAVM_TIM_AF_FR_RN_TENNS 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_FR_RN_TENNS 0
 #define arguments_CAVM_TIM_AF_FR_RN_TENNS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_gpio_adjust
+ *
+ * TIM AF GPIO Timer Adjust Register
+ */
+union cavm_tim_af_gpio_adjust
+{
+    uint64_t u;
+    struct cavm_tim_af_gpio_adjust_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GPIO timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GPIO timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_gpio_adjust_s cn; */
+};
+typedef union cavm_tim_af_gpio_adjust cavm_tim_af_gpio_adjust_t;
+
+#define CAVM_TIM_AF_GPIO_ADJUST CAVM_TIM_AF_GPIO_ADJUST_FUNC()
+static inline uint64_t CAVM_TIM_AF_GPIO_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_GPIO_ADJUST_FUNC(void)
+{
+    return 0x840090000190ll;
+}
+
+#define typedef_CAVM_TIM_AF_GPIO_ADJUST cavm_tim_af_gpio_adjust_t
+#define bustype_CAVM_TIM_AF_GPIO_ADJUST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_GPIO_ADJUST "TIM_AF_GPIO_ADJUST"
+#define device_bar_CAVM_TIM_AF_GPIO_ADJUST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_GPIO_ADJUST 0
+#define arguments_CAVM_TIM_AF_GPIO_ADJUST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_gti_adjust
+ *
+ * TIM AF GTI Timer Adjust Register
+ */
+union cavm_tim_af_gti_adjust
+{
+    uint64_t u;
+    struct cavm_tim_af_gti_adjust_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GTI timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GTI timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_gti_adjust_s cn; */
+};
+typedef union cavm_tim_af_gti_adjust cavm_tim_af_gti_adjust_t;
+
+#define CAVM_TIM_AF_GTI_ADJUST CAVM_TIM_AF_GTI_ADJUST_FUNC()
+static inline uint64_t CAVM_TIM_AF_GTI_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_GTI_ADJUST_FUNC(void)
+{
+    return 0x840090000200ll;
+}
+
+#define typedef_CAVM_TIM_AF_GTI_ADJUST cavm_tim_af_gti_adjust_t
+#define bustype_CAVM_TIM_AF_GTI_ADJUST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_GTI_ADJUST "TIM_AF_GTI_ADJUST"
+#define device_bar_CAVM_TIM_AF_GTI_ADJUST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_GTI_ADJUST 0
+#define arguments_CAVM_TIM_AF_GTI_ADJUST -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_lf_rst
@@ -1015,13 +1291,9 @@ union cavm_tim_af_nxt_min_gpios_expire
     struct cavm_tim_af_nxt_min_gpios_expire_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_GPIOS must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_GPIOS must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
-        uint64_t reserved_33_63        : 31;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_nxt_min_gpios_expire_s cn; */
@@ -1053,13 +1325,9 @@ union cavm_tim_af_nxt_min_gti_expire
     struct cavm_tim_af_nxt_min_gti_expire_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_GTI must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_GTI must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
-        uint64_t reserved_33_63        : 31;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_nxt_min_gti_expire_s cn; */
@@ -1091,13 +1359,9 @@ union cavm_tim_af_nxt_min_ptp_expire
     struct cavm_tim_af_nxt_min_ptp_expire_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_PTP must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_PTP must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
-        uint64_t reserved_33_63        : 31;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_nxt_min_ptp_expire_s cn; */
@@ -1129,13 +1393,9 @@ union cavm_tim_af_nxt_min_tenns_expire
     struct cavm_tim_af_nxt_min_tenns_expire_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_TENNS must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_AF_FR_RN_TENNS must reach before the next possible
-                                                                 servicing of rings/buckets. For diagnostic use only. */
-        uint64_t reserved_33_63        : 31;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_nxt_min_tenns_expire_s cn; */
@@ -1157,6 +1417,40 @@ static inline uint64_t CAVM_TIM_AF_NXT_MIN_TENNS_EXPIRE_FUNC(void)
 #define arguments_CAVM_TIM_AF_NXT_MIN_TENNS_EXPIRE -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) tim_af_ptp_adjust
+ *
+ * TIM AF PTP Timer Adjust Register
+ */
+union cavm_tim_af_ptp_adjust
+{
+    uint64_t u;
+    struct cavm_tim_af_ptp_adjust_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the PTP timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the PTP timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_ptp_adjust_s cn; */
+};
+typedef union cavm_tim_af_ptp_adjust cavm_tim_af_ptp_adjust_t;
+
+#define CAVM_TIM_AF_PTP_ADJUST CAVM_TIM_AF_PTP_ADJUST_FUNC()
+static inline uint64_t CAVM_TIM_AF_PTP_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_PTP_ADJUST_FUNC(void)
+{
+    return 0x840090000210ll;
+}
+
+#define typedef_CAVM_TIM_AF_PTP_ADJUST cavm_tim_af_ptp_adjust_t
+#define bustype_CAVM_TIM_AF_PTP_ADJUST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_PTP_ADJUST "TIM_AF_PTP_ADJUST"
+#define device_bar_CAVM_TIM_AF_PTP_ADJUST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_PTP_ADJUST 0
+#define arguments_CAVM_TIM_AF_PTP_ADJUST -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) tim_af_reg_flags
  *
  * TIM AF Flags Register
@@ -1168,7 +1462,9 @@ union cavm_tim_af_reg_flags
     struct cavm_tim_af_reg_flags_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_16_63        : 48;
+        uint64_t dbg_ring_id           : 8;  /**< [ 15:  8](RAZ) Number of a ring, which his SM and controls will be send to OCLA. For diagnostic use only. */
+        uint64_t reserved_7            : 1;
         uint64_t gpio_edge             : 2;  /**< [  6:  5](R/W) Edge used for GPIO timing.
                                                                  0x0 = no edges and the timer tick is not generated.
                                                                  0x1 = TIM counts low-to-high transitions.
@@ -1204,7 +1500,9 @@ union cavm_tim_af_reg_flags
                                                                  0x1 = TIM counts low-to-high transitions.
                                                                  0x2 = TIM counts high-to-low transitions.
                                                                  0x3 = TIM counts both low-to-high and high-to-low transitions. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_7            : 1;
+        uint64_t dbg_ring_id           : 8;  /**< [ 15:  8](RAZ) Number of a ring, which his SM and controls will be send to OCLA. For diagnostic use only. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_reg_flags_s cn; */
@@ -1257,18 +1555,18 @@ union cavm_tim_af_ringx_ctl0
                                                                  If TIM_AF_RING()_CTL1[ENA] = 1, then [EXPIRE_OFFSET] contains the time in the future the next
                                                                  bucket will be serviced.
 
-                                                                 When [EXPIRE_OFFSET] reaches the current time (TIM_AF_FR_RN_TENNS,
-                                                                 TIM_AF_FR_RN_GPIOS, TIM_AF_FR_RN_PTP or TIM_AF_FR_RN_GTI),
+                                                                 When [EXPIRE_OFFSET] reaches the current time (TIM_AF_FR_RN_TENNS, TIM_AF_FR_RN_GPIOS,
+                                                                 TIM_AF_FR_RN_PTP, TIM_AF_FR_RN_GTI, TIM_AF_FR_RN_SYNCE or TIM_AF_FR_RN_BTS),
                                                                  [EXPIRE_OFFSET] is set to the next expiration time (current time plus
                                                                  TIM_AF_RING()_CTL0[INTERVAL]).
 
                                                                  [EXPIRE_OFFSET] is unpredictable after TIM_AF_RING()_CTL1[CLK_SRC] changes or
                                                                  TIM_AF_RING()_CTL1[ENA] transitions from one to zero, and must be reprogrammed before
                                                                  setting or resetting TIM_AF_RING()_CTL1[ENA]. */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI or PTP clocks, or GPIO transitions.
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, SYNCE or BTS clocks transitions.
                                                                  Minimum value is 256 for TENNS, 256 for GPIO, 300 for GTI and PTP rings. */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI or PTP clocks, or GPIO transitions.
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, SYNCE or BTS clocks transitions.
                                                                  Minimum value is 256 for TENNS, 256 for GPIO, 300 for GTI and PTP rings. */
         uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_LF_RING_REL
                                                                  for the position relative to current time.
@@ -1291,8 +1589,8 @@ union cavm_tim_af_ringx_ctl0
                                                                  If TIM_AF_RING()_CTL1[ENA] = 1, then [EXPIRE_OFFSET] contains the time in the future the next
                                                                  bucket will be serviced.
 
-                                                                 When [EXPIRE_OFFSET] reaches the current time (TIM_AF_FR_RN_TENNS,
-                                                                 TIM_AF_FR_RN_GPIOS, TIM_AF_FR_RN_PTP or TIM_AF_FR_RN_GTI),
+                                                                 When [EXPIRE_OFFSET] reaches the current time (TIM_AF_FR_RN_TENNS, TIM_AF_FR_RN_GPIOS,
+                                                                 TIM_AF_FR_RN_PTP, TIM_AF_FR_RN_GTI, TIM_AF_FR_RN_SYNCE or TIM_AF_FR_RN_BTS),
                                                                  [EXPIRE_OFFSET] is set to the next expiration time (current time plus
                                                                  TIM_AF_RING()_CTL0[INTERVAL]).
 
@@ -1333,19 +1631,12 @@ union cavm_tim_af_ringx_ctl1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
         uint64_t be                    : 1;  /**< [ 53: 53](R/W) Ring big-endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
-        uint64_t clk_src               : 2;  /**< [ 52: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
-
-                                                                 1. TIM_AF_RING()_CTL1[ENA] is cleared.
-
-                                                                 2. [CLK_SRC] is changed.
-
-                                                                 3. TIM_AF_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
-
-                                                                 4. TIM_AF_RING()_CTL1[ENA] is set. */
+        uint64_t reserved_51_52        : 2;
         uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will be set, if an
                                                                  engine is currently processing, a ring/bucket. It will remain set until
                                                                  hardware completes traversing that bucket. [ENA] must not be re-enabled until clear. */
-        uint64_t reserved_49           : 1;
+        uint64_t ring_pri              : 1;  /**< [ 49: 49](R/W) If set to 1, ring become high priority and will be processed before any ring with value 0.
+                                                                 If multiple rings are set to high priority then they will be served according to RR. */
         uint64_t lock_en               : 1;  /**< [ 48: 48](R/W) Enables bucket locking mechanism between hardware and software.
                                                                    0 = Hardware will always service the bucket when it expires.
                                                                    1 = Hardware skips buckets when it can't get the bucket's lock. */
@@ -1362,7 +1653,15 @@ union cavm_tim_af_ringx_ctl1
                                                                  Must be clear when [ENA_PRD] is set. */
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to NPA.
                                                                  Must be set when [ENA_PRD] is set. */
-        uint64_t reserved_40_42        : 3;
+        uint64_t clk_src               : 3;  /**< [ 42: 40](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
+
+                                                                 1. TIM_AF_RING()_CTL1[ENA] is cleared.
+
+                                                                 2. [CLK_SRC] is changed.
+
+                                                                 3. TIM_AF_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
+
+                                                                 4. TIM_AF_RING()_CTL1[ENA] is set. */
         uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
                                                                  bucket traversal. */
         uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. [BSIZE] needs to be \> 0x0 and \< 0xFFFFF, i.e., there are at least two
@@ -1372,7 +1671,15 @@ union cavm_tim_af_ringx_ctl1
                                                                  buckets in each nonempty ring. */
         uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
                                                                  bucket traversal. */
-        uint64_t reserved_40_42        : 3;
+        uint64_t clk_src               : 3;  /**< [ 42: 40](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
+
+                                                                 1. TIM_AF_RING()_CTL1[ENA] is cleared.
+
+                                                                 2. [CLK_SRC] is changed.
+
+                                                                 3. TIM_AF_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
+
+                                                                 4. TIM_AF_RING()_CTL1[ENA] is set. */
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to NPA.
                                                                  Must be set when [ENA_PRD] is set. */
         uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of load and don't-write-back when reading timer entry cache lines.
@@ -1389,19 +1696,12 @@ union cavm_tim_af_ringx_ctl1
         uint64_t lock_en               : 1;  /**< [ 48: 48](R/W) Enables bucket locking mechanism between hardware and software.
                                                                    0 = Hardware will always service the bucket when it expires.
                                                                    1 = Hardware skips buckets when it can't get the bucket's lock. */
-        uint64_t reserved_49           : 1;
+        uint64_t ring_pri              : 1;  /**< [ 49: 49](R/W) If set to 1, ring become high priority and will be processed before any ring with value 0.
+                                                                 If multiple rings are set to high priority then they will be served according to RR. */
         uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will be set, if an
                                                                  engine is currently processing, a ring/bucket. It will remain set until
                                                                  hardware completes traversing that bucket. [ENA] must not be re-enabled until clear. */
-        uint64_t clk_src               : 2;  /**< [ 52: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
-
-                                                                 1. TIM_AF_RING()_CTL1[ENA] is cleared.
-
-                                                                 2. [CLK_SRC] is changed.
-
-                                                                 3. TIM_AF_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
-
-                                                                 4. TIM_AF_RING()_CTL1[ENA] is set. */
+        uint64_t reserved_51_52        : 2;
         uint64_t be                    : 1;  /**< [ 53: 53](R/W) Ring big-endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
@@ -1865,6 +2165,109 @@ static inline uint64_t CAVM_TIM_AF_RVU_LF_CFG_DEBUG_FUNC(void)
 #define arguments_CAVM_TIM_AF_RVU_LF_CFG_DEBUG -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) tim_af_synce_adjust
+ *
+ * TIM AF SYNCE Timer Adjust Register
+ */
+union cavm_tim_af_synce_adjust
+{
+    uint64_t u;
+    struct cavm_tim_af_synce_adjust_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the SYNCE timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the SYNCE timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_synce_adjust_s cn; */
+};
+typedef union cavm_tim_af_synce_adjust cavm_tim_af_synce_adjust_t;
+
+#define CAVM_TIM_AF_SYNCE_ADJUST CAVM_TIM_AF_SYNCE_ADJUST_FUNC()
+static inline uint64_t CAVM_TIM_AF_SYNCE_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_SYNCE_ADJUST_FUNC(void)
+{
+    return 0x840090000220ll;
+}
+
+#define typedef_CAVM_TIM_AF_SYNCE_ADJUST cavm_tim_af_synce_adjust_t
+#define bustype_CAVM_TIM_AF_SYNCE_ADJUST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_SYNCE_ADJUST "TIM_AF_SYNCE_ADJUST"
+#define device_bar_CAVM_TIM_AF_SYNCE_ADJUST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_SYNCE_ADJUST 0
+#define arguments_CAVM_TIM_AF_SYNCE_ADJUST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_tenns_adjust
+ *
+ * TIM AF TENNS Timer Adjust Register
+ */
+union cavm_tim_af_tenns_adjust
+{
+    uint64_t u;
+    struct cavm_tim_af_tenns_adjust_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the TENNS timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the TENNS timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_tenns_adjust_s cn; */
+};
+typedef union cavm_tim_af_tenns_adjust cavm_tim_af_tenns_adjust_t;
+
+#define CAVM_TIM_AF_TENNS_ADJUST CAVM_TIM_AF_TENNS_ADJUST_FUNC()
+static inline uint64_t CAVM_TIM_AF_TENNS_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_TENNS_ADJUST_FUNC(void)
+{
+    return 0x840090000180ll;
+}
+
+#define typedef_CAVM_TIM_AF_TENNS_ADJUST cavm_tim_af_tenns_adjust_t
+#define bustype_CAVM_TIM_AF_TENNS_ADJUST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_TENNS_ADJUST "TIM_AF_TENNS_ADJUST"
+#define device_bar_CAVM_TIM_AF_TENNS_ADJUST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_TENNS_ADJUST 0
+#define arguments_CAVM_TIM_AF_TENNS_ADJUST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_bts
+ *
+ * TIM Ring Free Running BTS Count Register
+ * This register is a read-only copy of TIM_AF_FR_RN_BTS.
+ */
+union cavm_tim_lf_fr_rn_bts
+{
+    uint64_t u;
+    struct cavm_tim_lf_fr_rn_bts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_BTS[COUNT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_BTS[COUNT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_fr_rn_bts_s cn; */
+};
+typedef union cavm_tim_lf_fr_rn_bts cavm_tim_lf_fr_rn_bts_t;
+
+#define CAVM_TIM_LF_FR_RN_BTS CAVM_TIM_LF_FR_RN_BTS_FUNC()
+static inline uint64_t CAVM_TIM_LF_FR_RN_BTS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_FR_RN_BTS_FUNC(void)
+{
+    return 0x840200900070ll;
+}
+
+#define typedef_CAVM_TIM_LF_FR_RN_BTS cavm_tim_lf_fr_rn_bts_t
+#define bustype_CAVM_TIM_LF_FR_RN_BTS CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_FR_RN_BTS "TIM_LF_FR_RN_BTS"
+#define device_bar_CAVM_TIM_LF_FR_RN_BTS 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_FR_RN_BTS 0
+#define arguments_CAVM_TIM_LF_FR_RN_BTS -1,-1,-1,-1
+
+/**
  * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_cycles
  *
  * TIM Ring Free Running Cycle Count Register
@@ -2003,6 +2406,41 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_PTP_FUNC(void)
 #define device_bar_CAVM_TIM_LF_FR_RN_PTP 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_TIM_LF_FR_RN_PTP 0
 #define arguments_CAVM_TIM_LF_FR_RN_PTP -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_synce
+ *
+ * TIM Ring Free Running SYNCE Count Register
+ * This register is a read-only copy of TIM_AF_FR_RN_SYNCE.
+ */
+union cavm_tim_lf_fr_rn_synce
+{
+    uint64_t u;
+    struct cavm_tim_lf_fr_rn_synce_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_fr_rn_synce_s cn; */
+};
+typedef union cavm_tim_lf_fr_rn_synce cavm_tim_lf_fr_rn_synce_t;
+
+#define CAVM_TIM_LF_FR_RN_SYNCE CAVM_TIM_LF_FR_RN_SYNCE_FUNC()
+static inline uint64_t CAVM_TIM_LF_FR_RN_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_FR_RN_SYNCE_FUNC(void)
+{
+    return 0x840200900060ll;
+}
+
+#define typedef_CAVM_TIM_LF_FR_RN_SYNCE cavm_tim_lf_fr_rn_synce_t
+#define bustype_CAVM_TIM_LF_FR_RN_SYNCE CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_FR_RN_SYNCE "TIM_LF_FR_RN_SYNCE"
+#define device_bar_CAVM_TIM_LF_FR_RN_SYNCE 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_FR_RN_SYNCE 0
+#define arguments_CAVM_TIM_LF_FR_RN_SYNCE -1,-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_tenns
@@ -2504,31 +2942,31 @@ union cavm_tim_lf_ring_ctl1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
         uint64_t be                    : 1;  /**< [ 53: 53](RO) Read-only TIM_AF_RING(0..255)_CTL1[BE]. */
-        uint64_t clk_src               : 2;  /**< [ 52: 51](RO) Read-only TIM_AF_RING(0..255)_CTL1[CLK_SRC]. */
+        uint64_t reserved_51_52        : 2;
         uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Read-only TIM_AF_RING(0..255)_CTL1[RCF_BUSY]. */
-        uint64_t reserved_49           : 1;
+        uint64_t ring_pri              : 1;  /**< [ 49: 49](RO) Read-only TIM_AF_RING(0..255)_CTL1[RING_PRI]. */
         uint64_t lock_en               : 1;  /**< [ 48: 48](RO) Read-only TIM_AF_RING(0..255)_CTL1[LOCK_EN]. */
         uint64_t ena                   : 1;  /**< [ 47: 47](RO/H) Read-only TIM_AF_RING(0..255)_CTL1[ENA]. */
         uint64_t reserved_46           : 1;
         uint64_t ena_prd               : 1;  /**< [ 45: 45](RO) Read-only TIM_AF_RING(0..255)_CTL1[ENA_PRD]. */
         uint64_t ena_ldwb              : 1;  /**< [ 44: 44](RO) Read-only TIM_AF_RING(0..255)_CTL1[ENA_LDWB]. */
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](RO) Read-only TIM_AF_RING(0..255)_CTL1[ENA_DFB]. */
-        uint64_t reserved_40_42        : 3;
+        uint64_t clk_src               : 3;  /**< [ 42: 40](RO) Read-only TIM_AF_RING(0..255)_CTL1[CLK_SRC]. */
         uint64_t bucket                : 20; /**< [ 39: 20](RO/H) Read-only TIM_AF_RING(0..255)_CTL1[BUCKET]. */
         uint64_t bsize                 : 20; /**< [ 19:  0](RO) Read-only TIM_AF_RING(0..255)_CTL1[BSIZE]. */
 #else /* Word 0 - Little Endian */
         uint64_t bsize                 : 20; /**< [ 19:  0](RO) Read-only TIM_AF_RING(0..255)_CTL1[BSIZE]. */
         uint64_t bucket                : 20; /**< [ 39: 20](RO/H) Read-only TIM_AF_RING(0..255)_CTL1[BUCKET]. */
-        uint64_t reserved_40_42        : 3;
+        uint64_t clk_src               : 3;  /**< [ 42: 40](RO) Read-only TIM_AF_RING(0..255)_CTL1[CLK_SRC]. */
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](RO) Read-only TIM_AF_RING(0..255)_CTL1[ENA_DFB]. */
         uint64_t ena_ldwb              : 1;  /**< [ 44: 44](RO) Read-only TIM_AF_RING(0..255)_CTL1[ENA_LDWB]. */
         uint64_t ena_prd               : 1;  /**< [ 45: 45](RO) Read-only TIM_AF_RING(0..255)_CTL1[ENA_PRD]. */
         uint64_t reserved_46           : 1;
         uint64_t ena                   : 1;  /**< [ 47: 47](RO/H) Read-only TIM_AF_RING(0..255)_CTL1[ENA]. */
         uint64_t lock_en               : 1;  /**< [ 48: 48](RO) Read-only TIM_AF_RING(0..255)_CTL1[LOCK_EN]. */
-        uint64_t reserved_49           : 1;
+        uint64_t ring_pri              : 1;  /**< [ 49: 49](RO) Read-only TIM_AF_RING(0..255)_CTL1[RING_PRI]. */
         uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Read-only TIM_AF_RING(0..255)_CTL1[RCF_BUSY]. */
-        uint64_t clk_src               : 2;  /**< [ 52: 51](RO) Read-only TIM_AF_RING(0..255)_CTL1[CLK_SRC]. */
+        uint64_t reserved_51_52        : 2;
         uint64_t be                    : 1;  /**< [ 53: 53](RO) Read-only TIM_AF_RING(0..255)_CTL1[BE]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
@@ -2615,7 +3053,8 @@ union cavm_tim_lf_ring_rel
                                                                  inserting an entry. */
         uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
                                                                  expiration, calculated as TIM_AF_RING()_CTL0[EXPIRE_OFFSET] minus current time
-                                                                 (TIM_FR_RN_TENNS, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, or TIM_FR_RN_PTP).
+                                                                 (TIM_FR_RN_TENNS, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, TIM_FR_RN_PTP,
+                                                                 TIM_FR_RN_SYNCE or TIM_FR_RN_BTS).
 
                                                                  Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
                                                                  ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the
@@ -2628,7 +3067,8 @@ union cavm_tim_lf_ring_rel
 #else /* Word 0 - Little Endian */
         uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
                                                                  expiration, calculated as TIM_AF_RING()_CTL0[EXPIRE_OFFSET] minus current time
-                                                                 (TIM_FR_RN_TENNS, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, or TIM_FR_RN_PTP).
+                                                                 (TIM_FR_RN_TENNS, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, TIM_FR_RN_PTP,
+                                                                 TIM_FR_RN_SYNCE or TIM_FR_RN_BTS).
 
                                                                  Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
                                                                  ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the

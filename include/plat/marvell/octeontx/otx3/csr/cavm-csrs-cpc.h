@@ -171,9 +171,9 @@ union cavm_cpc_bp_test2_enable_s
  * This structure contains the DVFS configuration options to be used
  * by the power control firmware.  These options are board-specific,
  * and are stored in the manufacturing config region of the board flash.
- * The CAVM init phase reads this data from the flash and passes the
+ * The BDK init phase reads this data from the flash and passes the
  * structure to the SCP_BL1 firmware.  The full documentation is in
- * libcavm-hal/cavm-config-help.c.
+ * libbdk-hal/bdk-config-help.c.
  */
 union cavm_cpc_dvfs_config_s
 {

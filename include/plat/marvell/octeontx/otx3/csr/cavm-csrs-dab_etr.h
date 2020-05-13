@@ -116,8 +116,8 @@ typedef union cavm_etrx_authstatus cavm_etrx_authstatus_t;
 static inline uint64_t CAVM_ETRX_AUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_AUTHSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fb8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fb8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_AUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -168,8 +168,8 @@ typedef union cavm_etrx_busctl cavm_etrx_busctl_t;
 static inline uint64_t CAVM_ETRX_BUSCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_BUSCTL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040110ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040110ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_BUSCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -205,8 +205,8 @@ typedef union cavm_etrx_cidr0 cavm_etrx_cidr0_t;
 static inline uint64_t CAVM_ETRX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_CIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040ff0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040ff0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -244,8 +244,8 @@ typedef union cavm_etrx_cidr1 cavm_etrx_cidr1_t;
 static inline uint64_t CAVM_ETRX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_CIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040ff4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040ff4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -281,8 +281,8 @@ typedef union cavm_etrx_cidr2 cavm_etrx_cidr2_t;
 static inline uint64_t CAVM_ETRX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_CIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040ff8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040ff8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -318,8 +318,8 @@ typedef union cavm_etrx_cidr3 cavm_etrx_cidr3_t;
 static inline uint64_t CAVM_ETRX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_CIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040ffcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040ffcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -367,8 +367,8 @@ typedef union cavm_etrx_claimclr cavm_etrx_claimclr_t;
 static inline uint64_t CAVM_ETRX_CLAIMCLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_CLAIMCLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fa4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fa4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_CLAIMCLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -404,8 +404,8 @@ typedef union cavm_etrx_control cavm_etrx_control_t;
 static inline uint64_t CAVM_ETRX_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_CONTROL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040020ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040020ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -442,8 +442,8 @@ typedef union cavm_etrx_dba cavm_etrx_dba_t;
 static inline uint64_t CAVM_ETRX_DBA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_DBA(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040118ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040118ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_DBA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -467,34 +467,34 @@ union cavm_etrx_devarch
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is
-                                                                     ARM Limited.
+                                                                     Arm Limited.
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For debug, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For debug:
                                                                   Bits [15:12] are the architecture version, 0x8, v8.2.
                                                                   Bits [11:0] are the architecture part number, 0xA15. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For debug:
                                                                   Bits [15:12] are the architecture version, 0x8, v8.2.
                                                                   Bits [11:0] are the architecture part number, 0xA15. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For debug, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is
-                                                                     ARM Limited.
+                                                                     Arm Limited.
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
@@ -506,8 +506,8 @@ typedef union cavm_etrx_devarch cavm_etrx_devarch_t;
 static inline uint64_t CAVM_ETRX_DEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_DEVARCH(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fbcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fbcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_DEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -649,8 +649,8 @@ typedef union cavm_etrx_devid cavm_etrx_devid_t;
 static inline uint64_t CAVM_ETRX_DEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_DEVID(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fc8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fc8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_DEVID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -689,8 +689,8 @@ typedef union cavm_etrx_devtype cavm_etrx_devtype_t;
 static inline uint64_t CAVM_ETRX_DEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_DEVTYPE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fccll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fccll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_DEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -756,8 +756,8 @@ typedef union cavm_etrx_ffcr cavm_etrx_ffcr_t;
 static inline uint64_t CAVM_ETRX_FFCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_FFCR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040304ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040304ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_FFCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -832,8 +832,8 @@ typedef union cavm_etrx_ffsr cavm_etrx_ffsr_t;
 static inline uint64_t CAVM_ETRX_FFSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_FFSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040300ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040300ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_FFSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -872,8 +872,8 @@ typedef union cavm_etrx_irqcr0 cavm_etrx_irqcr0_t;
 static inline uint64_t CAVM_ETRX_IRQCR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_IRQCR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040e80ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040e80ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_IRQCR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -906,8 +906,8 @@ typedef union cavm_etrx_irqcr1 cavm_etrx_irqcr1_t;
 static inline uint64_t CAVM_ETRX_IRQCR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_IRQCR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040e88ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040e88ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_IRQCR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -972,8 +972,8 @@ typedef union cavm_etrx_irqcr2 cavm_etrx_irqcr2_t;
 static inline uint64_t CAVM_ETRX_IRQCR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_IRQCR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040e8cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040e8cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_IRQCR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1022,8 +1022,8 @@ typedef union cavm_etrx_itctrl cavm_etrx_itctrl_t;
 static inline uint64_t CAVM_ETRX_ITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_ITCTRL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040f00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040f00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_ITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1060,8 +1060,8 @@ typedef union cavm_etrx_lar cavm_etrx_lar_t;
 static inline uint64_t CAVM_ETRX_LAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_LAR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fb0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fb0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_LAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1128,8 +1128,8 @@ typedef union cavm_etrx_lsr cavm_etrx_lsr_t;
 static inline uint64_t CAVM_ETRX_LSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_LSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fb4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fb4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_LSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1153,33 +1153,33 @@ union cavm_etrx_mode
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_7_31         : 25;
-        uint32_t stallonstop           : 1;  /**< [  6:  6](R/W) Stall trace input when formatter stops.
-                                                                   0 = Discard trace when stopped.
-                                                                   1 = Do not discard trace when stopped. */
-        uint32_t irqonready            : 1;  /**< [  5:  5](R/W) Interrupt on ready.
+        uint32_t irqonready            : 1;  /**< [  6:  6](R/W) Interrupt on ready.
                                                                    0 = No interrupt generated.
                                                                    1 = Interrupt generated when ETR()_STATUS[TMCREADY] becomes set to one. */
-        uint32_t irqonfull             : 1;  /**< [  4:  4](R/W) Interrupt on full.
+        uint32_t irqonfull             : 1;  /**< [  5:  5](R/W) Interrupt on full.
                                                                    0 = No interrupt generated.
                                                                    1 = Interrupt generated when ETR()_STATUS[FULL] becomes set to one. */
+        uint32_t stallonstop           : 1;  /**< [  4:  4](R/W) Stall trace input when formatter stops.
+                                                                   0 = Discard trace when stopped.
+                                                                   1 = Do not discard trace when stopped. */
         uint32_t reserved_2_3          : 2;
         uint32_t mode                  : 2;  /**< [  1:  0](RO) Select the operation mode:
-                                                                 0x0 = Software FIFO mode. The trace memory is used as a FIFO.
-                                                                 0x1 = Circular buffer mode. The trace memory is used as a circular buffer. */
+                                                                 0x0 = Circular buffer mode. The trace memeory is used as a circular buffer.
+                                                                 0x1 = Software FIFO mode. This mode is not supported by the hardware. */
 #else /* Word 0 - Little Endian */
         uint32_t mode                  : 2;  /**< [  1:  0](RO) Select the operation mode:
-                                                                 0x0 = Software FIFO mode. The trace memory is used as a FIFO.
-                                                                 0x1 = Circular buffer mode. The trace memory is used as a circular buffer. */
+                                                                 0x0 = Circular buffer mode. The trace memeory is used as a circular buffer.
+                                                                 0x1 = Software FIFO mode. This mode is not supported by the hardware. */
         uint32_t reserved_2_3          : 2;
-        uint32_t irqonfull             : 1;  /**< [  4:  4](R/W) Interrupt on full.
-                                                                   0 = No interrupt generated.
-                                                                   1 = Interrupt generated when ETR()_STATUS[FULL] becomes set to one. */
-        uint32_t irqonready            : 1;  /**< [  5:  5](R/W) Interrupt on ready.
-                                                                   0 = No interrupt generated.
-                                                                   1 = Interrupt generated when ETR()_STATUS[TMCREADY] becomes set to one. */
-        uint32_t stallonstop           : 1;  /**< [  6:  6](R/W) Stall trace input when formatter stops.
+        uint32_t stallonstop           : 1;  /**< [  4:  4](R/W) Stall trace input when formatter stops.
                                                                    0 = Discard trace when stopped.
                                                                    1 = Do not discard trace when stopped. */
+        uint32_t irqonfull             : 1;  /**< [  5:  5](R/W) Interrupt on full.
+                                                                   0 = No interrupt generated.
+                                                                   1 = Interrupt generated when ETR()_STATUS[FULL] becomes set to one. */
+        uint32_t irqonready            : 1;  /**< [  6:  6](R/W) Interrupt on ready.
+                                                                   0 = No interrupt generated.
+                                                                   1 = Interrupt generated when ETR()_STATUS[TMCREADY] becomes set to one. */
         uint32_t reserved_7_31         : 25;
 #endif /* Word 0 - End */
     } s;
@@ -1190,8 +1190,8 @@ typedef union cavm_etrx_mode cavm_etrx_mode_t;
 static inline uint64_t CAVM_ETRX_MODE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_MODE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040028ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040028ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_MODE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1227,8 +1227,8 @@ typedef union cavm_etrx_pidr0 cavm_etrx_pidr0_t;
 static inline uint64_t CAVM_ETRX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fe0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fe0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1251,11 +1251,11 @@ union cavm_etrx_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1266,8 +1266,8 @@ typedef union cavm_etrx_pidr1 cavm_etrx_pidr1_t;
 static inline uint64_t CAVM_ETRX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fe4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fe4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1290,13 +1290,13 @@ union cavm_etrx_pidr2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1307,8 +1307,8 @@ typedef union cavm_etrx_pidr2 cavm_etrx_pidr2_t;
 static inline uint64_t CAVM_ETRX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fe8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fe8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1348,8 +1348,8 @@ typedef union cavm_etrx_pidr3 cavm_etrx_pidr3_t;
 static inline uint64_t CAVM_ETRX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fecll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fecll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1374,9 +1374,9 @@ union cavm_etrx_pidr4
         uint32_t reserved_8_31         : 24;
         uint32_t fourkbcount           : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
-        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
 #else /* Word 0 - Little Endian */
-        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
         uint32_t fourkbcount           : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t reserved_8_31         : 24;
@@ -1389,8 +1389,8 @@ typedef union cavm_etrx_pidr4 cavm_etrx_pidr4_t;
 static inline uint64_t CAVM_ETRX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fd0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fd0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1424,8 +1424,8 @@ typedef union cavm_etrx_pidr5 cavm_etrx_pidr5_t;
 static inline uint64_t CAVM_ETRX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fd4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fd4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1459,8 +1459,8 @@ typedef union cavm_etrx_pidr6 cavm_etrx_pidr6_t;
 static inline uint64_t CAVM_ETRX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fd8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fd8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1494,8 +1494,8 @@ typedef union cavm_etrx_pidr7 cavm_etrx_pidr7_t;
 static inline uint64_t CAVM_ETRX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PIDR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fdcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fdcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1543,8 +1543,8 @@ typedef union cavm_etrx_pscr cavm_etrx_pscr_t;
 static inline uint64_t CAVM_ETRX_PSCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PSCR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040308ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040308ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PSCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1588,8 +1588,8 @@ typedef union cavm_etrx_pwrcontrol cavm_etrx_pwrcontrol_t;
 static inline uint64_t CAVM_ETRX_PWRCONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_PWRCONTROL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080400f0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080400f0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_PWRCONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1611,13 +1611,13 @@ union cavm_etrx_ramsize
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t rsz                   : 31; /**< [ 30:  0](R/W) Size of the buffer in memory in 64-bit words.
-                                                                 For example, for 1KB buffer this register is 0x00000080.
-                                                                 For 4GB buffer this register is 0x20000000. */
+        uint32_t rsz                   : 31; /**< [ 30:  0](R/W) Size of the buffer in memory in 32-bit words.
+                                                                 For example, for 1KB buffer this register is 0x00000100.
+                                                                 For 4GB buffer this register is 0x40000000. Must be multiple of 8B. */
 #else /* Word 0 - Little Endian */
-        uint32_t rsz                   : 31; /**< [ 30:  0](R/W) Size of the buffer in memory in 64-bit words.
-                                                                 For example, for 1KB buffer this register is 0x00000080.
-                                                                 For 4GB buffer this register is 0x20000000. */
+        uint32_t rsz                   : 31; /**< [ 30:  0](R/W) Size of the buffer in memory in 32-bit words.
+                                                                 For example, for 1KB buffer this register is 0x00000100.
+                                                                 For 4GB buffer this register is 0x40000000. Must be multiple of 8B. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -1628,8 +1628,8 @@ typedef union cavm_etrx_ramsize cavm_etrx_ramsize_t;
 static inline uint64_t CAVM_ETRX_RAMSIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_RAMSIZE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040004ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040004ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_RAMSIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1655,7 +1655,7 @@ union cavm_etrx_status
                                                                  Indicates that a message signaled interrupt is in flight.
                                                                    0 = No interrupt is in flight.
                                                                    1 = An interrupt message has been sent and the acknowledge not yet received. */
-        uint32_t memerr                : 1;  /**< [  5:  5](RO) Error has occurred on a memory transaction.
+        uint32_t memerr                : 1;  /**< [  5:  5](R/W1C) Error has occurred on a memory transaction.
                                                                  This bit is cleared by:
                                                                    1. Writing to this register with this bit set when [TMCREADY] is 1.
                                                                    2. Setting [TRACECAPTEN] when [TRACECAPTEN] is zero. */
@@ -1676,13 +1676,13 @@ union cavm_etrx_status
                                                                       page table reads in scatter-gather mode when in stopped state. */
         uint32_t triggered             : 1;  /**< [  1:  1](RO) Set when trace capture is in progress and the TMC has detected a trigger
                                                                  event. This bit is cleared when leaving disabled state. */
-        uint32_t full                  : 1;  /**< [  0:  0](RO) This bit can help to determine how much of the trace buffer contains valid data.
-                                                                 When entering disabled state, this bit retains previous value.
-                                                                 When exiting disabled state, this bit is cleared. */
+        uint32_t full                  : 1;  /**< [  0:  0](R/W) This bit can help to determine how much of the trace buffer contains valid data,
+                                                                 or whether the write pointer has wrapped at least once.
+                                                                 Software must initialize this bit before leaving the Disabled state. */
 #else /* Word 0 - Little Endian */
-        uint32_t full                  : 1;  /**< [  0:  0](RO) This bit can help to determine how much of the trace buffer contains valid data.
-                                                                 When entering disabled state, this bit retains previous value.
-                                                                 When exiting disabled state, this bit is cleared. */
+        uint32_t full                  : 1;  /**< [  0:  0](R/W) This bit can help to determine how much of the trace buffer contains valid data,
+                                                                 or whether the write pointer has wrapped at least once.
+                                                                 Software must initialize this bit before leaving the Disabled state. */
         uint32_t triggered             : 1;  /**< [  1:  1](RO) Set when trace capture is in progress and the TMC has detected a trigger
                                                                  event. This bit is cleared when leaving disabled state. */
         uint32_t tmcready              : 1;  /**< [  2:  2](RO) This bit is set when all the following are true:
@@ -1700,7 +1700,7 @@ union cavm_etrx_status
                                                                  To determine whether the pipeline stages within TMC are empty, read [TMCREADY].
                                                                  This bit is valid when [TRACECAPTEN] is 1.
                                                                  This bit reads as zero when [TRACECAPTEN] is zero. */
-        uint32_t memerr                : 1;  /**< [  5:  5](RO) Error has occurred on a memory transaction.
+        uint32_t memerr                : 1;  /**< [  5:  5](R/W1C) Error has occurred on a memory transaction.
                                                                  This bit is cleared by:
                                                                    1. Writing to this register with this bit set when [TMCREADY] is 1.
                                                                    2. Setting [TRACECAPTEN] when [TRACECAPTEN] is zero. */
@@ -1718,8 +1718,8 @@ typedef union cavm_etrx_status cavm_etrx_status_t;
 static inline uint64_t CAVM_ETRX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00804000cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00804000cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1771,8 +1771,8 @@ typedef union cavm_etrx_trcclaimset cavm_etrx_trcclaimset_t;
 static inline uint64_t CAVM_ETRX_TRCCLAIMSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_TRCCLAIMSET(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fa0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fa0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_TRCCLAIMSET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1811,8 +1811,8 @@ typedef union cavm_etrx_trigcntr cavm_etrx_trigcntr_t;
 static inline uint64_t CAVM_ETRX_TRIGCNTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_TRIGCNTR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00804001cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00804001cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_TRIGCNTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1849,8 +1849,8 @@ typedef union cavm_etrx_wtrpointer cavm_etrx_wtrpointer_t;
 static inline uint64_t CAVM_ETRX_WTRPOINTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_WTRPOINTER(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040018ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040018ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_WTRPOINTER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1864,7 +1864,7 @@ static inline uint64_t CAVM_ETRX_WTRPOINTER(uint64_t a)
  * Register (DAB32b) etr#_wtrpointerhi
  *
  * ETR Write Pointer High Register
- * In the ETR configuration, memory addresses are 40 bits wide. This register is used
+ * In the ETR configuration, memory addresses are 52 bits wide. This register is used
  * together with ETR()_RWP to write entries into the trace memory.
  */
 union cavm_etrx_wtrpointerhi
@@ -1885,8 +1885,8 @@ typedef union cavm_etrx_wtrpointerhi cavm_etrx_wtrpointerhi_t;
 static inline uint64_t CAVM_ETRX_WTRPOINTERHI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRX_WTRPOINTERHI(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00804003cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00804003cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRX_WTRPOINTERHI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1926,8 +1926,8 @@ typedef union cavm_etrcx_devaff0 cavm_etrcx_devaff0_t;
 static inline uint64_t CAVM_ETRCX_DEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRCX_DEVAFF0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040fa8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040fa8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRCX_DEVAFF0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1961,8 +1961,8 @@ typedef union cavm_etrcx_devaff1 cavm_etrcx_devaff1_t;
 static inline uint64_t CAVM_ETRCX_DEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ETRCX_DEVAFF1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008040facll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008040facll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("ETRCX_DEVAFF1", 1, a, 0, 0, 0, 0, 0);
 }
 

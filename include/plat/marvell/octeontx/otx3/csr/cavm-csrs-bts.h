@@ -779,21 +779,49 @@ union cavm_bts_msix_vecx_addr
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
                                                                  1 = This vector's BTS_MSIX_VEC()_ADDR, BTS_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BTS_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the nonsecure world.
+                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
 
                                                                  If PCCPF_BTS_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+                                                                 set, all vectors are secure and function as if [SECVEC] was set.
+
+                                                                 Also note the following:
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
+                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
+                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
+                                                                 secure VF vectors) are considered physical, regardless of
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
                                                                  1 = This vector's BTS_MSIX_VEC()_ADDR, BTS_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BTS_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the nonsecure world.
+                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
 
                                                                  If PCCPF_BTS_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+                                                                 set, all vectors are secure and function as if [SECVEC] was set.
+
+                                                                 Also note the following:
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
+                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
+                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
+                                                                 secure VF vectors) are considered physical, regardless of
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_53_63        : 11;
@@ -861,12 +889,12 @@ static inline uint64_t CAVM_BTS_MSIX_VECX_CTL(uint64_t a)
 /**
  * Register (RSL) bts_pd1pps_div_cfg0
  *
- * BTS PD bank 1PPS Divider Configuration 0 Register
+ * BTS PD Bank 1PPS Divider Configuration 0 Register
  * This register configures the clock divider used to generate the PD_1PPS
  * signal derived from the 30.72 MHz clock (BTS_BFN_CLK). This signal is
  * used by the clock generation block to control RFP timing.
  *
- * This register configures the clock divder used to generate the
+ * This register configures the clock divider used to generate the
  * PD_BFN_1PPS signal derived from the 30.72 MHz clock (BTS_BFN_CLK).
  *
  * When [FREE_RUN]=1, the initial alignment depends on when [DIVIDER_EN] is written
@@ -933,7 +961,7 @@ static inline uint64_t CAVM_BTS_PD1PPS_DIV_CFG0_FUNC(void)
 /**
  * Register (RSL) bts_pd1pps_div_cfg1
  *
- * BTS PD bank 1PPS Divider Configuration 1 Register
+ * BTS PD Bank 1PPS Divider Configuration 1 Register
  * This register configures the clock divider used to generate the PD_1PPS
  * signal derived from the 30.72 MHz clock (BTS_BFN_CLK). This signal is
  * used by the clock generation block to control RFP timing.
@@ -1259,7 +1287,7 @@ static inline uint64_t CAVM_BTS_PDBFN_DIV_CFG0_FUNC(void)
  * Register (RSL) bts_pdbfn_div_cfg1
  *
  * BTS 30.72 MHz Divider Configuration 1 Register
- * This register configures the clock divder used to generate the PD_BFN_1PPS
+ * This register configures the clock divider used to generate the PD_BFN_1PPS
  * signal derived from the 30.72 MHz clock (BTS_BFN_CLK).
  *
  * When enabled, the divider counts from 0 to [DIVIDER_TC], and then resets
@@ -1364,10 +1392,7 @@ union cavm_bts_pll_ctl
                                                                  0x1 = GPIO clock input. 30.72 MHz (BTS_BFN_CLK).
                                                                  0x2 = 100 MHz reference clock.
 
-                                                                 Do not change these during operation.
-
-                                                                 Internal:
-                                                                 0x0 = 122.88 MHz (alternate reference clock selected by [ALT_REF_CLK_SEL]). */
+                                                                 Do not change these during operation. */
         uint64_t reserved_21_27        : 7;
         uint64_t ps_en                 : 3;  /**< [ 20: 18](R/W) PLL postscalar divide ratio. Determines the network clock speed.
                                                                  0x0 = Divide BTS PLL by 1.
@@ -1386,21 +1411,21 @@ union cavm_bts_pll_ctl
 
                                                                  To generate a 491 MHz clock from  a 30.72 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x1), set [CLKF] to 0x20 and [PS_EN] to 0x0. This results in an
-                                                                 overall 16x multplier.
+                                                                 overall 16x multiplier.
 
                                                                  To generate a 500 MHz clock from  a 100 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x2), set [CLKF] to 0x0A and [PS_EN] to 0x0. This results in an
-                                                                 overall 5x multplier. */
+                                                                 overall 5x multiplier. */
 #else /* Word 0 - Little Endian */
         uint64_t clkf                  : 9;  /**< [  8:  0](R/W) PLL multiplier. PLL out frequency = PLL in clk(MHz)/2 * [CLKF] / (1\<\<[PS_EN])
 
                                                                  To generate a 491 MHz clock from  a 30.72 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x1), set [CLKF] to 0x20 and [PS_EN] to 0x0. This results in an
-                                                                 overall 16x multplier.
+                                                                 overall 16x multiplier.
 
                                                                  To generate a 500 MHz clock from  a 100 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x2), set [CLKF] to 0x0A and [PS_EN] to 0x0. This results in an
-                                                                 overall 5x multplier. */
+                                                                 overall 5x multiplier. */
         uint64_t reserved_9_10         : 2;
         uint64_t en                    : 1;  /**< [ 11: 11](R/W) PLL enable. Rising edge causes a 1 clock ref_clk pulse on pll_update signal. */
         uint64_t reserved_12_17        : 6;
@@ -1420,10 +1445,7 @@ union cavm_bts_pll_ctl
                                                                  0x1 = GPIO clock input. 30.72 MHz (BTS_BFN_CLK).
                                                                  0x2 = 100 MHz reference clock.
 
-                                                                 Do not change these during operation.
-
-                                                                 Internal:
-                                                                 0x0 = 122.88 MHz (alternate reference clock selected by [ALT_REF_CLK_SEL]). */
+                                                                 Do not change these during operation. */
         uint64_t reserved_30_31        : 2;
         uint64_t pll_bypass            : 1;  /**< [ 32: 32](R/W) Set to 1 to bypass PLL. In PLL bypass mode, the PLL clock out is BTS_BFN_CLK (30.72 MHz). */
         uint64_t reserved_33_34        : 2;
@@ -1444,10 +1466,7 @@ union cavm_bts_pll_ctl
                                                                  0x1 = GPIO clock input. 30.72 MHz (BTS_BFN_CLK).
                                                                  0x2 = 100 MHz reference clock.
 
-                                                                 Do not change these during operation.
-
-                                                                 Internal:
-                                                                 0x0 = 122.88 MHz (alternate reference clock selected by [ALT_REF_CLK_SEL]). */
+                                                                 Do not change these during operation. */
         uint64_t reserved_26_27        : 2;
         uint64_t reserved_21_25        : 5;
         uint64_t ps_en                 : 3;  /**< [ 20: 18](R/W) PLL postscalar divide ratio. Determines the network clock speed.
@@ -1467,21 +1486,21 @@ union cavm_bts_pll_ctl
 
                                                                  To generate a 491 MHz clock from  a 30.72 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x1), set [CLKF] to 0x20 and [PS_EN] to 0x0. This results in an
-                                                                 overall 16x multplier.
+                                                                 overall 16x multiplier.
 
                                                                  To generate a 500 MHz clock from  a 100 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x2), set [CLKF] to 0x0A and [PS_EN] to 0x0. This results in an
-                                                                 overall 5x multplier. */
+                                                                 overall 5x multiplier. */
 #else /* Word 0 - Little Endian */
         uint64_t clkf                  : 9;  /**< [  8:  0](R/W) PLL multiplier. PLL out frequency = PLL in clk(MHz)/2 * [CLKF] / (1\<\<[PS_EN])
 
                                                                  To generate a 491 MHz clock from  a 30.72 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x1), set [CLKF] to 0x20 and [PS_EN] to 0x0. This results in an
-                                                                 overall 16x multplier.
+                                                                 overall 16x multiplier.
 
                                                                  To generate a 500 MHz clock from  a 100 MHz reference (i.e., when
                                                                  [REF_CLK_SEL]=0x2), set [CLKF] to 0x0A and [PS_EN] to 0x0. This results in an
-                                                                 overall 5x multplier. */
+                                                                 overall 5x multiplier. */
         uint64_t reserved_9_10         : 2;
         uint64_t en                    : 1;  /**< [ 11: 11](R/W) PLL enable. Rising edge causes a 1 clock ref_clk pulse on pll_update signal. */
         uint64_t reserved_12_17        : 6;
@@ -1502,10 +1521,7 @@ union cavm_bts_pll_ctl
                                                                  0x1 = GPIO clock input. 30.72 MHz (BTS_BFN_CLK).
                                                                  0x2 = 100 MHz reference clock.
 
-                                                                 Do not change these during operation.
-
-                                                                 Internal:
-                                                                 0x0 = 122.88 MHz (alternate reference clock selected by [ALT_REF_CLK_SEL]). */
+                                                                 Do not change these during operation. */
         uint64_t reserved_30_31        : 2;
         uint64_t pll_bypass            : 1;  /**< [ 32: 32](R/W) Set to 1 to bypass PLL. In PLL bypass mode, the PLL clock out is BTS_BFN_CLK (30.72 MHz). */
         uint64_t reserved_33_34        : 2;
@@ -1689,7 +1705,8 @@ union cavm_bts_tp_mux_sel
                                                                  0xB = PD bank 3 PD negative clear.
                                                                  0xC = PD bank 4 PD negative clear.
                                                                  0xD = PD bank 5 PD negative clear.
-                                                                 0xE-0xF = Reserved. */
+                                                                 0xE = Reserved.
+                                                                 0xF = 0. */
         uint64_t tp3_sel               : 4;  /**< [ 11:  8](R/W) Select the source for the BTS_TP3 output signal:
                                                                  0x0 = PD bank 0 PD positive clear.
                                                                  0x1 = PD bank 1 PD positive clear.
@@ -1705,7 +1722,8 @@ union cavm_bts_tp_mux_sel
                                                                  0xB = PD bank 3 PD negative done.
                                                                  0xC = PD bank 4 PD negative done.
                                                                  0xD = PD bank 5 PD negative done.
-                                                                 0xE-0xF = Reserved. */
+                                                                 0xE = Reserved.
+                                                                 0xF = 0. */
         uint64_t tp2_sel               : 4;  /**< [  7:  4](R/W) Select the source for the BTS_TP2 output signal:
                                                                  0x0 = PD bank 0 LOOP_1pps.
                                                                  0x1 = PD bank 1 LOOP_1pps.
@@ -1714,7 +1732,8 @@ union cavm_bts_tp_mux_sel
                                                                  0x4 = PD bank 4 LOOP_1pps.
                                                                  0x5 = PD bank 5 LOOP_1pps.
                                                                  0x6 = PLL out clk /16.
-                                                                 0x7-0xF = Reserved. */
+                                                                 0x7-0xE = Reserved.
+                                                                 0xF = 0. */
         uint64_t tp1_sel               : 4;  /**< [  3:  0](R/W) Select the source for the BTS_TP1 output signal:
                                                                  0x0 = PD bank 0 REF_1pps.
                                                                  0x1 = PD bank 1 REF_1pps.
@@ -1722,7 +1741,8 @@ union cavm_bts_tp_mux_sel
                                                                  0x3 = PD bank 3 REF_1pps.
                                                                  0x4 = PD bank 4 REF_1pps.
                                                                  0x5 = PD bank 5 REF_1pps.
-                                                                 0x6-0xF = Reserved. */
+                                                                 0x6-0xE = Reserved.
+                                                                 0xF = 0. */
 #else /* Word 0 - Little Endian */
         uint64_t tp1_sel               : 4;  /**< [  3:  0](R/W) Select the source for the BTS_TP1 output signal:
                                                                  0x0 = PD bank 0 REF_1pps.
@@ -1731,7 +1751,8 @@ union cavm_bts_tp_mux_sel
                                                                  0x3 = PD bank 3 REF_1pps.
                                                                  0x4 = PD bank 4 REF_1pps.
                                                                  0x5 = PD bank 5 REF_1pps.
-                                                                 0x6-0xF = Reserved. */
+                                                                 0x6-0xE = Reserved.
+                                                                 0xF = 0. */
         uint64_t tp2_sel               : 4;  /**< [  7:  4](R/W) Select the source for the BTS_TP2 output signal:
                                                                  0x0 = PD bank 0 LOOP_1pps.
                                                                  0x1 = PD bank 1 LOOP_1pps.
@@ -1740,7 +1761,8 @@ union cavm_bts_tp_mux_sel
                                                                  0x4 = PD bank 4 LOOP_1pps.
                                                                  0x5 = PD bank 5 LOOP_1pps.
                                                                  0x6 = PLL out clk /16.
-                                                                 0x7-0xF = Reserved. */
+                                                                 0x7-0xE = Reserved.
+                                                                 0xF = 0. */
         uint64_t tp3_sel               : 4;  /**< [ 11:  8](R/W) Select the source for the BTS_TP3 output signal:
                                                                  0x0 = PD bank 0 PD positive clear.
                                                                  0x1 = PD bank 1 PD positive clear.
@@ -1756,7 +1778,8 @@ union cavm_bts_tp_mux_sel
                                                                  0xB = PD bank 3 PD negative done.
                                                                  0xC = PD bank 4 PD negative done.
                                                                  0xD = PD bank 5 PD negative done.
-                                                                 0xE-0xF = Reserved. */
+                                                                 0xE = Reserved.
+                                                                 0xF = 0. */
         uint64_t tp4_sel               : 4;  /**< [ 15: 12](R/W) Select the source for the BTS_TP4 output signal:
                                                                  0x0 = PD bank 0 PD positive done.
                                                                  0x1 = PD bank 1 PD positive done.
@@ -1772,7 +1795,8 @@ union cavm_bts_tp_mux_sel
                                                                  0xB = PD bank 3 PD negative clear.
                                                                  0xC = PD bank 4 PD negative clear.
                                                                  0xD = PD bank 5 PD negative clear.
-                                                                 0xE-0xF = Reserved. */
+                                                                 0xE = Reserved.
+                                                                 0xF = 0. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

@@ -112,7 +112,7 @@
  * Enumeration rst_pll_e
  *
  * RST PLL Enumeration
- * Enumerates the values of RST_PLL(x) and RST_MAN_PLL(x).
+ * Enumerates the values of RST_PLL() and RST_MAN_PLL().
  */
 #define CAVM_RST_PLL_E_CPTCLK (2)
 #define CAVM_RST_PLL_E_DTSCLK (5)
@@ -125,7 +125,7 @@
  * Enumeration rst_pll_sel_e
  *
  * RST PLL Selection Enumeration
- * Enumerates the values of RST_PLL(x)[NEXT_PLL_SEL] and RST_PLL(x)[CUR_PLL_SEL].
+ * Enumerates the values of RST_PLL()[NEXT_PLL_SEL] and RST_PLL()[CUR_PLL_SEL].
  */
 #define CAVM_RST_PLL_SEL_E_ARO (6)
 #define CAVM_RST_PLL_SEL_E_BYPASS (2)
@@ -908,8 +908,9 @@ static inline uint64_t CAVM_RST_CORE_DOMAIN_W1S_FUNC(void)
  * Register (RSL) rst_core_pll
  *
  * RST Core Clock PLL Control Register
- * OBSOLETE.  To be removed.
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ * Internal:
+ * FIXME OBSOLETE.  To be removed.
  */
 union cavm_rst_core_pll
 {
@@ -1054,8 +1055,9 @@ static inline uint64_t CAVM_RST_CORE_PLL_FUNC(void)
  * Register (RSL) rst_cpt_pll
  *
  * RST Crypto Clock PLL Control Register
- * OBSOLETE.  To be removed.
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ * Internal:
+ * FIXME OBSOLETE.  To be removed.
  */
 union cavm_rst_cpt_pll
 {
@@ -1716,8 +1718,8 @@ static inline uint64_t CAVM_RST_LBOOT_FUNC(void)
  * Register (RSL) rst_man_pll#
  *
  * RST Manual PLL Control Register
- * These registers are used in conjunction with the RST_PLL(x) registers when
- * the RST_PLL(x)[NEXT_MAN] field is set.  Indexed by RST_PLL_E.
+ * These registers are used in conjunction with the RST_PLL() registers when
+ * the RST_PLL()[NEXT_MAN] field is set.  Indexed by RST_PLL_E.
  * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
  * This register is always reset on a chip domain reset.
@@ -1728,75 +1730,75 @@ union cavm_rst_man_pllx
     struct cavm_rst_man_pllx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ref_div               : 4;  /**< [ 63: 60](R/W) Reference Clock Divider
-                                                                   0 = Reserved
-                                                                   1 = Divide Reference Clock by 1
-                                                                   2 = Divide Reference Clock by 2 (typical)
-                                                                   3-31 = Divide Reference Clock by N
+        uint64_t ref_div               : 4;  /**< [ 63: 60](R/W) Reference clock divider.
+                                                                   0 = Reserved.
+                                                                   1 = Divide reference clock by 1.
+                                                                   2 = Divide reference clock by 2 (typical).
+                                                                   3-31 = Divide reference clock by N.
 
                                                                  See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and used Reference Clock divided by 2 */
+                                                                 ARO ignores this field and uses reference clock divided by 2. */
         uint64_t reserved_58_59        : 2;
-        uint64_t post_div              : 10; /**< [ 57: 48](R/W) Post Scalar Divider
-                                                                   0,1 = Reserved
-                                                                   2-1023 = Divide VCO output by N */
+        uint64_t post_div              : 10; /**< [ 57: 48](R/W) Post scalar divider.
+                                                                   0, 1 = Reserved.
+                                                                   2-1023 = Divide VCO output by [POST_DIV]. */
         uint64_t reserved_42_47        : 6;
-        uint64_t vco_mul               : 10; /**< [ 41: 32](R/W) VCO Multiplier Integer
-                                                                    VCO frequency is [VCO_MUL.VCO_FRACT] * reference clock / REF_DIV
+        uint64_t vco_mul               : 10; /**< [ 41: 32](R/W) VCO multiplier integer.
+                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies */
-        uint64_t vco_fract             : 10; /**< [ 31: 22](R/W) VCO Multiplier Fraction
-                                                                    VCO frequency is [VCO_MUL.VCO_FRACT] * reference clock / REF_DIV
+                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+        uint64_t vco_fract             : 10; /**< [ 31: 22](R/W) VCO multiplier fraction.
+                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies */
+                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t reserved_18_21        : 4;
-        uint64_t bw                    : 2;  /**< [ 17: 16](R/W) VCO Bandwidth
+        uint64_t bw                    : 2;  /**< [ 17: 16](R/W) VCO bandwidth.
 
-                                                                 See PLL specifications for details
-                                                                 Not used by ARO */
-        uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP Setting
+                                                                 See PLL specifications for details.
+                                                                 Not used by ARO. */
+        uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP setting.
 
-                                                                 See PLL Specification for details
-                                                                 ARO ignores this field */
+                                                                 See PLL specification for details.
+                                                                 ARO ignores this field. */
         uint64_t reserved_10_11        : 2;
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL Update Rate
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.
 
-                                                                 See PLL and ARO Specifications for details */
+                                                                 See PLL and ARO specifications for details. */
 #else /* Word 0 - Little Endian */
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL Update Rate
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.
 
-                                                                 See PLL and ARO Specifications for details */
+                                                                 See PLL and ARO specifications for details. */
         uint64_t reserved_10_11        : 2;
-        uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP Setting
+        uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP setting.
 
-                                                                 See PLL Specification for details
-                                                                 ARO ignores this field */
-        uint64_t bw                    : 2;  /**< [ 17: 16](R/W) VCO Bandwidth
+                                                                 See PLL specification for details.
+                                                                 ARO ignores this field. */
+        uint64_t bw                    : 2;  /**< [ 17: 16](R/W) VCO bandwidth.
 
-                                                                 See PLL specifications for details
-                                                                 Not used by ARO */
+                                                                 See PLL specifications for details.
+                                                                 Not used by ARO. */
         uint64_t reserved_18_21        : 4;
-        uint64_t vco_fract             : 10; /**< [ 31: 22](R/W) VCO Multiplier Fraction
-                                                                    VCO frequency is [VCO_MUL.VCO_FRACT] * reference clock / REF_DIV
+        uint64_t vco_fract             : 10; /**< [ 31: 22](R/W) VCO multiplier fraction.
+                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies */
-        uint64_t vco_mul               : 10; /**< [ 41: 32](R/W) VCO Multiplier Integer
-                                                                    VCO frequency is [VCO_MUL.VCO_FRACT] * reference clock / REF_DIV
+                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+        uint64_t vco_mul               : 10; /**< [ 41: 32](R/W) VCO multiplier integer.
+                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies */
+                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t reserved_42_47        : 6;
-        uint64_t post_div              : 10; /**< [ 57: 48](R/W) Post Scalar Divider
-                                                                   0,1 = Reserved
-                                                                   2-1023 = Divide VCO output by N */
+        uint64_t post_div              : 10; /**< [ 57: 48](R/W) Post scalar divider.
+                                                                   0, 1 = Reserved.
+                                                                   2-1023 = Divide VCO output by [POST_DIV]. */
         uint64_t reserved_58_59        : 2;
-        uint64_t ref_div               : 4;  /**< [ 63: 60](R/W) Reference Clock Divider
-                                                                   0 = Reserved
-                                                                   1 = Divide Reference Clock by 1
-                                                                   2 = Divide Reference Clock by 2 (typical)
-                                                                   3-31 = Divide Reference Clock by N
+        uint64_t ref_div               : 4;  /**< [ 63: 60](R/W) Reference clock divider.
+                                                                   0 = Reserved.
+                                                                   1 = Divide reference clock by 1.
+                                                                   2 = Divide reference clock by 2 (typical).
+                                                                   3-31 = Divide reference clock by N.
 
                                                                  See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and used Reference Clock divided by 2 */
+                                                                 ARO ignores this field and uses reference clock divided by 2. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_man_pllx_s cn; */
@@ -2184,7 +2186,7 @@ static inline uint64_t CAVM_RST_OUT_CTL_FUNC(void)
  * RST PLL Control Register
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  * Each index of this register controls a PLL on the chip.  The register is used for
- * typical programming operations and is supplemented with the RST_MAN_PLL(x)
+ * typical programming operations and is supplemented with the RST_MAN_PLL()
  * register when selected.  Indexed by RST_PLL_E.
  *
  * The register fields are returned to reset values on a chip domain reset unless
@@ -2196,39 +2198,39 @@ union cavm_rst_pllx
     struct cavm_rst_pllx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO Present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
-                                                                     switching to ARO will result in the clock being stopped
+                                                                     switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
-        uint64_t pll1_present          : 1;  /**< [ 62: 62](RO/H) PLL1 Present.
+        uint64_t pll1_present          : 1;  /**< [ 62: 62](RO/H) PLL1 present.
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
-                                                                     switching to PLL1 will result in the clock being stopped
+                                                                     switching to PLL1 will result in the clock being stopped.
                                                                  1 = PLL1 is available. */
-        uint64_t alt_ref               : 1;  /**< [ 61: 61](R/W/H) Alternal Reference Clock.
+        uint64_t alt_ref               : 1;  /**< [ 61: 61](R/W/H) Alternate reference clock.
                                                                  0 = Use 100 MHz reference.  [CUR_MUL] and [NEXT_MUL] values are based on 50 MHz increments
                                                                  1 = Use alternate reference clock typically 156.25 MHz or 122.88 MHz.  [CUR_MUL] and
                                                                      [NEXT_MUL] values are based on alternate reference clock divided by two increments.
 
                                                                  Setting this register has an immediate effect.  The PLL will typically require some time
                                                                  to adjust to the new frequency. */
-        uint64_t msc_enable            : 1;  /**< [ 60: 60](R/W/H) Enable Diagnostic Output.  Setting this bit causes the PLL to output
-                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  Typically no more than one
-                                                                 [MSC_ENABLE] is set at a time.  It is possible that MESHCLK and DTSCLK
+        uint64_t msc_enable            : 1;  /**< [ 60: 60](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.  It is possible that MESHCLK and DTSCLK
                                                                  have independent outputs.
 
                                                                  Setting this register has an immediate effect on the outputs.
                                                                  This field is reinitilized on a cold domain reset. */
-        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](RO/H) Current PLL Selection
+        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](RO/H) Current PLL selection.
                                                                  Enumerated by RST_PLL_SEL_E. */
         uint64_t reserved_55_56        : 2;
-        uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current Frequency Multiplier.  PLL Value is based on on reference clock divided by two.
+        uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
                                                                  See [ALT_REF] for details.  The value is limited by [MAX_MUL].
                                                                  The following values are possible:
-                                                                   0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL]
-                                                                   1 = Bypass clock selected
-                                                                   2 = Reference clock selected
-                                                                   3 = Runt clock selected
-                                                                   4-127 = Valid Clock Frequency
+                                                                   0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
+                                                                   1 = Bypass clock selected.
+                                                                   2 = Reference clock selected.
+                                                                   3 = Runt clock selected.
+                                                                   4-127 = Valid clock frequency.
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
@@ -2237,11 +2239,11 @@ union cavm_rst_pllx
                                                                  This field is used to limit the [CUR_MUL] value.
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
-                                                                 cannot exceed the previous value.  Values 1-5 are considered illegal
+                                                                 cannot exceed the previous value.  Values 1-5 are reserved
                                                                  since the minimum PLL frequency at least 300 MHz. */
         uint64_t reserved_39           : 1;
         uint64_t init_mul              : 7;  /**< [ 38: 32](R/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
-                                                                 reset.  Value is based on 50Mhz.
+                                                                 reset.  Value is based on 50 MHz.
 
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_31           : 1;
@@ -2251,23 +2253,23 @@ union cavm_rst_pllx
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
         uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the RST_PLL(x) and RST_PLL_MAN(x) registers.
+                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
-                                                                 and the value should not be changed while operations are taking place.
+                                                                 and the value must not be changed while operations are taking place.
                                                                  Enumerated by RST_PLL_SEL_E. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of RST_MAN_PLL(x) to specify values.
-                                                                 0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL]
-                                                                 1 = Use RST_MAN_PLL(x) fields to determine settings and set [CUR_MUL] to 0 */
+        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of RST_MAN_PLL() to specify values.
+                                                                 0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
+                                                                 1 = Use RST_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using RST_MAN_PLL(x) fields if set. Hardware automatically
+                                                                 using RST_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
         uint64_t reserved_12_15        : 4;
         uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
-                                                                 100 Mhz clocks. Hardware will add additional clocks if required.
+                                                                 100 MHz clocks. Hardware will add additional clocks if required.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
@@ -2275,23 +2277,23 @@ union cavm_rst_pllx
         uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
-                                                                 100 Mhz clocks. Hardware will add additional clocks if required.
+                                                                 100 MHz clocks. Hardware will add additional clocks if required.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
         uint64_t reserved_12_15        : 4;
         uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using RST_MAN_PLL(x) fields if set. Hardware automatically
+                                                                 using RST_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of RST_MAN_PLL(x) to specify values.
-                                                                 0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL]
-                                                                 1 = Use RST_MAN_PLL(x) fields to determine settings and set [CUR_MUL] to 0 */
+        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of RST_MAN_PLL() to specify values.
+                                                                 0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
+                                                                 1 = Use RST_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t reserved_18_20        : 3;
         uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the RST_PLL(x) and RST_PLL_MAN(x) registers.
+                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
-                                                                 and the value should not be changed while operations are taking place.
+                                                                 and the value must not be changed while operations are taking place.
                                                                  Enumerated by RST_PLL_SEL_E. */
         uint64_t next_mul              : 7;  /**< [ 30: 24](R/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
                                                                  Value is based on reference clock divided by two.  Typically 50 MHz.
@@ -2300,7 +2302,7 @@ union cavm_rst_pllx
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
         uint64_t reserved_31           : 1;
         uint64_t init_mul              : 7;  /**< [ 38: 32](R/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
-                                                                 reset.  Value is based on 50Mhz.
+                                                                 reset.  Value is based on 50 MHz.
 
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_39           : 1;
@@ -2308,44 +2310,44 @@ union cavm_rst_pllx
                                                                  This field is used to limit the [CUR_MUL] value.
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
-                                                                 cannot exceed the previous value.  Values 1-5 are considered illegal
+                                                                 cannot exceed the previous value.  Values 1-5 are reserved
                                                                  since the minimum PLL frequency at least 300 MHz. */
         uint64_t reserved_47           : 1;
-        uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current Frequency Multiplier.  PLL Value is based on on reference clock divided by two.
+        uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
                                                                  See [ALT_REF] for details.  The value is limited by [MAX_MUL].
                                                                  The following values are possible:
-                                                                   0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL]
-                                                                   1 = Bypass clock selected
-                                                                   2 = Reference clock selected
-                                                                   3 = Runt clock selected
-                                                                   4-127 = Valid Clock Frequency
+                                                                   0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
+                                                                   1 = Bypass clock selected.
+                                                                   2 = Reference clock selected.
+                                                                   3 = Runt clock selected.
+                                                                   4-127 = Valid clock frequency.
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
         uint64_t reserved_55_56        : 2;
-        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](RO/H) Current PLL Selection
+        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](RO/H) Current PLL selection.
                                                                  Enumerated by RST_PLL_SEL_E. */
-        uint64_t msc_enable            : 1;  /**< [ 60: 60](R/W/H) Enable Diagnostic Output.  Setting this bit causes the PLL to output
-                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  Typically no more than one
-                                                                 [MSC_ENABLE] is set at a time.  It is possible that MESHCLK and DTSCLK
+        uint64_t msc_enable            : 1;  /**< [ 60: 60](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.  It is possible that MESHCLK and DTSCLK
                                                                  have independent outputs.
 
                                                                  Setting this register has an immediate effect on the outputs.
                                                                  This field is reinitilized on a cold domain reset. */
-        uint64_t alt_ref               : 1;  /**< [ 61: 61](R/W/H) Alternal Reference Clock.
+        uint64_t alt_ref               : 1;  /**< [ 61: 61](R/W/H) Alternate reference clock.
                                                                  0 = Use 100 MHz reference.  [CUR_MUL] and [NEXT_MUL] values are based on 50 MHz increments
                                                                  1 = Use alternate reference clock typically 156.25 MHz or 122.88 MHz.  [CUR_MUL] and
                                                                      [NEXT_MUL] values are based on alternate reference clock divided by two increments.
 
                                                                  Setting this register has an immediate effect.  The PLL will typically require some time
                                                                  to adjust to the new frequency. */
-        uint64_t pll1_present          : 1;  /**< [ 62: 62](RO/H) PLL1 Present.
+        uint64_t pll1_present          : 1;  /**< [ 62: 62](RO/H) PLL1 present.
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
-                                                                     switching to PLL1 will result in the clock being stopped
+                                                                     switching to PLL1 will result in the clock being stopped.
                                                                  1 = PLL1 is available. */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO Present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
-                                                                     switching to ARO will result in the clock being stopped
+                                                                     switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
 #endif /* Word 0 - End */
     } s;
@@ -2372,8 +2374,9 @@ static inline uint64_t CAVM_RST_PLLX(uint64_t a)
  * Register (RSL) rst_pll_limit
  *
  * RST PLL Maximum Frequency Limit Register
- * OBSOLETE.  To be removed.
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ * Internal:
+ * FIXME OBSOLETE.  To be removed.
  */
 union cavm_rst_pll_limit
 {
@@ -2468,8 +2471,9 @@ static inline uint64_t CAVM_RST_PLL_LIMIT_FUNC(void)
  * Register (RSL) rst_pnr_pll
  *
  * RST Coprocessor Clock PLL Control Register
- * OBSOLETE.  To be removed.
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ * Internal:
+ * FIXME OBSOLETE.  To be removed.
  */
 union cavm_rst_pnr_pll
 {

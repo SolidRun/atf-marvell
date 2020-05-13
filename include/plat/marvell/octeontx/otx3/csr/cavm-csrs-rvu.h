@@ -363,6 +363,9 @@ static inline uint64_t CAVM_RVU_AF_AFPFX_MBOXX(uint64_t a, uint64_t b)
  * RVU Admin Function  BAR2 Alias Registers
  * These registers alias to the RVU BAR2 registers for the PF and function
  * selected by RVU_AF_BAR2_SEL[PF_FUNC].
+ *
+ * Internal:
+ * Not implemented in RTL; placeholder for bug33464.
  */
 union cavm_rvu_af_bar2_aliasx
 {
@@ -399,6 +402,8 @@ static inline uint64_t CAVM_RVU_AF_BAR2_ALIASX(uint64_t a)
  *
  * RVU Admin Function BAR2 Select Register
  * This register configures BAR2 accesses from the RVU_AF_BAR2_ALIAS() registers in BAR0.
+ * Internal:
+ * Not implemented in RTL; placeholder for bug33464.
  */
 union cavm_rvu_af_bar2_sel
 {
@@ -936,7 +941,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_BAR4_CFG(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RVU_AF_PFX_BAR4_CFG(uint64_t a)
 {
     if (a<=23)
-        return 0x840000005200ll + 0x10ll * ((a) & 0x1f);
+        return 0x840000006000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_BAR4_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -975,7 +980,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_LMTLINE_ADDR(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RVU_AF_PFX_LMTLINE_ADDR(uint64_t a)
 {
     if (a<=23)
-        return 0x840000005800ll + 0x10ll * ((a) & 0x1f);
+        return 0x840000007000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_LMTLINE_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1014,7 +1019,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_ADDR(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_ADDR(uint64_t a)
 {
     if (a<=23)
-        return 0x840000005400ll + 0x10ll * ((a) & 0x1f);
+        return 0x840000001000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_VF_BAR4_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1051,7 +1056,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_CFG(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_CFG(uint64_t a)
 {
     if (a<=23)
-        return 0x840000005600ll + 0x10ll * ((a) & 0x1f);
+        return 0x840000008000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_VF_BAR4_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1909,7 +1914,7 @@ typedef union cavm_rvu_af_smmu_addr_req cavm_rvu_af_smmu_addr_req_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_REQ_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_REQ_FUNC(void)
 {
-    return 0x840000006000ll;
+    return 0x840000009000ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_REQ cavm_rvu_af_smmu_addr_req_t
@@ -1955,7 +1960,7 @@ typedef union cavm_rvu_af_smmu_addr_rsp_sts cavm_rvu_af_smmu_addr_rsp_sts_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void)
 {
-    return 0x840000006010ll;
+    return 0x840000009010ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_RSP_STS cavm_rvu_af_smmu_addr_rsp_sts_t
@@ -1991,7 +1996,7 @@ typedef union cavm_rvu_af_smmu_addr_tln cavm_rvu_af_smmu_addr_tln_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void)
 {
-    return 0x840000006018ll;
+    return 0x840000009018ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_TLN cavm_rvu_af_smmu_addr_tln_t
@@ -2012,9 +2017,9 @@ union cavm_rvu_af_smmu_tln_flit0
     struct cavm_rvu_af_smmu_tln_flit0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_tln_flit0_s cn; */
@@ -2025,7 +2030,7 @@ typedef union cavm_rvu_af_smmu_tln_flit0 cavm_rvu_af_smmu_tln_flit0_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void)
 {
-    return 0x840000006020ll;
+    return 0x840000009020ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT0 cavm_rvu_af_smmu_tln_flit0_t
@@ -2047,9 +2052,9 @@ union cavm_rvu_af_smmu_tln_flit0_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
@@ -2061,7 +2066,7 @@ typedef union cavm_rvu_af_smmu_tln_flit0_1 cavm_rvu_af_smmu_tln_flit0_1_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_1_FUNC(void)
 {
-    return 0x840000006028ll;
+    return 0x840000009028ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT0_1 cavm_rvu_af_smmu_tln_flit0_1_t
@@ -2082,9 +2087,9 @@ union cavm_rvu_af_smmu_tln_flit1
     struct cavm_rvu_af_smmu_tln_flit1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_tln_flit1_s cn; */
@@ -2095,7 +2100,7 @@ typedef union cavm_rvu_af_smmu_tln_flit1 cavm_rvu_af_smmu_tln_flit1_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_FUNC(void)
 {
-    return 0x840000006030ll;
+    return 0x840000009030ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT1 cavm_rvu_af_smmu_tln_flit1_t
@@ -2117,9 +2122,9 @@ union cavm_rvu_af_smmu_tln_flit1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
@@ -2131,7 +2136,7 @@ typedef union cavm_rvu_af_smmu_tln_flit1_1 cavm_rvu_af_smmu_tln_flit1_1_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_1_FUNC(void)
 {
-    return 0x840000006038ll;
+    return 0x840000009038ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT1_1 cavm_rvu_af_smmu_tln_flit1_1_t
@@ -2175,7 +2180,7 @@ typedef union cavm_rvu_af_smmu_txn_req cavm_rvu_af_smmu_txn_req_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TXN_REQ_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TXN_REQ_FUNC(void)
 {
-    return 0x840000006008ll;
+    return 0x840000009008ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TXN_REQ cavm_rvu_af_smmu_txn_req_t
@@ -3514,7 +3519,7 @@ union cavm_rvu_priv_const
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address transaltion I/F with SMMU */
+        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address transaltion interface with SMMU. */
         uint64_t dram_mbox             : 1;  /**< [ 48: 48](RO) VF SW reads/writes BAR2 address range defined by RVU_MBOX_E_RVU_PF()_FUNC()_MBOX,
                                                                  the RVU hardware translates it to a read/write to the
                                                                  VF-PF mailbox region for the given VF within the PF BAR4 region. */
@@ -3580,7 +3585,7 @@ union cavm_rvu_priv_const
         uint64_t dram_mbox             : 1;  /**< [ 48: 48](RO) VF SW reads/writes BAR2 address range defined by RVU_MBOX_E_RVU_PF()_FUNC()_MBOX,
                                                                  the RVU hardware translates it to a read/write to the
                                                                  VF-PF mailbox region for the given VF within the PF BAR4 region. */
-        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address transaltion I/F with SMMU */
+        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address transaltion interface with SMMU. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;

@@ -59,8 +59,8 @@ typedef union cavm_ctix_asicctl cavm_ctix_asicctl_t;
 static inline uint64_t CAVM_CTIX_ASICCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_ASICCTL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010144ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010144ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_ASICCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -107,8 +107,8 @@ typedef union cavm_ctix_claimclr_el1 cavm_ctix_claimclr_el1_t;
 static inline uint64_t CAVM_CTIX_CLAIMCLR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CLAIMCLR_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fa4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fa4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CLAIMCLR_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -152,8 +152,8 @@ typedef union cavm_ctix_claimset_el1 cavm_ctix_claimset_el1_t;
 static inline uint64_t CAVM_CTIX_CLAIMSET_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CLAIMSET_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fa0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fa0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CLAIMSET_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -187,8 +187,8 @@ typedef union cavm_ctix_ctiappclear cavm_ctix_ctiappclear_t;
 static inline uint64_t CAVM_CTIX_CTIAPPCLEAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIAPPCLEAR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010018ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010018ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIAPPCLEAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -238,8 +238,8 @@ typedef union cavm_ctix_ctiapppulse cavm_ctix_ctiapppulse_t;
 static inline uint64_t CAVM_CTIX_CTIAPPPULSE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIAPPPULSE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00801001cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00801001cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIAPPPULSE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -303,8 +303,8 @@ typedef union cavm_ctix_ctiappset cavm_ctix_ctiappset_t;
 static inline uint64_t CAVM_CTIX_CTIAPPSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIAPPSET(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010014ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010014ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIAPPSET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -355,8 +355,8 @@ typedef union cavm_ctix_ctiauthstatus cavm_ctix_ctiauthstatus_t;
 static inline uint64_t CAVM_CTIX_CTIAUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIAUTHSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fb8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fb8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIAUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -404,8 +404,8 @@ typedef union cavm_ctix_ctichinstatus cavm_ctix_ctichinstatus_t;
 static inline uint64_t CAVM_CTIX_CTICHINSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTICHINSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010138ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010138ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTICHINSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -453,8 +453,8 @@ typedef union cavm_ctix_ctichoutstatus cavm_ctix_ctichoutstatus_t;
 static inline uint64_t CAVM_CTIX_CTICHOUTSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTICHOUTSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00801013cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00801013cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTICHOUTSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -490,8 +490,8 @@ typedef union cavm_ctix_cticidr0 cavm_ctix_cticidr0_t;
 static inline uint64_t CAVM_CTIX_CTICIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTICIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010ff0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010ff0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTICIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -529,8 +529,8 @@ typedef union cavm_ctix_cticidr1 cavm_ctix_cticidr1_t;
 static inline uint64_t CAVM_CTIX_CTICIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTICIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010ff4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010ff4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTICIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -566,8 +566,8 @@ typedef union cavm_ctix_cticidr2 cavm_ctix_cticidr2_t;
 static inline uint64_t CAVM_CTIX_CTICIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTICIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010ff8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010ff8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTICIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -603,8 +603,8 @@ typedef union cavm_ctix_cticidr3 cavm_ctix_cticidr3_t;
 static inline uint64_t CAVM_CTIX_CTICIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTICIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010ffcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010ffcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTICIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -656,8 +656,8 @@ typedef union cavm_ctix_cticontrol cavm_ctix_cticontrol_t;
 static inline uint64_t CAVM_CTIX_CTICONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTICONTROL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010000ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010000ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTICONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -695,8 +695,8 @@ typedef union cavm_ctix_ctidevaff0 cavm_ctix_ctidevaff0_t;
 static inline uint64_t CAVM_CTIX_CTIDEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIDEVAFF0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fa8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fa8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIDEVAFF0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -734,8 +734,8 @@ typedef union cavm_ctix_ctidevaff1 cavm_ctix_ctidevaff1_t;
 static inline uint64_t CAVM_CTIX_CTIDEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIDEVAFF1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010facll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010facll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIDEVAFF1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -757,7 +757,7 @@ union cavm_ctix_ctidevarch
     struct cavm_ctix_ctidevarch_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is Arm Limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -765,29 +765,29 @@ union cavm_ctix_ctidevarch
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is one in v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For CTI, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For CTI:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
                                                                  This corresponds to CTI architecture version CTIv2. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For CTI:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
                                                                  This corresponds to CTI architecture version CTIv2. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For CTI, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is one in v8-A. */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is Arm Limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -801,8 +801,8 @@ typedef union cavm_ctix_ctidevarch cavm_ctix_ctidevarch_t;
 static inline uint64_t CAVM_CTIX_CTIDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIDEVARCH(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fbcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fbcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIDEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -904,8 +904,8 @@ typedef union cavm_ctix_ctidevid cavm_ctix_ctidevid_t;
 static inline uint64_t CAVM_CTIX_CTIDEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIDEVID(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fc8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fc8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIDEVID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -939,8 +939,8 @@ typedef union cavm_ctix_ctidevid1 cavm_ctix_ctidevid1_t;
 static inline uint64_t CAVM_CTIX_CTIDEVID1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIDEVID1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fc4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fc4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIDEVID1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -975,8 +975,8 @@ typedef union cavm_ctix_ctidevid2 cavm_ctix_ctidevid2_t;
 static inline uint64_t CAVM_CTIX_CTIDEVID2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIDEVID2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fc0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fc0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIDEVID2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1015,8 +1015,8 @@ typedef union cavm_ctix_ctidevtype cavm_ctix_ctidevtype_t;
 static inline uint64_t CAVM_CTIX_CTIDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIDEVTYPE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fccll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fccll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIDEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1065,8 +1065,8 @@ typedef union cavm_ctix_ctigate cavm_ctix_ctigate_t;
 static inline uint64_t CAVM_CTIX_CTIGATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIGATE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010140ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010140ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIGATE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1123,8 +1123,8 @@ typedef union cavm_ctix_ctiinenx cavm_ctix_ctiinenx_t;
 static inline uint64_t CAVM_CTIX_CTIINENX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIINENX(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=9))
-        return 0x87a008010020ll + 0x80000ll * ((a) & 0x1f) + 4ll * ((b) & 0xf);
+    if ((a<=35) && (b<=9))
+        return 0x87a008010020ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0xf);
     __cavm_csr_fatal("CTIX_CTIINENX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1198,8 +1198,8 @@ typedef union cavm_ctix_ctiintack cavm_ctix_ctiintack_t;
 static inline uint64_t CAVM_CTIX_CTIINTACK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIINTACK(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010010ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010010ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIINTACK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1248,8 +1248,8 @@ typedef union cavm_ctix_ctiitctrl cavm_ctix_ctiitctrl_t;
 static inline uint64_t CAVM_CTIX_CTIITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIITCTRL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010f00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010f00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1288,8 +1288,8 @@ typedef union cavm_ctix_ctilar cavm_ctix_ctilar_t;
 static inline uint64_t CAVM_CTIX_CTILAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTILAR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fb0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fb0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTILAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1356,8 +1356,8 @@ typedef union cavm_ctix_ctilsr cavm_ctix_ctilsr_t;
 static inline uint64_t CAVM_CTIX_CTILSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTILSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fb4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fb4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTILSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1413,8 +1413,8 @@ typedef union cavm_ctix_ctioutenx cavm_ctix_ctioutenx_t;
 static inline uint64_t CAVM_CTIX_CTIOUTENX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIOUTENX(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=9))
-        return 0x87a0080100a0ll + 0x80000ll * ((a) & 0x1f) + 4ll * ((b) & 0xf);
+    if ((a<=35) && (b<=9))
+        return 0x87a0080100a0ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0xf);
     __cavm_csr_fatal("CTIX_CTIOUTENX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1450,8 +1450,8 @@ typedef union cavm_ctix_ctipidr0 cavm_ctix_ctipidr0_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fe0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fe0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1474,11 +1474,11 @@ union cavm_ctix_ctipidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1489,8 +1489,8 @@ typedef union cavm_ctix_ctipidr1 cavm_ctix_ctipidr1_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fe4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fe4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1513,13 +1513,13 @@ union cavm_ctix_ctipidr2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1530,8 +1530,8 @@ typedef union cavm_ctix_ctipidr2 cavm_ctix_ctipidr2_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fe8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fe8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1571,8 +1571,8 @@ typedef union cavm_ctix_ctipidr3 cavm_ctix_ctipidr3_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fecll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fecll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1597,9 +1597,9 @@ union cavm_ctix_ctipidr4
         uint32_t reserved_8_31         : 24;
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
 #else /* Word 0 - Little Endian */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t reserved_8_31         : 24;
@@ -1612,8 +1612,8 @@ typedef union cavm_ctix_ctipidr4 cavm_ctix_ctipidr4_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fd0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fd0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1647,8 +1647,8 @@ typedef union cavm_ctix_ctipidr5 cavm_ctix_ctipidr5_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fd4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fd4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1682,8 +1682,8 @@ typedef union cavm_ctix_ctipidr6 cavm_ctix_ctipidr6_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fd8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fd8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1717,8 +1717,8 @@ typedef union cavm_ctix_ctipidr7 cavm_ctix_ctipidr7_t;
 static inline uint64_t CAVM_CTIX_CTIPIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTIPIDR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010fdcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010fdcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTIPIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1768,8 +1768,8 @@ typedef union cavm_ctix_ctitriginstatus cavm_ctix_ctitriginstatus_t;
 static inline uint64_t CAVM_CTIX_CTITRIGINSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTITRIGINSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010130ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010130ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTITRIGINSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1825,8 +1825,8 @@ typedef union cavm_ctix_ctitrigoutstatus cavm_ctix_ctitrigoutstatus_t;
 static inline uint64_t CAVM_CTIX_CTITRIGOUTSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CTIX_CTITRIGOUTSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008010134ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008010134ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CTIX_CTITRIGOUTSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 

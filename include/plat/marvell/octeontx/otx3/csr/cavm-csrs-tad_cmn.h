@@ -22,7 +22,7 @@
 /**
  * Enumeration tad_cmn_bar_e
  *
- * TAD_CMN Base Address Register Enumeration
+ * TAD Common Base Address Register Enumeration
  * Enumerates the base address registers.
  */
 #define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0 (0x87e053000000ll)
@@ -31,7 +31,7 @@
 /**
  * Register (RSL) tad_cmn_cache_flush
  *
- * TAD_CMN Cache Flush Register
+ * TAD Common Cache Flush Register
  * Controls TAD cache flush behavior.
  */
 union cavm_tad_cmn_cache_flush
@@ -96,7 +96,7 @@ static inline uint64_t CAVM_TAD_CMN_CACHE_FLUSH_FUNC(void)
 /**
  * Register (RSL) tad_cmn_cbusy
  *
- * TAD_CMN CBUSY Control Register
+ * TAD Common CBUSY Control Register
  * Controls CBUSY behavior.
  */
 union cavm_tad_cmn_cbusy
@@ -202,7 +202,7 @@ static inline uint64_t CAVM_TAD_CMN_CONST_FUNC(void)
 /**
  * Register (RSL) tad_cmn_ctl
  *
- * TAD_CMN Control Register
+ * TAD Common Control Register
  * Controls TAD behavior.
  */
 union cavm_tad_cmn_ctl
@@ -281,7 +281,7 @@ static inline uint64_t CAVM_TAD_CMN_CTL_FUNC(void)
 /**
  * Register (RSL) tad_cmn_mpam#_mask
  *
- * TAD_CMN Memory Paritioning Mask Registers
+ * TAD Common Memory Partitioning Mask Registers
  * The corresponding TAD()_MPAM()_ACNT and TAD()_MPAM()_HCNT registers are
  * cleared whenever this register is written.
  */
@@ -326,7 +326,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
 /**
  * Register (RSL) tad_cmn_req_retry
  *
- * TAD_CMN Request Retry Control Register
+ * TAD Common Request Retry Control Register
  * Controls TAD Request retry settings.
  */
 union cavm_tad_cmn_req_retry

@@ -176,8 +176,8 @@ typedef union cavm_dbgx_dbgauthstatus_el1 cavm_dbgx_dbgauthstatus_el1_t;
 static inline uint64_t CAVM_DBGX_DBGAUTHSTATUS_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGAUTHSTATUS_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_DBGAUTHSTATUS_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -327,8 +327,8 @@ typedef union cavm_dbgx_dbgbcrx_el1 cavm_dbgx_dbgbcrx_el1_t;
 static inline uint64_t CAVM_DBGX_DBGBCRX_EL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGBCRX_EL1(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008000408ll + 0x80000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008000408ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DBGX_DBGBCRX_EL1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -362,8 +362,8 @@ typedef union cavm_dbgx_dbgbvrx_el1_hi cavm_dbgx_dbgbvrx_el1_hi_t;
 static inline uint64_t CAVM_DBGX_DBGBVRX_EL1_HI(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGBVRX_EL1_HI(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008000404ll + 0x80000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008000404ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DBGX_DBGBVRX_EL1_HI", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -397,8 +397,8 @@ typedef union cavm_dbgx_dbgbvrx_el1_lo cavm_dbgx_dbgbvrx_el1_lo_t;
 static inline uint64_t CAVM_DBGX_DBGBVRX_EL1_LO(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGBVRX_EL1_LO(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008000400ll + 0x80000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008000400ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DBGX_DBGBVRX_EL1_LO", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -445,8 +445,8 @@ typedef union cavm_dbgx_dbgclaimclr_el1 cavm_dbgx_dbgclaimclr_el1_t;
 static inline uint64_t CAVM_DBGX_DBGCLAIMCLR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGCLAIMCLR_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_DBGCLAIMCLR_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -490,8 +490,8 @@ typedef union cavm_dbgx_dbgclaimset_el1 cavm_dbgx_dbgclaimset_el1_t;
 static inline uint64_t CAVM_DBGX_DBGCLAIMSET_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGCLAIMSET_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_DBGCLAIMSET_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -532,8 +532,8 @@ typedef union cavm_dbgx_dbgdtrrx_el0 cavm_dbgx_dbgdtrrx_el0_t;
 static inline uint64_t CAVM_DBGX_DBGDTRRX_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGDTRRX_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000080ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000080ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_DBGDTRRX_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -561,14 +561,14 @@ union cavm_dbgx_dbgdtrtx_el0
                                                                      and clear TXfull to zero.
                                                                  Writes of this register update the value in DTRTX and do not
                                                                      change TXfull.
-                                                                 See ARMv8 debug architecture for more details. */
+                                                                 See Armv8 debug architecture for more details. */
 #else /* Word 0 - Little Endian */
         uint32_t data                  : 32; /**< [ 31:  0](R/W) Return DTRTX
                                                                  Return DTRTX. Reads of this register return the value in DTRTX
                                                                      and clear TXfull to zero.
                                                                  Writes of this register update the value in DTRTX and do not
                                                                      change TXfull.
-                                                                 See ARMv8 debug architecture for more details. */
+                                                                 See Armv8 debug architecture for more details. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dbgx_dbgdtrtx_el0_s cn; */
@@ -578,8 +578,8 @@ typedef union cavm_dbgx_dbgdtrtx_el0 cavm_dbgx_dbgdtrtx_el0_t;
 static inline uint64_t CAVM_DBGX_DBGDTRTX_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGDTRTX_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00800008cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00800008cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_DBGDTRTX_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -707,8 +707,8 @@ typedef union cavm_dbgx_dbgwcrx_el1 cavm_dbgx_dbgwcrx_el1_t;
 static inline uint64_t CAVM_DBGX_DBGWCRX_EL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGWCRX_EL1(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008000808ll + 0x80000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008000808ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DBGX_DBGWCRX_EL1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -742,8 +742,8 @@ typedef union cavm_dbgx_dbgwvrx_el1_hi cavm_dbgx_dbgwvrx_el1_hi_t;
 static inline uint64_t CAVM_DBGX_DBGWVRX_EL1_HI(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGWVRX_EL1_HI(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008000804ll + 0x80000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008000804ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DBGX_DBGWVRX_EL1_HI", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -777,8 +777,8 @@ typedef union cavm_dbgx_dbgwvrx_el1_lo cavm_dbgx_dbgwvrx_el1_lo_t;
 static inline uint64_t CAVM_DBGX_DBGWVRX_EL1_LO(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_DBGWVRX_EL1_LO(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008000800ll + 0x80000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DBGX_DBGWVRX_EL1_LO", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -814,8 +814,8 @@ typedef union cavm_dbgx_edcidr0 cavm_dbgx_edcidr0_t;
 static inline uint64_t CAVM_DBGX_EDCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDCIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDCIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -853,8 +853,8 @@ typedef union cavm_dbgx_edcidr1 cavm_dbgx_edcidr1_t;
 static inline uint64_t CAVM_DBGX_EDCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDCIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDCIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -890,8 +890,8 @@ typedef union cavm_dbgx_edcidr2 cavm_dbgx_edcidr2_t;
 static inline uint64_t CAVM_DBGX_EDCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDCIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDCIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -927,8 +927,8 @@ typedef union cavm_dbgx_edcidr3 cavm_dbgx_edcidr3_t;
 static inline uint64_t CAVM_DBGX_EDCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDCIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000ffcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000ffcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDCIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -972,8 +972,8 @@ typedef union cavm_dbgx_eddevaff0 cavm_dbgx_eddevaff0_t;
 static inline uint64_t CAVM_DBGX_EDDEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDEVAFF0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDEVAFF0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1009,8 +1009,8 @@ typedef union cavm_dbgx_eddevaff1 cavm_dbgx_eddevaff1_t;
 static inline uint64_t CAVM_DBGX_EDDEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDEVAFF1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000facll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000facll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDEVAFF1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1034,34 +1034,34 @@ union cavm_dbgx_eddevarch
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is
-                                                                     ARM Limited.
+                                                                     Arm Limited.
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is one in v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For debug, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For debug:
                                                                   Bits [15:12] are the architecture version, 0x8, v8.2.
                                                                   Bits [11:0] are the architecture part number, 0xA15. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For debug:
                                                                   Bits [15:12] are the architecture version, 0x8, v8.2.
                                                                   Bits [11:0] are the architecture part number, 0xA15. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For debug, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is one in v8-A. */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is
-                                                                     ARM Limited.
+                                                                     Arm Limited.
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
@@ -1073,8 +1073,8 @@ typedef union cavm_dbgx_eddevarch cavm_dbgx_eddevarch_t;
 static inline uint64_t CAVM_DBGX_EDDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDEVARCH(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fbcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fbcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1144,8 +1144,8 @@ typedef union cavm_dbgx_eddevid cavm_dbgx_eddevid_t;
 static inline uint64_t CAVM_DBGX_EDDEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDEVID(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDEVID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1203,8 +1203,8 @@ typedef union cavm_dbgx_eddevid1 cavm_dbgx_eddevid1_t;
 static inline uint64_t CAVM_DBGX_EDDEVID1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDEVID1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDEVID1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1242,8 +1242,8 @@ typedef union cavm_dbgx_eddevid2 cavm_dbgx_eddevid2_t;
 static inline uint64_t CAVM_DBGX_EDDEVID2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDEVID2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDEVID2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1282,8 +1282,8 @@ typedef union cavm_dbgx_eddevtype cavm_dbgx_eddevtype_t;
 static inline uint64_t CAVM_DBGX_EDDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDEVTYPE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fccll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fccll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1323,19 +1323,19 @@ union cavm_dbgx_eddfr
                                                                    _ All other values are reserved. */
         uint64_t tracever              : 4;  /**< [  7:  4](RO) Support for trace extension system registers.
                                                                    0x0 = Trace extension system registers not implemented.
-                                                                   0x1 = Support for ARM-defined trace extension system registers. The trace ID register
+                                                                   0x1 = Support for Arm-defined trace extension system registers. The trace ID register
                                                                           gives more information about implementation.
                                                                    _ All other values are reserved. */
         uint64_t debugver              : 4;  /**< [  3:  0](RO) Support for debug architecture.
-                                                                   0x6 = Support for ARMv8 architecture.
+                                                                   0x6 = Support for Armv8 architecture.
                                                                    _ All other values are reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t debugver              : 4;  /**< [  3:  0](RO) Support for debug architecture.
-                                                                   0x6 = Support for ARMv8 architecture.
+                                                                   0x6 = Support for Armv8 architecture.
                                                                    _ All other values are reserved. */
         uint64_t tracever              : 4;  /**< [  7:  4](RO) Support for trace extension system registers.
                                                                    0x0 = Trace extension system registers not implemented.
-                                                                   0x1 = Support for ARM-defined trace extension system registers. The trace ID register
+                                                                   0x1 = Support for Arm-defined trace extension system registers. The trace ID register
                                                                           gives more information about implementation.
                                                                    _ All other values are reserved. */
         uint64_t pmuver                : 4;  /**< [ 11:  8](RO) Support for performance monitors extension system registers.
@@ -1362,8 +1362,8 @@ typedef union cavm_dbgx_eddfr cavm_dbgx_eddfr_t;
 static inline uint64_t CAVM_DBGX_EDDFR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDDFR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000d28ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000d28ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDDFR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1451,8 +1451,8 @@ typedef union cavm_dbgx_edeccr cavm_dbgx_edeccr_t;
 static inline uint64_t CAVM_DBGX_EDECCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDECCR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000098ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000098ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDECCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1508,8 +1508,8 @@ typedef union cavm_dbgx_edecr cavm_dbgx_edecr_t;
 static inline uint64_t CAVM_DBGX_EDECR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDECR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000024ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000024ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDECR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1576,8 +1576,8 @@ typedef union cavm_dbgx_edesr cavm_dbgx_edesr_t;
 static inline uint64_t CAVM_DBGX_EDESR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDESR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000020ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000020ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDESR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1624,8 +1624,8 @@ typedef union cavm_dbgx_editctrl cavm_dbgx_editctrl_t;
 static inline uint64_t CAVM_DBGX_EDITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDITCTRL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000f00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000f00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1666,8 +1666,8 @@ typedef union cavm_dbgx_editr cavm_dbgx_editr_t;
 static inline uint64_t CAVM_DBGX_EDITR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDITR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000084ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000084ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDITR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1708,8 +1708,8 @@ typedef union cavm_dbgx_edlar cavm_dbgx_edlar_t;
 static inline uint64_t CAVM_DBGX_EDLAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDLAR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDLAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1780,8 +1780,8 @@ typedef union cavm_dbgx_edlsr cavm_dbgx_edlsr_t;
 static inline uint64_t CAVM_DBGX_EDLSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDLSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDLSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1888,8 +1888,8 @@ typedef union cavm_dbgx_edpfr cavm_dbgx_edpfr_t;
 static inline uint64_t CAVM_DBGX_EDPFR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPFR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000d20ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000d20ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPFR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1925,8 +1925,8 @@ typedef union cavm_dbgx_edpidr0 cavm_dbgx_edpidr0_t;
 static inline uint64_t CAVM_DBGX_EDPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1949,11 +1949,11 @@ union cavm_dbgx_edpidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium JEP106 code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) JEP106 code is 0x4C. */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium JEP106 code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) JEP106 code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1964,8 +1964,8 @@ typedef union cavm_dbgx_edpidr1 cavm_dbgx_edpidr1_t;
 static inline uint64_t CAVM_DBGX_EDPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1990,9 +1990,9 @@ union cavm_dbgx_edpidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium JEP106 code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) JEP106 code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium JEP106 code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) JEP106 code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision. */
         uint32_t reserved_8_31         : 24;
@@ -2005,8 +2005,8 @@ typedef union cavm_dbgx_edpidr2 cavm_dbgx_edpidr2_t;
 static inline uint64_t CAVM_DBGX_EDPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2046,8 +2046,8 @@ typedef union cavm_dbgx_edpidr3 cavm_dbgx_edpidr3_t;
 static inline uint64_t CAVM_DBGX_EDPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fecll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fecll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2073,9 +2073,9 @@ union cavm_dbgx_edpidr4
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of
                                                                      4KB pages from the start of the component to the end of the
                                                                      component ID registers. */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. 0x3 = Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. 0x3 = Marvell (Cavium). */
 #else /* Word 0 - Little Endian */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. 0x3 = Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. 0x3 = Marvell (Cavium). */
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of
                                                                      4KB pages from the start of the component to the end of the
                                                                      component ID registers. */
@@ -2089,8 +2089,8 @@ typedef union cavm_dbgx_edpidr4 cavm_dbgx_edpidr4_t;
 static inline uint64_t CAVM_DBGX_EDPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2124,8 +2124,8 @@ typedef union cavm_dbgx_edpidr5 cavm_dbgx_edpidr5_t;
 static inline uint64_t CAVM_DBGX_EDPIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2159,8 +2159,8 @@ typedef union cavm_dbgx_edpidr6 cavm_dbgx_edpidr6_t;
 static inline uint64_t CAVM_DBGX_EDPIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2194,8 +2194,8 @@ typedef union cavm_dbgx_edpidr7 cavm_dbgx_edpidr7_t;
 static inline uint64_t CAVM_DBGX_EDPIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPIDR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000fdcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000fdcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2288,8 +2288,8 @@ typedef union cavm_dbgx_edprcr cavm_dbgx_edprcr_t;
 static inline uint64_t CAVM_DBGX_EDPRCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPRCR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000310ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000310ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPRCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2513,8 +2513,8 @@ typedef union cavm_dbgx_edprsr cavm_dbgx_edprsr_t;
 static inline uint64_t CAVM_DBGX_EDPRSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDPRSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000314ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000314ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDPRSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2573,8 +2573,8 @@ typedef union cavm_dbgx_edrcr cavm_dbgx_edrcr_t;
 static inline uint64_t CAVM_DBGX_EDRCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDRCR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000090ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000090ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDRCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2892,8 +2892,8 @@ typedef union cavm_dbgx_edscr cavm_dbgx_edscr_t;
 static inline uint64_t CAVM_DBGX_EDSCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDSCR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000088ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000088ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDSCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2929,8 +2929,8 @@ typedef union cavm_dbgx_edwar_hi cavm_dbgx_edwar_hi_t;
 static inline uint64_t CAVM_DBGX_EDWAR_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDWAR_HI(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000034ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000034ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDWAR_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2968,8 +2968,8 @@ typedef union cavm_dbgx_edwar_lo cavm_dbgx_edwar_lo_t;
 static inline uint64_t CAVM_DBGX_EDWAR_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_EDWAR_LO(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000030ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000030ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_EDWAR_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2996,16 +2996,16 @@ union cavm_dbgx_midr_el1
     struct cavm_dbgx_midr_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer field - Cavium - 0x43.
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer field - Marvell (Cavium) - 0x43.
                                                                  The implementer code. This field must hold an implementer code
-                                                                     that has been assigned by ARM. Assigned codes include the
+                                                                     that has been assigned by Arm. Assigned codes include the
                                                                      following:
 
                                                                  \<pre\>
                                                                  Hex    ASCII  Implementer
-                                                                 0x41    A     ARM Limited
+                                                                 0x41    A     Arm Limited
                                                                  0x42    B     Broadcom Corporation
-                                                                 0x43    C     Cavium Inc.
+                                                                 0x43    C     Marvell (Cavium) Inc.
                                                                  0x44    D     Digital Equipment Corporation
                                                                  0x49    I     Infineon Technologies AG
                                                                  0x4D    M     Motorola or Freescale Semiconductor Inc.
@@ -3019,13 +3019,13 @@ union cavm_dbgx_midr_el1
         uint32_t architecture          : 4;  /**< [ 19: 16](RO) Architecture field.
                                                                  The permitted values of this field are:
                                                                  All other values are reserved.
-                                                                 \<0001\>      ARMv4
-                                                                 \<0010\>      ARMv4T
-                                                                 \<0011\>      ARMv5 (obsolete)
-                                                                 \<0100\>      ARMv5T
-                                                                 \<0101\>      ARMv5TE
-                                                                 \<0110\>      ARMv5TEJ
-                                                                 \<0111\>      ARMv6
+                                                                 \<0001\>      Armv4
+                                                                 \<0010\>      Armv4T
+                                                                 \<0011\>      Armv5 (obsolete)
+                                                                 \<0100\>      Armv5T
+                                                                 \<0101\>      Armv5TE
+                                                                 \<0110\>      Armv5TEJ
+                                                                 \<0111\>      Armv6
                                                                  \<1111\>      Defined by CPUID scheme */
         uint32_t partnum               : 12; /**< [ 15:  4](RO) Part number field.
                                                                  An implementation defined primary part number for the device.
@@ -3043,25 +3043,25 @@ union cavm_dbgx_midr_el1
         uint32_t architecture          : 4;  /**< [ 19: 16](RO) Architecture field.
                                                                  The permitted values of this field are:
                                                                  All other values are reserved.
-                                                                 \<0001\>      ARMv4
-                                                                 \<0010\>      ARMv4T
-                                                                 \<0011\>      ARMv5 (obsolete)
-                                                                 \<0100\>      ARMv5T
-                                                                 \<0101\>      ARMv5TE
-                                                                 \<0110\>      ARMv5TEJ
-                                                                 \<0111\>      ARMv6
+                                                                 \<0001\>      Armv4
+                                                                 \<0010\>      Armv4T
+                                                                 \<0011\>      Armv5 (obsolete)
+                                                                 \<0100\>      Armv5T
+                                                                 \<0101\>      Armv5TE
+                                                                 \<0110\>      Armv5TEJ
+                                                                 \<0111\>      Armv6
                                                                  \<1111\>      Defined by CPUID scheme */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field - used by CNXXXX to indicate major pass number. */
-        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer field - Cavium - 0x43.
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer field - Marvell (Cavium) - 0x43.
                                                                  The implementer code. This field must hold an implementer code
-                                                                     that has been assigned by ARM. Assigned codes include the
+                                                                     that has been assigned by Arm. Assigned codes include the
                                                                      following:
 
                                                                  \<pre\>
                                                                  Hex    ASCII  Implementer
-                                                                 0x41    A     ARM Limited
+                                                                 0x41    A     Arm Limited
                                                                  0x42    B     Broadcom Corporation
-                                                                 0x43    C     Cavium Inc.
+                                                                 0x43    C     Marvell (Cavium) Inc.
                                                                  0x44    D     Digital Equipment Corporation
                                                                  0x49    I     Infineon Technologies AG
                                                                  0x4D    M     Motorola or Freescale Semiconductor Inc.
@@ -3080,8 +3080,8 @@ typedef union cavm_dbgx_midr_el1 cavm_dbgx_midr_el1_t;
 static inline uint64_t CAVM_DBGX_MIDR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_MIDR_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000d00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000d00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_MIDR_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3119,8 +3119,8 @@ typedef union cavm_dbgx_oslar_el1 cavm_dbgx_oslar_el1_t;
 static inline uint64_t CAVM_DBGX_OSLAR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DBGX_OSLAR_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008000300ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008000300ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DBGX_OSLAR_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 

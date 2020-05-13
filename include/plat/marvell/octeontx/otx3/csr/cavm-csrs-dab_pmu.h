@@ -27,18 +27,18 @@
  * Internal:
  * \<pre\>
  *    0x0000 to 0x003F    Common architectural and microarchitectural events
- *       0x0020 to 0x03F      ARM house style events
- *       0x0040 to 0x04F      ARM Recommended, implementation defined events (Aka ARM House
+ *       0x0020 to 0x03F      Arm house style events
+ *       0x0040 to 0x04F      Arm Recommended, implementation defined events (Aka Arm House
  * Style)
- *    0x0040 to 0x00BF    ARM recommended common architectural and microarchitectural events.
+ *    0x0040 to 0x00BF    Arm recommended common architectural and microarchitectural events.
  * IMPLEMENTATION DEFINED
  *    0x00C0 to 0x3FFF    IMPLEMENTATION DEFINED
- *      0x0180 to 0x01B7     Cavium Misc Counters
- *      0x01B8 to 0x01FF     Cavium - special instructions and events
- *      0x0300 to 0x03FF     Cavium - can be secure mode only
+ *      0x0180 to 0x01B7     Marvell Misc Counters
+ *      0x01B8 to 0x01FF     Marvell - special instructions and events
+ *      0x0300 to 0x03FF     Marvell - can be secure mode only
  *    0x4000 to 0x403F    Common architectural and microarchitectural events (PMCEID0_EL0[63:32],
  * PMCEID0_EL1[63:32])
- *    0x4040 to 0x40BF    ARM recommended common architectural and microarchitectural events.
+ *    0x4040 to 0x40BF    Arm recommended common architectural and microarchitectural events.
  * IMPLEMENTATION DEFINED
  *    0x40C0 to 0x7FFF    IMPLEMENTATION DEFINED
  *    0x8000 to 0x80BF    Reserved
@@ -438,8 +438,8 @@ typedef union cavm_pmux_pmauthstatus cavm_pmux_pmauthstatus_t;
 static inline uint64_t CAVM_PMUX_PMAUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMAUTHSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fb8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fb8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMAUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -538,8 +538,8 @@ typedef union cavm_pmux_pmccfiltr_el0 cavm_pmux_pmccfiltr_el0_t;
 static inline uint64_t CAVM_PMUX_PMCCFILTR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCCFILTR_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00802047cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00802047cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCCFILTR_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -581,8 +581,8 @@ typedef union cavm_pmux_pmccntr_el0_hi cavm_pmux_pmccntr_el0_hi_t;
 static inline uint64_t CAVM_PMUX_PMCCNTR_EL0_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCCNTR_EL0_HI(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080200fcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080200fcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCCNTR_EL0_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -624,8 +624,8 @@ typedef union cavm_pmux_pmccntr_el0_lo cavm_pmux_pmccntr_el0_lo_t;
 static inline uint64_t CAVM_PMUX_PMCCNTR_EL0_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCCNTR_EL0_LO(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080200f8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080200f8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCCNTR_EL0_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -726,8 +726,8 @@ typedef union cavm_pmux_pmceid0 cavm_pmux_pmceid0_t;
 static inline uint64_t CAVM_PMUX_PMCEID0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCEID0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020e20ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020e20ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCEID0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -810,8 +810,8 @@ typedef union cavm_pmux_pmceid1 cavm_pmux_pmceid1_t;
 static inline uint64_t CAVM_PMUX_PMCEID1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCEID1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020e24ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020e24ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCEID1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -864,8 +864,8 @@ typedef union cavm_pmux_pmceid2 cavm_pmux_pmceid2_t;
 static inline uint64_t CAVM_PMUX_PMCEID2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCEID2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020e28ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020e28ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCEID2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -902,8 +902,8 @@ typedef union cavm_pmux_pmceid3 cavm_pmux_pmceid3_t;
 static inline uint64_t CAVM_PMUX_PMCEID3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCEID3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020e2cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020e2cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCEID3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -989,8 +989,8 @@ typedef union cavm_pmux_pmcfgr cavm_pmux_pmcfgr_t;
 static inline uint64_t CAVM_PMUX_PMCFGR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCFGR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020e00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020e00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCFGR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1038,8 +1038,8 @@ typedef union cavm_pmux_pmcid1sr cavm_pmux_pmcid1sr_t;
 static inline uint64_t CAVM_PMUX_PMCID1SR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCID1SR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020208ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020208ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCID1SR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1080,8 +1080,8 @@ typedef union cavm_pmux_pmcid1sr_alias cavm_pmux_pmcid1sr_alias_t;
 static inline uint64_t CAVM_PMUX_PMCID1SR_ALIAS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCID1SR_ALIAS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020228ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020228ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCID1SR_ALIAS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1095,7 +1095,7 @@ static inline uint64_t CAVM_PMUX_PMCID1SR_ALIAS(uint64_t a)
  * Register (DAB32b) pmu#_pmcid2sr
  *
  * AP Virtual Context Sample Register
- * Alias of PMU(0..23)_PMVIDSR
+ * Alias of PMU(0..35)_PMVIDSR
  */
 union cavm_pmux_pmcid2sr
 {
@@ -1123,8 +1123,8 @@ typedef union cavm_pmux_pmcid2sr cavm_pmux_pmcid2sr_t;
 static inline uint64_t CAVM_PMUX_PMCID2SR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCID2SR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00802022cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00802022cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCID2SR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1160,8 +1160,8 @@ typedef union cavm_pmux_pmcidr0 cavm_pmux_pmcidr0_t;
 static inline uint64_t CAVM_PMUX_PMCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020ff0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020ff0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1199,8 +1199,8 @@ typedef union cavm_pmux_pmcidr1 cavm_pmux_pmcidr1_t;
 static inline uint64_t CAVM_PMUX_PMCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020ff4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020ff4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1236,8 +1236,8 @@ typedef union cavm_pmux_pmcidr2 cavm_pmux_pmcidr2_t;
 static inline uint64_t CAVM_PMUX_PMCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020ff8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020ff8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1273,8 +1273,8 @@ typedef union cavm_pmux_pmcidr3 cavm_pmux_pmcidr3_t;
 static inline uint64_t CAVM_PMUX_PMCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020ffcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020ffcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1334,8 +1334,8 @@ typedef union cavm_pmux_pmcntenclr_el0 cavm_pmux_pmcntenclr_el0_t;
 static inline uint64_t CAVM_PMUX_PMCNTENCLR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCNTENCLR_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020c20ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020c20ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCNTENCLR_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1395,8 +1395,8 @@ typedef union cavm_pmux_pmcntenset_el0 cavm_pmux_pmcntenset_el0_t;
 static inline uint64_t CAVM_PMUX_PMCNTENSET_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCNTENSET_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020c00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020c00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCNTENSET_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1423,7 +1423,7 @@ union cavm_pmux_pmcr_el0
         uint32_t reserved_7_31         : 25;
         uint32_t lc                    : 1;  /**< [  6:  6](R/W) Long cycle counter enable. Determines which PMU()_PMCCNTR_EL0 bit
                                                                      generates an overflow recorded by PMOVSR[31].
-                                                                 ARM deprecates use of PMU()_PMCR_EL0[LC] = 0.
+                                                                 Arm deprecates use of PMU()_PMCR_EL0[LC] = 0.
                                                                  0 = Cycle counter overflow on increment that changes
                                                                      PMU()_PMCCNTR_EL0[31] from one to zero.
                                                                  1 = Cycle counter overflow on increment that changes
@@ -1432,7 +1432,7 @@ union cavm_pmux_pmcr_el0
                                                                      possible values of this bit are:
                                                                  Event counting is prohibited when
                                                                      ProfilingProhibited(IsSecure(),PSTATE.EL) == TRUE. See the
-                                                                     "Performance Monitors and Security" section of the ARMv8 Debug
+                                                                     "Performance Monitors and Security" section of the Armv8 Debug
                                                                      Specification, PRD03-PRDC-010486.
                                                                  This bit is RW.
                                                                  0 =  PMU()_PMCCNTR_EL0, if enabled, counts when event counting is
@@ -1456,7 +1456,7 @@ union cavm_pmux_pmcr_el0
                                                                  This bit is RW.
                                                                  If PMU()_PMCR_EL0[LC] == 1, this bit is ignored and the cycle counter
                                                                      counts every clock cycle.
-                                                                 ARM deprecates use of PMU()_PMCR[D] = 1.
+                                                                 Arm deprecates use of PMU()_PMCR[D] = 1.
                                                                  0 = When enabled, PMU()_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, PMU()_PMCCNTR_EL0 counts once every 64 clock cycles. */
         uint32_t c_rst                 : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
@@ -1500,7 +1500,7 @@ union cavm_pmux_pmcr_el0
                                                                  This bit is RW.
                                                                  If PMU()_PMCR_EL0[LC] == 1, this bit is ignored and the cycle counter
                                                                      counts every clock cycle.
-                                                                 ARM deprecates use of PMU()_PMCR[D] = 1.
+                                                                 Arm deprecates use of PMU()_PMCR[D] = 1.
                                                                  0 = When enabled, PMU()_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, PMU()_PMCCNTR_EL0 counts once every 64 clock cycles. */
         uint32_t x                     : 1;  /**< [  4:  4](R/W) Enable export of events in an implementation defined event
@@ -1521,7 +1521,7 @@ union cavm_pmux_pmcr_el0
                                                                      possible values of this bit are:
                                                                  Event counting is prohibited when
                                                                      ProfilingProhibited(IsSecure(),PSTATE.EL) == TRUE. See the
-                                                                     "Performance Monitors and Security" section of the ARMv8 Debug
+                                                                     "Performance Monitors and Security" section of the Armv8 Debug
                                                                      Specification, PRD03-PRDC-010486.
                                                                  This bit is RW.
                                                                  0 =  PMU()_PMCCNTR_EL0, if enabled, counts when event counting is
@@ -1529,7 +1529,7 @@ union cavm_pmux_pmcr_el0
                                                                  1 =  PMU()_PMCCNTR_EL0 does not count when event counting is prohibited. */
         uint32_t lc                    : 1;  /**< [  6:  6](R/W) Long cycle counter enable. Determines which PMU()_PMCCNTR_EL0 bit
                                                                      generates an overflow recorded by PMOVSR[31].
-                                                                 ARM deprecates use of PMU()_PMCR_EL0[LC] = 0.
+                                                                 Arm deprecates use of PMU()_PMCR_EL0[LC] = 0.
                                                                  0 = Cycle counter overflow on increment that changes
                                                                      PMU()_PMCCNTR_EL0[31] from one to zero.
                                                                  1 = Cycle counter overflow on increment that changes
@@ -1544,7 +1544,7 @@ union cavm_pmux_pmcr_el0
         uint32_t reserved_7_10         : 4;
         uint32_t lc                    : 1;  /**< [  6:  6](R/W) Long cycle counter enable. Determines which PMU()_PMCCNTR_EL0 bit
                                                                      generates an overflow recorded by PMOVSR[31].
-                                                                 ARM deprecates use of PMU()_PMCR_EL0[LC] = 0.
+                                                                 Arm deprecates use of PMU()_PMCR_EL0[LC] = 0.
                                                                  0 = Cycle counter overflow on increment that changes
                                                                      PMU()_PMCCNTR_EL0[31] from one to zero.
                                                                  1 = Cycle counter overflow on increment that changes
@@ -1553,7 +1553,7 @@ union cavm_pmux_pmcr_el0
                                                                      possible values of this bit are:
                                                                  Event counting is prohibited when
                                                                      ProfilingProhibited(IsSecure(),PSTATE.EL) == TRUE. See the
-                                                                     "Performance Monitors and Security" section of the ARMv8 Debug
+                                                                     "Performance Monitors and Security" section of the Armv8 Debug
                                                                      Specification, PRD03-PRDC-010486.
                                                                  This bit is RW.
                                                                  0 =  PMU()_PMCCNTR_EL0, if enabled, counts when event counting is
@@ -1577,7 +1577,7 @@ union cavm_pmux_pmcr_el0
                                                                  This bit is RW.
                                                                  If PMU()_PMCR_EL0[LC] == 1, this bit is ignored and the cycle counter
                                                                      counts every clock cycle.
-                                                                 ARM deprecates use of PMU()_PMCR[D] = 1.
+                                                                 Arm deprecates use of PMU()_PMCR[D] = 1.
                                                                  0 = When enabled, PMU()_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, PMU()_PMCCNTR_EL0 counts once every 64 clock cycles. */
         uint32_t c_rst                 : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
@@ -1621,7 +1621,7 @@ union cavm_pmux_pmcr_el0
                                                                  This bit is RW.
                                                                  If PMU()_PMCR_EL0[LC] == 1, this bit is ignored and the cycle counter
                                                                      counts every clock cycle.
-                                                                 ARM deprecates use of PMU()_PMCR[D] = 1.
+                                                                 Arm deprecates use of PMU()_PMCR[D] = 1.
                                                                  0 = When enabled, PMU()_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, PMU()_PMCCNTR_EL0 counts once every 64 clock cycles. */
         uint32_t x                     : 1;  /**< [  4:  4](R/W) Enable export of events in an implementation defined event
@@ -1642,7 +1642,7 @@ union cavm_pmux_pmcr_el0
                                                                      possible values of this bit are:
                                                                  Event counting is prohibited when
                                                                      ProfilingProhibited(IsSecure(),PSTATE.EL) == TRUE. See the
-                                                                     "Performance Monitors and Security" section of the ARMv8 Debug
+                                                                     "Performance Monitors and Security" section of the Armv8 Debug
                                                                      Specification, PRD03-PRDC-010486.
                                                                  This bit is RW.
                                                                  0 =  PMU()_PMCCNTR_EL0, if enabled, counts when event counting is
@@ -1650,7 +1650,7 @@ union cavm_pmux_pmcr_el0
                                                                  1 =  PMU()_PMCCNTR_EL0 does not count when event counting is prohibited. */
         uint32_t lc                    : 1;  /**< [  6:  6](R/W) Long cycle counter enable. Determines which PMU()_PMCCNTR_EL0 bit
                                                                      generates an overflow recorded by PMOVSR[31].
-                                                                 ARM deprecates use of PMU()_PMCR_EL0[LC] = 0.
+                                                                 Arm deprecates use of PMU()_PMCR_EL0[LC] = 0.
                                                                  0 = Cycle counter overflow on increment that changes
                                                                      PMU()_PMCCNTR_EL0[31] from one to zero.
                                                                  1 = Cycle counter overflow on increment that changes
@@ -1665,8 +1665,8 @@ typedef union cavm_pmux_pmcr_el0 cavm_pmux_pmcr_el0_t;
 static inline uint64_t CAVM_PMUX_PMCR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMCR_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020e04ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020e04ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMCR_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1709,8 +1709,8 @@ typedef union cavm_pmux_pmdevaff0 cavm_pmux_pmdevaff0_t;
 static inline uint64_t CAVM_PMUX_PMDEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMDEVAFF0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fa8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fa8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMDEVAFF0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1753,8 +1753,8 @@ typedef union cavm_pmux_pmdevaff1 cavm_pmux_pmdevaff1_t;
 static inline uint64_t CAVM_PMUX_PMDEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMDEVAFF1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020facll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020facll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMDEVAFF1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1776,7 +1776,7 @@ union cavm_pmux_pmdevarch
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For performance
-                                                                     monitors, this is ARM limited.
+                                                                     monitors, this is Arm limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -1784,11 +1784,11 @@ union cavm_pmux_pmdevarch
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For performance monitors, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For performance monitors:
                                                                   Bits [15:12] are the architecture version, 0x2.
                                                                   Bits [11:0] are the architecture part number, 0xA16.
@@ -1797,7 +1797,7 @@ union cavm_pmux_pmdevarch
                                                                      PMUv3. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For performance monitors:
                                                                   Bits [15:12] are the architecture version, 0x2.
                                                                   Bits [11:0] are the architecture part number, 0xA16.
@@ -1805,13 +1805,13 @@ union cavm_pmux_pmdevarch
                                                                  This corresponds to performance monitors architecture version
                                                                      PMUv3. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For performance monitors, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For performance
-                                                                     monitors, this is ARM limited.
+                                                                     monitors, this is Arm limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -1825,8 +1825,8 @@ typedef union cavm_pmux_pmdevarch cavm_pmux_pmdevarch_t;
 static inline uint64_t CAVM_PMUX_PMDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMDEVARCH(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fbcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fbcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMDEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1864,8 +1864,8 @@ typedef union cavm_pmux_pmdevid cavm_pmux_pmdevid_t;
 static inline uint64_t CAVM_PMUX_PMDEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMDEVID(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fc8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fc8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMDEVID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1904,8 +1904,8 @@ typedef union cavm_pmux_pmdevtype cavm_pmux_pmdevtype_t;
 static inline uint64_t CAVM_PMUX_PMDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMDEVTYPE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fccll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fccll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMDEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1941,8 +1941,8 @@ typedef union cavm_pmux_pmevcntrx_el0 cavm_pmux_pmevcntrx_el0_t;
 static inline uint64_t CAVM_PMUX_PMEVCNTRX_EL0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMEVCNTRX_EL0(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008020000ll + 0x80000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008020000ll + 0x80000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("PMUX_PMEVCNTRX_EL0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2014,7 +2014,7 @@ union cavm_pmux_pmevtyperx_el0
                                                                      privileged information.
                                                                   The value read back on evtCount is an unknown value with the
                                                                      same effect.
-                                                                 ARM recommends that the behavior across a family of
+                                                                 Arm recommends that the behavior across a family of
                                                                      implementations is defined such that if a given implementation
                                                                      does not include an event from a set of common implementation
                                                                      defined events, then no event is counted and the value read
@@ -2037,7 +2037,7 @@ union cavm_pmux_pmevtyperx_el0
                                                                      privileged information.
                                                                   The value read back on evtCount is an unknown value with the
                                                                      same effect.
-                                                                 ARM recommends that the behavior across a family of
+                                                                 Arm recommends that the behavior across a family of
                                                                      implementations is defined such that if a given implementation
                                                                      does not include an event from a set of common implementation
                                                                      defined events, then no event is counted and the value read
@@ -2084,8 +2084,8 @@ typedef union cavm_pmux_pmevtyperx_el0 cavm_pmux_pmevtyperx_el0_t;
 static inline uint64_t CAVM_PMUX_PMEVTYPERX_EL0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMEVTYPERX_EL0(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=5))
-        return 0x87a008020400ll + 0x80000ll * ((a) & 0x1f) + 4ll * ((b) & 0x7);
+    if ((a<=35) && (b<=5))
+        return 0x87a008020400ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x7);
     __cavm_csr_fatal("PMUX_PMEVTYPERX_EL0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2152,8 +2152,8 @@ typedef union cavm_pmux_pmintenclr_el1 cavm_pmux_pmintenclr_el1_t;
 static inline uint64_t CAVM_PMUX_PMINTENCLR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMINTENCLR_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020c60ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020c60ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMINTENCLR_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2220,8 +2220,8 @@ typedef union cavm_pmux_pmintenset_el1 cavm_pmux_pmintenset_el1_t;
 static inline uint64_t CAVM_PMUX_PMINTENSET_EL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMINTENSET_EL1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020c40ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020c40ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMINTENSET_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2270,8 +2270,8 @@ typedef union cavm_pmux_pmitctrl cavm_pmux_pmitctrl_t;
 static inline uint64_t CAVM_PMUX_PMITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMITCTRL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020f00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020f00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2310,8 +2310,8 @@ typedef union cavm_pmux_pmlar cavm_pmux_pmlar_t;
 static inline uint64_t CAVM_PMUX_PMLAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMLAR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fb0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fb0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMLAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2380,8 +2380,8 @@ typedef union cavm_pmux_pmlsr cavm_pmux_pmlsr_t;
 static inline uint64_t CAVM_PMUX_PMLSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMLSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fb4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fb4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMLSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2444,8 +2444,8 @@ typedef union cavm_pmux_pmovsclr_el0 cavm_pmux_pmovsclr_el0_t;
 static inline uint64_t CAVM_PMUX_PMOVSCLR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMOVSCLR_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020c80ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020c80ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMOVSCLR_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2503,8 +2503,8 @@ typedef union cavm_pmux_pmovsset_el0 cavm_pmux_pmovsset_el0_t;
 static inline uint64_t CAVM_PMUX_PMOVSSET_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMOVSSET_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020cc0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020cc0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMOVSSET_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2546,8 +2546,8 @@ typedef union cavm_pmux_pmpcsr_hi cavm_pmux_pmpcsr_hi_t;
 static inline uint64_t CAVM_PMUX_PMPCSR_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPCSR_HI(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020204ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020204ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPCSR_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2586,8 +2586,8 @@ typedef union cavm_pmux_pmpcsr_hi_alias cavm_pmux_pmpcsr_hi_alias_t;
 static inline uint64_t CAVM_PMUX_PMPCSR_HI_ALIAS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPCSR_HI_ALIAS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020224ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020224ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPCSR_HI_ALIAS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2624,8 +2624,8 @@ typedef union cavm_pmux_pmpcsr_lo cavm_pmux_pmpcsr_lo_t;
 static inline uint64_t CAVM_PMUX_PMPCSR_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPCSR_LO(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020200ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020200ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPCSR_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2658,8 +2658,8 @@ typedef union cavm_pmux_pmpcsr_lo_alias cavm_pmux_pmpcsr_lo_alias_t;
 static inline uint64_t CAVM_PMUX_PMPCSR_LO_ALIAS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPCSR_LO_ALIAS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020220ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020220ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPCSR_LO_ALIAS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2696,8 +2696,8 @@ typedef union cavm_pmux_pmpidr0 cavm_pmux_pmpidr0_t;
 static inline uint64_t CAVM_PMUX_PMPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fe0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fe0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2721,11 +2721,11 @@ union cavm_pmux_pmpidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -2736,8 +2736,8 @@ typedef union cavm_pmux_pmpidr1 cavm_pmux_pmpidr1_t;
 static inline uint64_t CAVM_PMUX_PMPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fe4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fe4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2761,13 +2761,13 @@ union cavm_pmux_pmpidr2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -2778,8 +2778,8 @@ typedef union cavm_pmux_pmpidr2 cavm_pmux_pmpidr2_t;
 static inline uint64_t CAVM_PMUX_PMPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fe8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fe8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2820,8 +2820,8 @@ typedef union cavm_pmux_pmpidr3 cavm_pmux_pmpidr3_t;
 static inline uint64_t CAVM_PMUX_PMPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fecll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fecll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2848,9 +2848,9 @@ union cavm_pmux_pmpidr4
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log2 of the number of
                                                                      4 KB pages from the start of the component to the end of the
                                                                      component ID registers. */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
 #else /* Word 0 - Little Endian */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log2 of the number of
                                                                      4 KB pages from the start of the component to the end of the
                                                                      component ID registers. */
@@ -2864,8 +2864,8 @@ typedef union cavm_pmux_pmpidr4 cavm_pmux_pmpidr4_t;
 static inline uint64_t CAVM_PMUX_PMPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fd0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fd0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2898,8 +2898,8 @@ typedef union cavm_pmux_pmpidr5 cavm_pmux_pmpidr5_t;
 static inline uint64_t CAVM_PMUX_PMPIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fd4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fd4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2932,8 +2932,8 @@ typedef union cavm_pmux_pmpidr6 cavm_pmux_pmpidr6_t;
 static inline uint64_t CAVM_PMUX_PMPIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fd8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fd8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2966,8 +2966,8 @@ typedef union cavm_pmux_pmpidr7 cavm_pmux_pmpidr7_t;
 static inline uint64_t CAVM_PMUX_PMPIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMPIDR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020fdcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020fdcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMPIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3016,8 +3016,8 @@ typedef union cavm_pmux_pmswinc_el0 cavm_pmux_pmswinc_el0_t;
 static inline uint64_t CAVM_PMUX_PMSWINC_EL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMSWINC_EL0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008020ca0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008020ca0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMSWINC_EL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3059,8 +3059,8 @@ typedef union cavm_pmux_pmvidsr cavm_pmux_pmvidsr_t;
 static inline uint64_t CAVM_PMUX_PMVIDSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PMUX_PMVIDSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00802020cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00802020cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("PMUX_PMVIDSR", 1, a, 0, 0, 0, 0, 0);
 }
 

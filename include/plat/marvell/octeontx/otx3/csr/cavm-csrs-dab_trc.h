@@ -100,8 +100,8 @@ typedef union cavm_trcx_trcacatr0 cavm_trcx_trcacatr0_t;
 static inline uint64_t CAVM_TRCX_TRCACATR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030480ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030480ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -192,8 +192,8 @@ typedef union cavm_trcx_trcacatr1 cavm_trcx_trcacatr1_t;
 static inline uint64_t CAVM_TRCX_TRCACATR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030488ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030488ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -284,8 +284,8 @@ typedef union cavm_trcx_trcacatr2 cavm_trcx_trcacatr2_t;
 static inline uint64_t CAVM_TRCX_TRCACATR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030490ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030490ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -376,8 +376,8 @@ typedef union cavm_trcx_trcacatr3 cavm_trcx_trcacatr3_t;
 static inline uint64_t CAVM_TRCX_TRCACATR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030498ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030498ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -468,8 +468,8 @@ typedef union cavm_trcx_trcacatr4 cavm_trcx_trcacatr4_t;
 static inline uint64_t CAVM_TRCX_TRCACATR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080304a0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080304a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -560,8 +560,8 @@ typedef union cavm_trcx_trcacatr5 cavm_trcx_trcacatr5_t;
 static inline uint64_t CAVM_TRCX_TRCACATR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080304a8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080304a8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -652,8 +652,8 @@ typedef union cavm_trcx_trcacatr6 cavm_trcx_trcacatr6_t;
 static inline uint64_t CAVM_TRCX_TRCACATR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080304b0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080304b0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -744,8 +744,8 @@ typedef union cavm_trcx_trcacatr7 cavm_trcx_trcacatr7_t;
 static inline uint64_t CAVM_TRCX_TRCACATR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACATR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080304b8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080304b8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACATR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -779,8 +779,8 @@ typedef union cavm_trcx_trcacvr0 cavm_trcx_trcacvr0_t;
 static inline uint64_t CAVM_TRCX_TRCACVR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030400ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030400ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -814,8 +814,8 @@ typedef union cavm_trcx_trcacvr1 cavm_trcx_trcacvr1_t;
 static inline uint64_t CAVM_TRCX_TRCACVR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030408ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030408ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -849,8 +849,8 @@ typedef union cavm_trcx_trcacvr2 cavm_trcx_trcacvr2_t;
 static inline uint64_t CAVM_TRCX_TRCACVR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030410ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030410ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -884,8 +884,8 @@ typedef union cavm_trcx_trcacvr3 cavm_trcx_trcacvr3_t;
 static inline uint64_t CAVM_TRCX_TRCACVR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030418ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030418ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -919,8 +919,8 @@ typedef union cavm_trcx_trcacvr4 cavm_trcx_trcacvr4_t;
 static inline uint64_t CAVM_TRCX_TRCACVR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030420ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030420ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -954,8 +954,8 @@ typedef union cavm_trcx_trcacvr5 cavm_trcx_trcacvr5_t;
 static inline uint64_t CAVM_TRCX_TRCACVR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030428ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030428ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -989,8 +989,8 @@ typedef union cavm_trcx_trcacvr6 cavm_trcx_trcacvr6_t;
 static inline uint64_t CAVM_TRCX_TRCACVR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030430ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030430ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1024,8 +1024,8 @@ typedef union cavm_trcx_trcacvr7 cavm_trcx_trcacvr7_t;
 static inline uint64_t CAVM_TRCX_TRCACVR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCACVR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030438ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030438ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCACVR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1080,8 +1080,8 @@ typedef union cavm_trcx_trcauthstatus cavm_trcx_trcauthstatus_t;
 static inline uint64_t CAVM_TRCX_TRCAUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCAUTHSTATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fb8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fb8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCAUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1115,8 +1115,8 @@ typedef union cavm_trcx_trcauxctlr cavm_trcx_trcauxctlr_t;
 static inline uint64_t CAVM_TRCX_TRCAUXCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCAUXCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030018ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030018ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCAUXCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1168,8 +1168,8 @@ typedef union cavm_trcx_trcbbctlr cavm_trcx_trcbbctlr_t;
 static inline uint64_t CAVM_TRCX_TRCBBCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCBBCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00803003cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00803003cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCBBCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1205,8 +1205,8 @@ typedef union cavm_trcx_trcccctlr cavm_trcx_trcccctlr_t;
 static inline uint64_t CAVM_TRCX_TRCCCCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCCCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030038ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030038ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCCCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1253,8 +1253,8 @@ typedef union cavm_trcx_trccidcctlr0 cavm_trcx_trccidcctlr0_t;
 static inline uint64_t CAVM_TRCX_TRCCIDCCTLR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCIDCCTLR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030680ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030680ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCIDCCTLR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1292,8 +1292,8 @@ typedef union cavm_trcx_trccidcvr0 cavm_trcx_trccidcvr0_t;
 static inline uint64_t CAVM_TRCX_TRCCIDCVR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCIDCVR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030600ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030600ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCIDCVR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1329,8 +1329,8 @@ typedef union cavm_trcx_trccidr0 cavm_trcx_trccidr0_t;
 static inline uint64_t CAVM_TRCX_TRCCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030ff0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030ff0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1368,8 +1368,8 @@ typedef union cavm_trcx_trccidr1 cavm_trcx_trccidr1_t;
 static inline uint64_t CAVM_TRCX_TRCCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030ff4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030ff4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1405,8 +1405,8 @@ typedef union cavm_trcx_trccidr2 cavm_trcx_trccidr2_t;
 static inline uint64_t CAVM_TRCX_TRCCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030ff8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030ff8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1442,8 +1442,8 @@ typedef union cavm_trcx_trccidr3 cavm_trcx_trccidr3_t;
 static inline uint64_t CAVM_TRCX_TRCCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030ffcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030ffcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1491,8 +1491,8 @@ typedef union cavm_trcx_trcclaimclr cavm_trcx_trcclaimclr_t;
 static inline uint64_t CAVM_TRCX_TRCCLAIMCLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCLAIMCLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fa4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fa4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCLAIMCLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1544,8 +1544,8 @@ typedef union cavm_trcx_trcclaimset cavm_trcx_trcclaimset_t;
 static inline uint64_t CAVM_TRCX_TRCCLAIMSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCLAIMSET(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fa0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fa0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCLAIMSET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1595,8 +1595,8 @@ typedef union cavm_trcx_trccntctlr0 cavm_trcx_trccntctlr0_t;
 static inline uint64_t CAVM_TRCX_TRCCNTCTLR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCNTCTLR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030150ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030150ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCNTCTLR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1646,8 +1646,8 @@ typedef union cavm_trcx_trccntctlr1 cavm_trcx_trccntctlr1_t;
 static inline uint64_t CAVM_TRCX_TRCCNTCTLR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCNTCTLR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030154ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030154ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCNTCTLR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1683,8 +1683,8 @@ typedef union cavm_trcx_trccntrldvr0 cavm_trcx_trccntrldvr0_t;
 static inline uint64_t CAVM_TRCX_TRCCNTRLDVR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCNTRLDVR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030140ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030140ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCNTRLDVR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1720,8 +1720,8 @@ typedef union cavm_trcx_trccntrldvr1 cavm_trcx_trccntrldvr1_t;
 static inline uint64_t CAVM_TRCX_TRCCNTRLDVR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCNTRLDVR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030144ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030144ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCNTRLDVR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1757,8 +1757,8 @@ typedef union cavm_trcx_trccntvr0 cavm_trcx_trccntvr0_t;
 static inline uint64_t CAVM_TRCX_TRCCNTVR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCNTVR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030160ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030160ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCNTVR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1794,8 +1794,8 @@ typedef union cavm_trcx_trccntvr1 cavm_trcx_trccntvr1_t;
 static inline uint64_t CAVM_TRCX_TRCCNTVR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCNTVR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030164ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030164ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCNTVR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1931,8 +1931,8 @@ typedef union cavm_trcx_trcconfigr cavm_trcx_trcconfigr_t;
 static inline uint64_t CAVM_TRCX_TRCCONFIGR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCCONFIGR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030010ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030010ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCCONFIGR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1972,8 +1972,8 @@ typedef union cavm_trcx_trcdevaff0 cavm_trcx_trcdevaff0_t;
 static inline uint64_t CAVM_TRCX_TRCDEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCDEVAFF0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fa8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fa8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCDEVAFF0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2007,8 +2007,8 @@ typedef union cavm_trcx_trcdevaff1 cavm_trcx_trcdevaff1_t;
 static inline uint64_t CAVM_TRCX_TRCDEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCDEVAFF1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030facll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030facll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCDEVAFF1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2030,7 +2030,7 @@ union cavm_trcx_trcdevarch
     struct cavm_trcx_trcdevarch_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is Arm Limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -2038,29 +2038,29 @@ union cavm_trcx_trcdevarch
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For TRC, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For TRC:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
                                                                  This corresponds to TRC architecture version TRCv2. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
+                                                                     architectures defined by Arm this is further subdivided.
                                                                  For TRC:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
                                                                  This corresponds to TRC architecture version TRCv2. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
+                                                                     by Arm this is the minor revision.
                                                                  For TRC, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to one, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is Arm Limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
@@ -2074,8 +2074,8 @@ typedef union cavm_trcx_trcdevarch cavm_trcx_trcdevarch_t;
 static inline uint64_t CAVM_TRCX_TRCDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCDEVARCH(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fbcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fbcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCDEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2177,8 +2177,8 @@ typedef union cavm_trcx_trcdevid cavm_trcx_trcdevid_t;
 static inline uint64_t CAVM_TRCX_TRCDEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCDEVID(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fc8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fc8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCDEVID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2217,8 +2217,8 @@ typedef union cavm_trcx_trcdevtype cavm_trcx_trcdevtype_t;
 static inline uint64_t CAVM_TRCX_TRCDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCDEVTYPE(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fccll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fccll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCDEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2258,8 +2258,8 @@ typedef union cavm_trcx_trceventctl0r cavm_trcx_trceventctl0r_t;
 static inline uint64_t CAVM_TRCX_TRCEVENTCTL0R(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCEVENTCTL0R(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030020ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030020ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCEVENTCTL0R", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2321,8 +2321,8 @@ typedef union cavm_trcx_trceventctl1r cavm_trcx_trceventctl1r_t;
 static inline uint64_t CAVM_TRCX_TRCEVENTCTL1R(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCEVENTCTL1R(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030024ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030024ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCEVENTCTL1R", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2468,8 +2468,8 @@ typedef union cavm_trcx_trcidr0 cavm_trcx_trcidr0_t;
 static inline uint64_t CAVM_TRCX_TRCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301e0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301e0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2491,7 +2491,7 @@ union cavm_trcx_trcidr1
     struct cavm_trcx_trcidr1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Cavium. */
+        uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Marvell (Cavium). */
         uint32_t reserved_16_23        : 8;
         uint32_t val1                  : 4;  /**< [ 15: 12](RO) Read as one for all 4 bits. */
         uint32_t archmaj               : 4;  /**< [ 11:  8](RO) ETMv4. */
@@ -2503,7 +2503,7 @@ union cavm_trcx_trcidr1
         uint32_t archmaj               : 4;  /**< [ 11:  8](RO) ETMv4. */
         uint32_t val1                  : 4;  /**< [ 15: 12](RO) Read as one for all 4 bits. */
         uint32_t reserved_16_23        : 8;
-        uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Cavium. */
+        uint32_t designer              : 8;  /**< [ 31: 24](RO) Designer Marvell (Cavium). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_trcx_trcidr1_s cn; */
@@ -2513,8 +2513,8 @@ typedef union cavm_trcx_trcidr1 cavm_trcx_trcidr1_t;
 static inline uint64_t CAVM_TRCX_TRCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301e4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301e4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2550,8 +2550,8 @@ typedef union cavm_trcx_trcidr10 cavm_trcx_trcidr10_t;
 static inline uint64_t CAVM_TRCX_TRCIDR10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR10(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030188ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030188ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2585,8 +2585,8 @@ typedef union cavm_trcx_trcidr11 cavm_trcx_trcidr11_t;
 static inline uint64_t CAVM_TRCX_TRCIDR11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR11(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00803018cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00803018cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2622,8 +2622,8 @@ typedef union cavm_trcx_trcidr12 cavm_trcx_trcidr12_t;
 static inline uint64_t CAVM_TRCX_TRCIDR12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR12(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030190ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030190ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2659,8 +2659,8 @@ typedef union cavm_trcx_trcidr13 cavm_trcx_trcidr13_t;
 static inline uint64_t CAVM_TRCX_TRCIDR13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR13(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030194ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030194ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2693,13 +2693,13 @@ union cavm_trcx_trcidr2
                                                                    TRCIDR0[TRCDATA]=0x0.
                                                                    0x4 = Maximum of 32-bit data value size.
                                                                    0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
-                                                                   ARMv6 and ARMv7 PEs. */
+                                                                   Armv6 and Armv7 PEs. */
         uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
                                                                  0x0 = Data address tracing is not supported. Therefore, an implementation must
                                                                  also set TRC()_TRCIDR0[TRCDATA]=0x0.
                                                                  0x4 = Maximum of 32-bit data address size.
                                                                  0x8 = Maximum of 64-bit data address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
+                                                                 tracing Armv6 and Armv7 PEs.
 
                                                                  For CNXXXX, not supported. */
         uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of
@@ -2716,14 +2716,14 @@ union cavm_trcx_trcidr2
         uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
                                                                  0x4 = Maximum of 32-bit address size.
                                                                  0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
+                                                                 tracing Armv6 and Armv7 PEs.
 
                                                                  For CNXXXX, 64-bit. */
 #else /* Word 0 - Little Endian */
         uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
                                                                  0x4 = Maximum of 32-bit address size.
                                                                  0x8 = Maximum of 64-bit address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
+                                                                 tracing Armv6 and Armv7 PEs.
 
                                                                  For CNXXXX, 64-bit. */
         uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the context ID size. The permitted values are:
@@ -2742,7 +2742,7 @@ union cavm_trcx_trcidr2
                                                                  also set TRC()_TRCIDR0[TRCDATA]=0x0.
                                                                  0x4 = Maximum of 32-bit data address size.
                                                                  0x8 = Maximum of 64-bit data address size. This value is not permitted when
-                                                                 tracing ARMv6 and ARMv7 PEs.
+                                                                 tracing Armv6 and Armv7 PEs.
 
                                                                  For CNXXXX, not supported. */
         uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
@@ -2750,7 +2750,7 @@ union cavm_trcx_trcidr2
                                                                    TRCIDR0[TRCDATA]=0x0.
                                                                    0x4 = Maximum of 32-bit data value size.
                                                                    0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
-                                                                   ARMv6 and ARMv7 PEs. */
+                                                                   Armv6 and Armv7 PEs. */
         uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
                                                                  cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
 
@@ -2766,8 +2766,8 @@ typedef union cavm_trcx_trcidr2 cavm_trcx_trcidr2_t;
 static inline uint64_t CAVM_TRCX_TRCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301e8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301e8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2869,8 +2869,8 @@ typedef union cavm_trcx_trcidr3 cavm_trcx_trcidr3_t;
 static inline uint64_t CAVM_TRCX_TRCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301ecll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301ecll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2938,8 +2938,8 @@ typedef union cavm_trcx_trcidr4 cavm_trcx_trcidr4_t;
 static inline uint64_t CAVM_TRCX_TRCIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301f0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301f0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3051,8 +3051,8 @@ typedef union cavm_trcx_trcidr5 cavm_trcx_trcidr5_t;
 static inline uint64_t CAVM_TRCX_TRCIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301f4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301f4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3086,8 +3086,8 @@ typedef union cavm_trcx_trcidr6 cavm_trcx_trcidr6_t;
 static inline uint64_t CAVM_TRCX_TRCIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301f8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301f8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3121,8 +3121,8 @@ typedef union cavm_trcx_trcidr7 cavm_trcx_trcidr7_t;
 static inline uint64_t CAVM_TRCX_TRCIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301fcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301fcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3164,8 +3164,8 @@ typedef union cavm_trcx_trcidr8 cavm_trcx_trcidr8_t;
 static inline uint64_t CAVM_TRCX_TRCIDR8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR8(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030180ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030180ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3192,7 +3192,7 @@ union cavm_trcx_trcidr9
 
                                                                  The value of this bit can be less than the value of TRC()_TRCIDR8[MAXSPEC].
 
-                                                                 ARM recommends a minimum of 32 P0 keys for an implementation that supports data
+                                                                 Arm recommends a minimum of 32 P0 keys for an implementation that supports data
                                                                  tracing. If TRC()_TRCIDR9[NUMP0KEY] \< 32 this can result in a large number of
                                                                  data synchronization markers in the trace stream.
 
@@ -3203,7 +3203,7 @@ union cavm_trcx_trcidr9
 
                                                                  The value of this bit can be less than the value of TRC()_TRCIDR8[MAXSPEC].
 
-                                                                 ARM recommends a minimum of 32 P0 keys for an implementation that supports data
+                                                                 Arm recommends a minimum of 32 P0 keys for an implementation that supports data
                                                                  tracing. If TRC()_TRCIDR9[NUMP0KEY] \< 32 this can result in a large number of
                                                                  data synchronization markers in the trace stream.
 
@@ -3217,8 +3217,8 @@ typedef union cavm_trcx_trcidr9 cavm_trcx_trcidr9_t;
 static inline uint64_t CAVM_TRCX_TRCIDR9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIDR9(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030184ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030184ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIDR9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3265,8 +3265,8 @@ typedef union cavm_trcx_trcimspec0 cavm_trcx_trcimspec0_t;
 static inline uint64_t CAVM_TRCX_TRCIMSPEC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIMSPEC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301c0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301c0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIMSPEC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3325,8 +3325,8 @@ typedef union cavm_trcx_trcimspec1 cavm_trcx_trcimspec1_t;
 static inline uint64_t CAVM_TRCX_TRCIMSPEC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIMSPEC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301c4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301c4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIMSPEC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3367,8 +3367,8 @@ typedef union cavm_trcx_trcimspec2 cavm_trcx_trcimspec2_t;
 static inline uint64_t CAVM_TRCX_TRCIMSPEC2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCIMSPEC2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080301c8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080301c8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCIMSPEC2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3417,8 +3417,8 @@ typedef union cavm_trcx_trcitctrl cavm_trcx_trcitctrl_t;
 static inline uint64_t CAVM_TRCX_TRCITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCITCTRL(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030f00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030f00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3457,8 +3457,8 @@ typedef union cavm_trcx_trclar cavm_trcx_trclar_t;
 static inline uint64_t CAVM_TRCX_TRCLAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCLAR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fb0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fb0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCLAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3525,8 +3525,8 @@ typedef union cavm_trcx_trclsr cavm_trcx_trclsr_t;
 static inline uint64_t CAVM_TRCX_TRCLSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCLSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fb4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fb4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCLSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3566,8 +3566,8 @@ typedef union cavm_trcx_trcoslar cavm_trcx_trcoslar_t;
 static inline uint64_t CAVM_TRCX_TRCOSLAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCOSLAR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030300ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030300ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCOSLAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3623,8 +3623,8 @@ typedef union cavm_trcx_trcoslsr cavm_trcx_trcoslsr_t;
 static inline uint64_t CAVM_TRCX_TRCOSLSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCOSLSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030304ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030304ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCOSLSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3667,8 +3667,8 @@ typedef union cavm_trcx_trcpdcr cavm_trcx_trcpdcr_t;
 static inline uint64_t CAVM_TRCX_TRCPDCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPDCR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030310ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030310ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPDCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3749,8 +3749,8 @@ typedef union cavm_trcx_trcpdsr cavm_trcx_trcpdsr_t;
 static inline uint64_t CAVM_TRCX_TRCPDSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPDSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030314ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030314ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPDSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3786,8 +3786,8 @@ typedef union cavm_trcx_trcpidr0 cavm_trcx_trcpidr0_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fe0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fe0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3810,11 +3810,11 @@ union cavm_trcx_trcpidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -3825,8 +3825,8 @@ typedef union cavm_trcx_trcpidr1 cavm_trcx_trcpidr1_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fe4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fe4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3849,13 +3849,13 @@ union cavm_trcx_trcpidr2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -3866,8 +3866,8 @@ typedef union cavm_trcx_trcpidr2 cavm_trcx_trcpidr2_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fe8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fe8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3907,8 +3907,8 @@ typedef union cavm_trcx_trcpidr3 cavm_trcx_trcpidr3_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fecll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fecll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3933,9 +3933,9 @@ union cavm_trcx_trcpidr4
         uint32_t reserved_8_31         : 24;
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
 #else /* Word 0 - Little Endian */
-        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
         uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t reserved_8_31         : 24;
@@ -3948,8 +3948,8 @@ typedef union cavm_trcx_trcpidr4 cavm_trcx_trcpidr4_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fd0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fd0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3983,8 +3983,8 @@ typedef union cavm_trcx_trcpidr5 cavm_trcx_trcpidr5_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fd4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fd4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4018,8 +4018,8 @@ typedef union cavm_trcx_trcpidr6 cavm_trcx_trcpidr6_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fd8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fd8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4053,8 +4053,8 @@ typedef union cavm_trcx_trcpidr7 cavm_trcx_trcpidr7_t;
 static inline uint64_t CAVM_TRCX_TRCPIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPIDR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030fdcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030fdcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4096,8 +4096,8 @@ typedef union cavm_trcx_trcprgctlr cavm_trcx_trcprgctlr_t;
 static inline uint64_t CAVM_TRCX_TRCPRGCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPRGCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030004ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030004ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPRGCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4137,8 +4137,8 @@ typedef union cavm_trcx_trcprocselr cavm_trcx_trcprocselr_t;
 static inline uint64_t CAVM_TRCX_TRCPROCSELR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCPROCSELR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030008ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030008ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCPROCSELR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4188,8 +4188,8 @@ typedef union cavm_trcx_trcqctlr cavm_trcx_trcqctlr_t;
 static inline uint64_t CAVM_TRCX_TRCQCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCQCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030044ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030044ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCQCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4223,8 +4223,8 @@ typedef union cavm_trcx_trcrsctlr0 cavm_trcx_trcrsctlr0_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030200ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030200ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4258,8 +4258,8 @@ typedef union cavm_trcx_trcrsctlr1 cavm_trcx_trcrsctlr1_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030204ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030204ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4323,8 +4323,8 @@ typedef union cavm_trcx_trcrsctlr2 cavm_trcx_trcrsctlr2_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030208ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030208ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4388,8 +4388,8 @@ typedef union cavm_trcx_trcrsctlr3 cavm_trcx_trcrsctlr3_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00803020cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00803020cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4453,8 +4453,8 @@ typedef union cavm_trcx_trcrsctlr4 cavm_trcx_trcrsctlr4_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030210ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030210ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4518,8 +4518,8 @@ typedef union cavm_trcx_trcrsctlr5 cavm_trcx_trcrsctlr5_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030214ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030214ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4553,8 +4553,8 @@ typedef union cavm_trcx_trcrsctlr6 cavm_trcx_trcrsctlr6_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030218ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030218ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4588,8 +4588,8 @@ typedef union cavm_trcx_trcrsctlr7 cavm_trcx_trcrsctlr7_t;
 static inline uint64_t CAVM_TRCX_TRCRSCTLR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCRSCTLR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00803021cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00803021cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCRSCTLR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4623,8 +4623,8 @@ typedef union cavm_trcx_trcssccr0 cavm_trcx_trcssccr0_t;
 static inline uint64_t CAVM_TRCX_TRCSSCCR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCSSCCR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030280ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030280ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCSSCCR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4658,8 +4658,8 @@ typedef union cavm_trcx_trcsscsr0 cavm_trcx_trcsscsr0_t;
 static inline uint64_t CAVM_TRCX_TRCSSCSR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCSSCSR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080302a0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080302a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCSSCSR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4693,8 +4693,8 @@ typedef union cavm_trcx_trcsspcicr0 cavm_trcx_trcsspcicr0_t;
 static inline uint64_t CAVM_TRCX_TRCSSPCICR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCSSPCICR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080302c0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080302c0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCSSPCICR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4784,8 +4784,8 @@ typedef union cavm_trcx_trcstallctlr cavm_trcx_trcstallctlr_t;
 static inline uint64_t CAVM_TRCX_TRCSTALLCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCSTALLCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00803002cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00803002cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCSTALLCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4831,8 +4831,8 @@ typedef union cavm_trcx_trcstatr cavm_trcx_trcstatr_t;
 static inline uint64_t CAVM_TRCX_TRCSTATR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCSTATR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00803000cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00803000cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCSTATR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4878,8 +4878,8 @@ typedef union cavm_trcx_trcsyncpr cavm_trcx_trcsyncpr_t;
 static inline uint64_t CAVM_TRCX_TRCSYNCPR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCSYNCPR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030034ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030034ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCSYNCPR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4915,8 +4915,8 @@ typedef union cavm_trcx_trctraceidr cavm_trcx_trctraceidr_t;
 static inline uint64_t CAVM_TRCX_TRCTRACEIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCTRACEIDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030040ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030040ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCTRACEIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4954,8 +4954,8 @@ typedef union cavm_trcx_trctsctlr cavm_trcx_trctsctlr_t;
 static inline uint64_t CAVM_TRCX_TRCTSCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCTSCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030030ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030030ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCTSCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5011,8 +5011,8 @@ typedef union cavm_trcx_trcvdarcctlr cavm_trcx_trcvdarcctlr_t;
 static inline uint64_t CAVM_TRCX_TRCVDARCCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVDARCCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080300a8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080300a8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVDARCCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5084,8 +5084,8 @@ typedef union cavm_trcx_trcvdctlr cavm_trcx_trcvdctlr_t;
 static inline uint64_t CAVM_TRCX_TRCVDCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVDCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080300a0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080300a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVDCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5141,8 +5141,8 @@ typedef union cavm_trcx_trcvdsacctlr cavm_trcx_trcvdsacctlr_t;
 static inline uint64_t CAVM_TRCX_TRCVDSACCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVDSACCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080300a4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080300a4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVDSACCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5234,8 +5234,8 @@ typedef union cavm_trcx_trcvictlr cavm_trcx_trcvictlr_t;
 static inline uint64_t CAVM_TRCX_TRCVICTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVICTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030080ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030080ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVICTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5291,8 +5291,8 @@ typedef union cavm_trcx_trcviiectlr cavm_trcx_trcviiectlr_t;
 static inline uint64_t CAVM_TRCX_TRCVIIECTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVIIECTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030084ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030084ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVIIECTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5352,8 +5352,8 @@ typedef union cavm_trcx_trcvipcssctlr cavm_trcx_trcvipcssctlr_t;
 static inline uint64_t CAVM_TRCX_TRCVIPCSSCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVIPCSSCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a00803008cll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a00803008cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVIPCSSCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5413,8 +5413,8 @@ typedef union cavm_trcx_trcvissctlr cavm_trcx_trcvissctlr_t;
 static inline uint64_t CAVM_TRCX_TRCVISSCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVISSCTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030088ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030088ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVISSCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5467,8 +5467,8 @@ typedef union cavm_trcx_trcvmidcctlr0 cavm_trcx_trcvmidcctlr0_t;
 static inline uint64_t CAVM_TRCX_TRCVMIDCCTLR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVMIDCCTLR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030688ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030688ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVMIDCCTLR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5506,8 +5506,8 @@ typedef union cavm_trcx_trcvmidcvr0 cavm_trcx_trcvmidcvr0_t;
 static inline uint64_t CAVM_TRCX_TRCVMIDCVR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TRCX_TRCVMIDCVR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008030640ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008030640ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TRCX_TRCVMIDCVR0", 1, a, 0, 0, 0, 0, 0);
 }
 

@@ -62,6 +62,17 @@
  * This enumerates opcodes on the EPCI bus between the CPT controller and engines.
  */
 #define CAVM_CPT_EOP_E_ATM_FAA64 (0x3b)
+#define CAVM_CPT_EOP_E_CTX_DEC_AOP (0x82)
+#define CAVM_CPT_EOP_E_CTX_DEC_AOP_REL (0x83)
+#define CAVM_CPT_EOP_E_CTX_ENC_AOP (0x80)
+#define CAVM_CPT_EOP_E_CTX_ENC_AOP_REL (0x81)
+#define CAVM_CPT_EOP_E_CTX_FAA_AOP (0x84)
+#define CAVM_CPT_EOP_E_CTX_FAA_AOP_REL (0x85)
+#define CAVM_CPT_EOP_E_CTX_LIST_ADD (0x8a)
+#define CAVM_CPT_EOP_E_CTX_LIST_ADD_PRE (0x8c)
+#define CAVM_CPT_EOP_E_CTX_READ (0x86)
+#define CAVM_CPT_EOP_E_CTX_READ_REL (0x87)
+#define CAVM_CPT_EOP_E_CTX_WRITE (0x88)
 #define CAVM_CPT_EOP_E_DMA_RD_LDD (8)
 #define CAVM_CPT_EOP_E_DMA_RD_LDE (0xb)
 #define CAVM_CPT_EOP_E_DMA_RD_LDI (2)
@@ -179,27 +190,55 @@ union cavm_cpt_inst_s
     struct cavm_cpt_inst_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t nixtx_addr            : 60; /**< [ 63:  4] When [NIXTXL]!=0x0, [NIXTX_ADDR] must be nonzero, and must point to the
-                                                                 LMTST portion of the descriptor that CPT may submit to NIX TX after
-                                                                 completing the CPT_INST_S. When [NIXTXL]=0x0, [NIXTX_ADDR] is reserved
-                                                                 and must be zero.
+        uint64_t nixtx_addr            : 60; /**< [ 63:  4] When [NIXTXL]!=0x0, [NIXTX_ADDR] points to a NIX TX descriptor:
 
-                                                                 [NIXTX_ADDR] is a 128-bit word address (i.e. \<3:0\> is missing from a byte
+                                                                 * [NIXTX_ADDR] must be nonzero, and must point to the
+                                                                 LMTST portion of the descriptor that CPT may submit to NIX TX after
+                                                                 completing the CPT_INST_S.
+
+                                                                 * [NIXTX_ADDR] is a 128-bit word address (i.e. \<3:0\> is missing from a byte
                                                                  address equivalent). The start of the LMTST portion of the NIX TX descriptor
                                                                  must be aligned to a 128-bit / 16 byte boundary.
 
-                                                                 CPT doesn't modify the descriptor bytes that it passes to NIXTX. NIXTX
+                                                                 * CPT doesn't modify the descriptor bytes that it passes to NIXTX. NIXTX
                                                                  will receive the bytes in the same format as they are in memory, including
-                                                                 endianness.
+                                                                 endianness. CPT always passes the descriptor bytes to the NIX function
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC] in the NIXTX selected by
+                                                                 CPT_AF_LF()_CTL[NIX_SEL].
 
-                                                                 Upon an SMMU fault reading the descriptor from [NIXTX_ADDR], CPT sets
+                                                                 * Upon an SMMU fault reading the descriptor from [NIXTX_ADDR], CPT sets
                                                                  CPT_LF_MISC_INT[FAULT], causes CPT_COMP_E::FAULT, and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
                                                                  an LF/queue reset.  If CPT_AF_CTL[RD_PSN_IGN]=0, CPT also does these
                                                                  things when it encounters poison on the descriptor read.
 
+                                                                 When [NIXTXL]=0x0, [NIXTX_ADDR] is normally reserved and must be zero.
+
+                                                                 The only exception to this rule when [NIXTXL]=0x0 is for CPT instructions
+                                                                 created by NIX RX (i.e. when CPT_AF_LF()_CTL[PF_FUNC_INST]=1):
+
+                                                                 * NIXTX_ADDR\<59:44\> (i.e. the most-significant 16 bits of the aligned
+                                                                 64-bit word) is [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]. NIX RX inline IPSEC
+                                                                 logic fills [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] with NIX_AF_LF()_CFG[SSO_PF_FUNC]
+                                                                 for this case. RVU_PF_FUNC_S describes the format of
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] is
+                                                                 the function CPT uses for the SSO add work for this instruction.
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] affects only the add work to SSO.
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] does not affect any other CPT_INST_S execution.
+                                                                 See also [RVU_PF_FUNC] and [WQE_PTR].
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] is
+                                                                 not used by CPT. See CPT_AF_LF()_CTL2[SSO_PF_FUNC].
+
                                                                  Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
+
+                                                                 The above description is inaccurate for CN93XX pass 1.
+                                                                 In CN93XX pass 1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] doesn't exist, NIX RX always
+                                                                 fills NIXTX_ADDR with zeroes, and CPT instead uses [RVU_PF_FUNC] when
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0. */
         uint64_t doneint               : 1;  /**< [  3:  3] Done interrupt.
                                                                  0 = No interrupts related to this instruction.
                                                                  1 = When the instruction completes, CPT_LF_DONE[DONE] will be incremented,
@@ -257,7 +296,9 @@ union cavm_cpt_inst_s
 
                                                                  CPT_AF_LF()_CTL[NIXTX_EN] must be set when [NIXTXL]!=0x0. (NIX sets
                                                                  CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when the
-                                                                 instruction violates this rule.)
+                                                                 instruction violates this rule.) See also CPT_AF_LF()_CTL[NIX_SEL] and
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC], which select the NIX and NIX function
+                                                                 that the descriptor will be enqueued to.
 
                                                                  [QORD] must be set when [NIXTXL]!=0x0. (NIX sets CPT_LF_MISC_INT[NQERR]
                                                                  and signals CPT_COMP_E::INSTERR when the instruction violates this
@@ -306,7 +347,9 @@ union cavm_cpt_inst_s
 
                                                                  CPT_AF_LF()_CTL[NIXTX_EN] must be set when [NIXTXL]!=0x0. (NIX sets
                                                                  CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when the
-                                                                 instruction violates this rule.)
+                                                                 instruction violates this rule.) See also CPT_AF_LF()_CTL[NIX_SEL] and
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC], which select the NIX and NIX function
+                                                                 that the descriptor will be enqueued to.
 
                                                                  [QORD] must be set when [NIXTXL]!=0x0. (NIX sets CPT_LF_MISC_INT[NQERR]
                                                                  and signals CPT_COMP_E::INSTERR when the instruction violates this
@@ -331,35 +374,63 @@ union cavm_cpt_inst_s
                                                                  CPT_LF_DONE[DONE] increment conceptually occurs after the CPT_RES_S write.
                                                                  We say [QORD] doesn't affect this increment order because it doesn't
                                                                  affect the CPT_RES_S write order. See the [RES_ADDR] internal comment. */
-        uint64_t nixtx_addr            : 60; /**< [ 63:  4] When [NIXTXL]!=0x0, [NIXTX_ADDR] must be nonzero, and must point to the
-                                                                 LMTST portion of the descriptor that CPT may submit to NIX TX after
-                                                                 completing the CPT_INST_S. When [NIXTXL]=0x0, [NIXTX_ADDR] is reserved
-                                                                 and must be zero.
+        uint64_t nixtx_addr            : 60; /**< [ 63:  4] When [NIXTXL]!=0x0, [NIXTX_ADDR] points to a NIX TX descriptor:
 
-                                                                 [NIXTX_ADDR] is a 128-bit word address (i.e. \<3:0\> is missing from a byte
+                                                                 * [NIXTX_ADDR] must be nonzero, and must point to the
+                                                                 LMTST portion of the descriptor that CPT may submit to NIX TX after
+                                                                 completing the CPT_INST_S.
+
+                                                                 * [NIXTX_ADDR] is a 128-bit word address (i.e. \<3:0\> is missing from a byte
                                                                  address equivalent). The start of the LMTST portion of the NIX TX descriptor
                                                                  must be aligned to a 128-bit / 16 byte boundary.
 
-                                                                 CPT doesn't modify the descriptor bytes that it passes to NIXTX. NIXTX
+                                                                 * CPT doesn't modify the descriptor bytes that it passes to NIXTX. NIXTX
                                                                  will receive the bytes in the same format as they are in memory, including
-                                                                 endianness.
+                                                                 endianness. CPT always passes the descriptor bytes to the NIX function
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC] in the NIXTX selected by
+                                                                 CPT_AF_LF()_CTL[NIX_SEL].
 
-                                                                 Upon an SMMU fault reading the descriptor from [NIXTX_ADDR], CPT sets
+                                                                 * Upon an SMMU fault reading the descriptor from [NIXTX_ADDR], CPT sets
                                                                  CPT_LF_MISC_INT[FAULT], causes CPT_COMP_E::FAULT, and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
                                                                  an LF/queue reset.  If CPT_AF_CTL[RD_PSN_IGN]=0, CPT also does these
                                                                  things when it encounters poison on the descriptor read.
 
+                                                                 When [NIXTXL]=0x0, [NIXTX_ADDR] is normally reserved and must be zero.
+
+                                                                 The only exception to this rule when [NIXTXL]=0x0 is for CPT instructions
+                                                                 created by NIX RX (i.e. when CPT_AF_LF()_CTL[PF_FUNC_INST]=1):
+
+                                                                 * NIXTX_ADDR\<59:44\> (i.e. the most-significant 16 bits of the aligned
+                                                                 64-bit word) is [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]. NIX RX inline IPSEC
+                                                                 logic fills [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] with NIX_AF_LF()_CFG[SSO_PF_FUNC]
+                                                                 for this case. RVU_PF_FUNC_S describes the format of
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] is
+                                                                 the function CPT uses for the SSO add work for this instruction.
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] affects only the add work to SSO.
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] does not affect any other CPT_INST_S execution.
+                                                                 See also [RVU_PF_FUNC] and [WQE_PTR].
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] is
+                                                                 not used by CPT. See CPT_AF_LF()_CTL2[SSO_PF_FUNC].
+
                                                                  Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
+
+                                                                 The above description is inaccurate for CN93XX pass 1.
+                                                                 In CN93XX pass 1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] doesn't exist, NIX RX always
+                                                                 fills NIXTX_ADDR with zeroes, and CPT instead uses [RVU_PF_FUNC] when
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA. CPT always writes a CPT_RES_S to this location after it
                                                                  finishes executing the instruction. [RES_ADDR] must not be zero.
 
-                                                                 CPT writes the CPT_RES_S before any submit to SSO (see [WQE_PTR]),
-                                                                 before any final NIX TX descriptor submit (see [NIXTXL]), and before
-                                                                 any CPT_LF_DONE[DONE] increment ((see [DONEINT]).
+                                                                 CPT writes the CPT_RES_S for a CPT_INST_S before performing any of these actions
+                                                                 for the CPT_INST_S: a submit to SSO (see [WQE_PTR]), a final NIX TX descriptor
+                                                                 submit (see [NIXTXL]), or a CPT_LF_DONE[DONE] increment ((see [DONEINT]).
 
                                                                  CPT cannot write the CPT_RES_S until after it completes all LLC/DRAM writes
                                                                  related to executing the corresponding CPT_INST_S and clearing all possible
@@ -367,9 +438,10 @@ union cavm_cpt_inst_s
                                                                  CPT may write the CPT_RES_S's in any order, but will typically write each soon
                                                                  after the engine completes execution of the corresponding CPT_INST_S.
 
-                                                                 [QORD] has no direct affect on when CPT writes the CPT_RES_S. [NIXTXL]
-                                                                 can delay CPT_RES_S writes due to potential SMMU faults on NIX TX
-                                                                 descriptor reads, but otherwise may not affect CPT_RES_S write order.
+                                                                 [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
+                                                                 two different CPT_INST_S's. [NIXTXL] can delay CPT_RES_S writes due to potential
+                                                                 SMMU faults on NIX TX descriptor reads, but otherwise may not affect CPT_RES_S
+                                                                 write order.
 
                                                                  The CPT_RES_S must reside in a naturally-aligned 128-bit / 16-byte word.
                                                                  [RES_ADDR]\<3:0\> must always be zero.
@@ -385,21 +457,21 @@ union cavm_cpt_inst_s
                                                                  Internal:
                                                                  Bits \<63:53\> are ignored by hardware, treated as always 0x0.
 
-                                                                 In T93, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
+                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
                                                                  this, it would be incorrect for this spec to say that CPT orders the
                                                                  CPT_RES_S's when [QORD]=1. This is because for AP software
                                                                  to see the stores in order, CPT would both need to send the CPT_RES_S's
                                                                  in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. T93 CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the T93 CPT behavior, and hence the comment that [QORD]
+                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
+                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
                                                                  has no direct effect on CPT_RES_S order. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA. CPT always writes a CPT_RES_S to this location after it
                                                                  finishes executing the instruction. [RES_ADDR] must not be zero.
 
-                                                                 CPT writes the CPT_RES_S before any submit to SSO (see [WQE_PTR]),
-                                                                 before any final NIX TX descriptor submit (see [NIXTXL]), and before
-                                                                 any CPT_LF_DONE[DONE] increment ((see [DONEINT]).
+                                                                 CPT writes the CPT_RES_S for a CPT_INST_S before performing any of these actions
+                                                                 for the CPT_INST_S: a submit to SSO (see [WQE_PTR]), a final NIX TX descriptor
+                                                                 submit (see [NIXTXL]), or a CPT_LF_DONE[DONE] increment ((see [DONEINT]).
 
                                                                  CPT cannot write the CPT_RES_S until after it completes all LLC/DRAM writes
                                                                  related to executing the corresponding CPT_INST_S and clearing all possible
@@ -407,9 +479,10 @@ union cavm_cpt_inst_s
                                                                  CPT may write the CPT_RES_S's in any order, but will typically write each soon
                                                                  after the engine completes execution of the corresponding CPT_INST_S.
 
-                                                                 [QORD] has no direct affect on when CPT writes the CPT_RES_S. [NIXTXL]
-                                                                 can delay CPT_RES_S writes due to potential SMMU faults on NIX TX
-                                                                 descriptor reads, but otherwise may not affect CPT_RES_S write order.
+                                                                 [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
+                                                                 two different CPT_INST_S's. [NIXTXL] can delay CPT_RES_S writes due to potential
+                                                                 SMMU faults on NIX TX descriptor reads, but otherwise may not affect CPT_RES_S
+                                                                 write order.
 
                                                                  The CPT_RES_S must reside in a naturally-aligned 128-bit / 16-byte word.
                                                                  [RES_ADDR]\<3:0\> must always be zero.
@@ -425,13 +498,13 @@ union cavm_cpt_inst_s
                                                                  Internal:
                                                                  Bits \<63:53\> are ignored by hardware, treated as always 0x0.
 
-                                                                 In T93, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
+                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
                                                                  this, it would be incorrect for this spec to say that CPT orders the
                                                                  CPT_RES_S's when [QORD]=1. This is because for AP software
                                                                  to see the stores in order, CPT would both need to send the CPT_RES_S's
                                                                  in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. T93 CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the T93 CPT behavior, and hence the comment that [QORD]
+                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
+                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
                                                                  has no direct effect on CPT_RES_S order. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
@@ -439,12 +512,15 @@ union cavm_cpt_inst_s
 
                                                                  RVU_PF_FUNC_S describes the format of [RVU_PF_FUNC].
 
-                                                                 See also CPT_AF_LF()_CTL[PF_FUNC_INST]. When CPT_AF_LF()_CTL[PF_FUNC_INST]=1,
-                                                                 CPT executes the CPT_INST_S within the function [RVU_PF_FUNC]. When
-                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST]=0, as normal, CPT executes the CPT_INST_S
-                                                                 within CPT_PRIV_LF()_CFG[PF_FUNC], the function the queue/LF belongs to.
+                                                                 See also CPT_AF_LF()_CTL[PF_FUNC_INST] and [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]. When
+                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST]=1, CPT executes the CPT_INST_S within
+                                                                 the function [RVU_PF_FUNC]. NIX RX inline IPSEC logic fills [RVU_PF_FUNC] with
+                                                                 NIX_PRIV_LF()_CFG[PF_FUNC] in this case. When CPT_AF_LF()_CTL[PF_FUNC_INST]=0, as
+                                                                 normal, CPT executes the CPT_INST_S within CPT_PRIV_LF()_CFG[PF_FUNC], the function
+                                                                 the queue/LF belongs to.
 
-                                                                 See also CPT_AF_LF()_CTL2[NIX_PF_FUNC,SSO_PF_FUNC]. */
+                                                                 See also CPT_AF_LF()_CTL2[NIX_PF_FUNC,SSO_PF_FUNC] and
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]. */
         uint64_t reserved_172_175      : 4;
         uint64_t grp                   : 10; /**< [171:162] If [WQE_PTR] is nonzero, the SSO guest-group to use when CPT submits work to
                                                                  SSO.
@@ -470,12 +546,15 @@ union cavm_cpt_inst_s
 
                                                                  RVU_PF_FUNC_S describes the format of [RVU_PF_FUNC].
 
-                                                                 See also CPT_AF_LF()_CTL[PF_FUNC_INST]. When CPT_AF_LF()_CTL[PF_FUNC_INST]=1,
-                                                                 CPT executes the CPT_INST_S within the function [RVU_PF_FUNC]. When
-                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST]=0, as normal, CPT executes the CPT_INST_S
-                                                                 within CPT_PRIV_LF()_CFG[PF_FUNC], the function the queue/LF belongs to.
+                                                                 See also CPT_AF_LF()_CTL[PF_FUNC_INST] and [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]. When
+                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST]=1, CPT executes the CPT_INST_S within
+                                                                 the function [RVU_PF_FUNC]. NIX RX inline IPSEC logic fills [RVU_PF_FUNC] with
+                                                                 NIX_PRIV_LF()_CFG[PF_FUNC] in this case. When CPT_AF_LF()_CTL[PF_FUNC_INST]=0, as
+                                                                 normal, CPT executes the CPT_INST_S within CPT_PRIV_LF()_CFG[PF_FUNC], the function
+                                                                 the queue/LF belongs to.
 
-                                                                 See also CPT_AF_LF()_CTL2[NIX_PF_FUNC,SSO_PF_FUNC]. */
+                                                                 See also CPT_AF_LF()_CTL2[NIX_PF_FUNC,SSO_PF_FUNC] and
+                                                                 [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t wqe_ptr               : 61; /**< [255:195] If [WQE_PTR] is nonzero, it is a pointer to a work-queue entry that CPT submits
@@ -486,13 +565,24 @@ union cavm_cpt_inst_s
                                                                  address equivalent). The start of the WQE must be aligned to a 64-bit / 8 byte
                                                                  boundary.
 
-                                                                 CPT adds the work to SSO after writing the CPT_RES_S (see [RES_ADDR]), but
-                                                                 unordered relative to any CPT_LF_DONE[DONE] increment (see [DONEINT]). CPT does
-                                                                 not add work to SSO when it sends a descriptor to NIX TX (see [NIXTXL]).
+                                                                 CPT always adds the work to SSO after writing the CPT_RES_S for this CPT_INST_S
+                                                                 (see [RES_ADDR]), but unordered relative to any CPT_LF_DONE[DONE] increment
+                                                                 (see [DONEINT]). Also, if [QORD]=1 for this CPT_INST_S, CPT adds SSO work
+                                                                 for this CPT_INST_S after it writes the CPT_RES_S's of all prior CPT_INST_S's
+                                                                 within the same LF/queue that have their CPT_INST_S[QORD]=1. CPT will not
+                                                                 order the CPT_RES_S writes of prior CPT_INST_S's that are either not in the
+                                                                 same LF/queue or have their CPT_INST_S[QORD]=0.
 
-                                                                 CPT adds SSO work from CPT_INST_S's in the same LF/queue that have [QORD]=1
-                                                                 in queue order. CPT may add to SSO in any order in all other situations, even
-                                                                 amongst instructions in the same queue.
+                                                                 CPT does not add work to SSO when it sends a descriptor to NIX TX (see [NIXTXL]).
+
+                                                                 CPT adds SSO work from CPT_INST_S's in the same LF/queue that have their
+                                                                 CPT_INST_S[QORD]=1 in queue order. CPT may add to SSO in any order in all
+                                                                 other situations, even amongst instructions in the same queue.
+
+                                                                 CPT normally adds work to the function CPT_AF_LF()_CTL2[SSO_PF_FUNC]. But if
+                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST]=1 and CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, CPT
+                                                                 instead adds work to the SSO function in this instruction
+                                                                 ([SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]).
 
                                                                  [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
 
@@ -501,7 +591,7 @@ union cavm_cpt_inst_s
         uint64_t reserved_193_194      : 2;
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_ADDR]) in queue
-                                                                 order.
+                                                                 order. [QORD]=1 can also force CPT_RES_S write completion.
 
                                                                  [QORD] must be set when [NIXTXL]!=0x0. CPT sets CPT_LF_MISC_INT[NQERR]
                                                                  and signals CPT_COMP_E::INSTERR when this rule is violated. CPT sends NIX
@@ -511,19 +601,28 @@ union cavm_cpt_inst_s
                                                                  executes the two SSO add works in order. If [QORD]=0 or if the instructions
                                                                  are in different queues, CPT may reorder the add works.
 
-                                                                 [QORD] has no direct affect on when CPT writes the CPT_RES_S. See [RES_ADDR].
+                                                                 [QORD] may commonly be used to force NIX TX or SSO order amongst
+                                                                 instructions within a LF/queue. But [QORD]=1 additionally forces CPT_RES_S
+                                                                 write completion prior to a subsequent [QORD]=1 SSO add within the LF/queue.
+                                                                 See [WQE_PTR].
 
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated.
+                                                                 [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
+                                                                 two different CPT_INST_S's. See [RES_ADDR].
 
                                                                  Internal:
                                                                  See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate. */
+                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
+
+                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
+                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
+                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
+                                                                 rule is violated. */
 #else /* Word 3 - Little Endian */
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_ADDR]) in queue
-                                                                 order.
+                                                                 order. [QORD]=1 can also force CPT_RES_S write completion.
 
                                                                  [QORD] must be set when [NIXTXL]!=0x0. CPT sets CPT_LF_MISC_INT[NQERR]
                                                                  and signals CPT_COMP_E::INSTERR when this rule is violated. CPT sends NIX
@@ -533,15 +632,24 @@ union cavm_cpt_inst_s
                                                                  executes the two SSO add works in order. If [QORD]=0 or if the instructions
                                                                  are in different queues, CPT may reorder the add works.
 
-                                                                 [QORD] has no direct affect on when CPT writes the CPT_RES_S. See [RES_ADDR].
+                                                                 [QORD] may commonly be used to force NIX TX or SSO order amongst
+                                                                 instructions within a LF/queue. But [QORD]=1 additionally forces CPT_RES_S
+                                                                 write completion prior to a subsequent [QORD]=1 SSO add within the LF/queue.
+                                                                 See [WQE_PTR].
 
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated.
+                                                                 [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
+                                                                 two different CPT_INST_S's. See [RES_ADDR].
 
                                                                  Internal:
                                                                  See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate. */
+                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
+
+                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
+                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
+                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
+                                                                 rule is violated. */
         uint64_t reserved_193_194      : 2;
         uint64_t wqe_ptr               : 61; /**< [255:195] If [WQE_PTR] is nonzero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO (except sometimes when [NIXTXL]!=0x0) after all context, output data,
@@ -551,13 +659,24 @@ union cavm_cpt_inst_s
                                                                  address equivalent). The start of the WQE must be aligned to a 64-bit / 8 byte
                                                                  boundary.
 
-                                                                 CPT adds the work to SSO after writing the CPT_RES_S (see [RES_ADDR]), but
-                                                                 unordered relative to any CPT_LF_DONE[DONE] increment (see [DONEINT]). CPT does
-                                                                 not add work to SSO when it sends a descriptor to NIX TX (see [NIXTXL]).
+                                                                 CPT always adds the work to SSO after writing the CPT_RES_S for this CPT_INST_S
+                                                                 (see [RES_ADDR]), but unordered relative to any CPT_LF_DONE[DONE] increment
+                                                                 (see [DONEINT]). Also, if [QORD]=1 for this CPT_INST_S, CPT adds SSO work
+                                                                 for this CPT_INST_S after it writes the CPT_RES_S's of all prior CPT_INST_S's
+                                                                 within the same LF/queue that have their CPT_INST_S[QORD]=1. CPT will not
+                                                                 order the CPT_RES_S writes of prior CPT_INST_S's that are either not in the
+                                                                 same LF/queue or have their CPT_INST_S[QORD]=0.
 
-                                                                 CPT adds SSO work from CPT_INST_S's in the same LF/queue that have [QORD]=1
-                                                                 in queue order. CPT may add to SSO in any order in all other situations, even
-                                                                 amongst instructions in the same queue.
+                                                                 CPT does not add work to SSO when it sends a descriptor to NIX TX (see [NIXTXL]).
+
+                                                                 CPT adds SSO work from CPT_INST_S's in the same LF/queue that have their
+                                                                 CPT_INST_S[QORD]=1 in queue order. CPT may add to SSO in any order in all
+                                                                 other situations, even amongst instructions in the same queue.
+
+                                                                 CPT normally adds work to the function CPT_AF_LF()_CTL2[SSO_PF_FUNC]. But if
+                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST]=1 and CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, CPT
+                                                                 instead adds work to the SSO function in this instruction
+                                                                 ([SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]).
 
                                                                  [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
 
@@ -654,7 +773,8 @@ union cavm_cpt_inst_s
                                                                  for the CPT_INST_S to select it. We may want to support that at least as
                                                                  an option for backward compatibility. Ideally, we will also support
                                                                  (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
-        uint64_t cptr                  : 61; /**< [508:448] Commonly interpreted by the engine microcode as a context pointer for
+        uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, HW needs to fetch and cache context referenced by CPTR. */
+        uint64_t cptr                  : 60; /**< [507:448] Commonly interpreted by the engine microcode as a context pointer for
                                                                  the operation to be performed. See the microcode specifications.
 
                                                                  CPT_AF_LF()_CTL2[EXE_NO_SWAP] determines the endianness when accessing
@@ -666,7 +786,7 @@ union cavm_cpt_inst_s
                                                                  an LF/queue reset.  If CPT_AF_CTL[RD_PSN_IGN]=0, CPT also does these
                                                                  things when it encounters poison on a read. */
 #else /* Word 7 - Little Endian */
-        uint64_t cptr                  : 61; /**< [508:448] Commonly interpreted by the engine microcode as a context pointer for
+        uint64_t cptr                  : 60; /**< [507:448] Commonly interpreted by the engine microcode as a context pointer for
                                                                  the operation to be performed. See the microcode specifications.
 
                                                                  CPT_AF_LF()_CTL2[EXE_NO_SWAP] determines the endianness when accessing
@@ -677,6 +797,7 @@ union cavm_cpt_inst_s
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
                                                                  an LF/queue reset.  If CPT_AF_CTL[RD_PSN_IGN]=0, CPT also does these
                                                                  things when it encounters poison on a read. */
+        uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, HW needs to fetch and cache context referenced by CPTR. */
         uint64_t egrp                  : 3;  /**< [511:509] Engine group. Selects the CPT engine(s) allowed to process the CPT_INST_S.
 
                                                                  See CPT_AF_LF()_CTL[GRP]. CPT_AF_LF()_CTL[GRP\<x\>] must be set for the
@@ -825,8 +946,7 @@ static inline uint64_t CAVM_CPTX_AF_ACTIVE_CYCLES_PC(uint64_t a)
 /**
  * Register (RVU_PF_BAR0) cpt#_af_bar2_alias#
  *
- * INTERNAL: CPT Admin Function  BAR2 Alias Registers
- *
+ * CPT Admin Function  BAR2 Alias Registers
  * These registers alias to the CPT BAR2 registers for the PF and function
  * selected by CPT_AF_BAR2_SEL[PF_FUNC].
  *
@@ -866,8 +986,7 @@ static inline uint64_t CAVM_CPTX_AF_BAR2_ALIASX(uint64_t a, uint64_t b)
 /**
  * Register (RVU_PF_BAR0) cpt#_af_bar2_sel
  *
- * INTERNAL: CPT Admin Function BAR2 Select Register
- *
+ * CPT Admin Function BAR2 Select Register
  * This register configures BAR2 accesses from the CPT_AF_BAR2_ALIAS() registers in BAR0.
  * Internal:
  * Not implemented. Placeholder for bug33464.
@@ -1266,7 +1385,9 @@ union cavm_cptx_af_ctl
     struct cavm_cptx_af_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_11_63        : 53;
+        uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, HW will allow context prefetching of the corresponding group, depending
+                                                                 upon CPT_INST_S[CTX_VAL]. */
         uint64_t fc_stype              : 2;  /**< [  2:  1](R/W) Type of store to write the memory queue size in LLC/DRAM:
                                                                  0x0 = Store full cache line, allocate cache (STF).
                                                                  0x1 = Store full cache line, no allocate (STT).
@@ -1334,7 +1455,9 @@ union cavm_cptx_af_ctl
                                                                  When [FC_STYPE] is 0x0 or 0x1. software must reserve the entire
                                                                  cache block at address (CPT_LF_Q_BASE[ADDR] \<\< 7) for the memory size
                                                                  writes. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, HW will allow context prefetching of the corresponding group, depending
+                                                                 upon CPT_INST_S[CTX_VAL]. */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_ctl_s cn; */
@@ -1357,6 +1480,140 @@ static inline uint64_t CAVM_CPTX_AF_CTL(uint64_t a)
 #define arguments_CAVM_CPTX_AF_CTL(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_err
+ *
+ * CPT AF CTX Error Register
+ * This register is set to 1 if the CTX processor recognizes that multiple
+ * groups are using the same context.
+ */
+union cavm_cptx_af_ctx_err
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) Group error bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) Group error bit. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_err_s cn; */
+};
+typedef union cavm_cptx_af_ctx_err cavm_cptx_af_ctx_err_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_ERR(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0048008ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_ERR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_ERR(a) cavm_cptx_af_ctx_err_t
+#define bustype_CAVM_CPTX_AF_CTX_ERR(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_ERR(a) "CPTX_AF_CTX_ERR"
+#define device_bar_CAVM_CPTX_AF_CTX_ERR(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_ERR(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_ERR(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_faa_cnt#
+ *
+ * CPT AF CTX Fetch-and-Add Counter Registers
+ */
+union cavm_cptx_af_ctx_faa_cntx
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_faa_cntx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the Fetch-and-Add counters in the context processor.
+                                                                 CPT_CTX contains 128 global (per-CPT) counters used only for FAA atomic
+                                                                 operations, as well as 256 global counters reserved for Encrypt and Decrypt
+                                                                 atomic operations (see CPT_LF_CTX_ENC_BYTE_CNT). */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the Fetch-and-Add counters in the context processor.
+                                                                 CPT_CTX contains 128 global (per-CPT) counters used only for FAA atomic
+                                                                 operations, as well as 256 global counters reserved for Encrypt and Decrypt
+                                                                 atomic operations (see CPT_LF_CTX_ENC_BYTE_CNT). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_faa_cntx_s cn; */
+};
+typedef union cavm_cptx_af_ctx_faa_cntx cavm_cptx_af_ctx_faa_cntx_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_FAA_CNTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_FAA_CNTX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=127))
+        return 0x8400a0049000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    __cavm_csr_fatal("CPTX_AF_CTX_FAA_CNTX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_FAA_CNTX(a,b) cavm_cptx_af_ctx_faa_cntx_t
+#define bustype_CAVM_CPTX_AF_CTX_FAA_CNTX(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_FAA_CNTX(a,b) "CPTX_AF_CTX_FAA_CNTX"
+#define device_bar_CAVM_CPTX_AF_CTX_FAA_CNTX(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_FAA_CNTX(a,b) (a)
+#define arguments_CAVM_CPTX_AF_CTX_FAA_CNTX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_flush_timer
+ *
+ * CPT AF CTX dirty data flush timer Register
+ * This register controls the interval for periodically flushing dirty data.
+ */
+union cavm_cptx_af_ctx_flush_timer
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_flush_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t cnt                   : 24; /**< [ 23:  0](R/W) Interval to flush dirty data for the next CTX cache entry.  Upon expiration of
+                                                                 the interval timer, the dirty data for one CTX entry is written back to LLC/DRAM
+                                                                 and the position is advanced to point to the next CTX entry.  After 256
+                                                                 intervals, the entire CTX cache will have been flushed.  The interval is
+                                                                 measured in increments of 10ns.
+                                                                 0x0 = Disabled.
+                                                                 0x1 = 1 10ns.
+                                                                 0x2 = 2 20ns.
+                                                                 _ etc. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 24; /**< [ 23:  0](R/W) Interval to flush dirty data for the next CTX cache entry.  Upon expiration of
+                                                                 the interval timer, the dirty data for one CTX entry is written back to LLC/DRAM
+                                                                 and the position is advanced to point to the next CTX entry.  After 256
+                                                                 intervals, the entire CTX cache will have been flushed.  The interval is
+                                                                 measured in increments of 10ns.
+                                                                 0x0 = Disabled.
+                                                                 0x1 = 1 10ns.
+                                                                 0x2 = 2 20ns.
+                                                                 _ etc. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_flush_timer_s cn; */
+};
+typedef union cavm_cptx_af_ctx_flush_timer cavm_cptx_af_ctx_flush_timer_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_FLUSH_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_FLUSH_TIMER(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0048000ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_FLUSH_TIMER", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) cavm_cptx_af_ctx_flush_timer_t
+#define bustype_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) "CPTX_AF_CTX_FLUSH_TIMER"
+#define device_bar_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_diag
  *
  * CPT AF Diagnostic Control Register
@@ -1376,7 +1633,13 @@ union cavm_cptx_af_diag
                                                                  and NCBI bus clock to be always on.
 
                                                                  For diagnostic use only. */
-        uint64_t reserved_9_11         : 3;
+        uint64_t reserved_10_11        : 2;
+        uint64_t force_cptclk          : 1;  /**< [  9:  9](RAZ) When this bit is set to one, it forces the CPTCLK clock tree to always be on.
+
+                                                                 For diagnostic use only.
+
+                                                                 Internal:
+                                                                 Note CPT-38429. */
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to one, it forces CPT clocks on. For diagnostic use only. */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
@@ -1386,7 +1649,13 @@ union cavm_cptx_af_diag
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
                                                                  \> 128 are treated as 128. */
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to one, it forces CPT clocks on. For diagnostic use only. */
-        uint64_t reserved_9_11         : 3;
+        uint64_t force_cptclk          : 1;  /**< [  9:  9](RAZ) When this bit is set to one, it forces the CPTCLK clock tree to always be on.
+
+                                                                 For diagnostic use only.
+
+                                                                 Internal:
+                                                                 Note CPT-38429. */
+        uint64_t reserved_10_11        : 2;
         uint64_t ncb_clken             : 1;  /**< [ 12: 12](R/W) When one, force the NCB interface conditional clocking
                                                                  and NCBI bus clock to be always on.
 
@@ -1420,7 +1689,7 @@ static inline uint64_t CAVM_CPTX_AF_DIAG(uint64_t a)
 /**
  * Register (RVU_PF_BAR0) cpt#_af_eco
  *
- * INTERNAL: CPT AF ECO Register
+ * CPT AF Control Register 2
  */
 union cavm_cptx_af_eco
 {
@@ -1429,10 +1698,32 @@ union cavm_cptx_af_eco
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved.
+                                                                 Internal:
                                                                  Reserved for ECO usage. */
+        uint64_t sso_pf_func_ovrd      : 1;  /**< [  0:  0](R/W) SSO PF_FUNC override.
+                                                                 0 = For an Inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
+                                                                 CPT submits SSO work to PF_FUNC CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
+                                                                 1 = For an inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
+                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC].
+
+                                                                 Internal:
+                                                                 The above description is inaccurate for CN93XX pass 1. In CN93XX pass 1,
+                                                                 CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] does not exist and CPT really
+                                                                 uses CPT_INST_S[RVU_PF_FUNC] when [SSO_PF_FUNC_OVRD]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+        uint64_t sso_pf_func_ovrd      : 1;  /**< [  0:  0](R/W) SSO PF_FUNC override.
+                                                                 0 = For an Inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
+                                                                 CPT submits SSO work to PF_FUNC CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
+                                                                 1 = For an inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
+                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC].
+
+                                                                 Internal:
+                                                                 The above description is inaccurate for CN93XX pass 1. In CN93XX pass 1,
+                                                                 CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] does not exist and CPT really
+                                                                 uses CPT_INST_S[RVU_PF_FUNC] when [SSO_PF_FUNC_OVRD]=0. */
+        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved.
+                                                                 Internal:
                                                                  Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -2601,7 +2892,8 @@ union cavm_cptx_af_lfx_ctl
                                                                  If [GRP\<x\>]=1, CPT can execute instructions with x=CPT_INST_S[EGRP].
 
                                                                  See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
-        uint64_t reserved_17_47        : 31;
+        uint64_t reserved_20_47        : 28;
+        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Length of initial context fetch. */
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
 
@@ -2611,6 +2903,8 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  1 = When CPT receives an instruction for the LF/queue with CPT_INST_S[NIXTXL]!=0x0, it
                                                                  can execute the instruction, which may involve passing its descriptor to NIX TX.
+                                                                 [NIX_SEL] selects the destination NIX, and CPT_AF_LF()_CTL2[NIX_PF_FUNC] selects
+                                                                 the NIX function.
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
         uint64_t reserved_11_15        : 5;
@@ -2624,7 +2918,10 @@ union cavm_cptx_af_lfx_ctl
                                                                  will indirectly cause CPT_LF_MISC_INT[NQERR] to be set if instructions
                                                                  are still being enqueued.
 
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+                                                                 1 = Ignore errors and continue processing instructions. The exception to
+                                                                 this rule is that CPT always clears CPT_LF_CTL[ENA] on a queue overflow
+                                                                 error. CPT_LF_MISC_INT[NQERR] and CPT_LF_Q_SIZE[SIZE_DIV40] describe a
+                                                                 queue overflow error. For diagnostic use only. */
         uint64_t pf_func_inst          : 1;  /**< [  9:  9](R/W) PFVF change allowed on instructions.
 
                                                                  0 = CPT executes all CPT_INST_S's in the queue within the function
@@ -2632,12 +2929,14 @@ union cavm_cptx_af_lfx_ctl
                                                                  and NIX exceptions below).
 
                                                                  1 = CPT executes each CPT_INST_S in the queue within the function
-                                                                 CPT_INST_S[RVU_PF_FUNC] selected by the instruction. This is typically
+                                                                 CPT_INST_S[RVU_PF_FUNC] selected by the instruction. This is
                                                                  used by the CPT queue that is performing NIX receive IPsec offload.
 
-                                                                 See also CPT_AF_LF()_CTL2[SSO_PF_FUNC]. When [PF_FUNC_INST]=0, CPT uses
-                                                                 CPT_AF_LF()_CTL2[SSO_PF_FUNC] to transfer to SSO. When [PF_FUNC_INST]=1,
-                                                                 CPT uses CPT_INST_S[RVU_PF_FUNC] for SSO.
+                                                                 See also CPT_AF_LF()_CTL2[SSO_PF_FUNC]. When [PF_FUNC_INST]=0 or
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, CPT uses CPT_AF_LF()_CTL2[SSO_PF_FUNC]
+                                                                 to add work to SSO. When [PF_FUNC_INST]=1 and CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0,
+                                                                 CPT instead adds SSO work to the function CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 selected by the instruction.
 
                                                                  See also CPT_AF_LF()_CTL2[NIX_PF_FUNC]. [PF_FUNC_INST] has no effect on NIX
                                                                  TX descriptor transfer, as instructions can't transfer to NIX TX when
@@ -2653,12 +2952,30 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  [PF_FUNC_INST] must not be set simultaneously with [NIXTX_EN].
 
-                                                                 [PF_FUNC_INST] must be set for the CPT queue that receives CPT_INST_S's
-                                                                 from NIX RX, NIX RX fills CPT_INST_S[RVU_PF_FUNC] appropriately in the
-                                                                 instructions it submits.  AP's must not add CPT_INST_S's to a queue
-                                                                 with [PF_FUNC_INST]=1. It is illegal for more than one LF/queue to have
-                                                                 [PF_FUNC_INST] set. */
-        uint64_t reserved_1_8          : 8;
+                                                                 [PF_FUNC_INST] must only be set for a CPT queue that receives CPT_INST_S's
+                                                                 from a NIX RX - NIX RX fills CPT_INST_S[RVU_PF_FUNC,SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 appropriately in the instructions it submits.  AP's must not add CPT_INST_S's to
+                                                                 a queue with [PF_FUNC_INST]=1. See also [NIX_SEL] - when [PF_FUNC_INST]=1,
+                                                                 [NIX_SEL] selects the NIX that CPT receives instructions from.
+                                                                 No two queues can have [PF_FUNC_INST]=1 and the same [NIX_SEL] value. */
+        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX
+                                                                 for all outgoing NIX TX descriptor transfers from the queue/lf. See also
+                                                                 [NIXTX_EN], which must be set for successful NIX descriptor transfers,
+                                                                 and CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
+
+                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] selects the source NIX for all instructions
+                                                                 received at the queue/lf.
+
+                                                                 For successful instruction reception from a NIX to this queue/lf, [PF_FUNC_INST]
+                                                                 must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
+                                                                 must be consistent. If the NIX_AF_RX_CPT()_INST_QSEL[SLOT] in NIX A
+                                                                 corresponding to this CPT selects this queue/lf, then [NIX_SEL] must be A
+                                                                 for successful instruction reception from NIX A to this CPT. At most two
+                                                                 queues/lfs in this CPT can have [PF_FUNC_INST]=1: at most one with [NIX_SEL]=0,
+                                                                 plus at most one with [NIX_SEL]=1.
+
+                                                                 For CNXXXX, [NIX_SEL] must always be set to zero. */
+        uint64_t reserved_1_7          : 7;
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues.
@@ -2670,7 +2987,24 @@ union cavm_cptx_af_lfx_ctl
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues.
 
                                                                  See also CPT_AF_EXE_REQ_TIMER[CNT]. */
-        uint64_t reserved_1_8          : 8;
+        uint64_t reserved_1_7          : 7;
+        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX
+                                                                 for all outgoing NIX TX descriptor transfers from the queue/lf. See also
+                                                                 [NIXTX_EN], which must be set for successful NIX descriptor transfers,
+                                                                 and CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
+
+                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] selects the source NIX for all instructions
+                                                                 received at the queue/lf.
+
+                                                                 For successful instruction reception from a NIX to this queue/lf, [PF_FUNC_INST]
+                                                                 must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
+                                                                 must be consistent. If the NIX_AF_RX_CPT()_INST_QSEL[SLOT] in NIX A
+                                                                 corresponding to this CPT selects this queue/lf, then [NIX_SEL] must be A
+                                                                 for successful instruction reception from NIX A to this CPT. At most two
+                                                                 queues/lfs in this CPT can have [PF_FUNC_INST]=1: at most one with [NIX_SEL]=0,
+                                                                 plus at most one with [NIX_SEL]=1.
+
+                                                                 For CNXXXX, [NIX_SEL] must always be set to zero. */
         uint64_t pf_func_inst          : 1;  /**< [  9:  9](R/W) PFVF change allowed on instructions.
 
                                                                  0 = CPT executes all CPT_INST_S's in the queue within the function
@@ -2678,12 +3012,14 @@ union cavm_cptx_af_lfx_ctl
                                                                  and NIX exceptions below).
 
                                                                  1 = CPT executes each CPT_INST_S in the queue within the function
-                                                                 CPT_INST_S[RVU_PF_FUNC] selected by the instruction. This is typically
+                                                                 CPT_INST_S[RVU_PF_FUNC] selected by the instruction. This is
                                                                  used by the CPT queue that is performing NIX receive IPsec offload.
 
-                                                                 See also CPT_AF_LF()_CTL2[SSO_PF_FUNC]. When [PF_FUNC_INST]=0, CPT uses
-                                                                 CPT_AF_LF()_CTL2[SSO_PF_FUNC] to transfer to SSO. When [PF_FUNC_INST]=1,
-                                                                 CPT uses CPT_INST_S[RVU_PF_FUNC] for SSO.
+                                                                 See also CPT_AF_LF()_CTL2[SSO_PF_FUNC]. When [PF_FUNC_INST]=0 or
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, CPT uses CPT_AF_LF()_CTL2[SSO_PF_FUNC]
+                                                                 to add work to SSO. When [PF_FUNC_INST]=1 and CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0,
+                                                                 CPT instead adds SSO work to the function CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 selected by the instruction.
 
                                                                  See also CPT_AF_LF()_CTL2[NIX_PF_FUNC]. [PF_FUNC_INST] has no effect on NIX
                                                                  TX descriptor transfer, as instructions can't transfer to NIX TX when
@@ -2699,11 +3035,12 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  [PF_FUNC_INST] must not be set simultaneously with [NIXTX_EN].
 
-                                                                 [PF_FUNC_INST] must be set for the CPT queue that receives CPT_INST_S's
-                                                                 from NIX RX, NIX RX fills CPT_INST_S[RVU_PF_FUNC] appropriately in the
-                                                                 instructions it submits.  AP's must not add CPT_INST_S's to a queue
-                                                                 with [PF_FUNC_INST]=1. It is illegal for more than one LF/queue to have
-                                                                 [PF_FUNC_INST] set. */
+                                                                 [PF_FUNC_INST] must only be set for a CPT queue that receives CPT_INST_S's
+                                                                 from a NIX RX - NIX RX fills CPT_INST_S[RVU_PF_FUNC,SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 appropriately in the instructions it submits.  AP's must not add CPT_INST_S's to
+                                                                 a queue with [PF_FUNC_INST]=1. See also [NIX_SEL] - when [PF_FUNC_INST]=1,
+                                                                 [NIX_SEL] selects the NIX that CPT receives instructions from.
+                                                                 No two queues can have [PF_FUNC_INST]=1 and the same [NIX_SEL] value. */
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When hardware or a CPT_LF_MISC_INT_W1S write sets any CPT_LF_MISC_INT
@@ -2714,7 +3051,10 @@ union cavm_cptx_af_lfx_ctl
                                                                  will indirectly cause CPT_LF_MISC_INT[NQERR] to be set if instructions
                                                                  are still being enqueued.
 
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+                                                                 1 = Ignore errors and continue processing instructions. The exception to
+                                                                 this rule is that CPT always clears CPT_LF_CTL[ENA] on a queue overflow
+                                                                 error. CPT_LF_MISC_INT[NQERR] and CPT_LF_Q_SIZE[SIZE_DIV40] describe a
+                                                                 queue overflow error. For diagnostic use only. */
         uint64_t reserved_11_15        : 5;
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
@@ -2725,9 +3065,12 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  1 = When CPT receives an instruction for the LF/queue with CPT_INST_S[NIXTXL]!=0x0, it
                                                                  can execute the instruction, which may involve passing its descriptor to NIX TX.
+                                                                 [NIX_SEL] selects the destination NIX, and CPT_AF_LF()_CTL2[NIX_PF_FUNC] selects
+                                                                 the NIX function.
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
-        uint64_t reserved_17_47        : 31;
+        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Length of initial context fetch. */
+        uint64_t reserved_20_47        : 28;
         uint64_t grp                   : 8;  /**< [ 55: 48](R/W) Engine group mask. Each bit represents an engine group.
 
                                                                  If [GRP\<x\>]=0, CPT will discard all instructions with x=CPT_INST_S[EGRP].
@@ -2774,17 +3117,21 @@ union cavm_cptx_af_lfx_ctl2
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t nix_pf_func           : 16; /**< [ 63: 48](R/W) CPT transfers the NIX TX descriptor identified by CPT_INST_S[NIXTXL],
                                                                  CPT_INST_S[NIXTX_ADDR] to function [NIX_PF_FUNC] in NIX TX. [NIX_PF_FUNC]
-                                                                 affects only the descriptor enqueue in NIX TX. CPT's reads of the descriptor
-                                                                 from memory before transferring it to NIX TX are not subject to [NIX_PF_FUNC],
-                                                                 same as all other CPT_INST_S execution.
+                                                                 affects only the descriptor enqueue in NIX TX. CPT's reads of
+                                                                 the descriptor from memory before transferring it to NIX TX are not subject to
+                                                                 [NIX_PF_FUNC], same as all other CPT_INST_S execution.
 
-                                                                 RVU_PF_FUNC_S describes the format of [NIX_PF_FUNC]. */
-        uint64_t sso_pf_func           : 16; /**< [ 47: 32](R/W) CPT adds any work identified by CPT_INST_S[TAG,TT,GRP,WQE_PTR] function
+                                                                 RVU_PF_FUNC_S describes the format of [NIX_PF_FUNC].
+
+                                                                 See also CPT_AF_LF()_CTL[NIXTX_EN,NIX_SEL]. */
+        uint64_t sso_pf_func           : 16; /**< [ 47: 32](R/W) CPT adds any work identified by CPT_INST_S[TAG,TT,GRP,WQE_PTR] to function
                                                                  [SSO_PF_FUNC] in SSO during normal operation. See CPT_AF_LF()_CTL[PF_FUNC_INST].
-                                                                 The exception is that when CPT_AF_LF()_CTL[PF_FUNC_INST]=1, CPT adds the work to
-                                                                 function CPT_INST_S[RVU_PF_FUNC] instead. [SSO_PF_FUNC] affects
-                                                                 only the add work to SSO. [SSO_PF_FUNC] does not affect any other CPT_INST_S
-                                                                 execution.
+                                                                 The exception is that when CPT_AF_LF()_CTL[PF_FUNC_INST]=1 and
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, CPT instead adds the work to
+                                                                 function CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
+
+                                                                 [SSO_PF_FUNC] affects only the add work to SSO. [SSO_PF_FUNC] does not affect
+                                                                 any other CPT_INST_S execution.
 
                                                                  RVU_PF_FUNC_S describes the format of [SSO_PF_FUNC]. */
         uint64_t reserved_2_31         : 30;
@@ -2816,21 +3163,25 @@ union cavm_cptx_af_lfx_ctl2
                                                                  This improves performance, but software must not read the instructions after
                                                                  they are posted to the hardware. */
         uint64_t reserved_2_31         : 30;
-        uint64_t sso_pf_func           : 16; /**< [ 47: 32](R/W) CPT adds any work identified by CPT_INST_S[TAG,TT,GRP,WQE_PTR] function
+        uint64_t sso_pf_func           : 16; /**< [ 47: 32](R/W) CPT adds any work identified by CPT_INST_S[TAG,TT,GRP,WQE_PTR] to function
                                                                  [SSO_PF_FUNC] in SSO during normal operation. See CPT_AF_LF()_CTL[PF_FUNC_INST].
-                                                                 The exception is that when CPT_AF_LF()_CTL[PF_FUNC_INST]=1, CPT adds the work to
-                                                                 function CPT_INST_S[RVU_PF_FUNC] instead. [SSO_PF_FUNC] affects
-                                                                 only the add work to SSO. [SSO_PF_FUNC] does not affect any other CPT_INST_S
-                                                                 execution.
+                                                                 The exception is that when CPT_AF_LF()_CTL[PF_FUNC_INST]=1 and
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, CPT instead adds the work to
+                                                                 function CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
+
+                                                                 [SSO_PF_FUNC] affects only the add work to SSO. [SSO_PF_FUNC] does not affect
+                                                                 any other CPT_INST_S execution.
 
                                                                  RVU_PF_FUNC_S describes the format of [SSO_PF_FUNC]. */
         uint64_t nix_pf_func           : 16; /**< [ 63: 48](R/W) CPT transfers the NIX TX descriptor identified by CPT_INST_S[NIXTXL],
                                                                  CPT_INST_S[NIXTX_ADDR] to function [NIX_PF_FUNC] in NIX TX. [NIX_PF_FUNC]
-                                                                 affects only the descriptor enqueue in NIX TX. CPT's reads of the descriptor
-                                                                 from memory before transferring it to NIX TX are not subject to [NIX_PF_FUNC],
-                                                                 same as all other CPT_INST_S execution.
+                                                                 affects only the descriptor enqueue in NIX TX. CPT's reads of
+                                                                 the descriptor from memory before transferring it to NIX TX are not subject to
+                                                                 [NIX_PF_FUNC], same as all other CPT_INST_S execution.
 
-                                                                 RVU_PF_FUNC_S describes the format of [NIX_PF_FUNC]. */
+                                                                 RVU_PF_FUNC_S describes the format of [NIX_PF_FUNC].
+
+                                                                 See also CPT_AF_LF()_CTL[NIXTX_EN,NIX_SEL]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_lfx_ctl2_s cn; */
@@ -3282,12 +3633,14 @@ union cavm_cptx_af_ras_int
 
                                                                  CPT sets [LD_DAT_PSN] regardless of the CPT_AF_CTL[RD_PSN_IGN] setting. */
         uint64_t ld_cmd_psn            : 1;  /**< [  0:  0](R/W1C/H) Set when CPT receives poisoned data reading a CPT_INST_S/CPT_INST_S[EGRP]
-                                                                 memory queue. CPT will have also set a CPT_AF_PSN()_LF[LF] bit.
+                                                                 memory queue or a NIX TX descriptor. CPT will have also set a CPT_AF_PSN()_LF[LF]
+                                                                 bit.
 
                                                                  CPT sets [LD_CMD_PSN] regardless of the CPT_AF_CTL[RD_PSN_IGN] setting. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_cmd_psn            : 1;  /**< [  0:  0](R/W1C/H) Set when CPT receives poisoned data reading a CPT_INST_S/CPT_INST_S[EGRP]
-                                                                 memory queue. CPT will have also set a CPT_AF_PSN()_LF[LF] bit.
+                                                                 memory queue or a NIX TX descriptor. CPT will have also set a CPT_AF_PSN()_LF[LF]
+                                                                 bit.
 
                                                                  CPT sets [LD_CMD_PSN] regardless of the CPT_AF_CTL[RD_PSN_IGN] setting. */
         uint64_t ld_dat_psn            : 1;  /**< [  1:  1](R/W1C/H) Set when CPT receives poisoned data in a read response initiated by an engine.
@@ -3562,10 +3915,16 @@ union cavm_cptx_af_rvu_int
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG and CPT_AF_RVU_LF_CFG_DEBUG. */
+                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG.
+
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
 #else /* Word 0 - Little Endian */
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG and CPT_AF_RVU_LF_CFG_DEBUG. */
+                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG.
+
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -3601,9 +3960,13 @@ union cavm_cptx_af_rvu_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -3639,9 +4002,13 @@ union cavm_cptx_af_rvu_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -3677,9 +4044,13 @@ union cavm_cptx_af_rvu_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT].
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT].
+                                                                 Internal:
+                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -3881,7 +4252,9 @@ union cavm_cptx_lf_ctl
 
                                                                  1 = When CPT receives a CPT_INST_S for the LF (at CPT_LF_NQ()), it enqueues it.
 
-                                                                 CPT clears [ENA] when any CPT_LF_MISC_INT bit gets set. See CPT_AF_LF()_CTL[CONT_ERR].
+                                                                 CPT clears [ENA] when any CPT_LF_MISC_INT bit gets set when CPT_AF_LF()_CTL[CONT_ERR]=0.
+                                                                 CPT always clears [ENA] on a queue overflow, irrespective of CPT_AF_LF()_CTL[CONT_ERR].
+                                                                 CPT_LF_MISC_INT[NQERR] and CPT_LF_Q_SIZE[SIZE_DIV40] describe queue overflow.
 
                                                                  Software must only transition [ENA] 0-\>1 when the queue is execution-quiescent
                                                                  (see CPT_LF_INPROG[EENA,INFLIGHT]).
@@ -3902,7 +4275,9 @@ union cavm_cptx_lf_ctl
 
                                                                  1 = When CPT receives a CPT_INST_S for the LF (at CPT_LF_NQ()), it enqueues it.
 
-                                                                 CPT clears [ENA] when any CPT_LF_MISC_INT bit gets set. See CPT_AF_LF()_CTL[CONT_ERR].
+                                                                 CPT clears [ENA] when any CPT_LF_MISC_INT bit gets set when CPT_AF_LF()_CTL[CONT_ERR]=0.
+                                                                 CPT always clears [ENA] on a queue overflow, irrespective of CPT_AF_LF()_CTL[CONT_ERR].
+                                                                 CPT_LF_MISC_INT[NQERR] and CPT_LF_Q_SIZE[SIZE_DIV40] describe queue overflow.
 
                                                                  Software must only transition [ENA] 0-\>1 when the queue is execution-quiescent
                                                                  (see CPT_LF_INPROG[EENA,INFLIGHT]).
@@ -3986,6 +4361,252 @@ static inline uint64_t CAVM_CPTX_LF_CTL(uint64_t a)
 #define device_bar_CAVM_CPTX_LF_CTL(a) 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_CPTX_LF_CTL(a) (a)
 #define arguments_CAVM_CPTX_LF_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_ctl
+ *
+ * CPT LF CTX Control Registers
+ */
+union cavm_cptx_lf_ctx_ctl
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t flr_flush             : 1;  /**< [  0:  0](R/W) If set, FLR's from this queue will flush any dirty data from the CTX cache to LLC/DRAM.
+                                                                 Note that FLR's will always invalidate all entries for the queue that initiated the FLR. */
+#else /* Word 0 - Little Endian */
+        uint64_t flr_flush             : 1;  /**< [  0:  0](R/W) If set, FLR's from this queue will flush any dirty data from the CTX cache to LLC/DRAM.
+                                                                 Note that FLR's will always invalidate all entries for the queue that initiated the FLR. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_ctl_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_ctl cavm_cptx_lf_ctx_ctl_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_CTL(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00500ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_CTL(a) cavm_cptx_lf_ctx_ctl_t
+#define bustype_CAVM_CPTX_LF_CTX_CTL(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_CTL(a) "CPTX_LF_CTX_CTL"
+#define device_bar_CAVM_CPTX_LF_CTX_CTL(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_CTL(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_dec_byte_cnt
+ *
+ * CPT LF CTX Decrypt Byte Counter Registers
+ */
+union cavm_cptx_lf_ctx_dec_byte_cnt
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_dec_byte_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Byte counters in the context processor.
+                                                                 CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
+                                                                 operations, as well as 128 global counters for Fetch-and-Add operations
+                                                                 (see CPT_AF_CTX_FAA_CNT). */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Byte counters in the context processor.
+                                                                 CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
+                                                                 operations, as well as 128 global counters for Fetch-and-Add operations
+                                                                 (see CPT_AF_CTX_FAA_CNT). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_dec_byte_cnt_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_dec_byte_cnt cavm_cptx_lf_ctx_dec_byte_cnt_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00540ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_DEC_BYTE_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(a) cavm_cptx_lf_ctx_dec_byte_cnt_t
+#define bustype_CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(a) "CPTX_LF_CTX_DEC_BYTE_CNT"
+#define device_bar_CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_dec_pkt_cnt
+ *
+ * CPT LF CTX Decrypt Packet Counter Registers
+ * Provides access to the 64 Decrypt Packet Counters in CPT_CTX.
+ */
+union cavm_cptx_lf_ctx_dec_pkt_cnt
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_dec_pkt_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Count. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_dec_pkt_cnt_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_dec_pkt_cnt cavm_cptx_lf_ctx_dec_pkt_cnt_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_DEC_PKT_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_DEC_PKT_CNT(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00550ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_DEC_PKT_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_DEC_PKT_CNT(a) cavm_cptx_lf_ctx_dec_pkt_cnt_t
+#define bustype_CAVM_CPTX_LF_CTX_DEC_PKT_CNT(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_DEC_PKT_CNT(a) "CPTX_LF_CTX_DEC_PKT_CNT"
+#define device_bar_CAVM_CPTX_LF_CTX_DEC_PKT_CNT(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_DEC_PKT_CNT(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_DEC_PKT_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_enc_byte_cnt
+ *
+ * CPT LF CTX Encrypt Byte Counter Registers
+ */
+union cavm_cptx_lf_ctx_enc_byte_cnt
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_enc_byte_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Encrypt Byte counters in the context processor.
+                                                                 CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
+                                                                 operations, as well as 128 global counters for Fetch-and-Add operations
+                                                                 (see CPT_AF_CTX_FAA_CNT). */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Encrypt Byte counters in the context processor.
+                                                                 CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
+                                                                 operations, as well as 128 global counters for Fetch-and-Add operations
+                                                                 (see CPT_AF_CTX_FAA_CNT). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_enc_byte_cnt_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_enc_byte_cnt cavm_cptx_lf_ctx_enc_byte_cnt_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00520ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_ENC_BYTE_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(a) cavm_cptx_lf_ctx_enc_byte_cnt_t
+#define bustype_CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(a) "CPTX_LF_CTX_ENC_BYTE_CNT"
+#define device_bar_CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_enc_pkt_cnt
+ *
+ * CPT LF CTX Encrypt Packet Counter Registers
+ */
+union cavm_cptx_lf_ctx_enc_pkt_cnt
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_enc_pkt_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Packet counters in the context processor.
+                                                                 CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
+                                                                 operations, as well as 128 global counters for Fetch-and-Add operations
+                                                                 (see CPT_AF_CTX_FAA_CNT). */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Packet counters in the context processor.
+                                                                 CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
+                                                                 operations, as well as 128 global counters for Fetch-and-Add operations
+                                                                 (see CPT_AF_CTX_FAA_CNT). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_enc_pkt_cnt_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_enc_pkt_cnt cavm_cptx_lf_ctx_enc_pkt_cnt_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_ENC_PKT_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_ENC_PKT_CNT(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00530ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_ENC_PKT_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) cavm_cptx_lf_ctx_enc_pkt_cnt_t
+#define bustype_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) "CPTX_LF_CTX_ENC_PKT_CNT"
+#define device_bar_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_flush
+ *
+ * CPT LF CTX Flush Registers
+ * This register controls CTX flushes for a given {PFF, CPTR[52:7]}.
+ */
+union cavm_cptx_lf_ctx_flush
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_flush_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pf_func               : 16; /**< [ 63: 48](WO) PF_FUNC. */
+        uint64_t reserved_47           : 1;
+        uint64_t inval                 : 1;  /**< [ 46: 46](WO) If set, the context cache entry will be invalidated after any dirty data is
+                                                                 written back to LLC/DRAM.  Invalidates are deferred until there are no engines
+                                                                 on the ordered-list.  Updates made by any of the engines during the period
+                                                                 of deferral are lost. */
+        uint64_t cptr                  : 46; /**< [ 45:  0](WO) CPTR[52:7] from the CPT_INST_S that allocated the context cache entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t cptr                  : 46; /**< [ 45:  0](WO) CPTR[52:7] from the CPT_INST_S that allocated the context cache entry. */
+        uint64_t inval                 : 1;  /**< [ 46: 46](WO) If set, the context cache entry will be invalidated after any dirty data is
+                                                                 written back to LLC/DRAM.  Invalidates are deferred until there are no engines
+                                                                 on the ordered-list.  Updates made by any of the engines during the period
+                                                                 of deferral are lost. */
+        uint64_t reserved_47           : 1;
+        uint64_t pf_func               : 16; /**< [ 63: 48](WO) PF_FUNC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_flush_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_flush cavm_cptx_lf_ctx_flush_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_FLUSH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_FLUSH(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00510ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_FLUSH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_FLUSH(a) cavm_cptx_lf_ctx_flush_t
+#define bustype_CAVM_CPTX_LF_CTX_FLUSH(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_FLUSH(a) "CPTX_LF_CTX_FLUSH"
+#define device_bar_CAVM_CPTX_LF_CTX_FLUSH(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_FLUSH(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_FLUSH(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) cpt#_lf_done
@@ -4229,7 +4850,6 @@ static inline uint64_t CAVM_CPTX_LF_DONE_INT(uint64_t a)
  * Register (RVU_PFVF_BAR2) cpt#_lf_done_int_ena_w1c
  *
  * CPT Queue Done Interrupt Enable Clear Registers
- * This register clears interrupt enable bits.
  */
 union cavm_cptx_lf_done_int_ena_w1c
 {
@@ -4238,17 +4858,9 @@ union cavm_cptx_lf_done_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_LF_DONE_INT[DONE].
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT LF DONE interrupts. See also CPT_LF_DONE_ACK. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_LF_DONE_INT[DONE].
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT LF DONE interrupts. See also CPT_LF_DONE_ACK. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -4275,7 +4887,6 @@ static inline uint64_t CAVM_CPTX_LF_DONE_INT_ENA_W1C(uint64_t a)
  * Register (RVU_PFVF_BAR2) cpt#_lf_done_int_ena_w1s
  *
  * CPT Queue Done Interrupt Enable Set Registers
- * This register sets interrupt enable bits.
  * Internal:
  * Write 1 to these registers will enable the DONEINT interrupt for the queue.
  */
@@ -4286,17 +4897,9 @@ union cavm_cptx_lf_done_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_LF_DONE_INT[DONE].
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT LF DONE interrupts. See also CPT_LF_DONE_ACK. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_LF_DONE_INT[DONE].
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT LF DONE interrupts. See also CPT_LF_DONE_ACK. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -4586,6 +5189,8 @@ union cavm_cptx_lf_misc_int
 
                                                                  * CPT discarded a received CPT_INST_S due to queue overflow.
                                                                  CPT_LF_Q_SIZE[SIZE_DIV40] describes the effective queue size to software.
+                                                                 CPT always clears CPT_LF_CTL[ENA] when this queue overflow error occurs
+                                                                 (regardless of CPT_AF_LF()_CTL[CONT_ERR] settings).
 
                                                                  * CPT received a partial CPT_INST_S. CPT always sets [NQERR] in this case, but
                                                                  it is implementation-dependent what CPT does with the partial instruction. CPT
@@ -4600,10 +5205,6 @@ union cavm_cptx_lf_misc_int
                                                                  * CPT encountered a CPT_INST_S with CPT_INST_S[NIXTXL]!=0x0 and
                                                                  CPT_INST_S[QORD]=0. See CPT_COMP_E::INSTERR.
 
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
                                                                  Note that when CPT_AF_LF()_CTL[CONT_ERR]=0, CPT clears CPT_LF_CTL[ENA]
                                                                  when any bit in this register gets set. This will indirectly
                                                                  cause [NQERR] to be set if instructions are simultaneously being
@@ -4613,6 +5214,13 @@ union cavm_cptx_lf_misc_int
                                                                  This error was too difficult to implement:
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
+
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
 
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance
@@ -4637,6 +5245,8 @@ union cavm_cptx_lf_misc_int
 
                                                                  * CPT discarded a received CPT_INST_S due to queue overflow.
                                                                  CPT_LF_Q_SIZE[SIZE_DIV40] describes the effective queue size to software.
+                                                                 CPT always clears CPT_LF_CTL[ENA] when this queue overflow error occurs
+                                                                 (regardless of CPT_AF_LF()_CTL[CONT_ERR] settings).
 
                                                                  * CPT received a partial CPT_INST_S. CPT always sets [NQERR] in this case, but
                                                                  it is implementation-dependent what CPT does with the partial instruction. CPT
@@ -4651,10 +5261,6 @@ union cavm_cptx_lf_misc_int
                                                                  * CPT encountered a CPT_INST_S with CPT_INST_S[NIXTXL]!=0x0 and
                                                                  CPT_INST_S[QORD]=0. See CPT_COMP_E::INSTERR.
 
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
                                                                  Note that when CPT_AF_LF()_CTL[CONT_ERR]=0, CPT clears CPT_LF_CTL[ENA]
                                                                  when any bit in this register gets set. This will indirectly
                                                                  cause [NQERR] to be set if instructions are simultaneously being
@@ -4664,6 +5270,13 @@ union cavm_cptx_lf_misc_int
                                                                  This error was too difficult to implement:
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
+
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
 
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance
@@ -4780,6 +5393,13 @@ union cavm_cptx_lf_misc_int_ena_w1c
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
 
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
+
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance
                                                                  CPT_LF_Q_INST_PTR[NQ_PTR].
@@ -4797,6 +5417,13 @@ union cavm_cptx_lf_misc_int_ena_w1c
                                                                  This error was too difficult to implement:
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
+
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
 
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance
@@ -4876,6 +5503,13 @@ union cavm_cptx_lf_misc_int_ena_w1s
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
 
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
+
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance
                                                                  CPT_LF_Q_INST_PTR[NQ_PTR].
@@ -4893,6 +5527,13 @@ union cavm_cptx_lf_misc_int_ena_w1s
                                                                  This error was too difficult to implement:
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
+
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
 
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance
@@ -4972,6 +5613,13 @@ union cavm_cptx_lf_misc_int_w1s
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
 
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
+
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance
                                                                  CPT_LF_Q_INST_PTR[NQ_PTR].
@@ -4989,6 +5637,13 @@ union cavm_cptx_lf_misc_int_w1s
                                                                  This error was too difficult to implement:
 
                                                                  * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
+
+                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
+                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
+
+                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
+                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
+                                                                 CPT_COMP_E::INSTERR.
 
                                                                  In the overflow case, the current CPT implementation writes the CPT_INST_S's to
                                                                  memory, but effectively drops them because it doesn't advance

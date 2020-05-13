@@ -55,7 +55,7 @@ typedef union cavm_dtx_broadcast_ctl cavm_dtx_broadcast_ctl_t;
 static inline uint64_t CAVM_DTX_BROADCAST_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_BROADCAST_CTL_FUNC(void)
 {
-    return 0x87e0fe7f0060ll;
+    return 0x87e0fe1fc060ll;
 }
 
 #define typedef_CAVM_DTX_BROADCAST_CTL cavm_dtx_broadcast_ctl_t
@@ -92,7 +92,7 @@ static inline uint64_t CAVM_DTX_BROADCAST_ENAX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DTX_BROADCAST_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe7f0020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe1fc020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_BROADCAST_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -128,7 +128,7 @@ static inline uint64_t CAVM_DTX_BROADCAST_SELX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DTX_BROADCAST_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe7f0000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe1fc000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_BROADCAST_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -137,6 +137,200 @@ static inline uint64_t CAVM_DTX_BROADCAST_SELX(uint64_t a)
 #define basename_CAVM_DTX_BROADCAST_SELX(a) "DTX_BROADCAST_SELX"
 #define busnum_CAVM_DTX_BROADCAST_SELX(a) (a)
 #define arguments_CAVM_DTX_BROADCAST_SELX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_cgx#_bcst_rsp
+ *
+ * INTERNAL: DTX CGX Control Register
+ */
+union cavm_dtx_cgxx_bcst_rsp
+{
+    uint64_t u;
+    struct cavm_dtx_cgxx_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cgxx_bcst_rsp_s cn; */
+};
+typedef union cavm_dtx_cgxx_bcst_rsp cavm_dtx_cgxx_bcst_rsp_t;
+
+static inline uint64_t CAVM_DTX_CGXX_BCST_RSP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CGXX_BCST_RSP(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0fe1c0080ll + 0x2000ll * ((a) & 0x7);
+    __cavm_csr_fatal("DTX_CGXX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CGXX_BCST_RSP(a) cavm_dtx_cgxx_bcst_rsp_t
+#define bustype_CAVM_DTX_CGXX_BCST_RSP(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CGXX_BCST_RSP(a) "DTX_CGXX_BCST_RSP"
+#define busnum_CAVM_DTX_CGXX_BCST_RSP(a) (a)
+#define arguments_CAVM_DTX_CGXX_BCST_RSP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_cgx#_ctl
+ *
+ * INTERNAL: DTX CGX Control Register
+ */
+union cavm_dtx_cgxx_ctl
+{
+    uint64_t u;
+    struct cavm_dtx_cgxx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cgxx_ctl_s cn; */
+};
+typedef union cavm_dtx_cgxx_ctl cavm_dtx_cgxx_ctl_t;
+
+static inline uint64_t CAVM_DTX_CGXX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CGXX_CTL(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0fe1c0060ll + 0x2000ll * ((a) & 0x7);
+    __cavm_csr_fatal("DTX_CGXX_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CGXX_CTL(a) cavm_dtx_cgxx_ctl_t
+#define bustype_CAVM_DTX_CGXX_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CGXX_CTL(a) "DTX_CGXX_CTL"
+#define busnum_CAVM_DTX_CGXX_CTL(a) (a)
+#define arguments_CAVM_DTX_CGXX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_cgx#_dat#
+ *
+ * INTERNAL: DTX CGX Raw Data Register
+ */
+union cavm_dtx_cgxx_datx
+{
+    uint64_t u;
+    struct cavm_dtx_cgxx_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cgxx_datx_s cn; */
+};
+typedef union cavm_dtx_cgxx_datx cavm_dtx_cgxx_datx_t;
+
+static inline uint64_t CAVM_DTX_CGXX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CGXX_DATX(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=1))
+        return 0x87e0fe1c0040ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_CGXX_DATX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CGXX_DATX(a,b) cavm_dtx_cgxx_datx_t
+#define bustype_CAVM_DTX_CGXX_DATX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CGXX_DATX(a,b) "DTX_CGXX_DATX"
+#define busnum_CAVM_DTX_CGXX_DATX(a,b) (a)
+#define arguments_CAVM_DTX_CGXX_DATX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_cgx#_ena#
+ *
+ * INTERNAL: DTX CGX Data Enable Register
+ */
+union cavm_dtx_cgxx_enax
+{
+    uint64_t u;
+    struct cavm_dtx_cgxx_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cgxx_enax_s cn; */
+};
+typedef union cavm_dtx_cgxx_enax cavm_dtx_cgxx_enax_t;
+
+static inline uint64_t CAVM_DTX_CGXX_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CGXX_ENAX(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=1))
+        return 0x87e0fe1c0020ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_CGXX_ENAX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CGXX_ENAX(a,b) cavm_dtx_cgxx_enax_t
+#define bustype_CAVM_DTX_CGXX_ENAX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CGXX_ENAX(a,b) "DTX_CGXX_ENAX"
+#define busnum_CAVM_DTX_CGXX_ENAX(a,b) (a)
+#define arguments_CAVM_DTX_CGXX_ENAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_cgx#_sel#
+ *
+ * INTERNAL: DTX CGX Select Register
+ */
+union cavm_dtx_cgxx_selx
+{
+    uint64_t u;
+    struct cavm_dtx_cgxx_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cgxx_selx_s cn; */
+};
+typedef union cavm_dtx_cgxx_selx cavm_dtx_cgxx_selx_t;
+
+static inline uint64_t CAVM_DTX_CGXX_SELX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CGXX_SELX(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=1))
+        return 0x87e0fe1c0000ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_CGXX_SELX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CGXX_SELX(a,b) cavm_dtx_cgxx_selx_t
+#define bustype_CAVM_DTX_CGXX_SELX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CGXX_SELX(a,b) "DTX_CGXX_SELX"
+#define busnum_CAVM_DTX_CGXX_SELX(a,b) (a)
+#define arguments_CAVM_DTX_CGXX_SELX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) dtx_cpc_bcst_rsp
@@ -164,7 +358,7 @@ typedef union cavm_dtx_cpc_bcst_rsp cavm_dtx_cpc_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_CPC_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_CPC_BCST_RSP_FUNC(void)
 {
-    return 0x87e0feb68080ll;
+    return 0x87e0fe2da080ll;
 }
 
 #define typedef_CAVM_DTX_CPC_BCST_RSP cavm_dtx_cpc_bcst_rsp_t
@@ -209,7 +403,7 @@ typedef union cavm_dtx_cpc_ctl cavm_dtx_cpc_ctl_t;
 static inline uint64_t CAVM_DTX_CPC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_CPC_CTL_FUNC(void)
 {
-    return 0x87e0feb68060ll;
+    return 0x87e0fe2da060ll;
 }
 
 #define typedef_CAVM_DTX_CPC_CTL cavm_dtx_cpc_ctl_t
@@ -246,7 +440,7 @@ static inline uint64_t CAVM_DTX_CPC_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_CPC_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0feb68040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe2da040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_CPC_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -284,7 +478,7 @@ static inline uint64_t CAVM_DTX_CPC_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_CPC_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0feb68020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe2da020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_CPC_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -320,7 +514,7 @@ static inline uint64_t CAVM_DTX_CPC_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_CPC_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0feb68000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe2da000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_CPC_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -329,6 +523,200 @@ static inline uint64_t CAVM_DTX_CPC_SELX(uint64_t a)
 #define basename_CAVM_DTX_CPC_SELX(a) "DTX_CPC_SELX"
 #define busnum_CAVM_DTX_CPC_SELX(a) (a)
 #define arguments_CAVM_DTX_CPC_SELX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_cpt#_bcst_rsp
+ *
+ * INTERNAL: DTX CPT Control Register
+ */
+union cavm_dtx_cptx_bcst_rsp
+{
+    uint64_t u;
+    struct cavm_dtx_cptx_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cptx_bcst_rsp_s cn; */
+};
+typedef union cavm_dtx_cptx_bcst_rsp cavm_dtx_cptx_bcst_rsp_t;
+
+static inline uint64_t CAVM_DTX_CPTX_BCST_RSP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CPTX_BCST_RSP(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe284080ll + 0x2000ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_CPTX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CPTX_BCST_RSP(a) cavm_dtx_cptx_bcst_rsp_t
+#define bustype_CAVM_DTX_CPTX_BCST_RSP(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CPTX_BCST_RSP(a) "DTX_CPTX_BCST_RSP"
+#define busnum_CAVM_DTX_CPTX_BCST_RSP(a) (a)
+#define arguments_CAVM_DTX_CPTX_BCST_RSP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_cpt#_ctl
+ *
+ * INTERNAL: DTX CPT Control Register
+ */
+union cavm_dtx_cptx_ctl
+{
+    uint64_t u;
+    struct cavm_dtx_cptx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cptx_ctl_s cn; */
+};
+typedef union cavm_dtx_cptx_ctl cavm_dtx_cptx_ctl_t;
+
+static inline uint64_t CAVM_DTX_CPTX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CPTX_CTL(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe284060ll + 0x2000ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_CPTX_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CPTX_CTL(a) cavm_dtx_cptx_ctl_t
+#define bustype_CAVM_DTX_CPTX_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CPTX_CTL(a) "DTX_CPTX_CTL"
+#define busnum_CAVM_DTX_CPTX_CTL(a) (a)
+#define arguments_CAVM_DTX_CPTX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_cpt#_dat#
+ *
+ * INTERNAL: DTX CPT Raw Data Register
+ */
+union cavm_dtx_cptx_datx
+{
+    uint64_t u;
+    struct cavm_dtx_cptx_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cptx_datx_s cn; */
+};
+typedef union cavm_dtx_cptx_datx cavm_dtx_cptx_datx_t;
+
+static inline uint64_t CAVM_DTX_CPTX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CPTX_DATX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe284040ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_CPTX_DATX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CPTX_DATX(a,b) cavm_dtx_cptx_datx_t
+#define bustype_CAVM_DTX_CPTX_DATX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CPTX_DATX(a,b) "DTX_CPTX_DATX"
+#define busnum_CAVM_DTX_CPTX_DATX(a,b) (a)
+#define arguments_CAVM_DTX_CPTX_DATX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_cpt#_ena#
+ *
+ * INTERNAL: DTX CPT Data Enable Register
+ */
+union cavm_dtx_cptx_enax
+{
+    uint64_t u;
+    struct cavm_dtx_cptx_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cptx_enax_s cn; */
+};
+typedef union cavm_dtx_cptx_enax cavm_dtx_cptx_enax_t;
+
+static inline uint64_t CAVM_DTX_CPTX_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CPTX_ENAX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe284020ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_CPTX_ENAX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CPTX_ENAX(a,b) cavm_dtx_cptx_enax_t
+#define bustype_CAVM_DTX_CPTX_ENAX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CPTX_ENAX(a,b) "DTX_CPTX_ENAX"
+#define busnum_CAVM_DTX_CPTX_ENAX(a,b) (a)
+#define arguments_CAVM_DTX_CPTX_ENAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_cpt#_sel#
+ *
+ * INTERNAL: DTX CPT Select Register
+ */
+union cavm_dtx_cptx_selx
+{
+    uint64_t u;
+    struct cavm_dtx_cptx_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_cptx_selx_s cn; */
+};
+typedef union cavm_dtx_cptx_selx cavm_dtx_cptx_selx_t;
+
+static inline uint64_t CAVM_DTX_CPTX_SELX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_CPTX_SELX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe284000ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_CPTX_SELX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_CPTX_SELX(a,b) cavm_dtx_cptx_selx_t
+#define bustype_CAVM_DTX_CPTX_SELX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_CPTX_SELX(a,b) "DTX_CPTX_SELX"
+#define busnum_CAVM_DTX_CPTX_SELX(a,b) (a)
+#define arguments_CAVM_DTX_CPTX_SELX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) dtx_dpi_bcst_rsp
@@ -356,7 +744,7 @@ typedef union cavm_dtx_dpi_bcst_rsp cavm_dtx_dpi_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_DPI_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_DPI_BCST_RSP_FUNC(void)
 {
-    return 0x87e0feb70080ll;
+    return 0x87e0fe2dc080ll;
 }
 
 #define typedef_CAVM_DTX_DPI_BCST_RSP cavm_dtx_dpi_bcst_rsp_t
@@ -401,7 +789,7 @@ typedef union cavm_dtx_dpi_ctl cavm_dtx_dpi_ctl_t;
 static inline uint64_t CAVM_DTX_DPI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_DPI_CTL_FUNC(void)
 {
-    return 0x87e0feb70060ll;
+    return 0x87e0fe2dc060ll;
 }
 
 #define typedef_CAVM_DTX_DPI_CTL cavm_dtx_dpi_ctl_t
@@ -438,7 +826,7 @@ static inline uint64_t CAVM_DTX_DPI_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_DPI_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0feb70040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe2dc040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_DPI_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -476,7 +864,7 @@ static inline uint64_t CAVM_DTX_DPI_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_DPI_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0feb70020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe2dc020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_DPI_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -512,7 +900,7 @@ static inline uint64_t CAVM_DTX_DPI_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_DPI_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0feb70000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe2dc000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_DPI_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -548,7 +936,7 @@ typedef union cavm_dtx_gic_bcst_rsp cavm_dtx_gic_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_GIC_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_GIC_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fe808080ll;
+    return 0x87e0fe202080ll;
 }
 
 #define typedef_CAVM_DTX_GIC_BCST_RSP cavm_dtx_gic_bcst_rsp_t
@@ -593,7 +981,7 @@ typedef union cavm_dtx_gic_ctl cavm_dtx_gic_ctl_t;
 static inline uint64_t CAVM_DTX_GIC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_GIC_CTL_FUNC(void)
 {
-    return 0x87e0fe808060ll;
+    return 0x87e0fe202060ll;
 }
 
 #define typedef_CAVM_DTX_GIC_CTL cavm_dtx_gic_ctl_t
@@ -630,7 +1018,7 @@ static inline uint64_t CAVM_DTX_GIC_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_GIC_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe808040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe202040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_GIC_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -668,7 +1056,7 @@ static inline uint64_t CAVM_DTX_GIC_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_GIC_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe808020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe202020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_GIC_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -704,7 +1092,7 @@ static inline uint64_t CAVM_DTX_GIC_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_GIC_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe808000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe202000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_GIC_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -740,7 +1128,7 @@ static inline uint64_t CAVM_DTX_IOBNX_BCST_RSP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DTX_IOBNX_BCST_RSP(uint64_t a)
 {
     if (a<=3)
-        return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x3);
+        return 0x87e0fe1e0080ll + 0x2000ll * ((a) & 0x3);
     __cavm_csr_fatal("DTX_IOBNX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -786,7 +1174,7 @@ static inline uint64_t CAVM_DTX_IOBNX_CTL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DTX_IOBNX_CTL(uint64_t a)
 {
     if (a<=3)
-        return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x3);
+        return 0x87e0fe1e0060ll + 0x2000ll * ((a) & 0x3);
     __cavm_csr_fatal("DTX_IOBNX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -824,7 +1212,7 @@ static inline uint64_t CAVM_DTX_IOBNX_DATX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_IOBNX_DATX(uint64_t a, uint64_t b)
 {
     if ((a<=3) && (b<=1))
-        return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+        return 0x87e0fe1e0040ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -862,7 +1250,7 @@ static inline uint64_t CAVM_DTX_IOBNX_ENAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_IOBNX_ENAX(uint64_t a, uint64_t b)
 {
     if ((a<=3) && (b<=1))
-        return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+        return 0x87e0fe1e0020ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -898,7 +1286,7 @@ static inline uint64_t CAVM_DTX_IOBNX_INRX_BCST_RSP(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DTX_IOBNX_INRX_BCST_RSP(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe7a0080ll + 0x8000ll * ((a) & 0x1);
+        return 0x87e0fe1e8080ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_INRX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -944,7 +1332,7 @@ static inline uint64_t CAVM_DTX_IOBNX_INRX_CTL(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DTX_IOBNX_INRX_CTL(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe7a0060ll + 0x8000ll * ((a) & 0x1);
+        return 0x87e0fe1e8060ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_INRX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -982,7 +1370,7 @@ static inline uint64_t CAVM_DTX_IOBNX_INRX_DATX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_DTX_IOBNX_INRX_DATX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x87e0fe7a0040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x87e0fe1e8040ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_INRX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1020,7 +1408,7 @@ static inline uint64_t CAVM_DTX_IOBNX_INRX_ENAX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_DTX_IOBNX_INRX_ENAX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x87e0fe7a0020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x87e0fe1e8020ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_INRX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1056,7 +1444,7 @@ static inline uint64_t CAVM_DTX_IOBNX_INRX_SELX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_DTX_IOBNX_INRX_SELX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x87e0fe7a0000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x87e0fe1e8000ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_INRX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1092,7 +1480,7 @@ static inline uint64_t CAVM_DTX_IOBNX_SELX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_IOBNX_SELX(uint64_t a, uint64_t b)
 {
     if ((a<=3) && (b<=1))
-        return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+        return 0x87e0fe1e0000ll + 0x2000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_IOBNX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1101,6 +1489,198 @@ static inline uint64_t CAVM_DTX_IOBNX_SELX(uint64_t a, uint64_t b)
 #define basename_CAVM_DTX_IOBNX_SELX(a,b) "DTX_IOBNX_SELX"
 #define busnum_CAVM_DTX_IOBNX_SELX(a,b) (a)
 #define arguments_CAVM_DTX_IOBNX_SELX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_lbk_bcst_rsp
+ *
+ * INTERNAL: DTX LBK Control Register
+ */
+union cavm_dtx_lbk_bcst_rsp
+{
+    uint64_t u;
+    struct cavm_dtx_lbk_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_lbk_bcst_rsp_s cn; */
+};
+typedef union cavm_dtx_lbk_bcst_rsp cavm_dtx_lbk_bcst_rsp_t;
+
+#define CAVM_DTX_LBK_BCST_RSP CAVM_DTX_LBK_BCST_RSP_FUNC()
+static inline uint64_t CAVM_DTX_LBK_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_LBK_BCST_RSP_FUNC(void)
+{
+    return 0x87e0fe030080ll;
+}
+
+#define typedef_CAVM_DTX_LBK_BCST_RSP cavm_dtx_lbk_bcst_rsp_t
+#define bustype_CAVM_DTX_LBK_BCST_RSP CSR_TYPE_RSL
+#define basename_CAVM_DTX_LBK_BCST_RSP "DTX_LBK_BCST_RSP"
+#define busnum_CAVM_DTX_LBK_BCST_RSP 0
+#define arguments_CAVM_DTX_LBK_BCST_RSP -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_lbk_ctl
+ *
+ * INTERNAL: DTX LBK Control Register
+ */
+union cavm_dtx_lbk_ctl
+{
+    uint64_t u;
+    struct cavm_dtx_lbk_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_lbk_ctl_s cn; */
+};
+typedef union cavm_dtx_lbk_ctl cavm_dtx_lbk_ctl_t;
+
+#define CAVM_DTX_LBK_CTL CAVM_DTX_LBK_CTL_FUNC()
+static inline uint64_t CAVM_DTX_LBK_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_LBK_CTL_FUNC(void)
+{
+    return 0x87e0fe030060ll;
+}
+
+#define typedef_CAVM_DTX_LBK_CTL cavm_dtx_lbk_ctl_t
+#define bustype_CAVM_DTX_LBK_CTL CSR_TYPE_RSL
+#define basename_CAVM_DTX_LBK_CTL "DTX_LBK_CTL"
+#define busnum_CAVM_DTX_LBK_CTL 0
+#define arguments_CAVM_DTX_LBK_CTL -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_lbk_dat#
+ *
+ * INTERNAL: DTX LBK Raw Data Register
+ */
+union cavm_dtx_lbk_datx
+{
+    uint64_t u;
+    struct cavm_dtx_lbk_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_lbk_datx_s cn; */
+};
+typedef union cavm_dtx_lbk_datx cavm_dtx_lbk_datx_t;
+
+static inline uint64_t CAVM_DTX_LBK_DATX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_LBK_DATX(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe030040ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_LBK_DATX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_LBK_DATX(a) cavm_dtx_lbk_datx_t
+#define bustype_CAVM_DTX_LBK_DATX(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_LBK_DATX(a) "DTX_LBK_DATX"
+#define busnum_CAVM_DTX_LBK_DATX(a) (a)
+#define arguments_CAVM_DTX_LBK_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_lbk_ena#
+ *
+ * INTERNAL: DTX LBK Data Enable Register
+ */
+union cavm_dtx_lbk_enax
+{
+    uint64_t u;
+    struct cavm_dtx_lbk_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_lbk_enax_s cn; */
+};
+typedef union cavm_dtx_lbk_enax cavm_dtx_lbk_enax_t;
+
+static inline uint64_t CAVM_DTX_LBK_ENAX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_LBK_ENAX(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe030020ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_LBK_ENAX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_LBK_ENAX(a) cavm_dtx_lbk_enax_t
+#define bustype_CAVM_DTX_LBK_ENAX(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_LBK_ENAX(a) "DTX_LBK_ENAX"
+#define busnum_CAVM_DTX_LBK_ENAX(a) (a)
+#define arguments_CAVM_DTX_LBK_ENAX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_lbk_sel#
+ *
+ * INTERNAL: DTX LBK Select Register
+ */
+union cavm_dtx_lbk_selx
+{
+    uint64_t u;
+    struct cavm_dtx_lbk_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_lbk_selx_s cn; */
+};
+typedef union cavm_dtx_lbk_selx cavm_dtx_lbk_selx_t;
+
+static inline uint64_t CAVM_DTX_LBK_SELX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_LBK_SELX(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe030000ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_LBK_SELX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_LBK_SELX(a) cavm_dtx_lbk_selx_t
+#define bustype_CAVM_DTX_LBK_SELX(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_LBK_SELX(a) "DTX_LBK_SELX"
+#define busnum_CAVM_DTX_LBK_SELX(a) (a)
+#define arguments_CAVM_DTX_LBK_SELX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dtx_mrml_bcst_rsp
@@ -1128,7 +1708,7 @@ typedef union cavm_dtx_mrml_bcst_rsp cavm_dtx_mrml_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_MRML_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_MRML_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fe7e0080ll;
+    return 0x87e0fe1f8080ll;
 }
 
 #define typedef_CAVM_DTX_MRML_BCST_RSP cavm_dtx_mrml_bcst_rsp_t
@@ -1173,7 +1753,7 @@ typedef union cavm_dtx_mrml_ctl cavm_dtx_mrml_ctl_t;
 static inline uint64_t CAVM_DTX_MRML_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_MRML_CTL_FUNC(void)
 {
-    return 0x87e0fe7e0060ll;
+    return 0x87e0fe1f8060ll;
 }
 
 #define typedef_CAVM_DTX_MRML_CTL cavm_dtx_mrml_ctl_t
@@ -1210,7 +1790,7 @@ static inline uint64_t CAVM_DTX_MRML_DATX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DTX_MRML_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe7e0040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe1f8040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_MRML_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1248,7 +1828,7 @@ static inline uint64_t CAVM_DTX_MRML_ENAX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DTX_MRML_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe7e0020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe1f8020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_MRML_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1284,7 +1864,7 @@ static inline uint64_t CAVM_DTX_MRML_SELX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DTX_MRML_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe7e0000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe1f8000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_MRML_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1319,8 +1899,8 @@ typedef union cavm_dtx_ndcx_bcst_rsp cavm_dtx_ndcx_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_NDCX_BCST_RSP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NDCX_BCST_RSP(uint64_t a)
 {
-    if (a<=2)
-        return 0x87e0fea20080ll + 0x8000ll * ((a) & 0x3);
+    if (a<=5)
+        return 0x87e0fe288080ll + 0x2000ll * ((a) & 0x7);
     __cavm_csr_fatal("DTX_NDCX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1365,8 +1945,8 @@ typedef union cavm_dtx_ndcx_ctl cavm_dtx_ndcx_ctl_t;
 static inline uint64_t CAVM_DTX_NDCX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NDCX_CTL(uint64_t a)
 {
-    if (a<=2)
-        return 0x87e0fea20060ll + 0x8000ll * ((a) & 0x3);
+    if (a<=5)
+        return 0x87e0fe288060ll + 0x2000ll * ((a) & 0x7);
     __cavm_csr_fatal("DTX_NDCX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1403,8 +1983,8 @@ typedef union cavm_dtx_ndcx_datx cavm_dtx_ndcx_datx_t;
 static inline uint64_t CAVM_DTX_NDCX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NDCX_DATX(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
-        return 0x87e0fea20040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if ((a<=5) && (b<=1))
+        return 0x87e0fe288040ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NDCX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1441,8 +2021,8 @@ typedef union cavm_dtx_ndcx_enax cavm_dtx_ndcx_enax_t;
 static inline uint64_t CAVM_DTX_NDCX_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NDCX_ENAX(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
-        return 0x87e0fea20020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if ((a<=5) && (b<=1))
+        return 0x87e0fe288020ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NDCX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1477,8 +2057,8 @@ typedef union cavm_dtx_ndcx_selx cavm_dtx_ndcx_selx_t;
 static inline uint64_t CAVM_DTX_NDCX_SELX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NDCX_SELX(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
-        return 0x87e0fea20000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if ((a<=5) && (b<=1))
+        return 0x87e0fe288000ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NDCX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1514,7 +2094,7 @@ static inline uint64_t CAVM_DTX_NGNTX_BCST_RSP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DTX_NGNTX_BCST_RSP(uint64_t a)
 {
     if (a<=5)
-        return 0x87e0feda0080ll + 0x8000ll * ((a) & 0x7);
+        return 0x87e0fe368080ll + 0x2000ll * ((a) & 0x7);
     __cavm_csr_fatal("DTX_NGNTX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1560,7 +2140,7 @@ static inline uint64_t CAVM_DTX_NGNTX_CTL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DTX_NGNTX_CTL(uint64_t a)
 {
     if (a<=5)
-        return 0x87e0feda0060ll + 0x8000ll * ((a) & 0x7);
+        return 0x87e0fe368060ll + 0x2000ll * ((a) & 0x7);
     __cavm_csr_fatal("DTX_NGNTX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1598,7 +2178,7 @@ static inline uint64_t CAVM_DTX_NGNTX_DATX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_NGNTX_DATX(uint64_t a, uint64_t b)
 {
     if ((a<=5) && (b<=1))
-        return 0x87e0feda0040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+        return 0x87e0fe368040ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NGNTX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1636,7 +2216,7 @@ static inline uint64_t CAVM_DTX_NGNTX_ENAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_NGNTX_ENAX(uint64_t a, uint64_t b)
 {
     if ((a<=5) && (b<=1))
-        return 0x87e0feda0020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+        return 0x87e0fe368020ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NGNTX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1672,7 +2252,7 @@ static inline uint64_t CAVM_DTX_NGNTX_SELX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_NGNTX_SELX(uint64_t a, uint64_t b)
 {
     if ((a<=5) && (b<=1))
-        return 0x87e0feda0000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+        return 0x87e0fe368000ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NGNTX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1707,8 +2287,8 @@ typedef union cavm_dtx_nixrxx_bcst_rsp cavm_dtx_nixrxx_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_NIXRXX_BCST_RSP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXRXX_BCST_RSP(uint64_t a)
 {
-    if (a==0)
-        return 0x87e0fea60080ll + 0x8000ll * ((a) & 0x0);
+    if (a<=1)
+        return 0x87e0fe298080ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NIXRXX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1753,8 +2333,8 @@ typedef union cavm_dtx_nixrxx_ctl cavm_dtx_nixrxx_ctl_t;
 static inline uint64_t CAVM_DTX_NIXRXX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXRXX_CTL(uint64_t a)
 {
-    if (a==0)
-        return 0x87e0fea60060ll + 0x8000ll * ((a) & 0x0);
+    if (a<=1)
+        return 0x87e0fe298060ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NIXRXX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1791,8 +2371,8 @@ typedef union cavm_dtx_nixrxx_datx cavm_dtx_nixrxx_datx_t;
 static inline uint64_t CAVM_DTX_NIXRXX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXRXX_DATX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x87e0fea60040ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe298040ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NIXRXX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1829,8 +2409,8 @@ typedef union cavm_dtx_nixrxx_enax cavm_dtx_nixrxx_enax_t;
 static inline uint64_t CAVM_DTX_NIXRXX_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXRXX_ENAX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x87e0fea60020ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe298020ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NIXRXX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1865,8 +2445,8 @@ typedef union cavm_dtx_nixrxx_selx cavm_dtx_nixrxx_selx_t;
 static inline uint64_t CAVM_DTX_NIXRXX_SELX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXRXX_SELX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x87e0fea60000ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe298000ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NIXRXX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1901,8 +2481,8 @@ typedef union cavm_dtx_nixtxx_bcst_rsp cavm_dtx_nixtxx_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_NIXTXX_BCST_RSP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXTXX_BCST_RSP(uint64_t a)
 {
-    if (a==0)
-        return 0x87e0fea80080ll + 0x8000ll * ((a) & 0x0);
+    if (a<=1)
+        return 0x87e0fe2a0080ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NIXTXX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1947,8 +2527,8 @@ typedef union cavm_dtx_nixtxx_ctl cavm_dtx_nixtxx_ctl_t;
 static inline uint64_t CAVM_DTX_NIXTXX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXTXX_CTL(uint64_t a)
 {
-    if (a==0)
-        return 0x87e0fea80060ll + 0x8000ll * ((a) & 0x0);
+    if (a<=1)
+        return 0x87e0fe2a0060ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NIXTXX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1985,8 +2565,8 @@ typedef union cavm_dtx_nixtxx_datx cavm_dtx_nixtxx_datx_t;
 static inline uint64_t CAVM_DTX_NIXTXX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXTXX_DATX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x87e0fea80040ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe2a0040ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NIXTXX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2023,8 +2603,8 @@ typedef union cavm_dtx_nixtxx_enax cavm_dtx_nixtxx_enax_t;
 static inline uint64_t CAVM_DTX_NIXTXX_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXTXX_ENAX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x87e0fea80020ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe2a0020ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NIXTXX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2059,8 +2639,8 @@ typedef union cavm_dtx_nixtxx_selx cavm_dtx_nixtxx_selx_t;
 static inline uint64_t CAVM_DTX_NIXTXX_SELX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NIXTXX_SELX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x87e0fea80000ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe2a0000ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_NIXTXX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2096,7 +2676,7 @@ typedef union cavm_dtx_npa_bcst_rsp cavm_dtx_npa_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_NPA_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NPA_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fea78080ll;
+    return 0x87e0fe29e080ll;
 }
 
 #define typedef_CAVM_DTX_NPA_BCST_RSP cavm_dtx_npa_bcst_rsp_t
@@ -2141,7 +2721,7 @@ typedef union cavm_dtx_npa_ctl cavm_dtx_npa_ctl_t;
 static inline uint64_t CAVM_DTX_NPA_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NPA_CTL_FUNC(void)
 {
-    return 0x87e0fea78060ll;
+    return 0x87e0fe29e060ll;
 }
 
 #define typedef_CAVM_DTX_NPA_CTL cavm_dtx_npa_ctl_t
@@ -2178,7 +2758,7 @@ static inline uint64_t CAVM_DTX_NPA_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_NPA_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea78040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe29e040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NPA_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2216,7 +2796,7 @@ static inline uint64_t CAVM_DTX_NPA_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_NPA_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea78020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe29e020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NPA_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2252,7 +2832,7 @@ static inline uint64_t CAVM_DTX_NPA_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_NPA_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea78000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe29e000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NPA_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2288,7 +2868,7 @@ typedef union cavm_dtx_npc_bcst_rsp cavm_dtx_npc_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_NPC_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NPC_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fea50080ll;
+    return 0x87e0fe294080ll;
 }
 
 #define typedef_CAVM_DTX_NPC_BCST_RSP cavm_dtx_npc_bcst_rsp_t
@@ -2333,7 +2913,7 @@ typedef union cavm_dtx_npc_ctl cavm_dtx_npc_ctl_t;
 static inline uint64_t CAVM_DTX_NPC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_NPC_CTL_FUNC(void)
 {
-    return 0x87e0fea50060ll;
+    return 0x87e0fe294060ll;
 }
 
 #define typedef_CAVM_DTX_NPC_CTL cavm_dtx_npc_ctl_t
@@ -2370,7 +2950,7 @@ static inline uint64_t CAVM_DTX_NPC_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_NPC_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea50040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe294040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NPC_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2408,7 +2988,7 @@ static inline uint64_t CAVM_DTX_NPC_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_NPC_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea50020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe294020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NPC_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2444,7 +3024,7 @@ static inline uint64_t CAVM_DTX_NPC_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_NPC_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea50000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe294000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_NPC_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2479,8 +3059,8 @@ typedef union cavm_dtx_pemx_bcst_rsp cavm_dtx_pemx_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_PEMX_BCST_RSP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_PEMX_BCST_RSP(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0fef00080ll + 0x8000ll * ((a) & 0x3);
+    if (a<=6)
+        return 0x87e0fe9c0080ll + 0x2000ll * ((a) & 0x7);
     __cavm_csr_fatal("DTX_PEMX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2525,8 +3105,8 @@ typedef union cavm_dtx_pemx_ctl cavm_dtx_pemx_ctl_t;
 static inline uint64_t CAVM_DTX_PEMX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_PEMX_CTL(uint64_t a)
 {
-    if (a<=3)
-        return 0x87e0fef00060ll + 0x8000ll * ((a) & 0x3);
+    if (a<=6)
+        return 0x87e0fe9c0060ll + 0x2000ll * ((a) & 0x7);
     __cavm_csr_fatal("DTX_PEMX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2563,8 +3143,8 @@ typedef union cavm_dtx_pemx_datx cavm_dtx_pemx_datx_t;
 static inline uint64_t CAVM_DTX_PEMX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_PEMX_DATX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e0fef00040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if ((a<=6) && (b<=1))
+        return 0x87e0fe9c0040ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_PEMX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2601,8 +3181,8 @@ typedef union cavm_dtx_pemx_enax cavm_dtx_pemx_enax_t;
 static inline uint64_t CAVM_DTX_PEMX_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_PEMX_ENAX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e0fef00020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if ((a<=6) && (b<=1))
+        return 0x87e0fe9c0020ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_PEMX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2637,8 +3217,8 @@ typedef union cavm_dtx_pemx_selx cavm_dtx_pemx_selx_t;
 static inline uint64_t CAVM_DTX_PEMX_SELX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_PEMX_SELX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e0fef00000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if ((a<=6) && (b<=1))
+        return 0x87e0fe9c0000ll + 0x2000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_PEMX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2647,6 +3227,392 @@ static inline uint64_t CAVM_DTX_PEMX_SELX(uint64_t a, uint64_t b)
 #define basename_CAVM_DTX_PEMX_SELX(a,b) "DTX_PEMX_SELX"
 #define busnum_CAVM_DTX_PEMX_SELX(a,b) (a)
 #define arguments_CAVM_DTX_PEMX_SELX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_ree#_bcst_rsp
+ *
+ * INTERNAL: DTX REE Control Register
+ */
+union cavm_dtx_reex_bcst_rsp
+{
+    uint64_t u;
+    struct cavm_dtx_reex_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_reex_bcst_rsp_s cn; */
+};
+typedef union cavm_dtx_reex_bcst_rsp cavm_dtx_reex_bcst_rsp_t;
+
+static inline uint64_t CAVM_DTX_REEX_BCST_RSP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_REEX_BCST_RSP(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe2a4080ll + 0x2000ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_REEX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_REEX_BCST_RSP(a) cavm_dtx_reex_bcst_rsp_t
+#define bustype_CAVM_DTX_REEX_BCST_RSP(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_REEX_BCST_RSP(a) "DTX_REEX_BCST_RSP"
+#define busnum_CAVM_DTX_REEX_BCST_RSP(a) (a)
+#define arguments_CAVM_DTX_REEX_BCST_RSP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_ree#_ctl
+ *
+ * INTERNAL: DTX REE Control Register
+ */
+union cavm_dtx_reex_ctl
+{
+    uint64_t u;
+    struct cavm_dtx_reex_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_reex_ctl_s cn; */
+};
+typedef union cavm_dtx_reex_ctl cavm_dtx_reex_ctl_t;
+
+static inline uint64_t CAVM_DTX_REEX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_REEX_CTL(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe2a4060ll + 0x2000ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_REEX_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_REEX_CTL(a) cavm_dtx_reex_ctl_t
+#define bustype_CAVM_DTX_REEX_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_REEX_CTL(a) "DTX_REEX_CTL"
+#define busnum_CAVM_DTX_REEX_CTL(a) (a)
+#define arguments_CAVM_DTX_REEX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_ree#_dat#
+ *
+ * INTERNAL: DTX REE Raw Data Register
+ */
+union cavm_dtx_reex_datx
+{
+    uint64_t u;
+    struct cavm_dtx_reex_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_reex_datx_s cn; */
+};
+typedef union cavm_dtx_reex_datx cavm_dtx_reex_datx_t;
+
+static inline uint64_t CAVM_DTX_REEX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_REEX_DATX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe2a4040ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_REEX_DATX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_REEX_DATX(a,b) cavm_dtx_reex_datx_t
+#define bustype_CAVM_DTX_REEX_DATX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_REEX_DATX(a,b) "DTX_REEX_DATX"
+#define busnum_CAVM_DTX_REEX_DATX(a,b) (a)
+#define arguments_CAVM_DTX_REEX_DATX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_ree#_ena#
+ *
+ * INTERNAL: DTX REE Data Enable Register
+ */
+union cavm_dtx_reex_enax
+{
+    uint64_t u;
+    struct cavm_dtx_reex_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_reex_enax_s cn; */
+};
+typedef union cavm_dtx_reex_enax cavm_dtx_reex_enax_t;
+
+static inline uint64_t CAVM_DTX_REEX_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_REEX_ENAX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe2a4020ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_REEX_ENAX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_REEX_ENAX(a,b) cavm_dtx_reex_enax_t
+#define bustype_CAVM_DTX_REEX_ENAX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_REEX_ENAX(a,b) "DTX_REEX_ENAX"
+#define busnum_CAVM_DTX_REEX_ENAX(a,b) (a)
+#define arguments_CAVM_DTX_REEX_ENAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_ree#_sel#
+ *
+ * INTERNAL: DTX REE Select Register
+ */
+union cavm_dtx_reex_selx
+{
+    uint64_t u;
+    struct cavm_dtx_reex_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_reex_selx_s cn; */
+};
+typedef union cavm_dtx_reex_selx cavm_dtx_reex_selx_t;
+
+static inline uint64_t CAVM_DTX_REEX_SELX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_REEX_SELX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe2a4000ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("DTX_REEX_SELX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_REEX_SELX(a,b) cavm_dtx_reex_selx_t
+#define bustype_CAVM_DTX_REEX_SELX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DTX_REEX_SELX(a,b) "DTX_REEX_SELX"
+#define busnum_CAVM_DTX_REEX_SELX(a,b) (a)
+#define arguments_CAVM_DTX_REEX_SELX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_rnm_bcst_rsp
+ *
+ * INTERNAL: DTX RNM Control Register
+ */
+union cavm_dtx_rnm_bcst_rsp
+{
+    uint64_t u;
+    struct cavm_dtx_rnm_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_rnm_bcst_rsp_s cn; */
+};
+typedef union cavm_dtx_rnm_bcst_rsp cavm_dtx_rnm_bcst_rsp_t;
+
+#define CAVM_DTX_RNM_BCST_RSP CAVM_DTX_RNM_BCST_RSP_FUNC()
+static inline uint64_t CAVM_DTX_RNM_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_RNM_BCST_RSP_FUNC(void)
+{
+    return 0x87e0fe01e080ll;
+}
+
+#define typedef_CAVM_DTX_RNM_BCST_RSP cavm_dtx_rnm_bcst_rsp_t
+#define bustype_CAVM_DTX_RNM_BCST_RSP CSR_TYPE_RSL
+#define basename_CAVM_DTX_RNM_BCST_RSP "DTX_RNM_BCST_RSP"
+#define busnum_CAVM_DTX_RNM_BCST_RSP 0
+#define arguments_CAVM_DTX_RNM_BCST_RSP -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_rnm_ctl
+ *
+ * INTERNAL: DTX RNM Control Register
+ */
+union cavm_dtx_rnm_ctl
+{
+    uint64_t u;
+    struct cavm_dtx_rnm_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_xxx_ENA(0..1) instead of normal block
+                                                                 debug data. Not applicable when software directly reads the DTX_xxx_DAT(0..1)
+                                                                 registers.  For diagnostic use only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_rnm_ctl_s cn; */
+};
+typedef union cavm_dtx_rnm_ctl cavm_dtx_rnm_ctl_t;
+
+#define CAVM_DTX_RNM_CTL CAVM_DTX_RNM_CTL_FUNC()
+static inline uint64_t CAVM_DTX_RNM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_RNM_CTL_FUNC(void)
+{
+    return 0x87e0fe01e060ll;
+}
+
+#define typedef_CAVM_DTX_RNM_CTL cavm_dtx_rnm_ctl_t
+#define bustype_CAVM_DTX_RNM_CTL CSR_TYPE_RSL
+#define basename_CAVM_DTX_RNM_CTL "DTX_RNM_CTL"
+#define busnum_CAVM_DTX_RNM_CTL 0
+#define arguments_CAVM_DTX_RNM_CTL -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_rnm_dat#
+ *
+ * INTERNAL: DTX RNM Raw Data Register
+ */
+union cavm_dtx_rnm_datx
+{
+    uint64_t u;
+    struct cavm_dtx_rnm_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the
+                                                                 ability to peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_rnm_datx_s cn; */
+};
+typedef union cavm_dtx_rnm_datx cavm_dtx_rnm_datx_t;
+
+static inline uint64_t CAVM_DTX_RNM_DATX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_RNM_DATX(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe01e040ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_RNM_DATX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_RNM_DATX(a) cavm_dtx_rnm_datx_t
+#define bustype_CAVM_DTX_RNM_DATX(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_RNM_DATX(a) "DTX_RNM_DATX"
+#define busnum_CAVM_DTX_RNM_DATX(a) (a)
+#define arguments_CAVM_DTX_RNM_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_rnm_ena#
+ *
+ * INTERNAL: DTX RNM Data Enable Register
+ */
+union cavm_dtx_rnm_enax
+{
+    uint64_t u;
+    struct cavm_dtx_rnm_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug
+                                                                 buses. Normally only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_rnm_enax_s cn; */
+};
+typedef union cavm_dtx_rnm_enax cavm_dtx_rnm_enax_t;
+
+static inline uint64_t CAVM_DTX_RNM_ENAX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_RNM_ENAX(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe01e020ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_RNM_ENAX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_RNM_ENAX(a) cavm_dtx_rnm_enax_t
+#define bustype_CAVM_DTX_RNM_ENAX(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_RNM_ENAX(a) "DTX_RNM_ENAX"
+#define busnum_CAVM_DTX_RNM_ENAX(a) (a)
+#define arguments_CAVM_DTX_RNM_ENAX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_rnm_sel#
+ *
+ * INTERNAL: DTX RNM Select Register
+ */
+union cavm_dtx_rnm_selx
+{
+    uint64_t u;
+    struct cavm_dtx_rnm_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dtx_rnm_selx_s cn; */
+};
+typedef union cavm_dtx_rnm_selx cavm_dtx_rnm_selx_t;
+
+static inline uint64_t CAVM_DTX_RNM_SELX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DTX_RNM_SELX(uint64_t a)
+{
+    if (a<=1)
+        return 0x87e0fe01e000ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("DTX_RNM_SELX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DTX_RNM_SELX(a) cavm_dtx_rnm_selx_t
+#define bustype_CAVM_DTX_RNM_SELX(a) CSR_TYPE_RSL
+#define basename_CAVM_DTX_RNM_SELX(a) "DTX_RNM_SELX"
+#define busnum_CAVM_DTX_RNM_SELX(a) (a)
+#define arguments_CAVM_DTX_RNM_SELX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dtx_rst_bcst_rsp
@@ -2674,7 +3640,7 @@ typedef union cavm_dtx_rst_bcst_rsp cavm_dtx_rst_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_RST_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_RST_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fe030080ll;
+    return 0x87e0fe00c080ll;
 }
 
 #define typedef_CAVM_DTX_RST_BCST_RSP cavm_dtx_rst_bcst_rsp_t
@@ -2719,7 +3685,7 @@ typedef union cavm_dtx_rst_ctl cavm_dtx_rst_ctl_t;
 static inline uint64_t CAVM_DTX_RST_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_RST_CTL_FUNC(void)
 {
-    return 0x87e0fe030060ll;
+    return 0x87e0fe00c060ll;
 }
 
 #define typedef_CAVM_DTX_RST_CTL cavm_dtx_rst_ctl_t
@@ -2756,7 +3722,7 @@ static inline uint64_t CAVM_DTX_RST_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_RST_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe030040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe00c040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_RST_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2794,7 +3760,7 @@ static inline uint64_t CAVM_DTX_RST_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_RST_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe030020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe00c020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_RST_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2830,7 +3796,7 @@ static inline uint64_t CAVM_DTX_RST_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_RST_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe030000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe00c000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_RST_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2866,7 +3832,7 @@ typedef union cavm_dtx_rvu_bcst_rsp cavm_dtx_rvu_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_RVU_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_RVU_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fea08080ll;
+    return 0x87e0fe882080ll;
 }
 
 #define typedef_CAVM_DTX_RVU_BCST_RSP cavm_dtx_rvu_bcst_rsp_t
@@ -2911,7 +3877,7 @@ typedef union cavm_dtx_rvu_ctl cavm_dtx_rvu_ctl_t;
 static inline uint64_t CAVM_DTX_RVU_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_RVU_CTL_FUNC(void)
 {
-    return 0x87e0fea08060ll;
+    return 0x87e0fe882060ll;
 }
 
 #define typedef_CAVM_DTX_RVU_CTL cavm_dtx_rvu_ctl_t
@@ -2948,7 +3914,7 @@ static inline uint64_t CAVM_DTX_RVU_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_RVU_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea08040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe882040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_RVU_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2986,7 +3952,7 @@ static inline uint64_t CAVM_DTX_RVU_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_RVU_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea08020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe882020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_RVU_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3022,7 +3988,7 @@ static inline uint64_t CAVM_DTX_RVU_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_RVU_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea08000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe882000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_RVU_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3058,7 +4024,7 @@ static inline uint64_t CAVM_DTX_SMMUX_BCST_RSP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DTX_SMMUX_BCST_RSP(uint64_t a)
 {
     if (a==0)
-        return 0x87e0fe980080ll + 0x8000ll * ((a) & 0x0);
+        return 0x87e0fe260080ll + 0x2000ll * ((a) & 0x0);
     __cavm_csr_fatal("DTX_SMMUX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3104,7 +4070,7 @@ static inline uint64_t CAVM_DTX_SMMUX_CTL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DTX_SMMUX_CTL(uint64_t a)
 {
     if (a==0)
-        return 0x87e0fe980060ll + 0x8000ll * ((a) & 0x0);
+        return 0x87e0fe260060ll + 0x2000ll * ((a) & 0x0);
     __cavm_csr_fatal("DTX_SMMUX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3142,7 +4108,7 @@ static inline uint64_t CAVM_DTX_SMMUX_DATX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_SMMUX_DATX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=1))
-        return 0x87e0fe980040ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+        return 0x87e0fe260040ll + 0x2000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_SMMUX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3180,7 +4146,7 @@ static inline uint64_t CAVM_DTX_SMMUX_ENAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_SMMUX_ENAX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=1))
-        return 0x87e0fe980020ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+        return 0x87e0fe260020ll + 0x2000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_SMMUX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3216,7 +4182,7 @@ static inline uint64_t CAVM_DTX_SMMUX_SELX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DTX_SMMUX_SELX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=1))
-        return 0x87e0fe980000ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+        return 0x87e0fe260000ll + 0x2000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_SMMUX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3252,7 +4218,7 @@ typedef union cavm_dtx_sso_bcst_rsp cavm_dtx_sso_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_SSO_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_SSO_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fea58080ll;
+    return 0x87e0fe296080ll;
 }
 
 #define typedef_CAVM_DTX_SSO_BCST_RSP cavm_dtx_sso_bcst_rsp_t
@@ -3297,7 +4263,7 @@ typedef union cavm_dtx_sso_ctl cavm_dtx_sso_ctl_t;
 static inline uint64_t CAVM_DTX_SSO_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_SSO_CTL_FUNC(void)
 {
-    return 0x87e0fea58060ll;
+    return 0x87e0fe296060ll;
 }
 
 #define typedef_CAVM_DTX_SSO_CTL cavm_dtx_sso_ctl_t
@@ -3334,7 +4300,7 @@ static inline uint64_t CAVM_DTX_SSO_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_SSO_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea58040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe296040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_SSO_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3372,7 +4338,7 @@ static inline uint64_t CAVM_DTX_SSO_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_SSO_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea58020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe296020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_SSO_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3408,7 +4374,7 @@ static inline uint64_t CAVM_DTX_SSO_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_SSO_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea58000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe296000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_SSO_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3444,7 +4410,7 @@ typedef union cavm_dtx_tim_bcst_rsp cavm_dtx_tim_bcst_rsp_t;
 static inline uint64_t CAVM_DTX_TIM_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_TIM_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fea70080ll;
+    return 0x87e0fe89c080ll;
 }
 
 #define typedef_CAVM_DTX_TIM_BCST_RSP cavm_dtx_tim_bcst_rsp_t
@@ -3489,7 +4455,7 @@ typedef union cavm_dtx_tim_ctl cavm_dtx_tim_ctl_t;
 static inline uint64_t CAVM_DTX_TIM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_TIM_CTL_FUNC(void)
 {
-    return 0x87e0fea70060ll;
+    return 0x87e0fe89c060ll;
 }
 
 #define typedef_CAVM_DTX_TIM_CTL cavm_dtx_tim_ctl_t
@@ -3526,7 +4492,7 @@ static inline uint64_t CAVM_DTX_TIM_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_TIM_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea70040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe89c040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_TIM_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3564,7 +4530,7 @@ static inline uint64_t CAVM_DTX_TIM_ENAX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_TIM_ENAX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea70020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe89c020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_TIM_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3600,7 +4566,7 @@ static inline uint64_t CAVM_DTX_TIM_SELX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_TIM_SELX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fea70000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe89c000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_TIM_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3636,7 +4602,7 @@ static inline uint64_t CAVM_DTX_XCPX_BCST_RSP(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_DTX_XCPX_BCST_RSP(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe960080ll + 0x8000ll * ((a) & 0x1);
+        return 0x87e0fe258080ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_XCPX_BCST_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3682,7 +4648,7 @@ static inline uint64_t CAVM_DTX_XCPX_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DTX_XCPX_CTL(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0fe960060ll + 0x8000ll * ((a) & 0x1);
+        return 0x87e0fe258060ll + 0x2000ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_XCPX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3720,7 +4686,7 @@ static inline uint64_t CAVM_DTX_XCPX_DATX(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_DTX_XCPX_DATX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x87e0fe960040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x87e0fe258040ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_XCPX_DATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3758,7 +4724,7 @@ static inline uint64_t CAVM_DTX_XCPX_ENAX(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_DTX_XCPX_ENAX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x87e0fe960020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x87e0fe258020ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_XCPX_ENAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3794,7 +4760,7 @@ static inline uint64_t CAVM_DTX_XCPX_SELX(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_DTX_XCPX_SELX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x87e0fe960000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x87e0fe258000ll + 0x2000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("DTX_XCPX_SELX", 2, a, b, 0, 0, 0, 0);
 }
 

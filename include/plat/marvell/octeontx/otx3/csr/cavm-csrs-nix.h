@@ -139,6 +139,7 @@
  * NIX Link Number Enumeration
  * Enumerates the receive and transmit links, and LINK index of
  * NIX_AF_RX_LINK()_CFG, NIX_AF_RX_LINK()_WRR_CFG,
+ * NIX_AF_RX_LINK()_WRR_OUT_CFG,
  * NIX_AF_TX_LINK()_NORM_CREDIT,
  * NIX_AF_TX_LINK()_HW_XOFF,
  * NIX_AF_TL3_TL2()_LINK()_CFG and
@@ -1711,7 +1712,14 @@ union cavm_nix_rq_ctx_hw_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] See NIX_RQ_CTX_S[WQE_AURA]. */
-        uint64_t substream             : 20; /**< [ 43: 24] See NIX_RQ_CTX_S[SUBSTREAM]. */
+        uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] See NIX_RQ_CTX_S[LEN_OL3_DIS]. */
+        uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] See NIX_RQ_CTX_S[LEN_OL4_DIS]. */
+        uint64_t len_il3_dis           : 1;  /**< [ 41: 41] See NIX_RQ_CTX_S[LEN_IL3_DIS]. */
+        uint64_t len_il4_dis           : 1;  /**< [ 40: 40] See NIX_RQ_CTX_S[LEN_IL4_DIS]. */
+        uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] See NIX_RQ_CTX_S[CSUM_OL4_DIS]. */
+        uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] See NIX_RQ_CTX_S[CSUM_IL4_DIS]. */
+        uint64_t lenerr_dis            : 1;  /**< [ 37: 37] See NIX_RQ_CTX_S[LENERR_DIS]. */
+        uint64_t reserved_24_36        : 13;
         uint64_t cq                    : 20; /**< [ 23:  4] See NIX_RQ_CTX_S[CQ]. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] See NIX_RQ_CTX_S[ENA_WQWD]. */
         uint64_t ipsech_ena            : 1;  /**< [  2:  2] See NIX_RQ_CTX_S[IPSECH_ENA]. */
@@ -1723,7 +1731,14 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t ipsech_ena            : 1;  /**< [  2:  2] See NIX_RQ_CTX_S[IPSECH_ENA]. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] See NIX_RQ_CTX_S[ENA_WQWD]. */
         uint64_t cq                    : 20; /**< [ 23:  4] See NIX_RQ_CTX_S[CQ]. */
-        uint64_t substream             : 20; /**< [ 43: 24] See NIX_RQ_CTX_S[SUBSTREAM]. */
+        uint64_t reserved_24_36        : 13;
+        uint64_t lenerr_dis            : 1;  /**< [ 37: 37] See NIX_RQ_CTX_S[LENERR_DIS]. */
+        uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] See NIX_RQ_CTX_S[CSUM_IL4_DIS]. */
+        uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] See NIX_RQ_CTX_S[CSUM_OL4_DIS]. */
+        uint64_t len_il4_dis           : 1;  /**< [ 40: 40] See NIX_RQ_CTX_S[LEN_IL4_DIS]. */
+        uint64_t len_il3_dis           : 1;  /**< [ 41: 41] See NIX_RQ_CTX_S[LEN_IL3_DIS]. */
+        uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] See NIX_RQ_CTX_S[LEN_OL4_DIS]. */
+        uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] See NIX_RQ_CTX_S[LEN_OL3_DIS]. */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] See NIX_RQ_CTX_S[WQE_AURA]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -1941,7 +1956,14 @@ union cavm_nix_rq_ctx_s
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry buffers.
                                                                  Valid when [SSO_ENA] is set and [ENA_WQWD] is clear. */
-        uint64_t substream             : 20; /**< [ 43: 24] Reserved. */
+        uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
+        uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] Outer L4 length error check disable. */
+        uint64_t len_il3_dis           : 1;  /**< [ 41: 41] Inner L3 length error check disable. */
+        uint64_t len_il4_dis           : 1;  /**< [ 40: 40] Inner L4 length error check disable. */
+        uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] Disable checking of outer L4 TCP/UDP/SCTP checksum */
+        uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] Disable checking of inner L4 TCP/UDP/SCTP checksum */
+        uint64_t lenerr_dis            : 1;  /**< [ 37: 37] Outer L2 length error check disable. */
+        uint64_t reserved_24_36        : 13;
         uint64_t cq                    : 20; /**< [ 23:  4] Completion Queue for this SQ. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] is clear.
 
@@ -1975,7 +1997,14 @@ union cavm_nix_rq_ctx_s
                                                                  When [SSO_ENA] is set and [ENA_WQWD] is clear, the WQE is written to a
                                                                  dedicated buffer allocated from [WQE_AURA]. */
         uint64_t cq                    : 20; /**< [ 23:  4] Completion Queue for this SQ. */
-        uint64_t substream             : 20; /**< [ 43: 24] Reserved. */
+        uint64_t reserved_24_36        : 13;
+        uint64_t lenerr_dis            : 1;  /**< [ 37: 37] Outer L2 length error check disable. */
+        uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] Disable checking of inner L4 TCP/UDP/SCTP checksum */
+        uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] Disable checking of outer L4 TCP/UDP/SCTP checksum */
+        uint64_t len_il4_dis           : 1;  /**< [ 40: 40] Inner L4 length error check disable. */
+        uint64_t len_il3_dis           : 1;  /**< [ 41: 41] Inner L3 length error check disable. */
+        uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] Outer L4 length error check disable. */
+        uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry buffers.
                                                                  Valid when [SSO_ENA] is set and [ENA_WQWD] is clear. */
@@ -12916,7 +12945,8 @@ union cavm_nixx_af_rx_cptx_inst_qsel
     struct cavm_nixx_af_rx_cptx_inst_qsel_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_29_63        : 35;
+        uint64_t block                 : 5;  /**< [ 28: 24](R/W) RVU Block. */
         uint64_t pf_func               : 16; /**< [ 23:  8](R/W) RVU PF and function of the CPT queue. */
         uint64_t slot                  : 8;  /**< [  7:  0](R/W) CPT queue's slot within [PF_FUNC]. In order for instructions to
                                                                  successfully flow through the selected CPT queue,
@@ -12928,7 +12958,8 @@ union cavm_nixx_af_rx_cptx_inst_qsel
                                                                  CPT_AF_LF()_CTL[PF_FUNC_INST] must be set, and CPT_AF_LF()_CTL[NIX_SEL]
                                                                  must select this NIX */
         uint64_t pf_func               : 16; /**< [ 23:  8](R/W) RVU PF and function of the CPT queue. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t block                 : 5;  /**< [ 28: 24](R/W) RVU Block. */
+        uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_rx_cptx_inst_qsel_s cn; */
@@ -14276,7 +14307,8 @@ union cavm_nixx_af_rx_ipsec_gen_cfg
     struct cavm_nixx_af_rx_ipsec_gen_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_52_63        : 12;
+        uint64_t ctx_val               : 1;  /**< [ 51: 51](R/W) CPT_INST_S[CTX_VAL] value. */
         uint64_t egrp                  : 3;  /**< [ 50: 48](R/W) CPT_INST_S[EGRP] value. */
         uint64_t opcode                : 16; /**< [ 47: 32](R/W) CPT_INST_S[OPCODE] value. */
         uint64_t param1                : 16; /**< [ 31: 16](R/W) CPT_INST_S[PARAM1] value. */
@@ -14286,7 +14318,8 @@ union cavm_nixx_af_rx_ipsec_gen_cfg
         uint64_t param1                : 16; /**< [ 31: 16](R/W) CPT_INST_S[PARAM1] value. */
         uint64_t opcode                : 16; /**< [ 47: 32](R/W) CPT_INST_S[OPCODE] value. */
         uint64_t egrp                  : 3;  /**< [ 50: 48](R/W) CPT_INST_S[EGRP] value. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t ctx_val               : 1;  /**< [ 51: 51](R/W) CPT_INST_S[CTX_VAL] value. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_rx_ipsec_gen_cfg_s cn; */
@@ -14514,6 +14547,56 @@ static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_CFG(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NIXX_AF_RX_LINKX_WRR_CFG(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_RX_LINKX_WRR_CFG(a,b) (a)
 #define arguments_CAVM_NIXX_AF_RX_LINKX_WRR_CFG(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_rx_link#_wrr_out_cfg
+ *
+ * NIX AF NCB write link Weighted Round Robin Configuration Registers
+ * Index enumerated by NIX_LINK_E.
+ */
+union cavm_nixx_af_rx_linkx_wrr_out_cfg
+{
+    uint64_t u;
+    struct cavm_nixx_af_rx_linkx_wrr_out_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t weight                : 8;  /**< [  7:  0](R/W) Link's round robin weight for writing packet data in 16-byte transfer
+                                                                 units to NDC (NCB). Zero disables packet write for the channel.
+                                                                 SW should configure this regiter as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
+                                                                 REB will release the channels at the same rate as X2P write then.
+
+                                                                 Internal:
+                                                                 In some cases the REB WRR should be even higher than input WRR for compensation. */
+#else /* Word 0 - Little Endian */
+        uint64_t weight                : 8;  /**< [  7:  0](R/W) Link's round robin weight for writing packet data in 16-byte transfer
+                                                                 units to NDC (NCB). Zero disables packet write for the channel.
+                                                                 SW should configure this regiter as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
+                                                                 REB will release the channels at the same rate as X2P write then.
+
+                                                                 Internal:
+                                                                 In some cases the REB WRR should be even higher than input WRR for compensation. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rx_linkx_wrr_out_cfg_s cn; */
+};
+typedef union cavm_nixx_af_rx_linkx_wrr_out_cfg cavm_nixx_af_rx_linkx_wrr_out_cfg_t;
+
+static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=6))
+        return 0x840040004a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    __cavm_csr_fatal("NIXX_AF_RX_LINKX_WRR_OUT_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(a,b) cavm_nixx_af_rx_linkx_wrr_out_cfg_t
+#define bustype_CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(a,b) "NIXX_AF_RX_LINKX_WRR_OUT_CFG"
+#define device_bar_CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(a,b) (a)
+#define arguments_CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_rx_mcast_base
@@ -22120,7 +22203,7 @@ union cavm_nixx_af_tx_linkx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this linl is 2^[LOG2_RANGE].
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this link is 2^[LOG2_RANGE].
                                                                  2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST.
                                                                  When LOG2_RANGE==0, link is considered invalid.
                                                                  For example, if [LOG2_RANGE]=3, number of channels for the link is 8. */
@@ -22135,7 +22218,7 @@ union cavm_nixx_af_tx_linkx_cfg
                                                                  the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
                                                                  0x15C, 0x15D, 0x15E, 0x15F */
         uint64_t reserved_12_15        : 4;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this linl is 2^[LOG2_RANGE].
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this link is 2^[LOG2_RANGE].
                                                                  2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST.
                                                                  When LOG2_RANGE==0, link is considered invalid.
                                                                  For example, if [LOG2_RANGE]=3, number of channels for the link is 8. */

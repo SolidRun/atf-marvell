@@ -867,7 +867,13 @@ union cavm_ndcx_af_ctl
     struct cavm_ndcx_af_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
+        uint64_t reserved_21_63        : 43;
+        uint64_t dis_inval_on_mask_pnd : 1;  /**< [ 20: 20](R/W) When set, invalidate requests will be ignored when pending read requests to the
+                                                                 same cache line are present in the bank pending FIFO. When set, the NDC_AF_PORT()_IT0_INVAL_PC
+                                                                 performance counters will overcount the number of successful invalidate requests while the
+                                                                 NDC_AF_PORT()_IT2_INVAL_PC performance counters will undercount the number of invalidate
+                                                                 requests that failed due to a read fetch being in flight.
+                                                                 For diagnostic use only. */
         uint64_t en_flush_on_inval     : 1;  /**< [ 19: 19](R/W) When set, invalidate requests will flush the corresponding entry back to
                                                                  coherent memory if the entry is dirty.
                                                                  For diagnostic use only. */
@@ -1005,7 +1011,13 @@ union cavm_ndcx_af_ctl
         uint64_t en_flush_on_inval     : 1;  /**< [ 19: 19](R/W) When set, invalidate requests will flush the corresponding entry back to
                                                                  coherent memory if the entry is dirty.
                                                                  For diagnostic use only. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t dis_inval_on_mask_pnd : 1;  /**< [ 20: 20](R/W) When set, invalidate requests will be ignored when pending read requests to the
+                                                                 same cache line are present in the bank pending FIFO. When set, the NDC_AF_PORT()_IT0_INVAL_PC
+                                                                 performance counters will overcount the number of successful invalidate requests while the
+                                                                 NDC_AF_PORT()_IT2_INVAL_PC performance counters will undercount the number of invalidate
+                                                                 requests that failed due to a read fetch being in flight.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ndcx_af_ctl_s cn; */
@@ -1098,7 +1110,7 @@ union cavm_ndcx_af_hashx
                                                                  _ NDC_AF_HASH(2)[ENA] = 0x085952783731d7e9.
                                                                  _ NDC_AF_HASH(3)[ENA] = 0x10b2a4f06e63afd2.
                                                                  _ NDC_AF_HASH(4)[ENA] = 0x216549e0dcc75fa4.
-                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98ebf68859507.
+                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98cavm68859507.
 
                                                                  The default/reset hash ensures that:
                                                                  * The 16 cache lines of any naturally aligned 2KB block are evenly
@@ -1128,7 +1140,7 @@ union cavm_ndcx_af_hashx
                                                                  _ NDC_AF_HASH(2)[ENA] = 0x085952783731d7e9.
                                                                  _ NDC_AF_HASH(3)[ENA] = 0x10b2a4f06e63afd2.
                                                                  _ NDC_AF_HASH(4)[ENA] = 0x216549e0dcc75fa4.
-                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98ebf68859507.
+                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98cavm68859507.
 
                                                                  The default/reset hash ensures that:
                                                                  * The 16 cache lines of any naturally aligned 2KB block are evenly
@@ -1438,12 +1450,20 @@ union cavm_ndcx_af_portx_itx_inval_pc
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Per-port counters tracking invalidate references.
 
                                                                  The register index indicates the type of request that is counted:
-                                                                   _ IT(0..2) is enumerated by NDC_INVAL_RES_E. */
+                                                                   _ IT(0..2) is enumerated by NDC_INVAL_RES_E.
+
+                                                                 When NDC_AF_CTL[DIS_INVAL_ON_MASK_PND] is set, the IT0 registers will overcount
+                                                                 the number of successful invalidate requests while the IT2 registers will
+                                                                 undercount the number of invalidate requests that failed due to a read fetch being in flight. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Per-port counters tracking invalidate references.
 
                                                                  The register index indicates the type of request that is counted:
-                                                                   _ IT(0..2) is enumerated by NDC_INVAL_RES_E. */
+                                                                   _ IT(0..2) is enumerated by NDC_INVAL_RES_E.
+
+                                                                 When NDC_AF_CTL[DIS_INVAL_ON_MASK_PND] is set, the IT0 registers will overcount
+                                                                 the number of successful invalidate requests while the IT2 registers will
+                                                                 undercount the number of invalidate requests that failed due to a read fetch being in flight. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ndcx_af_portx_itx_inval_pc_s cn; */

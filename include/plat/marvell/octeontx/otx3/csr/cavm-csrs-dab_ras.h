@@ -85,8 +85,8 @@ typedef union cavm_rasx_cidr0 cavm_rasx_cidr0_t;
 static inline uint64_t CAVM_RASX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_CIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050ff0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050ff0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -124,8 +124,8 @@ typedef union cavm_rasx_cidr1 cavm_rasx_cidr1_t;
 static inline uint64_t CAVM_RASX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_CIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050ff4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050ff4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -161,8 +161,8 @@ typedef union cavm_rasx_cidr2 cavm_rasx_cidr2_t;
 static inline uint64_t CAVM_RASX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_CIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050ff8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050ff8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -198,8 +198,8 @@ typedef union cavm_rasx_cidr3 cavm_rasx_cidr3_t;
 static inline uint64_t CAVM_RASX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_CIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050ffcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050ffcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -261,8 +261,8 @@ typedef union cavm_rasx_err00addr cavm_rasx_err00addr_t;
 static inline uint64_t CAVM_RASX_ERR00ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR00ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050018ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050018ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR00ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -312,7 +312,7 @@ union cavm_rasx_err00ctlr
                                                                  For CNXXXX depends on the record.
                                                                  * For records corresponding to correctable errors, SR/W.
                                                                  * For other records, always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -402,7 +402,7 @@ union cavm_rasx_err00ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) Fault handling interrupt for corrected errors enable.
@@ -438,8 +438,8 @@ typedef union cavm_rasx_err00ctlr cavm_rasx_err00ctlr_t;
 static inline uint64_t CAVM_RASX_ERR00CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR00CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050008ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050008ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR00CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -553,7 +553,7 @@ union cavm_rasx_err00fr
         uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) Implementation defined.
                                                                  0x0 = No additional feature.
                                                                  0x1 = Reserved.
-                                                                 0x2 = Cavium force error feature is supported.
+                                                                 0x2 = Marvell force error feature is supported.
                                                                  0x3 = Reserved.
 
                                                                  For CNXXXX depends on the record.
@@ -579,7 +579,7 @@ union cavm_rasx_err00fr
         uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) Implementation defined.
                                                                  0x0 = No additional feature.
                                                                  0x1 = Reserved.
-                                                                 0x2 = Cavium force error feature is supported.
+                                                                 0x2 = Marvell force error feature is supported.
                                                                  0x3 = Reserved.
 
                                                                  For CNXXXX depends on the record.
@@ -680,8 +680,8 @@ typedef union cavm_rasx_err00fr cavm_rasx_err00fr_t;
 static inline uint64_t CAVM_RASX_ERR00FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR00FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050000ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050000ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR00FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -749,8 +749,8 @@ typedef union cavm_rasx_err00misc0 cavm_rasx_err00misc0_t;
 static inline uint64_t CAVM_RASX_ERR00MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR00MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050020ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050020ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR00MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -788,8 +788,8 @@ typedef union cavm_rasx_err00misc1 cavm_rasx_err00misc1_t;
 static inline uint64_t CAVM_RASX_ERR00MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR00MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050028ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050028ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR00MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -851,7 +851,7 @@ union cavm_rasx_err00status
                                                                  * A corrected error is detected and the corrected error counter overflows (or
                                                                  is not implemented).
 
-                                                                 For more information see the ARM RAS standard. */
+                                                                 For more information see the Arm RAS standard. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) Miscellaneous registers valid. The CER_ERR()_MISC0 and CER_ERR()_MISC1 contains
                                                                  additional information for an error recorded by this record.
 
@@ -956,7 +956,7 @@ union cavm_rasx_err00status
                                                                  * A corrected error is detected and the corrected error counter overflows (or
                                                                  is not implemented).
 
-                                                                 For more information see the ARM RAS standard. */
+                                                                 For more information see the Arm RAS standard. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) Error reported.
                                                                  0 = No external abort reported.
                                                                  1 = The applicable one of the CER_ERR()_CTLR{WUE},[RUE],[UE] bits was set when
@@ -993,8 +993,8 @@ typedef union cavm_rasx_err00status cavm_rasx_err00status_t;
 static inline uint64_t CAVM_RASX_ERR00STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR00STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050010ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050010ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR00STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1052,8 +1052,8 @@ typedef union cavm_rasx_err01addr cavm_rasx_err01addr_t;
 static inline uint64_t CAVM_RASX_ERR01ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR01ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050058ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050058ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR01ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1084,7 +1084,7 @@ union cavm_rasx_err01ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -1110,7 +1110,7 @@ union cavm_rasx_err01ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -1131,8 +1131,8 @@ typedef union cavm_rasx_err01ctlr cavm_rasx_err01ctlr_t;
 static inline uint64_t CAVM_RASX_ERR01CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR01CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050048ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050048ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR01CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1165,11 +1165,11 @@ union cavm_rasx_err01fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -1188,8 +1188,8 @@ typedef union cavm_rasx_err01fr cavm_rasx_err01fr_t;
 static inline uint64_t CAVM_RASX_ERR01FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR01FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050040ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050040ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR01FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1233,8 +1233,8 @@ typedef union cavm_rasx_err01misc0 cavm_rasx_err01misc0_t;
 static inline uint64_t CAVM_RASX_ERR01MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR01MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050060ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050060ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR01MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1268,8 +1268,8 @@ typedef union cavm_rasx_err01misc1 cavm_rasx_err01misc1_t;
 static inline uint64_t CAVM_RASX_ERR01MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR01MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050068ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050068ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR01MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1296,7 +1296,7 @@ union cavm_rasx_err01status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -1314,7 +1314,7 @@ union cavm_rasx_err01status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -1329,8 +1329,8 @@ typedef union cavm_rasx_err01status cavm_rasx_err01status_t;
 static inline uint64_t CAVM_RASX_ERR01STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR01STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050050ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050050ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR01STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1388,8 +1388,8 @@ typedef union cavm_rasx_err02addr cavm_rasx_err02addr_t;
 static inline uint64_t CAVM_RASX_ERR02ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR02ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050098ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050098ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR02ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1420,7 +1420,7 @@ union cavm_rasx_err02ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -1446,7 +1446,7 @@ union cavm_rasx_err02ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -1467,8 +1467,8 @@ typedef union cavm_rasx_err02ctlr cavm_rasx_err02ctlr_t;
 static inline uint64_t CAVM_RASX_ERR02CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR02CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050088ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050088ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR02CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1501,11 +1501,11 @@ union cavm_rasx_err02fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -1524,8 +1524,8 @@ typedef union cavm_rasx_err02fr cavm_rasx_err02fr_t;
 static inline uint64_t CAVM_RASX_ERR02FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR02FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050080ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050080ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR02FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1569,8 +1569,8 @@ typedef union cavm_rasx_err02misc0 cavm_rasx_err02misc0_t;
 static inline uint64_t CAVM_RASX_ERR02MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR02MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500a0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR02MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1604,8 +1604,8 @@ typedef union cavm_rasx_err02misc1 cavm_rasx_err02misc1_t;
 static inline uint64_t CAVM_RASX_ERR02MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR02MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500a8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500a8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR02MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1632,7 +1632,7 @@ union cavm_rasx_err02status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -1650,7 +1650,7 @@ union cavm_rasx_err02status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -1665,8 +1665,8 @@ typedef union cavm_rasx_err02status cavm_rasx_err02status_t;
 static inline uint64_t CAVM_RASX_ERR02STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR02STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050090ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050090ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR02STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1724,8 +1724,8 @@ typedef union cavm_rasx_err03addr cavm_rasx_err03addr_t;
 static inline uint64_t CAVM_RASX_ERR03ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR03ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500d8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500d8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR03ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1756,7 +1756,7 @@ union cavm_rasx_err03ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -1782,7 +1782,7 @@ union cavm_rasx_err03ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -1803,8 +1803,8 @@ typedef union cavm_rasx_err03ctlr cavm_rasx_err03ctlr_t;
 static inline uint64_t CAVM_RASX_ERR03CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR03CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500c8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500c8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR03CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1837,11 +1837,11 @@ union cavm_rasx_err03fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -1860,8 +1860,8 @@ typedef union cavm_rasx_err03fr cavm_rasx_err03fr_t;
 static inline uint64_t CAVM_RASX_ERR03FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR03FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500c0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500c0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR03FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1905,8 +1905,8 @@ typedef union cavm_rasx_err03misc0 cavm_rasx_err03misc0_t;
 static inline uint64_t CAVM_RASX_ERR03MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR03MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500e0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500e0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR03MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1940,8 +1940,8 @@ typedef union cavm_rasx_err03misc1 cavm_rasx_err03misc1_t;
 static inline uint64_t CAVM_RASX_ERR03MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR03MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500e8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500e8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR03MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1968,7 +1968,7 @@ union cavm_rasx_err03status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -1986,7 +1986,7 @@ union cavm_rasx_err03status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -2001,8 +2001,8 @@ typedef union cavm_rasx_err03status cavm_rasx_err03status_t;
 static inline uint64_t CAVM_RASX_ERR03STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR03STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080500d0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080500d0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR03STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2060,8 +2060,8 @@ typedef union cavm_rasx_err04addr cavm_rasx_err04addr_t;
 static inline uint64_t CAVM_RASX_ERR04ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR04ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050118ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050118ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR04ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2092,7 +2092,7 @@ union cavm_rasx_err04ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -2118,7 +2118,7 @@ union cavm_rasx_err04ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -2139,8 +2139,8 @@ typedef union cavm_rasx_err04ctlr cavm_rasx_err04ctlr_t;
 static inline uint64_t CAVM_RASX_ERR04CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR04CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050108ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050108ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR04CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2173,11 +2173,11 @@ union cavm_rasx_err04fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -2196,8 +2196,8 @@ typedef union cavm_rasx_err04fr cavm_rasx_err04fr_t;
 static inline uint64_t CAVM_RASX_ERR04FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR04FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050100ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050100ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR04FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2241,8 +2241,8 @@ typedef union cavm_rasx_err04misc0 cavm_rasx_err04misc0_t;
 static inline uint64_t CAVM_RASX_ERR04MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR04MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050120ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050120ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR04MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2276,8 +2276,8 @@ typedef union cavm_rasx_err04misc1 cavm_rasx_err04misc1_t;
 static inline uint64_t CAVM_RASX_ERR04MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR04MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050128ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050128ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR04MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2304,7 +2304,7 @@ union cavm_rasx_err04status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -2322,7 +2322,7 @@ union cavm_rasx_err04status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -2337,8 +2337,8 @@ typedef union cavm_rasx_err04status cavm_rasx_err04status_t;
 static inline uint64_t CAVM_RASX_ERR04STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR04STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050110ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050110ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR04STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2396,8 +2396,8 @@ typedef union cavm_rasx_err05addr cavm_rasx_err05addr_t;
 static inline uint64_t CAVM_RASX_ERR05ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR05ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050158ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050158ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR05ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2428,7 +2428,7 @@ union cavm_rasx_err05ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -2454,7 +2454,7 @@ union cavm_rasx_err05ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -2475,8 +2475,8 @@ typedef union cavm_rasx_err05ctlr cavm_rasx_err05ctlr_t;
 static inline uint64_t CAVM_RASX_ERR05CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR05CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050148ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050148ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR05CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2509,11 +2509,11 @@ union cavm_rasx_err05fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -2532,8 +2532,8 @@ typedef union cavm_rasx_err05fr cavm_rasx_err05fr_t;
 static inline uint64_t CAVM_RASX_ERR05FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR05FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050140ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050140ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR05FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2577,8 +2577,8 @@ typedef union cavm_rasx_err05misc0 cavm_rasx_err05misc0_t;
 static inline uint64_t CAVM_RASX_ERR05MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR05MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050160ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050160ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR05MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2612,8 +2612,8 @@ typedef union cavm_rasx_err05misc1 cavm_rasx_err05misc1_t;
 static inline uint64_t CAVM_RASX_ERR05MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR05MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050168ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050168ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR05MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2640,7 +2640,7 @@ union cavm_rasx_err05status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -2658,7 +2658,7 @@ union cavm_rasx_err05status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -2673,8 +2673,8 @@ typedef union cavm_rasx_err05status cavm_rasx_err05status_t;
 static inline uint64_t CAVM_RASX_ERR05STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR05STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050150ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050150ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR05STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2732,8 +2732,8 @@ typedef union cavm_rasx_err06addr cavm_rasx_err06addr_t;
 static inline uint64_t CAVM_RASX_ERR06ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR06ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050198ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050198ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR06ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2764,7 +2764,7 @@ union cavm_rasx_err06ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -2790,7 +2790,7 @@ union cavm_rasx_err06ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -2811,8 +2811,8 @@ typedef union cavm_rasx_err06ctlr cavm_rasx_err06ctlr_t;
 static inline uint64_t CAVM_RASX_ERR06CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR06CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050188ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050188ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR06CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2845,11 +2845,11 @@ union cavm_rasx_err06fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -2868,8 +2868,8 @@ typedef union cavm_rasx_err06fr cavm_rasx_err06fr_t;
 static inline uint64_t CAVM_RASX_ERR06FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR06FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050180ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050180ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR06FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2909,8 +2909,8 @@ typedef union cavm_rasx_err06misc0 cavm_rasx_err06misc0_t;
 static inline uint64_t CAVM_RASX_ERR06MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR06MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501a0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR06MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2944,8 +2944,8 @@ typedef union cavm_rasx_err06misc1 cavm_rasx_err06misc1_t;
 static inline uint64_t CAVM_RASX_ERR06MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR06MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501a8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501a8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR06MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2972,7 +2972,7 @@ union cavm_rasx_err06status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -2990,7 +2990,7 @@ union cavm_rasx_err06status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -3005,8 +3005,8 @@ typedef union cavm_rasx_err06status cavm_rasx_err06status_t;
 static inline uint64_t CAVM_RASX_ERR06STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR06STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050190ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050190ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR06STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3064,8 +3064,8 @@ typedef union cavm_rasx_err07addr cavm_rasx_err07addr_t;
 static inline uint64_t CAVM_RASX_ERR07ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR07ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501d8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501d8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR07ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3096,7 +3096,7 @@ union cavm_rasx_err07ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -3122,7 +3122,7 @@ union cavm_rasx_err07ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -3143,8 +3143,8 @@ typedef union cavm_rasx_err07ctlr cavm_rasx_err07ctlr_t;
 static inline uint64_t CAVM_RASX_ERR07CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR07CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501c8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501c8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR07CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3177,11 +3177,11 @@ union cavm_rasx_err07fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -3200,8 +3200,8 @@ typedef union cavm_rasx_err07fr cavm_rasx_err07fr_t;
 static inline uint64_t CAVM_RASX_ERR07FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR07FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501c0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501c0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR07FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3243,8 +3243,8 @@ typedef union cavm_rasx_err07misc0 cavm_rasx_err07misc0_t;
 static inline uint64_t CAVM_RASX_ERR07MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR07MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501e0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501e0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR07MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3278,8 +3278,8 @@ typedef union cavm_rasx_err07misc1 cavm_rasx_err07misc1_t;
 static inline uint64_t CAVM_RASX_ERR07MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR07MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501e8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501e8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR07MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3306,7 +3306,7 @@ union cavm_rasx_err07status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -3324,7 +3324,7 @@ union cavm_rasx_err07status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -3339,8 +3339,8 @@ typedef union cavm_rasx_err07status cavm_rasx_err07status_t;
 static inline uint64_t CAVM_RASX_ERR07STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR07STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080501d0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080501d0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR07STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3398,8 +3398,8 @@ typedef union cavm_rasx_err08addr cavm_rasx_err08addr_t;
 static inline uint64_t CAVM_RASX_ERR08ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR08ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050218ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050218ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR08ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3430,7 +3430,7 @@ union cavm_rasx_err08ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -3456,7 +3456,7 @@ union cavm_rasx_err08ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -3477,8 +3477,8 @@ typedef union cavm_rasx_err08ctlr cavm_rasx_err08ctlr_t;
 static inline uint64_t CAVM_RASX_ERR08CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR08CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050208ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050208ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR08CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3511,11 +3511,11 @@ union cavm_rasx_err08fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -3534,8 +3534,8 @@ typedef union cavm_rasx_err08fr cavm_rasx_err08fr_t;
 static inline uint64_t CAVM_RASX_ERR08FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR08FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050200ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050200ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR08FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3577,8 +3577,8 @@ typedef union cavm_rasx_err08misc0 cavm_rasx_err08misc0_t;
 static inline uint64_t CAVM_RASX_ERR08MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR08MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050220ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050220ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR08MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3612,8 +3612,8 @@ typedef union cavm_rasx_err08misc1 cavm_rasx_err08misc1_t;
 static inline uint64_t CAVM_RASX_ERR08MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR08MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050228ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050228ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR08MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3640,7 +3640,7 @@ union cavm_rasx_err08status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -3658,7 +3658,7 @@ union cavm_rasx_err08status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -3673,8 +3673,8 @@ typedef union cavm_rasx_err08status cavm_rasx_err08status_t;
 static inline uint64_t CAVM_RASX_ERR08STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR08STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050210ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050210ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR08STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3732,8 +3732,8 @@ typedef union cavm_rasx_err09addr cavm_rasx_err09addr_t;
 static inline uint64_t CAVM_RASX_ERR09ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR09ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050258ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050258ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR09ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3764,7 +3764,7 @@ union cavm_rasx_err09ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -3790,7 +3790,7 @@ union cavm_rasx_err09ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -3811,8 +3811,8 @@ typedef union cavm_rasx_err09ctlr cavm_rasx_err09ctlr_t;
 static inline uint64_t CAVM_RASX_ERR09CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR09CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050248ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050248ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR09CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3845,11 +3845,11 @@ union cavm_rasx_err09fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -3868,8 +3868,8 @@ typedef union cavm_rasx_err09fr cavm_rasx_err09fr_t;
 static inline uint64_t CAVM_RASX_ERR09FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR09FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050240ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050240ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR09FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3911,8 +3911,8 @@ typedef union cavm_rasx_err09misc0 cavm_rasx_err09misc0_t;
 static inline uint64_t CAVM_RASX_ERR09MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR09MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050260ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050260ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR09MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3946,8 +3946,8 @@ typedef union cavm_rasx_err09misc1 cavm_rasx_err09misc1_t;
 static inline uint64_t CAVM_RASX_ERR09MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR09MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050268ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050268ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR09MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3974,7 +3974,7 @@ union cavm_rasx_err09status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -3992,7 +3992,7 @@ union cavm_rasx_err09status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -4007,8 +4007,8 @@ typedef union cavm_rasx_err09status cavm_rasx_err09status_t;
 static inline uint64_t CAVM_RASX_ERR09STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR09STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050250ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050250ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR09STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4066,8 +4066,8 @@ typedef union cavm_rasx_err10addr cavm_rasx_err10addr_t;
 static inline uint64_t CAVM_RASX_ERR10ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR10ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050298ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050298ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR10ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4098,7 +4098,7 @@ union cavm_rasx_err10ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -4124,7 +4124,7 @@ union cavm_rasx_err10ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -4145,8 +4145,8 @@ typedef union cavm_rasx_err10ctlr cavm_rasx_err10ctlr_t;
 static inline uint64_t CAVM_RASX_ERR10CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR10CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050288ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050288ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR10CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4179,11 +4179,11 @@ union cavm_rasx_err10fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -4202,8 +4202,8 @@ typedef union cavm_rasx_err10fr cavm_rasx_err10fr_t;
 static inline uint64_t CAVM_RASX_ERR10FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR10FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050280ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050280ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR10FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4243,8 +4243,8 @@ typedef union cavm_rasx_err10misc0 cavm_rasx_err10misc0_t;
 static inline uint64_t CAVM_RASX_ERR10MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR10MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502a0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR10MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4278,8 +4278,8 @@ typedef union cavm_rasx_err10misc1 cavm_rasx_err10misc1_t;
 static inline uint64_t CAVM_RASX_ERR10MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR10MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502a8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502a8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR10MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4306,7 +4306,7 @@ union cavm_rasx_err10status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -4324,7 +4324,7 @@ union cavm_rasx_err10status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -4339,8 +4339,8 @@ typedef union cavm_rasx_err10status cavm_rasx_err10status_t;
 static inline uint64_t CAVM_RASX_ERR10STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR10STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050290ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050290ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR10STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4398,8 +4398,8 @@ typedef union cavm_rasx_err11addr cavm_rasx_err11addr_t;
 static inline uint64_t CAVM_RASX_ERR11ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR11ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502d8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502d8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR11ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4430,7 +4430,7 @@ union cavm_rasx_err11ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -4456,7 +4456,7 @@ union cavm_rasx_err11ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -4477,8 +4477,8 @@ typedef union cavm_rasx_err11ctlr cavm_rasx_err11ctlr_t;
 static inline uint64_t CAVM_RASX_ERR11CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR11CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502c8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502c8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR11CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4511,11 +4511,11 @@ union cavm_rasx_err11fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -4534,8 +4534,8 @@ typedef union cavm_rasx_err11fr cavm_rasx_err11fr_t;
 static inline uint64_t CAVM_RASX_ERR11FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR11FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502c0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502c0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR11FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4575,8 +4575,8 @@ typedef union cavm_rasx_err11misc0 cavm_rasx_err11misc0_t;
 static inline uint64_t CAVM_RASX_ERR11MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR11MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502e0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502e0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR11MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4610,8 +4610,8 @@ typedef union cavm_rasx_err11misc1 cavm_rasx_err11misc1_t;
 static inline uint64_t CAVM_RASX_ERR11MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR11MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502e8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502e8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR11MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4638,7 +4638,7 @@ union cavm_rasx_err11status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -4656,7 +4656,7 @@ union cavm_rasx_err11status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -4671,8 +4671,8 @@ typedef union cavm_rasx_err11status cavm_rasx_err11status_t;
 static inline uint64_t CAVM_RASX_ERR11STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR11STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080502d0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080502d0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR11STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4730,8 +4730,8 @@ typedef union cavm_rasx_err12addr cavm_rasx_err12addr_t;
 static inline uint64_t CAVM_RASX_ERR12ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR12ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050318ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050318ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR12ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4762,7 +4762,7 @@ union cavm_rasx_err12ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -4788,7 +4788,7 @@ union cavm_rasx_err12ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -4809,8 +4809,8 @@ typedef union cavm_rasx_err12ctlr cavm_rasx_err12ctlr_t;
 static inline uint64_t CAVM_RASX_ERR12CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR12CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050308ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050308ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR12CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4843,11 +4843,11 @@ union cavm_rasx_err12fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -4866,8 +4866,8 @@ typedef union cavm_rasx_err12fr cavm_rasx_err12fr_t;
 static inline uint64_t CAVM_RASX_ERR12FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR12FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050300ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050300ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR12FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4919,8 +4919,8 @@ typedef union cavm_rasx_err12misc0 cavm_rasx_err12misc0_t;
 static inline uint64_t CAVM_RASX_ERR12MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR12MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050320ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050320ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR12MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4954,8 +4954,8 @@ typedef union cavm_rasx_err12misc1 cavm_rasx_err12misc1_t;
 static inline uint64_t CAVM_RASX_ERR12MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR12MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050328ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050328ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR12MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4982,7 +4982,7 @@ union cavm_rasx_err12status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -5000,7 +5000,7 @@ union cavm_rasx_err12status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -5015,8 +5015,8 @@ typedef union cavm_rasx_err12status cavm_rasx_err12status_t;
 static inline uint64_t CAVM_RASX_ERR12STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR12STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050310ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050310ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR12STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5074,8 +5074,8 @@ typedef union cavm_rasx_err13addr cavm_rasx_err13addr_t;
 static inline uint64_t CAVM_RASX_ERR13ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR13ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050358ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050358ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR13ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5106,7 +5106,7 @@ union cavm_rasx_err13ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -5132,7 +5132,7 @@ union cavm_rasx_err13ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -5153,8 +5153,8 @@ typedef union cavm_rasx_err13ctlr cavm_rasx_err13ctlr_t;
 static inline uint64_t CAVM_RASX_ERR13CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR13CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050348ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050348ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR13CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5187,11 +5187,11 @@ union cavm_rasx_err13fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -5210,8 +5210,8 @@ typedef union cavm_rasx_err13fr cavm_rasx_err13fr_t;
 static inline uint64_t CAVM_RASX_ERR13FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR13FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050340ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050340ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR13FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5251,8 +5251,8 @@ typedef union cavm_rasx_err13misc0 cavm_rasx_err13misc0_t;
 static inline uint64_t CAVM_RASX_ERR13MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR13MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050360ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050360ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR13MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5286,8 +5286,8 @@ typedef union cavm_rasx_err13misc1 cavm_rasx_err13misc1_t;
 static inline uint64_t CAVM_RASX_ERR13MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR13MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050368ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050368ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR13MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5314,7 +5314,7 @@ union cavm_rasx_err13status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -5332,7 +5332,7 @@ union cavm_rasx_err13status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -5347,8 +5347,8 @@ typedef union cavm_rasx_err13status cavm_rasx_err13status_t;
 static inline uint64_t CAVM_RASX_ERR13STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR13STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050350ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050350ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR13STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5390,8 +5390,8 @@ typedef union cavm_rasx_err14addr cavm_rasx_err14addr_t;
 static inline uint64_t CAVM_RASX_ERR14ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR14ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050398ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050398ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR14ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5422,7 +5422,7 @@ union cavm_rasx_err14ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -5448,7 +5448,7 @@ union cavm_rasx_err14ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -5469,8 +5469,8 @@ typedef union cavm_rasx_err14ctlr cavm_rasx_err14ctlr_t;
 static inline uint64_t CAVM_RASX_ERR14CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR14CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050388ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050388ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR14CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5503,11 +5503,11 @@ union cavm_rasx_err14fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -5526,8 +5526,8 @@ typedef union cavm_rasx_err14fr cavm_rasx_err14fr_t;
 static inline uint64_t CAVM_RASX_ERR14FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR14FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050380ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050380ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR14FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5569,8 +5569,8 @@ typedef union cavm_rasx_err14misc0 cavm_rasx_err14misc0_t;
 static inline uint64_t CAVM_RASX_ERR14MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR14MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503a0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR14MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5604,8 +5604,8 @@ typedef union cavm_rasx_err14misc1 cavm_rasx_err14misc1_t;
 static inline uint64_t CAVM_RASX_ERR14MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR14MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503a8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503a8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR14MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5632,7 +5632,7 @@ union cavm_rasx_err14status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -5650,7 +5650,7 @@ union cavm_rasx_err14status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -5665,8 +5665,8 @@ typedef union cavm_rasx_err14status cavm_rasx_err14status_t;
 static inline uint64_t CAVM_RASX_ERR14STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR14STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050390ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050390ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR14STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5724,8 +5724,8 @@ typedef union cavm_rasx_err15addr cavm_rasx_err15addr_t;
 static inline uint64_t CAVM_RASX_ERR15ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR15ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503d8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503d8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR15ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5756,7 +5756,7 @@ union cavm_rasx_err15ctlr
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
@@ -5782,7 +5782,7 @@ union cavm_rasx_err15ctlr
         uint64_t wfi                   : 1;  /**< [  6:  6](SRO) Fault handling interrupt on writes. See [FI].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
-        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [RU].
+        uint64_t wue                   : 1;  /**< [  7:  7](SRO) Error reporting on writes. See [UE].
 
                                                                  For CNXXXX does not distinguish between reads and writes, so always 0. */
         uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) See RAS()_ERR00CTLR[CFI]. */
@@ -5803,8 +5803,8 @@ typedef union cavm_rasx_err15ctlr cavm_rasx_err15ctlr_t;
 static inline uint64_t CAVM_RASX_ERR15CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR15CTLR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503c8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503c8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR15CTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5837,11 +5837,11 @@ union cavm_rasx_err15fr
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
 #else /* Word 0 - Little Endian */
         uint64_t ed                    : 2;  /**< [  1:  0](SRO) See RAS()_ERR00FR[ED]. */
-        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[FE]. */
+        uint64_t imp_fe                : 2;  /**< [  3:  2](SRO) See RAS()_ERR00FR[IMP_FE]. */
         uint64_t ui                    : 2;  /**< [  5:  4](SRO) See RAS()_ERR00FR[UI]. */
         uint64_t fi                    : 2;  /**< [  7:  6](SRO) See RAS()_ERR00FR[FI]. */
         uint64_t ue                    : 2;  /**< [  9:  8](SRO) See RAS()_ERR00FR[UE]. */
@@ -5860,8 +5860,8 @@ typedef union cavm_rasx_err15fr cavm_rasx_err15fr_t;
 static inline uint64_t CAVM_RASX_ERR15FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR15FR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503c0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503c0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR15FR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5901,8 +5901,8 @@ typedef union cavm_rasx_err15misc0 cavm_rasx_err15misc0_t;
 static inline uint64_t CAVM_RASX_ERR15MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR15MISC0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503e0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503e0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR15MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5936,8 +5936,8 @@ typedef union cavm_rasx_err15misc1 cavm_rasx_err15misc1_t;
 static inline uint64_t CAVM_RASX_ERR15MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR15MISC1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503e8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503e8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR15MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5964,7 +5964,7 @@ union cavm_rasx_err15status
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
@@ -5982,7 +5982,7 @@ union cavm_rasx_err15status
         uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) See RAS()_ERR00STATUS[DE]. */
         uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) See RAS()_ERR00STATUS[CE]. */
         uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) See RAS()_ERR00STATUS[MV]. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OV]. */
+        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) See RAS()_ERR00STATUS[OF]. */
         uint64_t er                    : 1;  /**< [ 28: 28](SR/W1C/H) See RAS()_ERR00STATUS[ER]. */
         uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) See RAS()_ERR00STATUS[UE]. */
         uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) See RAS()_ERR00STATUS[V]. */
@@ -5997,8 +5997,8 @@ typedef union cavm_rasx_err15status cavm_rasx_err15status_t;
 static inline uint64_t CAVM_RASX_ERR15STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERR15STATUS(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a0080503d0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a0080503d0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERR15STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6051,8 +6051,8 @@ typedef union cavm_rasx_errdevaff cavm_rasx_errdevaff_t;
 static inline uint64_t CAVM_RASX_ERRDEVAFF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRDEVAFF(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fa8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fa8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRDEVAFF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6074,7 +6074,7 @@ union cavm_rasx_errdevarch
     struct cavm_rasx_errdevarch_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](SRO) Defines the architecture of the component. Indicates ARM. */
+        uint32_t architect             : 11; /**< [ 31: 21](SRO) Defines the architecture of the component. Indicates Arm. */
         uint32_t present               : 1;  /**< [ 20: 20](SRO) When set to 1, indicates that this register is present. */
         uint32_t revision              : 4;  /**< [ 19: 16](SRO) Defines the architecture revision.
                                                                  0x0 = RAS system architecture v1.0. */
@@ -6090,7 +6090,7 @@ union cavm_rasx_errdevarch
         uint32_t revision              : 4;  /**< [ 19: 16](SRO) Defines the architecture revision.
                                                                  0x0 = RAS system architecture v1.0. */
         uint32_t present               : 1;  /**< [ 20: 20](SRO) When set to 1, indicates that this register is present. */
-        uint32_t architect             : 11; /**< [ 31: 21](SRO) Defines the architecture of the component. Indicates ARM. */
+        uint32_t architect             : 11; /**< [ 31: 21](SRO) Defines the architecture of the component. Indicates Arm. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rasx_errdevarch_s cn; */
@@ -6100,8 +6100,8 @@ typedef union cavm_rasx_errdevarch cavm_rasx_errdevarch_t;
 static inline uint64_t CAVM_RASX_ERRDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRDEVARCH(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fbcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fbcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRDEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6138,8 +6138,8 @@ typedef union cavm_rasx_errdevid cavm_rasx_errdevid_t;
 static inline uint64_t CAVM_RASX_ERRDEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRDEVID(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fc8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fc8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRDEVID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6179,8 +6179,8 @@ typedef union cavm_rasx_errfhicr0 cavm_rasx_errfhicr0_t;
 static inline uint64_t CAVM_RASX_ERRFHICR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRFHICR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050e80ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050e80ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRFHICR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6214,8 +6214,8 @@ typedef union cavm_rasx_errfhicr1 cavm_rasx_errfhicr1_t;
 static inline uint64_t CAVM_RASX_ERRFHICR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRFHICR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050e88ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050e88ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRFHICR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6226,48 +6226,48 @@ static inline uint64_t CAVM_RASX_ERRFHICR1(uint64_t a)
 #define arguments_CAVM_RASX_ERRFHICR1(a) (a),-1,-1,-1
 
 /**
- * Register (DAB) ras#_errfhicr2
+ * Register (DAB32b) ras#_errfhicr2
  *
  * RAS Error Interrupt Configuration Register 0
  * This register configures interrupt delivery.
  */
 union cavm_rasx_errfhicr2
 {
-    uint64_t u;
+    uint32_t u;
     struct cavm_rasx_errfhicr2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t msien                 : 1;  /**< [  7:  7](SR/W) This bit enables message-signaled sending of interrupts. */
-        uint64_t nsmsi                 : 1;  /**< [  6:  6](SR/W) This bit is an optional extension for Secure-only error records.
+        uint32_t reserved_8_31         : 24;
+        uint32_t msien                 : 1;  /**< [  7:  7](SR/W) This bit enables message-signaled sending of interrupts. */
+        uint32_t nsmsi                 : 1;  /**< [  6:  6](SR/W) This bit is an optional extension for Secure-only error records.
                                                                  It provides the nonsecure attribute for the MSI.
                                                                    0 = Secure.
                                                                    1 = Nonsecure. */
-        uint64_t sh                    : 2;  /**< [  5:  4](SRO) Shareability. Defines the shareability domain for message signaled interrupts.
+        uint32_t sh                    : 2;  /**< [  5:  4](SRO) Shareability. Defines the shareability domain for message signaled interrupts.
                                                                  This field is RES0 if the ETR does not support configuring the shareability domain.
                                                                    0x0 = Not shared.
                                                                    0x2 = Outer shareable.
                                                                    0x3 = Inner shareable.
 
                                                                  In CNXXXX, ignored. */
-        uint64_t memattr               : 4;  /**< [  3:  0](SRO) MSI-X memory attributes. In CNXXXX, ignored.
+        uint32_t memattr               : 4;  /**< [  3:  0](SRO) MSI-X memory attributes. In CNXXXX, ignored.
                                                                  This field is RES0 if RAS does not support configuring the shareability domain. */
 #else /* Word 0 - Little Endian */
-        uint64_t memattr               : 4;  /**< [  3:  0](SRO) MSI-X memory attributes. In CNXXXX, ignored.
+        uint32_t memattr               : 4;  /**< [  3:  0](SRO) MSI-X memory attributes. In CNXXXX, ignored.
                                                                  This field is RES0 if RAS does not support configuring the shareability domain. */
-        uint64_t sh                    : 2;  /**< [  5:  4](SRO) Shareability. Defines the shareability domain for message signaled interrupts.
+        uint32_t sh                    : 2;  /**< [  5:  4](SRO) Shareability. Defines the shareability domain for message signaled interrupts.
                                                                  This field is RES0 if the ETR does not support configuring the shareability domain.
                                                                    0x0 = Not shared.
                                                                    0x2 = Outer shareable.
                                                                    0x3 = Inner shareable.
 
                                                                  In CNXXXX, ignored. */
-        uint64_t nsmsi                 : 1;  /**< [  6:  6](SR/W) This bit is an optional extension for Secure-only error records.
+        uint32_t nsmsi                 : 1;  /**< [  6:  6](SR/W) This bit is an optional extension for Secure-only error records.
                                                                  It provides the nonsecure attribute for the MSI.
                                                                    0 = Secure.
                                                                    1 = Nonsecure. */
-        uint64_t msien                 : 1;  /**< [  7:  7](SR/W) This bit enables message-signaled sending of interrupts. */
-        uint64_t reserved_8_63         : 56;
+        uint32_t msien                 : 1;  /**< [  7:  7](SR/W) This bit enables message-signaled sending of interrupts. */
+        uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rasx_errfhicr2_s cn; */
@@ -6277,13 +6277,13 @@ typedef union cavm_rasx_errfhicr2 cavm_rasx_errfhicr2_t;
 static inline uint64_t CAVM_RASX_ERRFHICR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRFHICR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050e90ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050e8cll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRFHICR2", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RASX_ERRFHICR2(a) cavm_rasx_errfhicr2_t
-#define bustype_CAVM_RASX_ERRFHICR2(a) CSR_TYPE_DAB
+#define bustype_CAVM_RASX_ERRFHICR2(a) CSR_TYPE_DAB32b
 #define basename_CAVM_RASX_ERRFHICR2(a) "RASX_ERRFHICR2"
 #define busnum_CAVM_RASX_ERRFHICR2(a) (a)
 #define arguments_CAVM_RASX_ERRFHICR2(a) (a),-1,-1,-1
@@ -6326,8 +6326,8 @@ typedef union cavm_rasx_errgsr0 cavm_rasx_errgsr0_t;
 static inline uint64_t CAVM_RASX_ERRGSR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRGSR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050e00ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050e00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRGSR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6341,7 +6341,7 @@ static inline uint64_t CAVM_RASX_ERRGSR0(uint64_t a)
  * Register (DAB) ras#_errirqsr
  *
  * RAS Error Interrupt Status Register
- * This register uses the recommended ARM interrupt configuration register format.
+ * This register uses the recommended Arm interrupt configuration register format.
  */
 union cavm_rasx_errirqsr
 {
@@ -6417,8 +6417,8 @@ typedef union cavm_rasx_errirqsr cavm_rasx_errirqsr_t;
 static inline uint64_t CAVM_RASX_ERRIRQSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_ERRIRQSR(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050ef8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050ef8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_ERRIRQSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6460,8 +6460,8 @@ typedef union cavm_rasx_pidr0 cavm_rasx_pidr0_t;
 static inline uint64_t CAVM_RASX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR0(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fe0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fe0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6484,11 +6484,11 @@ union cavm_rasx_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -6499,8 +6499,8 @@ typedef union cavm_rasx_pidr1 cavm_rasx_pidr1_t;
 static inline uint64_t CAVM_RASX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR1(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fe4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fe4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6525,9 +6525,9 @@ union cavm_rasx_pidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](RO) Implementation-defined RAS revision. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) Implementation-defined RAS revision. */
         uint32_t reserved_8_31         : 24;
@@ -6540,8 +6540,8 @@ typedef union cavm_rasx_pidr2 cavm_rasx_pidr2_t;
 static inline uint64_t CAVM_RASX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR2(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fe8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fe8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6581,8 +6581,8 @@ typedef union cavm_rasx_pidr3 cavm_rasx_pidr3_t;
 static inline uint64_t CAVM_RASX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR3(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fecll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fecll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6607,9 +6607,9 @@ union cavm_rasx_pidr4
         uint32_t reserved_8_31         : 24;
         uint32_t fourkbcount           : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4 KB pages from the
                                                                  start of the component to the end of the component ID registers. */
-        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
 #else /* Word 0 - Little Endian */
-        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t jep106cont            : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Marvell (Cavium). */
         uint32_t fourkbcount           : 4;  /**< [  7:  4](RO) Size of the component. Log\<sub\>2\</sub\> of the number of 4 KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t reserved_8_31         : 24;
@@ -6622,8 +6622,8 @@ typedef union cavm_rasx_pidr4 cavm_rasx_pidr4_t;
 static inline uint64_t CAVM_RASX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR4(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fd0ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fd0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6657,8 +6657,8 @@ typedef union cavm_rasx_pidr5 cavm_rasx_pidr5_t;
 static inline uint64_t CAVM_RASX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR5(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fd4ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fd4ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6692,8 +6692,8 @@ typedef union cavm_rasx_pidr6 cavm_rasx_pidr6_t;
 static inline uint64_t CAVM_RASX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR6(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fd8ll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fd8ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6727,8 +6727,8 @@ typedef union cavm_rasx_pidr7 cavm_rasx_pidr7_t;
 static inline uint64_t CAVM_RASX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RASX_PIDR7(uint64_t a)
 {
-    if (a<=23)
-        return 0x87a008050fdcll + 0x80000ll * ((a) & 0x1f);
+    if (a<=35)
+        return 0x87a008050fdcll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("RASX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 

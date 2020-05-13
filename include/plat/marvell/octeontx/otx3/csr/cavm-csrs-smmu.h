@@ -7629,10 +7629,7 @@ union cavm_smmux_s_imp_ras_int
     struct cavm_smmux_s_imp_ras_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) ECC double error of translation replay buffer RAM. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) ECC double error of Configuration RAM. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1C/H) ECC double error of TLB RAM. */
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) A fetch for TTD or configuration data received poisoned data from CCU/DRAM.
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) A DMA read of the secure CMDQ from memory received poisoned data from CCU/DRAM.
@@ -7646,10 +7643,7 @@ union cavm_smmux_s_imp_ras_int
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) A fetch for TTD or configuration data received poisoned data from CCU/DRAM.
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1C/H) ECC double error of TLB RAM. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) ECC double error of Configuration RAM. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) ECC double error of translation replay buffer RAM. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_s cn; */
@@ -7683,10 +7677,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1c
     struct cavm_smmux_s_imp_ras_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[TLB_PARITY_ERROR]. */
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7694,10 +7685,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1c
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[TLB_PARITY_ERROR]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_ena_w1c_s cn; */
@@ -7731,10 +7719,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1s
     struct cavm_smmux_s_imp_ras_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[TLB_PARITY_ERROR]. */
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7742,10 +7727,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1s
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[TLB_PARITY_ERROR]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_ena_w1s_s cn; */
@@ -7779,10 +7761,7 @@ union cavm_smmux_s_imp_ras_int_w1s
     struct cavm_smmux_s_imp_ras_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[TLB_PARITY_ERROR]. */
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7790,10 +7769,7 @@ union cavm_smmux_s_imp_ras_int_w1s
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t tlb_parity_error      : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[TLB_PARITY_ERROR]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_w1s_s cn; */

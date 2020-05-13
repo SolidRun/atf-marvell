@@ -31,8 +31,8 @@
  * This enum width is MDC_BAR_E::MDC_PF_BAR2's pcc_bar_size_bits minus 16, e.g. 24-16=8.
  * For P1, further limited to 4 bits.
  */
-#define CAVM_DRO_BLOCKS_E_DCPX(a) (0xc + (a))
-#define CAVM_DRO_BLOCKS_E_ROCX(a) (0xa + (a))
+#define CAVM_DRO_BLOCKS_E_DCPX(a) (9 + (a))
+#define CAVM_DRO_BLOCKS_E_ROCX(a) (8 + (a))
 #define CAVM_DRO_BLOCKS_E_TSNX(a) (0 + (a))
 
 /**
@@ -66,7 +66,7 @@ typedef union cavm_dro_blkx_broadcast_ack_ret cavm_dro_blkx_broadcast_ack_ret_t;
 static inline uint64_t CAVM_DRO_BLKX_BROADCAST_ACK_RET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_BROADCAST_ACK_RET(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000040ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_BROADCAST_ACK_RET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -112,7 +112,7 @@ typedef union cavm_dro_blkx_cfg_ctl cavm_dro_blkx_cfg_ctl_t;
 static inline uint64_t CAVM_DRO_BLKX_CFG_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_CFG_CTL(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000018ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_CFG_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -138,13 +138,33 @@ union cavm_dro_blkx_const
     struct cavm_dro_blkx_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_35_63        : 29;
+        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
         uint64_t blocks                : 6;  /**< [ 14:  9](RO) Number of blocks supported. */
         uint64_t rings                 : 9;  /**< [  8:  0](RO) Number of rings supported. */
 #else /* Word 0 - Little Endian */
         uint64_t rings                 : 9;  /**< [  8:  0](RO) Number of rings supported. */
         uint64_t blocks                : 6;  /**< [ 14:  9](RO) Number of blocks supported. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dro_blkx_const_s cn; */
@@ -154,7 +174,7 @@ typedef union cavm_dro_blkx_const cavm_dro_blkx_const_t;
 static inline uint64_t CAVM_DRO_BLKX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_CONST(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000000ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -190,7 +210,7 @@ typedef union cavm_dro_blkx_eco cavm_dro_blkx_eco_t;
 static inline uint64_t CAVM_DRO_BLKX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_ECO(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000008ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -230,7 +250,7 @@ typedef union cavm_dro_blkx_enable cavm_dro_blkx_enable_t;
 static inline uint64_t CAVM_DRO_BLKX_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_ENABLE(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000010ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -286,7 +306,7 @@ typedef union cavm_dro_blkx_error cavm_dro_blkx_error_t;
 static inline uint64_t CAVM_DRO_BLKX_ERROR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_ERROR(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000020ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_ERROR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -324,7 +344,7 @@ typedef union cavm_dro_blkx_force_clk_en cavm_dro_blkx_force_clk_en_t;
 static inline uint64_t CAVM_DRO_BLKX_FORCE_CLK_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_FORCE_CLK_EN(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000068ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_FORCE_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -348,12 +368,14 @@ union cavm_dro_blkx_freeze
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t freeze                : 16; /**< [ 15:  0](R/W/H) Number of 10 ns clocks to count before freezing counters.
-                                                                 _ [FREEZE]\<0x0, ENABLE!=0x0 = RO counter running.
-                                                                 _ [FREEZE]=0x0, ENABLE!=0x0 = RO counter frozen. */
+                                                                 _ [FREEZE]\<0x0, DRO_BLK()_ENABLE[ENABLE]!=0 = RO counter running.
+                                                                 _ [FREEZE]=0x0, DRO_BLK()_ENABLE[ENABLE]!=0 = RO counter frozen.
+                                                                 _ [FREEZE]\>=0x8000 is unpredictable. */
 #else /* Word 0 - Little Endian */
         uint64_t freeze                : 16; /**< [ 15:  0](R/W/H) Number of 10 ns clocks to count before freezing counters.
-                                                                 _ [FREEZE]\<0x0, ENABLE!=0x0 = RO counter running.
-                                                                 _ [FREEZE]=0x0, ENABLE!=0x0 = RO counter frozen. */
+                                                                 _ [FREEZE]\<0x0, DRO_BLK()_ENABLE[ENABLE]!=0 = RO counter running.
+                                                                 _ [FREEZE]=0x0, DRO_BLK()_ENABLE[ENABLE]!=0 = RO counter frozen.
+                                                                 _ [FREEZE]\>=0x8000 is unpredictable. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -364,7 +386,7 @@ typedef union cavm_dro_blkx_freeze cavm_dro_blkx_freeze_t;
 static inline uint64_t CAVM_DRO_BLKX_FREEZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_FREEZE(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000030ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_FREEZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -406,7 +428,7 @@ typedef union cavm_dro_blkx_rgx_mask cavm_dro_blkx_rgx_mask_t;
 static inline uint64_t CAVM_DRO_BLKX_RGX_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_RGX_MASK(uint64_t a, uint64_t b)
 {
-    if ((a<=13) && (b<=39))
+    if ((a<=9) && (b<=39))
         return 0x87e008000028ll + 0x10000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("DRO_BLKX_RGX_MASK", 2, a, b, 0, 0, 0, 0);
 }
@@ -428,11 +450,13 @@ union cavm_dro_blkx_rgx_read
     struct cavm_dro_blkx_rgx_read_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
+        uint64_t reserved_21_63        : 43;
+        uint64_t count_ovflow          : 1;  /**< [ 20: 20](RO/H) Count overflowed. Count value left at maximum value. */
         uint64_t count                 : 20; /**< [ 19:  0](RO/H) Count of number of ring loops completed within the freeze interval. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 20; /**< [ 19:  0](RO/H) Count of number of ring loops completed within the freeze interval. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t count_ovflow          : 1;  /**< [ 20: 20](RO/H) Count overflowed. Count value left at maximum value. */
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dro_blkx_rgx_read_s cn; */
@@ -442,7 +466,7 @@ typedef union cavm_dro_blkx_rgx_read cavm_dro_blkx_rgx_read_t;
 static inline uint64_t CAVM_DRO_BLKX_RGX_READ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_RGX_READ(uint64_t a, uint64_t b)
 {
-    if ((a<=13) && (b<=39))
+    if ((a<=9) && (b<=39))
         return 0x87e008000038ll + 0x10000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("DRO_BLKX_RGX_READ", 2, a, b, 0, 0, 0, 0);
 }
@@ -487,7 +511,7 @@ typedef union cavm_dro_blkx_vdr_const cavm_dro_blkx_vdr_const_t;
 static inline uint64_t CAVM_DRO_BLKX_VDR_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_VDR_CONST(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000070ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_VDR_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -528,7 +552,7 @@ typedef union cavm_dro_blkx_vdroop_ctl cavm_dro_blkx_vdroop_ctl_t;
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_CTL(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000048ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_VDROOP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -566,7 +590,7 @@ typedef union cavm_dro_blkx_vdroop_local_cnt cavm_dro_blkx_vdroop_local_cnt_t;
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000060ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_VDROOP_LOCAL_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -613,7 +637,7 @@ typedef union cavm_dro_blkx_vdroop_obs cavm_dro_blkx_vdroop_obs_t;
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_OBS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_OBS(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000050ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_VDROOP_OBS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -653,7 +677,7 @@ typedef union cavm_dro_blkx_vdroop_rst cavm_dro_blkx_vdroop_rst_t;
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_RST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DRO_BLKX_VDROOP_RST(uint64_t a)
 {
-    if (a<=13)
+    if (a<=9)
         return 0x87e008000058ll + 0x10000ll * ((a) & 0xf);
     __cavm_csr_fatal("DRO_BLKX_VDROOP_RST", 1, a, 0, 0, 0, 0, 0);
 }

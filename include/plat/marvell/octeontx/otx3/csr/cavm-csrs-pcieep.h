@@ -20,14 +20,14 @@
  */
 
 /**
- * Register (PCICONFIGEP) pcieep_ack_freq
+ * Register (PCICONFIGEP) pcieep#_ack_freq
  *
  * PCIe EP PF Ack Frequency Register
  */
-union cavm_pcieep_ack_freq
+union cavm_pcieepx_ack_freq
 {
     uint32_t u;
-    struct cavm_pcieep_ack_freq_s
+    struct cavm_pcieepx_ack_freq_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -97,32 +97,33 @@ union cavm_pcieep_ack_freq
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ack_freq_s cn; */
+    /* struct cavm_pcieepx_ack_freq_s cn; */
 };
-typedef union cavm_pcieep_ack_freq cavm_pcieep_ack_freq_t;
+typedef union cavm_pcieepx_ack_freq cavm_pcieepx_ack_freq_t;
 
-#define CAVM_PCIEEP_ACK_FREQ CAVM_PCIEEP_ACK_FREQ_FUNC()
-static inline uint64_t CAVM_PCIEEP_ACK_FREQ_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ACK_FREQ_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ACK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ACK_FREQ(uint64_t a)
 {
-    return 0x70c;
+    if (a<=3)
+        return 0x70c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ACK_FREQ", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ACK_FREQ cavm_pcieep_ack_freq_t
-#define bustype_CAVM_PCIEEP_ACK_FREQ CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ACK_FREQ "PCIEEP_ACK_FREQ"
-#define busnum_CAVM_PCIEEP_ACK_FREQ 0
-#define arguments_CAVM_PCIEEP_ACK_FREQ -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ACK_FREQ(a) cavm_pcieepx_ack_freq_t
+#define bustype_CAVM_PCIEEPX_ACK_FREQ(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ACK_FREQ(a) "PCIEEPX_ACK_FREQ"
+#define busnum_CAVM_PCIEEPX_ACK_FREQ(a) (a)
+#define arguments_CAVM_PCIEEPX_ACK_FREQ(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ack_timer
+ * Register (PCICONFIGEP) pcieep#_ack_timer
  *
  * PCIe EP PF Ack Latency Timer/Replay Timer Register
  */
-union cavm_pcieep_ack_timer
+union cavm_pcieepx_ack_timer
 {
     uint32_t u;
-    struct cavm_pcieep_ack_timer_s
+    struct cavm_pcieepx_ack_timer_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtl                   : 16; /**< [ 31: 16](R/W/H) Replay time limit. The replay timer expires when it reaches this limit. The PCI Express
@@ -188,32 +189,33 @@ union cavm_pcieep_ack_timer
                                                                  for the correct value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ack_timer_s cn; */
+    /* struct cavm_pcieepx_ack_timer_s cn; */
 };
-typedef union cavm_pcieep_ack_timer cavm_pcieep_ack_timer_t;
+typedef union cavm_pcieepx_ack_timer cavm_pcieepx_ack_timer_t;
 
-#define CAVM_PCIEEP_ACK_TIMER CAVM_PCIEEP_ACK_TIMER_FUNC()
-static inline uint64_t CAVM_PCIEEP_ACK_TIMER_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ACK_TIMER_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ACK_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ACK_TIMER(uint64_t a)
 {
-    return 0x700;
+    if (a<=3)
+        return 0x700 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ACK_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ACK_TIMER cavm_pcieep_ack_timer_t
-#define bustype_CAVM_PCIEEP_ACK_TIMER CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ACK_TIMER "PCIEEP_ACK_TIMER"
-#define busnum_CAVM_PCIEEP_ACK_TIMER 0
-#define arguments_CAVM_PCIEEP_ACK_TIMER -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ACK_TIMER(a) cavm_pcieepx_ack_timer_t
+#define bustype_CAVM_PCIEEPX_ACK_TIMER(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ACK_TIMER(a) "PCIEEPX_ACK_TIMER"
+#define busnum_CAVM_PCIEEPX_ACK_TIMER(a) (a)
+#define arguments_CAVM_PCIEEPX_ACK_TIMER(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_acs_cap_ctl
+ * Register (PCICONFIGEP) pcieep#_acs_cap_ctl
  *
  * PCIe RC ACS Capability and Control Register
  */
-union cavm_pcieep_acs_cap_ctl
+union cavm_pcieepx_acs_cap_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_acs_cap_ctl_s
+    struct cavm_pcieepx_acs_cap_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_23_31        : 9;
@@ -269,32 +271,33 @@ union cavm_pcieep_acs_cap_ctl
         uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_acs_cap_ctl_s cn; */
+    /* struct cavm_pcieepx_acs_cap_ctl_s cn; */
 };
-typedef union cavm_pcieep_acs_cap_ctl cavm_pcieep_acs_cap_ctl_t;
+typedef union cavm_pcieepx_acs_cap_ctl cavm_pcieepx_acs_cap_ctl_t;
 
-#define CAVM_PCIEEP_ACS_CAP_CTL CAVM_PCIEEP_ACS_CAP_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_ACS_CAP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ACS_CAP_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ACS_CAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ACS_CAP_CTL(uint64_t a)
 {
-    return 0x22c;
+    if (a<=3)
+        return 0x22c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ACS_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ACS_CAP_CTL cavm_pcieep_acs_cap_ctl_t
-#define bustype_CAVM_PCIEEP_ACS_CAP_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ACS_CAP_CTL "PCIEEP_ACS_CAP_CTL"
-#define busnum_CAVM_PCIEEP_ACS_CAP_CTL 0
-#define arguments_CAVM_PCIEEP_ACS_CAP_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ACS_CAP_CTL(a) cavm_pcieepx_acs_cap_ctl_t
+#define bustype_CAVM_PCIEEPX_ACS_CAP_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ACS_CAP_CTL(a) "PCIEEPX_ACS_CAP_CTL"
+#define busnum_CAVM_PCIEEPX_ACS_CAP_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_ACS_CAP_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_acs_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_acs_cap_hdr
  *
  * PCIe EP PCI Express ACS Extended Capability Header Register
  */
-union cavm_pcieep_acs_cap_hdr
+union cavm_pcieepx_acs_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_acs_cap_hdr_s
+    struct cavm_pcieepx_acs_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
@@ -328,32 +331,33 @@ union cavm_pcieep_acs_cap_hdr
                                                                  by default. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_acs_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_acs_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_acs_cap_hdr cavm_pcieep_acs_cap_hdr_t;
+typedef union cavm_pcieepx_acs_cap_hdr cavm_pcieepx_acs_cap_hdr_t;
 
-#define CAVM_PCIEEP_ACS_CAP_HDR CAVM_PCIEEP_ACS_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_ACS_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ACS_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ACS_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ACS_CAP_HDR(uint64_t a)
 {
-    return 0x228;
+    if (a<=3)
+        return 0x228 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ACS_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ACS_CAP_HDR cavm_pcieep_acs_cap_hdr_t
-#define bustype_CAVM_PCIEEP_ACS_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ACS_CAP_HDR "PCIEEP_ACS_CAP_HDR"
-#define busnum_CAVM_PCIEEP_ACS_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_ACS_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ACS_CAP_HDR(a) cavm_pcieepx_acs_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_ACS_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ACS_CAP_HDR(a) "PCIEEPX_ACS_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_ACS_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_ACS_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_acs_egr_ctl_vec
+ * Register (PCICONFIGEP) pcieep#_acs_egr_ctl_vec
  *
  * PCIe RC Egress Control Vector Register
  */
-union cavm_pcieep_acs_egr_ctl_vec
+union cavm_pcieepx_acs_egr_ctl_vec
 {
     uint32_t u;
-    struct cavm_pcieep_acs_egr_ctl_vec_s
+    struct cavm_pcieepx_acs_egr_ctl_vec_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t unused                : 24; /**< [ 31:  8](RO) Reserved. */
@@ -363,32 +367,33 @@ union cavm_pcieep_acs_egr_ctl_vec
         uint32_t unused                : 24; /**< [ 31:  8](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_acs_egr_ctl_vec_s cn; */
+    /* struct cavm_pcieepx_acs_egr_ctl_vec_s cn; */
 };
-typedef union cavm_pcieep_acs_egr_ctl_vec cavm_pcieep_acs_egr_ctl_vec_t;
+typedef union cavm_pcieepx_acs_egr_ctl_vec cavm_pcieepx_acs_egr_ctl_vec_t;
 
-#define CAVM_PCIEEP_ACS_EGR_CTL_VEC CAVM_PCIEEP_ACS_EGR_CTL_VEC_FUNC()
-static inline uint64_t CAVM_PCIEEP_ACS_EGR_CTL_VEC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ACS_EGR_CTL_VEC_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ACS_EGR_CTL_VEC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ACS_EGR_CTL_VEC(uint64_t a)
 {
-    return 0x230;
+    if (a<=3)
+        return 0x230 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ACS_EGR_CTL_VEC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ACS_EGR_CTL_VEC cavm_pcieep_acs_egr_ctl_vec_t
-#define bustype_CAVM_PCIEEP_ACS_EGR_CTL_VEC CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ACS_EGR_CTL_VEC "PCIEEP_ACS_EGR_CTL_VEC"
-#define busnum_CAVM_PCIEEP_ACS_EGR_CTL_VEC 0
-#define arguments_CAVM_PCIEEP_ACS_EGR_CTL_VEC -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ACS_EGR_CTL_VEC(a) cavm_pcieepx_acs_egr_ctl_vec_t
+#define bustype_CAVM_PCIEEPX_ACS_EGR_CTL_VEC(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ACS_EGR_CTL_VEC(a) "PCIEEPX_ACS_EGR_CTL_VEC"
+#define busnum_CAVM_PCIEEPX_ACS_EGR_CTL_VEC(a) (a)
+#define arguments_CAVM_PCIEEPX_ACS_EGR_CTL_VEC(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_adv_err_cap_cntrl
+ * Register (PCICONFIGEP) pcieep#_adv_err_cap_cntrl
  *
  * PCIe EP PF Advanced Error Capabilities and Control Register
  */
-union cavm_pcieep_adv_err_cap_cntrl
+union cavm_pcieepx_adv_err_cap_cntrl
 {
     uint32_t u;
-    struct cavm_pcieep_adv_err_cap_cntrl_s
+    struct cavm_pcieepx_adv_err_cap_cntrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -412,32 +417,33 @@ union cavm_pcieep_adv_err_cap_cntrl
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_adv_err_cap_cntrl_s cn; */
+    /* struct cavm_pcieepx_adv_err_cap_cntrl_s cn; */
 };
-typedef union cavm_pcieep_adv_err_cap_cntrl cavm_pcieep_adv_err_cap_cntrl_t;
+typedef union cavm_pcieepx_adv_err_cap_cntrl cavm_pcieepx_adv_err_cap_cntrl_t;
 
-#define CAVM_PCIEEP_ADV_ERR_CAP_CNTRL CAVM_PCIEEP_ADV_ERR_CAP_CNTRL_FUNC()
-static inline uint64_t CAVM_PCIEEP_ADV_ERR_CAP_CNTRL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ADV_ERR_CAP_CNTRL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(uint64_t a)
 {
-    return 0x118;
+    if (a<=3)
+        return 0x118 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ADV_ERR_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ADV_ERR_CAP_CNTRL cavm_pcieep_adv_err_cap_cntrl_t
-#define bustype_CAVM_PCIEEP_ADV_ERR_CAP_CNTRL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ADV_ERR_CAP_CNTRL "PCIEEP_ADV_ERR_CAP_CNTRL"
-#define busnum_CAVM_PCIEEP_ADV_ERR_CAP_CNTRL 0
-#define arguments_CAVM_PCIEEP_ADV_ERR_CAP_CNTRL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(a) cavm_pcieepx_adv_err_cap_cntrl_t
+#define bustype_CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(a) "PCIEEPX_ADV_ERR_CAP_CNTRL"
+#define busnum_CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(a) (a)
+#define arguments_CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ari_cap_ctl
+ * Register (PCICONFIGEP) pcieep#_ari_cap_ctl
  *
  * PCIe EP PF ARI Capability Register/PCI Express ARI Control Register
  */
-union cavm_pcieep_ari_cap_ctl
+union cavm_pcieepx_ari_cap_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_ari_cap_ctl_s
+    struct cavm_pcieepx_ari_cap_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_23_31        : 9;
@@ -483,32 +489,33 @@ union cavm_pcieep_ari_cap_ctl
         uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ari_cap_ctl_s cn; */
+    /* struct cavm_pcieepx_ari_cap_ctl_s cn; */
 };
-typedef union cavm_pcieep_ari_cap_ctl cavm_pcieep_ari_cap_ctl_t;
+typedef union cavm_pcieepx_ari_cap_ctl cavm_pcieepx_ari_cap_ctl_t;
 
-#define CAVM_PCIEEP_ARI_CAP_CTL CAVM_PCIEEP_ARI_CAP_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_ARI_CAP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ARI_CAP_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ARI_CAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ARI_CAP_CTL(uint64_t a)
 {
-    return 0x15c;
+    if (a<=3)
+        return 0x15c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ARI_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ARI_CAP_CTL cavm_pcieep_ari_cap_ctl_t
-#define bustype_CAVM_PCIEEP_ARI_CAP_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ARI_CAP_CTL "PCIEEP_ARI_CAP_CTL"
-#define busnum_CAVM_PCIEEP_ARI_CAP_CTL 0
-#define arguments_CAVM_PCIEEP_ARI_CAP_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ARI_CAP_CTL(a) cavm_pcieepx_ari_cap_ctl_t
+#define bustype_CAVM_PCIEEPX_ARI_CAP_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ARI_CAP_CTL(a) "PCIEEPX_ARI_CAP_CTL"
+#define busnum_CAVM_PCIEEPX_ARI_CAP_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_ARI_CAP_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ari_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_ari_cap_hdr
  *
  * PCIe EP PF ARI Capability Header Register
  */
-union cavm_pcieep_ari_cap_hdr
+union cavm_pcieepx_ari_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_ari_cap_hdr_s
+    struct cavm_pcieepx_ari_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
@@ -536,32 +543,33 @@ union cavm_pcieep_ari_cap_hdr
                                                                  Capability Header Register by default. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ari_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_ari_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_ari_cap_hdr cavm_pcieep_ari_cap_hdr_t;
+typedef union cavm_pcieepx_ari_cap_hdr cavm_pcieepx_ari_cap_hdr_t;
 
-#define CAVM_PCIEEP_ARI_CAP_HDR CAVM_PCIEEP_ARI_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_ARI_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ARI_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ARI_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ARI_CAP_HDR(uint64_t a)
 {
-    return 0x158;
+    if (a<=3)
+        return 0x158 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ARI_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ARI_CAP_HDR cavm_pcieep_ari_cap_hdr_t
-#define bustype_CAVM_PCIEEP_ARI_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ARI_CAP_HDR "PCIEEP_ARI_CAP_HDR"
-#define busnum_CAVM_PCIEEP_ARI_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_ARI_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ARI_CAP_HDR(a) cavm_pcieepx_ari_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_ARI_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ARI_CAP_HDR(a) "PCIEEPX_ARI_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_ARI_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_ARI_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_aux_clk_freq
+ * Register (PCICONFIGEP) pcieep#_aux_clk_freq
  *
  * PCIe EP PF Auxiliary Clock Frequency Control Register
  */
-union cavm_pcieep_aux_clk_freq
+union cavm_pcieepx_aux_clk_freq
 {
     uint32_t u;
-    struct cavm_pcieep_aux_clk_freq_s
+    struct cavm_pcieepx_aux_clk_freq_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
@@ -575,34 +583,35 @@ union cavm_pcieep_aux_clk_freq
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_aux_clk_freq_s cn; */
+    /* struct cavm_pcieepx_aux_clk_freq_s cn; */
 };
-typedef union cavm_pcieep_aux_clk_freq cavm_pcieep_aux_clk_freq_t;
+typedef union cavm_pcieepx_aux_clk_freq cavm_pcieepx_aux_clk_freq_t;
 
-#define CAVM_PCIEEP_AUX_CLK_FREQ CAVM_PCIEEP_AUX_CLK_FREQ_FUNC()
-static inline uint64_t CAVM_PCIEEP_AUX_CLK_FREQ_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_AUX_CLK_FREQ_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_AUX_CLK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_AUX_CLK_FREQ(uint64_t a)
 {
-    return 0xb40;
+    if (a<=3)
+        return 0xb40 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_AUX_CLK_FREQ", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_AUX_CLK_FREQ cavm_pcieep_aux_clk_freq_t
-#define bustype_CAVM_PCIEEP_AUX_CLK_FREQ CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_AUX_CLK_FREQ "PCIEEP_AUX_CLK_FREQ"
-#define busnum_CAVM_PCIEEP_AUX_CLK_FREQ 0
-#define arguments_CAVM_PCIEEP_AUX_CLK_FREQ -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_AUX_CLK_FREQ(a) cavm_pcieepx_aux_clk_freq_t
+#define bustype_CAVM_PCIEEPX_AUX_CLK_FREQ(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_AUX_CLK_FREQ(a) "PCIEEPX_AUX_CLK_FREQ"
+#define busnum_CAVM_PCIEEPX_AUX_CLK_FREQ(a) (a)
+#define arguments_CAVM_PCIEEPX_AUX_CLK_FREQ(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_bar0_maskl
+ * Register (PCICONFIGEP_SHADOW) pcieep#_bar0_maskl
  *
  * PCIe EP PF BAR Mask 0 Low Register
  * The BAR 0 mask register is invisible to host software and not readable from the application.
  * The BAR 0 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_bar0_maskl
+union cavm_pcieepx_bar0_maskl
 {
     uint32_t u;
-    struct cavm_pcieep_bar0_maskl_s
+    struct cavm_pcieepx_bar0_maskl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
@@ -624,34 +633,35 @@ union cavm_pcieep_bar0_maskl
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar0_maskl_s cn; */
+    /* struct cavm_pcieepx_bar0_maskl_s cn; */
 };
-typedef union cavm_pcieep_bar0_maskl cavm_pcieep_bar0_maskl_t;
+typedef union cavm_pcieepx_bar0_maskl cavm_pcieepx_bar0_maskl_t;
 
-#define CAVM_PCIEEP_BAR0_MASKL CAVM_PCIEEP_BAR0_MASKL_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR0_MASKL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR0_MASKL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR0_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR0_MASKL(uint64_t a)
 {
-    return 0x10010;
+    if (a<=3)
+        return 0x10010 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR0_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR0_MASKL cavm_pcieep_bar0_maskl_t
-#define bustype_CAVM_PCIEEP_BAR0_MASKL CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_BAR0_MASKL "PCIEEP_BAR0_MASKL"
-#define busnum_CAVM_PCIEEP_BAR0_MASKL 0
-#define arguments_CAVM_PCIEEP_BAR0_MASKL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR0_MASKL(a) cavm_pcieepx_bar0_maskl_t
+#define bustype_CAVM_PCIEEPX_BAR0_MASKL(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_BAR0_MASKL(a) "PCIEEPX_BAR0_MASKL"
+#define busnum_CAVM_PCIEEPX_BAR0_MASKL(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR0_MASKL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_bar0_masku
+ * Register (PCICONFIGEP_SHADOW) pcieep#_bar0_masku
  *
  * PCIe EP PF BAR Mask 0 High Register
  * The BAR 0 mask register is invisible to host software and not readable from the application.
  * The BAR 0 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_bar0_masku
+union cavm_pcieepx_bar0_masku
 {
     uint32_t u;
-    struct cavm_pcieep_bar0_masku_s
+    struct cavm_pcieepx_bar0_masku_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
@@ -659,32 +669,33 @@ union cavm_pcieep_bar0_masku
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar0_masku_s cn; */
+    /* struct cavm_pcieepx_bar0_masku_s cn; */
 };
-typedef union cavm_pcieep_bar0_masku cavm_pcieep_bar0_masku_t;
+typedef union cavm_pcieepx_bar0_masku cavm_pcieepx_bar0_masku_t;
 
-#define CAVM_PCIEEP_BAR0_MASKU CAVM_PCIEEP_BAR0_MASKU_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR0_MASKU_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR0_MASKU_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR0_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR0_MASKU(uint64_t a)
 {
-    return 0x10014;
+    if (a<=3)
+        return 0x10014 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR0_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR0_MASKU cavm_pcieep_bar0_masku_t
-#define bustype_CAVM_PCIEEP_BAR0_MASKU CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_BAR0_MASKU "PCIEEP_BAR0_MASKU"
-#define busnum_CAVM_PCIEEP_BAR0_MASKU 0
-#define arguments_CAVM_PCIEEP_BAR0_MASKU -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR0_MASKU(a) cavm_pcieepx_bar0_masku_t
+#define bustype_CAVM_PCIEEPX_BAR0_MASKU(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_BAR0_MASKU(a) "PCIEEPX_BAR0_MASKU"
+#define busnum_CAVM_PCIEEPX_BAR0_MASKU(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR0_MASKU(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_bar0l
+ * Register (PCICONFIGEP) pcieep#_bar0l
  *
  * PCIe EP PF Base Address 0 Low Register
  */
-union cavm_pcieep_bar0l
+union cavm_pcieepx_bar0l
 {
     uint32_t u;
-    struct cavm_pcieep_bar0l_s
+    struct cavm_pcieepx_bar0l_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W) Lower bits of the BAR 0 base address. */
@@ -722,32 +733,33 @@ union cavm_pcieep_bar0l
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W) Lower bits of the BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar0l_s cn; */
+    /* struct cavm_pcieepx_bar0l_s cn; */
 };
-typedef union cavm_pcieep_bar0l cavm_pcieep_bar0l_t;
+typedef union cavm_pcieepx_bar0l cavm_pcieepx_bar0l_t;
 
-#define CAVM_PCIEEP_BAR0L CAVM_PCIEEP_BAR0L_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR0L_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR0L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR0L(uint64_t a)
 {
-    return 0x10;
+    if (a<=3)
+        return 0x10 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR0L", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR0L cavm_pcieep_bar0l_t
-#define bustype_CAVM_PCIEEP_BAR0L CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_BAR0L "PCIEEP_BAR0L"
-#define busnum_CAVM_PCIEEP_BAR0L 0
-#define arguments_CAVM_PCIEEP_BAR0L -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR0L(a) cavm_pcieepx_bar0l_t
+#define bustype_CAVM_PCIEEPX_BAR0L(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_BAR0L(a) "PCIEEPX_BAR0L"
+#define busnum_CAVM_PCIEEPX_BAR0L(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR0L(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_bar0u
+ * Register (PCICONFIGEP) pcieep#_bar0u
  *
  * PCIe EP PF Base Address 0 High Register
  */
-union cavm_pcieep_bar0u
+union cavm_pcieepx_bar0u
 {
     uint32_t u;
-    struct cavm_pcieep_bar0u_s
+    struct cavm_pcieepx_bar0u_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 0 base address. */
@@ -755,34 +767,35 @@ union cavm_pcieep_bar0u
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar0u_s cn; */
+    /* struct cavm_pcieepx_bar0u_s cn; */
 };
-typedef union cavm_pcieep_bar0u cavm_pcieep_bar0u_t;
+typedef union cavm_pcieepx_bar0u cavm_pcieepx_bar0u_t;
 
-#define CAVM_PCIEEP_BAR0U CAVM_PCIEEP_BAR0U_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR0U_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR0U(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR0U(uint64_t a)
 {
-    return 0x14;
+    if (a<=3)
+        return 0x14 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR0U", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR0U cavm_pcieep_bar0u_t
-#define bustype_CAVM_PCIEEP_BAR0U CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_BAR0U "PCIEEP_BAR0U"
-#define busnum_CAVM_PCIEEP_BAR0U 0
-#define arguments_CAVM_PCIEEP_BAR0U -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR0U(a) cavm_pcieepx_bar0u_t
+#define bustype_CAVM_PCIEEPX_BAR0U(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_BAR0U(a) "PCIEEPX_BAR0U"
+#define busnum_CAVM_PCIEEPX_BAR0U(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR0U(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_bar2_maskl
+ * Register (PCICONFIGEP_SHADOW) pcieep#_bar2_maskl
  *
  * PCIe EP PF BAR Mask 2 Low Register
  * The BAR 2 mask register is invisible to host software and not readable from the application.
  * The BAR 2 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_bar2_maskl
+union cavm_pcieepx_bar2_maskl
 {
     uint32_t u;
-    struct cavm_pcieep_bar2_maskl_s
+    struct cavm_pcieepx_bar2_maskl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
@@ -804,34 +817,35 @@ union cavm_pcieep_bar2_maskl
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar2_maskl_s cn; */
+    /* struct cavm_pcieepx_bar2_maskl_s cn; */
 };
-typedef union cavm_pcieep_bar2_maskl cavm_pcieep_bar2_maskl_t;
+typedef union cavm_pcieepx_bar2_maskl cavm_pcieepx_bar2_maskl_t;
 
-#define CAVM_PCIEEP_BAR2_MASKL CAVM_PCIEEP_BAR2_MASKL_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR2_MASKL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR2_MASKL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR2_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR2_MASKL(uint64_t a)
 {
-    return 0x10018;
+    if (a<=3)
+        return 0x10018 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR2_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR2_MASKL cavm_pcieep_bar2_maskl_t
-#define bustype_CAVM_PCIEEP_BAR2_MASKL CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_BAR2_MASKL "PCIEEP_BAR2_MASKL"
-#define busnum_CAVM_PCIEEP_BAR2_MASKL 0
-#define arguments_CAVM_PCIEEP_BAR2_MASKL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR2_MASKL(a) cavm_pcieepx_bar2_maskl_t
+#define bustype_CAVM_PCIEEPX_BAR2_MASKL(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_BAR2_MASKL(a) "PCIEEPX_BAR2_MASKL"
+#define busnum_CAVM_PCIEEPX_BAR2_MASKL(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR2_MASKL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_bar2_masku
+ * Register (PCICONFIGEP_SHADOW) pcieep#_bar2_masku
  *
  * PCIe EP PF BAR Mask 2 High Register
  * The BAR 2 mask register is invisible to host software and not readable from the application.
  * The BAR 2 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_bar2_masku
+union cavm_pcieepx_bar2_masku
 {
     uint32_t u;
-    struct cavm_pcieep_bar2_masku_s
+    struct cavm_pcieepx_bar2_masku_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
@@ -839,32 +853,33 @@ union cavm_pcieep_bar2_masku
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar2_masku_s cn; */
+    /* struct cavm_pcieepx_bar2_masku_s cn; */
 };
-typedef union cavm_pcieep_bar2_masku cavm_pcieep_bar2_masku_t;
+typedef union cavm_pcieepx_bar2_masku cavm_pcieepx_bar2_masku_t;
 
-#define CAVM_PCIEEP_BAR2_MASKU CAVM_PCIEEP_BAR2_MASKU_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR2_MASKU_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR2_MASKU_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR2_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR2_MASKU(uint64_t a)
 {
-    return 0x1001c;
+    if (a<=3)
+        return 0x1001c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR2_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR2_MASKU cavm_pcieep_bar2_masku_t
-#define bustype_CAVM_PCIEEP_BAR2_MASKU CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_BAR2_MASKU "PCIEEP_BAR2_MASKU"
-#define busnum_CAVM_PCIEEP_BAR2_MASKU 0
-#define arguments_CAVM_PCIEEP_BAR2_MASKU -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR2_MASKU(a) cavm_pcieepx_bar2_masku_t
+#define bustype_CAVM_PCIEEPX_BAR2_MASKU(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_BAR2_MASKU(a) "PCIEEPX_BAR2_MASKU"
+#define busnum_CAVM_PCIEEPX_BAR2_MASKU(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR2_MASKU(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_bar2l
+ * Register (PCICONFIGEP) pcieep#_bar2l
  *
  * PCIe EP PF Base Address 2 Low Register
  */
-union cavm_pcieep_bar2l
+union cavm_pcieepx_bar2l
 {
     uint32_t u;
-    struct cavm_pcieep_bar2l_s
+    struct cavm_pcieepx_bar2l_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the BAR 2 base address. */
@@ -902,32 +917,33 @@ union cavm_pcieep_bar2l
         uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the BAR 2 base address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar2l_s cn; */
+    /* struct cavm_pcieepx_bar2l_s cn; */
 };
-typedef union cavm_pcieep_bar2l cavm_pcieep_bar2l_t;
+typedef union cavm_pcieepx_bar2l cavm_pcieepx_bar2l_t;
 
-#define CAVM_PCIEEP_BAR2L CAVM_PCIEEP_BAR2L_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR2L_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR2L_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR2L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR2L(uint64_t a)
 {
-    return 0x18;
+    if (a<=3)
+        return 0x18 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR2L", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR2L cavm_pcieep_bar2l_t
-#define bustype_CAVM_PCIEEP_BAR2L CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_BAR2L "PCIEEP_BAR2L"
-#define busnum_CAVM_PCIEEP_BAR2L 0
-#define arguments_CAVM_PCIEEP_BAR2L -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR2L(a) cavm_pcieepx_bar2l_t
+#define bustype_CAVM_PCIEEPX_BAR2L(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_BAR2L(a) "PCIEEPX_BAR2L"
+#define busnum_CAVM_PCIEEPX_BAR2L(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR2L(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_bar2u
+ * Register (PCICONFIGEP) pcieep#_bar2u
  *
  * PCIe EP PF Base Address 2 High Register
  */
-union cavm_pcieep_bar2u
+union cavm_pcieepx_bar2u
 {
     uint32_t u;
-    struct cavm_pcieep_bar2u_s
+    struct cavm_pcieepx_bar2u_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address */
@@ -935,34 +951,35 @@ union cavm_pcieep_bar2u
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar2u_s cn; */
+    /* struct cavm_pcieepx_bar2u_s cn; */
 };
-typedef union cavm_pcieep_bar2u cavm_pcieep_bar2u_t;
+typedef union cavm_pcieepx_bar2u cavm_pcieepx_bar2u_t;
 
-#define CAVM_PCIEEP_BAR2U CAVM_PCIEEP_BAR2U_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR2U_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR2U(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR2U(uint64_t a)
 {
-    return 0x1c;
+    if (a<=3)
+        return 0x1c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR2U", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR2U cavm_pcieep_bar2u_t
-#define bustype_CAVM_PCIEEP_BAR2U CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_BAR2U "PCIEEP_BAR2U"
-#define busnum_CAVM_PCIEEP_BAR2U 0
-#define arguments_CAVM_PCIEEP_BAR2U -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR2U(a) cavm_pcieepx_bar2u_t
+#define bustype_CAVM_PCIEEPX_BAR2U(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_BAR2U(a) "PCIEEPX_BAR2U"
+#define busnum_CAVM_PCIEEPX_BAR2U(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR2U(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_bar4_maskl
+ * Register (PCICONFIGEP_SHADOW) pcieep#_bar4_maskl
  *
  * PCIe EP PF BAR Mask 4 Low Register
  * The BAR 4 mask register is invisible to host software and not readable from the application.
  * The BAR 4 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_bar4_maskl
+union cavm_pcieepx_bar4_maskl
 {
     uint32_t u;
-    struct cavm_pcieep_bar4_maskl_s
+    struct cavm_pcieepx_bar4_maskl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
@@ -984,34 +1001,35 @@ union cavm_pcieep_bar4_maskl
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar4_maskl_s cn; */
+    /* struct cavm_pcieepx_bar4_maskl_s cn; */
 };
-typedef union cavm_pcieep_bar4_maskl cavm_pcieep_bar4_maskl_t;
+typedef union cavm_pcieepx_bar4_maskl cavm_pcieepx_bar4_maskl_t;
 
-#define CAVM_PCIEEP_BAR4_MASKL CAVM_PCIEEP_BAR4_MASKL_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR4_MASKL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR4_MASKL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR4_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR4_MASKL(uint64_t a)
 {
-    return 0x10020;
+    if (a<=3)
+        return 0x10020 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR4_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR4_MASKL cavm_pcieep_bar4_maskl_t
-#define bustype_CAVM_PCIEEP_BAR4_MASKL CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_BAR4_MASKL "PCIEEP_BAR4_MASKL"
-#define busnum_CAVM_PCIEEP_BAR4_MASKL 0
-#define arguments_CAVM_PCIEEP_BAR4_MASKL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR4_MASKL(a) cavm_pcieepx_bar4_maskl_t
+#define bustype_CAVM_PCIEEPX_BAR4_MASKL(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_BAR4_MASKL(a) "PCIEEPX_BAR4_MASKL"
+#define busnum_CAVM_PCIEEPX_BAR4_MASKL(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR4_MASKL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_bar4_masku
+ * Register (PCICONFIGEP_SHADOW) pcieep#_bar4_masku
  *
  * PCIe EP PF BAR Mask 4 High Register
  * The BAR 4 mask register is invisible to host software and not readable from the application.
  * The BAR 4 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_bar4_masku
+union cavm_pcieepx_bar4_masku
 {
     uint32_t u;
-    struct cavm_pcieep_bar4_masku_s
+    struct cavm_pcieepx_bar4_masku_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
@@ -1019,32 +1037,33 @@ union cavm_pcieep_bar4_masku
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar4_masku_s cn; */
+    /* struct cavm_pcieepx_bar4_masku_s cn; */
 };
-typedef union cavm_pcieep_bar4_masku cavm_pcieep_bar4_masku_t;
+typedef union cavm_pcieepx_bar4_masku cavm_pcieepx_bar4_masku_t;
 
-#define CAVM_PCIEEP_BAR4_MASKU CAVM_PCIEEP_BAR4_MASKU_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR4_MASKU_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR4_MASKU_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR4_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR4_MASKU(uint64_t a)
 {
-    return 0x10024;
+    if (a<=3)
+        return 0x10024 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR4_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR4_MASKU cavm_pcieep_bar4_masku_t
-#define bustype_CAVM_PCIEEP_BAR4_MASKU CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_BAR4_MASKU "PCIEEP_BAR4_MASKU"
-#define busnum_CAVM_PCIEEP_BAR4_MASKU 0
-#define arguments_CAVM_PCIEEP_BAR4_MASKU -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR4_MASKU(a) cavm_pcieepx_bar4_masku_t
+#define bustype_CAVM_PCIEEPX_BAR4_MASKU(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_BAR4_MASKU(a) "PCIEEPX_BAR4_MASKU"
+#define busnum_CAVM_PCIEEPX_BAR4_MASKU(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR4_MASKU(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_bar4l
+ * Register (PCICONFIGEP) pcieep#_bar4l
  *
  * PCIe EP PF Base Address 4 Low Register
  */
-union cavm_pcieep_bar4l
+union cavm_pcieepx_bar4l
 {
     uint32_t u;
-    struct cavm_pcieep_bar4l_s
+    struct cavm_pcieepx_bar4l_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W) Lower bits of the BAR 4 base address. */
@@ -1082,32 +1101,33 @@ union cavm_pcieep_bar4l
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W) Lower bits of the BAR 4 base address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar4l_s cn; */
+    /* struct cavm_pcieepx_bar4l_s cn; */
 };
-typedef union cavm_pcieep_bar4l cavm_pcieep_bar4l_t;
+typedef union cavm_pcieepx_bar4l cavm_pcieepx_bar4l_t;
 
-#define CAVM_PCIEEP_BAR4L CAVM_PCIEEP_BAR4L_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR4L_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR4L_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR4L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR4L(uint64_t a)
 {
-    return 0x20;
+    if (a<=3)
+        return 0x20 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR4L", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR4L cavm_pcieep_bar4l_t
-#define bustype_CAVM_PCIEEP_BAR4L CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_BAR4L "PCIEEP_BAR4L"
-#define busnum_CAVM_PCIEEP_BAR4L 0
-#define arguments_CAVM_PCIEEP_BAR4L -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR4L(a) cavm_pcieepx_bar4l_t
+#define bustype_CAVM_PCIEEPX_BAR4L(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_BAR4L(a) "PCIEEPX_BAR4L"
+#define busnum_CAVM_PCIEEPX_BAR4L(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR4L(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_bar4u
+ * Register (PCICONFIGEP) pcieep#_bar4u
  *
  * PCIe EP PF Base Address 2 High Register
  */
-union cavm_pcieep_bar4u
+union cavm_pcieepx_bar4u
 {
     uint32_t u;
-    struct cavm_pcieep_bar4u_s
+    struct cavm_pcieepx_bar4u_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
@@ -1115,32 +1135,33 @@ union cavm_pcieep_bar4u
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_bar4u_s cn; */
+    /* struct cavm_pcieepx_bar4u_s cn; */
 };
-typedef union cavm_pcieep_bar4u cavm_pcieep_bar4u_t;
+typedef union cavm_pcieepx_bar4u cavm_pcieepx_bar4u_t;
 
-#define CAVM_PCIEEP_BAR4U CAVM_PCIEEP_BAR4U_FUNC()
-static inline uint64_t CAVM_PCIEEP_BAR4U_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_BAR4U_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_BAR4U(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_BAR4U(uint64_t a)
 {
-    return 0x24;
+    if (a<=3)
+        return 0x24 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_BAR4U", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_BAR4U cavm_pcieep_bar4u_t
-#define bustype_CAVM_PCIEEP_BAR4U CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_BAR4U "PCIEEP_BAR4U"
-#define busnum_CAVM_PCIEEP_BAR4U 0
-#define arguments_CAVM_PCIEEP_BAR4U -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_BAR4U(a) cavm_pcieepx_bar4u_t
+#define bustype_CAVM_PCIEEPX_BAR4U(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_BAR4U(a) "PCIEEPX_BAR4U"
+#define busnum_CAVM_PCIEEPX_BAR4U(a) (a)
+#define arguments_CAVM_PCIEEPX_BAR4U(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_c_rcv_credit
+ * Register (PCICONFIGEP) pcieep#_c_rcv_credit
  *
  * PCIe EP PF VC0 Completion Receive Queue Control Register
  */
-union cavm_pcieep_c_rcv_credit
+union cavm_pcieepx_c_rcv_credit
 {
     uint32_t u;
-    struct cavm_pcieep_c_rcv_credit_s
+    struct cavm_pcieepx_c_rcv_credit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -1190,32 +1211,33 @@ union cavm_pcieep_c_rcv_credit
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_c_rcv_credit_s cn; */
+    /* struct cavm_pcieepx_c_rcv_credit_s cn; */
 };
-typedef union cavm_pcieep_c_rcv_credit cavm_pcieep_c_rcv_credit_t;
+typedef union cavm_pcieepx_c_rcv_credit cavm_pcieepx_c_rcv_credit_t;
 
-#define CAVM_PCIEEP_C_RCV_CREDIT CAVM_PCIEEP_C_RCV_CREDIT_FUNC()
-static inline uint64_t CAVM_PCIEEP_C_RCV_CREDIT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_C_RCV_CREDIT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_C_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_C_RCV_CREDIT(uint64_t a)
 {
-    return 0x750;
+    if (a<=3)
+        return 0x750 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_C_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_C_RCV_CREDIT cavm_pcieep_c_rcv_credit_t
-#define bustype_CAVM_PCIEEP_C_RCV_CREDIT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_C_RCV_CREDIT "PCIEEP_C_RCV_CREDIT"
-#define busnum_CAVM_PCIEEP_C_RCV_CREDIT 0
-#define arguments_CAVM_PCIEEP_C_RCV_CREDIT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_C_RCV_CREDIT(a) cavm_pcieepx_c_rcv_credit_t
+#define bustype_CAVM_PCIEEPX_C_RCV_CREDIT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_C_RCV_CREDIT(a) "PCIEEPX_C_RCV_CREDIT"
+#define busnum_CAVM_PCIEEPX_C_RCV_CREDIT(a) (a)
+#define arguments_CAVM_PCIEEPX_C_RCV_CREDIT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_c_xmit_credit
+ * Register (PCICONFIGEP) pcieep#_c_xmit_credit
  *
  * PCIe EP PF Transmit Completion FC Credit Status Register
  */
-union cavm_pcieep_c_xmit_credit
+union cavm_pcieepx_c_xmit_credit
 {
     uint32_t u;
-    struct cavm_pcieep_c_xmit_credit_s
+    struct cavm_pcieepx_c_xmit_credit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -1231,32 +1253,33 @@ union cavm_pcieep_c_xmit_credit
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_c_xmit_credit_s cn; */
+    /* struct cavm_pcieepx_c_xmit_credit_s cn; */
 };
-typedef union cavm_pcieep_c_xmit_credit cavm_pcieep_c_xmit_credit_t;
+typedef union cavm_pcieepx_c_xmit_credit cavm_pcieepx_c_xmit_credit_t;
 
-#define CAVM_PCIEEP_C_XMIT_CREDIT CAVM_PCIEEP_C_XMIT_CREDIT_FUNC()
-static inline uint64_t CAVM_PCIEEP_C_XMIT_CREDIT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_C_XMIT_CREDIT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_C_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_C_XMIT_CREDIT(uint64_t a)
 {
-    return 0x738;
+    if (a<=3)
+        return 0x738 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_C_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_C_XMIT_CREDIT cavm_pcieep_c_xmit_credit_t
-#define bustype_CAVM_PCIEEP_C_XMIT_CREDIT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_C_XMIT_CREDIT "PCIEEP_C_XMIT_CREDIT"
-#define busnum_CAVM_PCIEEP_C_XMIT_CREDIT 0
-#define arguments_CAVM_PCIEEP_C_XMIT_CREDIT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_C_XMIT_CREDIT(a) cavm_pcieepx_c_xmit_credit_t
+#define bustype_CAVM_PCIEEPX_C_XMIT_CREDIT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_C_XMIT_CREDIT(a) "PCIEEPX_C_XMIT_CREDIT"
+#define busnum_CAVM_PCIEEPX_C_XMIT_CREDIT(a) (a)
+#define arguments_CAVM_PCIEEPX_C_XMIT_CREDIT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_cap_ptr
+ * Register (PCICONFIGEP) pcieep#_cap_ptr
  *
  * PCIe EP PF Capability Pointer Register
  */
-union cavm_pcieep_cap_ptr
+union cavm_pcieepx_cap_ptr
 {
     uint32_t u;
-    struct cavm_pcieep_cap_ptr_s
+    struct cavm_pcieepx_cap_ptr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1268,32 +1291,33 @@ union cavm_pcieep_cap_ptr
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_cap_ptr_s cn; */
+    /* struct cavm_pcieepx_cap_ptr_s cn; */
 };
-typedef union cavm_pcieep_cap_ptr cavm_pcieep_cap_ptr_t;
+typedef union cavm_pcieepx_cap_ptr cavm_pcieepx_cap_ptr_t;
 
-#define CAVM_PCIEEP_CAP_PTR CAVM_PCIEEP_CAP_PTR_FUNC()
-static inline uint64_t CAVM_PCIEEP_CAP_PTR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_CAP_PTR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_CAP_PTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_CAP_PTR(uint64_t a)
 {
-    return 0x34;
+    if (a<=3)
+        return 0x34 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_CAP_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_CAP_PTR cavm_pcieep_cap_ptr_t
-#define bustype_CAVM_PCIEEP_CAP_PTR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_CAP_PTR "PCIEEP_CAP_PTR"
-#define busnum_CAVM_PCIEEP_CAP_PTR 0
-#define arguments_CAVM_PCIEEP_CAP_PTR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_CAP_PTR(a) cavm_pcieepx_cap_ptr_t
+#define bustype_CAVM_PCIEEPX_CAP_PTR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_CAP_PTR(a) "PCIEEPX_CAP_PTR"
+#define busnum_CAVM_PCIEEPX_CAP_PTR(a) (a)
+#define arguments_CAVM_PCIEEPX_CAP_PTR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_cardbus
+ * Register (PCICONFIGEP) pcieep#_cardbus
  *
  * PCIe EP PF Card Bus CIS Pointer Register
  */
-union cavm_pcieep_cardbus
+union cavm_pcieepx_cardbus
 {
     uint32_t u;
-    struct cavm_pcieep_cardbus_s
+    struct cavm_pcieepx_cardbus_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t cisp                  : 32; /**< [ 31:  0](RO/WRSL) CardBus CIS pointer. Optional, writable through PEM()_CFG_TBL(). */
@@ -1301,32 +1325,33 @@ union cavm_pcieep_cardbus
         uint32_t cisp                  : 32; /**< [ 31:  0](RO/WRSL) CardBus CIS pointer. Optional, writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_cardbus_s cn; */
+    /* struct cavm_pcieepx_cardbus_s cn; */
 };
-typedef union cavm_pcieep_cardbus cavm_pcieep_cardbus_t;
+typedef union cavm_pcieepx_cardbus cavm_pcieepx_cardbus_t;
 
-#define CAVM_PCIEEP_CARDBUS CAVM_PCIEEP_CARDBUS_FUNC()
-static inline uint64_t CAVM_PCIEEP_CARDBUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_CARDBUS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_CARDBUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_CARDBUS(uint64_t a)
 {
-    return 0x28;
+    if (a<=3)
+        return 0x28 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_CARDBUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_CARDBUS cavm_pcieep_cardbus_t
-#define bustype_CAVM_PCIEEP_CARDBUS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_CARDBUS "PCIEEP_CARDBUS"
-#define busnum_CAVM_PCIEEP_CARDBUS 0
-#define arguments_CAVM_PCIEEP_CARDBUS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_CARDBUS(a) cavm_pcieepx_cardbus_t
+#define bustype_CAVM_PCIEEPX_CARDBUS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_CARDBUS(a) "PCIEEPX_CARDBUS"
+#define busnum_CAVM_PCIEEPX_CARDBUS(a) (a)
+#define arguments_CAVM_PCIEEPX_CARDBUS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_clk_gating_ctl
+ * Register (PCICONFIGEP) pcieep#_clk_gating_ctl
  *
  * PCIe EP PF RADM clock gating enable control Register
  */
-union cavm_pcieep_clk_gating_ctl
+union cavm_pcieepx_clk_gating_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_clk_gating_ctl_s
+    struct cavm_pcieepx_clk_gating_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
@@ -1346,32 +1371,33 @@ union cavm_pcieep_clk_gating_ctl
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_clk_gating_ctl_s cn; */
+    /* struct cavm_pcieepx_clk_gating_ctl_s cn; */
 };
-typedef union cavm_pcieep_clk_gating_ctl cavm_pcieep_clk_gating_ctl_t;
+typedef union cavm_pcieepx_clk_gating_ctl cavm_pcieepx_clk_gating_ctl_t;
 
-#define CAVM_PCIEEP_CLK_GATING_CTL CAVM_PCIEEP_CLK_GATING_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_CLK_GATING_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_CLK_GATING_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_CLK_GATING_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_CLK_GATING_CTL(uint64_t a)
 {
-    return 0x88c;
+    if (a<=3)
+        return 0x88c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_CLK_GATING_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_CLK_GATING_CTL cavm_pcieep_clk_gating_ctl_t
-#define bustype_CAVM_PCIEEP_CLK_GATING_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_CLK_GATING_CTL "PCIEEP_CLK_GATING_CTL"
-#define busnum_CAVM_PCIEEP_CLK_GATING_CTL 0
-#define arguments_CAVM_PCIEEP_CLK_GATING_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_CLK_GATING_CTL(a) cavm_pcieepx_clk_gating_ctl_t
+#define bustype_CAVM_PCIEEPX_CLK_GATING_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_CLK_GATING_CTL(a) "PCIEEPX_CLK_GATING_CTL"
+#define busnum_CAVM_PCIEEPX_CLK_GATING_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_CLK_GATING_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_clsize
+ * Register (PCICONFIGEP) pcieep#_clsize
  *
  * PCIe EP PF BIST, Header Type, Master Latency Timer, Cache Line Size Register
  */
-union cavm_pcieep_clsize
+union cavm_pcieepx_clsize
 {
     uint32_t u;
-    struct cavm_pcieep_clsize_s
+    struct cavm_pcieepx_clsize_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register
@@ -1401,32 +1427,33 @@ union cavm_pcieep_clsize
                                                                  are hardwired to zero. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_clsize_s cn; */
+    /* struct cavm_pcieepx_clsize_s cn; */
 };
-typedef union cavm_pcieep_clsize cavm_pcieep_clsize_t;
+typedef union cavm_pcieepx_clsize cavm_pcieepx_clsize_t;
 
-#define CAVM_PCIEEP_CLSIZE CAVM_PCIEEP_CLSIZE_FUNC()
-static inline uint64_t CAVM_PCIEEP_CLSIZE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_CLSIZE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_CLSIZE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_CLSIZE(uint64_t a)
 {
-    return 0xc;
+    if (a<=3)
+        return 0xc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_CLSIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_CLSIZE cavm_pcieep_clsize_t
-#define bustype_CAVM_PCIEEP_CLSIZE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_CLSIZE "PCIEEP_CLSIZE"
-#define busnum_CAVM_PCIEEP_CLSIZE 0
-#define arguments_CAVM_PCIEEP_CLSIZE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_CLSIZE(a) cavm_pcieepx_clsize_t
+#define bustype_CAVM_PCIEEPX_CLSIZE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_CLSIZE(a) "PCIEEPX_CLSIZE"
+#define busnum_CAVM_PCIEEPX_CLSIZE(a) (a)
+#define arguments_CAVM_PCIEEPX_CLSIZE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_cmd
+ * Register (PCICONFIGEP) pcieep#_cmd
  *
  * PCIe EP PF Command/Status Register
  */
-union cavm_pcieep_cmd
+union cavm_pcieepx_cmd
 {
     uint32_t u;
-    struct cavm_pcieep_cmd_s
+    struct cavm_pcieepx_cmd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
@@ -1492,32 +1519,33 @@ union cavm_pcieep_cmd
         uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_cmd_s cn; */
+    /* struct cavm_pcieepx_cmd_s cn; */
 };
-typedef union cavm_pcieep_cmd cavm_pcieep_cmd_t;
+typedef union cavm_pcieepx_cmd cavm_pcieepx_cmd_t;
 
-#define CAVM_PCIEEP_CMD CAVM_PCIEEP_CMD_FUNC()
-static inline uint64_t CAVM_PCIEEP_CMD_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_CMD_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_CMD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_CMD(uint64_t a)
 {
-    return 4;
+    if (a<=3)
+        return 4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_CMD cavm_pcieep_cmd_t
-#define bustype_CAVM_PCIEEP_CMD CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_CMD "PCIEEP_CMD"
-#define busnum_CAVM_PCIEEP_CMD 0
-#define arguments_CAVM_PCIEEP_CMD -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_CMD(a) cavm_pcieepx_cmd_t
+#define bustype_CAVM_PCIEEPX_CMD(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_CMD(a) "PCIEEPX_CMD"
+#define busnum_CAVM_PCIEEPX_CMD(a) (a)
+#define arguments_CAVM_PCIEEPX_CMD(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_cor_err_msk
+ * Register (PCICONFIGEP) pcieep#_cor_err_msk
  *
  * PCIe EP PF Correctable Error Mask Register
  */
-union cavm_pcieep_cor_err_msk
+union cavm_pcieepx_cor_err_msk
 {
     uint32_t u;
-    struct cavm_pcieep_cor_err_msk_s
+    struct cavm_pcieepx_cor_err_msk_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -1545,32 +1573,33 @@ union cavm_pcieep_cor_err_msk
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_cor_err_msk_s cn; */
+    /* struct cavm_pcieepx_cor_err_msk_s cn; */
 };
-typedef union cavm_pcieep_cor_err_msk cavm_pcieep_cor_err_msk_t;
+typedef union cavm_pcieepx_cor_err_msk cavm_pcieepx_cor_err_msk_t;
 
-#define CAVM_PCIEEP_COR_ERR_MSK CAVM_PCIEEP_COR_ERR_MSK_FUNC()
-static inline uint64_t CAVM_PCIEEP_COR_ERR_MSK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_COR_ERR_MSK_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_COR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_COR_ERR_MSK(uint64_t a)
 {
-    return 0x114;
+    if (a<=3)
+        return 0x114 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_COR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_COR_ERR_MSK cavm_pcieep_cor_err_msk_t
-#define bustype_CAVM_PCIEEP_COR_ERR_MSK CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_COR_ERR_MSK "PCIEEP_COR_ERR_MSK"
-#define busnum_CAVM_PCIEEP_COR_ERR_MSK 0
-#define arguments_CAVM_PCIEEP_COR_ERR_MSK -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_COR_ERR_MSK(a) cavm_pcieepx_cor_err_msk_t
+#define bustype_CAVM_PCIEEPX_COR_ERR_MSK(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_COR_ERR_MSK(a) "PCIEEPX_COR_ERR_MSK"
+#define busnum_CAVM_PCIEEPX_COR_ERR_MSK(a) (a)
+#define arguments_CAVM_PCIEEPX_COR_ERR_MSK(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_cor_err_stat
+ * Register (PCICONFIGEP) pcieep#_cor_err_stat
  *
  * PCIe EP PF Correctable Error Status Register
  */
-union cavm_pcieep_cor_err_stat
+union cavm_pcieepx_cor_err_stat
 {
     uint32_t u;
-    struct cavm_pcieep_cor_err_stat_s
+    struct cavm_pcieepx_cor_err_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -1598,35 +1627,36 @@ union cavm_pcieep_cor_err_stat
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_cor_err_stat_s cn; */
+    /* struct cavm_pcieepx_cor_err_stat_s cn; */
 };
-typedef union cavm_pcieep_cor_err_stat cavm_pcieep_cor_err_stat_t;
+typedef union cavm_pcieepx_cor_err_stat cavm_pcieepx_cor_err_stat_t;
 
-#define CAVM_PCIEEP_COR_ERR_STAT CAVM_PCIEEP_COR_ERR_STAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_COR_ERR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_COR_ERR_STAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_COR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_COR_ERR_STAT(uint64_t a)
 {
-    return 0x110;
+    if (a<=3)
+        return 0x110 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_COR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_COR_ERR_STAT cavm_pcieep_cor_err_stat_t
-#define bustype_CAVM_PCIEEP_COR_ERR_STAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_COR_ERR_STAT "PCIEEP_COR_ERR_STAT"
-#define busnum_CAVM_PCIEEP_COR_ERR_STAT 0
-#define arguments_CAVM_PCIEEP_COR_ERR_STAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_COR_ERR_STAT(a) cavm_pcieepx_cor_err_stat_t
+#define bustype_CAVM_PCIEEPX_COR_ERR_STAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_COR_ERR_STAT(a) "PCIEEPX_COR_ERR_STAT"
+#define busnum_CAVM_PCIEEPX_COR_ERR_STAT(a) (a)
+#define arguments_CAVM_PCIEEPX_COR_ERR_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_cpl_lut_del_ent
+ * Register (PCICONFIGEP) pcieep#_cpl_lut_del_ent
  *
  * PCIe EP PF Target Completion LUT Delete Entry Control Register
  * Using this register you can delete on entry in the target completion LUT.  You should
  * only use this register when you know that your application will never send the completion
  * because of an FLR or any other reason.
  */
-union cavm_pcieep_cpl_lut_del_ent
+union cavm_pcieepx_cpl_lut_del_ent
 {
     uint32_t u;
-    struct cavm_pcieep_cpl_lut_del_ent_s
+    struct cavm_pcieepx_cpl_lut_del_ent_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t den                   : 1;  /**< [ 31: 31](R/W1C/H) This is a one-shot bit. Writing a one triggers the deletion of the target
@@ -1640,32 +1670,33 @@ union cavm_pcieep_cpl_lut_del_ent
                                                                  register field. Reading from this register field always returns a zero. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_cpl_lut_del_ent_s cn; */
+    /* struct cavm_pcieepx_cpl_lut_del_ent_s cn; */
 };
-typedef union cavm_pcieep_cpl_lut_del_ent cavm_pcieep_cpl_lut_del_ent_t;
+typedef union cavm_pcieepx_cpl_lut_del_ent cavm_pcieepx_cpl_lut_del_ent_t;
 
-#define CAVM_PCIEEP_CPL_LUT_DEL_ENT CAVM_PCIEEP_CPL_LUT_DEL_ENT_FUNC()
-static inline uint64_t CAVM_PCIEEP_CPL_LUT_DEL_ENT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_CPL_LUT_DEL_ENT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_CPL_LUT_DEL_ENT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_CPL_LUT_DEL_ENT(uint64_t a)
 {
-    return 0x8c8;
+    if (a<=3)
+        return 0x8c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_CPL_LUT_DEL_ENT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_CPL_LUT_DEL_ENT cavm_pcieep_cpl_lut_del_ent_t
-#define bustype_CAVM_PCIEEP_CPL_LUT_DEL_ENT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_CPL_LUT_DEL_ENT "PCIEEP_CPL_LUT_DEL_ENT"
-#define busnum_CAVM_PCIEEP_CPL_LUT_DEL_ENT 0
-#define arguments_CAVM_PCIEEP_CPL_LUT_DEL_ENT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_CPL_LUT_DEL_ENT(a) cavm_pcieepx_cpl_lut_del_ent_t
+#define bustype_CAVM_PCIEEPX_CPL_LUT_DEL_ENT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_CPL_LUT_DEL_ENT(a) "PCIEEPX_CPL_LUT_DEL_ENT"
+#define busnum_CAVM_PCIEEPX_CPL_LUT_DEL_ENT(a) (a)
+#define arguments_CAVM_PCIEEPX_CPL_LUT_DEL_ENT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dbg0
+ * Register (PCICONFIGEP) pcieep#_dbg0
  *
  * PCIe EP PF Debug Register 0
  */
-union cavm_pcieep_dbg0
+union cavm_pcieepx_dbg0
 {
     uint32_t u;
-    struct cavm_pcieep_dbg0_s
+    struct cavm_pcieepx_dbg0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dbg_info_l32          : 32; /**< [ 31:  0](RO/H) Debug info lower 32 bits. */
@@ -1673,32 +1704,33 @@ union cavm_pcieep_dbg0
         uint32_t dbg_info_l32          : 32; /**< [ 31:  0](RO/H) Debug info lower 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dbg0_s cn; */
+    /* struct cavm_pcieepx_dbg0_s cn; */
 };
-typedef union cavm_pcieep_dbg0 cavm_pcieep_dbg0_t;
+typedef union cavm_pcieepx_dbg0 cavm_pcieepx_dbg0_t;
 
-#define CAVM_PCIEEP_DBG0 CAVM_PCIEEP_DBG0_FUNC()
-static inline uint64_t CAVM_PCIEEP_DBG0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DBG0_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DBG0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DBG0(uint64_t a)
 {
-    return 0x728;
+    if (a<=3)
+        return 0x728 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DBG0", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DBG0 cavm_pcieep_dbg0_t
-#define bustype_CAVM_PCIEEP_DBG0 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DBG0 "PCIEEP_DBG0"
-#define busnum_CAVM_PCIEEP_DBG0 0
-#define arguments_CAVM_PCIEEP_DBG0 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DBG0(a) cavm_pcieepx_dbg0_t
+#define bustype_CAVM_PCIEEPX_DBG0(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DBG0(a) "PCIEEPX_DBG0"
+#define busnum_CAVM_PCIEEPX_DBG0(a) (a)
+#define arguments_CAVM_PCIEEPX_DBG0(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dbg1
+ * Register (PCICONFIGEP) pcieep#_dbg1
  *
  * PCIe EP PF Debug Register 1
  */
-union cavm_pcieep_dbg1
+union cavm_pcieepx_dbg1
 {
     uint32_t u;
-    struct cavm_pcieep_dbg1_s
+    struct cavm_pcieepx_dbg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dbg_info_u32          : 32; /**< [ 31:  0](RO/H) Debug info upper 32 bits. */
@@ -1706,32 +1738,33 @@ union cavm_pcieep_dbg1
         uint32_t dbg_info_u32          : 32; /**< [ 31:  0](RO/H) Debug info upper 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dbg1_s cn; */
+    /* struct cavm_pcieepx_dbg1_s cn; */
 };
-typedef union cavm_pcieep_dbg1 cavm_pcieep_dbg1_t;
+typedef union cavm_pcieepx_dbg1 cavm_pcieepx_dbg1_t;
 
-#define CAVM_PCIEEP_DBG1 CAVM_PCIEEP_DBG1_FUNC()
-static inline uint64_t CAVM_PCIEEP_DBG1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DBG1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DBG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DBG1(uint64_t a)
 {
-    return 0x72c;
+    if (a<=3)
+        return 0x72c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DBG1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DBG1 cavm_pcieep_dbg1_t
-#define bustype_CAVM_PCIEEP_DBG1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DBG1 "PCIEEP_DBG1"
-#define busnum_CAVM_PCIEEP_DBG1 0
-#define arguments_CAVM_PCIEEP_DBG1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DBG1(a) cavm_pcieepx_dbg1_t
+#define bustype_CAVM_PCIEEPX_DBG1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DBG1(a) "PCIEEPX_DBG1"
+#define busnum_CAVM_PCIEEPX_DBG1(a) (a)
+#define arguments_CAVM_PCIEEPX_DBG1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dev_cap
+ * Register (PCICONFIGEP) pcieep#_dev_cap
  *
  * PCIe EP PF Device Capabilities Register
  */
-union cavm_pcieep_dev_cap
+union cavm_pcieepx_dev_cap
 {
     uint32_t u;
-    struct cavm_pcieep_dev_cap_s
+    struct cavm_pcieepx_dev_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -1767,32 +1800,33 @@ union cavm_pcieep_dev_cap
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dev_cap_s cn; */
+    /* struct cavm_pcieepx_dev_cap_s cn; */
 };
-typedef union cavm_pcieep_dev_cap cavm_pcieep_dev_cap_t;
+typedef union cavm_pcieepx_dev_cap cavm_pcieepx_dev_cap_t;
 
-#define CAVM_PCIEEP_DEV_CAP CAVM_PCIEEP_DEV_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_DEV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DEV_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DEV_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DEV_CAP(uint64_t a)
 {
-    return 0x74;
+    if (a<=3)
+        return 0x74 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DEV_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DEV_CAP cavm_pcieep_dev_cap_t
-#define bustype_CAVM_PCIEEP_DEV_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DEV_CAP "PCIEEP_DEV_CAP"
-#define busnum_CAVM_PCIEEP_DEV_CAP 0
-#define arguments_CAVM_PCIEEP_DEV_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DEV_CAP(a) cavm_pcieepx_dev_cap_t
+#define bustype_CAVM_PCIEEPX_DEV_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DEV_CAP(a) "PCIEEPX_DEV_CAP"
+#define busnum_CAVM_PCIEEPX_DEV_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_DEV_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dev_cap2
+ * Register (PCICONFIGEP) pcieep#_dev_cap2
  *
  * PCIe EP PF Device Capabilities 2 Register
  */
-union cavm_pcieep_dev_cap2
+union cavm_pcieepx_dev_cap2
 {
     uint32_t u;
-    struct cavm_pcieep_dev_cap2_s
+    struct cavm_pcieepx_dev_cap2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -1852,32 +1886,33 @@ union cavm_pcieep_dev_cap2
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dev_cap2_s cn; */
+    /* struct cavm_pcieepx_dev_cap2_s cn; */
 };
-typedef union cavm_pcieep_dev_cap2 cavm_pcieep_dev_cap2_t;
+typedef union cavm_pcieepx_dev_cap2 cavm_pcieepx_dev_cap2_t;
 
-#define CAVM_PCIEEP_DEV_CAP2 CAVM_PCIEEP_DEV_CAP2_FUNC()
-static inline uint64_t CAVM_PCIEEP_DEV_CAP2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DEV_CAP2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DEV_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DEV_CAP2(uint64_t a)
 {
-    return 0x94;
+    if (a<=3)
+        return 0x94 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DEV_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DEV_CAP2 cavm_pcieep_dev_cap2_t
-#define bustype_CAVM_PCIEEP_DEV_CAP2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DEV_CAP2 "PCIEEP_DEV_CAP2"
-#define busnum_CAVM_PCIEEP_DEV_CAP2 0
-#define arguments_CAVM_PCIEEP_DEV_CAP2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DEV_CAP2(a) cavm_pcieepx_dev_cap2_t
+#define bustype_CAVM_PCIEEPX_DEV_CAP2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DEV_CAP2(a) "PCIEEPX_DEV_CAP2"
+#define busnum_CAVM_PCIEEPX_DEV_CAP2(a) (a)
+#define arguments_CAVM_PCIEEPX_DEV_CAP2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dev_ctl
+ * Register (PCICONFIGEP) pcieep#_dev_ctl
  *
  * PCIe EP PF Device Control/Device Status Register
  */
-union cavm_pcieep_dev_ctl
+union cavm_pcieepx_dev_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_dev_ctl_s
+    struct cavm_pcieepx_dev_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_22_31        : 10;
@@ -1991,32 +2026,33 @@ union cavm_pcieep_dev_ctl
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dev_ctl_s cn; */
+    /* struct cavm_pcieepx_dev_ctl_s cn; */
 };
-typedef union cavm_pcieep_dev_ctl cavm_pcieep_dev_ctl_t;
+typedef union cavm_pcieepx_dev_ctl cavm_pcieepx_dev_ctl_t;
 
-#define CAVM_PCIEEP_DEV_CTL CAVM_PCIEEP_DEV_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_DEV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DEV_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DEV_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DEV_CTL(uint64_t a)
 {
-    return 0x78;
+    if (a<=3)
+        return 0x78 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DEV_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DEV_CTL cavm_pcieep_dev_ctl_t
-#define bustype_CAVM_PCIEEP_DEV_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DEV_CTL "PCIEEP_DEV_CTL"
-#define busnum_CAVM_PCIEEP_DEV_CTL 0
-#define arguments_CAVM_PCIEEP_DEV_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DEV_CTL(a) cavm_pcieepx_dev_ctl_t
+#define bustype_CAVM_PCIEEPX_DEV_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DEV_CTL(a) "PCIEEPX_DEV_CTL"
+#define busnum_CAVM_PCIEEPX_DEV_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_DEV_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dev_ctl2
+ * Register (PCICONFIGEP) pcieep#_dev_ctl2
  *
  * PCIe EP PF Device Control 2 Register/Device Status 2 Register
  */
-union cavm_pcieep_dev_ctl2
+union cavm_pcieepx_dev_ctl2
 {
     uint32_t u;
-    struct cavm_pcieep_dev_ctl2_s
+    struct cavm_pcieepx_dev_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -2072,33 +2108,34 @@ union cavm_pcieep_dev_ctl2
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dev_ctl2_s cn; */
+    /* struct cavm_pcieepx_dev_ctl2_s cn; */
 };
-typedef union cavm_pcieep_dev_ctl2 cavm_pcieep_dev_ctl2_t;
+typedef union cavm_pcieepx_dev_ctl2 cavm_pcieepx_dev_ctl2_t;
 
-#define CAVM_PCIEEP_DEV_CTL2 CAVM_PCIEEP_DEV_CTL2_FUNC()
-static inline uint64_t CAVM_PCIEEP_DEV_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DEV_CTL2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DEV_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DEV_CTL2(uint64_t a)
 {
-    return 0x98;
+    if (a<=3)
+        return 0x98 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DEV_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DEV_CTL2 cavm_pcieep_dev_ctl2_t
-#define bustype_CAVM_PCIEEP_DEV_CTL2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DEV_CTL2 "PCIEEP_DEV_CTL2"
-#define busnum_CAVM_PCIEEP_DEV_CTL2 0
-#define arguments_CAVM_PCIEEP_DEV_CTL2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DEV_CTL2(a) cavm_pcieepx_dev_ctl2_t
+#define bustype_CAVM_PCIEEPX_DEV_CTL2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DEV_CTL2(a) "PCIEEPX_DEV_CTL2"
+#define busnum_CAVM_PCIEEPX_DEV_CTL2(a) (a)
+#define arguments_CAVM_PCIEEPX_DEV_CTL2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dl_ft_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_dl_ft_cap_hdr
  *
  * PCIe EP PF Data Link Feature Extended Capability Header Register
  * Data Link Feature Extended Capability exists for PF0 only.
  */
-union cavm_pcieep_dl_ft_cap_hdr
+union cavm_pcieepx_dl_ft_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_dl_ft_cap_hdr_s
+    struct cavm_pcieepx_dl_ft_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
@@ -2140,33 +2177,34 @@ union cavm_pcieep_dl_ft_cap_hdr
                                                                  _ PF1:          0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dl_ft_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_dl_ft_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_dl_ft_cap_hdr cavm_pcieep_dl_ft_cap_hdr_t;
+typedef union cavm_pcieepx_dl_ft_cap_hdr cavm_pcieepx_dl_ft_cap_hdr_t;
 
-#define CAVM_PCIEEP_DL_FT_CAP_HDR CAVM_PCIEEP_DL_FT_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_DL_FT_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DL_FT_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DL_FT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DL_FT_CAP_HDR(uint64_t a)
 {
-    return 0x384;
+    if (a<=3)
+        return 0x384 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DL_FT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DL_FT_CAP_HDR cavm_pcieep_dl_ft_cap_hdr_t
-#define bustype_CAVM_PCIEEP_DL_FT_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DL_FT_CAP_HDR "PCIEEP_DL_FT_CAP_HDR"
-#define busnum_CAVM_PCIEEP_DL_FT_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_DL_FT_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DL_FT_CAP_HDR(a) cavm_pcieepx_dl_ft_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_DL_FT_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DL_FT_CAP_HDR(a) "PCIEEPX_DL_FT_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_DL_FT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_DL_FT_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dlink_cap
+ * Register (PCICONFIGEP) pcieep#_dlink_cap
  *
  * PCIe EP PF Data Link Feature Capabilities Register
  * Data Link Feature Capability exists for PF0 only.
  */
-union cavm_pcieep_dlink_cap
+union cavm_pcieepx_dlink_cap
 {
     uint32_t u;
-    struct cavm_pcieep_dlink_cap_s
+    struct cavm_pcieepx_dlink_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dfeen                 : 1;  /**< [ 31: 31](RO/WRSL/H) Data link feature exchange enable.
@@ -2196,33 +2234,34 @@ union cavm_pcieep_dlink_cap
                                                                  _ PF1:          0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dlink_cap_s cn; */
+    /* struct cavm_pcieepx_dlink_cap_s cn; */
 };
-typedef union cavm_pcieep_dlink_cap cavm_pcieep_dlink_cap_t;
+typedef union cavm_pcieepx_dlink_cap cavm_pcieepx_dlink_cap_t;
 
-#define CAVM_PCIEEP_DLINK_CAP CAVM_PCIEEP_DLINK_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_DLINK_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DLINK_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DLINK_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DLINK_CAP(uint64_t a)
 {
-    return 0x388;
+    if (a<=3)
+        return 0x388 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DLINK_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DLINK_CAP cavm_pcieep_dlink_cap_t
-#define bustype_CAVM_PCIEEP_DLINK_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DLINK_CAP "PCIEEP_DLINK_CAP"
-#define busnum_CAVM_PCIEEP_DLINK_CAP 0
-#define arguments_CAVM_PCIEEP_DLINK_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DLINK_CAP(a) cavm_pcieepx_dlink_cap_t
+#define bustype_CAVM_PCIEEPX_DLINK_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DLINK_CAP(a) "PCIEEPX_DLINK_CAP"
+#define busnum_CAVM_PCIEEPX_DLINK_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_DLINK_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_dlink_fstat
+ * Register (PCICONFIGEP) pcieep#_dlink_fstat
  *
  * PCIe EP FP Data Link Feature Status Register
  * Data Link Feature Capability exists for PF0 only.
  */
-union cavm_pcieep_dlink_fstat
+union cavm_pcieepx_dlink_fstat
 {
     uint32_t u;
-    struct cavm_pcieep_dlink_fstat_s
+    struct cavm_pcieepx_dlink_fstat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dlfsv                 : 1;  /**< [ 31: 31](RO/H) Remote data link feature supported valid. */
@@ -2236,32 +2275,33 @@ union cavm_pcieep_dlink_fstat
         uint32_t dlfsv                 : 1;  /**< [ 31: 31](RO/H) Remote data link feature supported valid. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_dlink_fstat_s cn; */
+    /* struct cavm_pcieepx_dlink_fstat_s cn; */
 };
-typedef union cavm_pcieep_dlink_fstat cavm_pcieep_dlink_fstat_t;
+typedef union cavm_pcieepx_dlink_fstat cavm_pcieepx_dlink_fstat_t;
 
-#define CAVM_PCIEEP_DLINK_FSTAT CAVM_PCIEEP_DLINK_FSTAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_DLINK_FSTAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_DLINK_FSTAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_DLINK_FSTAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_DLINK_FSTAT(uint64_t a)
 {
-    return 0x38c;
+    if (a<=3)
+        return 0x38c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_DLINK_FSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_DLINK_FSTAT cavm_pcieep_dlink_fstat_t
-#define bustype_CAVM_PCIEEP_DLINK_FSTAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_DLINK_FSTAT "PCIEEP_DLINK_FSTAT"
-#define busnum_CAVM_PCIEEP_DLINK_FSTAT 0
-#define arguments_CAVM_PCIEEP_DLINK_FSTAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_DLINK_FSTAT(a) cavm_pcieepx_dlink_fstat_t
+#define bustype_CAVM_PCIEEPX_DLINK_FSTAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_DLINK_FSTAT(a) "PCIEEPX_DLINK_FSTAT"
+#define busnum_CAVM_PCIEEPX_DLINK_FSTAT(a) (a)
+#define arguments_CAVM_PCIEEPX_DLINK_FSTAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_e_cap_list
+ * Register (PCICONFIGEP) pcieep#_e_cap_list
  *
  * PCIe EP PF PCIe Capabilities/PCIe Capabilities List Register
  */
-union cavm_pcieep_e_cap_list
+union cavm_pcieepx_e_cap_list
 {
     uint32_t u;
-    struct cavm_pcieep_e_cap_list_s
+    struct cavm_pcieepx_e_cap_list_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -2295,32 +2335,33 @@ union cavm_pcieep_e_cap_list
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_e_cap_list_s cn; */
+    /* struct cavm_pcieepx_e_cap_list_s cn; */
 };
-typedef union cavm_pcieep_e_cap_list cavm_pcieep_e_cap_list_t;
+typedef union cavm_pcieepx_e_cap_list cavm_pcieepx_e_cap_list_t;
 
-#define CAVM_PCIEEP_E_CAP_LIST CAVM_PCIEEP_E_CAP_LIST_FUNC()
-static inline uint64_t CAVM_PCIEEP_E_CAP_LIST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_E_CAP_LIST_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_E_CAP_LIST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_E_CAP_LIST(uint64_t a)
 {
-    return 0x70;
+    if (a<=3)
+        return 0x70 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_E_CAP_LIST", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_E_CAP_LIST cavm_pcieep_e_cap_list_t
-#define bustype_CAVM_PCIEEP_E_CAP_LIST CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_E_CAP_LIST "PCIEEP_E_CAP_LIST"
-#define busnum_CAVM_PCIEEP_E_CAP_LIST 0
-#define arguments_CAVM_PCIEEP_E_CAP_LIST -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_E_CAP_LIST(a) cavm_pcieepx_e_cap_list_t
+#define bustype_CAVM_PCIEEPX_E_CAP_LIST(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_E_CAP_LIST(a) "PCIEEPX_E_CAP_LIST"
+#define busnum_CAVM_PCIEEPX_E_CAP_LIST(a) (a)
+#define arguments_CAVM_PCIEEPX_E_CAP_LIST(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ebar
+ * Register (PCICONFIGEP) pcieep#_ebar
  *
  * PCIe EP PF Expansion ROM Base Address Register
  */
-union cavm_pcieep_ebar
+union cavm_pcieepx_ebar
 {
     uint32_t u;
-    struct cavm_pcieep_ebar_s
+    struct cavm_pcieepx_ebar_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t eraddr                : 20; /**< [ 31: 12](R/W) Expansion ROM address. */
@@ -2332,33 +2373,34 @@ union cavm_pcieep_ebar
         uint32_t eraddr                : 20; /**< [ 31: 12](R/W) Expansion ROM address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ebar_s cn; */
+    /* struct cavm_pcieepx_ebar_s cn; */
 };
-typedef union cavm_pcieep_ebar cavm_pcieep_ebar_t;
+typedef union cavm_pcieepx_ebar cavm_pcieepx_ebar_t;
 
-#define CAVM_PCIEEP_EBAR CAVM_PCIEEP_EBAR_FUNC()
-static inline uint64_t CAVM_PCIEEP_EBAR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_EBAR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_EBAR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_EBAR(uint64_t a)
 {
-    return 0x30;
+    if (a<=3)
+        return 0x30 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_EBAR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_EBAR cavm_pcieep_ebar_t
-#define bustype_CAVM_PCIEEP_EBAR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_EBAR "PCIEEP_EBAR"
-#define busnum_CAVM_PCIEEP_EBAR 0
-#define arguments_CAVM_PCIEEP_EBAR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_EBAR(a) cavm_pcieepx_ebar_t
+#define bustype_CAVM_PCIEEPX_EBAR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_EBAR(a) "PCIEEPX_EBAR"
+#define busnum_CAVM_PCIEEPX_EBAR(a) (a)
+#define arguments_CAVM_PCIEEPX_EBAR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_eq_ctl01
+ * Register (PCICONFIGEP) pcieep#_eq_ctl01
  *
  * PCIe EP PF Equalization Control Lane 0/1 Register
  * Equalization Control Lane exists for PF0 only.
  */
-union cavm_pcieep_eq_ctl01
+union cavm_pcieepx_eq_ctl01
 {
     uint32_t u;
-    struct cavm_pcieep_eq_ctl01_s
+    struct cavm_pcieepx_eq_ctl01_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -2396,33 +2438,34 @@ union cavm_pcieep_eq_ctl01
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_eq_ctl01_s cn; */
+    /* struct cavm_pcieepx_eq_ctl01_s cn; */
 };
-typedef union cavm_pcieep_eq_ctl01 cavm_pcieep_eq_ctl01_t;
+typedef union cavm_pcieepx_eq_ctl01 cavm_pcieepx_eq_ctl01_t;
 
-#define CAVM_PCIEEP_EQ_CTL01 CAVM_PCIEEP_EQ_CTL01_FUNC()
-static inline uint64_t CAVM_PCIEEP_EQ_CTL01_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_EQ_CTL01_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_EQ_CTL01(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_EQ_CTL01(uint64_t a)
 {
-    return 0x174;
+    if (a<=3)
+        return 0x174 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_EQ_CTL01", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_EQ_CTL01 cavm_pcieep_eq_ctl01_t
-#define bustype_CAVM_PCIEEP_EQ_CTL01 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_EQ_CTL01 "PCIEEP_EQ_CTL01"
-#define busnum_CAVM_PCIEEP_EQ_CTL01 0
-#define arguments_CAVM_PCIEEP_EQ_CTL01 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_EQ_CTL01(a) cavm_pcieepx_eq_ctl01_t
+#define bustype_CAVM_PCIEEPX_EQ_CTL01(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_EQ_CTL01(a) "PCIEEPX_EQ_CTL01"
+#define busnum_CAVM_PCIEEPX_EQ_CTL01(a) (a)
+#define arguments_CAVM_PCIEEPX_EQ_CTL01(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_eq_ctl23
+ * Register (PCICONFIGEP) pcieep#_eq_ctl23
  *
  * PCIe EP PF Equalization Control Lane 2/3 Register
  * Equalization Control Lane exists for PF0 only.
  */
-union cavm_pcieep_eq_ctl23
+union cavm_pcieepx_eq_ctl23
 {
     uint32_t u;
-    struct cavm_pcieep_eq_ctl23_s
+    struct cavm_pcieepx_eq_ctl23_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -2460,34 +2503,35 @@ union cavm_pcieep_eq_ctl23
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_eq_ctl23_s cn; */
+    /* struct cavm_pcieepx_eq_ctl23_s cn; */
 };
-typedef union cavm_pcieep_eq_ctl23 cavm_pcieep_eq_ctl23_t;
+typedef union cavm_pcieepx_eq_ctl23 cavm_pcieepx_eq_ctl23_t;
 
-#define CAVM_PCIEEP_EQ_CTL23 CAVM_PCIEEP_EQ_CTL23_FUNC()
-static inline uint64_t CAVM_PCIEEP_EQ_CTL23_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_EQ_CTL23_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_EQ_CTL23(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_EQ_CTL23(uint64_t a)
 {
-    return 0x178;
+    if (a<=3)
+        return 0x178 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_EQ_CTL23", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_EQ_CTL23 cavm_pcieep_eq_ctl23_t
-#define bustype_CAVM_PCIEEP_EQ_CTL23 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_EQ_CTL23 "PCIEEP_EQ_CTL23"
-#define busnum_CAVM_PCIEEP_EQ_CTL23 0
-#define arguments_CAVM_PCIEEP_EQ_CTL23 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_EQ_CTL23(a) cavm_pcieepx_eq_ctl23_t
+#define bustype_CAVM_PCIEEPX_EQ_CTL23(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_EQ_CTL23(a) "PCIEEPX_EQ_CTL23"
+#define busnum_CAVM_PCIEEPX_EQ_CTL23(a) (a)
+#define arguments_CAVM_PCIEEPX_EQ_CTL23(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_erom_mask
+ * Register (PCICONFIGEP_SHADOW) pcieep#_erom_mask
  *
  * PCIe EP PF Expansion ROM BAR Mask Register
  * The ROM mask register is invisible to host software and not readable from the application. The
  * ROM mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_erom_mask
+union cavm_pcieepx_erom_mask
 {
     uint32_t u;
-    struct cavm_pcieep_erom_mask_s
+    struct cavm_pcieepx_erom_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t mask                  : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
@@ -2503,32 +2547,33 @@ union cavm_pcieep_erom_mask
         uint32_t mask                  : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_erom_mask_s cn; */
+    /* struct cavm_pcieepx_erom_mask_s cn; */
 };
-typedef union cavm_pcieep_erom_mask cavm_pcieep_erom_mask_t;
+typedef union cavm_pcieepx_erom_mask cavm_pcieepx_erom_mask_t;
 
-#define CAVM_PCIEEP_EROM_MASK CAVM_PCIEEP_EROM_MASK_FUNC()
-static inline uint64_t CAVM_PCIEEP_EROM_MASK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_EROM_MASK_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_EROM_MASK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_EROM_MASK(uint64_t a)
 {
-    return 0x10030;
+    if (a<=3)
+        return 0x10030 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_EROM_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_EROM_MASK cavm_pcieep_erom_mask_t
-#define bustype_CAVM_PCIEEP_EROM_MASK CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_EROM_MASK "PCIEEP_EROM_MASK"
-#define busnum_CAVM_PCIEEP_EROM_MASK 0
-#define arguments_CAVM_PCIEEP_EROM_MASK -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_EROM_MASK(a) cavm_pcieepx_erom_mask_t
+#define bustype_CAVM_PCIEEPX_EROM_MASK(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_EROM_MASK(a) "PCIEEPX_EROM_MASK"
+#define busnum_CAVM_PCIEEPX_EROM_MASK(a) (a)
+#define arguments_CAVM_PCIEEPX_EROM_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ext_cap
+ * Register (PCICONFIGEP) pcieep#_ext_cap
  *
  * PCIe EP PF Advanced Error Reporting Extended Capability Header Register
  */
-union cavm_pcieep_ext_cap
+union cavm_pcieepx_ext_cap
 {
     uint32_t u;
-    struct cavm_pcieep_ext_cap_s
+    struct cavm_pcieepx_ext_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -2546,32 +2591,33 @@ union cavm_pcieep_ext_cap
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ext_cap_s cn; */
+    /* struct cavm_pcieepx_ext_cap_s cn; */
 };
-typedef union cavm_pcieep_ext_cap cavm_pcieep_ext_cap_t;
+typedef union cavm_pcieepx_ext_cap cavm_pcieepx_ext_cap_t;
 
-#define CAVM_PCIEEP_EXT_CAP CAVM_PCIEEP_EXT_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_EXT_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_EXT_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_EXT_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_EXT_CAP(uint64_t a)
 {
-    return 0x100;
+    if (a<=3)
+        return 0x100 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_EXT_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_EXT_CAP cavm_pcieep_ext_cap_t
-#define bustype_CAVM_PCIEEP_EXT_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_EXT_CAP "PCIEEP_EXT_CAP"
-#define busnum_CAVM_PCIEEP_EXT_CAP 0
-#define arguments_CAVM_PCIEEP_EXT_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_EXT_CAP(a) cavm_pcieepx_ext_cap_t
+#define bustype_CAVM_PCIEEPX_EXT_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_EXT_CAP(a) "PCIEEPX_EXT_CAP"
+#define busnum_CAVM_PCIEEPX_EXT_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_EXT_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_filt_msk2
+ * Register (PCICONFIGEP) pcieep#_filt_msk2
  *
  * PCIe EP PF Filter Mask Register 2
  */
-union cavm_pcieep_filt_msk2
+union cavm_pcieepx_filt_msk2
 {
     uint32_t u;
-    struct cavm_pcieep_filt_msk2_s
+    struct cavm_pcieepx_filt_msk2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -2595,32 +2641,33 @@ union cavm_pcieep_filt_msk2
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_filt_msk2_s cn; */
+    /* struct cavm_pcieepx_filt_msk2_s cn; */
 };
-typedef union cavm_pcieep_filt_msk2 cavm_pcieep_filt_msk2_t;
+typedef union cavm_pcieepx_filt_msk2 cavm_pcieepx_filt_msk2_t;
 
-#define CAVM_PCIEEP_FILT_MSK2 CAVM_PCIEEP_FILT_MSK2_FUNC()
-static inline uint64_t CAVM_PCIEEP_FILT_MSK2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_FILT_MSK2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_FILT_MSK2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_FILT_MSK2(uint64_t a)
 {
-    return 0x720;
+    if (a<=3)
+        return 0x720 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_FILT_MSK2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_FILT_MSK2 cavm_pcieep_filt_msk2_t
-#define bustype_CAVM_PCIEEP_FILT_MSK2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_FILT_MSK2 "PCIEEP_FILT_MSK2"
-#define busnum_CAVM_PCIEEP_FILT_MSK2 0
-#define arguments_CAVM_PCIEEP_FILT_MSK2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_FILT_MSK2(a) cavm_pcieepx_filt_msk2_t
+#define bustype_CAVM_PCIEEPX_FILT_MSK2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_FILT_MSK2(a) "PCIEEPX_FILT_MSK2"
+#define busnum_CAVM_PCIEEPX_FILT_MSK2(a) (a)
+#define arguments_CAVM_PCIEEPX_FILT_MSK2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_gen2_port
+ * Register (PCICONFIGEP) pcieep#_gen2_port
  *
  * PCIe EP PF Gen2 Port Logic Register
  */
-union cavm_pcieep_gen2_port
+union cavm_pcieepx_gen2_port
 {
     uint32_t u;
-    struct cavm_pcieep_gen2_port_s
+    struct cavm_pcieepx_gen2_port_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t mod_ts_en             : 1;  /**< [ 31: 31](RO/WRSL) Enable the controller to send the Modified TS OS if both sides of
@@ -2794,32 +2841,33 @@ union cavm_pcieep_gen2_port
                                                                  the link agree. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_gen2_port_s cn; */
+    /* struct cavm_pcieepx_gen2_port_s cn; */
 };
-typedef union cavm_pcieep_gen2_port cavm_pcieep_gen2_port_t;
+typedef union cavm_pcieepx_gen2_port cavm_pcieepx_gen2_port_t;
 
-#define CAVM_PCIEEP_GEN2_PORT CAVM_PCIEEP_GEN2_PORT_FUNC()
-static inline uint64_t CAVM_PCIEEP_GEN2_PORT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_GEN2_PORT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_GEN2_PORT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_GEN2_PORT(uint64_t a)
 {
-    return 0x80c;
+    if (a<=3)
+        return 0x80c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_GEN2_PORT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_GEN2_PORT cavm_pcieep_gen2_port_t
-#define bustype_CAVM_PCIEEP_GEN2_PORT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_GEN2_PORT "PCIEEP_GEN2_PORT"
-#define busnum_CAVM_PCIEEP_GEN2_PORT 0
-#define arguments_CAVM_PCIEEP_GEN2_PORT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_GEN2_PORT(a) cavm_pcieepx_gen2_port_t
+#define bustype_CAVM_PCIEEPX_GEN2_PORT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_GEN2_PORT(a) "PCIEEPX_GEN2_PORT"
+#define busnum_CAVM_PCIEEPX_GEN2_PORT(a) (a)
+#define arguments_CAVM_PCIEEPX_GEN2_PORT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_gen3_eq_ctl
+ * Register (PCICONFIGEP) pcieep#_gen3_eq_ctl
  *
  * PCIe EP PF Gen3 EQ Control Register
  */
-union cavm_pcieep_gen3_eq_ctl
+union cavm_pcieepx_gen3_eq_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_gen3_eq_ctl_s
+    struct cavm_pcieepx_gen3_eq_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_27_31        : 5;
@@ -2951,32 +2999,33 @@ union cavm_pcieep_gen3_eq_ctl
         uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_gen3_eq_ctl_s cn; */
+    /* struct cavm_pcieepx_gen3_eq_ctl_s cn; */
 };
-typedef union cavm_pcieep_gen3_eq_ctl cavm_pcieep_gen3_eq_ctl_t;
+typedef union cavm_pcieepx_gen3_eq_ctl cavm_pcieepx_gen3_eq_ctl_t;
 
-#define CAVM_PCIEEP_GEN3_EQ_CTL CAVM_PCIEEP_GEN3_EQ_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_GEN3_EQ_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_GEN3_EQ_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_GEN3_EQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_GEN3_EQ_CTL(uint64_t a)
 {
-    return 0x8a8;
+    if (a<=3)
+        return 0x8a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_GEN3_EQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_GEN3_EQ_CTL cavm_pcieep_gen3_eq_ctl_t
-#define bustype_CAVM_PCIEEP_GEN3_EQ_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_GEN3_EQ_CTL "PCIEEP_GEN3_EQ_CTL"
-#define busnum_CAVM_PCIEEP_GEN3_EQ_CTL 0
-#define arguments_CAVM_PCIEEP_GEN3_EQ_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_GEN3_EQ_CTL(a) cavm_pcieepx_gen3_eq_ctl_t
+#define bustype_CAVM_PCIEEPX_GEN3_EQ_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_GEN3_EQ_CTL(a) "PCIEEPX_GEN3_EQ_CTL"
+#define busnum_CAVM_PCIEEPX_GEN3_EQ_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_GEN3_EQ_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_gen3_pipe_lb
+ * Register (PCICONFIGEP) pcieep#_gen3_pipe_lb
  *
  * PCIe EP PF Gen3 PIPE Loopback Register
  */
-union cavm_pcieep_gen3_pipe_lb
+union cavm_pcieepx_gen3_pipe_lb
 {
     uint32_t u;
-    struct cavm_pcieep_gen3_pipe_lb_s
+    struct cavm_pcieepx_gen3_pipe_lb_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
@@ -2988,32 +3037,33 @@ union cavm_pcieep_gen3_pipe_lb
         uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_gen3_pipe_lb_s cn; */
+    /* struct cavm_pcieepx_gen3_pipe_lb_s cn; */
 };
-typedef union cavm_pcieep_gen3_pipe_lb cavm_pcieep_gen3_pipe_lb_t;
+typedef union cavm_pcieepx_gen3_pipe_lb cavm_pcieepx_gen3_pipe_lb_t;
 
-#define CAVM_PCIEEP_GEN3_PIPE_LB CAVM_PCIEEP_GEN3_PIPE_LB_FUNC()
-static inline uint64_t CAVM_PCIEEP_GEN3_PIPE_LB_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_GEN3_PIPE_LB_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_GEN3_PIPE_LB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_GEN3_PIPE_LB(uint64_t a)
 {
-    return 0x8b8;
+    if (a<=3)
+        return 0x8b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_GEN3_PIPE_LB", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_GEN3_PIPE_LB cavm_pcieep_gen3_pipe_lb_t
-#define bustype_CAVM_PCIEEP_GEN3_PIPE_LB CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_GEN3_PIPE_LB "PCIEEP_GEN3_PIPE_LB"
-#define busnum_CAVM_PCIEEP_GEN3_PIPE_LB 0
-#define arguments_CAVM_PCIEEP_GEN3_PIPE_LB -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_GEN3_PIPE_LB(a) cavm_pcieepx_gen3_pipe_lb_t
+#define bustype_CAVM_PCIEEPX_GEN3_PIPE_LB(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_GEN3_PIPE_LB(a) "PCIEEPX_GEN3_PIPE_LB"
+#define busnum_CAVM_PCIEEPX_GEN3_PIPE_LB(a) (a)
+#define arguments_CAVM_PCIEEPX_GEN3_PIPE_LB(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_gen4_lane_margining_1
+ * Register (PCICONFIGEP) pcieep#_gen4_lane_margining_1
  *
  * PCIe RC Gen4 Lane Marginging Register 1
  */
-union cavm_pcieep_gen4_lane_margining_1
+union cavm_pcieepx_gen4_lane_margining_1
 {
     uint32_t u;
-    struct cavm_pcieep_gen4_lane_margining_1_s
+    struct cavm_pcieepx_gen4_lane_margining_1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -3035,32 +3085,33 @@ union cavm_pcieep_gen4_lane_margining_1
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_gen4_lane_margining_1_s cn; */
+    /* struct cavm_pcieepx_gen4_lane_margining_1_s cn; */
 };
-typedef union cavm_pcieep_gen4_lane_margining_1 cavm_pcieep_gen4_lane_margining_1_t;
+typedef union cavm_pcieepx_gen4_lane_margining_1 cavm_pcieepx_gen4_lane_margining_1_t;
 
-#define CAVM_PCIEEP_GEN4_LANE_MARGINING_1 CAVM_PCIEEP_GEN4_LANE_MARGINING_1_FUNC()
-static inline uint64_t CAVM_PCIEEP_GEN4_LANE_MARGINING_1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_GEN4_LANE_MARGINING_1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(uint64_t a)
 {
-    return 0xb80;
+    if (a<=3)
+        return 0xb80 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_GEN4_LANE_MARGINING_1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_GEN4_LANE_MARGINING_1 cavm_pcieep_gen4_lane_margining_1_t
-#define bustype_CAVM_PCIEEP_GEN4_LANE_MARGINING_1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_GEN4_LANE_MARGINING_1 "PCIEEP_GEN4_LANE_MARGINING_1"
-#define busnum_CAVM_PCIEEP_GEN4_LANE_MARGINING_1 0
-#define arguments_CAVM_PCIEEP_GEN4_LANE_MARGINING_1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(a) cavm_pcieepx_gen4_lane_margining_1_t
+#define bustype_CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(a) "PCIEEPX_GEN4_LANE_MARGINING_1"
+#define busnum_CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(a) (a)
+#define arguments_CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_gen4_lane_margining_2
+ * Register (PCICONFIGEP) pcieep#_gen4_lane_margining_2
  *
  * PCIe RC Gen4 Lane Margining Register 2
  */
-union cavm_pcieep_gen4_lane_margining_2
+union cavm_pcieepx_gen4_lane_margining_2
 {
     uint32_t u;
-    struct cavm_pcieep_gen4_lane_margining_2_s
+    struct cavm_pcieepx_gen4_lane_margining_2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -3090,33 +3141,34 @@ union cavm_pcieep_gen4_lane_margining_2
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_gen4_lane_margining_2_s cn; */
+    /* struct cavm_pcieepx_gen4_lane_margining_2_s cn; */
 };
-typedef union cavm_pcieep_gen4_lane_margining_2 cavm_pcieep_gen4_lane_margining_2_t;
+typedef union cavm_pcieepx_gen4_lane_margining_2 cavm_pcieepx_gen4_lane_margining_2_t;
 
-#define CAVM_PCIEEP_GEN4_LANE_MARGINING_2 CAVM_PCIEEP_GEN4_LANE_MARGINING_2_FUNC()
-static inline uint64_t CAVM_PCIEEP_GEN4_LANE_MARGINING_2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_GEN4_LANE_MARGINING_2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(uint64_t a)
 {
-    return 0xb84;
+    if (a<=3)
+        return 0xb84 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_GEN4_LANE_MARGINING_2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_GEN4_LANE_MARGINING_2 cavm_pcieep_gen4_lane_margining_2_t
-#define bustype_CAVM_PCIEEP_GEN4_LANE_MARGINING_2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_GEN4_LANE_MARGINING_2 "PCIEEP_GEN4_LANE_MARGINING_2"
-#define busnum_CAVM_PCIEEP_GEN4_LANE_MARGINING_2 0
-#define arguments_CAVM_PCIEEP_GEN4_LANE_MARGINING_2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(a) cavm_pcieepx_gen4_lane_margining_2_t
+#define bustype_CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(a) "PCIEEPX_GEN4_LANE_MARGINING_2"
+#define busnum_CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(a) (a)
+#define arguments_CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_hdr_log1
+ * Register (PCICONFIGEP) pcieep#_hdr_log1
  *
  * PCIe EP PF Header Log Register 1
  * The header log registers collect the header for the TLP corresponding to a detected error.
  */
-union cavm_pcieep_hdr_log1
+union cavm_pcieepx_hdr_log1
 {
     uint32_t u;
-    struct cavm_pcieep_hdr_log1_s
+    struct cavm_pcieepx_hdr_log1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword1                : 32; /**< [ 31:  0](RO/H) Header log register (first DWORD). */
@@ -3124,33 +3176,34 @@ union cavm_pcieep_hdr_log1
         uint32_t dword1                : 32; /**< [ 31:  0](RO/H) Header log register (first DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_hdr_log1_s cn; */
+    /* struct cavm_pcieepx_hdr_log1_s cn; */
 };
-typedef union cavm_pcieep_hdr_log1 cavm_pcieep_hdr_log1_t;
+typedef union cavm_pcieepx_hdr_log1 cavm_pcieepx_hdr_log1_t;
 
-#define CAVM_PCIEEP_HDR_LOG1 CAVM_PCIEEP_HDR_LOG1_FUNC()
-static inline uint64_t CAVM_PCIEEP_HDR_LOG1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_HDR_LOG1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG1(uint64_t a)
 {
-    return 0x11c;
+    if (a<=3)
+        return 0x11c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_HDR_LOG1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_HDR_LOG1 cavm_pcieep_hdr_log1_t
-#define bustype_CAVM_PCIEEP_HDR_LOG1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_HDR_LOG1 "PCIEEP_HDR_LOG1"
-#define busnum_CAVM_PCIEEP_HDR_LOG1 0
-#define arguments_CAVM_PCIEEP_HDR_LOG1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_HDR_LOG1(a) cavm_pcieepx_hdr_log1_t
+#define bustype_CAVM_PCIEEPX_HDR_LOG1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_HDR_LOG1(a) "PCIEEPX_HDR_LOG1"
+#define busnum_CAVM_PCIEEPX_HDR_LOG1(a) (a)
+#define arguments_CAVM_PCIEEPX_HDR_LOG1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_hdr_log2
+ * Register (PCICONFIGEP) pcieep#_hdr_log2
  *
  * PCIe EP PF Header Log Register 2
  * The header log registers collect the header for the TLP corresponding to a detected error.
  */
-union cavm_pcieep_hdr_log2
+union cavm_pcieepx_hdr_log2
 {
     uint32_t u;
-    struct cavm_pcieep_hdr_log2_s
+    struct cavm_pcieepx_hdr_log2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword2                : 32; /**< [ 31:  0](RO/H) Header log register (second DWORD). */
@@ -3158,33 +3211,34 @@ union cavm_pcieep_hdr_log2
         uint32_t dword2                : 32; /**< [ 31:  0](RO/H) Header log register (second DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_hdr_log2_s cn; */
+    /* struct cavm_pcieepx_hdr_log2_s cn; */
 };
-typedef union cavm_pcieep_hdr_log2 cavm_pcieep_hdr_log2_t;
+typedef union cavm_pcieepx_hdr_log2 cavm_pcieepx_hdr_log2_t;
 
-#define CAVM_PCIEEP_HDR_LOG2 CAVM_PCIEEP_HDR_LOG2_FUNC()
-static inline uint64_t CAVM_PCIEEP_HDR_LOG2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_HDR_LOG2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG2(uint64_t a)
 {
-    return 0x120;
+    if (a<=3)
+        return 0x120 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_HDR_LOG2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_HDR_LOG2 cavm_pcieep_hdr_log2_t
-#define bustype_CAVM_PCIEEP_HDR_LOG2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_HDR_LOG2 "PCIEEP_HDR_LOG2"
-#define busnum_CAVM_PCIEEP_HDR_LOG2 0
-#define arguments_CAVM_PCIEEP_HDR_LOG2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_HDR_LOG2(a) cavm_pcieepx_hdr_log2_t
+#define bustype_CAVM_PCIEEPX_HDR_LOG2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_HDR_LOG2(a) "PCIEEPX_HDR_LOG2"
+#define busnum_CAVM_PCIEEPX_HDR_LOG2(a) (a)
+#define arguments_CAVM_PCIEEPX_HDR_LOG2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_hdr_log3
+ * Register (PCICONFIGEP) pcieep#_hdr_log3
  *
  * PCIe EP PF Header Log Register 3
  * The header log registers collect the header for the TLP corresponding to a detected error.
  */
-union cavm_pcieep_hdr_log3
+union cavm_pcieepx_hdr_log3
 {
     uint32_t u;
-    struct cavm_pcieep_hdr_log3_s
+    struct cavm_pcieepx_hdr_log3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword3                : 32; /**< [ 31:  0](RO/H) Header log register (third DWORD). */
@@ -3192,33 +3246,34 @@ union cavm_pcieep_hdr_log3
         uint32_t dword3                : 32; /**< [ 31:  0](RO/H) Header log register (third DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_hdr_log3_s cn; */
+    /* struct cavm_pcieepx_hdr_log3_s cn; */
 };
-typedef union cavm_pcieep_hdr_log3 cavm_pcieep_hdr_log3_t;
+typedef union cavm_pcieepx_hdr_log3 cavm_pcieepx_hdr_log3_t;
 
-#define CAVM_PCIEEP_HDR_LOG3 CAVM_PCIEEP_HDR_LOG3_FUNC()
-static inline uint64_t CAVM_PCIEEP_HDR_LOG3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_HDR_LOG3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG3(uint64_t a)
 {
-    return 0x124;
+    if (a<=3)
+        return 0x124 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_HDR_LOG3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_HDR_LOG3 cavm_pcieep_hdr_log3_t
-#define bustype_CAVM_PCIEEP_HDR_LOG3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_HDR_LOG3 "PCIEEP_HDR_LOG3"
-#define busnum_CAVM_PCIEEP_HDR_LOG3 0
-#define arguments_CAVM_PCIEEP_HDR_LOG3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_HDR_LOG3(a) cavm_pcieepx_hdr_log3_t
+#define bustype_CAVM_PCIEEPX_HDR_LOG3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_HDR_LOG3(a) "PCIEEPX_HDR_LOG3"
+#define busnum_CAVM_PCIEEPX_HDR_LOG3(a) (a)
+#define arguments_CAVM_PCIEEPX_HDR_LOG3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_hdr_log4
+ * Register (PCICONFIGEP) pcieep#_hdr_log4
  *
  * PCIe EP PF Header Log Register 4
  * The header log registers collect the header for the TLP corresponding to a detected error.
  */
-union cavm_pcieep_hdr_log4
+union cavm_pcieepx_hdr_log4
 {
     uint32_t u;
-    struct cavm_pcieep_hdr_log4_s
+    struct cavm_pcieepx_hdr_log4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword4                : 32; /**< [ 31:  0](RO/H) Header log register (fourth DWORD). */
@@ -3226,32 +3281,33 @@ union cavm_pcieep_hdr_log4
         uint32_t dword4                : 32; /**< [ 31:  0](RO/H) Header log register (fourth DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_hdr_log4_s cn; */
+    /* struct cavm_pcieepx_hdr_log4_s cn; */
 };
-typedef union cavm_pcieep_hdr_log4 cavm_pcieep_hdr_log4_t;
+typedef union cavm_pcieepx_hdr_log4 cavm_pcieepx_hdr_log4_t;
 
-#define CAVM_PCIEEP_HDR_LOG4 CAVM_PCIEEP_HDR_LOG4_FUNC()
-static inline uint64_t CAVM_PCIEEP_HDR_LOG4_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_HDR_LOG4_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_HDR_LOG4(uint64_t a)
 {
-    return 0x128;
+    if (a<=3)
+        return 0x128 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_HDR_LOG4", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_HDR_LOG4 cavm_pcieep_hdr_log4_t
-#define bustype_CAVM_PCIEEP_HDR_LOG4 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_HDR_LOG4 "PCIEEP_HDR_LOG4"
-#define busnum_CAVM_PCIEEP_HDR_LOG4 0
-#define arguments_CAVM_PCIEEP_HDR_LOG4 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_HDR_LOG4(a) cavm_pcieepx_hdr_log4_t
+#define bustype_CAVM_PCIEEPX_HDR_LOG4(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_HDR_LOG4(a) "PCIEEPX_HDR_LOG4"
+#define busnum_CAVM_PCIEEPX_HDR_LOG4(a) (a)
+#define arguments_CAVM_PCIEEPX_HDR_LOG4(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_hide_pf
+ * Register (PCICONFIGEP) pcieep#_hide_pf
  *
  * PCIe EP Hide PF Register
  */
-union cavm_pcieep_hide_pf
+union cavm_pcieepx_hide_pf
 {
     uint32_t u;
-    struct cavm_pcieep_hide_pf_s
+    struct cavm_pcieepx_hide_pf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t hide_pf15_pf2         : 28; /**< [ 31:  4](R/W) PF15 to PF2 hide control.  Not supported. */
@@ -3295,32 +3351,33 @@ union cavm_pcieep_hide_pf
         uint32_t hide_pf15_pf2         : 28; /**< [ 31:  4](R/W) PF15 to PF2 hide control.  Not supported. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_hide_pf_s cn; */
+    /* struct cavm_pcieepx_hide_pf_s cn; */
 };
-typedef union cavm_pcieep_hide_pf cavm_pcieep_hide_pf_t;
+typedef union cavm_pcieepx_hide_pf cavm_pcieepx_hide_pf_t;
 
-#define CAVM_PCIEEP_HIDE_PF CAVM_PCIEEP_HIDE_PF_FUNC()
-static inline uint64_t CAVM_PCIEEP_HIDE_PF_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_HIDE_PF_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_HIDE_PF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_HIDE_PF(uint64_t a)
 {
-    return 0x8a0;
+    if (a<=3)
+        return 0x8a0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_HIDE_PF", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_HIDE_PF cavm_pcieep_hide_pf_t
-#define bustype_CAVM_PCIEEP_HIDE_PF CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_HIDE_PF "PCIEEP_HIDE_PF"
-#define busnum_CAVM_PCIEEP_HIDE_PF 0
-#define arguments_CAVM_PCIEEP_HIDE_PF -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_HIDE_PF(a) cavm_pcieepx_hide_pf_t
+#define bustype_CAVM_PCIEEPX_HIDE_PF(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_HIDE_PF(a) "PCIEEPX_HIDE_PF"
+#define busnum_CAVM_PCIEEPX_HIDE_PF(a) (a)
+#define arguments_CAVM_PCIEEPX_HIDE_PF(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_id
+ * Register (PCICONFIGEP) pcieep#_id
  *
  * PCIe EP PF Vendor and Device Register
  */
-union cavm_pcieep_id
+union cavm_pcieepx_id
 {
     uint32_t u;
-    struct cavm_pcieep_id_s
+    struct cavm_pcieepx_id_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for PCIERP, writable through PEM()_CFG_TBL().
@@ -3346,32 +3403,33 @@ union cavm_pcieep_id
                                                                   _ \<7:0\> is typically set to PCC_DEV_IDL_E::PCIERC. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_id_s cn; */
+    /* struct cavm_pcieepx_id_s cn; */
 };
-typedef union cavm_pcieep_id cavm_pcieep_id_t;
+typedef union cavm_pcieepx_id cavm_pcieepx_id_t;
 
-#define CAVM_PCIEEP_ID CAVM_PCIEEP_ID_FUNC()
-static inline uint64_t CAVM_PCIEEP_ID_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ID_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ID(uint64_t a)
 {
-    return 0;
+    if (a<=3)
+        return 0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ID", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ID cavm_pcieep_id_t
-#define bustype_CAVM_PCIEEP_ID CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ID "PCIEEP_ID"
-#define busnum_CAVM_PCIEEP_ID 0
-#define arguments_CAVM_PCIEEP_ID -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ID(a) cavm_pcieepx_id_t
+#define bustype_CAVM_PCIEEPX_ID(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ID(a) "PCIEEPX_ID"
+#define busnum_CAVM_PCIEEPX_ID(a) (a)
+#define arguments_CAVM_PCIEEPX_ID(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_int
+ * Register (PCICONFIGEP) pcieep#_int
  *
  * PCIe EP PF Interrupt Line/Interrupt Pin/Bridge Control Register
  */
-union cavm_pcieep_int
+union cavm_pcieepx_int
 {
     uint32_t u;
-    struct cavm_pcieep_int_s
+    struct cavm_pcieepx_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
@@ -3387,32 +3445,33 @@ union cavm_pcieep_int
         uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_int_s cn; */
+    /* struct cavm_pcieepx_int_s cn; */
 };
-typedef union cavm_pcieep_int cavm_pcieep_int_t;
+typedef union cavm_pcieepx_int cavm_pcieepx_int_t;
 
-#define CAVM_PCIEEP_INT CAVM_PCIEEP_INT_FUNC()
-static inline uint64_t CAVM_PCIEEP_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_INT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_INT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_INT(uint64_t a)
 {
-    return 0x3c;
+    if (a<=3)
+        return 0x3c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_INT cavm_pcieep_int_t
-#define bustype_CAVM_PCIEEP_INT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_INT "PCIEEP_INT"
-#define busnum_CAVM_PCIEEP_INT 0
-#define arguments_CAVM_PCIEEP_INT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_INT(a) cavm_pcieepx_int_t
+#define bustype_CAVM_PCIEEPX_INT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_INT(a) "PCIEEPX_INT"
+#define busnum_CAVM_PCIEEPX_INT(a) (a)
+#define arguments_CAVM_PCIEEPX_INT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_l1_substates
+ * Register (PCICONFIGEP) pcieep#_l1_substates
  *
  * PCIe EP PF L1 Substates Timing Register
  */
-union cavm_pcieep_l1_substates
+union cavm_pcieepx_l1_substates
 {
     uint32_t u;
-    struct cavm_pcieep_l1_substates_s
+    struct cavm_pcieepx_l1_substates_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
@@ -3446,33 +3505,34 @@ union cavm_pcieep_l1_substates
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_l1_substates_s cn; */
+    /* struct cavm_pcieepx_l1_substates_s cn; */
 };
-typedef union cavm_pcieep_l1_substates cavm_pcieep_l1_substates_t;
+typedef union cavm_pcieepx_l1_substates cavm_pcieepx_l1_substates_t;
 
-#define CAVM_PCIEEP_L1_SUBSTATES CAVM_PCIEEP_L1_SUBSTATES_FUNC()
-static inline uint64_t CAVM_PCIEEP_L1_SUBSTATES_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_L1_SUBSTATES_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_L1_SUBSTATES(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_L1_SUBSTATES(uint64_t a)
 {
-    return 0xb44;
+    if (a<=3)
+        return 0xb44 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_L1_SUBSTATES", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_L1_SUBSTATES cavm_pcieep_l1_substates_t
-#define bustype_CAVM_PCIEEP_L1_SUBSTATES CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_L1_SUBSTATES "PCIEEP_L1_SUBSTATES"
-#define busnum_CAVM_PCIEEP_L1_SUBSTATES 0
-#define arguments_CAVM_PCIEEP_L1_SUBSTATES -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_L1_SUBSTATES(a) cavm_pcieepx_l1_substates_t
+#define bustype_CAVM_PCIEEPX_L1_SUBSTATES(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_L1_SUBSTATES(a) "PCIEEPX_L1_SUBSTATES"
+#define busnum_CAVM_PCIEEPX_L1_SUBSTATES(a) (a)
+#define arguments_CAVM_PCIEEPX_L1_SUBSTATES(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_l1sub_cap
+ * Register (PCICONFIGEP) pcieep#_l1sub_cap
  *
  * PCIe EP PF L1 Substates Capability Register
  * L1 Substates Capability exists for PF0 only.
  */
-union cavm_pcieep_l1sub_cap
+union cavm_pcieepx_l1sub_cap
 {
     uint32_t u;
-    struct cavm_pcieep_l1sub_cap_s
+    struct cavm_pcieepx_l1sub_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -3520,33 +3580,34 @@ union cavm_pcieep_l1sub_cap
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_l1sub_cap_s cn; */
+    /* struct cavm_pcieepx_l1sub_cap_s cn; */
 };
-typedef union cavm_pcieep_l1sub_cap cavm_pcieep_l1sub_cap_t;
+typedef union cavm_pcieepx_l1sub_cap cavm_pcieepx_l1sub_cap_t;
 
-#define CAVM_PCIEEP_L1SUB_CAP CAVM_PCIEEP_L1SUB_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_L1SUB_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_L1SUB_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP(uint64_t a)
 {
-    return 0x240;
+    if (a<=3)
+        return 0x240 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_L1SUB_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_L1SUB_CAP cavm_pcieep_l1sub_cap_t
-#define bustype_CAVM_PCIEEP_L1SUB_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_L1SUB_CAP "PCIEEP_L1SUB_CAP"
-#define busnum_CAVM_PCIEEP_L1SUB_CAP 0
-#define arguments_CAVM_PCIEEP_L1SUB_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_L1SUB_CAP(a) cavm_pcieepx_l1sub_cap_t
+#define bustype_CAVM_PCIEEPX_L1SUB_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_L1SUB_CAP(a) "PCIEEPX_L1SUB_CAP"
+#define busnum_CAVM_PCIEEPX_L1SUB_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_L1SUB_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_l1sub_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_l1sub_cap_hdr
  *
  * PCIe EP PF L1 Substates Extended Capability Header Register
  * L1 Substates Extended Capability Header exists for PF0 only.
  */
-union cavm_pcieep_l1sub_cap_hdr
+union cavm_pcieepx_l1sub_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_l1sub_cap_hdr_s
+    struct cavm_pcieepx_l1sub_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -3564,33 +3625,34 @@ union cavm_pcieep_l1sub_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_l1sub_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_l1sub_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_l1sub_cap_hdr cavm_pcieep_l1sub_cap_hdr_t;
+typedef union cavm_pcieepx_l1sub_cap_hdr cavm_pcieepx_l1sub_cap_hdr_t;
 
-#define CAVM_PCIEEP_L1SUB_CAP_HDR CAVM_PCIEEP_L1SUB_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_L1SUB_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_L1SUB_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP_HDR(uint64_t a)
 {
-    return 0x23c;
+    if (a<=3)
+        return 0x23c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_L1SUB_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_L1SUB_CAP_HDR cavm_pcieep_l1sub_cap_hdr_t
-#define bustype_CAVM_PCIEEP_L1SUB_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_L1SUB_CAP_HDR "PCIEEP_L1SUB_CAP_HDR"
-#define busnum_CAVM_PCIEEP_L1SUB_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_L1SUB_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_L1SUB_CAP_HDR(a) cavm_pcieepx_l1sub_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_L1SUB_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_L1SUB_CAP_HDR(a) "PCIEEPX_L1SUB_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_L1SUB_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_L1SUB_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_l1sub_ctl1
+ * Register (PCICONFIGEP) pcieep#_l1sub_ctl1
  *
  * PCIe EP L1 Substates Control 1 Register
  * L1 Substates Control 1 exists for PF0 only.
  */
-union cavm_pcieep_l1sub_ctl1
+union cavm_pcieepx_l1sub_ctl1
 {
     uint32_t u;
-    struct cavm_pcieep_l1sub_ctl1_s
+    struct cavm_pcieepx_l1sub_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
@@ -3614,33 +3676,34 @@ union cavm_pcieep_l1sub_ctl1
         uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_l1sub_ctl1_s cn; */
+    /* struct cavm_pcieepx_l1sub_ctl1_s cn; */
 };
-typedef union cavm_pcieep_l1sub_ctl1 cavm_pcieep_l1sub_ctl1_t;
+typedef union cavm_pcieepx_l1sub_ctl1 cavm_pcieepx_l1sub_ctl1_t;
 
-#define CAVM_PCIEEP_L1SUB_CTL1 CAVM_PCIEEP_L1SUB_CTL1_FUNC()
-static inline uint64_t CAVM_PCIEEP_L1SUB_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_L1SUB_CTL1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL1(uint64_t a)
 {
-    return 0x244;
+    if (a<=3)
+        return 0x244 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_L1SUB_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_L1SUB_CTL1 cavm_pcieep_l1sub_ctl1_t
-#define bustype_CAVM_PCIEEP_L1SUB_CTL1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_L1SUB_CTL1 "PCIEEP_L1SUB_CTL1"
-#define busnum_CAVM_PCIEEP_L1SUB_CTL1 0
-#define arguments_CAVM_PCIEEP_L1SUB_CTL1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_L1SUB_CTL1(a) cavm_pcieepx_l1sub_ctl1_t
+#define bustype_CAVM_PCIEEPX_L1SUB_CTL1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_L1SUB_CTL1(a) "PCIEEPX_L1SUB_CTL1"
+#define busnum_CAVM_PCIEEPX_L1SUB_CTL1(a) (a)
+#define arguments_CAVM_PCIEEPX_L1SUB_CTL1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_l1sub_ctl2
+ * Register (PCICONFIGEP) pcieep#_l1sub_ctl2
  *
  * PCIe EP L1 Substates Control 2 Register
  * L1 Substates Control 2 exists for PF0 only.
  */
-union cavm_pcieep_l1sub_ctl2
+union cavm_pcieepx_l1sub_ctl2
 {
     uint32_t u;
-    struct cavm_pcieep_l1sub_ctl2_s
+    struct cavm_pcieepx_l1sub_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -3680,33 +3743,34 @@ union cavm_pcieep_l1sub_ctl2
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_l1sub_ctl2_s cn; */
+    /* struct cavm_pcieepx_l1sub_ctl2_s cn; */
 };
-typedef union cavm_pcieep_l1sub_ctl2 cavm_pcieep_l1sub_ctl2_t;
+typedef union cavm_pcieepx_l1sub_ctl2 cavm_pcieepx_l1sub_ctl2_t;
 
-#define CAVM_PCIEEP_L1SUB_CTL2 CAVM_PCIEEP_L1SUB_CTL2_FUNC()
-static inline uint64_t CAVM_PCIEEP_L1SUB_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_L1SUB_CTL2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL2(uint64_t a)
 {
-    return 0x248;
+    if (a<=3)
+        return 0x248 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_L1SUB_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_L1SUB_CTL2 cavm_pcieep_l1sub_ctl2_t
-#define bustype_CAVM_PCIEEP_L1SUB_CTL2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_L1SUB_CTL2 "PCIEEP_L1SUB_CTL2"
-#define busnum_CAVM_PCIEEP_L1SUB_CTL2 0
-#define arguments_CAVM_PCIEEP_L1SUB_CTL2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_L1SUB_CTL2(a) cavm_pcieepx_l1sub_ctl2_t
+#define bustype_CAVM_PCIEEPX_L1SUB_CTL2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_L1SUB_CTL2(a) "PCIEEPX_L1SUB_CTL2"
+#define busnum_CAVM_PCIEEPX_L1SUB_CTL2(a) (a)
+#define arguments_CAVM_PCIEEPX_L1SUB_CTL2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_lane_err
+ * Register (PCICONFIGEP) pcieep#_lane_err
  *
  * PCIe EP PF Lane Error Status Register
  * Lane Error Status exists for PF0 only.
  */
-union cavm_pcieep_lane_err
+union cavm_pcieepx_lane_err
 {
     uint32_t u;
-    struct cavm_pcieep_lane_err_s
+    struct cavm_pcieepx_lane_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -3716,32 +3780,33 @@ union cavm_pcieep_lane_err
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_lane_err_s cn; */
+    /* struct cavm_pcieepx_lane_err_s cn; */
 };
-typedef union cavm_pcieep_lane_err cavm_pcieep_lane_err_t;
+typedef union cavm_pcieepx_lane_err cavm_pcieepx_lane_err_t;
 
-#define CAVM_PCIEEP_LANE_ERR CAVM_PCIEEP_LANE_ERR_FUNC()
-static inline uint64_t CAVM_PCIEEP_LANE_ERR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LANE_ERR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LANE_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LANE_ERR(uint64_t a)
 {
-    return 0x170;
+    if (a<=3)
+        return 0x170 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LANE_ERR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LANE_ERR cavm_pcieep_lane_err_t
-#define bustype_CAVM_PCIEEP_LANE_ERR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LANE_ERR "PCIEEP_LANE_ERR"
-#define busnum_CAVM_PCIEEP_LANE_ERR 0
-#define arguments_CAVM_PCIEEP_LANE_ERR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LANE_ERR(a) cavm_pcieepx_lane_err_t
+#define bustype_CAVM_PCIEEPX_LANE_ERR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LANE_ERR(a) "PCIEEPX_LANE_ERR"
+#define busnum_CAVM_PCIEEPX_LANE_ERR(a) (a)
+#define arguments_CAVM_PCIEEPX_LANE_ERR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_lane_skew
+ * Register (PCICONFIGEP) pcieep#_lane_skew
  *
  * PCIe EP PF Lane Skew Register
  */
-union cavm_pcieep_lane_skew
+union cavm_pcieepx_lane_skew
 {
     uint32_t u;
-    struct cavm_pcieep_lane_skew_s
+    struct cavm_pcieepx_lane_skew_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
@@ -3791,32 +3856,33 @@ union cavm_pcieep_lane_skew
         uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_lane_skew_s cn; */
+    /* struct cavm_pcieepx_lane_skew_s cn; */
 };
-typedef union cavm_pcieep_lane_skew cavm_pcieep_lane_skew_t;
+typedef union cavm_pcieepx_lane_skew cavm_pcieepx_lane_skew_t;
 
-#define CAVM_PCIEEP_LANE_SKEW CAVM_PCIEEP_LANE_SKEW_FUNC()
-static inline uint64_t CAVM_PCIEEP_LANE_SKEW_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LANE_SKEW_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LANE_SKEW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LANE_SKEW(uint64_t a)
 {
-    return 0x714;
+    if (a<=3)
+        return 0x714 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LANE_SKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LANE_SKEW cavm_pcieep_lane_skew_t
-#define bustype_CAVM_PCIEEP_LANE_SKEW CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LANE_SKEW "PCIEEP_LANE_SKEW"
-#define busnum_CAVM_PCIEEP_LANE_SKEW 0
-#define arguments_CAVM_PCIEEP_LANE_SKEW -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LANE_SKEW(a) cavm_pcieepx_lane_skew_t
+#define bustype_CAVM_PCIEEPX_LANE_SKEW(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LANE_SKEW(a) "PCIEEPX_LANE_SKEW"
+#define busnum_CAVM_PCIEEPX_LANE_SKEW(a) (a)
+#define arguments_CAVM_PCIEEPX_LANE_SKEW(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_link_cap
+ * Register (PCICONFIGEP) pcieep#_link_cap
  *
  * PCIe EP PF Link Capabilities Register
  */
-union cavm_pcieep_link_cap
+union cavm_pcieepx_link_cap
 {
     uint32_t u;
-    struct cavm_pcieep_link_cap_s
+    struct cavm_pcieepx_link_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_TBL(). */
@@ -3882,32 +3948,33 @@ union cavm_pcieep_link_cap
         uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_link_cap_s cn; */
+    /* struct cavm_pcieepx_link_cap_s cn; */
 };
-typedef union cavm_pcieep_link_cap cavm_pcieep_link_cap_t;
+typedef union cavm_pcieepx_link_cap cavm_pcieepx_link_cap_t;
 
-#define CAVM_PCIEEP_LINK_CAP CAVM_PCIEEP_LINK_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_LINK_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LINK_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LINK_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LINK_CAP(uint64_t a)
 {
-    return 0x7c;
+    if (a<=3)
+        return 0x7c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LINK_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LINK_CAP cavm_pcieep_link_cap_t
-#define bustype_CAVM_PCIEEP_LINK_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LINK_CAP "PCIEEP_LINK_CAP"
-#define busnum_CAVM_PCIEEP_LINK_CAP 0
-#define arguments_CAVM_PCIEEP_LINK_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LINK_CAP(a) cavm_pcieepx_link_cap_t
+#define bustype_CAVM_PCIEEPX_LINK_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LINK_CAP(a) "PCIEEPX_LINK_CAP"
+#define busnum_CAVM_PCIEEPX_LINK_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_LINK_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_link_cap2
+ * Register (PCICONFIGEP) pcieep#_link_cap2
  *
  * PCIe EP PF Link Capabilities 2 Register
  */
-union cavm_pcieep_link_cap2
+union cavm_pcieepx_link_cap2
 {
     uint32_t u;
-    struct cavm_pcieep_link_cap2_s
+    struct cavm_pcieepx_link_cap2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_25_31        : 7;
@@ -3959,32 +4026,33 @@ union cavm_pcieep_link_cap2
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_link_cap2_s cn; */
+    /* struct cavm_pcieepx_link_cap2_s cn; */
 };
-typedef union cavm_pcieep_link_cap2 cavm_pcieep_link_cap2_t;
+typedef union cavm_pcieepx_link_cap2 cavm_pcieepx_link_cap2_t;
 
-#define CAVM_PCIEEP_LINK_CAP2 CAVM_PCIEEP_LINK_CAP2_FUNC()
-static inline uint64_t CAVM_PCIEEP_LINK_CAP2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LINK_CAP2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LINK_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LINK_CAP2(uint64_t a)
 {
-    return 0x9c;
+    if (a<=3)
+        return 0x9c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LINK_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LINK_CAP2 cavm_pcieep_link_cap2_t
-#define bustype_CAVM_PCIEEP_LINK_CAP2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LINK_CAP2 "PCIEEP_LINK_CAP2"
-#define busnum_CAVM_PCIEEP_LINK_CAP2 0
-#define arguments_CAVM_PCIEEP_LINK_CAP2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LINK_CAP2(a) cavm_pcieepx_link_cap2_t
+#define bustype_CAVM_PCIEEPX_LINK_CAP2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LINK_CAP2(a) "PCIEEPX_LINK_CAP2"
+#define busnum_CAVM_PCIEEPX_LINK_CAP2(a) (a)
+#define arguments_CAVM_PCIEEPX_LINK_CAP2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_link_ctl
+ * Register (PCICONFIGEP) pcieep#_link_ctl
  *
  * PCIe EP PF Link Control/Link Status Register
  */
-union cavm_pcieep_link_ctl
+union cavm_pcieepx_link_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_link_ctl_s
+    struct cavm_pcieepx_link_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lab                   : 1;  /**< [ 31: 31](RO/H) Link autonomous bandwidth status. */
@@ -4058,32 +4126,33 @@ union cavm_pcieep_link_ctl
         uint32_t lab                   : 1;  /**< [ 31: 31](RO/H) Link autonomous bandwidth status. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_link_ctl_s cn; */
+    /* struct cavm_pcieepx_link_ctl_s cn; */
 };
-typedef union cavm_pcieep_link_ctl cavm_pcieep_link_ctl_t;
+typedef union cavm_pcieepx_link_ctl cavm_pcieepx_link_ctl_t;
 
-#define CAVM_PCIEEP_LINK_CTL CAVM_PCIEEP_LINK_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_LINK_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LINK_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LINK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LINK_CTL(uint64_t a)
 {
-    return 0x80;
+    if (a<=3)
+        return 0x80 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LINK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LINK_CTL cavm_pcieep_link_ctl_t
-#define bustype_CAVM_PCIEEP_LINK_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LINK_CTL "PCIEEP_LINK_CTL"
-#define busnum_CAVM_PCIEEP_LINK_CTL 0
-#define arguments_CAVM_PCIEEP_LINK_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LINK_CTL(a) cavm_pcieepx_link_ctl_t
+#define bustype_CAVM_PCIEEPX_LINK_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LINK_CTL(a) "PCIEEPX_LINK_CTL"
+#define busnum_CAVM_PCIEEPX_LINK_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_LINK_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_link_ctl2
+ * Register (PCICONFIGEP) pcieep#_link_ctl2
  *
  * PCIe EP PF Link Control 2 Register/Link Status 2 Register
  */
-union cavm_pcieep_link_ctl2
+union cavm_pcieepx_link_ctl2
 {
     uint32_t u;
-    struct cavm_pcieep_link_ctl2_s
+    struct cavm_pcieepx_link_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t drs_mr                : 1;  /**< [ 31: 31](RO) DRS message received. */
@@ -4277,33 +4346,34 @@ union cavm_pcieep_link_ctl2
         uint32_t drs_mr                : 1;  /**< [ 31: 31](RO) DRS message received. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_link_ctl2_s cn; */
+    /* struct cavm_pcieepx_link_ctl2_s cn; */
 };
-typedef union cavm_pcieep_link_ctl2 cavm_pcieep_link_ctl2_t;
+typedef union cavm_pcieepx_link_ctl2 cavm_pcieepx_link_ctl2_t;
 
-#define CAVM_PCIEEP_LINK_CTL2 CAVM_PCIEEP_LINK_CTL2_FUNC()
-static inline uint64_t CAVM_PCIEEP_LINK_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LINK_CTL2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LINK_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LINK_CTL2(uint64_t a)
 {
-    return 0xa0;
+    if (a<=3)
+        return 0xa0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LINK_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LINK_CTL2 cavm_pcieep_link_ctl2_t
-#define bustype_CAVM_PCIEEP_LINK_CTL2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LINK_CTL2 "PCIEEP_LINK_CTL2"
-#define busnum_CAVM_PCIEEP_LINK_CTL2 0
-#define arguments_CAVM_PCIEEP_LINK_CTL2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LINK_CTL2(a) cavm_pcieepx_link_ctl2_t
+#define bustype_CAVM_PCIEEPX_LINK_CTL2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LINK_CTL2(a) "PCIEEPX_LINK_CTL2"
+#define busnum_CAVM_PCIEEPX_LINK_CTL2(a) (a)
+#define arguments_CAVM_PCIEEPX_LINK_CTL2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_link_ctl3
+ * Register (PCICONFIGEP) pcieep#_link_ctl3
  *
  * PCIe EP PF Link Control 3 Register
  * Link Control 3 exists for PF0 only.
  */
-union cavm_pcieep_link_ctl3
+union cavm_pcieepx_link_ctl3
 {
     uint32_t u;
-    struct cavm_pcieep_link_ctl3_s
+    struct cavm_pcieepx_link_ctl3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
@@ -4315,33 +4385,34 @@ union cavm_pcieep_link_ctl3
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_link_ctl3_s cn; */
+    /* struct cavm_pcieepx_link_ctl3_s cn; */
 };
-typedef union cavm_pcieep_link_ctl3 cavm_pcieep_link_ctl3_t;
+typedef union cavm_pcieepx_link_ctl3 cavm_pcieepx_link_ctl3_t;
 
-#define CAVM_PCIEEP_LINK_CTL3 CAVM_PCIEEP_LINK_CTL3_FUNC()
-static inline uint64_t CAVM_PCIEEP_LINK_CTL3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LINK_CTL3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LINK_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LINK_CTL3(uint64_t a)
 {
-    return 0x16c;
+    if (a<=3)
+        return 0x16c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LINK_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LINK_CTL3 cavm_pcieep_link_ctl3_t
-#define bustype_CAVM_PCIEEP_LINK_CTL3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LINK_CTL3 "PCIEEP_LINK_CTL3"
-#define busnum_CAVM_PCIEEP_LINK_CTL3 0
-#define arguments_CAVM_PCIEEP_LINK_CTL3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LINK_CTL3(a) cavm_pcieepx_link_ctl3_t
+#define bustype_CAVM_PCIEEPX_LINK_CTL3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LINK_CTL3(a) "PCIEEPX_LINK_CTL3"
+#define busnum_CAVM_PCIEEPX_LINK_CTL3(a) (a)
+#define arguments_CAVM_PCIEEPX_LINK_CTL3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ltr_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_ltr_cap_hdr
  *
  * PCIe EP PF LTR Extended Capability Header Register
  * LTR Capability exists for PF0 only.
  */
-union cavm_pcieep_ltr_cap_hdr
+union cavm_pcieepx_ltr_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_ltr_cap_hdr_s
+    struct cavm_pcieepx_ltr_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
@@ -4383,34 +4454,35 @@ union cavm_pcieep_ltr_cap_hdr
                                                                  _ PF1:          0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ltr_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_ltr_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_ltr_cap_hdr cavm_pcieep_ltr_cap_hdr_t;
+typedef union cavm_pcieepx_ltr_cap_hdr cavm_pcieepx_ltr_cap_hdr_t;
 
-#define CAVM_PCIEEP_LTR_CAP_HDR CAVM_PCIEEP_LTR_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_LTR_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LTR_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LTR_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LTR_CAP_HDR(uint64_t a)
 {
-    return 0x234;
+    if (a<=3)
+        return 0x234 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LTR_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LTR_CAP_HDR cavm_pcieep_ltr_cap_hdr_t
-#define bustype_CAVM_PCIEEP_LTR_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LTR_CAP_HDR "PCIEEP_LTR_CAP_HDR"
-#define busnum_CAVM_PCIEEP_LTR_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_LTR_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LTR_CAP_HDR(a) cavm_pcieepx_ltr_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_LTR_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LTR_CAP_HDR(a) "PCIEEPX_LTR_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_LTR_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_LTR_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ltr_lat
+ * Register (PCICONFIGEP) pcieep#_ltr_lat
  *
  * PCIe EP PF LTR Max Snoop and No-Snoop Latency Register
  * The LTR Extended Capability can only be read by PF0.
  * Accesses by other PF's will return zeros.
  */
-union cavm_pcieep_ltr_lat
+union cavm_pcieepx_ltr_lat
 {
     uint32_t u;
-    struct cavm_pcieep_ltr_lat_s
+    struct cavm_pcieepx_ltr_lat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -4428,33 +4500,34 @@ union cavm_pcieep_ltr_lat
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ltr_lat_s cn; */
+    /* struct cavm_pcieepx_ltr_lat_s cn; */
 };
-typedef union cavm_pcieep_ltr_lat cavm_pcieep_ltr_lat_t;
+typedef union cavm_pcieepx_ltr_lat cavm_pcieepx_ltr_lat_t;
 
-#define CAVM_PCIEEP_LTR_LAT CAVM_PCIEEP_LTR_LAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_LTR_LAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_LTR_LAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_LTR_LAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_LTR_LAT(uint64_t a)
 {
-    return 0x238;
+    if (a<=3)
+        return 0x238 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_LTR_LAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_LTR_LAT cavm_pcieep_ltr_lat_t
-#define bustype_CAVM_PCIEEP_LTR_LAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_LTR_LAT "PCIEEP_LTR_LAT"
-#define busnum_CAVM_PCIEEP_LTR_LAT 0
-#define arguments_CAVM_PCIEEP_LTR_LAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_LTR_LAT(a) cavm_pcieepx_ltr_lat_t
+#define bustype_CAVM_PCIEEPX_LTR_LAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_LTR_LAT(a) "PCIEEPX_LTR_LAT"
+#define busnum_CAVM_PCIEEPX_LTR_LAT(a) (a)
+#define arguments_CAVM_PCIEEPX_LTR_LAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_margin_ext_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_margin_ext_cap_hdr
  *
  * PCIe EP Margining Extended Capability Header Register
  * Margining Extended Capability Header exists for PF0 only.
  */
-union cavm_pcieep_margin_ext_cap_hdr
+union cavm_pcieepx_margin_ext_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_margin_ext_cap_hdr_s
+    struct cavm_pcieepx_margin_ext_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -4472,32 +4545,33 @@ union cavm_pcieep_margin_ext_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_margin_ext_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_margin_ext_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_margin_ext_cap_hdr cavm_pcieep_margin_ext_cap_hdr_t;
+typedef union cavm_pcieepx_margin_ext_cap_hdr cavm_pcieepx_margin_ext_cap_hdr_t;
 
-#define CAVM_PCIEEP_MARGIN_EXT_CAP_HDR CAVM_PCIEEP_MARGIN_EXT_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_MARGIN_EXT_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MARGIN_EXT_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(uint64_t a)
 {
-    return 0x1ac;
+    if (a<=3)
+        return 0x1ac + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MARGIN_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MARGIN_EXT_CAP_HDR cavm_pcieep_margin_ext_cap_hdr_t
-#define bustype_CAVM_PCIEEP_MARGIN_EXT_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MARGIN_EXT_CAP_HDR "PCIEEP_MARGIN_EXT_CAP_HDR"
-#define busnum_CAVM_PCIEEP_MARGIN_EXT_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_MARGIN_EXT_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(a) cavm_pcieepx_margin_ext_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(a) "PCIEEPX_MARGIN_EXT_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_misc_ctl1
+ * Register (PCICONFIGEP) pcieep#_misc_ctl1
  *
  * PCIe EP Miscellaneous Control 1 Register
  */
-union cavm_pcieep_misc_ctl1
+union cavm_pcieepx_misc_ctl1
 {
     uint32_t u;
-    struct cavm_pcieep_misc_ctl1_s
+    struct cavm_pcieepx_misc_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_23_31        : 9;
@@ -4595,33 +4669,34 @@ union cavm_pcieep_misc_ctl1
         uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_misc_ctl1_s cn; */
+    /* struct cavm_pcieepx_misc_ctl1_s cn; */
 };
-typedef union cavm_pcieep_misc_ctl1 cavm_pcieep_misc_ctl1_t;
+typedef union cavm_pcieepx_misc_ctl1 cavm_pcieepx_misc_ctl1_t;
 
-#define CAVM_PCIEEP_MISC_CTL1 CAVM_PCIEEP_MISC_CTL1_FUNC()
-static inline uint64_t CAVM_PCIEEP_MISC_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MISC_CTL1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MISC_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MISC_CTL1(uint64_t a)
 {
-    return 0x8bc;
+    if (a<=3)
+        return 0x8bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MISC_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MISC_CTL1 cavm_pcieep_misc_ctl1_t
-#define bustype_CAVM_PCIEEP_MISC_CTL1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MISC_CTL1 "PCIEEP_MISC_CTL1"
-#define busnum_CAVM_PCIEEP_MISC_CTL1 0
-#define arguments_CAVM_PCIEEP_MISC_CTL1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MISC_CTL1(a) cavm_pcieepx_misc_ctl1_t
+#define bustype_CAVM_PCIEEPX_MISC_CTL1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MISC_CTL1(a) "PCIEEPX_MISC_CTL1"
+#define busnum_CAVM_PCIEEPX_MISC_CTL1(a) (a)
+#define arguments_CAVM_PCIEEPX_MISC_CTL1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_mrg_lane_ctl_stat0
+ * Register (PCICONFIGEP) pcieep#_mrg_lane_ctl_stat0
  *
  * PCIe EP Margining Lane Control and Status Register 0
  * Margining Lane Control and Status Registers exists for PF0 only.
  */
-union cavm_pcieep_mrg_lane_ctl_stat0
+union cavm_pcieepx_mrg_lane_ctl_stat0
 {
     uint32_t u;
-    struct cavm_pcieep_mrg_lane_ctl_stat0_s
+    struct cavm_pcieepx_mrg_lane_ctl_stat0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
@@ -4647,32 +4722,33 @@ union cavm_pcieep_mrg_lane_ctl_stat0
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_mrg_lane_ctl_stat0_s cn; */
+    /* struct cavm_pcieepx_mrg_lane_ctl_stat0_s cn; */
 };
-typedef union cavm_pcieep_mrg_lane_ctl_stat0 cavm_pcieep_mrg_lane_ctl_stat0_t;
+typedef union cavm_pcieepx_mrg_lane_ctl_stat0 cavm_pcieepx_mrg_lane_ctl_stat0_t;
 
-#define CAVM_PCIEEP_MRG_LANE_CTL_STAT0 CAVM_PCIEEP_MRG_LANE_CTL_STAT0_FUNC()
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT0_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(uint64_t a)
 {
-    return 0x1b4;
+    if (a<=3)
+        return 0x1b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MRG_LANE_CTL_STAT0 cavm_pcieep_mrg_lane_ctl_stat0_t
-#define bustype_CAVM_PCIEEP_MRG_LANE_CTL_STAT0 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MRG_LANE_CTL_STAT0 "PCIEEP_MRG_LANE_CTL_STAT0"
-#define busnum_CAVM_PCIEEP_MRG_LANE_CTL_STAT0 0
-#define arguments_CAVM_PCIEEP_MRG_LANE_CTL_STAT0 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(a) cavm_pcieepx_mrg_lane_ctl_stat0_t
+#define bustype_CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(a) "PCIEEPX_MRG_LANE_CTL_STAT0"
+#define busnum_CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(a) (a)
+#define arguments_CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_mrg_lane_ctl_stat1
+ * Register (PCICONFIGEP) pcieep#_mrg_lane_ctl_stat1
  *
  * PCIe EP Margining Lane Control and Status Register 1
  */
-union cavm_pcieep_mrg_lane_ctl_stat1
+union cavm_pcieepx_mrg_lane_ctl_stat1
 {
     uint32_t u;
-    struct cavm_pcieep_mrg_lane_ctl_stat1_s
+    struct cavm_pcieepx_mrg_lane_ctl_stat1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
@@ -4698,32 +4774,33 @@ union cavm_pcieep_mrg_lane_ctl_stat1
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_mrg_lane_ctl_stat1_s cn; */
+    /* struct cavm_pcieepx_mrg_lane_ctl_stat1_s cn; */
 };
-typedef union cavm_pcieep_mrg_lane_ctl_stat1 cavm_pcieep_mrg_lane_ctl_stat1_t;
+typedef union cavm_pcieepx_mrg_lane_ctl_stat1 cavm_pcieepx_mrg_lane_ctl_stat1_t;
 
-#define CAVM_PCIEEP_MRG_LANE_CTL_STAT1 CAVM_PCIEEP_MRG_LANE_CTL_STAT1_FUNC()
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(uint64_t a)
 {
-    return 0x1b8;
+    if (a<=3)
+        return 0x1b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MRG_LANE_CTL_STAT1 cavm_pcieep_mrg_lane_ctl_stat1_t
-#define bustype_CAVM_PCIEEP_MRG_LANE_CTL_STAT1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MRG_LANE_CTL_STAT1 "PCIEEP_MRG_LANE_CTL_STAT1"
-#define busnum_CAVM_PCIEEP_MRG_LANE_CTL_STAT1 0
-#define arguments_CAVM_PCIEEP_MRG_LANE_CTL_STAT1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(a) cavm_pcieepx_mrg_lane_ctl_stat1_t
+#define bustype_CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(a) "PCIEEPX_MRG_LANE_CTL_STAT1"
+#define busnum_CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(a) (a)
+#define arguments_CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_mrg_lane_ctl_stat2
+ * Register (PCICONFIGEP) pcieep#_mrg_lane_ctl_stat2
  *
  * PCIe EP Margining Lane Control and Status Register 2
  */
-union cavm_pcieep_mrg_lane_ctl_stat2
+union cavm_pcieepx_mrg_lane_ctl_stat2
 {
     uint32_t u;
-    struct cavm_pcieep_mrg_lane_ctl_stat2_s
+    struct cavm_pcieepx_mrg_lane_ctl_stat2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
@@ -4749,32 +4826,33 @@ union cavm_pcieep_mrg_lane_ctl_stat2
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_mrg_lane_ctl_stat2_s cn; */
+    /* struct cavm_pcieepx_mrg_lane_ctl_stat2_s cn; */
 };
-typedef union cavm_pcieep_mrg_lane_ctl_stat2 cavm_pcieep_mrg_lane_ctl_stat2_t;
+typedef union cavm_pcieepx_mrg_lane_ctl_stat2 cavm_pcieepx_mrg_lane_ctl_stat2_t;
 
-#define CAVM_PCIEEP_MRG_LANE_CTL_STAT2 CAVM_PCIEEP_MRG_LANE_CTL_STAT2_FUNC()
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(uint64_t a)
 {
-    return 0x1bc;
+    if (a<=3)
+        return 0x1bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MRG_LANE_CTL_STAT2 cavm_pcieep_mrg_lane_ctl_stat2_t
-#define bustype_CAVM_PCIEEP_MRG_LANE_CTL_STAT2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MRG_LANE_CTL_STAT2 "PCIEEP_MRG_LANE_CTL_STAT2"
-#define busnum_CAVM_PCIEEP_MRG_LANE_CTL_STAT2 0
-#define arguments_CAVM_PCIEEP_MRG_LANE_CTL_STAT2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(a) cavm_pcieepx_mrg_lane_ctl_stat2_t
+#define bustype_CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(a) "PCIEEPX_MRG_LANE_CTL_STAT2"
+#define busnum_CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(a) (a)
+#define arguments_CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_mrg_lane_ctl_stat3
+ * Register (PCICONFIGEP) pcieep#_mrg_lane_ctl_stat3
  *
  * PCIe EP Margining Lane Control and Status Register 3
  */
-union cavm_pcieep_mrg_lane_ctl_stat3
+union cavm_pcieepx_mrg_lane_ctl_stat3
 {
     uint32_t u;
-    struct cavm_pcieep_mrg_lane_ctl_stat3_s
+    struct cavm_pcieepx_mrg_lane_ctl_stat3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
@@ -4800,33 +4878,34 @@ union cavm_pcieep_mrg_lane_ctl_stat3
         uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_mrg_lane_ctl_stat3_s cn; */
+    /* struct cavm_pcieepx_mrg_lane_ctl_stat3_s cn; */
 };
-typedef union cavm_pcieep_mrg_lane_ctl_stat3 cavm_pcieep_mrg_lane_ctl_stat3_t;
+typedef union cavm_pcieepx_mrg_lane_ctl_stat3 cavm_pcieepx_mrg_lane_ctl_stat3_t;
 
-#define CAVM_PCIEEP_MRG_LANE_CTL_STAT3 CAVM_PCIEEP_MRG_LANE_CTL_STAT3_FUNC()
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MRG_LANE_CTL_STAT3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(uint64_t a)
 {
-    return 0x1c0;
+    if (a<=3)
+        return 0x1c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MRG_LANE_CTL_STAT3 cavm_pcieep_mrg_lane_ctl_stat3_t
-#define bustype_CAVM_PCIEEP_MRG_LANE_CTL_STAT3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MRG_LANE_CTL_STAT3 "PCIEEP_MRG_LANE_CTL_STAT3"
-#define busnum_CAVM_PCIEEP_MRG_LANE_CTL_STAT3 0
-#define arguments_CAVM_PCIEEP_MRG_LANE_CTL_STAT3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(a) cavm_pcieepx_mrg_lane_ctl_stat3_t
+#define bustype_CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(a) "PCIEEPX_MRG_LANE_CTL_STAT3"
+#define busnum_CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(a) (a)
+#define arguments_CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_mrg_port_cap_stat
+ * Register (PCICONFIGEP) pcieep#_mrg_port_cap_stat
  *
  * PCIe EP Margining Port Capabilities and Status Register
  * Margining Port Capabilities and Status exists for PF0 only.
  */
-union cavm_pcieep_mrg_port_cap_stat
+union cavm_pcieepx_mrg_port_cap_stat
 {
     uint32_t u;
-    struct cavm_pcieep_mrg_port_cap_stat_s
+    struct cavm_pcieepx_mrg_port_cap_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
@@ -4842,32 +4921,33 @@ union cavm_pcieep_mrg_port_cap_stat
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_mrg_port_cap_stat_s cn; */
+    /* struct cavm_pcieepx_mrg_port_cap_stat_s cn; */
 };
-typedef union cavm_pcieep_mrg_port_cap_stat cavm_pcieep_mrg_port_cap_stat_t;
+typedef union cavm_pcieepx_mrg_port_cap_stat cavm_pcieepx_mrg_port_cap_stat_t;
 
-#define CAVM_PCIEEP_MRG_PORT_CAP_STAT CAVM_PCIEEP_MRG_PORT_CAP_STAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_MRG_PORT_CAP_STAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MRG_PORT_CAP_STAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MRG_PORT_CAP_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MRG_PORT_CAP_STAT(uint64_t a)
 {
-    return 0x1b0;
+    if (a<=3)
+        return 0x1b0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MRG_PORT_CAP_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MRG_PORT_CAP_STAT cavm_pcieep_mrg_port_cap_stat_t
-#define bustype_CAVM_PCIEEP_MRG_PORT_CAP_STAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MRG_PORT_CAP_STAT "PCIEEP_MRG_PORT_CAP_STAT"
-#define busnum_CAVM_PCIEEP_MRG_PORT_CAP_STAT 0
-#define arguments_CAVM_PCIEEP_MRG_PORT_CAP_STAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MRG_PORT_CAP_STAT(a) cavm_pcieepx_mrg_port_cap_stat_t
+#define bustype_CAVM_PCIEEPX_MRG_PORT_CAP_STAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MRG_PORT_CAP_STAT(a) "PCIEEPX_MRG_PORT_CAP_STAT"
+#define busnum_CAVM_PCIEEPX_MRG_PORT_CAP_STAT(a) (a)
+#define arguments_CAVM_PCIEEPX_MRG_PORT_CAP_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_msix_cap_cntrl
+ * Register (PCICONFIGEP) pcieep#_msix_cap_cntrl
  *
  * PCIe EP PF MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
  */
-union cavm_pcieep_msix_cap_cntrl
+union cavm_pcieepx_msix_cap_cntrl
 {
     uint32_t u;
-    struct cavm_pcieep_msix_cap_cntrl_s
+    struct cavm_pcieepx_msix_cap_cntrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t msixen                : 1;  /**< [ 31: 31](R/W) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
@@ -4899,32 +4979,33 @@ union cavm_pcieep_msix_cap_cntrl
         uint32_t msixen                : 1;  /**< [ 31: 31](R/W) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_msix_cap_cntrl_s cn; */
+    /* struct cavm_pcieepx_msix_cap_cntrl_s cn; */
 };
-typedef union cavm_pcieep_msix_cap_cntrl cavm_pcieep_msix_cap_cntrl_t;
+typedef union cavm_pcieepx_msix_cap_cntrl cavm_pcieepx_msix_cap_cntrl_t;
 
-#define CAVM_PCIEEP_MSIX_CAP_CNTRL CAVM_PCIEEP_MSIX_CAP_CNTRL_FUNC()
-static inline uint64_t CAVM_PCIEEP_MSIX_CAP_CNTRL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MSIX_CAP_CNTRL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MSIX_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MSIX_CAP_CNTRL(uint64_t a)
 {
-    return 0xb0;
+    if (a<=3)
+        return 0xb0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MSIX_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MSIX_CAP_CNTRL cavm_pcieep_msix_cap_cntrl_t
-#define bustype_CAVM_PCIEEP_MSIX_CAP_CNTRL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MSIX_CAP_CNTRL "PCIEEP_MSIX_CAP_CNTRL"
-#define busnum_CAVM_PCIEEP_MSIX_CAP_CNTRL 0
-#define arguments_CAVM_PCIEEP_MSIX_CAP_CNTRL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MSIX_CAP_CNTRL(a) cavm_pcieepx_msix_cap_cntrl_t
+#define bustype_CAVM_PCIEEPX_MSIX_CAP_CNTRL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MSIX_CAP_CNTRL(a) "PCIEEPX_MSIX_CAP_CNTRL"
+#define busnum_CAVM_PCIEEPX_MSIX_CAP_CNTRL(a) (a)
+#define arguments_CAVM_PCIEEPX_MSIX_CAP_CNTRL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_msix_pba
+ * Register (PCICONFIGEP) pcieep#_msix_pba
  *
  * PCIe EP PF MSI-X PBA Offset and BIR Register
  */
-union cavm_pcieep_msix_pba
+union cavm_pcieepx_msix_pba
 {
     uint32_t u;
-    struct cavm_pcieep_msix_pba_s
+    struct cavm_pcieepx_msix_pba_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
@@ -4938,32 +5019,33 @@ union cavm_pcieep_msix_pba
                                                                  address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_msix_pba_s cn; */
+    /* struct cavm_pcieepx_msix_pba_s cn; */
 };
-typedef union cavm_pcieep_msix_pba cavm_pcieep_msix_pba_t;
+typedef union cavm_pcieepx_msix_pba cavm_pcieepx_msix_pba_t;
 
-#define CAVM_PCIEEP_MSIX_PBA CAVM_PCIEEP_MSIX_PBA_FUNC()
-static inline uint64_t CAVM_PCIEEP_MSIX_PBA_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MSIX_PBA_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MSIX_PBA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MSIX_PBA(uint64_t a)
 {
-    return 0xb8;
+    if (a<=3)
+        return 0xb8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MSIX_PBA", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MSIX_PBA cavm_pcieep_msix_pba_t
-#define bustype_CAVM_PCIEEP_MSIX_PBA CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MSIX_PBA "PCIEEP_MSIX_PBA"
-#define busnum_CAVM_PCIEEP_MSIX_PBA 0
-#define arguments_CAVM_PCIEEP_MSIX_PBA -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MSIX_PBA(a) cavm_pcieepx_msix_pba_t
+#define bustype_CAVM_PCIEEPX_MSIX_PBA(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MSIX_PBA(a) "PCIEEPX_MSIX_PBA"
+#define busnum_CAVM_PCIEEPX_MSIX_PBA(a) (a)
+#define arguments_CAVM_PCIEEPX_MSIX_PBA(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_msix_table
+ * Register (PCICONFIGEP) pcieep#_msix_table
  *
  * PCIe EP PF MSI-X Table Offset and BIR Register
  */
-union cavm_pcieep_msix_table
+union cavm_pcieepx_msix_table
 {
     uint32_t u;
-    struct cavm_pcieep_msix_table_s
+    struct cavm_pcieepx_msix_table_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X table, as an offset from the base
@@ -4977,32 +5059,33 @@ union cavm_pcieep_msix_table
                                                                  address of the BAR indicated by the table BIR bits. Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_msix_table_s cn; */
+    /* struct cavm_pcieepx_msix_table_s cn; */
 };
-typedef union cavm_pcieep_msix_table cavm_pcieep_msix_table_t;
+typedef union cavm_pcieepx_msix_table cavm_pcieepx_msix_table_t;
 
-#define CAVM_PCIEEP_MSIX_TABLE CAVM_PCIEEP_MSIX_TABLE_FUNC()
-static inline uint64_t CAVM_PCIEEP_MSIX_TABLE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_MSIX_TABLE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_MSIX_TABLE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_MSIX_TABLE(uint64_t a)
 {
-    return 0xb4;
+    if (a<=3)
+        return 0xb4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_MSIX_TABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_MSIX_TABLE cavm_pcieep_msix_table_t
-#define bustype_CAVM_PCIEEP_MSIX_TABLE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_MSIX_TABLE "PCIEEP_MSIX_TABLE"
-#define busnum_CAVM_PCIEEP_MSIX_TABLE 0
-#define arguments_CAVM_PCIEEP_MSIX_TABLE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_MSIX_TABLE(a) cavm_pcieepx_msix_table_t
+#define bustype_CAVM_PCIEEPX_MSIX_TABLE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_MSIX_TABLE(a) "PCIEEPX_MSIX_TABLE"
+#define busnum_CAVM_PCIEEPX_MSIX_TABLE(a) (a)
+#define arguments_CAVM_PCIEEPX_MSIX_TABLE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_np_rcv_credit
+ * Register (PCICONFIGEP) pcieep#_np_rcv_credit
  *
  * PCIe EP PF VC0 Nonposted Receive Queue Control Register
  */
-union cavm_pcieep_np_rcv_credit
+union cavm_pcieepx_np_rcv_credit
 {
     uint32_t u;
-    struct cavm_pcieep_np_rcv_credit_s
+    struct cavm_pcieepx_np_rcv_credit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -5048,32 +5131,33 @@ union cavm_pcieep_np_rcv_credit
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_np_rcv_credit_s cn; */
+    /* struct cavm_pcieepx_np_rcv_credit_s cn; */
 };
-typedef union cavm_pcieep_np_rcv_credit cavm_pcieep_np_rcv_credit_t;
+typedef union cavm_pcieepx_np_rcv_credit cavm_pcieepx_np_rcv_credit_t;
 
-#define CAVM_PCIEEP_NP_RCV_CREDIT CAVM_PCIEEP_NP_RCV_CREDIT_FUNC()
-static inline uint64_t CAVM_PCIEEP_NP_RCV_CREDIT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_NP_RCV_CREDIT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_NP_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_NP_RCV_CREDIT(uint64_t a)
 {
-    return 0x74c;
+    if (a<=3)
+        return 0x74c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_NP_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_NP_RCV_CREDIT cavm_pcieep_np_rcv_credit_t
-#define bustype_CAVM_PCIEEP_NP_RCV_CREDIT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_NP_RCV_CREDIT "PCIEEP_NP_RCV_CREDIT"
-#define busnum_CAVM_PCIEEP_NP_RCV_CREDIT 0
-#define arguments_CAVM_PCIEEP_NP_RCV_CREDIT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_NP_RCV_CREDIT(a) cavm_pcieepx_np_rcv_credit_t
+#define bustype_CAVM_PCIEEPX_NP_RCV_CREDIT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_NP_RCV_CREDIT(a) "PCIEEPX_NP_RCV_CREDIT"
+#define busnum_CAVM_PCIEEPX_NP_RCV_CREDIT(a) (a)
+#define arguments_CAVM_PCIEEPX_NP_RCV_CREDIT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_np_xmit_credit
+ * Register (PCICONFIGEP) pcieep#_np_xmit_credit
  *
  * PCIe EP PF Transmit Nonposted FC Credit Status Register
  */
-union cavm_pcieep_np_xmit_credit
+union cavm_pcieepx_np_xmit_credit
 {
     uint32_t u;
-    struct cavm_pcieep_np_xmit_credit_s
+    struct cavm_pcieepx_np_xmit_credit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -5089,32 +5173,33 @@ union cavm_pcieep_np_xmit_credit
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_np_xmit_credit_s cn; */
+    /* struct cavm_pcieepx_np_xmit_credit_s cn; */
 };
-typedef union cavm_pcieep_np_xmit_credit cavm_pcieep_np_xmit_credit_t;
+typedef union cavm_pcieepx_np_xmit_credit cavm_pcieepx_np_xmit_credit_t;
 
-#define CAVM_PCIEEP_NP_XMIT_CREDIT CAVM_PCIEEP_NP_XMIT_CREDIT_FUNC()
-static inline uint64_t CAVM_PCIEEP_NP_XMIT_CREDIT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_NP_XMIT_CREDIT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_NP_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_NP_XMIT_CREDIT(uint64_t a)
 {
-    return 0x734;
+    if (a<=3)
+        return 0x734 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_NP_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_NP_XMIT_CREDIT cavm_pcieep_np_xmit_credit_t
-#define bustype_CAVM_PCIEEP_NP_XMIT_CREDIT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_NP_XMIT_CREDIT "PCIEEP_NP_XMIT_CREDIT"
-#define busnum_CAVM_PCIEEP_NP_XMIT_CREDIT 0
-#define arguments_CAVM_PCIEEP_NP_XMIT_CREDIT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_NP_XMIT_CREDIT(a) cavm_pcieepx_np_xmit_credit_t
+#define bustype_CAVM_PCIEEPX_NP_XMIT_CREDIT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_NP_XMIT_CREDIT(a) "PCIEEPX_NP_XMIT_CREDIT"
+#define busnum_CAVM_PCIEEPX_NP_XMIT_CREDIT(a) (a)
+#define arguments_CAVM_PCIEEPX_NP_XMIT_CREDIT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_omsg_ptr
+ * Register (PCICONFIGEP) pcieep#_omsg_ptr
  *
  * PCIe EP PF Other Message Register
  */
-union cavm_pcieep_omsg_ptr
+union cavm_pcieepx_omsg_ptr
 {
     uint32_t u;
-    struct cavm_pcieep_omsg_ptr_s
+    struct cavm_pcieepx_omsg_ptr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t omr                   : 32; /**< [ 31:  0](R/W) Other message register. This register can be used for either of the following purposes:
@@ -5140,32 +5225,33 @@ union cavm_pcieep_omsg_ptr
                                                                  with this pattern before inserting it into the packet. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_omsg_ptr_s cn; */
+    /* struct cavm_pcieepx_omsg_ptr_s cn; */
 };
-typedef union cavm_pcieep_omsg_ptr cavm_pcieep_omsg_ptr_t;
+typedef union cavm_pcieepx_omsg_ptr cavm_pcieepx_omsg_ptr_t;
 
-#define CAVM_PCIEEP_OMSG_PTR CAVM_PCIEEP_OMSG_PTR_FUNC()
-static inline uint64_t CAVM_PCIEEP_OMSG_PTR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_OMSG_PTR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_OMSG_PTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_OMSG_PTR(uint64_t a)
 {
-    return 0x704;
+    if (a<=3)
+        return 0x704 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_OMSG_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_OMSG_PTR cavm_pcieep_omsg_ptr_t
-#define bustype_CAVM_PCIEEP_OMSG_PTR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_OMSG_PTR "PCIEEP_OMSG_PTR"
-#define busnum_CAVM_PCIEEP_OMSG_PTR 0
-#define arguments_CAVM_PCIEEP_OMSG_PTR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_OMSG_PTR(a) cavm_pcieepx_omsg_ptr_t
+#define bustype_CAVM_PCIEEPX_OMSG_PTR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_OMSG_PTR(a) "PCIEEPX_OMSG_PTR"
+#define busnum_CAVM_PCIEEPX_OMSG_PTR(a) (a)
+#define arguments_CAVM_PCIEEPX_OMSG_PTR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ord_rule_ctrl
+ * Register (PCICONFIGEP) pcieep#_ord_rule_ctrl
  *
  * PCIe EP PF Order Rule Control Register
  */
-union cavm_pcieep_ord_rule_ctrl
+union cavm_pcieepx_ord_rule_ctrl
 {
     uint32_t u;
-    struct cavm_pcieep_ord_rule_ctrl_s
+    struct cavm_pcieepx_ord_rule_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -5193,32 +5279,33 @@ union cavm_pcieep_ord_rule_ctrl
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ord_rule_ctrl_s cn; */
+    /* struct cavm_pcieepx_ord_rule_ctrl_s cn; */
 };
-typedef union cavm_pcieep_ord_rule_ctrl cavm_pcieep_ord_rule_ctrl_t;
+typedef union cavm_pcieepx_ord_rule_ctrl cavm_pcieepx_ord_rule_ctrl_t;
 
-#define CAVM_PCIEEP_ORD_RULE_CTRL CAVM_PCIEEP_ORD_RULE_CTRL_FUNC()
-static inline uint64_t CAVM_PCIEEP_ORD_RULE_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_ORD_RULE_CTRL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_ORD_RULE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_ORD_RULE_CTRL(uint64_t a)
 {
-    return 0x8b4;
+    if (a<=3)
+        return 0x8b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_ORD_RULE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_ORD_RULE_CTRL cavm_pcieep_ord_rule_ctrl_t
-#define bustype_CAVM_PCIEEP_ORD_RULE_CTRL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_ORD_RULE_CTRL "PCIEEP_ORD_RULE_CTRL"
-#define busnum_CAVM_PCIEEP_ORD_RULE_CTRL 0
-#define arguments_CAVM_PCIEEP_ORD_RULE_CTRL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_ORD_RULE_CTRL(a) cavm_pcieepx_ord_rule_ctrl_t
+#define bustype_CAVM_PCIEEPX_ORD_RULE_CTRL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_ORD_RULE_CTRL(a) "PCIEEPX_ORD_RULE_CTRL"
+#define busnum_CAVM_PCIEEPX_ORD_RULE_CTRL(a) (a)
+#define arguments_CAVM_PCIEEPX_ORD_RULE_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_p_rcv_credit
+ * Register (PCICONFIGEP) pcieep#_p_rcv_credit
  *
  * PCIe EP PF VC0 Posted Receive Queue Control Register
  */
-union cavm_pcieep_p_rcv_credit
+union cavm_pcieepx_p_rcv_credit
 {
     uint32_t u;
-    struct cavm_pcieep_p_rcv_credit_s
+    struct cavm_pcieepx_p_rcv_credit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rx_queue_order        : 1;  /**< [ 31: 31](RO/WRSL) VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
@@ -5282,32 +5369,33 @@ union cavm_pcieep_p_rcv_credit
                                                                  1 = Strict ordering, higher numbered VCs have higher priority. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_p_rcv_credit_s cn; */
+    /* struct cavm_pcieepx_p_rcv_credit_s cn; */
 };
-typedef union cavm_pcieep_p_rcv_credit cavm_pcieep_p_rcv_credit_t;
+typedef union cavm_pcieepx_p_rcv_credit cavm_pcieepx_p_rcv_credit_t;
 
-#define CAVM_PCIEEP_P_RCV_CREDIT CAVM_PCIEEP_P_RCV_CREDIT_FUNC()
-static inline uint64_t CAVM_PCIEEP_P_RCV_CREDIT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_P_RCV_CREDIT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_P_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_P_RCV_CREDIT(uint64_t a)
 {
-    return 0x748;
+    if (a<=3)
+        return 0x748 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_P_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_P_RCV_CREDIT cavm_pcieep_p_rcv_credit_t
-#define bustype_CAVM_PCIEEP_P_RCV_CREDIT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_P_RCV_CREDIT "PCIEEP_P_RCV_CREDIT"
-#define busnum_CAVM_PCIEEP_P_RCV_CREDIT 0
-#define arguments_CAVM_PCIEEP_P_RCV_CREDIT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_P_RCV_CREDIT(a) cavm_pcieepx_p_rcv_credit_t
+#define bustype_CAVM_PCIEEPX_P_RCV_CREDIT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_P_RCV_CREDIT(a) "PCIEEPX_P_RCV_CREDIT"
+#define busnum_CAVM_PCIEEPX_P_RCV_CREDIT(a) (a)
+#define arguments_CAVM_PCIEEPX_P_RCV_CREDIT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_p_xmit_credit
+ * Register (PCICONFIGEP) pcieep#_p_xmit_credit
  *
  * PCIe EP PF Transmit Posted FC Credit Status Register
  */
-union cavm_pcieep_p_xmit_credit
+union cavm_pcieepx_p_xmit_credit
 {
     uint32_t u;
-    struct cavm_pcieep_p_xmit_credit_s
+    struct cavm_pcieepx_p_xmit_credit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -5323,32 +5411,33 @@ union cavm_pcieep_p_xmit_credit
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_p_xmit_credit_s cn; */
+    /* struct cavm_pcieepx_p_xmit_credit_s cn; */
 };
-typedef union cavm_pcieep_p_xmit_credit cavm_pcieep_p_xmit_credit_t;
+typedef union cavm_pcieepx_p_xmit_credit cavm_pcieepx_p_xmit_credit_t;
 
-#define CAVM_PCIEEP_P_XMIT_CREDIT CAVM_PCIEEP_P_XMIT_CREDIT_FUNC()
-static inline uint64_t CAVM_PCIEEP_P_XMIT_CREDIT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_P_XMIT_CREDIT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_P_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_P_XMIT_CREDIT(uint64_t a)
 {
-    return 0x730;
+    if (a<=3)
+        return 0x730 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_P_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_P_XMIT_CREDIT cavm_pcieep_p_xmit_credit_t
-#define bustype_CAVM_PCIEEP_P_XMIT_CREDIT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_P_XMIT_CREDIT "PCIEEP_P_XMIT_CREDIT"
-#define busnum_CAVM_PCIEEP_P_XMIT_CREDIT 0
-#define arguments_CAVM_PCIEEP_P_XMIT_CREDIT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_P_XMIT_CREDIT(a) cavm_pcieepx_p_xmit_credit_t
+#define bustype_CAVM_PCIEEPX_P_XMIT_CREDIT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_P_XMIT_CREDIT(a) "PCIEEPX_P_XMIT_CREDIT"
+#define busnum_CAVM_PCIEEPX_P_XMIT_CREDIT(a) (a)
+#define arguments_CAVM_PCIEEPX_P_XMIT_CREDIT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_phy_ctl
+ * Register (PCICONFIGEP) pcieep#_phy_ctl
  *
  * PCIe EP PF PHY Control Register
  */
-union cavm_pcieep_phy_ctl
+union cavm_pcieepx_phy_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_phy_ctl_s
+    struct cavm_pcieepx_phy_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control.  Sideband control signaling (not supported). */
@@ -5356,32 +5445,33 @@ union cavm_pcieep_phy_ctl
         uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control.  Sideband control signaling (not supported). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_phy_ctl_s cn; */
+    /* struct cavm_pcieepx_phy_ctl_s cn; */
 };
-typedef union cavm_pcieep_phy_ctl cavm_pcieep_phy_ctl_t;
+typedef union cavm_pcieepx_phy_ctl cavm_pcieepx_phy_ctl_t;
 
-#define CAVM_PCIEEP_PHY_CTL CAVM_PCIEEP_PHY_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PHY_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PHY_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PHY_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PHY_CTL(uint64_t a)
 {
-    return 0x814;
+    if (a<=3)
+        return 0x814 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PHY_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PHY_CTL cavm_pcieep_phy_ctl_t
-#define bustype_CAVM_PCIEEP_PHY_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PHY_CTL "PCIEEP_PHY_CTL"
-#define busnum_CAVM_PCIEEP_PHY_CTL 0
-#define arguments_CAVM_PCIEEP_PHY_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PHY_CTL(a) cavm_pcieepx_phy_ctl_t
+#define bustype_CAVM_PCIEEPX_PHY_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PHY_CTL(a) "PCIEEPX_PHY_CTL"
+#define busnum_CAVM_PCIEEPX_PHY_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PHY_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_phy_gen3_ctl
+ * Register (PCICONFIGEP) pcieep#_phy_gen3_ctl
  *
  * PCIe EP PF Gen3 Control Register
  */
-union cavm_pcieep_phy_gen3_ctl
+union cavm_pcieepx_phy_gen3_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_phy_gen3_ctl_s
+    struct cavm_pcieepx_phy_gen3_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -5511,35 +5601,36 @@ union cavm_pcieep_phy_gen3_ctl
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_phy_gen3_ctl_s cn; */
+    /* struct cavm_pcieepx_phy_gen3_ctl_s cn; */
 };
-typedef union cavm_pcieep_phy_gen3_ctl cavm_pcieep_phy_gen3_ctl_t;
+typedef union cavm_pcieepx_phy_gen3_ctl cavm_pcieepx_phy_gen3_ctl_t;
 
-#define CAVM_PCIEEP_PHY_GEN3_CTL CAVM_PCIEEP_PHY_GEN3_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PHY_GEN3_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PHY_GEN3_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PHY_GEN3_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PHY_GEN3_CTL(uint64_t a)
 {
-    return 0x890;
+    if (a<=3)
+        return 0x890 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PHY_GEN3_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PHY_GEN3_CTL cavm_pcieep_phy_gen3_ctl_t
-#define bustype_CAVM_PCIEEP_PHY_GEN3_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PHY_GEN3_CTL "PCIEEP_PHY_GEN3_CTL"
-#define busnum_CAVM_PCIEEP_PHY_GEN3_CTL 0
-#define arguments_CAVM_PCIEEP_PHY_GEN3_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PHY_GEN3_CTL(a) cavm_pcieepx_phy_gen3_ctl_t
+#define bustype_CAVM_PCIEEPX_PHY_GEN3_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PHY_GEN3_CTL(a) "PCIEEPX_PHY_GEN3_CTL"
+#define busnum_CAVM_PCIEEPX_PHY_GEN3_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PHY_GEN3_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_phy_intop_ctl
+ * Register (PCICONFIGEP) pcieep#_phy_intop_ctl
  *
  * PHY Interoperability Control Register
  * This register is reserved for internal use.
  * You should not write to this register and change the default unless specifically
  * instructed by Synopsys support.
  */
-union cavm_pcieep_phy_intop_ctl
+union cavm_pcieepx_phy_intop_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_phy_intop_ctl_s
+    struct cavm_pcieepx_phy_intop_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
@@ -5595,32 +5686,33 @@ union cavm_pcieep_phy_intop_ctl
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_phy_intop_ctl_s cn; */
+    /* struct cavm_pcieepx_phy_intop_ctl_s cn; */
 };
-typedef union cavm_pcieep_phy_intop_ctl cavm_pcieep_phy_intop_ctl_t;
+typedef union cavm_pcieepx_phy_intop_ctl cavm_pcieepx_phy_intop_ctl_t;
 
-#define CAVM_PCIEEP_PHY_INTOP_CTL CAVM_PCIEEP_PHY_INTOP_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PHY_INTOP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PHY_INTOP_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PHY_INTOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PHY_INTOP_CTL(uint64_t a)
 {
-    return 0x8c4;
+    if (a<=3)
+        return 0x8c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PHY_INTOP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PHY_INTOP_CTL cavm_pcieep_phy_intop_ctl_t
-#define bustype_CAVM_PCIEEP_PHY_INTOP_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PHY_INTOP_CTL "PCIEEP_PHY_INTOP_CTL"
-#define busnum_CAVM_PCIEEP_PHY_INTOP_CTL 0
-#define arguments_CAVM_PCIEEP_PHY_INTOP_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PHY_INTOP_CTL(a) cavm_pcieepx_phy_intop_ctl_t
+#define bustype_CAVM_PCIEEPX_PHY_INTOP_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PHY_INTOP_CTL(a) "PCIEEPX_PHY_INTOP_CTL"
+#define busnum_CAVM_PCIEEPX_PHY_INTOP_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PHY_INTOP_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_phy_status
+ * Register (PCICONFIGEP) pcieep#_phy_status
  *
  * PCIe EP PF PHY Status Register
  */
-union cavm_pcieep_phy_status
+union cavm_pcieepx_phy_status
 {
     uint32_t u;
-    struct cavm_pcieep_phy_status_s
+    struct cavm_pcieepx_phy_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t phy_stat              : 32; /**< [ 31:  0](RO/H) PHY status.  Sideband control signaling (not supported). */
@@ -5628,32 +5720,33 @@ union cavm_pcieep_phy_status
         uint32_t phy_stat              : 32; /**< [ 31:  0](RO/H) PHY status.  Sideband control signaling (not supported). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_phy_status_s cn; */
+    /* struct cavm_pcieepx_phy_status_s cn; */
 };
-typedef union cavm_pcieep_phy_status cavm_pcieep_phy_status_t;
+typedef union cavm_pcieepx_phy_status cavm_pcieepx_phy_status_t;
 
-#define CAVM_PCIEEP_PHY_STATUS CAVM_PCIEEP_PHY_STATUS_FUNC()
-static inline uint64_t CAVM_PCIEEP_PHY_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PHY_STATUS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PHY_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PHY_STATUS(uint64_t a)
 {
-    return 0x810;
+    if (a<=3)
+        return 0x810 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PHY_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PHY_STATUS cavm_pcieep_phy_status_t
-#define bustype_CAVM_PCIEEP_PHY_STATUS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PHY_STATUS "PCIEEP_PHY_STATUS"
-#define busnum_CAVM_PCIEEP_PHY_STATUS 0
-#define arguments_CAVM_PCIEEP_PHY_STATUS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PHY_STATUS(a) cavm_pcieepx_phy_status_t
+#define bustype_CAVM_PCIEEPX_PHY_STATUS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PHY_STATUS(a) "PCIEEPX_PHY_STATUS"
+#define busnum_CAVM_PCIEEPX_PHY_STATUS(a) (a)
+#define arguments_CAVM_PCIEEPX_PHY_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pipe_rel
+ * Register (PCICONFIGEP) pcieep#_pipe_rel
  *
  * PCIe EP Pipe Related Register
  */
-union cavm_pcieep_pipe_rel
+union cavm_pcieepx_pipe_rel
 {
     uint32_t u;
-    struct cavm_pcieep_pipe_rel_s
+    struct cavm_pcieepx_pipe_rel_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
@@ -5685,33 +5778,34 @@ union cavm_pcieep_pipe_rel
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pipe_rel_s cn; */
+    /* struct cavm_pcieepx_pipe_rel_s cn; */
 };
-typedef union cavm_pcieep_pipe_rel cavm_pcieep_pipe_rel_t;
+typedef union cavm_pcieepx_pipe_rel cavm_pcieepx_pipe_rel_t;
 
-#define CAVM_PCIEEP_PIPE_REL CAVM_PCIEEP_PIPE_REL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PIPE_REL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PIPE_REL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PIPE_REL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PIPE_REL(uint64_t a)
 {
-    return 0xb90;
+    if (a<=3)
+        return 0xb90 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PIPE_REL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PIPE_REL cavm_pcieep_pipe_rel_t
-#define bustype_CAVM_PCIEEP_PIPE_REL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PIPE_REL "PCIEEP_PIPE_REL"
-#define busnum_CAVM_PCIEEP_PIPE_REL 0
-#define arguments_CAVM_PCIEEP_PIPE_REL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PIPE_REL(a) cavm_pcieepx_pipe_rel_t
+#define bustype_CAVM_PCIEEPX_PIPE_REL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PIPE_REL(a) "PCIEEPX_PIPE_REL"
+#define busnum_CAVM_PCIEEPX_PIPE_REL(a) (a)
+#define arguments_CAVM_PCIEEPX_PIPE_REL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_cap
+ * Register (PCICONFIGEP) pcieep#_pl16g_cap
  *
  * PCIe EP 16.0 GT/s Capabilities Register
  * Pysical Layer 16.0 GT/s Capabilities exists for PF0 only.
  */
-union cavm_pcieep_pl16g_cap
+union cavm_pcieepx_pl16g_cap
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_cap_s
+    struct cavm_pcieepx_pl16g_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_0_31         : 32;
@@ -5719,33 +5813,34 @@ union cavm_pcieep_pl16g_cap
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_cap_s cn; */
+    /* struct cavm_pcieepx_pl16g_cap_s cn; */
 };
-typedef union cavm_pcieep_pl16g_cap cavm_pcieep_pl16g_cap_t;
+typedef union cavm_pcieepx_pl16g_cap cavm_pcieepx_pl16g_cap_t;
 
-#define CAVM_PCIEEP_PL16G_CAP CAVM_PCIEEP_PL16G_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_CAP(uint64_t a)
 {
-    return 0x18c;
+    if (a<=3)
+        return 0x18c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_CAP cavm_pcieep_pl16g_cap_t
-#define bustype_CAVM_PCIEEP_PL16G_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_CAP "PCIEEP_PL16G_CAP"
-#define busnum_CAVM_PCIEEP_PL16G_CAP 0
-#define arguments_CAVM_PCIEEP_PL16G_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_CAP(a) cavm_pcieepx_pl16g_cap_t
+#define bustype_CAVM_PCIEEPX_PL16G_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_CAP(a) "PCIEEPX_PL16G_CAP"
+#define busnum_CAVM_PCIEEPX_PL16G_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_ctl
+ * Register (PCICONFIGEP) pcieep#_pl16g_ctl
  *
  * PCIe EP 16.0 GT/s Control Register
  * Pysical Layer 16.0 GT/s Control exists for PF0 only.
  */
-union cavm_pcieep_pl16g_ctl
+union cavm_pcieepx_pl16g_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_ctl_s
+    struct cavm_pcieepx_pl16g_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_0_31         : 32;
@@ -5753,34 +5848,35 @@ union cavm_pcieep_pl16g_ctl
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_ctl_s cn; */
+    /* struct cavm_pcieepx_pl16g_ctl_s cn; */
 };
-typedef union cavm_pcieep_pl16g_ctl cavm_pcieep_pl16g_ctl_t;
+typedef union cavm_pcieepx_pl16g_ctl cavm_pcieepx_pl16g_ctl_t;
 
-#define CAVM_PCIEEP_PL16G_CTL CAVM_PCIEEP_PL16G_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_CTL(uint64_t a)
 {
-    return 0x190;
+    if (a<=3)
+        return 0x190 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_CTL cavm_pcieep_pl16g_ctl_t
-#define bustype_CAVM_PCIEEP_PL16G_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_CTL "PCIEEP_PL16G_CTL"
-#define busnum_CAVM_PCIEEP_PL16G_CTL 0
-#define arguments_CAVM_PCIEEP_PL16G_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_CTL(a) cavm_pcieepx_pl16g_ctl_t
+#define bustype_CAVM_PCIEEPX_PL16G_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_CTL(a) "PCIEEPX_PL16G_CTL"
+#define busnum_CAVM_PCIEEPX_PL16G_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_eq_ctl0123
+ * Register (PCICONFIGEP) pcieep#_pl16g_eq_ctl0123
  *
  * PCIe EP 16.0 GT/s Lane Equalization Control for Lane 0-3 Register
  * This register is for debug and diagnostics.
  * This register exists for PF0 only.
  */
-union cavm_pcieep_pl16g_eq_ctl0123
+union cavm_pcieepx_pl16g_eq_ctl0123
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_eq_ctl0123_s
+    struct cavm_pcieepx_pl16g_eq_ctl0123_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t l3utp                 : 4;  /**< [ 31: 28](RO/H) Captured transmit hint which will be used during GEN3 Phase 0/1. */
@@ -5802,33 +5898,34 @@ union cavm_pcieep_pl16g_eq_ctl0123
         uint32_t l3utp                 : 4;  /**< [ 31: 28](RO/H) Captured transmit hint which will be used during GEN3 Phase 0/1. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_eq_ctl0123_s cn; */
+    /* struct cavm_pcieepx_pl16g_eq_ctl0123_s cn; */
 };
-typedef union cavm_pcieep_pl16g_eq_ctl0123 cavm_pcieep_pl16g_eq_ctl0123_t;
+typedef union cavm_pcieepx_pl16g_eq_ctl0123 cavm_pcieepx_pl16g_eq_ctl0123_t;
 
-#define CAVM_PCIEEP_PL16G_EQ_CTL0123 CAVM_PCIEEP_PL16G_EQ_CTL0123_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_EQ_CTL0123_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_EQ_CTL0123_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_EQ_CTL0123(uint64_t a)
 {
-    return 0x1a8;
+    if (a<=3)
+        return 0x1a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_EQ_CTL0123 cavm_pcieep_pl16g_eq_ctl0123_t
-#define bustype_CAVM_PCIEEP_PL16G_EQ_CTL0123 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_EQ_CTL0123 "PCIEEP_PL16G_EQ_CTL0123"
-#define busnum_CAVM_PCIEEP_PL16G_EQ_CTL0123 0
-#define arguments_CAVM_PCIEEP_PL16G_EQ_CTL0123 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_EQ_CTL0123(a) cavm_pcieepx_pl16g_eq_ctl0123_t
+#define bustype_CAVM_PCIEEPX_PL16G_EQ_CTL0123(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_EQ_CTL0123(a) "PCIEEPX_PL16G_EQ_CTL0123"
+#define busnum_CAVM_PCIEEPX_PL16G_EQ_CTL0123(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_EQ_CTL0123(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_ext_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_pl16g_ext_cap_hdr
  *
  * PCIe EP Pysical Layer 16.0 GT/s Extended Capability Header Register
  * Pysical Layer 16.0 GT/s Extended Capability Header exists for PF0 only.
  */
-union cavm_pcieep_pl16g_ext_cap_hdr
+union cavm_pcieepx_pl16g_ext_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_ext_cap_hdr_s
+    struct cavm_pcieepx_pl16g_ext_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -5846,33 +5943,34 @@ union cavm_pcieep_pl16g_ext_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_ext_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_pl16g_ext_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_pl16g_ext_cap_hdr cavm_pcieep_pl16g_ext_cap_hdr_t;
+typedef union cavm_pcieepx_pl16g_ext_cap_hdr cavm_pcieepx_pl16g_ext_cap_hdr_t;
 
-#define CAVM_PCIEEP_PL16G_EXT_CAP_HDR CAVM_PCIEEP_PL16G_EXT_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_EXT_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_EXT_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(uint64_t a)
 {
-    return 0x188;
+    if (a<=3)
+        return 0x188 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_EXT_CAP_HDR cavm_pcieep_pl16g_ext_cap_hdr_t
-#define bustype_CAVM_PCIEEP_PL16G_EXT_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_EXT_CAP_HDR "PCIEEP_PL16G_EXT_CAP_HDR"
-#define busnum_CAVM_PCIEEP_PL16G_EXT_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_PL16G_EXT_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(a) cavm_pcieepx_pl16g_ext_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(a) "PCIEEPX_PL16G_EXT_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_fret_dpar_stat
+ * Register (PCICONFIGEP) pcieep#_pl16g_fret_dpar_stat
  *
  * PCIe EP 16.0 GT/s First Retimer Data Parity Mismatch Status Register
  * Pysical Layer 16.0 GT/s First Retimer Data Parity Mismatch Status exists for PF0 only.
  */
-union cavm_pcieep_pl16g_fret_dpar_stat
+union cavm_pcieepx_pl16g_fret_dpar_stat
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_fret_dpar_stat_s
+    struct cavm_pcieepx_pl16g_fret_dpar_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -5882,33 +5980,34 @@ union cavm_pcieep_pl16g_fret_dpar_stat
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_fret_dpar_stat_s cn; */
+    /* struct cavm_pcieepx_pl16g_fret_dpar_stat_s cn; */
 };
-typedef union cavm_pcieep_pl16g_fret_dpar_stat cavm_pcieep_pl16g_fret_dpar_stat_t;
+typedef union cavm_pcieepx_pl16g_fret_dpar_stat cavm_pcieepx_pl16g_fret_dpar_stat_t;
 
-#define CAVM_PCIEEP_PL16G_FRET_DPAR_STAT CAVM_PCIEEP_PL16G_FRET_DPAR_STAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_FRET_DPAR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_FRET_DPAR_STAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(uint64_t a)
 {
-    return 0x19c;
+    if (a<=3)
+        return 0x19c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_FRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_FRET_DPAR_STAT cavm_pcieep_pl16g_fret_dpar_stat_t
-#define bustype_CAVM_PCIEEP_PL16G_FRET_DPAR_STAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_FRET_DPAR_STAT "PCIEEP_PL16G_FRET_DPAR_STAT"
-#define busnum_CAVM_PCIEEP_PL16G_FRET_DPAR_STAT 0
-#define arguments_CAVM_PCIEEP_PL16G_FRET_DPAR_STAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(a) cavm_pcieepx_pl16g_fret_dpar_stat_t
+#define bustype_CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(a) "PCIEEPX_PL16G_FRET_DPAR_STAT"
+#define busnum_CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_lc_dpar_stat
+ * Register (PCICONFIGEP) pcieep#_pl16g_lc_dpar_stat
  *
  * PCIe EP 16.0 GT/s Local Data Parity Mismatch Status Register
  * Pysical Layer 16.0 GT/s Local Data Parity Mismatch Status exists for PF0 only.
  */
-union cavm_pcieep_pl16g_lc_dpar_stat
+union cavm_pcieepx_pl16g_lc_dpar_stat
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_lc_dpar_stat_s
+    struct cavm_pcieepx_pl16g_lc_dpar_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -5918,33 +6017,34 @@ union cavm_pcieep_pl16g_lc_dpar_stat
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_lc_dpar_stat_s cn; */
+    /* struct cavm_pcieepx_pl16g_lc_dpar_stat_s cn; */
 };
-typedef union cavm_pcieep_pl16g_lc_dpar_stat cavm_pcieep_pl16g_lc_dpar_stat_t;
+typedef union cavm_pcieepx_pl16g_lc_dpar_stat cavm_pcieepx_pl16g_lc_dpar_stat_t;
 
-#define CAVM_PCIEEP_PL16G_LC_DPAR_STAT CAVM_PCIEEP_PL16G_LC_DPAR_STAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_LC_DPAR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_LC_DPAR_STAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(uint64_t a)
 {
-    return 0x198;
+    if (a<=3)
+        return 0x198 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_LC_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_LC_DPAR_STAT cavm_pcieep_pl16g_lc_dpar_stat_t
-#define bustype_CAVM_PCIEEP_PL16G_LC_DPAR_STAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_LC_DPAR_STAT "PCIEEP_PL16G_LC_DPAR_STAT"
-#define busnum_CAVM_PCIEEP_PL16G_LC_DPAR_STAT 0
-#define arguments_CAVM_PCIEEP_PL16G_LC_DPAR_STAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(a) cavm_pcieepx_pl16g_lc_dpar_stat_t
+#define bustype_CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(a) "PCIEEPX_PL16G_LC_DPAR_STAT"
+#define busnum_CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_sret_dpar_stat
+ * Register (PCICONFIGEP) pcieep#_pl16g_sret_dpar_stat
  *
  * PCIe EP 16.0 GT/s Second Retimer Data Parity Mismatch Status Register
  * Pysical Layer 16.0 GT/s Second Retimer Data Parity Mismatch Status exists for PF0 only.
  */
-union cavm_pcieep_pl16g_sret_dpar_stat
+union cavm_pcieepx_pl16g_sret_dpar_stat
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_sret_dpar_stat_s
+    struct cavm_pcieepx_pl16g_sret_dpar_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -5954,33 +6054,34 @@ union cavm_pcieep_pl16g_sret_dpar_stat
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_sret_dpar_stat_s cn; */
+    /* struct cavm_pcieepx_pl16g_sret_dpar_stat_s cn; */
 };
-typedef union cavm_pcieep_pl16g_sret_dpar_stat cavm_pcieep_pl16g_sret_dpar_stat_t;
+typedef union cavm_pcieepx_pl16g_sret_dpar_stat cavm_pcieepx_pl16g_sret_dpar_stat_t;
 
-#define CAVM_PCIEEP_PL16G_SRET_DPAR_STAT CAVM_PCIEEP_PL16G_SRET_DPAR_STAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_SRET_DPAR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_SRET_DPAR_STAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(uint64_t a)
 {
-    return 0x1a0;
+    if (a<=3)
+        return 0x1a0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_SRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_SRET_DPAR_STAT cavm_pcieep_pl16g_sret_dpar_stat_t
-#define bustype_CAVM_PCIEEP_PL16G_SRET_DPAR_STAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_SRET_DPAR_STAT "PCIEEP_PL16G_SRET_DPAR_STAT"
-#define busnum_CAVM_PCIEEP_PL16G_SRET_DPAR_STAT 0
-#define arguments_CAVM_PCIEEP_PL16G_SRET_DPAR_STAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(a) cavm_pcieepx_pl16g_sret_dpar_stat_t
+#define bustype_CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(a) "PCIEEPX_PL16G_SRET_DPAR_STAT"
+#define busnum_CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl16g_status
+ * Register (PCICONFIGEP) pcieep#_pl16g_status
  *
  * PCIe EP 16.0 GT/s Status Register
  * Pysical Layer 16.0 GT/s Status exists for PF0 only.
  */
-union cavm_pcieep_pl16g_status
+union cavm_pcieepx_pl16g_status
 {
     uint32_t u;
-    struct cavm_pcieep_pl16g_status_s
+    struct cavm_pcieepx_pl16g_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
@@ -6000,32 +6101,33 @@ union cavm_pcieep_pl16g_status
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl16g_status_s cn; */
+    /* struct cavm_pcieepx_pl16g_status_s cn; */
 };
-typedef union cavm_pcieep_pl16g_status cavm_pcieep_pl16g_status_t;
+typedef union cavm_pcieepx_pl16g_status cavm_pcieepx_pl16g_status_t;
 
-#define CAVM_PCIEEP_PL16G_STATUS CAVM_PCIEEP_PL16G_STATUS_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL16G_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL16G_STATUS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL16G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL16G_STATUS(uint64_t a)
 {
-    return 0x194;
+    if (a<=3)
+        return 0x194 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL16G_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL16G_STATUS cavm_pcieep_pl16g_status_t
-#define bustype_CAVM_PCIEEP_PL16G_STATUS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL16G_STATUS "PCIEEP_PL16G_STATUS"
-#define busnum_CAVM_PCIEEP_PL16G_STATUS 0
-#define arguments_CAVM_PCIEEP_PL16G_STATUS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL16G_STATUS(a) cavm_pcieepx_pl16g_status_t
+#define bustype_CAVM_PCIEEPX_PL16G_STATUS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL16G_STATUS(a) "PCIEEPX_PL16G_STATUS"
+#define busnum_CAVM_PCIEEPX_PL16G_STATUS(a) (a)
+#define arguments_CAVM_PCIEEPX_PL16G_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_cap
+ * Register (PCICONFIGEP) pcieep#_pl32g_cap
  *
  * PCIe EP 32.0 GT/s Capabilities Register
  */
-union cavm_pcieep_pl32g_cap
+union cavm_pcieepx_pl32g_cap
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_cap_s
+    struct cavm_pcieepx_pl32g_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -6049,32 +6151,33 @@ union cavm_pcieep_pl32g_cap
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_cap_s cn; */
+    /* struct cavm_pcieepx_pl32g_cap_s cn; */
 };
-typedef union cavm_pcieep_pl32g_cap cavm_pcieep_pl32g_cap_t;
+typedef union cavm_pcieepx_pl32g_cap cavm_pcieepx_pl32g_cap_t;
 
-#define CAVM_PCIEEP_PL32G_CAP CAVM_PCIEEP_PL32G_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_CAP(uint64_t a)
 {
-    return 0x1c8;
+    if (a<=3)
+        return 0x1c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_CAP cavm_pcieep_pl32g_cap_t
-#define bustype_CAVM_PCIEEP_PL32G_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_CAP "PCIEEP_PL32G_CAP"
-#define busnum_CAVM_PCIEEP_PL32G_CAP 0
-#define arguments_CAVM_PCIEEP_PL32G_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_CAP(a) cavm_pcieepx_pl32g_cap_t
+#define bustype_CAVM_PCIEEPX_PL32G_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_CAP(a) "PCIEEPX_PL32G_CAP"
+#define busnum_CAVM_PCIEEPX_PL32G_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_ctl
+ * Register (PCICONFIGEP) pcieep#_pl32g_ctl
  *
  * PCIe EP 32.0 GT/s Control Register
  */
-union cavm_pcieep_pl32g_ctl
+union cavm_pcieepx_pl32g_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_ctl_s
+    struct cavm_pcieepx_pl32g_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_11_31        : 21;
@@ -6090,32 +6193,33 @@ union cavm_pcieep_pl32g_ctl
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_ctl_s cn; */
+    /* struct cavm_pcieepx_pl32g_ctl_s cn; */
 };
-typedef union cavm_pcieep_pl32g_ctl cavm_pcieep_pl32g_ctl_t;
+typedef union cavm_pcieepx_pl32g_ctl cavm_pcieepx_pl32g_ctl_t;
 
-#define CAVM_PCIEEP_PL32G_CTL CAVM_PCIEEP_PL32G_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_CTL(uint64_t a)
 {
-    return 0x1cc;
+    if (a<=3)
+        return 0x1cc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_CTL cavm_pcieep_pl32g_ctl_t
-#define bustype_CAVM_PCIEEP_PL32G_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_CTL "PCIEEP_PL32G_CTL"
-#define busnum_CAVM_PCIEEP_PL32G_CTL 0
-#define arguments_CAVM_PCIEEP_PL32G_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_CTL(a) cavm_pcieepx_pl32g_ctl_t
+#define bustype_CAVM_PCIEEPX_PL32G_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_CTL(a) "PCIEEPX_PL32G_CTL"
+#define busnum_CAVM_PCIEEPX_PL32G_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_eq_ctl0123
+ * Register (PCICONFIGEP) pcieep#_pl32g_eq_ctl0123
  *
  * PCIe EP 32.0 GT/s Equalization Control Lane 0/12/3 Register
  */
-union cavm_pcieep_pl32g_eq_ctl0123
+union cavm_pcieepx_pl32g_eq_ctl0123
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_eq_ctl0123_s
+    struct cavm_pcieepx_pl32g_eq_ctl0123_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t l3utp                 : 4;  /**< [ 31: 28](RO) Upstream port 32.0 GT/s transmitter preset 3. */
@@ -6137,32 +6241,33 @@ union cavm_pcieep_pl32g_eq_ctl0123
         uint32_t l3utp                 : 4;  /**< [ 31: 28](RO) Upstream port 32.0 GT/s transmitter preset 3. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_eq_ctl0123_s cn; */
+    /* struct cavm_pcieepx_pl32g_eq_ctl0123_s cn; */
 };
-typedef union cavm_pcieep_pl32g_eq_ctl0123 cavm_pcieep_pl32g_eq_ctl0123_t;
+typedef union cavm_pcieepx_pl32g_eq_ctl0123 cavm_pcieepx_pl32g_eq_ctl0123_t;
 
-#define CAVM_PCIEEP_PL32G_EQ_CTL0123 CAVM_PCIEEP_PL32G_EQ_CTL0123_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_EQ_CTL0123_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_EQ_CTL0123_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_EQ_CTL0123(uint64_t a)
 {
-    return 0x1e4;
+    if (a<=3)
+        return 0x1e4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_EQ_CTL0123 cavm_pcieep_pl32g_eq_ctl0123_t
-#define bustype_CAVM_PCIEEP_PL32G_EQ_CTL0123 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_EQ_CTL0123 "PCIEEP_PL32G_EQ_CTL0123"
-#define busnum_CAVM_PCIEEP_PL32G_EQ_CTL0123 0
-#define arguments_CAVM_PCIEEP_PL32G_EQ_CTL0123 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_EQ_CTL0123(a) cavm_pcieepx_pl32g_eq_ctl0123_t
+#define bustype_CAVM_PCIEEPX_PL32G_EQ_CTL0123(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_EQ_CTL0123(a) "PCIEEPX_PL32G_EQ_CTL0123"
+#define busnum_CAVM_PCIEEPX_PL32G_EQ_CTL0123(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_EQ_CTL0123(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_ext_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_pl32g_ext_cap_hdr
  *
  * PCIe EP Pysical Layer 32.0 GT/s Extended Capability Header Register
  */
-union cavm_pcieep_pl32g_ext_cap_hdr
+union cavm_pcieepx_pl32g_ext_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_ext_cap_hdr_s
+    struct cavm_pcieepx_pl32g_ext_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -6180,32 +6285,33 @@ union cavm_pcieep_pl32g_ext_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_ext_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_pl32g_ext_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_pl32g_ext_cap_hdr cavm_pcieep_pl32g_ext_cap_hdr_t;
+typedef union cavm_pcieepx_pl32g_ext_cap_hdr cavm_pcieepx_pl32g_ext_cap_hdr_t;
 
-#define CAVM_PCIEEP_PL32G_EXT_CAP_HDR CAVM_PCIEEP_PL32G_EXT_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_EXT_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_EXT_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(uint64_t a)
 {
-    return 0x1c4;
+    if (a<=3)
+        return 0x1c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_EXT_CAP_HDR cavm_pcieep_pl32g_ext_cap_hdr_t
-#define bustype_CAVM_PCIEEP_PL32G_EXT_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_EXT_CAP_HDR "PCIEEP_PL32G_EXT_CAP_HDR"
-#define busnum_CAVM_PCIEEP_PL32G_EXT_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_PL32G_EXT_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(a) cavm_pcieepx_pl32g_ext_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(a) "PCIEEPX_PL32G_EXT_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_rmod_ts_data1
+ * Register (PCICONFIGEP) pcieep#_pl32g_rmod_ts_data1
  *
  * PCIe EP 32.0 GT/s Received Modified TS Data 1 Register
  */
-union cavm_pcieep_pl32g_rmod_ts_data1
+union cavm_pcieepx_pl32g_rmod_ts_data1
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_rmod_ts_data1_s
+    struct cavm_pcieepx_pl32g_rmod_ts_data1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rcvd_mod_ts_vend_id   : 16; /**< [ 31: 16](RO/H) Received Modified TS Vendor ID.
@@ -6245,32 +6351,33 @@ union cavm_pcieep_pl32g_rmod_ts_data1
                                                                  _ Bits \<7:0\> = contain the value of Synbol 11. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_rmod_ts_data1_s cn; */
+    /* struct cavm_pcieepx_pl32g_rmod_ts_data1_s cn; */
 };
-typedef union cavm_pcieep_pl32g_rmod_ts_data1 cavm_pcieep_pl32g_rmod_ts_data1_t;
+typedef union cavm_pcieepx_pl32g_rmod_ts_data1 cavm_pcieepx_pl32g_rmod_ts_data1_t;
 
-#define CAVM_PCIEEP_PL32G_RMOD_TS_DATA1 CAVM_PCIEEP_PL32G_RMOD_TS_DATA1_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_RMOD_TS_DATA1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_RMOD_TS_DATA1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(uint64_t a)
 {
-    return 0x1d4;
+    if (a<=3)
+        return 0x1d4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_RMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_RMOD_TS_DATA1 cavm_pcieep_pl32g_rmod_ts_data1_t
-#define bustype_CAVM_PCIEEP_PL32G_RMOD_TS_DATA1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_RMOD_TS_DATA1 "PCIEEP_PL32G_RMOD_TS_DATA1"
-#define busnum_CAVM_PCIEEP_PL32G_RMOD_TS_DATA1 0
-#define arguments_CAVM_PCIEEP_PL32G_RMOD_TS_DATA1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(a) cavm_pcieepx_pl32g_rmod_ts_data1_t
+#define bustype_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(a) "PCIEEPX_PL32G_RMOD_TS_DATA1"
+#define busnum_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_rmod_ts_data2
+ * Register (PCICONFIGEP) pcieep#_pl32g_rmod_ts_data2
  *
  * PCIe EP 32.0 GT/s Received Modified TS Data 2 Register
  */
-union cavm_pcieep_pl32g_rmod_ts_data2
+union cavm_pcieepx_pl32g_rmod_ts_data2
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_rmod_ts_data2_s
+    struct cavm_pcieepx_pl32g_rmod_ts_data2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -6308,32 +6415,33 @@ union cavm_pcieep_pl32g_rmod_ts_data2
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_rmod_ts_data2_s cn; */
+    /* struct cavm_pcieepx_pl32g_rmod_ts_data2_s cn; */
 };
-typedef union cavm_pcieep_pl32g_rmod_ts_data2 cavm_pcieep_pl32g_rmod_ts_data2_t;
+typedef union cavm_pcieepx_pl32g_rmod_ts_data2 cavm_pcieepx_pl32g_rmod_ts_data2_t;
 
-#define CAVM_PCIEEP_PL32G_RMOD_TS_DATA2 CAVM_PCIEEP_PL32G_RMOD_TS_DATA2_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_RMOD_TS_DATA2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_RMOD_TS_DATA2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(uint64_t a)
 {
-    return 0x1d8;
+    if (a<=3)
+        return 0x1d8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_RMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_RMOD_TS_DATA2 cavm_pcieep_pl32g_rmod_ts_data2_t
-#define bustype_CAVM_PCIEEP_PL32G_RMOD_TS_DATA2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_RMOD_TS_DATA2 "PCIEEP_PL32G_RMOD_TS_DATA2"
-#define busnum_CAVM_PCIEEP_PL32G_RMOD_TS_DATA2 0
-#define arguments_CAVM_PCIEEP_PL32G_RMOD_TS_DATA2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(a) cavm_pcieepx_pl32g_rmod_ts_data2_t
+#define bustype_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(a) "PCIEEPX_PL32G_RMOD_TS_DATA2"
+#define busnum_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_status
+ * Register (PCICONFIGEP) pcieep#_pl32g_status
  *
  * PCIe EP 32.0 GT/s Status Register
  */
-union cavm_pcieep_pl32g_status
+union cavm_pcieepx_pl32g_status
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_status_s
+    struct cavm_pcieepx_pl32g_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_11_31        : 21;
@@ -6389,32 +6497,33 @@ union cavm_pcieep_pl32g_status
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_status_s cn; */
+    /* struct cavm_pcieepx_pl32g_status_s cn; */
 };
-typedef union cavm_pcieep_pl32g_status cavm_pcieep_pl32g_status_t;
+typedef union cavm_pcieepx_pl32g_status cavm_pcieepx_pl32g_status_t;
 
-#define CAVM_PCIEEP_PL32G_STATUS CAVM_PCIEEP_PL32G_STATUS_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_STATUS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_STATUS(uint64_t a)
 {
-    return 0x1d0;
+    if (a<=3)
+        return 0x1d0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_STATUS cavm_pcieep_pl32g_status_t
-#define bustype_CAVM_PCIEEP_PL32G_STATUS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_STATUS "PCIEEP_PL32G_STATUS"
-#define busnum_CAVM_PCIEEP_PL32G_STATUS 0
-#define arguments_CAVM_PCIEEP_PL32G_STATUS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_STATUS(a) cavm_pcieepx_pl32g_status_t
+#define bustype_CAVM_PCIEEPX_PL32G_STATUS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_STATUS(a) "PCIEEPX_PL32G_STATUS"
+#define busnum_CAVM_PCIEEPX_PL32G_STATUS(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_tmod_ts_data1
+ * Register (PCICONFIGEP) pcieep#_pl32g_tmod_ts_data1
  *
  * PCIe EP 32.0 GT/s Transmitted Modified TS Data 1 Register
  */
-union cavm_pcieep_pl32g_tmod_ts_data1
+union cavm_pcieepx_pl32g_tmod_ts_data1
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_tmod_ts_data1_s
+    struct cavm_pcieepx_pl32g_tmod_ts_data1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t tx_mod_ts_vend_id     : 16; /**< [ 31: 16](RO/H) Transmitted Modified TS Vendor ID.
@@ -6460,32 +6569,33 @@ union cavm_pcieep_pl32g_tmod_ts_data1
                                                                  _ Bits \<7:0\> = contain the value of Synbol 11. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_tmod_ts_data1_s cn; */
+    /* struct cavm_pcieepx_pl32g_tmod_ts_data1_s cn; */
 };
-typedef union cavm_pcieep_pl32g_tmod_ts_data1 cavm_pcieep_pl32g_tmod_ts_data1_t;
+typedef union cavm_pcieepx_pl32g_tmod_ts_data1 cavm_pcieepx_pl32g_tmod_ts_data1_t;
 
-#define CAVM_PCIEEP_PL32G_TMOD_TS_DATA1 CAVM_PCIEEP_PL32G_TMOD_TS_DATA1_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_TMOD_TS_DATA1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_TMOD_TS_DATA1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(uint64_t a)
 {
-    return 0x1dc;
+    if (a<=3)
+        return 0x1dc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_TMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_TMOD_TS_DATA1 cavm_pcieep_pl32g_tmod_ts_data1_t
-#define bustype_CAVM_PCIEEP_PL32G_TMOD_TS_DATA1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_TMOD_TS_DATA1 "PCIEEP_PL32G_TMOD_TS_DATA1"
-#define busnum_CAVM_PCIEEP_PL32G_TMOD_TS_DATA1 0
-#define arguments_CAVM_PCIEEP_PL32G_TMOD_TS_DATA1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(a) cavm_pcieepx_pl32g_tmod_ts_data1_t
+#define bustype_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(a) "PCIEEPX_PL32G_TMOD_TS_DATA1"
+#define busnum_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl32g_tmod_ts_data2
+ * Register (PCICONFIGEP) pcieep#_pl32g_tmod_ts_data2
  *
  * PCIe EP 32.0 GT/s Transmitted Modified TS Data 2 Register
  */
-union cavm_pcieep_pl32g_tmod_ts_data2
+union cavm_pcieepx_pl32g_tmod_ts_data2
 {
     uint32_t u;
-    struct cavm_pcieep_pl32g_tmod_ts_data2_s
+    struct cavm_pcieepx_pl32g_tmod_ts_data2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -6525,25 +6635,26 @@ union cavm_pcieep_pl32g_tmod_ts_data2
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl32g_tmod_ts_data2_s cn; */
+    /* struct cavm_pcieepx_pl32g_tmod_ts_data2_s cn; */
 };
-typedef union cavm_pcieep_pl32g_tmod_ts_data2 cavm_pcieep_pl32g_tmod_ts_data2_t;
+typedef union cavm_pcieepx_pl32g_tmod_ts_data2 cavm_pcieepx_pl32g_tmod_ts_data2_t;
 
-#define CAVM_PCIEEP_PL32G_TMOD_TS_DATA2 CAVM_PCIEEP_PL32G_TMOD_TS_DATA2_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL32G_TMOD_TS_DATA2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL32G_TMOD_TS_DATA2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(uint64_t a)
 {
-    return 0x1e0;
+    if (a<=3)
+        return 0x1e0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL32G_TMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL32G_TMOD_TS_DATA2 cavm_pcieep_pl32g_tmod_ts_data2_t
-#define bustype_CAVM_PCIEEP_PL32G_TMOD_TS_DATA2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL32G_TMOD_TS_DATA2 "PCIEEP_PL32G_TMOD_TS_DATA2"
-#define busnum_CAVM_PCIEEP_PL32G_TMOD_TS_DATA2 0
-#define arguments_CAVM_PCIEEP_PL32G_TMOD_TS_DATA2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(a) cavm_pcieepx_pl32g_tmod_ts_data2_t
+#define bustype_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(a) "PCIEEPX_PL32G_TMOD_TS_DATA2"
+#define busnum_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(a) (a)
+#define arguments_CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pl_ltr_lat
+ * Register (PCICONFIGEP) pcieep#_pl_ltr_lat
  *
  * PCIe EP PF LTR Latency Register
  * For an upstream port, the register fields capture the corresponding fields in the
@@ -6551,10 +6662,10 @@ static inline uint64_t CAVM_PCIEEP_PL32G_TMOD_TS_DATA2_FUNC(void)
  * fields capture the corresponding fields in the LTR messages that are received by the port.
  * The full content of the register is reflected on the app_ltr_latency output.
  */
-union cavm_pcieep_pl_ltr_lat
+union cavm_pcieepx_pl_ltr_lat
 {
     uint32_t u;
-    struct cavm_pcieep_pl_ltr_lat_s
+    struct cavm_pcieepx_pl_ltr_lat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nslr                  : 1;  /**< [ 31: 31](R/W) No snoop latency requirement. */
@@ -6576,32 +6687,33 @@ union cavm_pcieep_pl_ltr_lat
         uint32_t nslr                  : 1;  /**< [ 31: 31](R/W) No snoop latency requirement. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pl_ltr_lat_s cn; */
+    /* struct cavm_pcieepx_pl_ltr_lat_s cn; */
 };
-typedef union cavm_pcieep_pl_ltr_lat cavm_pcieep_pl_ltr_lat_t;
+typedef union cavm_pcieepx_pl_ltr_lat cavm_pcieepx_pl_ltr_lat_t;
 
-#define CAVM_PCIEEP_PL_LTR_LAT CAVM_PCIEEP_PL_LTR_LAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_PL_LTR_LAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PL_LTR_LAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PL_LTR_LAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PL_LTR_LAT(uint64_t a)
 {
-    return 0xb30;
+    if (a<=3)
+        return 0xb30 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PL_LTR_LAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PL_LTR_LAT cavm_pcieep_pl_ltr_lat_t
-#define bustype_CAVM_PCIEEP_PL_LTR_LAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PL_LTR_LAT "PCIEEP_PL_LTR_LAT"
-#define busnum_CAVM_PCIEEP_PL_LTR_LAT 0
-#define arguments_CAVM_PCIEEP_PL_LTR_LAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PL_LTR_LAT(a) cavm_pcieepx_pl_ltr_lat_t
+#define bustype_CAVM_PCIEEPX_PL_LTR_LAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PL_LTR_LAT(a) "PCIEEPX_PL_LTR_LAT"
+#define busnum_CAVM_PCIEEPX_PL_LTR_LAT(a) (a)
+#define arguments_CAVM_PCIEEPX_PL_LTR_LAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pm_cap_id
+ * Register (PCICONFIGEP) pcieep#_pm_cap_id
  *
  * PCIe EP PF Power Management Capability ID Register
  */
-union cavm_pcieep_pm_cap_id
+union cavm_pcieepx_pm_cap_id
 {
     uint32_t u;
-    struct cavm_pcieep_pm_cap_id_s
+    struct cavm_pcieepx_pm_cap_id_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
@@ -6657,32 +6769,33 @@ union cavm_pcieep_pm_cap_id
                                                                  This field is writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pm_cap_id_s cn; */
+    /* struct cavm_pcieepx_pm_cap_id_s cn; */
 };
-typedef union cavm_pcieep_pm_cap_id cavm_pcieep_pm_cap_id_t;
+typedef union cavm_pcieepx_pm_cap_id cavm_pcieepx_pm_cap_id_t;
 
-#define CAVM_PCIEEP_PM_CAP_ID CAVM_PCIEEP_PM_CAP_ID_FUNC()
-static inline uint64_t CAVM_PCIEEP_PM_CAP_ID_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PM_CAP_ID_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PM_CAP_ID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PM_CAP_ID(uint64_t a)
 {
-    return 0x40;
+    if (a<=3)
+        return 0x40 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PM_CAP_ID", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PM_CAP_ID cavm_pcieep_pm_cap_id_t
-#define bustype_CAVM_PCIEEP_PM_CAP_ID CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PM_CAP_ID "PCIEEP_PM_CAP_ID"
-#define busnum_CAVM_PCIEEP_PM_CAP_ID 0
-#define arguments_CAVM_PCIEEP_PM_CAP_ID -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PM_CAP_ID(a) cavm_pcieepx_pm_cap_id_t
+#define bustype_CAVM_PCIEEPX_PM_CAP_ID(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PM_CAP_ID(a) "PCIEEPX_PM_CAP_ID"
+#define busnum_CAVM_PCIEEPX_PM_CAP_ID(a) (a)
+#define arguments_CAVM_PCIEEPX_PM_CAP_ID(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_pm_ctl
+ * Register (PCICONFIGEP) pcieep#_pm_ctl
  *
  * PCIe EP PF Power Management Control and Status Register
  */
-union cavm_pcieep_pm_ctl
+union cavm_pcieepx_pm_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_pm_ctl_s
+    struct cavm_pcieepx_pm_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pmdia                 : 8;  /**< [ 31: 24](RO) Data register for additional information (not supported). */
@@ -6724,32 +6837,33 @@ union cavm_pcieep_pm_ctl
         uint32_t pmdia                 : 8;  /**< [ 31: 24](RO) Data register for additional information (not supported). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_pm_ctl_s cn; */
+    /* struct cavm_pcieepx_pm_ctl_s cn; */
 };
-typedef union cavm_pcieep_pm_ctl cavm_pcieep_pm_ctl_t;
+typedef union cavm_pcieepx_pm_ctl cavm_pcieepx_pm_ctl_t;
 
-#define CAVM_PCIEEP_PM_CTL CAVM_PCIEEP_PM_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PM_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PM_CTL(uint64_t a)
 {
-    return 0x44;
+    if (a<=3)
+        return 0x44 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PM_CTL cavm_pcieep_pm_ctl_t
-#define bustype_CAVM_PCIEEP_PM_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PM_CTL "PCIEEP_PM_CTL"
-#define busnum_CAVM_PCIEEP_PM_CTL 0
-#define arguments_CAVM_PCIEEP_PM_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PM_CTL(a) cavm_pcieepx_pm_ctl_t
+#define bustype_CAVM_PCIEEPX_PM_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PM_CTL(a) "PCIEEPX_PM_CTL"
+#define busnum_CAVM_PCIEEPX_PM_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PM_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_port_ctl
+ * Register (PCICONFIGEP) pcieep#_port_ctl
  *
  * PCIe EP PF Port Link Control Register
  */
-union cavm_pcieep_port_ctl
+union cavm_pcieepx_port_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_port_ctl_s
+    struct cavm_pcieepx_port_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -6841,32 +6955,33 @@ union cavm_pcieep_port_ctl
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_port_ctl_s cn; */
+    /* struct cavm_pcieepx_port_ctl_s cn; */
 };
-typedef union cavm_pcieep_port_ctl cavm_pcieep_port_ctl_t;
+typedef union cavm_pcieepx_port_ctl cavm_pcieepx_port_ctl_t;
 
-#define CAVM_PCIEEP_PORT_CTL CAVM_PCIEEP_PORT_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PORT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PORT_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PORT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PORT_CTL(uint64_t a)
 {
-    return 0x710;
+    if (a<=3)
+        return 0x710 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PORT_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PORT_CTL cavm_pcieep_port_ctl_t
-#define bustype_CAVM_PCIEEP_PORT_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PORT_CTL "PCIEEP_PORT_CTL"
-#define busnum_CAVM_PCIEEP_PORT_CTL 0
-#define arguments_CAVM_PCIEEP_PORT_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PORT_CTL(a) cavm_pcieepx_port_ctl_t
+#define bustype_CAVM_PCIEEPX_PORT_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PORT_CTL(a) "PCIEEPX_PORT_CTL"
+#define busnum_CAVM_PCIEEPX_PORT_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PORT_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_port_flink
+ * Register (PCICONFIGEP) pcieep#_port_flink
  *
  * PCIe EP PF Port Force Link Register
  */
-union cavm_pcieep_port_flink
+union cavm_pcieepx_port_flink
 {
     uint32_t u;
-    struct cavm_pcieep_port_flink_s
+    struct cavm_pcieepx_port_flink_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -6972,33 +7087,34 @@ union cavm_pcieep_port_flink
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_port_flink_s cn; */
+    /* struct cavm_pcieepx_port_flink_s cn; */
 };
-typedef union cavm_pcieep_port_flink cavm_pcieep_port_flink_t;
+typedef union cavm_pcieepx_port_flink cavm_pcieepx_port_flink_t;
 
-#define CAVM_PCIEEP_PORT_FLINK CAVM_PCIEEP_PORT_FLINK_FUNC()
-static inline uint64_t CAVM_PCIEEP_PORT_FLINK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PORT_FLINK_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PORT_FLINK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PORT_FLINK(uint64_t a)
 {
-    return 0x708;
+    if (a<=3)
+        return 0x708 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PORT_FLINK", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PORT_FLINK cavm_pcieep_port_flink_t
-#define bustype_CAVM_PCIEEP_PORT_FLINK CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PORT_FLINK "PCIEEP_PORT_FLINK"
-#define busnum_CAVM_PCIEEP_PORT_FLINK 0
-#define arguments_CAVM_PCIEEP_PORT_FLINK -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PORT_FLINK(a) cavm_pcieepx_port_flink_t
+#define bustype_CAVM_PCIEEPX_PORT_FLINK(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PORT_FLINK(a) "PCIEEPX_PORT_FLINK"
+#define busnum_CAVM_PCIEEPX_PORT_FLINK(a) (a)
+#define arguments_CAVM_PCIEEPX_PORT_FLINK(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_cap
+ * Register (PCICONFIGEP) pcieep#_ptm_cap
  *
  * PCIe EP PF PTM Capability Register
  * Precision Time Measurement Capability exists for PF0 only.
  */
-union cavm_pcieep_ptm_cap
+union cavm_pcieepx_ptm_cap
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_cap_s
+    struct cavm_pcieepx_ptm_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -7058,33 +7174,34 @@ union cavm_pcieep_ptm_cap
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_cap_s cn; */
+    /* struct cavm_pcieepx_ptm_cap_s cn; */
 };
-typedef union cavm_pcieep_ptm_cap cavm_pcieep_ptm_cap_t;
+typedef union cavm_pcieepx_ptm_cap cavm_pcieepx_ptm_cap_t;
 
-#define CAVM_PCIEEP_PTM_CAP CAVM_PCIEEP_PTM_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_CAP(uint64_t a)
 {
-    return 0x394;
+    if (a<=3)
+        return 0x394 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_CAP cavm_pcieep_ptm_cap_t
-#define bustype_CAVM_PCIEEP_PTM_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_CAP "PCIEEP_PTM_CAP"
-#define busnum_CAVM_PCIEEP_PTM_CAP 0
-#define arguments_CAVM_PCIEEP_PTM_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_CAP(a) cavm_pcieepx_ptm_cap_t
+#define bustype_CAVM_PCIEEPX_PTM_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_CAP(a) "PCIEEPX_PTM_CAP"
+#define busnum_CAVM_PCIEEPX_PTM_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_ptm_cap_hdr
  *
  * PCIe EP PF Precision Time Measurement Capability Header Register
  * Precision Time Measurement Capability exists for PF0 only.
  */
-union cavm_pcieep_ptm_cap_hdr
+union cavm_pcieepx_ptm_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_cap_hdr_s
+    struct cavm_pcieepx_ptm_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
@@ -7126,33 +7243,34 @@ union cavm_pcieep_ptm_cap_hdr
                                                                  _ PF1:          0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_ptm_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_ptm_cap_hdr cavm_pcieep_ptm_cap_hdr_t;
+typedef union cavm_pcieepx_ptm_cap_hdr cavm_pcieepx_ptm_cap_hdr_t;
 
-#define CAVM_PCIEEP_PTM_CAP_HDR CAVM_PCIEEP_PTM_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_CAP_HDR(uint64_t a)
 {
-    return 0x390;
+    if (a<=3)
+        return 0x390 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_CAP_HDR cavm_pcieep_ptm_cap_hdr_t
-#define bustype_CAVM_PCIEEP_PTM_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_CAP_HDR "PCIEEP_PTM_CAP_HDR"
-#define busnum_CAVM_PCIEEP_PTM_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_PTM_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_CAP_HDR(a) cavm_pcieepx_ptm_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_PTM_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_CAP_HDR(a) "PCIEEPX_PTM_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_PTM_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_ctl
+ * Register (PCICONFIGEP) pcieep#_ptm_ctl
  *
  * PCIe EP PF Precision Time Measurement Control Register
  * Precision Time Measurement Capability exists for PF0 only.
  */
-union cavm_pcieep_ptm_ctl
+union cavm_pcieepx_ptm_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_ctl_s
+    struct cavm_pcieepx_ptm_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -7176,32 +7294,33 @@ union cavm_pcieep_ptm_ctl
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_ctl_s cn; */
+    /* struct cavm_pcieepx_ptm_ctl_s cn; */
 };
-typedef union cavm_pcieep_ptm_ctl cavm_pcieep_ptm_ctl_t;
+typedef union cavm_pcieepx_ptm_ctl cavm_pcieepx_ptm_ctl_t;
 
-#define CAVM_PCIEEP_PTM_CTL CAVM_PCIEEP_PTM_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_CTL(uint64_t a)
 {
-    return 0x398;
+    if (a<=3)
+        return 0x398 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_CTL cavm_pcieep_ptm_ctl_t
-#define bustype_CAVM_PCIEEP_PTM_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_CTL "PCIEEP_PTM_CTL"
-#define busnum_CAVM_PCIEEP_PTM_CTL 0
-#define arguments_CAVM_PCIEEP_PTM_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_CTL(a) cavm_pcieepx_ptm_ctl_t
+#define bustype_CAVM_PCIEEPX_PTM_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_CTL(a) "PCIEEPX_PTM_CTL"
+#define busnum_CAVM_PCIEEPX_PTM_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_ptm_req_cap_hdr
  *
  * PCIe EP PF PTM Requester Capability Header Register
  */
-union cavm_pcieep_ptm_req_cap_hdr
+union cavm_pcieepx_ptm_req_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_cap_hdr_s
+    struct cavm_pcieepx_ptm_req_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -7219,32 +7338,33 @@ union cavm_pcieep_ptm_req_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_ptm_req_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_cap_hdr cavm_pcieep_ptm_req_cap_hdr_t;
+typedef union cavm_pcieepx_ptm_req_cap_hdr cavm_pcieepx_ptm_req_cap_hdr_t;
 
-#define CAVM_PCIEEP_PTM_REQ_CAP_HDR CAVM_PCIEEP_PTM_REQ_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CAP_HDR(uint64_t a)
 {
-    return 0x39c;
+    if (a<=3)
+        return 0x39c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_CAP_HDR cavm_pcieep_ptm_req_cap_hdr_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_CAP_HDR "PCIEEP_PTM_REQ_CAP_HDR"
-#define busnum_CAVM_PCIEEP_PTM_REQ_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_CAP_HDR(a) cavm_pcieepx_ptm_req_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_CAP_HDR(a) "PCIEEPX_PTM_REQ_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_ctl
+ * Register (PCICONFIGEP) pcieep#_ptm_req_ctl
  *
  * PCIe EP PF PTM Requester Vendor Specific Control Register
  */
-union cavm_pcieep_ptm_req_ctl
+union cavm_pcieepx_ptm_req_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_ctl_s
+    struct cavm_pcieepx_ptm_req_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
@@ -7300,32 +7420,33 @@ union cavm_pcieep_ptm_req_ctl
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_ctl_s cn; */
+    /* struct cavm_pcieepx_ptm_req_ctl_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_ctl cavm_pcieep_ptm_req_ctl_t;
+typedef union cavm_pcieepx_ptm_req_ctl cavm_pcieepx_ptm_req_ctl_t;
 
-#define CAVM_PCIEEP_PTM_REQ_CTL CAVM_PCIEEP_PTM_REQ_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CTL(uint64_t a)
 {
-    return 0x3a4;
+    if (a<=3)
+        return 0x3a4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_CTL cavm_pcieep_ptm_req_ctl_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_CTL "PCIEEP_PTM_REQ_CTL"
-#define busnum_CAVM_PCIEEP_PTM_REQ_CTL 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_CTL(a) cavm_pcieepx_ptm_req_ctl_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_CTL(a) "PCIEEPX_PTM_REQ_CTL"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_hdr
+ * Register (PCICONFIGEP) pcieep#_ptm_req_hdr
  *
  * PCIe EP PF PTM Requester Vendor Specific Header Register
  */
-union cavm_pcieep_ptm_req_hdr
+union cavm_pcieepx_ptm_req_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_hdr_s
+    struct cavm_pcieepx_ptm_req_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t prvl                  : 12; /**< [ 31: 20](RO/WRSL) PTM requester VSEC length. */
@@ -7337,32 +7458,33 @@ union cavm_pcieep_ptm_req_hdr
         uint32_t prvl                  : 12; /**< [ 31: 20](RO/WRSL) PTM requester VSEC length. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_hdr_s cn; */
+    /* struct cavm_pcieepx_ptm_req_hdr_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_hdr cavm_pcieep_ptm_req_hdr_t;
+typedef union cavm_pcieepx_ptm_req_hdr cavm_pcieepx_ptm_req_hdr_t;
 
-#define CAVM_PCIEEP_PTM_REQ_HDR CAVM_PCIEEP_PTM_REQ_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_HDR(uint64_t a)
 {
-    return 0x3a0;
+    if (a<=3)
+        return 0x3a0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_HDR cavm_pcieep_ptm_req_hdr_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_HDR "PCIEEP_PTM_REQ_HDR"
-#define busnum_CAVM_PCIEEP_PTM_REQ_HDR 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_HDR(a) cavm_pcieepx_ptm_req_hdr_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_HDR(a) "PCIEEPX_PTM_REQ_HDR"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_locall
+ * Register (PCICONFIGEP) pcieep#_ptm_req_locall
  *
  * PCIe EP PF PTM Requester Local Clock LSB Register
  */
-union cavm_pcieep_ptm_req_locall
+union cavm_pcieepx_ptm_req_locall
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_locall_s
+    struct cavm_pcieepx_ptm_req_locall_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rll                   : 32; /**< [ 31:  0](RO/WRSL/H) PTM requester local clock lower 32 bits. */
@@ -7370,32 +7492,33 @@ union cavm_pcieep_ptm_req_locall
         uint32_t rll                   : 32; /**< [ 31:  0](RO/WRSL/H) PTM requester local clock lower 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_locall_s cn; */
+    /* struct cavm_pcieepx_ptm_req_locall_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_locall cavm_pcieep_ptm_req_locall_t;
+typedef union cavm_pcieepx_ptm_req_locall cavm_pcieepx_ptm_req_locall_t;
 
-#define CAVM_PCIEEP_PTM_REQ_LOCALL CAVM_PCIEEP_PTM_REQ_LOCALL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_LOCALL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_LOCALL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALL(uint64_t a)
 {
-    return 0x3ac;
+    if (a<=3)
+        return 0x3ac + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_LOCALL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_LOCALL cavm_pcieep_ptm_req_locall_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_LOCALL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_LOCALL "PCIEEP_PTM_REQ_LOCALL"
-#define busnum_CAVM_PCIEEP_PTM_REQ_LOCALL 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_LOCALL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_LOCALL(a) cavm_pcieepx_ptm_req_locall_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_LOCALL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_LOCALL(a) "PCIEEPX_PTM_REQ_LOCALL"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_LOCALL(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_LOCALL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_localm
+ * Register (PCICONFIGEP) pcieep#_ptm_req_localm
  *
  * PCIe EP PF PTM Requester Local Clock MSB Register
  */
-union cavm_pcieep_ptm_req_localm
+union cavm_pcieepx_ptm_req_localm
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_localm_s
+    struct cavm_pcieepx_ptm_req_localm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rlm                   : 32; /**< [ 31:  0](RO/WRSL/H) PTM requester local clock upper 32 bits. */
@@ -7403,32 +7526,33 @@ union cavm_pcieep_ptm_req_localm
         uint32_t rlm                   : 32; /**< [ 31:  0](RO/WRSL/H) PTM requester local clock upper 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_localm_s cn; */
+    /* struct cavm_pcieepx_ptm_req_localm_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_localm cavm_pcieep_ptm_req_localm_t;
+typedef union cavm_pcieepx_ptm_req_localm cavm_pcieepx_ptm_req_localm_t;
 
-#define CAVM_PCIEEP_PTM_REQ_LOCALM CAVM_PCIEEP_PTM_REQ_LOCALM_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_LOCALM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_LOCALM_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALM(uint64_t a)
 {
-    return 0x3b0;
+    if (a<=3)
+        return 0x3b0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_LOCALM", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_LOCALM cavm_pcieep_ptm_req_localm_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_LOCALM CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_LOCALM "PCIEEP_PTM_REQ_LOCALM"
-#define busnum_CAVM_PCIEEP_PTM_REQ_LOCALM 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_LOCALM -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_LOCALM(a) cavm_pcieepx_ptm_req_localm_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_LOCALM(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_LOCALM(a) "PCIEEPX_PTM_REQ_LOCALM"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_LOCALM(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_LOCALM(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_mas1l
+ * Register (PCICONFIGEP) pcieep#_ptm_req_mas1l
  *
  * PCIe EP PF PTM Requester Master Time at T1 LSB Register
  */
-union cavm_pcieep_ptm_req_mas1l
+union cavm_pcieepx_ptm_req_mas1l
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_mas1l_s
+    struct cavm_pcieepx_ptm_req_mas1l_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rml                   : 32; /**< [ 31:  0](RO/H) PTM requester master time at t1 lower 32 bits of the calculated master time at t1 prime. */
@@ -7436,32 +7560,33 @@ union cavm_pcieep_ptm_req_mas1l
         uint32_t rml                   : 32; /**< [ 31:  0](RO/H) PTM requester master time at t1 lower 32 bits of the calculated master time at t1 prime. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_mas1l_s cn; */
+    /* struct cavm_pcieepx_ptm_req_mas1l_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_mas1l cavm_pcieep_ptm_req_mas1l_t;
+typedef union cavm_pcieepx_ptm_req_mas1l cavm_pcieepx_ptm_req_mas1l_t;
 
-#define CAVM_PCIEEP_PTM_REQ_MAS1L CAVM_PCIEEP_PTM_REQ_MAS1L_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MAS1L_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MAS1L_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1L(uint64_t a)
 {
-    return 0x3e0;
+    if (a<=3)
+        return 0x3e0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_MAS1L", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_MAS1L cavm_pcieep_ptm_req_mas1l_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_MAS1L CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_MAS1L "PCIEEP_PTM_REQ_MAS1L"
-#define busnum_CAVM_PCIEEP_PTM_REQ_MAS1L 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_MAS1L -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_MAS1L(a) cavm_pcieepx_ptm_req_mas1l_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_MAS1L(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_MAS1L(a) "PCIEEPX_PTM_REQ_MAS1L"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_MAS1L(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_MAS1L(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_mas1m
+ * Register (PCICONFIGEP) pcieep#_ptm_req_mas1m
  *
  * PCIe EP PF PTM Requester Master Time at T1 MSB Register
  */
-union cavm_pcieep_ptm_req_mas1m
+union cavm_pcieepx_ptm_req_mas1m
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_mas1m_s
+    struct cavm_pcieepx_ptm_req_mas1m_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rmm                   : 32; /**< [ 31:  0](RO/H) PTM requester master time at t1 upper 32 bits of the calculated master time at t1 prime. */
@@ -7469,32 +7594,33 @@ union cavm_pcieep_ptm_req_mas1m
         uint32_t rmm                   : 32; /**< [ 31:  0](RO/H) PTM requester master time at t1 upper 32 bits of the calculated master time at t1 prime. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_mas1m_s cn; */
+    /* struct cavm_pcieepx_ptm_req_mas1m_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_mas1m cavm_pcieep_ptm_req_mas1m_t;
+typedef union cavm_pcieepx_ptm_req_mas1m cavm_pcieepx_ptm_req_mas1m_t;
 
-#define CAVM_PCIEEP_PTM_REQ_MAS1M CAVM_PCIEEP_PTM_REQ_MAS1M_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MAS1M_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MAS1M_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1M(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1M(uint64_t a)
 {
-    return 0x3e4;
+    if (a<=3)
+        return 0x3e4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_MAS1M", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_MAS1M cavm_pcieep_ptm_req_mas1m_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_MAS1M CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_MAS1M "PCIEEP_PTM_REQ_MAS1M"
-#define busnum_CAVM_PCIEEP_PTM_REQ_MAS1M 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_MAS1M -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_MAS1M(a) cavm_pcieepx_ptm_req_mas1m_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_MAS1M(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_MAS1M(a) "PCIEEPX_PTM_REQ_MAS1M"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_MAS1M(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_MAS1M(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_masl
+ * Register (PCICONFIGEP) pcieep#_ptm_req_masl
  *
  * PCIe EP PF PTM Requester Master Time LSB Register
  */
-union cavm_pcieep_ptm_req_masl
+union cavm_pcieepx_ptm_req_masl
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_masl_s
+    struct cavm_pcieepx_ptm_req_masl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rml                   : 32; /**< [ 31:  0](RO/H) PTM requester master time lower 32 bits sent from PTM responder. */
@@ -7502,32 +7628,33 @@ union cavm_pcieep_ptm_req_masl
         uint32_t rml                   : 32; /**< [ 31:  0](RO/H) PTM requester master time lower 32 bits sent from PTM responder. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_masl_s cn; */
+    /* struct cavm_pcieepx_ptm_req_masl_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_masl cavm_pcieep_ptm_req_masl_t;
+typedef union cavm_pcieepx_ptm_req_masl cavm_pcieepx_ptm_req_masl_t;
 
-#define CAVM_PCIEEP_PTM_REQ_MASL CAVM_PCIEEP_PTM_REQ_MASL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MASL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MASL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASL(uint64_t a)
 {
-    return 0x3d4;
+    if (a<=3)
+        return 0x3d4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_MASL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_MASL cavm_pcieep_ptm_req_masl_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_MASL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_MASL "PCIEEP_PTM_REQ_MASL"
-#define busnum_CAVM_PCIEEP_PTM_REQ_MASL 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_MASL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_MASL(a) cavm_pcieepx_ptm_req_masl_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_MASL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_MASL(a) "PCIEEPX_PTM_REQ_MASL"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_MASL(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_MASL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_masm
+ * Register (PCICONFIGEP) pcieep#_ptm_req_masm
  *
  * PCIe EP PF PTM Requester Master Time MSB Register
  */
-union cavm_pcieep_ptm_req_masm
+union cavm_pcieepx_ptm_req_masm
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_masm_s
+    struct cavm_pcieepx_ptm_req_masm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rmm                   : 32; /**< [ 31:  0](RO/H) PTM requester master time upper 32 bits sent from PTM responder. */
@@ -7535,32 +7662,33 @@ union cavm_pcieep_ptm_req_masm
         uint32_t rmm                   : 32; /**< [ 31:  0](RO/H) PTM requester master time upper 32 bits sent from PTM responder. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_masm_s cn; */
+    /* struct cavm_pcieepx_ptm_req_masm_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_masm cavm_pcieep_ptm_req_masm_t;
+typedef union cavm_pcieepx_ptm_req_masm cavm_pcieepx_ptm_req_masm_t;
 
-#define CAVM_PCIEEP_PTM_REQ_MASM CAVM_PCIEEP_PTM_REQ_MASM_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MASM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_MASM_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASM(uint64_t a)
 {
-    return 0x3d8;
+    if (a<=3)
+        return 0x3d8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_MASM", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_MASM cavm_pcieep_ptm_req_masm_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_MASM CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_MASM "PCIEEP_PTM_REQ_MASM"
-#define busnum_CAVM_PCIEEP_PTM_REQ_MASM 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_MASM -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_MASM(a) cavm_pcieepx_ptm_req_masm_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_MASM(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_MASM(a) "PCIEEPX_PTM_REQ_MASM"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_MASM(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_MASM(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_pdly
+ * Register (PCICONFIGEP) pcieep#_ptm_req_pdly
  *
  * PCIe EP PF PTM Requester Propagation Delay Register
  */
-union cavm_pcieep_ptm_req_pdly
+union cavm_pcieepx_ptm_req_pdly
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_pdly_s
+    struct cavm_pcieepx_ptm_req_pdly_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rpd                   : 32; /**< [ 31:  0](RO/H) PTM requester propagation delay sent from PTM responder. */
@@ -7568,32 +7696,33 @@ union cavm_pcieep_ptm_req_pdly
         uint32_t rpd                   : 32; /**< [ 31:  0](RO/H) PTM requester propagation delay sent from PTM responder. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_pdly_s cn; */
+    /* struct cavm_pcieepx_ptm_req_pdly_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_pdly cavm_pcieep_ptm_req_pdly_t;
+typedef union cavm_pcieepx_ptm_req_pdly cavm_pcieepx_ptm_req_pdly_t;
 
-#define CAVM_PCIEEP_PTM_REQ_PDLY CAVM_PCIEEP_PTM_REQ_PDLY_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_PDLY_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_PDLY_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_PDLY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_PDLY(uint64_t a)
 {
-    return 0x3dc;
+    if (a<=3)
+        return 0x3dc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_PDLY", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_PDLY cavm_pcieep_ptm_req_pdly_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_PDLY CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_PDLY "PCIEEP_PTM_REQ_PDLY"
-#define busnum_CAVM_PCIEEP_PTM_REQ_PDLY 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_PDLY -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_PDLY(a) cavm_pcieepx_ptm_req_pdly_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_PDLY(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_PDLY(a) "PCIEEPX_PTM_REQ_PDLY"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_PDLY(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_PDLY(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_rlat
+ * Register (PCICONFIGEP) pcieep#_ptm_req_rlat
  *
  * PCIe EP PF PTM Requester RX Latency Register
  */
-union cavm_pcieep_ptm_req_rlat
+union cavm_pcieepx_ptm_req_rlat
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_rlat_s
+    struct cavm_pcieepx_ptm_req_rlat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -7603,32 +7732,33 @@ union cavm_pcieep_ptm_req_rlat
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_rlat_s cn; */
+    /* struct cavm_pcieepx_ptm_req_rlat_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_rlat cavm_pcieep_ptm_req_rlat_t;
+typedef union cavm_pcieepx_ptm_req_rlat cavm_pcieepx_ptm_req_rlat_t;
 
-#define CAVM_PCIEEP_PTM_REQ_RLAT CAVM_PCIEEP_PTM_REQ_RLAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_RLAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_RLAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_RLAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_RLAT(uint64_t a)
 {
-    return 0x3ec;
+    if (a<=3)
+        return 0x3ec + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_RLAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_RLAT cavm_pcieep_ptm_req_rlat_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_RLAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_RLAT "PCIEEP_PTM_REQ_RLAT"
-#define busnum_CAVM_PCIEEP_PTM_REQ_RLAT 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_RLAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_RLAT(a) cavm_pcieepx_ptm_req_rlat_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_RLAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_RLAT(a) "PCIEEPX_PTM_REQ_RLAT"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_RLAT(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_RLAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_stat
+ * Register (PCICONFIGEP) pcieep#_ptm_req_stat
  *
  * PCIe EP PF PTM Requester Vendor Specific Status Register
  */
-union cavm_pcieep_ptm_req_stat
+union cavm_pcieepx_ptm_req_stat
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_stat_s
+    struct cavm_pcieepx_ptm_req_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
@@ -7642,32 +7772,33 @@ union cavm_pcieep_ptm_req_stat
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_stat_s cn; */
+    /* struct cavm_pcieepx_ptm_req_stat_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_stat cavm_pcieep_ptm_req_stat_t;
+typedef union cavm_pcieepx_ptm_req_stat cavm_pcieepx_ptm_req_stat_t;
 
-#define CAVM_PCIEEP_PTM_REQ_STAT CAVM_PCIEEP_PTM_REQ_STAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_STAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_STAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_STAT(uint64_t a)
 {
-    return 0x3a8;
+    if (a<=3)
+        return 0x3a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_STAT cavm_pcieep_ptm_req_stat_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_STAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_STAT "PCIEEP_PTM_REQ_STAT"
-#define busnum_CAVM_PCIEEP_PTM_REQ_STAT 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_STAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_STAT(a) cavm_pcieepx_ptm_req_stat_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_STAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_STAT(a) "PCIEEPX_PTM_REQ_STAT"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_STAT(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t1l
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t1l
  *
  * PCIe EP PF PTM Requester T1 Timestamp LSB Register
  */
-union cavm_pcieep_ptm_req_t1l
+union cavm_pcieepx_ptm_req_t1l
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t1l_s
+    struct cavm_pcieepx_ptm_req_t1l_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 timestamp lower 32 bits. */
@@ -7675,32 +7806,33 @@ union cavm_pcieep_ptm_req_t1l
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 timestamp lower 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t1l_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t1l_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t1l cavm_pcieep_ptm_req_t1l_t;
+typedef union cavm_pcieepx_ptm_req_t1l cavm_pcieepx_ptm_req_t1l_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T1L CAVM_PCIEEP_PTM_REQ_T1L_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1L_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1L_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1L(uint64_t a)
 {
-    return 0x3b4;
+    if (a<=3)
+        return 0x3b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1L", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T1L cavm_pcieep_ptm_req_t1l_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T1L CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T1L "PCIEEP_PTM_REQ_T1L"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T1L 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T1L -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T1L(a) cavm_pcieepx_ptm_req_t1l_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T1L(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T1L(a) "PCIEEPX_PTM_REQ_T1L"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T1L(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T1L(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t1m
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t1m
  *
  * PCIe EP PF PTM Requester T1 Timestamp MSB Register
  */
-union cavm_pcieep_ptm_req_t1m
+union cavm_pcieepx_ptm_req_t1m
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t1m_s
+    struct cavm_pcieepx_ptm_req_t1m_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 timestamp upper 32 bits. */
@@ -7708,32 +7840,33 @@ union cavm_pcieep_ptm_req_t1m
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 timestamp upper 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t1m_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t1m_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t1m cavm_pcieep_ptm_req_t1m_t;
+typedef union cavm_pcieepx_ptm_req_t1m cavm_pcieepx_ptm_req_t1m_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T1M CAVM_PCIEEP_PTM_REQ_T1M_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1M_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1M_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1M(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1M(uint64_t a)
 {
-    return 0x3b8;
+    if (a<=3)
+        return 0x3b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1M", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T1M cavm_pcieep_ptm_req_t1m_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T1M CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T1M "PCIEEP_PTM_REQ_T1M"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T1M 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T1M -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T1M(a) cavm_pcieepx_ptm_req_t1m_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T1M(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T1M(a) "PCIEEPX_PTM_REQ_T1M"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T1M(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T1M(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t1pl
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t1pl
  *
  * PCIe EP PF PTM Requester T1 Previous Timestamp LSB Register
  */
-union cavm_pcieep_ptm_req_t1pl
+union cavm_pcieepx_ptm_req_t1pl
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t1pl_s
+    struct cavm_pcieepx_ptm_req_t1pl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 previous timestamp lower 32 bits. */
@@ -7741,32 +7874,33 @@ union cavm_pcieep_ptm_req_t1pl
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 previous timestamp lower 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t1pl_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t1pl_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t1pl cavm_pcieep_ptm_req_t1pl_t;
+typedef union cavm_pcieepx_ptm_req_t1pl cavm_pcieepx_ptm_req_t1pl_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T1PL CAVM_PCIEEP_PTM_REQ_T1PL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1PL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1PL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PL(uint64_t a)
 {
-    return 0x3bc;
+    if (a<=3)
+        return 0x3bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1PL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T1PL cavm_pcieep_ptm_req_t1pl_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T1PL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T1PL "PCIEEP_PTM_REQ_T1PL"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T1PL 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T1PL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T1PL(a) cavm_pcieepx_ptm_req_t1pl_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T1PL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T1PL(a) "PCIEEPX_PTM_REQ_T1PL"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T1PL(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T1PL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t1pm
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t1pm
  *
  * PCIe EP PF PTM Requester T1 Previous Timestamp MSB Register
  */
-union cavm_pcieep_ptm_req_t1pm
+union cavm_pcieepx_ptm_req_t1pm
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t1pm_s
+    struct cavm_pcieepx_ptm_req_t1pm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 previous timestamp upper 32 bits. */
@@ -7774,32 +7908,33 @@ union cavm_pcieep_ptm_req_t1pm
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t1 previous timestamp upper 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t1pm_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t1pm_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t1pm cavm_pcieep_ptm_req_t1pm_t;
+typedef union cavm_pcieepx_ptm_req_t1pm cavm_pcieepx_ptm_req_t1pm_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T1PM CAVM_PCIEEP_PTM_REQ_T1PM_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1PM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T1PM_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PM(uint64_t a)
 {
-    return 0x3c0;
+    if (a<=3)
+        return 0x3c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1PM", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T1PM cavm_pcieep_ptm_req_t1pm_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T1PM CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T1PM "PCIEEP_PTM_REQ_T1PM"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T1PM 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T1PM -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T1PM(a) cavm_pcieepx_ptm_req_t1pm_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T1PM(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T1PM(a) "PCIEEPX_PTM_REQ_T1PM"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T1PM(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T1PM(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t4l
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t4l
  *
  * PCIe EP PF PTM Requester T4 Timestamp LSB Register
  */
-union cavm_pcieep_ptm_req_t4l
+union cavm_pcieepx_ptm_req_t4l
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t4l_s
+    struct cavm_pcieepx_ptm_req_t4l_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 timestamp lower 32 bits. */
@@ -7807,32 +7942,33 @@ union cavm_pcieep_ptm_req_t4l
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 timestamp lower 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t4l_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t4l_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t4l cavm_pcieep_ptm_req_t4l_t;
+typedef union cavm_pcieepx_ptm_req_t4l cavm_pcieepx_ptm_req_t4l_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T4L CAVM_PCIEEP_PTM_REQ_T4L_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4L_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4L_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4L(uint64_t a)
 {
-    return 0x3c4;
+    if (a<=3)
+        return 0x3c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4L", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T4L cavm_pcieep_ptm_req_t4l_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T4L CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T4L "PCIEEP_PTM_REQ_T4L"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T4L 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T4L -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T4L(a) cavm_pcieepx_ptm_req_t4l_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T4L(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T4L(a) "PCIEEPX_PTM_REQ_T4L"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T4L(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T4L(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t4m
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t4m
  *
  * PCIe EP PF PTM Requester T4 Timestamp MSB Register
  */
-union cavm_pcieep_ptm_req_t4m
+union cavm_pcieepx_ptm_req_t4m
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t4m_s
+    struct cavm_pcieepx_ptm_req_t4m_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 timestamp upper 32 bits. */
@@ -7840,32 +7976,33 @@ union cavm_pcieep_ptm_req_t4m
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 timestamp upper 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t4m_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t4m_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t4m cavm_pcieep_ptm_req_t4m_t;
+typedef union cavm_pcieepx_ptm_req_t4m cavm_pcieepx_ptm_req_t4m_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T4M CAVM_PCIEEP_PTM_REQ_T4M_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4M_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4M_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4M(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4M(uint64_t a)
 {
-    return 0x3c8;
+    if (a<=3)
+        return 0x3c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4M", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T4M cavm_pcieep_ptm_req_t4m_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T4M CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T4M "PCIEEP_PTM_REQ_T4M"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T4M 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T4M -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T4M(a) cavm_pcieepx_ptm_req_t4m_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T4M(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T4M(a) "PCIEEPX_PTM_REQ_T4M"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T4M(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T4M(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t4pl
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t4pl
  *
  * PCIe EP PF PTM Requester T4 Previous Timestamp LSB Register
  */
-union cavm_pcieep_ptm_req_t4pl
+union cavm_pcieepx_ptm_req_t4pl
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t4pl_s
+    struct cavm_pcieepx_ptm_req_t4pl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 previous timestamp lower 32 bits. */
@@ -7873,32 +8010,33 @@ union cavm_pcieep_ptm_req_t4pl
         uint32_t rtl                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 previous timestamp lower 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t4pl_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t4pl_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t4pl cavm_pcieep_ptm_req_t4pl_t;
+typedef union cavm_pcieepx_ptm_req_t4pl cavm_pcieepx_ptm_req_t4pl_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T4PL CAVM_PCIEEP_PTM_REQ_T4PL_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4PL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4PL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PL(uint64_t a)
 {
-    return 0x3cc;
+    if (a<=3)
+        return 0x3cc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4PL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T4PL cavm_pcieep_ptm_req_t4pl_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T4PL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T4PL "PCIEEP_PTM_REQ_T4PL"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T4PL 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T4PL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T4PL(a) cavm_pcieepx_ptm_req_t4pl_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T4PL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T4PL(a) "PCIEEPX_PTM_REQ_T4PL"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T4PL(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T4PL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_t4pm
+ * Register (PCICONFIGEP) pcieep#_ptm_req_t4pm
  *
  * PCIe EP PF PTM Requester T4 Previous Timestamp MSB Register
  */
-union cavm_pcieep_ptm_req_t4pm
+union cavm_pcieepx_ptm_req_t4pm
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_t4pm_s
+    struct cavm_pcieepx_ptm_req_t4pm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 previous timestamp upper 32 bits. */
@@ -7906,32 +8044,33 @@ union cavm_pcieep_ptm_req_t4pm
         uint32_t rtm                   : 32; /**< [ 31:  0](RO/H) PTM requester t4 previous timestamp upper 32 bits. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_t4pm_s cn; */
+    /* struct cavm_pcieepx_ptm_req_t4pm_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_t4pm cavm_pcieep_ptm_req_t4pm_t;
+typedef union cavm_pcieepx_ptm_req_t4pm cavm_pcieepx_ptm_req_t4pm_t;
 
-#define CAVM_PCIEEP_PTM_REQ_T4PM CAVM_PCIEEP_PTM_REQ_T4PM_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4PM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_T4PM_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PM(uint64_t a)
 {
-    return 0x3d0;
+    if (a<=3)
+        return 0x3d0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4PM", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_T4PM cavm_pcieep_ptm_req_t4pm_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_T4PM CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_T4PM "PCIEEP_PTM_REQ_T4PM"
-#define busnum_CAVM_PCIEEP_PTM_REQ_T4PM 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_T4PM -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_T4PM(a) cavm_pcieepx_ptm_req_t4pm_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_T4PM(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_T4PM(a) "PCIEEPX_PTM_REQ_T4PM"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_T4PM(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_T4PM(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ptm_req_tlat
+ * Register (PCICONFIGEP) pcieep#_ptm_req_tlat
  *
  * PCIe EP PF PTM Requester TX Latency Register
  */
-union cavm_pcieep_ptm_req_tlat
+union cavm_pcieepx_ptm_req_tlat
 {
     uint32_t u;
-    struct cavm_pcieep_ptm_req_tlat_s
+    struct cavm_pcieepx_ptm_req_tlat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -7941,32 +8080,33 @@ union cavm_pcieep_ptm_req_tlat
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ptm_req_tlat_s cn; */
+    /* struct cavm_pcieepx_ptm_req_tlat_s cn; */
 };
-typedef union cavm_pcieep_ptm_req_tlat cavm_pcieep_ptm_req_tlat_t;
+typedef union cavm_pcieepx_ptm_req_tlat cavm_pcieepx_ptm_req_tlat_t;
 
-#define CAVM_PCIEEP_PTM_REQ_TLAT CAVM_PCIEEP_PTM_REQ_TLAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_TLAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_PTM_REQ_TLAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_TLAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_TLAT(uint64_t a)
 {
-    return 0x3e8;
+    if (a<=3)
+        return 0x3e8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_TLAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_PTM_REQ_TLAT cavm_pcieep_ptm_req_tlat_t
-#define bustype_CAVM_PCIEEP_PTM_REQ_TLAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_PTM_REQ_TLAT "PCIEEP_PTM_REQ_TLAT"
-#define busnum_CAVM_PCIEEP_PTM_REQ_TLAT 0
-#define arguments_CAVM_PCIEEP_PTM_REQ_TLAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_PTM_REQ_TLAT(a) cavm_pcieepx_ptm_req_tlat_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_TLAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_TLAT(a) "PCIEEPX_PTM_REQ_TLAT"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_TLAT(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_TLAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_queue_status
+ * Register (PCICONFIGEP) pcieep#_queue_status
  *
  * PCIe EP PF Queue Status Register
  */
-union cavm_pcieep_queue_status
+union cavm_pcieepx_queue_status
 {
     uint32_t u;
-    struct cavm_pcieep_queue_status_s
+    struct cavm_pcieepx_queue_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t fcltoe                : 1;  /**< [ 31: 31](R/W) FC latency timer override enable. When this bit is set, the value in
@@ -8012,32 +8152,33 @@ union cavm_pcieep_queue_status
                                                                  core calculates according to the PCIe specification. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_queue_status_s cn; */
+    /* struct cavm_pcieepx_queue_status_s cn; */
 };
-typedef union cavm_pcieep_queue_status cavm_pcieep_queue_status_t;
+typedef union cavm_pcieepx_queue_status cavm_pcieepx_queue_status_t;
 
-#define CAVM_PCIEEP_QUEUE_STATUS CAVM_PCIEEP_QUEUE_STATUS_FUNC()
-static inline uint64_t CAVM_PCIEEP_QUEUE_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_QUEUE_STATUS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_QUEUE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_QUEUE_STATUS(uint64_t a)
 {
-    return 0x73c;
+    if (a<=3)
+        return 0x73c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_QUEUE_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_QUEUE_STATUS cavm_pcieep_queue_status_t
-#define bustype_CAVM_PCIEEP_QUEUE_STATUS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_QUEUE_STATUS "PCIEEP_QUEUE_STATUS"
-#define busnum_CAVM_PCIEEP_QUEUE_STATUS 0
-#define arguments_CAVM_PCIEEP_QUEUE_STATUS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_QUEUE_STATUS(a) cavm_pcieepx_queue_status_t
+#define bustype_CAVM_PCIEEPX_QUEUE_STATUS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_QUEUE_STATUS(a) "PCIEEPX_QUEUE_STATUS"
+#define busnum_CAVM_PCIEEPX_QUEUE_STATUS(a) (a)
+#define arguments_CAVM_PCIEEPX_QUEUE_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_des_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_ras_des_cap_hdr
  *
  * PCIe EP Vendor Specific RAS DES Capability Header Register
  */
-union cavm_pcieep_ras_des_cap_hdr
+union cavm_pcieepx_ras_des_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_ras_des_cap_hdr_s
+    struct cavm_pcieepx_ras_des_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.  Points to the Vendor Specific RAS Data Path Protection
@@ -8057,32 +8198,33 @@ union cavm_pcieep_ras_des_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_des_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_ras_des_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_ras_des_cap_hdr cavm_pcieep_ras_des_cap_hdr_t;
+typedef union cavm_pcieepx_ras_des_cap_hdr cavm_pcieepx_ras_des_cap_hdr_t;
 
-#define CAVM_PCIEEP_RAS_DES_CAP_HDR CAVM_PCIEEP_RAS_DES_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_DES_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_DES_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_DES_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_DES_CAP_HDR(uint64_t a)
 {
-    return 0x24c;
+    if (a<=3)
+        return 0x24c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_DES_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_DES_CAP_HDR cavm_pcieep_ras_des_cap_hdr_t
-#define bustype_CAVM_PCIEEP_RAS_DES_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_DES_CAP_HDR "PCIEEP_RAS_DES_CAP_HDR"
-#define busnum_CAVM_PCIEEP_RAS_DES_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_RAS_DES_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_DES_CAP_HDR(a) cavm_pcieepx_ras_des_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_RAS_DES_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_DES_CAP_HDR(a) "PCIEEPX_RAS_DES_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_RAS_DES_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_DES_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_ec_ctl
+ * Register (PCICONFIGEP) pcieep#_ras_ec_ctl
  *
  * PCIe EP Vendor RAS DES Event Counter Control Register
  */
-union cavm_pcieep_ras_ec_ctl
+union cavm_pcieepx_ras_ec_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_ras_ec_ctl_s
+    struct cavm_pcieepx_ras_ec_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -8160,32 +8302,33 @@ union cavm_pcieep_ras_ec_ctl
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_ec_ctl_s cn; */
+    /* struct cavm_pcieepx_ras_ec_ctl_s cn; */
 };
-typedef union cavm_pcieep_ras_ec_ctl cavm_pcieep_ras_ec_ctl_t;
+typedef union cavm_pcieepx_ras_ec_ctl cavm_pcieepx_ras_ec_ctl_t;
 
-#define CAVM_PCIEEP_RAS_EC_CTL CAVM_PCIEEP_RAS_EC_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EC_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EC_CTL(uint64_t a)
 {
-    return 0x254;
+    if (a<=3)
+        return 0x254 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EC_CTL cavm_pcieep_ras_ec_ctl_t
-#define bustype_CAVM_PCIEEP_RAS_EC_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EC_CTL "PCIEEP_RAS_EC_CTL"
-#define busnum_CAVM_PCIEEP_RAS_EC_CTL 0
-#define arguments_CAVM_PCIEEP_RAS_EC_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EC_CTL(a) cavm_pcieepx_ras_ec_ctl_t
+#define bustype_CAVM_PCIEEPX_RAS_EC_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EC_CTL(a) "PCIEEPX_RAS_EC_CTL"
+#define busnum_CAVM_PCIEEPX_RAS_EC_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EC_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_ec_data
+ * Register (PCICONFIGEP) pcieep#_ras_ec_data
  *
  * PCIe EP Vendor RAS DES Data Register
  */
-union cavm_pcieep_ras_ec_data
+union cavm_pcieepx_ras_ec_data
 {
     uint32_t u;
-    struct cavm_pcieep_ras_ec_data_s
+    struct cavm_pcieepx_ras_ec_data_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ev_cntr_data          : 32; /**< [ 31:  0](RO/H) Event counter data.  This field returns data selected by
@@ -8197,32 +8340,33 @@ union cavm_pcieep_ras_ec_data
                                                                  and PCIEEP_RAS_EC_CTL[EV_CNTR_LANE_SEL]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_ec_data_s cn; */
+    /* struct cavm_pcieepx_ras_ec_data_s cn; */
 };
-typedef union cavm_pcieep_ras_ec_data cavm_pcieep_ras_ec_data_t;
+typedef union cavm_pcieepx_ras_ec_data cavm_pcieepx_ras_ec_data_t;
 
-#define CAVM_PCIEEP_RAS_EC_DATA CAVM_PCIEEP_RAS_EC_DATA_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EC_DATA_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EC_DATA_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EC_DATA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EC_DATA(uint64_t a)
 {
-    return 0x258;
+    if (a<=3)
+        return 0x258 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EC_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EC_DATA cavm_pcieep_ras_ec_data_t
-#define bustype_CAVM_PCIEEP_RAS_EC_DATA CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EC_DATA "PCIEEP_RAS_EC_DATA"
-#define busnum_CAVM_PCIEEP_RAS_EC_DATA 0
-#define arguments_CAVM_PCIEEP_RAS_EC_DATA -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EC_DATA(a) cavm_pcieepx_ras_ec_data_t
+#define bustype_CAVM_PCIEEPX_RAS_EC_DATA(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EC_DATA(a) "PCIEEPX_RAS_EC_DATA"
+#define busnum_CAVM_PCIEEPX_RAS_EC_DATA(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EC_DATA(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl0
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl0
  *
  * PCIe EP Vendor RAS DES Error Injection Control 0 (CRC) Register
  */
-union cavm_pcieep_ras_einj_ctl0
+union cavm_pcieepx_ras_einj_ctl0
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl0_s
+    struct cavm_pcieepx_ras_einj_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -8278,32 +8422,33 @@ union cavm_pcieep_ras_einj_ctl0
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl0_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl0_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl0 cavm_pcieep_ras_einj_ctl0_t;
+typedef union cavm_pcieepx_ras_einj_ctl0 cavm_pcieepx_ras_einj_ctl0_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL0 CAVM_PCIEEP_RAS_EINJ_CTL0_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL0_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL0(uint64_t a)
 {
-    return 0x280;
+    if (a<=3)
+        return 0x280 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL0 cavm_pcieep_ras_einj_ctl0_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL0 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL0 "PCIEEP_RAS_EINJ_CTL0"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL0 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL0 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL0(a) cavm_pcieepx_ras_einj_ctl0_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL0(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL0(a) "PCIEEPX_RAS_EINJ_CTL0"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL0(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL0(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl1
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl1
  *
  * PCIe EP Vendor RAS DES Error Injection Control 1 (SEQNUM) Register
  */
-union cavm_pcieep_ras_einj_ctl1
+union cavm_pcieepx_ras_einj_ctl1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl1_s
+    struct cavm_pcieepx_ras_einj_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -8363,32 +8508,33 @@ union cavm_pcieep_ras_einj_ctl1
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl1_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl1_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl1 cavm_pcieep_ras_einj_ctl1_t;
+typedef union cavm_pcieepx_ras_einj_ctl1 cavm_pcieepx_ras_einj_ctl1_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL1 CAVM_PCIEEP_RAS_EINJ_CTL1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL1(uint64_t a)
 {
-    return 0x284;
+    if (a<=3)
+        return 0x284 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL1 cavm_pcieep_ras_einj_ctl1_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL1 "PCIEEP_RAS_EINJ_CTL1"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL1 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL1(a) cavm_pcieepx_ras_einj_ctl1_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL1(a) "PCIEEPX_RAS_EINJ_CTL1"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl2
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl2
  *
  * PCIe EP Vendor RAS DES Error Injection Control 2 (DLLP) Register
  */
-union cavm_pcieep_ras_einj_ctl2
+union cavm_pcieepx_ras_einj_ctl2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl2_s
+    struct cavm_pcieepx_ras_einj_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
@@ -8424,32 +8570,33 @@ union cavm_pcieep_ras_einj_ctl2
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl2_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl2_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl2 cavm_pcieep_ras_einj_ctl2_t;
+typedef union cavm_pcieepx_ras_einj_ctl2 cavm_pcieepx_ras_einj_ctl2_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL2 CAVM_PCIEEP_RAS_EINJ_CTL2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL2(uint64_t a)
 {
-    return 0x288;
+    if (a<=3)
+        return 0x288 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL2 cavm_pcieep_ras_einj_ctl2_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL2 "PCIEEP_RAS_EINJ_CTL2"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL2 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL2(a) cavm_pcieepx_ras_einj_ctl2_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL2(a) "PCIEEPX_RAS_EINJ_CTL2"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl3
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl3
  *
  * PCIe EP Vendor RAS DES Error Injection Control 3 (Symbol) Register
  */
-union cavm_pcieep_ras_einj_ctl3
+union cavm_pcieepx_ras_einj_ctl3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl3_s
+    struct cavm_pcieepx_ras_einj_ctl3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_11_31        : 21;
@@ -8493,32 +8640,33 @@ union cavm_pcieep_ras_einj_ctl3
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl3_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl3_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl3 cavm_pcieep_ras_einj_ctl3_t;
+typedef union cavm_pcieepx_ras_einj_ctl3 cavm_pcieepx_ras_einj_ctl3_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL3 CAVM_PCIEEP_RAS_EINJ_CTL3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL3(uint64_t a)
 {
-    return 0x28c;
+    if (a<=3)
+        return 0x28c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL3 cavm_pcieep_ras_einj_ctl3_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL3 "PCIEEP_RAS_EINJ_CTL3"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL3 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL3(a) cavm_pcieepx_ras_einj_ctl3_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL3(a) "PCIEEPX_RAS_EINJ_CTL3"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl4
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl4
  *
  * PCIe EP Vendor RAS DES Error Injection Control 4 (FC Credit) Register
  */
-union cavm_pcieep_ras_einj_ctl4
+union cavm_pcieepx_ras_einj_ctl4
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl4_s
+    struct cavm_pcieepx_ras_einj_ctl4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -8594,32 +8742,33 @@ union cavm_pcieep_ras_einj_ctl4
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl4_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl4_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl4 cavm_pcieep_ras_einj_ctl4_t;
+typedef union cavm_pcieepx_ras_einj_ctl4 cavm_pcieepx_ras_einj_ctl4_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL4 CAVM_PCIEEP_RAS_EINJ_CTL4_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL4_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL4_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL4(uint64_t a)
 {
-    return 0x290;
+    if (a<=3)
+        return 0x290 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL4", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL4 cavm_pcieep_ras_einj_ctl4_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL4 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL4 "PCIEEP_RAS_EINJ_CTL4"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL4 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL4 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL4(a) cavm_pcieepx_ras_einj_ctl4_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL4(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL4(a) "PCIEEPX_RAS_EINJ_CTL4"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL4(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL4(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl5
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl5
  *
  * PCIe EP Vendor RAS DES Error Injection Control 5 (Specific TLP) Register
  */
-union cavm_pcieep_ras_einj_ctl5
+union cavm_pcieepx_ras_einj_ctl5
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl5_s
+    struct cavm_pcieepx_ras_einj_ctl5_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
@@ -8651,32 +8800,33 @@ union cavm_pcieep_ras_einj_ctl5
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl5_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl5_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl5 cavm_pcieep_ras_einj_ctl5_t;
+typedef union cavm_pcieepx_ras_einj_ctl5 cavm_pcieepx_ras_einj_ctl5_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL5 CAVM_PCIEEP_RAS_EINJ_CTL5_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL5_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL5_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL5(uint64_t a)
 {
-    return 0x294;
+    if (a<=3)
+        return 0x294 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL5", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL5 cavm_pcieep_ras_einj_ctl5_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL5 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL5 "PCIEEP_RAS_EINJ_CTL5"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL5 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL5 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL5(a) cavm_pcieepx_ras_einj_ctl5_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL5(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL5(a) "PCIEEPX_RAS_EINJ_CTL5"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL5(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL5(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgp0
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgp0
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Point H0) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgp0
+union cavm_pcieepx_ras_einj_ctl6chgp0
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgp0_s
+    struct cavm_pcieepx_ras_einj_ctl6chgp0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_pt_h0       : 32; /**< [ 31:  0](R/W) Packet change point first DWORD.
@@ -8688,32 +8838,33 @@ union cavm_pcieep_ras_einj_ctl6chgp0
                                                                  with the corresponding bits in PCIEEP_RAS_EINJ_CTL6CHGV0[EINJ6_CHG_VAL_H0]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgp0_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgp0_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgp0 cavm_pcieep_ras_einj_ctl6chgp0_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgp0 cavm_pcieepx_ras_einj_ctl6chgp0_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0 CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(uint64_t a)
 {
-    return 0x2b8;
+    if (a<=3)
+        return 0x2b8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP0", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0 cavm_pcieep_ras_einj_ctl6chgp0_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0 "PCIEEP_RAS_EINJ_CTL6CHGP0"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP0 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(a) cavm_pcieepx_ras_einj_ctl6chgp0_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(a) "PCIEEPX_RAS_EINJ_CTL6CHGP0"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgp1
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgp1
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Point H1) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgp1
+union cavm_pcieepx_ras_einj_ctl6chgp1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgp1_s
+    struct cavm_pcieepx_ras_einj_ctl6chgp1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_pt_h1       : 32; /**< [ 31:  0](R/W) Packet change point second DWORD.
@@ -8725,32 +8876,33 @@ union cavm_pcieep_ras_einj_ctl6chgp1
                                                                  with the corresponding bits in PCIEEP_RAS_EINJ_CTL6CHGV1[EINJ6_CHG_VAL_H1]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgp1_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgp1_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgp1 cavm_pcieep_ras_einj_ctl6chgp1_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgp1 cavm_pcieepx_ras_einj_ctl6chgp1_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1 CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(uint64_t a)
 {
-    return 0x2bc;
+    if (a<=3)
+        return 0x2bc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1 cavm_pcieep_ras_einj_ctl6chgp1_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1 "PCIEEP_RAS_EINJ_CTL6CHGP1"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(a) cavm_pcieepx_ras_einj_ctl6chgp1_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(a) "PCIEEPX_RAS_EINJ_CTL6CHGP1"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgp2
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgp2
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Point H2) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgp2
+union cavm_pcieepx_ras_einj_ctl6chgp2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgp2_s
+    struct cavm_pcieepx_ras_einj_ctl6chgp2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_pt_h2       : 32; /**< [ 31:  0](R/W) Packet change point third DWORD.
@@ -8762,32 +8914,33 @@ union cavm_pcieep_ras_einj_ctl6chgp2
                                                                  with the corresponding bits in PCIEEP_RAS_EINJ_CTL6CHGV2[EINJ6_CHG_VAL_H2]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgp2_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgp2_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgp2 cavm_pcieep_ras_einj_ctl6chgp2_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgp2 cavm_pcieepx_ras_einj_ctl6chgp2_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2 CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(uint64_t a)
 {
-    return 0x2c0;
+    if (a<=3)
+        return 0x2c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2 cavm_pcieep_ras_einj_ctl6chgp2_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2 "PCIEEP_RAS_EINJ_CTL6CHGP2"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(a) cavm_pcieepx_ras_einj_ctl6chgp2_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(a) "PCIEEPX_RAS_EINJ_CTL6CHGP2"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgp3
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgp3
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Point H3) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgp3
+union cavm_pcieepx_ras_einj_ctl6chgp3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgp3_s
+    struct cavm_pcieepx_ras_einj_ctl6chgp3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_pt_h3       : 32; /**< [ 31:  0](R/W) Packet change point first DWORD.
@@ -8799,32 +8952,33 @@ union cavm_pcieep_ras_einj_ctl6chgp3
                                                                  with the corresponding bits in PCIEEP_RAS_EINJ_CTL6CHGV3[EINJ6_CHG_VAL_H3]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgp3_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgp3_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgp3 cavm_pcieep_ras_einj_ctl6chgp3_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgp3 cavm_pcieepx_ras_einj_ctl6chgp3_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3 CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(uint64_t a)
 {
-    return 0x2c4;
+    if (a<=3)
+        return 0x2c4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3 cavm_pcieep_ras_einj_ctl6chgp3_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3 "PCIEEP_RAS_EINJ_CTL6CHGP3"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGP3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(a) cavm_pcieepx_ras_einj_ctl6chgp3_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(a) "PCIEEPX_RAS_EINJ_CTL6CHGP3"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgv0
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgv0
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Value H0) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgv0
+union cavm_pcieepx_ras_einj_ctl6chgv0
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgv0_s
+    struct cavm_pcieepx_ras_einj_ctl6chgv0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_val_h0      : 32; /**< [ 31:  0](R/W) Packet change value first DWORD.
@@ -8838,32 +8992,33 @@ union cavm_pcieep_ras_einj_ctl6chgv0
                                                                  Only applies when PCIEEP_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgv0_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgv0_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgv0 cavm_pcieep_ras_einj_ctl6chgv0_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgv0 cavm_pcieepx_ras_einj_ctl6chgv0_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0 CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(uint64_t a)
 {
-    return 0x2c8;
+    if (a<=3)
+        return 0x2c8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV0", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0 cavm_pcieep_ras_einj_ctl6chgv0_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0 "PCIEEP_RAS_EINJ_CTL6CHGV0"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV0 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(a) cavm_pcieepx_ras_einj_ctl6chgv0_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(a) "PCIEEPX_RAS_EINJ_CTL6CHGV0"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgv1
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgv1
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Value H1) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgv1
+union cavm_pcieepx_ras_einj_ctl6chgv1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgv1_s
+    struct cavm_pcieepx_ras_einj_ctl6chgv1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_val_h1      : 32; /**< [ 31:  0](R/W) Packet change value second DWORD.
@@ -8877,32 +9032,33 @@ union cavm_pcieep_ras_einj_ctl6chgv1
                                                                  Only applies when PCIEEP_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgv1_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgv1_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgv1 cavm_pcieep_ras_einj_ctl6chgv1_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgv1 cavm_pcieepx_ras_einj_ctl6chgv1_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1 CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(uint64_t a)
 {
-    return 0x2cc;
+    if (a<=3)
+        return 0x2cc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1 cavm_pcieep_ras_einj_ctl6chgv1_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1 "PCIEEP_RAS_EINJ_CTL6CHGV1"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(a) cavm_pcieepx_ras_einj_ctl6chgv1_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(a) "PCIEEPX_RAS_EINJ_CTL6CHGV1"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgv2
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgv2
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Value H2) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgv2
+union cavm_pcieepx_ras_einj_ctl6chgv2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgv2_s
+    struct cavm_pcieepx_ras_einj_ctl6chgv2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_val_h2      : 32; /**< [ 31:  0](R/W) Packet change value third DWORD.
@@ -8916,32 +9072,33 @@ union cavm_pcieep_ras_einj_ctl6chgv2
                                                                  Only applies when PCIEEP_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set." */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgv2_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgv2_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgv2 cavm_pcieep_ras_einj_ctl6chgv2_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgv2 cavm_pcieepx_ras_einj_ctl6chgv2_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2 CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(uint64_t a)
 {
-    return 0x2d0;
+    if (a<=3)
+        return 0x2d0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2 cavm_pcieep_ras_einj_ctl6chgv2_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2 "PCIEEP_RAS_EINJ_CTL6CHGV2"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(a) cavm_pcieepx_ras_einj_ctl6chgv2_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(a) "PCIEEPX_RAS_EINJ_CTL6CHGV2"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6chgv3
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6chgv3
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Change Value H3) Register
  */
-union cavm_pcieep_ras_einj_ctl6chgv3
+union cavm_pcieepx_ras_einj_ctl6chgv3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6chgv3_s
+    struct cavm_pcieepx_ras_einj_ctl6chgv3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_chg_val_h3      : 32; /**< [ 31:  0](R/W) Packet change value fourth DWORD.
@@ -8955,32 +9112,33 @@ union cavm_pcieep_ras_einj_ctl6chgv3
                                                                  Only applies when PCIEEP_RAS_EINJ_CTL6PE[EINJ6_INV_CNTRL] is not set. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6chgv3_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6chgv3_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6chgv3 cavm_pcieep_ras_einj_ctl6chgv3_t;
+typedef union cavm_pcieepx_ras_einj_ctl6chgv3 cavm_pcieepx_ras_einj_ctl6chgv3_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3 CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(uint64_t a)
 {
-    return 0x2d4;
+    if (a<=3)
+        return 0x2d4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3 cavm_pcieep_ras_einj_ctl6chgv3_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3 "PCIEEP_RAS_EINJ_CTL6CHGV3"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CHGV3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(a) cavm_pcieepx_ras_einj_ctl6chgv3_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(a) "PCIEEPX_RAS_EINJ_CTL6CHGV3"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpp0
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpp0
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Point H0) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpp0
+union cavm_pcieepx_ras_einj_ctl6cmpp0
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpp0_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpp0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_pt_h0       : 32; /**< [ 31:  0](R/W) Packet compare point first DWORD.
@@ -8996,32 +9154,33 @@ union cavm_pcieep_ras_einj_ctl6cmpp0
                                                                  PCIEEP_RAS_EINJ_CTL6CMPV0[EINJ6_COM_VAL_H0] match, an error is inserted into the TLP. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpp0_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpp0_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpp0 cavm_pcieep_ras_einj_ctl6cmpp0_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpp0 cavm_pcieepx_ras_einj_ctl6cmpp0_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0 CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(uint64_t a)
 {
-    return 0x298;
+    if (a<=3)
+        return 0x298 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP0", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0 cavm_pcieep_ras_einj_ctl6cmpp0_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0 "PCIEEP_RAS_EINJ_CTL6CMPP0"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP0 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(a) cavm_pcieepx_ras_einj_ctl6cmpp0_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(a) "PCIEEPX_RAS_EINJ_CTL6CMPP0"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpp1
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpp1
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Point H1) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpp1
+union cavm_pcieepx_ras_einj_ctl6cmpp1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpp1_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpp1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_pt_h1       : 32; /**< [ 31:  0](R/W) Packet compare point second DWORD.
@@ -9037,32 +9196,33 @@ union cavm_pcieep_ras_einj_ctl6cmpp1
                                                                  PCIEEP_RAS_EINJ_CTL6CMPV1[EINJ6_COM_VAL_H1] match, an error is inserted into the TLP. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpp1_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpp1_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpp1 cavm_pcieep_ras_einj_ctl6cmpp1_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpp1 cavm_pcieepx_ras_einj_ctl6cmpp1_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1 CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(uint64_t a)
 {
-    return 0x29c;
+    if (a<=3)
+        return 0x29c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1 cavm_pcieep_ras_einj_ctl6cmpp1_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1 "PCIEEP_RAS_EINJ_CTL6CMPP1"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(a) cavm_pcieepx_ras_einj_ctl6cmpp1_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(a) "PCIEEPX_RAS_EINJ_CTL6CMPP1"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpp2
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpp2
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Point H2) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpp2
+union cavm_pcieepx_ras_einj_ctl6cmpp2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpp2_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpp2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_pt_h2       : 32; /**< [ 31:  0](R/W) Packet compare point third DWORD.
@@ -9078,32 +9238,33 @@ union cavm_pcieep_ras_einj_ctl6cmpp2
                                                                  PCIEEP_RAS_EINJ_CTL6CMPV2[EINJ6_COM_VAL_H2] match, an error is inserted into the TLP. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpp2_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpp2_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpp2 cavm_pcieep_ras_einj_ctl6cmpp2_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpp2 cavm_pcieepx_ras_einj_ctl6cmpp2_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2 CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(uint64_t a)
 {
-    return 0x2a0;
+    if (a<=3)
+        return 0x2a0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2 cavm_pcieep_ras_einj_ctl6cmpp2_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2 "PCIEEP_RAS_EINJ_CTL6CMPP2"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(a) cavm_pcieepx_ras_einj_ctl6cmpp2_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(a) "PCIEEPX_RAS_EINJ_CTL6CMPP2"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpp3
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpp3
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Point H3) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpp3
+union cavm_pcieepx_ras_einj_ctl6cmpp3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpp3_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpp3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_pt_h3       : 32; /**< [ 31:  0](R/W) Packet compare point fourth DWORD.
@@ -9119,32 +9280,33 @@ union cavm_pcieep_ras_einj_ctl6cmpp3
                                                                  PCIEEP_RAS_EINJ_CTL6CMPV3[EINJ6_COM_VAL_H3] match, an error is inserted into the TLP. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpp3_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpp3_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpp3 cavm_pcieep_ras_einj_ctl6cmpp3_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpp3 cavm_pcieepx_ras_einj_ctl6cmpp3_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3 CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(uint64_t a)
 {
-    return 0x2a4;
+    if (a<=3)
+        return 0x2a4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3 cavm_pcieep_ras_einj_ctl6cmpp3_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3 "PCIEEP_RAS_EINJ_CTL6CMPP3"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPP3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(a) cavm_pcieepx_ras_einj_ctl6cmpp3_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(a) "PCIEEPX_RAS_EINJ_CTL6CMPP3"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpv0
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpv0
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Value H0) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpv0
+union cavm_pcieepx_ras_einj_ctl6cmpv0
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpv0_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpv0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_val_h0      : 32; /**< [ 31:  0](R/W) Packet compare value first DWORD.
@@ -9156,32 +9318,33 @@ union cavm_pcieep_ras_einj_ctl6cmpv0
                                                                  DWORD0 bits specified in PCIEEP_RAS_EINJ_CTL6CMPP0[EINJ6_COM_PT_H0]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpv0_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpv0_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpv0 cavm_pcieep_ras_einj_ctl6cmpv0_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpv0 cavm_pcieepx_ras_einj_ctl6cmpv0_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0 CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(uint64_t a)
 {
-    return 0x2a8;
+    if (a<=3)
+        return 0x2a8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV0", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0 cavm_pcieep_ras_einj_ctl6cmpv0_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0 "PCIEEP_RAS_EINJ_CTL6CMPV0"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV0 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(a) cavm_pcieepx_ras_einj_ctl6cmpv0_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(a) "PCIEEPX_RAS_EINJ_CTL6CMPV0"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpv1
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpv1
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Value H1) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpv1
+union cavm_pcieepx_ras_einj_ctl6cmpv1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpv1_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpv1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_val_h1      : 32; /**< [ 31:  0](R/W) Packet compare value second DWORD.
@@ -9193,32 +9356,33 @@ union cavm_pcieep_ras_einj_ctl6cmpv1
                                                                  DWORD1 bits specified in PCIEEP_RAS_EINJ_CTL6CMPP1[EINJ6_COM_PT_H1]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpv1_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpv1_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpv1 cavm_pcieep_ras_einj_ctl6cmpv1_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpv1 cavm_pcieepx_ras_einj_ctl6cmpv1_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1 CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(uint64_t a)
 {
-    return 0x2ac;
+    if (a<=3)
+        return 0x2ac + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1 cavm_pcieep_ras_einj_ctl6cmpv1_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1 "PCIEEP_RAS_EINJ_CTL6CMPV1"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(a) cavm_pcieepx_ras_einj_ctl6cmpv1_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(a) "PCIEEPX_RAS_EINJ_CTL6CMPV1"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpv2
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpv2
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Value H2) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpv2
+union cavm_pcieepx_ras_einj_ctl6cmpv2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpv2_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpv2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_val_h2      : 32; /**< [ 31:  0](R/W) Packet compare value third DWORD.
@@ -9230,32 +9394,33 @@ union cavm_pcieep_ras_einj_ctl6cmpv2
                                                                  DWORD2 bits specified in the PCIEEP_RAS_EINJ_CTL6CMPP2[EINJ6_COM_PT_H2]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpv2_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpv2_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpv2 cavm_pcieep_ras_einj_ctl6cmpv2_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpv2 cavm_pcieepx_ras_einj_ctl6cmpv2_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2 CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(uint64_t a)
 {
-    return 0x2b0;
+    if (a<=3)
+        return 0x2b0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2 cavm_pcieep_ras_einj_ctl6cmpv2_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2 "PCIEEP_RAS_EINJ_CTL6CMPV2"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(a) cavm_pcieepx_ras_einj_ctl6cmpv2_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(a) "PCIEEPX_RAS_EINJ_CTL6CMPV2"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6cmpv3
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6cmpv3
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Compare Value H3) Register
  */
-union cavm_pcieep_ras_einj_ctl6cmpv3
+union cavm_pcieepx_ras_einj_ctl6cmpv3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6cmpv3_s
+    struct cavm_pcieepx_ras_einj_ctl6cmpv3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_val_h3      : 32; /**< [ 31:  0](R/W) Packet compare value fourth DWORD.
@@ -9267,32 +9432,33 @@ union cavm_pcieep_ras_einj_ctl6cmpv3
                                                                  DWORD3 bits specified in the PCIEEP_RAS_EINJ_CTL6CMPP3[EINJ6_COM_PT_H3]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6cmpv3_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6cmpv3_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6cmpv3 cavm_pcieep_ras_einj_ctl6cmpv3_t;
+typedef union cavm_pcieepx_ras_einj_ctl6cmpv3 cavm_pcieepx_ras_einj_ctl6cmpv3_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3 CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(uint64_t a)
 {
-    return 0x2b4;
+    if (a<=3)
+        return 0x2b4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3 cavm_pcieep_ras_einj_ctl6cmpv3_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3 "PCIEEP_RAS_EINJ_CTL6CMPV3"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6CMPV3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(a) cavm_pcieepx_ras_einj_ctl6cmpv3_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(a) "PCIEEPX_RAS_EINJ_CTL6CMPV3"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_ctl6pe
+ * Register (PCICONFIGEP) pcieep#_ras_einj_ctl6pe
  *
  * PCIe EP Vendor RAS DES Error Injection Control 6 (Packet Error) Register
  */
-union cavm_pcieep_ras_einj_ctl6pe
+union cavm_pcieepx_ras_einj_ctl6pe
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_ctl6pe_s
+    struct cavm_pcieepx_ras_einj_ctl6pe_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -9340,32 +9506,33 @@ union cavm_pcieep_ras_einj_ctl6pe
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_ctl6pe_s cn; */
+    /* struct cavm_pcieepx_ras_einj_ctl6pe_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_ctl6pe cavm_pcieep_ras_einj_ctl6pe_t;
+typedef union cavm_pcieepx_ras_einj_ctl6pe cavm_pcieepx_ras_einj_ctl6pe_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_CTL6PE CAVM_PCIEEP_RAS_EINJ_CTL6PE_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6PE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_CTL6PE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6PE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6PE(uint64_t a)
 {
-    return 0x2d8;
+    if (a<=3)
+        return 0x2d8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6PE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_CTL6PE cavm_pcieep_ras_einj_ctl6pe_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_CTL6PE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_CTL6PE "PCIEEP_RAS_EINJ_CTL6PE"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_CTL6PE 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_CTL6PE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_CTL6PE(a) cavm_pcieepx_ras_einj_ctl6pe_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_CTL6PE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_CTL6PE(a) "PCIEEPX_RAS_EINJ_CTL6PE"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_CTL6PE(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_CTL6PE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_einj_en
+ * Register (PCICONFIGEP) pcieep#_ras_einj_en
  *
  * PCIe EP Vendor RAS DES Error Injection Enable Register
  */
-union cavm_pcieep_ras_einj_en
+union cavm_pcieepx_ras_einj_en
 {
     uint32_t u;
-    struct cavm_pcieep_ras_einj_en_s
+    struct cavm_pcieepx_ras_einj_en_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_7_31         : 25;
@@ -9403,32 +9570,33 @@ union cavm_pcieep_ras_einj_en
         uint32_t reserved_7_31         : 25;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_einj_en_s cn; */
+    /* struct cavm_pcieepx_ras_einj_en_s cn; */
 };
-typedef union cavm_pcieep_ras_einj_en cavm_pcieep_ras_einj_en_t;
+typedef union cavm_pcieepx_ras_einj_en cavm_pcieepx_ras_einj_en_t;
 
-#define CAVM_PCIEEP_RAS_EINJ_EN CAVM_PCIEEP_RAS_EINJ_EN_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_EN_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_EINJ_EN_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_EN(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_EN(uint64_t a)
 {
-    return 0x27c;
+    if (a<=3)
+        return 0x27c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_EINJ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_EINJ_EN cavm_pcieep_ras_einj_en_t
-#define bustype_CAVM_PCIEEP_RAS_EINJ_EN CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_EINJ_EN "PCIEEP_RAS_EINJ_EN"
-#define busnum_CAVM_PCIEEP_RAS_EINJ_EN 0
-#define arguments_CAVM_PCIEEP_RAS_EINJ_EN -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_EINJ_EN(a) cavm_pcieepx_ras_einj_en_t
+#define bustype_CAVM_PCIEEPX_RAS_EINJ_EN(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_EINJ_EN(a) "PCIEEPX_RAS_EINJ_EN"
+#define busnum_CAVM_PCIEEPX_RAS_EINJ_EN(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_EINJ_EN(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_hdr
+ * Register (PCICONFIGEP) pcieep#_ras_hdr
  *
  * PCIe EP Vendor RAS DES Header Register
  */
-union cavm_pcieep_ras_hdr
+union cavm_pcieepx_ras_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_ras_hdr_s
+    struct cavm_pcieepx_ras_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
@@ -9440,32 +9608,33 @@ union cavm_pcieep_ras_hdr
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_hdr_s cn; */
+    /* struct cavm_pcieepx_ras_hdr_s cn; */
 };
-typedef union cavm_pcieep_ras_hdr cavm_pcieep_ras_hdr_t;
+typedef union cavm_pcieepx_ras_hdr cavm_pcieepx_ras_hdr_t;
 
-#define CAVM_PCIEEP_RAS_HDR CAVM_PCIEEP_RAS_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_HDR(uint64_t a)
 {
-    return 0x250;
+    if (a<=3)
+        return 0x250 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_HDR cavm_pcieep_ras_hdr_t
-#define bustype_CAVM_PCIEEP_RAS_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_HDR "PCIEEP_RAS_HDR"
-#define busnum_CAVM_PCIEEP_RAS_HDR 0
-#define arguments_CAVM_PCIEEP_RAS_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_HDR(a) cavm_pcieepx_ras_hdr_t
+#define bustype_CAVM_PCIEEPX_RAS_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_HDR(a) "PCIEEPX_RAS_HDR"
+#define busnum_CAVM_PCIEEPX_RAS_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_ctl1
+ * Register (PCICONFIGEP) pcieep#_ras_sd_ctl1
  *
  * PCIe EP Vendor RAS DES Silicon Debug Control 1 Register
  */
-union cavm_pcieep_ras_sd_ctl1
+union cavm_pcieepx_ras_sd_ctl1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_ctl1_s
+    struct cavm_pcieepx_ras_sd_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -9555,32 +9724,33 @@ union cavm_pcieep_ras_sd_ctl1
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_ctl1_s cn; */
+    /* struct cavm_pcieepx_ras_sd_ctl1_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_ctl1 cavm_pcieep_ras_sd_ctl1_t;
+typedef union cavm_pcieepx_ras_sd_ctl1 cavm_pcieepx_ras_sd_ctl1_t;
 
-#define CAVM_PCIEEP_RAS_SD_CTL1 CAVM_PCIEEP_RAS_SD_CTL1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_CTL1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL1(uint64_t a)
 {
-    return 0x2ec;
+    if (a<=3)
+        return 0x2ec + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_CTL1 cavm_pcieep_ras_sd_ctl1_t
-#define bustype_CAVM_PCIEEP_RAS_SD_CTL1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_CTL1 "PCIEEP_RAS_SD_CTL1"
-#define busnum_CAVM_PCIEEP_RAS_SD_CTL1 0
-#define arguments_CAVM_PCIEEP_RAS_SD_CTL1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_CTL1(a) cavm_pcieepx_ras_sd_ctl1_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_CTL1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_CTL1(a) "PCIEEPX_RAS_SD_CTL1"
+#define busnum_CAVM_PCIEEPX_RAS_SD_CTL1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_CTL1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_ctl2
+ * Register (PCICONFIGEP) pcieep#_ras_sd_ctl2
  *
  * PCIe EP Vendor RAS DES Silicon Debug Control 2 Register
  */
-union cavm_pcieep_ras_sd_ctl2
+union cavm_pcieepx_ras_sd_ctl2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_ctl2_s
+    struct cavm_pcieepx_ras_sd_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
@@ -9638,32 +9808,33 @@ union cavm_pcieep_ras_sd_ctl2
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_ctl2_s cn; */
+    /* struct cavm_pcieepx_ras_sd_ctl2_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_ctl2 cavm_pcieep_ras_sd_ctl2_t;
+typedef union cavm_pcieepx_ras_sd_ctl2 cavm_pcieepx_ras_sd_ctl2_t;
 
-#define CAVM_PCIEEP_RAS_SD_CTL2 CAVM_PCIEEP_RAS_SD_CTL2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_CTL2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL2(uint64_t a)
 {
-    return 0x2f0;
+    if (a<=3)
+        return 0x2f0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_CTL2 cavm_pcieep_ras_sd_ctl2_t
-#define bustype_CAVM_PCIEEP_RAS_SD_CTL2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_CTL2 "PCIEEP_RAS_SD_CTL2"
-#define busnum_CAVM_PCIEEP_RAS_SD_CTL2 0
-#define arguments_CAVM_PCIEEP_RAS_SD_CTL2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_CTL2(a) cavm_pcieepx_ras_sd_ctl2_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_CTL2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_CTL2(a) "PCIEEPX_RAS_SD_CTL2"
+#define busnum_CAVM_PCIEEPX_RAS_SD_CTL2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_CTL2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_eq_ctl1
+ * Register (PCICONFIGEP) pcieep#_ras_sd_eq_ctl1
  *
  * PCIe EP Vendor RAS DES Silicon Debug EQ Control 1 Register
  */
-union cavm_pcieep_ras_sd_eq_ctl1
+union cavm_pcieepx_ras_sd_eq_ctl1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_eq_ctl1_s
+    struct cavm_pcieepx_ras_sd_eq_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t fom_target            : 8;  /**< [ 31: 24](R/W) FOM target.
@@ -9779,32 +9950,33 @@ union cavm_pcieep_ras_sd_eq_ctl1
                                                                  0x1 (figure of merit). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_eq_ctl1_s cn; */
+    /* struct cavm_pcieepx_ras_sd_eq_ctl1_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_eq_ctl1 cavm_pcieep_ras_sd_eq_ctl1_t;
+typedef union cavm_pcieepx_ras_sd_eq_ctl1 cavm_pcieepx_ras_sd_eq_ctl1_t;
 
-#define CAVM_PCIEEP_RAS_SD_EQ_CTL1 CAVM_PCIEEP_RAS_SD_EQ_CTL1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_CTL1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL1(uint64_t a)
 {
-    return 0x31c;
+    if (a<=3)
+        return 0x31c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_EQ_CTL1 cavm_pcieep_ras_sd_eq_ctl1_t
-#define bustype_CAVM_PCIEEP_RAS_SD_EQ_CTL1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_EQ_CTL1 "PCIEEP_RAS_SD_EQ_CTL1"
-#define busnum_CAVM_PCIEEP_RAS_SD_EQ_CTL1 0
-#define arguments_CAVM_PCIEEP_RAS_SD_EQ_CTL1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_EQ_CTL1(a) cavm_pcieepx_ras_sd_eq_ctl1_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_EQ_CTL1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_EQ_CTL1(a) "PCIEEPX_RAS_SD_EQ_CTL1"
+#define busnum_CAVM_PCIEEPX_RAS_SD_EQ_CTL1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_EQ_CTL1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_eq_ctl2
+ * Register (PCICONFIGEP) pcieep#_ras_sd_eq_ctl2
  *
  * PCIe EP Vendor RAS DES Silicon Debug EQ Control 2 Register
  */
-union cavm_pcieep_ras_sd_eq_ctl2
+union cavm_pcieepx_ras_sd_eq_ctl2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_eq_ctl2_s
+    struct cavm_pcieepx_ras_sd_eq_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -9864,32 +10036,33 @@ union cavm_pcieep_ras_sd_eq_ctl2
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_eq_ctl2_s cn; */
+    /* struct cavm_pcieepx_ras_sd_eq_ctl2_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_eq_ctl2 cavm_pcieep_ras_sd_eq_ctl2_t;
+typedef union cavm_pcieepx_ras_sd_eq_ctl2 cavm_pcieepx_ras_sd_eq_ctl2_t;
 
-#define CAVM_PCIEEP_RAS_SD_EQ_CTL2 CAVM_PCIEEP_RAS_SD_EQ_CTL2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_CTL2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL2(uint64_t a)
 {
-    return 0x320;
+    if (a<=3)
+        return 0x320 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_EQ_CTL2 cavm_pcieep_ras_sd_eq_ctl2_t
-#define bustype_CAVM_PCIEEP_RAS_SD_EQ_CTL2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_EQ_CTL2 "PCIEEP_RAS_SD_EQ_CTL2"
-#define busnum_CAVM_PCIEEP_RAS_SD_EQ_CTL2 0
-#define arguments_CAVM_PCIEEP_RAS_SD_EQ_CTL2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_EQ_CTL2(a) cavm_pcieepx_ras_sd_eq_ctl2_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_EQ_CTL2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_EQ_CTL2(a) "PCIEEPX_RAS_SD_EQ_CTL2"
+#define busnum_CAVM_PCIEEPX_RAS_SD_EQ_CTL2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_EQ_CTL2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_eq_ctl3
+ * Register (PCICONFIGEP) pcieep#_ras_sd_eq_ctl3
  *
  * PCIe EP Vendor RAS DES Silicon Debug EQ Control 3 Register
  */
-union cavm_pcieep_ras_sd_eq_ctl3
+union cavm_pcieepx_ras_sd_eq_ctl3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_eq_ctl3_s
+    struct cavm_pcieepx_ras_sd_eq_ctl3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -9941,32 +10114,33 @@ union cavm_pcieep_ras_sd_eq_ctl3
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_eq_ctl3_s cn; */
+    /* struct cavm_pcieepx_ras_sd_eq_ctl3_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_eq_ctl3 cavm_pcieep_ras_sd_eq_ctl3_t;
+typedef union cavm_pcieepx_ras_sd_eq_ctl3 cavm_pcieepx_ras_sd_eq_ctl3_t;
 
-#define CAVM_PCIEEP_RAS_SD_EQ_CTL3 CAVM_PCIEEP_RAS_SD_EQ_CTL3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_CTL3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_CTL3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL3(uint64_t a)
 {
-    return 0x324;
+    if (a<=3)
+        return 0x324 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_EQ_CTL3 cavm_pcieep_ras_sd_eq_ctl3_t
-#define bustype_CAVM_PCIEEP_RAS_SD_EQ_CTL3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_EQ_CTL3 "PCIEEP_RAS_SD_EQ_CTL3"
-#define busnum_CAVM_PCIEEP_RAS_SD_EQ_CTL3 0
-#define arguments_CAVM_PCIEEP_RAS_SD_EQ_CTL3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_EQ_CTL3(a) cavm_pcieepx_ras_sd_eq_ctl3_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_EQ_CTL3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_EQ_CTL3(a) "PCIEEPX_RAS_SD_EQ_CTL3"
+#define busnum_CAVM_PCIEEPX_RAS_SD_EQ_CTL3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_EQ_CTL3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_eq_stat1
+ * Register (PCICONFIGEP) pcieep#_ras_sd_eq_stat1
  *
  * PCIe EP Vendor RAS DES Silicon Debug EQ Status 1 Register
  */
-union cavm_pcieep_ras_sd_eq_stat1
+union cavm_pcieepx_ras_sd_eq_stat1
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_eq_stat1_s
+    struct cavm_pcieepx_ras_sd_eq_stat1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -10060,32 +10234,33 @@ union cavm_pcieep_ras_sd_eq_stat1
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_eq_stat1_s cn; */
+    /* struct cavm_pcieepx_ras_sd_eq_stat1_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_eq_stat1 cavm_pcieep_ras_sd_eq_stat1_t;
+typedef union cavm_pcieepx_ras_sd_eq_stat1 cavm_pcieepx_ras_sd_eq_stat1_t;
 
-#define CAVM_PCIEEP_RAS_SD_EQ_STAT1 CAVM_PCIEEP_RAS_SD_EQ_STAT1_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_STAT1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_STAT1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT1(uint64_t a)
 {
-    return 0x32c;
+    if (a<=3)
+        return 0x32c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_EQ_STAT1 cavm_pcieep_ras_sd_eq_stat1_t
-#define bustype_CAVM_PCIEEP_RAS_SD_EQ_STAT1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_EQ_STAT1 "PCIEEP_RAS_SD_EQ_STAT1"
-#define busnum_CAVM_PCIEEP_RAS_SD_EQ_STAT1 0
-#define arguments_CAVM_PCIEEP_RAS_SD_EQ_STAT1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_EQ_STAT1(a) cavm_pcieepx_ras_sd_eq_stat1_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_EQ_STAT1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_EQ_STAT1(a) "PCIEEPX_RAS_SD_EQ_STAT1"
+#define busnum_CAVM_PCIEEPX_RAS_SD_EQ_STAT1(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_EQ_STAT1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_eq_stat2
+ * Register (PCICONFIGEP) pcieep#_ras_sd_eq_stat2
  *
  * PCIe EP Vendor RAS DES Silicon Debug EQ Status 2 Register
  */
-union cavm_pcieep_ras_sd_eq_stat2
+union cavm_pcieepx_ras_sd_eq_stat2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_eq_stat2_s
+    struct cavm_pcieepx_ras_sd_eq_stat2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO/H) EQ local figure of merit.
@@ -10113,32 +10288,33 @@ union cavm_pcieep_ras_sd_eq_stat2
                                                                  Indicates local maximum figure of merit value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_eq_stat2_s cn; */
+    /* struct cavm_pcieepx_ras_sd_eq_stat2_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_eq_stat2 cavm_pcieep_ras_sd_eq_stat2_t;
+typedef union cavm_pcieepx_ras_sd_eq_stat2 cavm_pcieepx_ras_sd_eq_stat2_t;
 
-#define CAVM_PCIEEP_RAS_SD_EQ_STAT2 CAVM_PCIEEP_RAS_SD_EQ_STAT2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_STAT2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_STAT2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT2(uint64_t a)
 {
-    return 0x330;
+    if (a<=3)
+        return 0x330 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_EQ_STAT2 cavm_pcieep_ras_sd_eq_stat2_t
-#define bustype_CAVM_PCIEEP_RAS_SD_EQ_STAT2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_EQ_STAT2 "PCIEEP_RAS_SD_EQ_STAT2"
-#define busnum_CAVM_PCIEEP_RAS_SD_EQ_STAT2 0
-#define arguments_CAVM_PCIEEP_RAS_SD_EQ_STAT2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_EQ_STAT2(a) cavm_pcieepx_ras_sd_eq_stat2_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_EQ_STAT2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_EQ_STAT2(a) "PCIEEPX_RAS_SD_EQ_STAT2"
+#define busnum_CAVM_PCIEEPX_RAS_SD_EQ_STAT2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_EQ_STAT2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_eq_stat3
+ * Register (PCICONFIGEP) pcieep#_ras_sd_eq_stat3
  *
  * PCIe EP Vendor RAS DES Silicon Debug EQ Status 3 Register
  */
-union cavm_pcieep_ras_sd_eq_stat3
+union cavm_pcieepx_ras_sd_eq_stat3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_eq_stat3_s
+    struct cavm_pcieepx_ras_sd_eq_stat3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -10166,32 +10342,33 @@ union cavm_pcieep_ras_sd_eq_stat3
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_eq_stat3_s cn; */
+    /* struct cavm_pcieepx_ras_sd_eq_stat3_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_eq_stat3 cavm_pcieep_ras_sd_eq_stat3_t;
+typedef union cavm_pcieepx_ras_sd_eq_stat3 cavm_pcieepx_ras_sd_eq_stat3_t;
 
-#define CAVM_PCIEEP_RAS_SD_EQ_STAT3 CAVM_PCIEEP_RAS_SD_EQ_STAT3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_STAT3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_EQ_STAT3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT3(uint64_t a)
 {
-    return 0x334;
+    if (a<=3)
+        return 0x334 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_EQ_STAT3 cavm_pcieep_ras_sd_eq_stat3_t
-#define bustype_CAVM_PCIEEP_RAS_SD_EQ_STAT3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_EQ_STAT3 "PCIEEP_RAS_SD_EQ_STAT3"
-#define busnum_CAVM_PCIEEP_RAS_SD_EQ_STAT3 0
-#define arguments_CAVM_PCIEEP_RAS_SD_EQ_STAT3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_EQ_STAT3(a) cavm_pcieepx_ras_sd_eq_stat3_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_EQ_STAT3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_EQ_STAT3(a) "PCIEEPX_RAS_SD_EQ_STAT3"
+#define busnum_CAVM_PCIEEPX_RAS_SD_EQ_STAT3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_EQ_STAT3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_l1lane
+ * Register (PCICONFIGEP) pcieep#_ras_sd_l1lane
  *
  * PCIe EP Vendor RAS DES Silicon Debug Status L1Lane Register
  */
-union cavm_pcieep_ras_sd_l1lane
+union cavm_pcieepx_ras_sd_l1lane
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_l1lane_s
+    struct cavm_pcieepx_ras_sd_l1lane_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t deskew_ptr            : 8;  /**< [ 31: 24](RO/H) Deskew pointer.
@@ -10253,32 +10430,33 @@ union cavm_pcieep_ras_sd_l1lane
                                                                  selected lane number ([LANE_SELECT]). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_l1lane_s cn; */
+    /* struct cavm_pcieepx_ras_sd_l1lane_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_l1lane cavm_pcieep_ras_sd_l1lane_t;
+typedef union cavm_pcieepx_ras_sd_l1lane cavm_pcieepx_ras_sd_l1lane_t;
 
-#define CAVM_PCIEEP_RAS_SD_L1LANE CAVM_PCIEEP_RAS_SD_L1LANE_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_L1LANE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_L1LANE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LANE(uint64_t a)
 {
-    return 0x2fc;
+    if (a<=3)
+        return 0x2fc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_L1LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_L1LANE cavm_pcieep_ras_sd_l1lane_t
-#define bustype_CAVM_PCIEEP_RAS_SD_L1LANE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_L1LANE "PCIEEP_RAS_SD_L1LANE"
-#define busnum_CAVM_PCIEEP_RAS_SD_L1LANE 0
-#define arguments_CAVM_PCIEEP_RAS_SD_L1LANE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_L1LANE(a) cavm_pcieepx_ras_sd_l1lane_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_L1LANE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_L1LANE(a) "PCIEEPX_RAS_SD_L1LANE"
+#define busnum_CAVM_PCIEEPX_RAS_SD_L1LANE(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_L1LANE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_l1ltssm
+ * Register (PCICONFIGEP) pcieep#_ras_sd_l1ltssm
  *
  * PCIe EP Vendor RAS DES Silicon Debug Status L1LTSSM Register
  */
-union cavm_pcieep_ras_sd_l1ltssm
+union cavm_pcieepx_ras_sd_l1ltssm
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_l1ltssm_s
+    struct cavm_pcieepx_ras_sd_l1ltssm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ltssm_var             : 16; /**< [ 31: 16](RO/H) LTSSM variable.
@@ -10416,32 +10594,33 @@ union cavm_pcieep_ras_sd_l1ltssm
                                                                  0x8-0xF = idle_to_rlock_transitioned. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_l1ltssm_s cn; */
+    /* struct cavm_pcieepx_ras_sd_l1ltssm_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_l1ltssm cavm_pcieep_ras_sd_l1ltssm_t;
+typedef union cavm_pcieepx_ras_sd_l1ltssm cavm_pcieepx_ras_sd_l1ltssm_t;
 
-#define CAVM_PCIEEP_RAS_SD_L1LTSSM CAVM_PCIEEP_RAS_SD_L1LTSSM_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_L1LTSSM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_L1LTSSM_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LTSSM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LTSSM(uint64_t a)
 {
-    return 0x300;
+    if (a<=3)
+        return 0x300 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_L1LTSSM", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_L1LTSSM cavm_pcieep_ras_sd_l1ltssm_t
-#define bustype_CAVM_PCIEEP_RAS_SD_L1LTSSM CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_L1LTSSM "PCIEEP_RAS_SD_L1LTSSM"
-#define busnum_CAVM_PCIEEP_RAS_SD_L1LTSSM 0
-#define arguments_CAVM_PCIEEP_RAS_SD_L1LTSSM -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_L1LTSSM(a) cavm_pcieepx_ras_sd_l1ltssm_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_L1LTSSM(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_L1LTSSM(a) "PCIEEPX_RAS_SD_L1LTSSM"
+#define busnum_CAVM_PCIEEPX_RAS_SD_L1LTSSM(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_L1LTSSM(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_statusl2
+ * Register (PCICONFIGEP) pcieep#_ras_sd_statusl2
  *
  * PCIe EP Vendor RAS DES Silicon Debug Status L2 Register
  */
-union cavm_pcieep_ras_sd_statusl2
+union cavm_pcieepx_ras_sd_statusl2
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_statusl2_s
+    struct cavm_pcieepx_ras_sd_statusl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -10473,32 +10652,33 @@ union cavm_pcieep_ras_sd_statusl2
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_statusl2_s cn; */
+    /* struct cavm_pcieepx_ras_sd_statusl2_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_statusl2 cavm_pcieep_ras_sd_statusl2_t;
+typedef union cavm_pcieepx_ras_sd_statusl2 cavm_pcieepx_ras_sd_statusl2_t;
 
-#define CAVM_PCIEEP_RAS_SD_STATUSL2 CAVM_PCIEEP_RAS_SD_STATUSL2_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSL2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL2(uint64_t a)
 {
-    return 0x308;
+    if (a<=3)
+        return 0x308 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSL2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_STATUSL2 cavm_pcieep_ras_sd_statusl2_t
-#define bustype_CAVM_PCIEEP_RAS_SD_STATUSL2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_STATUSL2 "PCIEEP_RAS_SD_STATUSL2"
-#define busnum_CAVM_PCIEEP_RAS_SD_STATUSL2 0
-#define arguments_CAVM_PCIEEP_RAS_SD_STATUSL2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_STATUSL2(a) cavm_pcieepx_ras_sd_statusl2_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_STATUSL2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_STATUSL2(a) "PCIEEPX_RAS_SD_STATUSL2"
+#define busnum_CAVM_PCIEEPX_RAS_SD_STATUSL2(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_STATUSL2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_statusl3
+ * Register (PCICONFIGEP) pcieep#_ras_sd_statusl3
  *
  * PCIe EP Vendor RAS DES Silicon Debug Status L3 Register
  */
-union cavm_pcieep_ras_sd_statusl3
+union cavm_pcieepx_ras_sd_statusl3
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_statusl3_s
+    struct cavm_pcieepx_ras_sd_statusl3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -10550,32 +10730,33 @@ union cavm_pcieep_ras_sd_statusl3
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_statusl3_s cn; */
+    /* struct cavm_pcieepx_ras_sd_statusl3_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_statusl3 cavm_pcieep_ras_sd_statusl3_t;
+typedef union cavm_pcieepx_ras_sd_statusl3 cavm_pcieepx_ras_sd_statusl3_t;
 
-#define CAVM_PCIEEP_RAS_SD_STATUSL3 CAVM_PCIEEP_RAS_SD_STATUSL3_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSL3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSL3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3(uint64_t a)
 {
-    return 0x310;
+    if (a<=3)
+        return 0x310 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSL3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_STATUSL3 cavm_pcieep_ras_sd_statusl3_t
-#define bustype_CAVM_PCIEEP_RAS_SD_STATUSL3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_STATUSL3 "PCIEEP_RAS_SD_STATUSL3"
-#define busnum_CAVM_PCIEEP_RAS_SD_STATUSL3 0
-#define arguments_CAVM_PCIEEP_RAS_SD_STATUSL3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_STATUSL3(a) cavm_pcieepx_ras_sd_statusl3_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_STATUSL3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_STATUSL3(a) "PCIEEPX_RAS_SD_STATUSL3"
+#define busnum_CAVM_PCIEEPX_RAS_SD_STATUSL3(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_STATUSL3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_statusl3fc
+ * Register (PCICONFIGEP) pcieep#_ras_sd_statusl3fc
  *
  * PCIe EP Vendor RAS DES Silicon Debug Status L2 Register
  */
-union cavm_pcieep_ras_sd_statusl3fc
+union cavm_pcieepx_ras_sd_statusl3fc
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_statusl3fc_s
+    struct cavm_pcieepx_ras_sd_statusl3fc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t credit_data1          : 12; /**< [ 31: 20](RO/H) Credit data 1.
@@ -10677,32 +10858,33 @@ union cavm_pcieep_ras_sd_statusl3fc
                                                                  TX = Credit limit value. This value is valid when DLCMSM=0x3(DL_ACTIVE). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_statusl3fc_s cn; */
+    /* struct cavm_pcieepx_ras_sd_statusl3fc_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_statusl3fc cavm_pcieep_ras_sd_statusl3fc_t;
+typedef union cavm_pcieepx_ras_sd_statusl3fc cavm_pcieepx_ras_sd_statusl3fc_t;
 
-#define CAVM_PCIEEP_RAS_SD_STATUSL3FC CAVM_PCIEEP_RAS_SD_STATUSL3FC_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSL3FC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSL3FC_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3FC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3FC(uint64_t a)
 {
-    return 0x30c;
+    if (a<=3)
+        return 0x30c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSL3FC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_STATUSL3FC cavm_pcieep_ras_sd_statusl3fc_t
-#define bustype_CAVM_PCIEEP_RAS_SD_STATUSL3FC CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_STATUSL3FC "PCIEEP_RAS_SD_STATUSL3FC"
-#define busnum_CAVM_PCIEEP_RAS_SD_STATUSL3FC 0
-#define arguments_CAVM_PCIEEP_RAS_SD_STATUSL3FC -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_STATUSL3FC(a) cavm_pcieepx_ras_sd_statusl3fc_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_STATUSL3FC(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_STATUSL3FC(a) "PCIEEPX_RAS_SD_STATUSL3FC"
+#define busnum_CAVM_PCIEEPX_RAS_SD_STATUSL3FC(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_STATUSL3FC(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_sd_statuspm
+ * Register (PCICONFIGEP) pcieep#_ras_sd_statuspm
  *
  * PCIe EP Vendor RAS DES Silicon Debug Status PM Register
  */
-union cavm_pcieep_ras_sd_statuspm
+union cavm_pcieepx_ras_sd_statuspm
 {
     uint32_t u;
-    struct cavm_pcieep_ras_sd_statuspm_s
+    struct cavm_pcieepx_ras_sd_statuspm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -10838,32 +11020,33 @@ union cavm_pcieep_ras_sd_statuspm
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_sd_statuspm_s cn; */
+    /* struct cavm_pcieepx_ras_sd_statuspm_s cn; */
 };
-typedef union cavm_pcieep_ras_sd_statuspm cavm_pcieep_ras_sd_statuspm_t;
+typedef union cavm_pcieepx_ras_sd_statuspm cavm_pcieepx_ras_sd_statuspm_t;
 
-#define CAVM_PCIEEP_RAS_SD_STATUSPM CAVM_PCIEEP_RAS_SD_STATUSPM_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSPM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_SD_STATUSPM_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSPM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSPM(uint64_t a)
 {
-    return 0x304;
+    if (a<=3)
+        return 0x304 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSPM", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_SD_STATUSPM cavm_pcieep_ras_sd_statuspm_t
-#define bustype_CAVM_PCIEEP_RAS_SD_STATUSPM CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_SD_STATUSPM "PCIEEP_RAS_SD_STATUSPM"
-#define busnum_CAVM_PCIEEP_RAS_SD_STATUSPM 0
-#define arguments_CAVM_PCIEEP_RAS_SD_STATUSPM -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_SD_STATUSPM(a) cavm_pcieepx_ras_sd_statuspm_t
+#define bustype_CAVM_PCIEEPX_RAS_SD_STATUSPM(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_SD_STATUSPM(a) "PCIEEPX_RAS_SD_STATUSPM"
+#define busnum_CAVM_PCIEEPX_RAS_SD_STATUSPM(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_SD_STATUSPM(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_tba_ctl
+ * Register (PCICONFIGEP) pcieep#_ras_tba_ctl
  *
  * PCIe EP Vendor RAS DES Time Based Analysis Control Register
  */
-union cavm_pcieep_ras_tba_ctl
+union cavm_pcieepx_ras_tba_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_ras_tba_ctl_s
+    struct cavm_pcieepx_ras_tba_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t tbase_rpt_sel         : 8;  /**< [ 31: 24](R/W) Time-based report select. Selects what type of data is measured for the selected
@@ -10947,32 +11130,33 @@ union cavm_pcieep_ras_tba_ctl
                                                                  0x21 = RX TLP Bytes. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_tba_ctl_s cn; */
+    /* struct cavm_pcieepx_ras_tba_ctl_s cn; */
 };
-typedef union cavm_pcieep_ras_tba_ctl cavm_pcieep_ras_tba_ctl_t;
+typedef union cavm_pcieepx_ras_tba_ctl cavm_pcieepx_ras_tba_ctl_t;
 
-#define CAVM_PCIEEP_RAS_TBA_CTL CAVM_PCIEEP_RAS_TBA_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_TBA_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_TBA_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_TBA_CTL(uint64_t a)
 {
-    return 0x25c;
+    if (a<=3)
+        return 0x25c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_TBA_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_TBA_CTL cavm_pcieep_ras_tba_ctl_t
-#define bustype_CAVM_PCIEEP_RAS_TBA_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_TBA_CTL "PCIEEP_RAS_TBA_CTL"
-#define busnum_CAVM_PCIEEP_RAS_TBA_CTL 0
-#define arguments_CAVM_PCIEEP_RAS_TBA_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_TBA_CTL(a) cavm_pcieepx_ras_tba_ctl_t
+#define bustype_CAVM_PCIEEPX_RAS_TBA_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_TBA_CTL(a) "PCIEEPX_RAS_TBA_CTL"
+#define busnum_CAVM_PCIEEPX_RAS_TBA_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_TBA_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ras_tba_data
+ * Register (PCICONFIGEP) pcieep#_ras_tba_data
  *
  * PCIe EP Vendor RAS DES Time Based Analysis Data Register
  */
-union cavm_pcieep_ras_tba_data
+union cavm_pcieepx_ras_tba_data
 {
     uint32_t u;
-    struct cavm_pcieep_ras_tba_data_s
+    struct cavm_pcieepx_ras_tba_data_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t tbase_data            : 32; /**< [ 31:  0](RO/H) Time-based analysis data.  This register returns data selected in the
@@ -10984,32 +11168,33 @@ union cavm_pcieep_ras_tba_data
                                                                  the next measurement starts. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ras_tba_data_s cn; */
+    /* struct cavm_pcieepx_ras_tba_data_s cn; */
 };
-typedef union cavm_pcieep_ras_tba_data cavm_pcieep_ras_tba_data_t;
+typedef union cavm_pcieepx_ras_tba_data cavm_pcieepx_ras_tba_data_t;
 
-#define CAVM_PCIEEP_RAS_TBA_DATA CAVM_PCIEEP_RAS_TBA_DATA_FUNC()
-static inline uint64_t CAVM_PCIEEP_RAS_TBA_DATA_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RAS_TBA_DATA_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RAS_TBA_DATA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RAS_TBA_DATA(uint64_t a)
 {
-    return 0x260;
+    if (a<=3)
+        return 0x260 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RAS_TBA_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RAS_TBA_DATA cavm_pcieep_ras_tba_data_t
-#define bustype_CAVM_PCIEEP_RAS_TBA_DATA CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RAS_TBA_DATA "PCIEEP_RAS_TBA_DATA"
-#define busnum_CAVM_PCIEEP_RAS_TBA_DATA 0
-#define arguments_CAVM_PCIEEP_RAS_TBA_DATA -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RAS_TBA_DATA(a) cavm_pcieepx_ras_tba_data_t
+#define bustype_CAVM_PCIEEPX_RAS_TBA_DATA(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RAS_TBA_DATA(a) "PCIEEPX_RAS_TBA_DATA"
+#define busnum_CAVM_PCIEEPX_RAS_TBA_DATA(a) (a)
+#define arguments_CAVM_PCIEEPX_RAS_TBA_DATA(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_rasdp_cap_hdr
  *
  * PCIe EP Vendor RAS Data Path Protection Header Register
  */
-union cavm_pcieep_rasdp_cap_hdr
+union cavm_pcieepx_rasdp_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_cap_hdr_s
+    struct cavm_pcieepx_rasdp_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
@@ -11041,32 +11226,33 @@ union cavm_pcieep_rasdp_cap_hdr
                                                                  For all other PFs, this field points to PTM Requester Capabilities by default. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_rasdp_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_rasdp_cap_hdr cavm_pcieep_rasdp_cap_hdr_t;
+typedef union cavm_pcieepx_rasdp_cap_hdr cavm_pcieepx_rasdp_cap_hdr_t;
 
-#define CAVM_PCIEEP_RASDP_CAP_HDR CAVM_PCIEEP_RASDP_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_CAP_HDR(uint64_t a)
 {
-    return 0x34c;
+    if (a<=3)
+        return 0x34c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_CAP_HDR cavm_pcieep_rasdp_cap_hdr_t
-#define bustype_CAVM_PCIEEP_RASDP_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_CAP_HDR "PCIEEP_RASDP_CAP_HDR"
-#define busnum_CAVM_PCIEEP_RASDP_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_RASDP_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_CAP_HDR(a) cavm_pcieepx_rasdp_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_RASDP_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_CAP_HDR(a) "PCIEEPX_RASDP_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_RASDP_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_ce_ctl
+ * Register (PCICONFIGEP) pcieep#_rasdp_ce_ctl
  *
  * PCIe EP RAS Data Path Correctable Error Control Register
  */
-union cavm_pcieep_rasdp_ce_ctl
+union cavm_pcieepx_rasdp_ce_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_ce_ctl_s
+    struct cavm_pcieepx_rasdp_ce_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
@@ -11116,32 +11302,33 @@ union cavm_pcieep_rasdp_ce_ctl
                                                                  cycle this field value from 0 to 255 to access all counters. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_ce_ctl_s cn; */
+    /* struct cavm_pcieepx_rasdp_ce_ctl_s cn; */
 };
-typedef union cavm_pcieep_rasdp_ce_ctl cavm_pcieep_rasdp_ce_ctl_t;
+typedef union cavm_pcieepx_rasdp_ce_ctl cavm_pcieepx_rasdp_ce_ctl_t;
 
-#define CAVM_PCIEEP_RASDP_CE_CTL CAVM_PCIEEP_RASDP_CE_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_CTL(uint64_t a)
 {
-    return 0x358;
+    if (a<=3)
+        return 0x358 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_CE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_CE_CTL cavm_pcieep_rasdp_ce_ctl_t
-#define bustype_CAVM_PCIEEP_RASDP_CE_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_CE_CTL "PCIEEP_RASDP_CE_CTL"
-#define busnum_CAVM_PCIEEP_RASDP_CE_CTL 0
-#define arguments_CAVM_PCIEEP_RASDP_CE_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_CE_CTL(a) cavm_pcieepx_rasdp_ce_ctl_t
+#define bustype_CAVM_PCIEEPX_RASDP_CE_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_CE_CTL(a) "PCIEEPX_RASDP_CE_CTL"
+#define busnum_CAVM_PCIEEPX_RASDP_CE_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_CE_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_ce_ictl
+ * Register (PCICONFIGEP) pcieep#_rasdp_ce_ictl
  *
  * PCIe EP RAS Data Correctable Error Injection Control Register
  */
-union cavm_pcieep_rasdp_ce_ictl
+union cavm_pcieepx_rasdp_ce_ictl
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_ce_ictl_s
+    struct cavm_pcieepx_rasdp_ce_ictl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -11177,32 +11364,33 @@ union cavm_pcieep_rasdp_ce_ictl
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_ce_ictl_s cn; */
+    /* struct cavm_pcieepx_rasdp_ce_ictl_s cn; */
 };
-typedef union cavm_pcieep_rasdp_ce_ictl cavm_pcieep_rasdp_ce_ictl_t;
+typedef union cavm_pcieepx_rasdp_ce_ictl cavm_pcieepx_rasdp_ce_ictl_t;
 
-#define CAVM_PCIEEP_RASDP_CE_ICTL CAVM_PCIEEP_RASDP_CE_ICTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_ICTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_ICTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_ICTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_ICTL(uint64_t a)
 {
-    return 0x368;
+    if (a<=3)
+        return 0x368 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_CE_ICTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_CE_ICTL cavm_pcieep_rasdp_ce_ictl_t
-#define bustype_CAVM_PCIEEP_RASDP_CE_ICTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_CE_ICTL "PCIEEP_RASDP_CE_ICTL"
-#define busnum_CAVM_PCIEEP_RASDP_CE_ICTL 0
-#define arguments_CAVM_PCIEEP_RASDP_CE_ICTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_CE_ICTL(a) cavm_pcieepx_rasdp_ce_ictl_t
+#define bustype_CAVM_PCIEEPX_RASDP_CE_ICTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_CE_ICTL(a) "PCIEEPX_RASDP_CE_ICTL"
+#define busnum_CAVM_PCIEEPX_RASDP_CE_ICTL(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_CE_ICTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_ce_loc
+ * Register (PCICONFIGEP) pcieep#_rasdp_ce_loc
  *
  * PCIe EP RAS Data Correctable Error Location Register
  */
-union cavm_pcieep_rasdp_ce_loc
+union cavm_pcieepx_rasdp_ce_loc
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_ce_loc_s
+    struct cavm_pcieepx_rasdp_ce_loc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
@@ -11284,32 +11472,33 @@ union cavm_pcieep_rasdp_ce_loc
                                                                  [REG_LAST_CORR_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_ce_loc_s cn; */
+    /* struct cavm_pcieepx_rasdp_ce_loc_s cn; */
 };
-typedef union cavm_pcieep_rasdp_ce_loc cavm_pcieep_rasdp_ce_loc_t;
+typedef union cavm_pcieepx_rasdp_ce_loc cavm_pcieepx_rasdp_ce_loc_t;
 
-#define CAVM_PCIEEP_RASDP_CE_LOC CAVM_PCIEEP_RASDP_CE_LOC_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_LOC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_LOC_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_LOC(uint64_t a)
 {
-    return 0x36c;
+    if (a<=3)
+        return 0x36c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_CE_LOC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_CE_LOC cavm_pcieep_rasdp_ce_loc_t
-#define bustype_CAVM_PCIEEP_RASDP_CE_LOC CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_CE_LOC "PCIEEP_RASDP_CE_LOC"
-#define busnum_CAVM_PCIEEP_RASDP_CE_LOC 0
-#define arguments_CAVM_PCIEEP_RASDP_CE_LOC -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_CE_LOC(a) cavm_pcieepx_rasdp_ce_loc_t
+#define bustype_CAVM_PCIEEPX_RASDP_CE_LOC(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_CE_LOC(a) "PCIEEPX_RASDP_CE_LOC"
+#define busnum_CAVM_PCIEEPX_RASDP_CE_LOC(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_CE_LOC(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_ce_rp
+ * Register (PCICONFIGEP) pcieep#_rasdp_ce_rp
  *
  * PCIe EP RAS Data Path Correctable Error Report Register
  */
-union cavm_pcieep_rasdp_ce_rp
+union cavm_pcieepx_rasdp_ce_rp
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_ce_rp_s
+    struct cavm_pcieepx_rasdp_ce_rp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIEEP_RASDP_CE_CTL[CORR_CNT_SEL]. */
@@ -11349,32 +11538,33 @@ union cavm_pcieep_rasdp_ce_rp
         uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIEEP_RASDP_CE_CTL[CORR_CNT_SEL]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_ce_rp_s cn; */
+    /* struct cavm_pcieepx_rasdp_ce_rp_s cn; */
 };
-typedef union cavm_pcieep_rasdp_ce_rp cavm_pcieep_rasdp_ce_rp_t;
+typedef union cavm_pcieepx_rasdp_ce_rp cavm_pcieepx_rasdp_ce_rp_t;
 
-#define CAVM_PCIEEP_RASDP_CE_RP CAVM_PCIEEP_RASDP_CE_RP_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_RP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_CE_RP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_RP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_CE_RP(uint64_t a)
 {
-    return 0x35c;
+    if (a<=3)
+        return 0x35c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_CE_RP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_CE_RP cavm_pcieep_rasdp_ce_rp_t
-#define bustype_CAVM_PCIEEP_RASDP_CE_RP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_CE_RP "PCIEEP_RASDP_CE_RP"
-#define busnum_CAVM_PCIEEP_RASDP_CE_RP 0
-#define arguments_CAVM_PCIEEP_RASDP_CE_RP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_CE_RP(a) cavm_pcieepx_rasdp_ce_rp_t
+#define bustype_CAVM_PCIEEPX_RASDP_CE_RP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_CE_RP(a) "PCIEEPX_RASDP_CE_RP"
+#define busnum_CAVM_PCIEEPX_RASDP_CE_RP(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_CE_RP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_de_mc
+ * Register (PCICONFIGEP) pcieep#_rasdp_de_mc
  *
  * PCIe EP RAS Data Error Mode Clear Register
  */
-union cavm_pcieep_rasdp_de_mc
+union cavm_pcieepx_rasdp_de_mc
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_de_mc_s
+    struct cavm_pcieepx_rasdp_de_mc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
@@ -11388,32 +11578,33 @@ union cavm_pcieep_rasdp_de_mc
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_de_mc_s cn; */
+    /* struct cavm_pcieepx_rasdp_de_mc_s cn; */
 };
-typedef union cavm_pcieep_rasdp_de_mc cavm_pcieep_rasdp_de_mc_t;
+typedef union cavm_pcieepx_rasdp_de_mc cavm_pcieepx_rasdp_de_mc_t;
 
-#define CAVM_PCIEEP_RASDP_DE_MC CAVM_PCIEEP_RASDP_DE_MC_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_DE_MC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_DE_MC_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_DE_MC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_DE_MC(uint64_t a)
 {
-    return 0x378;
+    if (a<=3)
+        return 0x378 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_DE_MC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_DE_MC cavm_pcieep_rasdp_de_mc_t
-#define bustype_CAVM_PCIEEP_RASDP_DE_MC CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_DE_MC "PCIEEP_RASDP_DE_MC"
-#define busnum_CAVM_PCIEEP_RASDP_DE_MC 0
-#define arguments_CAVM_PCIEEP_RASDP_DE_MC -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_DE_MC(a) cavm_pcieepx_rasdp_de_mc_t
+#define bustype_CAVM_PCIEEPX_RASDP_DE_MC(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_DE_MC(a) "PCIEEPX_RASDP_DE_MC"
+#define busnum_CAVM_PCIEEPX_RASDP_DE_MC(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_DE_MC(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_de_me
+ * Register (PCICONFIGEP) pcieep#_rasdp_de_me
  *
  * PCIe EP RAS Data Error Mode Enable Register
  */
-union cavm_pcieep_rasdp_de_me
+union cavm_pcieepx_rasdp_de_me
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_de_me_s
+    struct cavm_pcieepx_rasdp_de_me_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
@@ -11425,32 +11616,33 @@ union cavm_pcieep_rasdp_de_me
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_de_me_s cn; */
+    /* struct cavm_pcieepx_rasdp_de_me_s cn; */
 };
-typedef union cavm_pcieep_rasdp_de_me cavm_pcieep_rasdp_de_me_t;
+typedef union cavm_pcieepx_rasdp_de_me cavm_pcieepx_rasdp_de_me_t;
 
-#define CAVM_PCIEEP_RASDP_DE_ME CAVM_PCIEEP_RASDP_DE_ME_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_DE_ME_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_DE_ME_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_DE_ME(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_DE_ME(uint64_t a)
 {
-    return 0x374;
+    if (a<=3)
+        return 0x374 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_DE_ME", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_DE_ME cavm_pcieep_rasdp_de_me_t
-#define bustype_CAVM_PCIEEP_RASDP_DE_ME CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_DE_ME "PCIEEP_RASDP_DE_ME"
-#define busnum_CAVM_PCIEEP_RASDP_DE_ME 0
-#define arguments_CAVM_PCIEEP_RASDP_DE_ME -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_DE_ME(a) cavm_pcieepx_rasdp_de_me_t
+#define bustype_CAVM_PCIEEPX_RASDP_DE_ME(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_DE_ME(a) "PCIEEPX_RASDP_DE_ME"
+#define busnum_CAVM_PCIEEPX_RASDP_DE_ME(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_DE_ME(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_ep_ctl
+ * Register (PCICONFIGEP) pcieep#_rasdp_ep_ctl
  *
  * PCIe EP RAS Data Path Error Protection Control Register
  */
-union cavm_pcieep_rasdp_ep_ctl
+union cavm_pcieepx_rasdp_ep_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_ep_ctl_s
+    struct cavm_pcieepx_rasdp_ep_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -11494,32 +11686,33 @@ union cavm_pcieep_rasdp_ep_ctl
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_ep_ctl_s cn; */
+    /* struct cavm_pcieepx_rasdp_ep_ctl_s cn; */
 };
-typedef union cavm_pcieep_rasdp_ep_ctl cavm_pcieep_rasdp_ep_ctl_t;
+typedef union cavm_pcieepx_rasdp_ep_ctl cavm_pcieepx_rasdp_ep_ctl_t;
 
-#define CAVM_PCIEEP_RASDP_EP_CTL CAVM_PCIEEP_RASDP_EP_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_EP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_EP_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_EP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_EP_CTL(uint64_t a)
 {
-    return 0x354;
+    if (a<=3)
+        return 0x354 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_EP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_EP_CTL cavm_pcieep_rasdp_ep_ctl_t
-#define bustype_CAVM_PCIEEP_RASDP_EP_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_EP_CTL "PCIEEP_RASDP_EP_CTL"
-#define busnum_CAVM_PCIEEP_RASDP_EP_CTL 0
-#define arguments_CAVM_PCIEEP_RASDP_EP_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_EP_CTL(a) cavm_pcieepx_rasdp_ep_ctl_t
+#define bustype_CAVM_PCIEEPX_RASDP_EP_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_EP_CTL(a) "PCIEEPX_RASDP_EP_CTL"
+#define busnum_CAVM_PCIEEPX_RASDP_EP_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_EP_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_hdr
+ * Register (PCICONFIGEP) pcieep#_rasdp_hdr
  *
  * PCIe EP RAS Data Path Extended Capability Register
  */
-union cavm_pcieep_rasdp_hdr
+union cavm_pcieepx_rasdp_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_hdr_s
+    struct cavm_pcieepx_rasdp_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
@@ -11531,32 +11724,33 @@ union cavm_pcieep_rasdp_hdr
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO) VSEC length. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_hdr_s cn; */
+    /* struct cavm_pcieepx_rasdp_hdr_s cn; */
 };
-typedef union cavm_pcieep_rasdp_hdr cavm_pcieep_rasdp_hdr_t;
+typedef union cavm_pcieepx_rasdp_hdr cavm_pcieepx_rasdp_hdr_t;
 
-#define CAVM_PCIEEP_RASDP_HDR CAVM_PCIEEP_RASDP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_HDR(uint64_t a)
 {
-    return 0x350;
+    if (a<=3)
+        return 0x350 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_HDR cavm_pcieep_rasdp_hdr_t
-#define bustype_CAVM_PCIEEP_RASDP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_HDR "PCIEEP_RASDP_HDR"
-#define busnum_CAVM_PCIEEP_RASDP_HDR 0
-#define arguments_CAVM_PCIEEP_RASDP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_HDR(a) cavm_pcieepx_rasdp_hdr_t
+#define bustype_CAVM_PCIEEPX_RASDP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_HDR(a) "PCIEEPX_RASDP_HDR"
+#define busnum_CAVM_PCIEEPX_RASDP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_radr_ce
+ * Register (PCICONFIGEP) pcieep#_rasdp_radr_ce
  *
  * PCIe EP RAS RAM Address Corrected Error Register
  */
-union cavm_pcieep_rasdp_radr_ce
+union cavm_pcieepx_rasdp_radr_ce
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_radr_ce_s
+    struct cavm_pcieepx_rasdp_radr_ce_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ram_idx_corr_err      : 4;  /**< [ 31: 28](RO) RAM index where a corrected error has been detected. */
@@ -11568,32 +11762,33 @@ union cavm_pcieep_rasdp_radr_ce
         uint32_t ram_idx_corr_err      : 4;  /**< [ 31: 28](RO) RAM index where a corrected error has been detected. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_radr_ce_s cn; */
+    /* struct cavm_pcieepx_rasdp_radr_ce_s cn; */
 };
-typedef union cavm_pcieep_rasdp_radr_ce cavm_pcieep_rasdp_radr_ce_t;
+typedef union cavm_pcieepx_rasdp_radr_ce cavm_pcieepx_rasdp_radr_ce_t;
 
-#define CAVM_PCIEEP_RASDP_RADR_CE CAVM_PCIEEP_RASDP_RADR_CE_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_RADR_CE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_RADR_CE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_CE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_CE(uint64_t a)
 {
-    return 0x37c;
+    if (a<=3)
+        return 0x37c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_RADR_CE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_RADR_CE cavm_pcieep_rasdp_radr_ce_t
-#define bustype_CAVM_PCIEEP_RASDP_RADR_CE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_RADR_CE "PCIEEP_RASDP_RADR_CE"
-#define busnum_CAVM_PCIEEP_RASDP_RADR_CE 0
-#define arguments_CAVM_PCIEEP_RASDP_RADR_CE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_RADR_CE(a) cavm_pcieepx_rasdp_radr_ce_t
+#define bustype_CAVM_PCIEEPX_RASDP_RADR_CE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_RADR_CE(a) "PCIEEPX_RASDP_RADR_CE"
+#define busnum_CAVM_PCIEEPX_RASDP_RADR_CE(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_RADR_CE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_radr_uce
+ * Register (PCICONFIGEP) pcieep#_rasdp_radr_uce
  *
  * PCIe EP RAS RAM Address Uncorrected Error Register
  */
-union cavm_pcieep_rasdp_radr_uce
+union cavm_pcieepx_rasdp_radr_uce
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_radr_uce_s
+    struct cavm_pcieepx_rasdp_radr_uce_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ram_idx_ucorr_err     : 4;  /**< [ 31: 28](RO) RAM index where a uncorrected error has been detected. */
@@ -11605,32 +11800,33 @@ union cavm_pcieep_rasdp_radr_uce
         uint32_t ram_idx_ucorr_err     : 4;  /**< [ 31: 28](RO) RAM index where a uncorrected error has been detected. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_radr_uce_s cn; */
+    /* struct cavm_pcieepx_rasdp_radr_uce_s cn; */
 };
-typedef union cavm_pcieep_rasdp_radr_uce cavm_pcieep_rasdp_radr_uce_t;
+typedef union cavm_pcieepx_rasdp_radr_uce cavm_pcieepx_rasdp_radr_uce_t;
 
-#define CAVM_PCIEEP_RASDP_RADR_UCE CAVM_PCIEEP_RASDP_RADR_UCE_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_RADR_UCE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_RADR_UCE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_UCE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_UCE(uint64_t a)
 {
-    return 0x380;
+    if (a<=3)
+        return 0x380 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_RADR_UCE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_RADR_UCE cavm_pcieep_rasdp_radr_uce_t
-#define bustype_CAVM_PCIEEP_RASDP_RADR_UCE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_RADR_UCE "PCIEEP_RASDP_RADR_UCE"
-#define busnum_CAVM_PCIEEP_RASDP_RADR_UCE 0
-#define arguments_CAVM_PCIEEP_RASDP_RADR_UCE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_RADR_UCE(a) cavm_pcieepx_rasdp_radr_uce_t
+#define bustype_CAVM_PCIEEPX_RASDP_RADR_UCE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_RADR_UCE(a) "PCIEEPX_RASDP_RADR_UCE"
+#define busnum_CAVM_PCIEEPX_RASDP_RADR_UCE(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_RADR_UCE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_uce_ctl
+ * Register (PCICONFIGEP) pcieep#_rasdp_uce_ctl
  *
  * PCIe EP RAS Data Path Uncorrectable Error Control Register
  */
-union cavm_pcieep_rasdp_uce_ctl
+union cavm_pcieepx_rasdp_uce_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_uce_ctl_s
+    struct cavm_pcieepx_rasdp_uce_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](R/W) Counter selection.  This field selects the counter ID (within
@@ -11680,32 +11876,33 @@ union cavm_pcieep_rasdp_uce_ctl
                                                                  cycle this field value from 0 to 255 to access all counters. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_uce_ctl_s cn; */
+    /* struct cavm_pcieepx_rasdp_uce_ctl_s cn; */
 };
-typedef union cavm_pcieep_rasdp_uce_ctl cavm_pcieep_rasdp_uce_ctl_t;
+typedef union cavm_pcieepx_rasdp_uce_ctl cavm_pcieepx_rasdp_uce_ctl_t;
 
-#define CAVM_PCIEEP_RASDP_UCE_CTL CAVM_PCIEEP_RASDP_UCE_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_UCE_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_UCE_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_CTL(uint64_t a)
 {
-    return 0x360;
+    if (a<=3)
+        return 0x360 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_UCE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_UCE_CTL cavm_pcieep_rasdp_uce_ctl_t
-#define bustype_CAVM_PCIEEP_RASDP_UCE_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_UCE_CTL "PCIEEP_RASDP_UCE_CTL"
-#define busnum_CAVM_PCIEEP_RASDP_UCE_CTL 0
-#define arguments_CAVM_PCIEEP_RASDP_UCE_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_UCE_CTL(a) cavm_pcieepx_rasdp_uce_ctl_t
+#define bustype_CAVM_PCIEEPX_RASDP_UCE_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_UCE_CTL(a) "PCIEEPX_RASDP_UCE_CTL"
+#define busnum_CAVM_PCIEEPX_RASDP_UCE_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_UCE_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_uce_loc
+ * Register (PCICONFIGEP) pcieep#_rasdp_uce_loc
  *
  * PCIe EP RAS Data Uncorrectable Error Location Register
  */
-union cavm_pcieep_rasdp_uce_loc
+union cavm_pcieepx_rasdp_uce_loc
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_uce_loc_s
+    struct cavm_pcieepx_rasdp_uce_loc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
@@ -11787,32 +11984,33 @@ union cavm_pcieep_rasdp_uce_loc
                                                                  [REG_LAST_UCORR_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_uce_loc_s cn; */
+    /* struct cavm_pcieepx_rasdp_uce_loc_s cn; */
 };
-typedef union cavm_pcieep_rasdp_uce_loc cavm_pcieep_rasdp_uce_loc_t;
+typedef union cavm_pcieepx_rasdp_uce_loc cavm_pcieepx_rasdp_uce_loc_t;
 
-#define CAVM_PCIEEP_RASDP_UCE_LOC CAVM_PCIEEP_RASDP_UCE_LOC_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_UCE_LOC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_UCE_LOC_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_LOC(uint64_t a)
 {
-    return 0x370;
+    if (a<=3)
+        return 0x370 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_UCE_LOC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_UCE_LOC cavm_pcieep_rasdp_uce_loc_t
-#define bustype_CAVM_PCIEEP_RASDP_UCE_LOC CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_UCE_LOC "PCIEEP_RASDP_UCE_LOC"
-#define busnum_CAVM_PCIEEP_RASDP_UCE_LOC 0
-#define arguments_CAVM_PCIEEP_RASDP_UCE_LOC -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_UCE_LOC(a) cavm_pcieepx_rasdp_uce_loc_t
+#define bustype_CAVM_PCIEEPX_RASDP_UCE_LOC(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_UCE_LOC(a) "PCIEEPX_RASDP_UCE_LOC"
+#define busnum_CAVM_PCIEEPX_RASDP_UCE_LOC(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_UCE_LOC(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rasdp_uce_rp
+ * Register (PCICONFIGEP) pcieep#_rasdp_uce_rp
  *
  * PCIe EP RAS Data Path Uncorrectable Error Report Register
  */
-union cavm_pcieep_rasdp_uce_rp
+union cavm_pcieepx_rasdp_uce_rp
 {
     uint32_t u;
-    struct cavm_pcieep_rasdp_uce_rp_s
+    struct cavm_pcieepx_rasdp_uce_rp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIEEP_RASDP_UCE_CTL[UCORR_CNT_SEL]. */
@@ -11852,32 +12050,33 @@ union cavm_pcieep_rasdp_uce_rp
         uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO/H) Counter selection.  Returns the value set in PCIEEP_RASDP_UCE_CTL[UCORR_CNT_SEL]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rasdp_uce_rp_s cn; */
+    /* struct cavm_pcieepx_rasdp_uce_rp_s cn; */
 };
-typedef union cavm_pcieep_rasdp_uce_rp cavm_pcieep_rasdp_uce_rp_t;
+typedef union cavm_pcieepx_rasdp_uce_rp cavm_pcieepx_rasdp_uce_rp_t;
 
-#define CAVM_PCIEEP_RASDP_UCE_RP CAVM_PCIEEP_RASDP_UCE_RP_FUNC()
-static inline uint64_t CAVM_PCIEEP_RASDP_UCE_RP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RASDP_UCE_RP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_RP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_RP(uint64_t a)
 {
-    return 0x364;
+    if (a<=3)
+        return 0x364 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RASDP_UCE_RP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RASDP_UCE_RP cavm_pcieep_rasdp_uce_rp_t
-#define bustype_CAVM_PCIEEP_RASDP_UCE_RP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RASDP_UCE_RP "PCIEEP_RASDP_UCE_RP"
-#define busnum_CAVM_PCIEEP_RASDP_UCE_RP 0
-#define arguments_CAVM_PCIEEP_RASDP_UCE_RP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RASDP_UCE_RP(a) cavm_pcieepx_rasdp_uce_rp_t
+#define bustype_CAVM_PCIEEPX_RASDP_UCE_RP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RASDP_UCE_RP(a) "PCIEEPX_RASDP_UCE_RP"
+#define busnum_CAVM_PCIEEPX_RASDP_UCE_RP(a) (a)
+#define arguments_CAVM_PCIEEPX_RASDP_UCE_RP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rbar_cap
+ * Register (PCICONFIGEP) pcieep#_rbar_cap
  *
  * PCIe EP Resizable BAR (RBAR) Capability Register
  */
-union cavm_pcieep_rbar_cap
+union cavm_pcieepx_rbar_cap
 {
     uint32_t u;
-    struct cavm_pcieep_rbar_cap_s
+    struct cavm_pcieepx_rbar_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t srs                   : 28; /**< [ 31:  4](RO/WRSL) Supported resource sizes.
@@ -11893,32 +12092,33 @@ union cavm_pcieep_rbar_cap
                                                                  the same time, byte writes are ignored. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rbar_cap_s cn; */
+    /* struct cavm_pcieepx_rbar_cap_s cn; */
 };
-typedef union cavm_pcieep_rbar_cap cavm_pcieep_rbar_cap_t;
+typedef union cavm_pcieepx_rbar_cap cavm_pcieepx_rbar_cap_t;
 
-#define CAVM_PCIEEP_RBAR_CAP CAVM_PCIEEP_RBAR_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_RBAR_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RBAR_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RBAR_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RBAR_CAP(uint64_t a)
 {
-    return 0x408;
+    if (a<=3)
+        return 0x408 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RBAR_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RBAR_CAP cavm_pcieep_rbar_cap_t
-#define bustype_CAVM_PCIEEP_RBAR_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RBAR_CAP "PCIEEP_RBAR_CAP"
-#define busnum_CAVM_PCIEEP_RBAR_CAP 0
-#define arguments_CAVM_PCIEEP_RBAR_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RBAR_CAP(a) cavm_pcieepx_rbar_cap_t
+#define bustype_CAVM_PCIEEPX_RBAR_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RBAR_CAP(a) "PCIEEPX_RBAR_CAP"
+#define busnum_CAVM_PCIEEPX_RBAR_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_RBAR_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rbar_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_rbar_cap_hdr
  *
  * PCIe EP Resizable BAR (RBAR) Capability Header Register
  */
-union cavm_pcieep_rbar_cap_hdr
+union cavm_pcieepx_rbar_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_rbar_cap_hdr_s
+    struct cavm_pcieepx_rbar_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -11936,32 +12136,33 @@ union cavm_pcieep_rbar_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rbar_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_rbar_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_rbar_cap_hdr cavm_pcieep_rbar_cap_hdr_t;
+typedef union cavm_pcieepx_rbar_cap_hdr cavm_pcieepx_rbar_cap_hdr_t;
 
-#define CAVM_PCIEEP_RBAR_CAP_HDR CAVM_PCIEEP_RBAR_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_RBAR_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RBAR_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RBAR_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RBAR_CAP_HDR(uint64_t a)
 {
-    return 0x404;
+    if (a<=3)
+        return 0x404 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RBAR_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RBAR_CAP_HDR cavm_pcieep_rbar_cap_hdr_t
-#define bustype_CAVM_PCIEEP_RBAR_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RBAR_CAP_HDR "PCIEEP_RBAR_CAP_HDR"
-#define busnum_CAVM_PCIEEP_RBAR_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_RBAR_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RBAR_CAP_HDR(a) cavm_pcieepx_rbar_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_RBAR_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RBAR_CAP_HDR(a) "PCIEEPX_RBAR_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_RBAR_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_RBAR_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rbar_ctl
+ * Register (PCICONFIGEP) pcieep#_rbar_ctl
  *
  * PCIe EP Resizable BAR (RBAR) Control Register
  */
-union cavm_pcieep_rbar_ctl
+union cavm_pcieepx_rbar_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_rbar_ctl_s
+    struct cavm_pcieepx_rbar_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t esrs                  : 16; /**< [ 31: 16](R/W) Extended supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB)
@@ -11987,32 +12188,33 @@ union cavm_pcieep_rbar_ctl
                                                                  The BAR is disabled at runtime by writing all zeros through PEM()_CFG_TBL() to this field. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rbar_ctl_s cn; */
+    /* struct cavm_pcieepx_rbar_ctl_s cn; */
 };
-typedef union cavm_pcieep_rbar_ctl cavm_pcieep_rbar_ctl_t;
+typedef union cavm_pcieepx_rbar_ctl cavm_pcieepx_rbar_ctl_t;
 
-#define CAVM_PCIEEP_RBAR_CTL CAVM_PCIEEP_RBAR_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_RBAR_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_RBAR_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_RBAR_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_RBAR_CTL(uint64_t a)
 {
-    return 0x40c;
+    if (a<=3)
+        return 0x40c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_RBAR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_RBAR_CTL cavm_pcieep_rbar_ctl_t
-#define bustype_CAVM_PCIEEP_RBAR_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_RBAR_CTL "PCIEEP_RBAR_CTL"
-#define busnum_CAVM_PCIEEP_RBAR_CTL 0
-#define arguments_CAVM_PCIEEP_RBAR_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_RBAR_CTL(a) cavm_pcieepx_rbar_ctl_t
+#define bustype_CAVM_PCIEEPX_RBAR_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_RBAR_CTL(a) "PCIEEPX_RBAR_CTL"
+#define busnum_CAVM_PCIEEPX_RBAR_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_RBAR_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_rev
+ * Register (PCICONFIGEP) pcieep#_rev
  *
  * PCIe EP PF Class Code/Revision ID Register
  */
-union cavm_pcieep_rev
+union cavm_pcieepx_rev
 {
     uint32_t u;
-    struct cavm_pcieep_rev_s
+    struct cavm_pcieepx_rev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_TBL().
@@ -12038,33 +12240,34 @@ union cavm_pcieep_rev
                                                                  0xB = Processor. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_rev_s cn; */
+    /* struct cavm_pcieepx_rev_s cn; */
 };
-typedef union cavm_pcieep_rev cavm_pcieep_rev_t;
+typedef union cavm_pcieepx_rev cavm_pcieepx_rev_t;
 
-#define CAVM_PCIEEP_REV CAVM_PCIEEP_REV_FUNC()
-static inline uint64_t CAVM_PCIEEP_REV_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_REV_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_REV(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_REV(uint64_t a)
 {
-    return 8;
+    if (a<=3)
+        return 8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_REV", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_REV cavm_pcieep_rev_t
-#define bustype_CAVM_PCIEEP_REV CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_REV "PCIEEP_REV"
-#define busnum_CAVM_PCIEEP_REV 0
-#define arguments_CAVM_PCIEEP_REV -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_REV(a) cavm_pcieepx_rev_t
+#define bustype_CAVM_PCIEEPX_REV(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_REV(a) "PCIEEPX_REV"
+#define busnum_CAVM_PCIEEPX_REV(a) (a)
+#define arguments_CAVM_PCIEEPX_REV(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_scap_hdr
+ * Register (PCICONFIGEP) pcieep#_scap_hdr
  *
  * PCIe EP PF Secondary Capability (Gen3) Header Register
  * Secondary Capability (Gen3) Header exists for PF0 only.
  */
-union cavm_pcieep_scap_hdr
+union cavm_pcieepx_scap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_scap_hdr_s
+    struct cavm_pcieepx_scap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -12082,32 +12285,33 @@ union cavm_pcieep_scap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_scap_hdr_s cn; */
+    /* struct cavm_pcieepx_scap_hdr_s cn; */
 };
-typedef union cavm_pcieep_scap_hdr cavm_pcieep_scap_hdr_t;
+typedef union cavm_pcieepx_scap_hdr cavm_pcieepx_scap_hdr_t;
 
-#define CAVM_PCIEEP_SCAP_HDR CAVM_PCIEEP_SCAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_SCAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SCAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SCAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SCAP_HDR(uint64_t a)
 {
-    return 0x168;
+    if (a<=3)
+        return 0x168 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SCAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SCAP_HDR cavm_pcieep_scap_hdr_t
-#define bustype_CAVM_PCIEEP_SCAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SCAP_HDR "PCIEEP_SCAP_HDR"
-#define busnum_CAVM_PCIEEP_SCAP_HDR 0
-#define arguments_CAVM_PCIEEP_SCAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SCAP_HDR(a) cavm_pcieepx_scap_hdr_t
+#define bustype_CAVM_PCIEEPX_SCAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SCAP_HDR(a) "PCIEEPX_SCAP_HDR"
+#define busnum_CAVM_PCIEEPX_SCAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_SCAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sn_base
+ * Register (PCICONFIGEP) pcieep#_sn_base
  *
  * PCIe EP PF Device Serial Number Extended Capability Header Register
  */
-union cavm_pcieep_sn_base
+union cavm_pcieepx_sn_base
 {
     uint32_t u;
-    struct cavm_pcieep_sn_base_s
+    struct cavm_pcieepx_sn_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -12125,32 +12329,33 @@ union cavm_pcieep_sn_base
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sn_base_s cn; */
+    /* struct cavm_pcieepx_sn_base_s cn; */
 };
-typedef union cavm_pcieep_sn_base cavm_pcieep_sn_base_t;
+typedef union cavm_pcieepx_sn_base cavm_pcieepx_sn_base_t;
 
-#define CAVM_PCIEEP_SN_BASE CAVM_PCIEEP_SN_BASE_FUNC()
-static inline uint64_t CAVM_PCIEEP_SN_BASE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SN_BASE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SN_BASE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SN_BASE(uint64_t a)
 {
-    return 0x148;
+    if (a<=3)
+        return 0x148 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SN_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SN_BASE cavm_pcieep_sn_base_t
-#define bustype_CAVM_PCIEEP_SN_BASE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SN_BASE "PCIEEP_SN_BASE"
-#define busnum_CAVM_PCIEEP_SN_BASE 0
-#define arguments_CAVM_PCIEEP_SN_BASE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SN_BASE(a) cavm_pcieepx_sn_base_t
+#define bustype_CAVM_PCIEEPX_SN_BASE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SN_BASE(a) "PCIEEPX_SN_BASE"
+#define busnum_CAVM_PCIEEPX_SN_BASE(a) (a)
+#define arguments_CAVM_PCIEEPX_SN_BASE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sn_dw1
+ * Register (PCICONFIGEP) pcieep#_sn_dw1
  *
  * PCIe EP PF Serial Number 1 Register
  */
-union cavm_pcieep_sn_dw1
+union cavm_pcieepx_sn_dw1
 {
     uint32_t u;
-    struct cavm_pcieep_sn_dw1_s
+    struct cavm_pcieepx_sn_dw1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dsn_dw1               : 32; /**< [ 31:  0](RO/WRSL) IEEE 64-bit device serial number (doubleword 1). */
@@ -12158,32 +12363,33 @@ union cavm_pcieep_sn_dw1
         uint32_t dsn_dw1               : 32; /**< [ 31:  0](RO/WRSL) IEEE 64-bit device serial number (doubleword 1). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sn_dw1_s cn; */
+    /* struct cavm_pcieepx_sn_dw1_s cn; */
 };
-typedef union cavm_pcieep_sn_dw1 cavm_pcieep_sn_dw1_t;
+typedef union cavm_pcieepx_sn_dw1 cavm_pcieepx_sn_dw1_t;
 
-#define CAVM_PCIEEP_SN_DW1 CAVM_PCIEEP_SN_DW1_FUNC()
-static inline uint64_t CAVM_PCIEEP_SN_DW1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SN_DW1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SN_DW1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SN_DW1(uint64_t a)
 {
-    return 0x14c;
+    if (a<=3)
+        return 0x14c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SN_DW1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SN_DW1 cavm_pcieep_sn_dw1_t
-#define bustype_CAVM_PCIEEP_SN_DW1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SN_DW1 "PCIEEP_SN_DW1"
-#define busnum_CAVM_PCIEEP_SN_DW1 0
-#define arguments_CAVM_PCIEEP_SN_DW1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SN_DW1(a) cavm_pcieepx_sn_dw1_t
+#define bustype_CAVM_PCIEEPX_SN_DW1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SN_DW1(a) "PCIEEPX_SN_DW1"
+#define busnum_CAVM_PCIEEPX_SN_DW1(a) (a)
+#define arguments_CAVM_PCIEEPX_SN_DW1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sn_dw2
+ * Register (PCICONFIGEP) pcieep#_sn_dw2
  *
  * PCIe EP PF Serial Number 2 Register
  */
-union cavm_pcieep_sn_dw2
+union cavm_pcieepx_sn_dw2
 {
     uint32_t u;
-    struct cavm_pcieep_sn_dw2_s
+    struct cavm_pcieepx_sn_dw2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dsn_dw2               : 32; /**< [ 31:  0](RO/WRSL) IEEE 64-bit device serial number (doubleword 2). */
@@ -12191,32 +12397,33 @@ union cavm_pcieep_sn_dw2
         uint32_t dsn_dw2               : 32; /**< [ 31:  0](RO/WRSL) IEEE 64-bit device serial number (doubleword 2). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sn_dw2_s cn; */
+    /* struct cavm_pcieepx_sn_dw2_s cn; */
 };
-typedef union cavm_pcieep_sn_dw2 cavm_pcieep_sn_dw2_t;
+typedef union cavm_pcieepx_sn_dw2 cavm_pcieepx_sn_dw2_t;
 
-#define CAVM_PCIEEP_SN_DW2 CAVM_PCIEEP_SN_DW2_FUNC()
-static inline uint64_t CAVM_PCIEEP_SN_DW2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SN_DW2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SN_DW2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SN_DW2(uint64_t a)
 {
-    return 0x150;
+    if (a<=3)
+        return 0x150 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SN_DW2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SN_DW2 cavm_pcieep_sn_dw2_t
-#define bustype_CAVM_PCIEEP_SN_DW2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SN_DW2 "PCIEEP_SN_DW2"
-#define busnum_CAVM_PCIEEP_SN_DW2 0
-#define arguments_CAVM_PCIEEP_SN_DW2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SN_DW2(a) cavm_pcieepx_sn_dw2_t
+#define bustype_CAVM_PCIEEPX_SN_DW2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SN_DW2(a) "PCIEEPX_SN_DW2"
+#define busnum_CAVM_PCIEEPX_SN_DW2(a) (a)
+#define arguments_CAVM_PCIEEPX_SN_DW2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_sriov_ari_fo
+ * Register (PCICONFIGEP_SHADOW) pcieep#_sriov_ari_fo
  *
  * PCIe EP PF SR-IOV ARI Stride and First Offset Register
  */
-union cavm_pcieep_sriov_ari_fo
+union cavm_pcieepx_sriov_ari_fo
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_ari_fo_s
+    struct cavm_pcieepx_sriov_ari_fo_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vfs                   : 16; /**< [ 31: 16](RO/WRSL/H) VF stride.
@@ -12270,34 +12477,35 @@ union cavm_pcieep_sriov_ari_fo
                                                                  1 = Accesses ARI capable hierarchy copy. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_ari_fo_s cn; */
+    /* struct cavm_pcieepx_sriov_ari_fo_s cn; */
 };
-typedef union cavm_pcieep_sriov_ari_fo cavm_pcieep_sriov_ari_fo_t;
+typedef union cavm_pcieepx_sriov_ari_fo cavm_pcieepx_sriov_ari_fo_t;
 
-#define CAVM_PCIEEP_SRIOV_ARI_FO CAVM_PCIEEP_SRIOV_ARI_FO_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_ARI_FO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_ARI_FO_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_ARI_FO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_ARI_FO(uint64_t a)
 {
-    return 0x10234;
+    if (a<=3)
+        return 0x10234 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_ARI_FO", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_ARI_FO cavm_pcieep_sriov_ari_fo_t
-#define bustype_CAVM_PCIEEP_SRIOV_ARI_FO CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_SRIOV_ARI_FO "PCIEEP_SRIOV_ARI_FO"
-#define busnum_CAVM_PCIEEP_SRIOV_ARI_FO 0
-#define arguments_CAVM_PCIEEP_SRIOV_ARI_FO -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_ARI_FO(a) cavm_pcieepx_sriov_ari_fo_t
+#define bustype_CAVM_PCIEEPX_SRIOV_ARI_FO(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_SRIOV_ARI_FO(a) "PCIEEPX_SRIOV_ARI_FO"
+#define busnum_CAVM_PCIEEPX_SRIOV_ARI_FO(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_ARI_FO(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_sriov_bar0_maskl
+ * Register (PCICONFIGEP_SHADOW) pcieep#_sriov_bar0_maskl
  *
  * PCIe EP PF SR-IOV BAR Mask 0 Low Register
  * The BAR 0 mask register is invisible to host software and not readable from the application.
  * The BAR 0 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_sriov_bar0_maskl
+union cavm_pcieepx_sriov_bar0_maskl
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_bar0_maskl_s
+    struct cavm_pcieepx_sriov_bar0_maskl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
@@ -12319,34 +12527,35 @@ union cavm_pcieep_sriov_bar0_maskl
         uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_bar0_maskl_s cn; */
+    /* struct cavm_pcieepx_sriov_bar0_maskl_s cn; */
 };
-typedef union cavm_pcieep_sriov_bar0_maskl cavm_pcieep_sriov_bar0_maskl_t;
+typedef union cavm_pcieepx_sriov_bar0_maskl cavm_pcieepx_sriov_bar0_maskl_t;
 
-#define CAVM_PCIEEP_SRIOV_BAR0_MASKL CAVM_PCIEEP_SRIOV_BAR0_MASKL_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0_MASKL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0_MASKL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKL(uint64_t a)
 {
-    return 0x1020c;
+    if (a<=3)
+        return 0x1020c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_BAR0_MASKL cavm_pcieep_sriov_bar0_maskl_t
-#define bustype_CAVM_PCIEEP_SRIOV_BAR0_MASKL CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_SRIOV_BAR0_MASKL "PCIEEP_SRIOV_BAR0_MASKL"
-#define busnum_CAVM_PCIEEP_SRIOV_BAR0_MASKL 0
-#define arguments_CAVM_PCIEEP_SRIOV_BAR0_MASKL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_BAR0_MASKL(a) cavm_pcieepx_sriov_bar0_maskl_t
+#define bustype_CAVM_PCIEEPX_SRIOV_BAR0_MASKL(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_SRIOV_BAR0_MASKL(a) "PCIEEPX_SRIOV_BAR0_MASKL"
+#define busnum_CAVM_PCIEEPX_SRIOV_BAR0_MASKL(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_BAR0_MASKL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP_SHADOW) pcieep_sriov_bar0_masku
+ * Register (PCICONFIGEP_SHADOW) pcieep#_sriov_bar0_masku
  *
  * PCIe EP PF SR-IOV BAR Mask 0 High Register
  * The BAR 0 mask register is invisible to host software and not readable from the application.
  * The BAR 0 mask register is only writable through PEM()_CFG_TBL().
  */
-union cavm_pcieep_sriov_bar0_masku
+union cavm_pcieepx_sriov_bar0_masku
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_bar0_masku_s
+    struct cavm_pcieepx_sriov_bar0_masku_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
@@ -12354,32 +12563,33 @@ union cavm_pcieep_sriov_bar0_masku
         uint32_t umask                 : 32; /**< [ 31:  0](WORSL/H) BAR mask high. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_bar0_masku_s cn; */
+    /* struct cavm_pcieepx_sriov_bar0_masku_s cn; */
 };
-typedef union cavm_pcieep_sriov_bar0_masku cavm_pcieep_sriov_bar0_masku_t;
+typedef union cavm_pcieepx_sriov_bar0_masku cavm_pcieepx_sriov_bar0_masku_t;
 
-#define CAVM_PCIEEP_SRIOV_BAR0_MASKU CAVM_PCIEEP_SRIOV_BAR0_MASKU_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0_MASKU_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0_MASKU_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKU(uint64_t a)
 {
-    return 0x10210;
+    if (a<=3)
+        return 0x10210 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_BAR0_MASKU cavm_pcieep_sriov_bar0_masku_t
-#define bustype_CAVM_PCIEEP_SRIOV_BAR0_MASKU CSR_TYPE_PCICONFIGEP_SHADOW
-#define basename_CAVM_PCIEEP_SRIOV_BAR0_MASKU "PCIEEP_SRIOV_BAR0_MASKU"
-#define busnum_CAVM_PCIEEP_SRIOV_BAR0_MASKU 0
-#define arguments_CAVM_PCIEEP_SRIOV_BAR0_MASKU -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_BAR0_MASKU(a) cavm_pcieepx_sriov_bar0_masku_t
+#define bustype_CAVM_PCIEEPX_SRIOV_BAR0_MASKU(a) CSR_TYPE_PCICONFIGEP_SHADOW
+#define basename_CAVM_PCIEEPX_SRIOV_BAR0_MASKU(a) "PCIEEPX_SRIOV_BAR0_MASKU"
+#define busnum_CAVM_PCIEEPX_SRIOV_BAR0_MASKU(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_BAR0_MASKU(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_bar0l
+ * Register (PCICONFIGEP) pcieep#_sriov_bar0l
  *
  * PCIe EP PF SR-IOV BAR 0 Lower Register
  */
-union cavm_pcieep_sriov_bar0l
+union cavm_pcieepx_sriov_bar0l
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_bar0l_s
+    struct cavm_pcieepx_sriov_bar0l_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lbab                  : 17; /**< [ 31: 15](R/W) Lower bits of the VF BAR 0 base address. */
@@ -12403,32 +12613,33 @@ union cavm_pcieep_sriov_bar0l
         uint32_t lbab                  : 17; /**< [ 31: 15](R/W) Lower bits of the VF BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_bar0l_s cn; */
+    /* struct cavm_pcieepx_sriov_bar0l_s cn; */
 };
-typedef union cavm_pcieep_sriov_bar0l cavm_pcieep_sriov_bar0l_t;
+typedef union cavm_pcieepx_sriov_bar0l cavm_pcieepx_sriov_bar0l_t;
 
-#define CAVM_PCIEEP_SRIOV_BAR0L CAVM_PCIEEP_SRIOV_BAR0L_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0L_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0L(uint64_t a)
 {
-    return 0x20c;
+    if (a<=3)
+        return 0x20c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0L", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_BAR0L cavm_pcieep_sriov_bar0l_t
-#define bustype_CAVM_PCIEEP_SRIOV_BAR0L CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_BAR0L "PCIEEP_SRIOV_BAR0L"
-#define busnum_CAVM_PCIEEP_SRIOV_BAR0L 0
-#define arguments_CAVM_PCIEEP_SRIOV_BAR0L -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_BAR0L(a) cavm_pcieepx_sriov_bar0l_t
+#define bustype_CAVM_PCIEEPX_SRIOV_BAR0L(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_BAR0L(a) "PCIEEPX_SRIOV_BAR0L"
+#define busnum_CAVM_PCIEEPX_SRIOV_BAR0L(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_BAR0L(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_bar0u
+ * Register (PCICONFIGEP) pcieep#_sriov_bar0u
  *
  * PCIe EP PF SR-IOV BAR 0 Upper Register
  */
-union cavm_pcieep_sriov_bar0u
+union cavm_pcieepx_sriov_bar0u
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_bar0u_s
+    struct cavm_pcieepx_sriov_bar0u_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Upper bits of the VF BAR 0 base address. */
@@ -12436,32 +12647,33 @@ union cavm_pcieep_sriov_bar0u
         uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Upper bits of the VF BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_bar0u_s cn; */
+    /* struct cavm_pcieepx_sriov_bar0u_s cn; */
 };
-typedef union cavm_pcieep_sriov_bar0u cavm_pcieep_sriov_bar0u_t;
+typedef union cavm_pcieepx_sriov_bar0u cavm_pcieepx_sriov_bar0u_t;
 
-#define CAVM_PCIEEP_SRIOV_BAR0U CAVM_PCIEEP_SRIOV_BAR0U_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_BAR0U_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0U(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0U(uint64_t a)
 {
-    return 0x210;
+    if (a<=3)
+        return 0x210 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0U", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_BAR0U cavm_pcieep_sriov_bar0u_t
-#define bustype_CAVM_PCIEEP_SRIOV_BAR0U CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_BAR0U "PCIEEP_SRIOV_BAR0U"
-#define busnum_CAVM_PCIEEP_SRIOV_BAR0U 0
-#define arguments_CAVM_PCIEEP_SRIOV_BAR0U -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_BAR0U(a) cavm_pcieepx_sriov_bar0u_t
+#define bustype_CAVM_PCIEEPX_SRIOV_BAR0U(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_BAR0U(a) "PCIEEPX_SRIOV_BAR0U"
+#define busnum_CAVM_PCIEEPX_SRIOV_BAR0U(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_BAR0U(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_cap
+ * Register (PCICONFIGEP) pcieep#_sriov_cap
  *
  * PCIe EP PF SR-IOV Capability Register
  */
-union cavm_pcieep_sriov_cap
+union cavm_pcieepx_sriov_cap
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_cap_s
+    struct cavm_pcieepx_sriov_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -12491,32 +12703,33 @@ union cavm_pcieep_sriov_cap
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_cap_s cn; */
+    /* struct cavm_pcieepx_sriov_cap_s cn; */
 };
-typedef union cavm_pcieep_sriov_cap cavm_pcieep_sriov_cap_t;
+typedef union cavm_pcieepx_sriov_cap cavm_pcieepx_sriov_cap_t;
 
-#define CAVM_PCIEEP_SRIOV_CAP CAVM_PCIEEP_SRIOV_CAP_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_CAP_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP(uint64_t a)
 {
-    return 0x1ec;
+    if (a<=3)
+        return 0x1ec + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_CAP cavm_pcieep_sriov_cap_t
-#define bustype_CAVM_PCIEEP_SRIOV_CAP CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_CAP "PCIEEP_SRIOV_CAP"
-#define busnum_CAVM_PCIEEP_SRIOV_CAP 0
-#define arguments_CAVM_PCIEEP_SRIOV_CAP -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_CAP(a) cavm_pcieepx_sriov_cap_t
+#define bustype_CAVM_PCIEEPX_SRIOV_CAP(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_CAP(a) "PCIEEPX_SRIOV_CAP"
+#define busnum_CAVM_PCIEEPX_SRIOV_CAP(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_CAP(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_sriov_cap_hdr
  *
  * PCIe EP PF SR-IOV Capability Header Register
  */
-union cavm_pcieep_sriov_cap_hdr
+union cavm_pcieepx_sriov_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_cap_hdr_s
+    struct cavm_pcieepx_sriov_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. */
@@ -12528,32 +12741,33 @@ union cavm_pcieep_sriov_cap_hdr
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_sriov_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_sriov_cap_hdr cavm_pcieep_sriov_cap_hdr_t;
+typedef union cavm_pcieepx_sriov_cap_hdr cavm_pcieepx_sriov_cap_hdr_t;
 
-#define CAVM_PCIEEP_SRIOV_CAP_HDR CAVM_PCIEEP_SRIOV_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP_HDR(uint64_t a)
 {
-    return 0x1e8;
+    if (a<=3)
+        return 0x1e8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_CAP_HDR cavm_pcieep_sriov_cap_hdr_t
-#define bustype_CAVM_PCIEEP_SRIOV_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_CAP_HDR "PCIEEP_SRIOV_CAP_HDR"
-#define busnum_CAVM_PCIEEP_SRIOV_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_SRIOV_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_CAP_HDR(a) cavm_pcieepx_sriov_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_SRIOV_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_CAP_HDR(a) "PCIEEPX_SRIOV_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_SRIOV_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_ctl
+ * Register (PCICONFIGEP) pcieep#_sriov_ctl
  *
  * PCIe EP PF SR-IOV Control/Status Register
  */
-union cavm_pcieep_sriov_ctl
+union cavm_pcieepx_sriov_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_ctl_s
+    struct cavm_pcieepx_sriov_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
@@ -12597,32 +12811,33 @@ union cavm_pcieep_sriov_ctl
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_ctl_s cn; */
+    /* struct cavm_pcieepx_sriov_ctl_s cn; */
 };
-typedef union cavm_pcieep_sriov_ctl cavm_pcieep_sriov_ctl_t;
+typedef union cavm_pcieepx_sriov_ctl cavm_pcieepx_sriov_ctl_t;
 
-#define CAVM_PCIEEP_SRIOV_CTL CAVM_PCIEEP_SRIOV_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_CTL(uint64_t a)
 {
-    return 0x1f0;
+    if (a<=3)
+        return 0x1f0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_CTL cavm_pcieep_sriov_ctl_t
-#define bustype_CAVM_PCIEEP_SRIOV_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_CTL "PCIEEP_SRIOV_CTL"
-#define busnum_CAVM_PCIEEP_SRIOV_CTL 0
-#define arguments_CAVM_PCIEEP_SRIOV_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_CTL(a) cavm_pcieepx_sriov_ctl_t
+#define bustype_CAVM_PCIEEPX_SRIOV_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_CTL(a) "PCIEEPX_SRIOV_CTL"
+#define busnum_CAVM_PCIEEPX_SRIOV_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_dev
+ * Register (PCICONFIGEP) pcieep#_sriov_dev
  *
  * PCIe EP PF SR-IOV Device ID Register
  */
-union cavm_pcieep_sriov_dev
+union cavm_pcieepx_sriov_dev
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_dev_s
+    struct cavm_pcieepx_sriov_dev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vfdev                 : 16; /**< [ 31: 16](RO/WRSL) VF device ID. */
@@ -12632,32 +12847,33 @@ union cavm_pcieep_sriov_dev
         uint32_t vfdev                 : 16; /**< [ 31: 16](RO/WRSL) VF device ID. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_dev_s cn; */
+    /* struct cavm_pcieepx_sriov_dev_s cn; */
 };
-typedef union cavm_pcieep_sriov_dev cavm_pcieep_sriov_dev_t;
+typedef union cavm_pcieepx_sriov_dev cavm_pcieepx_sriov_dev_t;
 
-#define CAVM_PCIEEP_SRIOV_DEV CAVM_PCIEEP_SRIOV_DEV_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_DEV_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_DEV_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_DEV(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_DEV(uint64_t a)
 {
-    return 0x200;
+    if (a<=3)
+        return 0x200 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_DEV", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_DEV cavm_pcieep_sriov_dev_t
-#define bustype_CAVM_PCIEEP_SRIOV_DEV CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_DEV "PCIEEP_SRIOV_DEV"
-#define busnum_CAVM_PCIEEP_SRIOV_DEV 0
-#define arguments_CAVM_PCIEEP_SRIOV_DEV -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_DEV(a) cavm_pcieepx_sriov_dev_t
+#define bustype_CAVM_PCIEEPX_SRIOV_DEV(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_DEV(a) "PCIEEPX_SRIOV_DEV"
+#define busnum_CAVM_PCIEEPX_SRIOV_DEV(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_DEV(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_fo
+ * Register (PCICONFIGEP) pcieep#_sriov_fo
  *
  * PCIe EP PF SR-IOV Non-ARI Stride and First Offset Register
  */
-union cavm_pcieep_sriov_fo
+union cavm_pcieepx_sriov_fo
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_fo_s
+    struct cavm_pcieepx_sriov_fo_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vfs                   : 16; /**< [ 31: 16](RO/WRSL/H) VF stride.
@@ -12717,32 +12933,33 @@ union cavm_pcieep_sriov_fo
                                                                  1 = accesses ARI capable hierarchy copy of VFS. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_fo_s cn; */
+    /* struct cavm_pcieepx_sriov_fo_s cn; */
 };
-typedef union cavm_pcieep_sriov_fo cavm_pcieep_sriov_fo_t;
+typedef union cavm_pcieepx_sriov_fo cavm_pcieepx_sriov_fo_t;
 
-#define CAVM_PCIEEP_SRIOV_FO CAVM_PCIEEP_SRIOV_FO_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_FO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_FO_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_FO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_FO(uint64_t a)
 {
-    return 0x1fc;
+    if (a<=3)
+        return 0x1fc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_FO", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_FO cavm_pcieep_sriov_fo_t
-#define bustype_CAVM_PCIEEP_SRIOV_FO CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_FO "PCIEEP_SRIOV_FO"
-#define busnum_CAVM_PCIEEP_SRIOV_FO 0
-#define arguments_CAVM_PCIEEP_SRIOV_FO -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_FO(a) cavm_pcieepx_sriov_fo_t
+#define bustype_CAVM_PCIEEPX_SRIOV_FO(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_FO(a) "PCIEEPX_SRIOV_FO"
+#define busnum_CAVM_PCIEEPX_SRIOV_FO(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_FO(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_ms
+ * Register (PCICONFIGEP) pcieep#_sriov_ms
  *
  * PCIe EP PF SR-IOV Migration State Array Offset Register
  */
-union cavm_pcieep_sriov_ms
+union cavm_pcieepx_sriov_ms
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_ms_s
+    struct cavm_pcieepx_sriov_ms_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t mso                   : 29; /**< [ 31:  3](RO/H) VF migration state offset. */
@@ -12752,32 +12969,33 @@ union cavm_pcieep_sriov_ms
         uint32_t mso                   : 29; /**< [ 31:  3](RO/H) VF migration state offset. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_ms_s cn; */
+    /* struct cavm_pcieepx_sriov_ms_s cn; */
 };
-typedef union cavm_pcieep_sriov_ms cavm_pcieep_sriov_ms_t;
+typedef union cavm_pcieepx_sriov_ms cavm_pcieepx_sriov_ms_t;
 
-#define CAVM_PCIEEP_SRIOV_MS CAVM_PCIEEP_SRIOV_MS_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_MS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_MS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_MS(uint64_t a)
 {
-    return 0x224;
+    if (a<=3)
+        return 0x224 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_MS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_MS cavm_pcieep_sriov_ms_t
-#define bustype_CAVM_PCIEEP_SRIOV_MS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_MS "PCIEEP_SRIOV_MS"
-#define busnum_CAVM_PCIEEP_SRIOV_MS 0
-#define arguments_CAVM_PCIEEP_SRIOV_MS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_MS(a) cavm_pcieepx_sriov_ms_t
+#define bustype_CAVM_PCIEEPX_SRIOV_MS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_MS(a) "PCIEEPX_SRIOV_MS"
+#define busnum_CAVM_PCIEEPX_SRIOV_MS(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_MS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_nvf
+ * Register (PCICONFIGEP) pcieep#_sriov_nvf
  *
  * PCIe EP PF SR-IOV Number of VFs Register/SR-IOV Function Dependency Link Register
  */
-union cavm_pcieep_sriov_nvf
+union cavm_pcieepx_sriov_nvf
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_nvf_s
+    struct cavm_pcieepx_sriov_nvf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -12789,32 +13007,33 @@ union cavm_pcieep_sriov_nvf
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_nvf_s cn; */
+    /* struct cavm_pcieepx_sriov_nvf_s cn; */
 };
-typedef union cavm_pcieep_sriov_nvf cavm_pcieep_sriov_nvf_t;
+typedef union cavm_pcieepx_sriov_nvf cavm_pcieepx_sriov_nvf_t;
 
-#define CAVM_PCIEEP_SRIOV_NVF CAVM_PCIEEP_SRIOV_NVF_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_NVF_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_NVF_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_NVF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_NVF(uint64_t a)
 {
-    return 0x1f8;
+    if (a<=3)
+        return 0x1f8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_NVF", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_NVF cavm_pcieep_sriov_nvf_t
-#define bustype_CAVM_PCIEEP_SRIOV_NVF CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_NVF "PCIEEP_SRIOV_NVF"
-#define busnum_CAVM_PCIEEP_SRIOV_NVF 0
-#define arguments_CAVM_PCIEEP_SRIOV_NVF -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_NVF(a) cavm_pcieepx_sriov_nvf_t
+#define bustype_CAVM_PCIEEPX_SRIOV_NVF(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_NVF(a) "PCIEEPX_SRIOV_NVF"
+#define busnum_CAVM_PCIEEPX_SRIOV_NVF(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_NVF(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_ps
+ * Register (PCICONFIGEP) pcieep#_sriov_ps
  *
  * PCIe EP PF SR-IOV System Page Sizes Register
  */
-union cavm_pcieep_sriov_ps
+union cavm_pcieepx_sriov_ps
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_ps_s
+    struct cavm_pcieepx_sriov_ps_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ps                    : 32; /**< [ 31:  0](R/W) System page size. */
@@ -12822,32 +13041,33 @@ union cavm_pcieep_sriov_ps
         uint32_t ps                    : 32; /**< [ 31:  0](R/W) System page size. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_ps_s cn; */
+    /* struct cavm_pcieepx_sriov_ps_s cn; */
 };
-typedef union cavm_pcieep_sriov_ps cavm_pcieep_sriov_ps_t;
+typedef union cavm_pcieepx_sriov_ps cavm_pcieepx_sriov_ps_t;
 
-#define CAVM_PCIEEP_SRIOV_PS CAVM_PCIEEP_SRIOV_PS_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_PS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_PS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_PS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_PS(uint64_t a)
 {
-    return 0x208;
+    if (a<=3)
+        return 0x208 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_PS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_PS cavm_pcieep_sriov_ps_t
-#define bustype_CAVM_PCIEEP_SRIOV_PS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_PS "PCIEEP_SRIOV_PS"
-#define busnum_CAVM_PCIEEP_SRIOV_PS 0
-#define arguments_CAVM_PCIEEP_SRIOV_PS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_PS(a) cavm_pcieepx_sriov_ps_t
+#define bustype_CAVM_PCIEEPX_SRIOV_PS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_PS(a) "PCIEEPX_SRIOV_PS"
+#define busnum_CAVM_PCIEEPX_SRIOV_PS(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_PS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_supps
+ * Register (PCICONFIGEP) pcieep#_sriov_supps
  *
  * PCIe EP PF SR-IOV Supported Page Sizes Register
  */
-union cavm_pcieep_sriov_supps
+union cavm_pcieepx_sriov_supps
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_supps_s
+    struct cavm_pcieepx_sriov_supps_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t supps                 : 32; /**< [ 31:  0](RO/H) Supported page sizes. */
@@ -12855,32 +13075,33 @@ union cavm_pcieep_sriov_supps
         uint32_t supps                 : 32; /**< [ 31:  0](RO/H) Supported page sizes. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_supps_s cn; */
+    /* struct cavm_pcieepx_sriov_supps_s cn; */
 };
-typedef union cavm_pcieep_sriov_supps cavm_pcieep_sriov_supps_t;
+typedef union cavm_pcieepx_sriov_supps cavm_pcieepx_sriov_supps_t;
 
-#define CAVM_PCIEEP_SRIOV_SUPPS CAVM_PCIEEP_SRIOV_SUPPS_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_SUPPS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_SUPPS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_SUPPS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_SUPPS(uint64_t a)
 {
-    return 0x204;
+    if (a<=3)
+        return 0x204 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_SUPPS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_SUPPS cavm_pcieep_sriov_supps_t
-#define bustype_CAVM_PCIEEP_SRIOV_SUPPS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_SUPPS "PCIEEP_SRIOV_SUPPS"
-#define busnum_CAVM_PCIEEP_SRIOV_SUPPS 0
-#define arguments_CAVM_PCIEEP_SRIOV_SUPPS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_SUPPS(a) cavm_pcieepx_sriov_supps_t
+#define bustype_CAVM_PCIEEPX_SRIOV_SUPPS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_SUPPS(a) "PCIEEPX_SRIOV_SUPPS"
+#define busnum_CAVM_PCIEEPX_SRIOV_SUPPS(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_SUPPS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_sriov_vfs
+ * Register (PCICONFIGEP) pcieep#_sriov_vfs
  *
  * PCIe EP PF SR-IOV Initial VFs/Total VFs Register
  */
-union cavm_pcieep_sriov_vfs
+union cavm_pcieepx_sriov_vfs
 {
     uint32_t u;
-    struct cavm_pcieep_sriov_vfs_s
+    struct cavm_pcieepx_sriov_vfs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t tvf                   : 16; /**< [ 31: 16](RO) Total VFs.  Read-only copy of PCIEEP_SRIOV_VFS[IVF]. */
@@ -12900,32 +13121,33 @@ union cavm_pcieep_sriov_vfs
         uint32_t tvf                   : 16; /**< [ 31: 16](RO) Total VFs.  Read-only copy of PCIEEP_SRIOV_VFS[IVF]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_sriov_vfs_s cn; */
+    /* struct cavm_pcieepx_sriov_vfs_s cn; */
 };
-typedef union cavm_pcieep_sriov_vfs cavm_pcieep_sriov_vfs_t;
+typedef union cavm_pcieepx_sriov_vfs cavm_pcieepx_sriov_vfs_t;
 
-#define CAVM_PCIEEP_SRIOV_VFS CAVM_PCIEEP_SRIOV_VFS_FUNC()
-static inline uint64_t CAVM_PCIEEP_SRIOV_VFS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SRIOV_VFS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SRIOV_VFS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SRIOV_VFS(uint64_t a)
 {
-    return 0x1f4;
+    if (a<=3)
+        return 0x1f4 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SRIOV_VFS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SRIOV_VFS cavm_pcieep_sriov_vfs_t
-#define bustype_CAVM_PCIEEP_SRIOV_VFS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SRIOV_VFS "PCIEEP_SRIOV_VFS"
-#define busnum_CAVM_PCIEEP_SRIOV_VFS 0
-#define arguments_CAVM_PCIEEP_SRIOV_VFS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SRIOV_VFS(a) cavm_pcieepx_sriov_vfs_t
+#define bustype_CAVM_PCIEEPX_SRIOV_VFS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SRIOV_VFS(a) "PCIEEPX_SRIOV_VFS"
+#define busnum_CAVM_PCIEEPX_SRIOV_VFS(a) (a)
+#define arguments_CAVM_PCIEEPX_SRIOV_VFS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_subsys
+ * Register (PCICONFIGEP) pcieep#_subsys
  *
  * PCIe EP PF SubSystem ID/Subsystem Vendor ID Register
  */
-union cavm_pcieep_subsys
+union cavm_pcieepx_subsys
 {
     uint32_t u;
-    struct cavm_pcieep_subsys_s
+    struct cavm_pcieepx_subsys_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ssid                  : 16; /**< [ 31: 16](RO/WRSL) Subsystem ID.
@@ -12939,32 +13161,33 @@ union cavm_pcieep_subsys
                                                                  Assigned by PCI-SIG, writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_subsys_s cn; */
+    /* struct cavm_pcieepx_subsys_s cn; */
 };
-typedef union cavm_pcieep_subsys cavm_pcieep_subsys_t;
+typedef union cavm_pcieepx_subsys cavm_pcieepx_subsys_t;
 
-#define CAVM_PCIEEP_SUBSYS CAVM_PCIEEP_SUBSYS_FUNC()
-static inline uint64_t CAVM_PCIEEP_SUBSYS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SUBSYS_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SUBSYS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SUBSYS(uint64_t a)
 {
-    return 0x2c;
+    if (a<=3)
+        return 0x2c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SUBSYS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SUBSYS cavm_pcieep_subsys_t
-#define bustype_CAVM_PCIEEP_SUBSYS CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SUBSYS "PCIEEP_SUBSYS"
-#define busnum_CAVM_PCIEEP_SUBSYS 0
-#define arguments_CAVM_PCIEEP_SUBSYS -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SUBSYS(a) cavm_pcieepx_subsys_t
+#define bustype_CAVM_PCIEEPX_SUBSYS(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SUBSYS(a) "PCIEEPX_SUBSYS"
+#define busnum_CAVM_PCIEEPX_SUBSYS(a) (a)
+#define arguments_CAVM_PCIEEPX_SUBSYS(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_symb_timer
+ * Register (PCICONFIGEP) pcieep#_symb_timer
  *
  * PCIe EP PF Symbol Timer/Filter Mask Register 1
  */
-union cavm_pcieep_symb_timer
+union cavm_pcieepx_symb_timer
 {
     uint32_t u;
-    struct cavm_pcieep_symb_timer_s
+    struct cavm_pcieepx_symb_timer_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
@@ -13020,32 +13243,33 @@ union cavm_pcieep_symb_timer
         uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_symb_timer_s cn; */
+    /* struct cavm_pcieepx_symb_timer_s cn; */
 };
-typedef union cavm_pcieep_symb_timer cavm_pcieep_symb_timer_t;
+typedef union cavm_pcieepx_symb_timer cavm_pcieepx_symb_timer_t;
 
-#define CAVM_PCIEEP_SYMB_TIMER CAVM_PCIEEP_SYMB_TIMER_FUNC()
-static inline uint64_t CAVM_PCIEEP_SYMB_TIMER_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_SYMB_TIMER_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_SYMB_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_SYMB_TIMER(uint64_t a)
 {
-    return 0x71c;
+    if (a<=3)
+        return 0x71c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_SYMB_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_SYMB_TIMER cavm_pcieep_symb_timer_t
-#define bustype_CAVM_PCIEEP_SYMB_TIMER CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_SYMB_TIMER "PCIEEP_SYMB_TIMER"
-#define busnum_CAVM_PCIEEP_SYMB_TIMER 0
-#define arguments_CAVM_PCIEEP_SYMB_TIMER -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_SYMB_TIMER(a) cavm_pcieepx_symb_timer_t
+#define bustype_CAVM_PCIEEPX_SYMB_TIMER(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_SYMB_TIMER(a) "PCIEEPX_SYMB_TIMER"
+#define busnum_CAVM_PCIEEPX_SYMB_TIMER(a) (a)
+#define arguments_CAVM_PCIEEPX_SYMB_TIMER(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_timer_ctl
+ * Register (PCICONFIGEP) pcieep#_timer_ctl
  *
  * PCIe EP PF Timer Control and Max Function Number Register
  */
-union cavm_pcieep_timer_ctl
+union cavm_pcieepx_timer_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_timer_ctl_s
+    struct cavm_pcieepx_timer_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
@@ -13103,32 +13327,33 @@ union cavm_pcieep_timer_ctl
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_timer_ctl_s cn; */
+    /* struct cavm_pcieepx_timer_ctl_s cn; */
 };
-typedef union cavm_pcieep_timer_ctl cavm_pcieep_timer_ctl_t;
+typedef union cavm_pcieepx_timer_ctl cavm_pcieepx_timer_ctl_t;
 
-#define CAVM_PCIEEP_TIMER_CTL CAVM_PCIEEP_TIMER_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_TIMER_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_TIMER_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_TIMER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_TIMER_CTL(uint64_t a)
 {
-    return 0x718;
+    if (a<=3)
+        return 0x718 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_TIMER_CTL cavm_pcieep_timer_ctl_t
-#define bustype_CAVM_PCIEEP_TIMER_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_TIMER_CTL "PCIEEP_TIMER_CTL"
-#define busnum_CAVM_PCIEEP_TIMER_CTL 0
-#define arguments_CAVM_PCIEEP_TIMER_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_TIMER_CTL(a) cavm_pcieepx_timer_ctl_t
+#define bustype_CAVM_PCIEEPX_TIMER_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_TIMER_CTL(a) "PCIEEPX_TIMER_CTL"
+#define busnum_CAVM_PCIEEPX_TIMER_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_TIMER_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_tlp_plog1
+ * Register (PCICONFIGEP) pcieep#_tlp_plog1
  *
  * PCIe EP PF TLP Prefix Log Register 1
  */
-union cavm_pcieep_tlp_plog1
+union cavm_pcieepx_tlp_plog1
 {
     uint32_t u;
-    struct cavm_pcieep_tlp_plog1_s
+    struct cavm_pcieepx_tlp_plog1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword1                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (first DWORD). */
@@ -13136,32 +13361,33 @@ union cavm_pcieep_tlp_plog1
         uint32_t dword1                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (first DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_tlp_plog1_s cn; */
+    /* struct cavm_pcieepx_tlp_plog1_s cn; */
 };
-typedef union cavm_pcieep_tlp_plog1 cavm_pcieep_tlp_plog1_t;
+typedef union cavm_pcieepx_tlp_plog1 cavm_pcieepx_tlp_plog1_t;
 
-#define CAVM_PCIEEP_TLP_PLOG1 CAVM_PCIEEP_TLP_PLOG1_FUNC()
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG1(uint64_t a)
 {
-    return 0x138;
+    if (a<=3)
+        return 0x138 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_TLP_PLOG1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_TLP_PLOG1 cavm_pcieep_tlp_plog1_t
-#define bustype_CAVM_PCIEEP_TLP_PLOG1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_TLP_PLOG1 "PCIEEP_TLP_PLOG1"
-#define busnum_CAVM_PCIEEP_TLP_PLOG1 0
-#define arguments_CAVM_PCIEEP_TLP_PLOG1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_TLP_PLOG1(a) cavm_pcieepx_tlp_plog1_t
+#define bustype_CAVM_PCIEEPX_TLP_PLOG1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_TLP_PLOG1(a) "PCIEEPX_TLP_PLOG1"
+#define busnum_CAVM_PCIEEPX_TLP_PLOG1(a) (a)
+#define arguments_CAVM_PCIEEPX_TLP_PLOG1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_tlp_plog2
+ * Register (PCICONFIGEP) pcieep#_tlp_plog2
  *
  * PCIe EP PF TLP Prefix Log Register 2
  */
-union cavm_pcieep_tlp_plog2
+union cavm_pcieepx_tlp_plog2
 {
     uint32_t u;
-    struct cavm_pcieep_tlp_plog2_s
+    struct cavm_pcieepx_tlp_plog2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword2                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (second DWORD). */
@@ -13169,32 +13395,33 @@ union cavm_pcieep_tlp_plog2
         uint32_t dword2                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (second DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_tlp_plog2_s cn; */
+    /* struct cavm_pcieepx_tlp_plog2_s cn; */
 };
-typedef union cavm_pcieep_tlp_plog2 cavm_pcieep_tlp_plog2_t;
+typedef union cavm_pcieepx_tlp_plog2 cavm_pcieepx_tlp_plog2_t;
 
-#define CAVM_PCIEEP_TLP_PLOG2 CAVM_PCIEEP_TLP_PLOG2_FUNC()
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG2(uint64_t a)
 {
-    return 0x13c;
+    if (a<=3)
+        return 0x13c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_TLP_PLOG2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_TLP_PLOG2 cavm_pcieep_tlp_plog2_t
-#define bustype_CAVM_PCIEEP_TLP_PLOG2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_TLP_PLOG2 "PCIEEP_TLP_PLOG2"
-#define busnum_CAVM_PCIEEP_TLP_PLOG2 0
-#define arguments_CAVM_PCIEEP_TLP_PLOG2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_TLP_PLOG2(a) cavm_pcieepx_tlp_plog2_t
+#define bustype_CAVM_PCIEEPX_TLP_PLOG2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_TLP_PLOG2(a) "PCIEEPX_TLP_PLOG2"
+#define busnum_CAVM_PCIEEPX_TLP_PLOG2(a) (a)
+#define arguments_CAVM_PCIEEPX_TLP_PLOG2(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_tlp_plog3
+ * Register (PCICONFIGEP) pcieep#_tlp_plog3
  *
  * PCIe EP PF TLP Prefix Log Register 3
  */
-union cavm_pcieep_tlp_plog3
+union cavm_pcieepx_tlp_plog3
 {
     uint32_t u;
-    struct cavm_pcieep_tlp_plog3_s
+    struct cavm_pcieepx_tlp_plog3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword3                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (third DWORD). */
@@ -13202,32 +13429,33 @@ union cavm_pcieep_tlp_plog3
         uint32_t dword3                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (third DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_tlp_plog3_s cn; */
+    /* struct cavm_pcieepx_tlp_plog3_s cn; */
 };
-typedef union cavm_pcieep_tlp_plog3 cavm_pcieep_tlp_plog3_t;
+typedef union cavm_pcieepx_tlp_plog3 cavm_pcieepx_tlp_plog3_t;
 
-#define CAVM_PCIEEP_TLP_PLOG3 CAVM_PCIEEP_TLP_PLOG3_FUNC()
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG3_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG3(uint64_t a)
 {
-    return 0x140;
+    if (a<=3)
+        return 0x140 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_TLP_PLOG3", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_TLP_PLOG3 cavm_pcieep_tlp_plog3_t
-#define bustype_CAVM_PCIEEP_TLP_PLOG3 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_TLP_PLOG3 "PCIEEP_TLP_PLOG3"
-#define busnum_CAVM_PCIEEP_TLP_PLOG3 0
-#define arguments_CAVM_PCIEEP_TLP_PLOG3 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_TLP_PLOG3(a) cavm_pcieepx_tlp_plog3_t
+#define bustype_CAVM_PCIEEPX_TLP_PLOG3(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_TLP_PLOG3(a) "PCIEEPX_TLP_PLOG3"
+#define busnum_CAVM_PCIEEPX_TLP_PLOG3(a) (a)
+#define arguments_CAVM_PCIEEPX_TLP_PLOG3(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_tlp_plog4
+ * Register (PCICONFIGEP) pcieep#_tlp_plog4
  *
  * PCIe EP PF TLP Prefix Log Register 4
  */
-union cavm_pcieep_tlp_plog4
+union cavm_pcieepx_tlp_plog4
 {
     uint32_t u;
-    struct cavm_pcieep_tlp_plog4_s
+    struct cavm_pcieepx_tlp_plog4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dword4                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (fourth DWORD). */
@@ -13235,32 +13463,33 @@ union cavm_pcieep_tlp_plog4
         uint32_t dword4                : 32; /**< [ 31:  0](RO/H) TLP prefix log register (fourth DWORD). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_tlp_plog4_s cn; */
+    /* struct cavm_pcieepx_tlp_plog4_s cn; */
 };
-typedef union cavm_pcieep_tlp_plog4 cavm_pcieep_tlp_plog4_t;
+typedef union cavm_pcieepx_tlp_plog4 cavm_pcieepx_tlp_plog4_t;
 
-#define CAVM_PCIEEP_TLP_PLOG4 CAVM_PCIEEP_TLP_PLOG4_FUNC()
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG4_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_TLP_PLOG4_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_TLP_PLOG4(uint64_t a)
 {
-    return 0x144;
+    if (a<=3)
+        return 0x144 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_TLP_PLOG4", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_TLP_PLOG4 cavm_pcieep_tlp_plog4_t
-#define bustype_CAVM_PCIEEP_TLP_PLOG4 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_TLP_PLOG4 "PCIEEP_TLP_PLOG4"
-#define busnum_CAVM_PCIEEP_TLP_PLOG4 0
-#define arguments_CAVM_PCIEEP_TLP_PLOG4 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_TLP_PLOG4(a) cavm_pcieepx_tlp_plog4_t
+#define bustype_CAVM_PCIEEPX_TLP_PLOG4(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_TLP_PLOG4(a) "PCIEEPX_TLP_PLOG4"
+#define busnum_CAVM_PCIEEPX_TLP_PLOG4(a) (a)
+#define arguments_CAVM_PCIEEPX_TLP_PLOG4(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ucor_err_msk
+ * Register (PCICONFIGEP) pcieep#_ucor_err_msk
  *
  * PCIe EP PF Uncorrectable Error Mask Register
  */
-union cavm_pcieep_ucor_err_msk
+union cavm_pcieepx_ucor_err_msk
 {
     uint32_t u;
-    struct cavm_pcieep_ucor_err_msk_s
+    struct cavm_pcieepx_ucor_err_msk_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -13304,7 +13533,7 @@ union cavm_pcieep_ucor_err_msk
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_pcieep_ucor_err_msk_cn
+    struct cavm_pcieepx_ucor_err_msk_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -13351,30 +13580,31 @@ union cavm_pcieep_ucor_err_msk
 #endif /* Word 0 - End */
     } cn;
 };
-typedef union cavm_pcieep_ucor_err_msk cavm_pcieep_ucor_err_msk_t;
+typedef union cavm_pcieepx_ucor_err_msk cavm_pcieepx_ucor_err_msk_t;
 
-#define CAVM_PCIEEP_UCOR_ERR_MSK CAVM_PCIEEP_UCOR_ERR_MSK_FUNC()
-static inline uint64_t CAVM_PCIEEP_UCOR_ERR_MSK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_UCOR_ERR_MSK_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_MSK(uint64_t a)
 {
-    return 0x108;
+    if (a<=3)
+        return 0x108 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_UCOR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_UCOR_ERR_MSK cavm_pcieep_ucor_err_msk_t
-#define bustype_CAVM_PCIEEP_UCOR_ERR_MSK CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_UCOR_ERR_MSK "PCIEEP_UCOR_ERR_MSK"
-#define busnum_CAVM_PCIEEP_UCOR_ERR_MSK 0
-#define arguments_CAVM_PCIEEP_UCOR_ERR_MSK -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_UCOR_ERR_MSK(a) cavm_pcieepx_ucor_err_msk_t
+#define bustype_CAVM_PCIEEPX_UCOR_ERR_MSK(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_UCOR_ERR_MSK(a) "PCIEEPX_UCOR_ERR_MSK"
+#define busnum_CAVM_PCIEEPX_UCOR_ERR_MSK(a) (a)
+#define arguments_CAVM_PCIEEPX_UCOR_ERR_MSK(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ucor_err_sev
+ * Register (PCICONFIGEP) pcieep#_ucor_err_sev
  *
  * PCIe EP PF Uncorrectable Error Severity Register
  */
-union cavm_pcieep_ucor_err_sev
+union cavm_pcieepx_ucor_err_sev
 {
     uint32_t u;
-    struct cavm_pcieep_ucor_err_sev_s
+    struct cavm_pcieepx_ucor_err_sev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -13418,7 +13648,7 @@ union cavm_pcieep_ucor_err_sev
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_pcieep_ucor_err_sev_cn
+    struct cavm_pcieepx_ucor_err_sev_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -13465,30 +13695,31 @@ union cavm_pcieep_ucor_err_sev
 #endif /* Word 0 - End */
     } cn;
 };
-typedef union cavm_pcieep_ucor_err_sev cavm_pcieep_ucor_err_sev_t;
+typedef union cavm_pcieepx_ucor_err_sev cavm_pcieepx_ucor_err_sev_t;
 
-#define CAVM_PCIEEP_UCOR_ERR_SEV CAVM_PCIEEP_UCOR_ERR_SEV_FUNC()
-static inline uint64_t CAVM_PCIEEP_UCOR_ERR_SEV_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_UCOR_ERR_SEV_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_SEV(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_SEV(uint64_t a)
 {
-    return 0x10c;
+    if (a<=3)
+        return 0x10c + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_UCOR_ERR_SEV", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_UCOR_ERR_SEV cavm_pcieep_ucor_err_sev_t
-#define bustype_CAVM_PCIEEP_UCOR_ERR_SEV CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_UCOR_ERR_SEV "PCIEEP_UCOR_ERR_SEV"
-#define busnum_CAVM_PCIEEP_UCOR_ERR_SEV 0
-#define arguments_CAVM_PCIEEP_UCOR_ERR_SEV -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_UCOR_ERR_SEV(a) cavm_pcieepx_ucor_err_sev_t
+#define bustype_CAVM_PCIEEPX_UCOR_ERR_SEV(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_UCOR_ERR_SEV(a) "PCIEEPX_UCOR_ERR_SEV"
+#define busnum_CAVM_PCIEEPX_UCOR_ERR_SEV(a) (a)
+#define arguments_CAVM_PCIEEPX_UCOR_ERR_SEV(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ucor_err_stat
+ * Register (PCICONFIGEP) pcieep#_ucor_err_stat
  *
  * PCIe EP PF Uncorrectable Error Status Register
  */
-union cavm_pcieep_ucor_err_stat
+union cavm_pcieepx_ucor_err_stat
 {
     uint32_t u;
-    struct cavm_pcieep_ucor_err_stat_s
+    struct cavm_pcieepx_ucor_err_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -13532,32 +13763,33 @@ union cavm_pcieep_ucor_err_stat
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ucor_err_stat_s cn; */
+    /* struct cavm_pcieepx_ucor_err_stat_s cn; */
 };
-typedef union cavm_pcieep_ucor_err_stat cavm_pcieep_ucor_err_stat_t;
+typedef union cavm_pcieepx_ucor_err_stat cavm_pcieepx_ucor_err_stat_t;
 
-#define CAVM_PCIEEP_UCOR_ERR_STAT CAVM_PCIEEP_UCOR_ERR_STAT_FUNC()
-static inline uint64_t CAVM_PCIEEP_UCOR_ERR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_UCOR_ERR_STAT_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_STAT(uint64_t a)
 {
-    return 0x104;
+    if (a<=3)
+        return 0x104 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_UCOR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_UCOR_ERR_STAT cavm_pcieep_ucor_err_stat_t
-#define bustype_CAVM_PCIEEP_UCOR_ERR_STAT CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_UCOR_ERR_STAT "PCIEEP_UCOR_ERR_STAT"
-#define busnum_CAVM_PCIEEP_UCOR_ERR_STAT 0
-#define arguments_CAVM_PCIEEP_UCOR_ERR_STAT -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_UCOR_ERR_STAT(a) cavm_pcieepx_ucor_err_stat_t
+#define bustype_CAVM_PCIEEPX_UCOR_ERR_STAT(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_UCOR_ERR_STAT(a) "PCIEEPX_UCOR_ERR_STAT"
+#define busnum_CAVM_PCIEEPX_UCOR_ERR_STAT(a) (a)
+#define arguments_CAVM_PCIEEPX_UCOR_ERR_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_upconfig
+ * Register (PCICONFIGEP) pcieep#_upconfig
  *
  * PCIe EP UpConfigure Multi-lane Control Register
  */
-union cavm_pcieep_upconfig
+union cavm_pcieepx_upconfig
 {
     uint32_t u;
-    struct cavm_pcieep_upconfig_s
+    struct cavm_pcieepx_upconfig_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -13617,32 +13849,33 @@ union cavm_pcieep_upconfig
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_upconfig_s cn; */
+    /* struct cavm_pcieepx_upconfig_s cn; */
 };
-typedef union cavm_pcieep_upconfig cavm_pcieep_upconfig_t;
+typedef union cavm_pcieepx_upconfig cavm_pcieepx_upconfig_t;
 
-#define CAVM_PCIEEP_UPCONFIG CAVM_PCIEEP_UPCONFIG_FUNC()
-static inline uint64_t CAVM_PCIEEP_UPCONFIG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_UPCONFIG_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_UPCONFIG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_UPCONFIG(uint64_t a)
 {
-    return 0x8c0;
+    if (a<=3)
+        return 0x8c0 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_UPCONFIG", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_UPCONFIG cavm_pcieep_upconfig_t
-#define bustype_CAVM_PCIEEP_UPCONFIG CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_UPCONFIG "PCIEEP_UPCONFIG"
-#define busnum_CAVM_PCIEEP_UPCONFIG 0
-#define arguments_CAVM_PCIEEP_UPCONFIG -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_UPCONFIG(a) cavm_pcieepx_upconfig_t
+#define bustype_CAVM_PCIEEPX_UPCONFIG(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_UPCONFIG(a) "PCIEEPX_UPCONFIG"
+#define busnum_CAVM_PCIEEPX_UPCONFIG(a) (a)
+#define arguments_CAVM_PCIEEPX_UPCONFIG(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ver_num
+ * Register (PCICONFIGEP) pcieep#_ver_num
  *
  * PCIe EP PF Controller IIP Release Version Number Register
  */
-union cavm_pcieep_ver_num
+union cavm_pcieepx_ver_num
 {
     uint32_t u;
-    struct cavm_pcieep_ver_num_s
+    struct cavm_pcieepx_ver_num_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vnum                  : 32; /**< [ 31:  0](RO) Version number. Convert hex characters to ASCII to interpret. */
@@ -13650,32 +13883,33 @@ union cavm_pcieep_ver_num
         uint32_t vnum                  : 32; /**< [ 31:  0](RO) Version number. Convert hex characters to ASCII to interpret. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ver_num_s cn; */
+    /* struct cavm_pcieepx_ver_num_s cn; */
 };
-typedef union cavm_pcieep_ver_num cavm_pcieep_ver_num_t;
+typedef union cavm_pcieepx_ver_num cavm_pcieepx_ver_num_t;
 
-#define CAVM_PCIEEP_VER_NUM CAVM_PCIEEP_VER_NUM_FUNC()
-static inline uint64_t CAVM_PCIEEP_VER_NUM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_VER_NUM_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_VER_NUM(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_VER_NUM(uint64_t a)
 {
-    return 0x8f8;
+    if (a<=3)
+        return 0x8f8 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_VER_NUM", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_VER_NUM cavm_pcieep_ver_num_t
-#define bustype_CAVM_PCIEEP_VER_NUM CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_VER_NUM "PCIEEP_VER_NUM"
-#define busnum_CAVM_PCIEEP_VER_NUM 0
-#define arguments_CAVM_PCIEEP_VER_NUM -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_VER_NUM(a) cavm_pcieepx_ver_num_t
+#define bustype_CAVM_PCIEEPX_VER_NUM(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_VER_NUM(a) "PCIEEPX_VER_NUM"
+#define busnum_CAVM_PCIEEPX_VER_NUM(a) (a)
+#define arguments_CAVM_PCIEEPX_VER_NUM(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_ver_type
+ * Register (PCICONFIGEP) pcieep#_ver_type
  *
  * PCIe EP PF Controller IIP Release Version Type Register
  */
-union cavm_pcieep_ver_type
+union cavm_pcieepx_ver_type
 {
     uint32_t u;
-    struct cavm_pcieep_ver_type_s
+    struct cavm_pcieepx_ver_type_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vtyp                  : 32; /**< [ 31:  0](RO) Version type. Convert hex characters to ASCII to interpret. */
@@ -13683,33 +13917,34 @@ union cavm_pcieep_ver_type
         uint32_t vtyp                  : 32; /**< [ 31:  0](RO) Version type. Convert hex characters to ASCII to interpret. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_ver_type_s cn; */
+    /* struct cavm_pcieepx_ver_type_s cn; */
 };
-typedef union cavm_pcieep_ver_type cavm_pcieep_ver_type_t;
+typedef union cavm_pcieepx_ver_type cavm_pcieepx_ver_type_t;
 
-#define CAVM_PCIEEP_VER_TYPE CAVM_PCIEEP_VER_TYPE_FUNC()
-static inline uint64_t CAVM_PCIEEP_VER_TYPE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_VER_TYPE_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_VER_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_VER_TYPE(uint64_t a)
 {
-    return 0x8fc;
+    if (a<=3)
+        return 0x8fc + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_VER_TYPE cavm_pcieep_ver_type_t
-#define bustype_CAVM_PCIEEP_VER_TYPE CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_VER_TYPE "PCIEEP_VER_TYPE"
-#define busnum_CAVM_PCIEEP_VER_TYPE 0
-#define arguments_CAVM_PCIEEP_VER_TYPE -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_VER_TYPE(a) cavm_pcieepx_ver_type_t
+#define bustype_CAVM_PCIEEPX_VER_TYPE(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_VER_TYPE(a) "PCIEEPX_VER_TYPE"
+#define busnum_CAVM_PCIEEPX_VER_TYPE(a) (a)
+#define arguments_CAVM_PCIEEPX_VER_TYPE(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_vsecst_cap_hdr
+ * Register (PCICONFIGEP) pcieep#_vsecst_cap_hdr
  *
  * PCIe EP Vendor Specific Status Capability Header Register
  * Vendor Specific Status Capability Header exists for PF0 only.
  */
-union cavm_pcieep_vsecst_cap_hdr
+union cavm_pcieepx_vsecst_cap_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_vsecst_cap_hdr_s
+    struct cavm_pcieepx_vsecst_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
@@ -13727,33 +13962,34 @@ union cavm_pcieep_vsecst_cap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_vsecst_cap_hdr_s cn; */
+    /* struct cavm_pcieepx_vsecst_cap_hdr_s cn; */
 };
-typedef union cavm_pcieep_vsecst_cap_hdr cavm_pcieep_vsecst_cap_hdr_t;
+typedef union cavm_pcieepx_vsecst_cap_hdr cavm_pcieepx_vsecst_cap_hdr_t;
 
-#define CAVM_PCIEEP_VSECST_CAP_HDR CAVM_PCIEEP_VSECST_CAP_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_VSECST_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_VSECST_CAP_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_VSECST_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_VSECST_CAP_HDR(uint64_t a)
 {
-    return 0x410;
+    if (a<=3)
+        return 0x410 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_VSECST_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_VSECST_CAP_HDR cavm_pcieep_vsecst_cap_hdr_t
-#define bustype_CAVM_PCIEEP_VSECST_CAP_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_VSECST_CAP_HDR "PCIEEP_VSECST_CAP_HDR"
-#define busnum_CAVM_PCIEEP_VSECST_CAP_HDR 0
-#define arguments_CAVM_PCIEEP_VSECST_CAP_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_VSECST_CAP_HDR(a) cavm_pcieepx_vsecst_cap_hdr_t
+#define bustype_CAVM_PCIEEPX_VSECST_CAP_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_VSECST_CAP_HDR(a) "PCIEEPX_VSECST_CAP_HDR"
+#define busnum_CAVM_PCIEEPX_VSECST_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_VSECST_CAP_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_vsecst_ctl
+ * Register (PCICONFIGEP) pcieep#_vsecst_ctl
  *
  * PCIe EP Vendor Specific Status Control Register
  * Vendor Specific Status Control exists for PF0 only.
  */
-union cavm_pcieep_vsecst_ctl
+union cavm_pcieepx_vsecst_ctl
 {
     uint32_t u;
-    struct cavm_pcieep_vsecst_ctl_s
+    struct cavm_pcieepx_vsecst_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -13775,33 +14011,34 @@ union cavm_pcieep_vsecst_ctl
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_vsecst_ctl_s cn; */
+    /* struct cavm_pcieepx_vsecst_ctl_s cn; */
 };
-typedef union cavm_pcieep_vsecst_ctl cavm_pcieep_vsecst_ctl_t;
+typedef union cavm_pcieepx_vsecst_ctl cavm_pcieepx_vsecst_ctl_t;
 
-#define CAVM_PCIEEP_VSECST_CTL CAVM_PCIEEP_VSECST_CTL_FUNC()
-static inline uint64_t CAVM_PCIEEP_VSECST_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_VSECST_CTL_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_VSECST_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_VSECST_CTL(uint64_t a)
 {
-    return 0x418;
+    if (a<=3)
+        return 0x418 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_VSECST_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_VSECST_CTL cavm_pcieep_vsecst_ctl_t
-#define bustype_CAVM_PCIEEP_VSECST_CTL CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_VSECST_CTL "PCIEEP_VSECST_CTL"
-#define busnum_CAVM_PCIEEP_VSECST_CTL 0
-#define arguments_CAVM_PCIEEP_VSECST_CTL -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_VSECST_CTL(a) cavm_pcieepx_vsecst_ctl_t
+#define bustype_CAVM_PCIEEPX_VSECST_CTL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_VSECST_CTL(a) "PCIEEPX_VSECST_CTL"
+#define busnum_CAVM_PCIEEPX_VSECST_CTL(a) (a)
+#define arguments_CAVM_PCIEEPX_VSECST_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_vsecst_hdr
+ * Register (PCICONFIGEP) pcieep#_vsecst_hdr
  *
  * PCIe EP Vendor Specific Status Header Register
  * Vendor Specific Status Header exists for PF0 only.
  */
-union cavm_pcieep_vsecst_hdr
+union cavm_pcieepx_vsecst_hdr
 {
     uint32_t u;
-    struct cavm_pcieep_vsecst_hdr_s
+    struct cavm_pcieepx_vsecst_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO/WRSL) VSEC length. */
@@ -13813,32 +14050,33 @@ union cavm_pcieep_vsecst_hdr
         uint32_t vsec_length           : 12; /**< [ 31: 20](RO/WRSL) VSEC length. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_vsecst_hdr_s cn; */
+    /* struct cavm_pcieepx_vsecst_hdr_s cn; */
 };
-typedef union cavm_pcieep_vsecst_hdr cavm_pcieep_vsecst_hdr_t;
+typedef union cavm_pcieepx_vsecst_hdr cavm_pcieepx_vsecst_hdr_t;
 
-#define CAVM_PCIEEP_VSECST_HDR CAVM_PCIEEP_VSECST_HDR_FUNC()
-static inline uint64_t CAVM_PCIEEP_VSECST_HDR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_VSECST_HDR_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_VSECST_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_VSECST_HDR(uint64_t a)
 {
-    return 0x414;
+    if (a<=3)
+        return 0x414 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_VSECST_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_VSECST_HDR cavm_pcieep_vsecst_hdr_t
-#define bustype_CAVM_PCIEEP_VSECST_HDR CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_VSECST_HDR "PCIEEP_VSECST_HDR"
-#define busnum_CAVM_PCIEEP_VSECST_HDR 0
-#define arguments_CAVM_PCIEEP_VSECST_HDR -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_VSECST_HDR(a) cavm_pcieepx_vsecst_hdr_t
+#define bustype_CAVM_PCIEEPX_VSECST_HDR(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_VSECST_HDR(a) "PCIEEPX_VSECST_HDR"
+#define busnum_CAVM_PCIEEPX_VSECST_HDR(a) (a)
+#define arguments_CAVM_PCIEEPX_VSECST_HDR(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_xmit_arb1
+ * Register (PCICONFIGEP) pcieep#_xmit_arb1
  *
  * PCIe EP PF VC Transmit Arbitration Register 1
  */
-union cavm_pcieep_xmit_arb1
+union cavm_pcieepx_xmit_arb1
 {
     uint32_t u;
-    struct cavm_pcieep_xmit_arb1_s
+    struct cavm_pcieepx_xmit_arb1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR weight for VC3. */
@@ -13852,32 +14090,33 @@ union cavm_pcieep_xmit_arb1
         uint32_t wrr_vc3               : 8;  /**< [ 31: 24](RO) WRR weight for VC3. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_xmit_arb1_s cn; */
+    /* struct cavm_pcieepx_xmit_arb1_s cn; */
 };
-typedef union cavm_pcieep_xmit_arb1 cavm_pcieep_xmit_arb1_t;
+typedef union cavm_pcieepx_xmit_arb1 cavm_pcieepx_xmit_arb1_t;
 
-#define CAVM_PCIEEP_XMIT_ARB1 CAVM_PCIEEP_XMIT_ARB1_FUNC()
-static inline uint64_t CAVM_PCIEEP_XMIT_ARB1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_XMIT_ARB1_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_XMIT_ARB1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_XMIT_ARB1(uint64_t a)
 {
-    return 0x740;
+    if (a<=3)
+        return 0x740 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_XMIT_ARB1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_XMIT_ARB1 cavm_pcieep_xmit_arb1_t
-#define bustype_CAVM_PCIEEP_XMIT_ARB1 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_XMIT_ARB1 "PCIEEP_XMIT_ARB1"
-#define busnum_CAVM_PCIEEP_XMIT_ARB1 0
-#define arguments_CAVM_PCIEEP_XMIT_ARB1 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_XMIT_ARB1(a) cavm_pcieepx_xmit_arb1_t
+#define bustype_CAVM_PCIEEPX_XMIT_ARB1(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_XMIT_ARB1(a) "PCIEEPX_XMIT_ARB1"
+#define busnum_CAVM_PCIEEPX_XMIT_ARB1(a) (a)
+#define arguments_CAVM_PCIEEPX_XMIT_ARB1(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieep_xmit_arb2
+ * Register (PCICONFIGEP) pcieep#_xmit_arb2
  *
  * PCIe EP PF VC Transmit Arbitration Register 2
  */
-union cavm_pcieep_xmit_arb2
+union cavm_pcieepx_xmit_arb2
 {
     uint32_t u;
-    struct cavm_pcieep_xmit_arb2_s
+    struct cavm_pcieepx_xmit_arb2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR weight for VC7. */
@@ -13891,21 +14130,22 @@ union cavm_pcieep_xmit_arb2
         uint32_t wrr_vc7               : 8;  /**< [ 31: 24](RO) WRR weight for VC7. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pcieep_xmit_arb2_s cn; */
+    /* struct cavm_pcieepx_xmit_arb2_s cn; */
 };
-typedef union cavm_pcieep_xmit_arb2 cavm_pcieep_xmit_arb2_t;
+typedef union cavm_pcieepx_xmit_arb2 cavm_pcieepx_xmit_arb2_t;
 
-#define CAVM_PCIEEP_XMIT_ARB2 CAVM_PCIEEP_XMIT_ARB2_FUNC()
-static inline uint64_t CAVM_PCIEEP_XMIT_ARB2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIEEP_XMIT_ARB2_FUNC(void)
+static inline uint64_t CAVM_PCIEEPX_XMIT_ARB2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_XMIT_ARB2(uint64_t a)
 {
-    return 0x744;
+    if (a<=3)
+        return 0x744 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIEEPX_XMIT_ARB2", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_PCIEEP_XMIT_ARB2 cavm_pcieep_xmit_arb2_t
-#define bustype_CAVM_PCIEEP_XMIT_ARB2 CSR_TYPE_PCICONFIGEP
-#define basename_CAVM_PCIEEP_XMIT_ARB2 "PCIEEP_XMIT_ARB2"
-#define busnum_CAVM_PCIEEP_XMIT_ARB2 0
-#define arguments_CAVM_PCIEEP_XMIT_ARB2 -1,-1,-1,-1
+#define typedef_CAVM_PCIEEPX_XMIT_ARB2(a) cavm_pcieepx_xmit_arb2_t
+#define bustype_CAVM_PCIEEPX_XMIT_ARB2(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_XMIT_ARB2(a) "PCIEEPX_XMIT_ARB2"
+#define busnum_CAVM_PCIEEPX_XMIT_ARB2(a) (a)
+#define arguments_CAVM_PCIEEPX_XMIT_ARB2(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_PCIEEP_H__ */

@@ -1,0 +1,6192 @@
+#ifndef __CAVM_CSRS_SPI_H__
+#define __CAVM_CSRS_SPI_H__
+/* This file is auto-generated. Do not edit */
+
+/***********************license start***********************************
+* Copyright (C) 2020 Marvell International Ltd.
+* SPDX-License-Identifier: BSD-3-Clause
+* https://spdx.org/licenses
+***********************license end**************************************/
+
+
+/**
+ * @file
+ *
+ * Configuration and status register (CSR) address and type definitions for
+ * OcteonTX SPI.
+ *
+ * This file is auto generated. Do not edit.
+ *
+ */
+
+/**
+ * Enumeration spi_bar_e
+ *
+ * SPI Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR0(a) (0x804000000000ll + 0x1000000000ll * (a))
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR0_SIZE 0x10000ull
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR4(a) (0x804000f00000ll + 0x1000000000ll * (a))
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR4_SIZE 0x100000ull
+
+/**
+ * Enumeration spi_dma_read_cmd_e
+ *
+ * SPI DMA Read Command Enumeration
+ * Enumerate NCB inbound command selections for DMA read operations.
+ */
+#define CAVM_SPI_DMA_READ_CMD_E_LDI (0)
+#define CAVM_SPI_DMA_READ_CMD_E_LDT (1)
+#define CAVM_SPI_DMA_READ_CMD_E_LDY (2)
+
+/**
+ * Enumeration spi_dma_write_cmd_e
+ *
+ * SPI DMA Write Command Enumeration
+ * Enumerate NCB inbound command selections for DMA write operations.
+ */
+#define CAVM_SPI_DMA_WRITE_CMD_E_RSTP (1)
+#define CAVM_SPI_DMA_WRITE_CMD_E_STP (0)
+
+/**
+ * Enumeration spi_int_vec_e
+ *
+ * SPI MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define CAVM_SPI_INT_VEC_E_INTS (0)
+#define CAVM_SPI_INT_VEC_E_INTS_CLEAR (1)
+
+/**
+ * Enumeration spi_xm_bad_dma_type_e
+ *
+ * SPI XM Bad DMA Type Enumeration
+ * Enumerate type of DMA error seen.
+ */
+#define CAVM_SPI_XM_BAD_DMA_TYPE_E_ADDR_OOB (1)
+#define CAVM_SPI_XM_BAD_DMA_TYPE_E_LEN_GT_16 (2)
+#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3)
+#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4)
+#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_QWORD (6)
+#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5)
+#define CAVM_SPI_XM_BAD_DMA_TYPE_E_NONE (0)
+
+/**
+ * Register (NCB32b) spi#_cmn_seq_regs_direct_access_cfg
+ *
+ * SPI Cmn Seq Regs Direct Access Cfg Register
+ * Register to hold configuration required only by DIRECT work mode.
+ */
+union cavm_spix_cmn_seq_regs_direct_access_cfg
+{
+    uint32_t u;
+    struct cavm_spix_cmn_seq_regs_direct_access_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t dac_addr_mask         : 13; /**< [ 28: 16](R/W) This mask is used for masking bits [44:32] of the system address for read/write
+                                                                 transfers for PROFILE 2. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t rmp_addr_en           : 1;  /**< [ 12: 12](R/W) Enables Slave Data Interface address remapping. When set to 1, the incoming Slave Data Interface
+                                                                 address will be adopted and sent to the Flash device as (address - N), where N is the value stored
+                                                                 in the remap address register. */
+        uint32_t reserved_10_11        : 2;
+        uint32_t mode_bit_xip_dis      : 1;  /**< [  9:  9](R/W) If set to 1 controller will send mode bits specified in the xip_dis_mb_val for next READ
+                                                                 transaction and clear the xip_en bit. This will cause disabling XIP work mode for both device and
+                                                                 controller. */
+        uint32_t mode_bit_xip_en       : 1;  /**< [  8:  8](R/W) If set to 1 controller will send mode bits specified in the xip_en_mb_val for next READ
+                                                                 transaction and set the xip_en bit. This will cause switching both device and controller into XIP
+                                                                 work mode. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t dac_bank_num          : 3;  /**< [  2:  0](R/W) Number of bank targeted by DIRECT work mode. */
+#else /* Word 0 - Little Endian */
+        uint32_t dac_bank_num          : 3;  /**< [  2:  0](R/W) Number of bank targeted by DIRECT work mode. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t mode_bit_xip_en       : 1;  /**< [  8:  8](R/W) If set to 1 controller will send mode bits specified in the xip_en_mb_val for next READ
+                                                                 transaction and set the xip_en bit. This will cause switching both device and controller into XIP
+                                                                 work mode. */
+        uint32_t mode_bit_xip_dis      : 1;  /**< [  9:  9](R/W) If set to 1 controller will send mode bits specified in the xip_dis_mb_val for next READ
+                                                                 transaction and clear the xip_en bit. This will cause disabling XIP work mode for both device and
+                                                                 controller. */
+        uint32_t reserved_10_11        : 2;
+        uint32_t rmp_addr_en           : 1;  /**< [ 12: 12](R/W) Enables Slave Data Interface address remapping. When set to 1, the incoming Slave Data Interface
+                                                                 address will be adopted and sent to the Flash device as (address - N), where N is the value stored
+                                                                 in the remap address register. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t dac_addr_mask         : 13; /**< [ 28: 16](R/W) This mask is used for masking bits [44:32] of the system address for read/write
+                                                                 transfers for PROFILE 2. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_cmn_seq_regs_direct_access_cfg_s cn; */
+};
+typedef union cavm_spix_cmn_seq_regs_direct_access_cfg cavm_spix_cmn_seq_regs_direct_access_cfg_t;
+
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000398ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(a) cavm_spix_cmn_seq_regs_direct_access_cfg_t
+#define bustype_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(a) "SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG"
+#define device_bar_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(a) (a)
+#define arguments_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_cmn_seq_regs_direct_access_rmp
+ *
+ * SPI Cmn Seq Regs Direct Access Rmp Register
+ * This register allows to the user to define the address offset for DIRECT work mode
+ * for lower part of
+ * input address on Slave Data Interface.
+ */
+union cavm_spix_cmn_seq_regs_direct_access_rmp
+{
+    uint32_t u;
+    struct cavm_spix_cmn_seq_regs_direct_access_rmp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rmp_addr_val          : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+                                                                 device. Value of this register must be aligned to 8 bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t rmp_addr_val          : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+                                                                 device. Value of this register must be aligned to 8 bytes. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_cmn_seq_regs_direct_access_rmp_s cn; */
+};
+typedef union cavm_spix_cmn_seq_regs_direct_access_rmp cavm_spix_cmn_seq_regs_direct_access_rmp_t;
+
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000039cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(a) cavm_spix_cmn_seq_regs_direct_access_rmp_t
+#define bustype_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(a) "SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP"
+#define device_bar_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(a) (a)
+#define arguments_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_cmn_seq_regs_direct_access_rmp_1
+ *
+ * SPI Cmn Seq Regs Direct Access Rmp 1 Register
+ * This register allows to the user to define the address offset for DIRECT work mode
+ * for upper part of
+ * input address on Slave Data Interface.
+ */
+union cavm_spix_cmn_seq_regs_direct_access_rmp_1
+{
+    uint32_t u;
+    struct cavm_spix_cmn_seq_regs_direct_access_rmp_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rmp_addr_val_1        : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+                                                                 device. */
+#else /* Word 0 - Little Endian */
+        uint32_t rmp_addr_val_1        : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+                                                                 device. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_cmn_seq_regs_direct_access_rmp_1_s cn; */
+};
+typedef union cavm_spix_cmn_seq_regs_direct_access_rmp_1 cavm_spix_cmn_seq_regs_direct_access_rmp_1_t;
+
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000003a0ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(a) cavm_spix_cmn_seq_regs_direct_access_rmp_1_t
+#define bustype_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(a) "SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1"
+#define device_bar_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(a) (a)
+#define arguments_CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_cmn_seq_regs_global_seq_cfg
+ *
+ * SPI Cmn Seq Regs Global Seq Cfg Register
+ * Register to configure common values for sequences in CDMA, PIO and DIRECT work mode.
+ */
+union cavm_spix_cmn_seq_regs_global_seq_cfg
+{
+    uint32_t u;
+    struct cavm_spix_cmn_seq_regs_global_seq_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t seq_type              : 2;  /**< [ 24: 23](R/W) Sequence type (common for all sequences):
+                                                                 0x0 = PROFILE 1.
+                                                                 0x1 = PROFILE 2 - HF (HyperFlash).
+                                                                 0x2 = PROFILE 2 - HR (HyperRAM).
+                                                                 0x3 = SPI NAND. */
+        uint32_t reserved_22           : 1;
+        uint32_t seq_data_per_addr     : 1;  /**< [ 21: 21](R/W) Selects data organization of the xSPI memory. Please note that xSPI address/pointer specified
+                                                                 during sending CDMA/PIO and DIRECT command is always byte-aligned(i.e. if this field is set, xSPI
+                                                                 address must be even).
+                                                                 0 = 1B per single memory address (no translation of xSPI address),
+                                                                 1 = 2B per single memory address (translation of xSPI address from byte address to word address
+                                                                 will be performed automatically). */
+        uint32_t seq_data_swap         : 1;  /**< [ 20: 20](R/W) Enables reversed byte order. This bit can be set only when data phase reflects Octal DDR mode.
+                                                                 In other modes this bit must be set to a low.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t reserved_19           : 1;
+        uint32_t seq_tcms_en           : 1;  /**< [ 18: 18](R/W) It enables tCMS timing in PROFILE 1.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t seq_crc_ual_chunk_chk : 1;  /**< [ 17: 17](R/W) It enables checking correctness of CRC unaligned chunk from Flash Device. It can be set high only
+                                                                 if seq_crc_ual_chunk_en = 1. It must be set low otherwise.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t seq_crc_ual_chunk_en  : 1;  /**< [ 16: 16](R/W) It enables taking into consideration the command address to determine after how many bytes CRC
+                                                                 data slice is expected to be returned by the Flash Device.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t reserved_15           : 1;
+        uint32_t seq_crc_chunk_size    : 3;  /**< [ 14: 12](R/W) Number of bytes after which CRC occurs.
+                                                                 Allowed values are:
+                                                                 0x0 = n/a.
+                                                                 0x1 = 8B.
+                                                                 0x2 = 16B.
+                                                                 0x3 = 32B.
+                                                                 0x4 = 64B.
+                                                                 0x5 = 128B.
+                                                                 0x6 = 256B.
+                                                                 0x7 = 512B. */
+        uint32_t reserved_11           : 1;
+        uint32_t seq_crc_oe            : 1;  /**< [ 10: 10](R/W) "It determines if the controller expects the xSPI device to toggle CRC data on both SPI clock edges
+                                                                 in CRC-\>CRC# sequence.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable." */
+        uint32_t seq_crc_variant       : 1;  /**< [  9:  9](R/W) Selecting of CRC variant. Allowed values are:
+                                                                 0 = CRC is calculated for all bytes of address transfer phase only and put on the bus after
+                                                                 address transfer phase.
+                                                                 1 = CRC is calculated for all bytes in sequence and put on the bus after all bytes in sequence. */
+        uint32_t seq_crc_en            : 1;  /**< [  8:  8](R/W) It enables dynamic CRC calculation based on all previous bytes in the current sequence and puts
+                                                                 this value on xSPI Flash Interface. Not required by Legacy Hyper Flash and xSPI Profile 2.0
+                                                                 Devices but can be useful for external Flash Monitor to control data integrity.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t seq_page_size_pgm     : 4;  /**< [  7:  4](R/W) Determines page size of device being used for PROGRAM operations.
+                                                                 Number of bytes in page = 2^page_size.
+                                                                 Allowed values are:
+                                                                 0x0 = 1B.
+                                                                 0x1 = 2B.
+                                                                 ...
+                                                                 0x7 = 256B.
+                                                                 0x9 = 512B.
+                                                                 0xA = 1024B.
+                                                                 0xB = 2048B.
+                                                                 0xC = 4096B.
+                                                                 0xD = n/a.
+                                                                 ...
+                                                                 0xF = n/a.
+                                                                 This field is not used in DIRECT mode for PROFILE 2 - HR or when SPI NAND device is selected. */
+        uint32_t seq_page_size_rd      : 4;  /**< [  3:  0](R/W) Determines page size of device being used for READ operations.
+                                                                 Number of bytes in page = 2^page_size.
+                                                                 Allowed values are:
+                                                                 0x0 = 1B.
+                                                                 0x1 = 2B.
+                                                                 ...
+                                                                 0x7 = 256B.
+                                                                 0x9 = 512B.
+                                                                 0xA = 1024B.
+                                                                 0xB = 2048B.
+                                                                 0xC = 4096B.
+                                                                 0xD = n/a.
+                                                                 ...
+                                                                 0xF = n/a. */
+#else /* Word 0 - Little Endian */
+        uint32_t seq_page_size_rd      : 4;  /**< [  3:  0](R/W) Determines page size of device being used for READ operations.
+                                                                 Number of bytes in page = 2^page_size.
+                                                                 Allowed values are:
+                                                                 0x0 = 1B.
+                                                                 0x1 = 2B.
+                                                                 ...
+                                                                 0x7 = 256B.
+                                                                 0x9 = 512B.
+                                                                 0xA = 1024B.
+                                                                 0xB = 2048B.
+                                                                 0xC = 4096B.
+                                                                 0xD = n/a.
+                                                                 ...
+                                                                 0xF = n/a. */
+        uint32_t seq_page_size_pgm     : 4;  /**< [  7:  4](R/W) Determines page size of device being used for PROGRAM operations.
+                                                                 Number of bytes in page = 2^page_size.
+                                                                 Allowed values are:
+                                                                 0x0 = 1B.
+                                                                 0x1 = 2B.
+                                                                 ...
+                                                                 0x7 = 256B.
+                                                                 0x9 = 512B.
+                                                                 0xA = 1024B.
+                                                                 0xB = 2048B.
+                                                                 0xC = 4096B.
+                                                                 0xD = n/a.
+                                                                 ...
+                                                                 0xF = n/a.
+                                                                 This field is not used in DIRECT mode for PROFILE 2 - HR or when SPI NAND device is selected. */
+        uint32_t seq_crc_en            : 1;  /**< [  8:  8](R/W) It enables dynamic CRC calculation based on all previous bytes in the current sequence and puts
+                                                                 this value on xSPI Flash Interface. Not required by Legacy Hyper Flash and xSPI Profile 2.0
+                                                                 Devices but can be useful for external Flash Monitor to control data integrity.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t seq_crc_variant       : 1;  /**< [  9:  9](R/W) Selecting of CRC variant. Allowed values are:
+                                                                 0 = CRC is calculated for all bytes of address transfer phase only and put on the bus after
+                                                                 address transfer phase.
+                                                                 1 = CRC is calculated for all bytes in sequence and put on the bus after all bytes in sequence. */
+        uint32_t seq_crc_oe            : 1;  /**< [ 10: 10](R/W) "It determines if the controller expects the xSPI device to toggle CRC data on both SPI clock edges
+                                                                 in CRC-\>CRC# sequence.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable." */
+        uint32_t reserved_11           : 1;
+        uint32_t seq_crc_chunk_size    : 3;  /**< [ 14: 12](R/W) Number of bytes after which CRC occurs.
+                                                                 Allowed values are:
+                                                                 0x0 = n/a.
+                                                                 0x1 = 8B.
+                                                                 0x2 = 16B.
+                                                                 0x3 = 32B.
+                                                                 0x4 = 64B.
+                                                                 0x5 = 128B.
+                                                                 0x6 = 256B.
+                                                                 0x7 = 512B. */
+        uint32_t reserved_15           : 1;
+        uint32_t seq_crc_ual_chunk_en  : 1;  /**< [ 16: 16](R/W) It enables taking into consideration the command address to determine after how many bytes CRC
+                                                                 data slice is expected to be returned by the Flash Device.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t seq_crc_ual_chunk_chk : 1;  /**< [ 17: 17](R/W) It enables checking correctness of CRC unaligned chunk from Flash Device. It can be set high only
+                                                                 if seq_crc_ual_chunk_en = 1. It must be set low otherwise.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t seq_tcms_en           : 1;  /**< [ 18: 18](R/W) It enables tCMS timing in PROFILE 1.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t reserved_19           : 1;
+        uint32_t seq_data_swap         : 1;  /**< [ 20: 20](R/W) Enables reversed byte order. This bit can be set only when data phase reflects Octal DDR mode.
+                                                                 In other modes this bit must be set to a low.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t seq_data_per_addr     : 1;  /**< [ 21: 21](R/W) Selects data organization of the xSPI memory. Please note that xSPI address/pointer specified
+                                                                 during sending CDMA/PIO and DIRECT command is always byte-aligned(i.e. if this field is set, xSPI
+                                                                 address must be even).
+                                                                 0 = 1B per single memory address (no translation of xSPI address),
+                                                                 1 = 2B per single memory address (translation of xSPI address from byte address to word address
+                                                                 will be performed automatically). */
+        uint32_t reserved_22           : 1;
+        uint32_t seq_type              : 2;  /**< [ 24: 23](R/W) Sequence type (common for all sequences):
+                                                                 0x0 = PROFILE 1.
+                                                                 0x1 = PROFILE 2 - HF (HyperFlash).
+                                                                 0x2 = PROFILE 2 - HR (HyperRAM).
+                                                                 0x3 = SPI NAND. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_cmn_seq_regs_global_seq_cfg_s cn; */
+};
+typedef union cavm_spix_cmn_seq_regs_global_seq_cfg cavm_spix_cmn_seq_regs_global_seq_cfg_t;
+
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000390ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(a) cavm_spix_cmn_seq_regs_global_seq_cfg_t
+#define bustype_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(a) "SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG"
+#define device_bar_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(a) (a)
+#define arguments_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_cmn_seq_regs_global_seq_cfg_1
+ *
+ * SPI Cmn Seq Regs Global Seq Cfg 1 Register
+ * Register to configure common values for sequences in CDMA, PIO and DIRECT work mode.
+ */
+union cavm_spix_cmn_seq_regs_global_seq_cfg_1
+{
+    uint32_t u;
+    struct cavm_spix_cmn_seq_regs_global_seq_cfg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t seq_plane_cnt         : 2;  /**< [ 29: 28](R/W) Number of planes in SPI NAND device (encoded as 2^N):
+                                                                 0x0 = single plane.
+                                                                 0x1 = two planes.
+                                                                 0x2 = four planes.
+                                                                 0x3 = reserved. */
+        uint32_t reserved_27           : 1;
+        uint32_t seq_page_per_block    : 3;  /**< [ 26: 24](R/W) Number of pages per blocks for SPI NAND device (encoded as 2^N):
+                                                                 0x0 = 1 page per block,
+                                                                 0x1 = 2 pages per block,
+                                                                 ...
+                                                                 0x6 = 64 pages per block,
+                                                                 0x7 = 128 pages per block. */
+        uint32_t reserved_17_23        : 7;
+        uint32_t seq_page_ca_size      : 1;  /**< [ 16: 16](R/W) Width of the Column Address for SPI NAND devices. Value of this field is used to calculate the
+                                                                 next page address in case when data size specified in sequence exceed the current page capacity.
+                                                                 0 = 12 bit address width.
+                                                                 1 = 13 bit address width. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t seq_page_size_ext     : 9;  /**< [  8:  0](R/W) Determines the extended page size area (spare area size) for SPI NAND devices. Number of data
+                                                                 bytes transmitted to/from each page will be extended by a value of this field. This field is not
+                                                                 used in DIRECT mode. */
+#else /* Word 0 - Little Endian */
+        uint32_t seq_page_size_ext     : 9;  /**< [  8:  0](R/W) Determines the extended page size area (spare area size) for SPI NAND devices. Number of data
+                                                                 bytes transmitted to/from each page will be extended by a value of this field. This field is not
+                                                                 used in DIRECT mode. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t seq_page_ca_size      : 1;  /**< [ 16: 16](R/W) Width of the Column Address for SPI NAND devices. Value of this field is used to calculate the
+                                                                 next page address in case when data size specified in sequence exceed the current page capacity.
+                                                                 0 = 12 bit address width.
+                                                                 1 = 13 bit address width. */
+        uint32_t reserved_17_23        : 7;
+        uint32_t seq_page_per_block    : 3;  /**< [ 26: 24](R/W) Number of pages per blocks for SPI NAND device (encoded as 2^N):
+                                                                 0x0 = 1 page per block,
+                                                                 0x1 = 2 pages per block,
+                                                                 ...
+                                                                 0x6 = 64 pages per block,
+                                                                 0x7 = 128 pages per block. */
+        uint32_t reserved_27           : 1;
+        uint32_t seq_plane_cnt         : 2;  /**< [ 29: 28](R/W) Number of planes in SPI NAND device (encoded as 2^N):
+                                                                 0x0 = single plane.
+                                                                 0x1 = two planes.
+                                                                 0x2 = four planes.
+                                                                 0x3 = reserved. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_cmn_seq_regs_global_seq_cfg_1_s cn; */
+};
+typedef union cavm_spix_cmn_seq_regs_global_seq_cfg_1 cavm_spix_cmn_seq_regs_global_seq_cfg_1_t;
+
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000394ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(a) cavm_spix_cmn_seq_regs_global_seq_cfg_1_t
+#define bustype_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(a) "SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1"
+#define device_bar_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(a) (a)
+#define arguments_CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_cmn_seq_regs_xip_mode_cfg
+ *
+ * SPI Cmn Seq Regs Xip Mode Cfg Register
+ * Register designated to configure controller in XIP work mode in CDMA, PIO and DIRECT work mode.
+ */
+union cavm_spix_cmn_seq_regs_xip_mode_cfg
+{
+    uint32_t u;
+    struct cavm_spix_cmn_seq_regs_xip_mode_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t xip_dis_mb_val        : 8;  /**< [ 23: 16](R/W) Value of mode-bits required to disable XIP mode. */
+        uint32_t xip_en_mb_val         : 8;  /**< [ 15:  8](R/W) Value of mode-bits required to enable XIP mode. */
+        uint32_t xip_en                : 8;  /**< [  7:  0](R/W) XIP mode enable for selected memory bank. If XIP mode is enabled only READ sequences are valid.
+                                                                 Invoking any other command sequence will be ignored and CMD_ERROR/DSC_ERROR/dir_cmd_err will be
+                                                                 rise. */
+#else /* Word 0 - Little Endian */
+        uint32_t xip_en                : 8;  /**< [  7:  0](R/W) XIP mode enable for selected memory bank. If XIP mode is enabled only READ sequences are valid.
+                                                                 Invoking any other command sequence will be ignored and CMD_ERROR/DSC_ERROR/dir_cmd_err will be
+                                                                 rise. */
+        uint32_t xip_en_mb_val         : 8;  /**< [ 15:  8](R/W) Value of mode-bits required to enable XIP mode. */
+        uint32_t xip_dis_mb_val        : 8;  /**< [ 23: 16](R/W) Value of mode-bits required to disable XIP mode. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_cmn_seq_regs_xip_mode_cfg_s cn; */
+};
+typedef union cavm_spix_cmn_seq_regs_xip_mode_cfg cavm_spix_cmn_seq_regs_xip_mode_cfg_t;
+
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000388ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_XIP_MODE_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(a) cavm_spix_cmn_seq_regs_xip_mode_cfg_t
+#define bustype_CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(a) "SPIX_CMN_SEQ_REGS_XIP_MODE_CFG"
+#define device_bar_CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(a) (a)
+#define arguments_CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_const
+ *
+ * SPI Constants Register
+ */
+union cavm_spix_const
+{
+    uint64_t u;
+    struct cavm_spix_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_const_s cn; */
+};
+typedef union cavm_spix_const cavm_spix_const_t;
+
+static inline uint64_t CAVM_SPIX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CONST(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001058ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CONST", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CONST(a) cavm_spix_const_t
+#define bustype_CAVM_SPIX_CONST(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_CONST(a) "SPIX_CONST"
+#define device_bar_CAVM_SPIX_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CONST(a) (a)
+#define arguments_CAVM_SPIX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_ctrl_config
+ *
+ * SPI Control Cfg Common Control Config Register
+ * Device control register.
+ */
+union cavm_spix_ctrl_cfg_common_ctrl_config
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_ctrl_config_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t work_mode             : 2;  /**< [  6:  5](R/W) Field selecting controllers work mode. Allowed values are:
+                                                                 0x0 = DIRECT mode.
+                                                                 0x1 = STIG mode.
+                                                                 0x3 = ACMD mode. */
+        uint32_t reserved_4            : 1;
+        uint32_t cont_on_err           : 1;  /**< [  3:  3](R/W) If this bit is cleared and error occurs the controller will drop execution of all further
+                                                                 operations programmed in single thread at the page (for read or program commands) or sector (for
+                                                                 the sector erase command) boundary. It apply to both Command DMA and PIO work modes. When this bit
+                                                                 is set execution will be continued. */
+        uint32_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_2          : 3;
+        uint32_t cont_on_err           : 1;  /**< [  3:  3](R/W) If this bit is cleared and error occurs the controller will drop execution of all further
+                                                                 operations programmed in single thread at the page (for read or program commands) or sector (for
+                                                                 the sector erase command) boundary. It apply to both Command DMA and PIO work modes. When this bit
+                                                                 is set execution will be continued. */
+        uint32_t reserved_4            : 1;
+        uint32_t work_mode             : 2;  /**< [  6:  5](R/W) Field selecting controllers work mode. Allowed values are:
+                                                                 0x0 = DIRECT mode.
+                                                                 0x1 = STIG mode.
+                                                                 0x3 = ACMD mode. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_ctrl_config_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_ctrl_config cavm_spix_ctrl_cfg_common_ctrl_config_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000230ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_CTRL_CONFIG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(a) cavm_spix_ctrl_cfg_common_ctrl_config_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(a) "SPIX_CTRL_CFG_COMMON_CTRL_CONFIG"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_discovery_control
+ *
+ * SPI Control Cfg Common Discovery Control Register
+ * Device Discovery control register.
+ */
+union cavm_spix_ctrl_cfg_common_discovery_control
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_discovery_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_19_31        : 13;
+        uint32_t discovery_bank        : 3;  /**< [ 18: 16](R/W) Discovery bank select. This is a 3-bit value. Writing value of 0x0-0x7 selects a bank. This field
+                                                                 is updated after initialization process. */
+        uint32_t discovery_num_lines   : 4;  /**< [ 15: 12](R/W) Discovery mode. This is a 4-bit value. Writing a value selects number of xSPI I/Os used by Device
+                                                                 Discovery.
+                                                                 0x0 = Auto.
+                                                                 0x1 = 1 line.
+                                                                 0x2 = 2 lines.
+                                                                 0x4 = 4 lines.
+                                                                 0x8 = 8 lines.
+                                                                 0xC = 8 lines for Legacy Hyper Flash and xSPI Profile 2.0.
+                                                                 0xE = 1 line for Legacy SPI NAND.
+                                                                 Other values are reserved.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_abnum       : 1;  /**< [ 11: 11](R/W) Discovery 4-bit addressing enable.
+                                                                 0 = 3-bit addressing.
+                                                                 1 = 4-bit addressing.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_dummy_cnt   : 1;  /**< [ 10: 10](R/W) Discovery number of dummy clock cycles.
+                                                                 0 = 8 dummy clock cycles.
+                                                                 1 = 20 dummy clock cycles.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_cmd_type    : 2;  /**< [  9:  8](R/W) Discovery command type mode enable.
+                                                                 0 = SDR mode enabled.
+                                                                 1 = DDR mode enabled.
+                                                                 2 = DTR mode enabled (QUAD mode only).
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_extop_en    : 1;  /**< [  7:  7](R/W) Discovery extended op-code enable.
+                                                                 0 = Extended op-code disabled.
+                                                                 1 = Extended op-code enabled.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_extop_val   : 1;  /**< [  6:  6](R/W) Discovery extended op-code value.
+                                                                 0 = Extended op-code is 8'hA5.
+                                                                 1 = Extended op-code is 8'h5A.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_inhibit     : 1;  /**< [  5:  5](RO) Discovery inhibit status. This is a status bit to inform whether Device Discovery is inhibited at
+                                                                 power-on.
+                                                                 0 = discovery allowed.
+                                                                 1 = discovery inhibited. */
+        uint32_t discovery_fail        : 2;  /**< [  4:  3](RO) Result of the last Discovery operation. Valid if discovery_comp is 1.
+                                                                 0x0 = xSPI or SPI NAND device detected.
+                                                                 0x1 = failed.
+                                                                 0x2 = Legacy SPI device detected.
+                                                                 0x3 = n/a. */
+        uint32_t discovery_comp        : 1;  /**< [  2:  2](RO) Status of the last Discovery operation. This bit is 1 when Device Discovery operation has finished.
+                                                                 Result can be read from discovery_fail field. */
+        uint32_t discovery_req_type    : 1;  /**< [  1:  1](R/W) Discovery request type:
+                                                                 0 = perform full discovery process (try to detect device).
+                                                                 1 = configure registers only to selected mode (not full discovery process). */
+        uint32_t discovery_req         : 1;  /**< [  0:  0](R/W) Discovery request signal. Writing 1 triggers Device Discovery operation. This bit is cleared by
+                                                                 hardware when DD operation completes. */
+#else /* Word 0 - Little Endian */
+        uint32_t discovery_req         : 1;  /**< [  0:  0](R/W) Discovery request signal. Writing 1 triggers Device Discovery operation. This bit is cleared by
+                                                                 hardware when DD operation completes. */
+        uint32_t discovery_req_type    : 1;  /**< [  1:  1](R/W) Discovery request type:
+                                                                 0 = perform full discovery process (try to detect device).
+                                                                 1 = configure registers only to selected mode (not full discovery process). */
+        uint32_t discovery_comp        : 1;  /**< [  2:  2](RO) Status of the last Discovery operation. This bit is 1 when Device Discovery operation has finished.
+                                                                 Result can be read from discovery_fail field. */
+        uint32_t discovery_fail        : 2;  /**< [  4:  3](RO) Result of the last Discovery operation. Valid if discovery_comp is 1.
+                                                                 0x0 = xSPI or SPI NAND device detected.
+                                                                 0x1 = failed.
+                                                                 0x2 = Legacy SPI device detected.
+                                                                 0x3 = n/a. */
+        uint32_t discovery_inhibit     : 1;  /**< [  5:  5](RO) Discovery inhibit status. This is a status bit to inform whether Device Discovery is inhibited at
+                                                                 power-on.
+                                                                 0 = discovery allowed.
+                                                                 1 = discovery inhibited. */
+        uint32_t discovery_extop_val   : 1;  /**< [  6:  6](R/W) Discovery extended op-code value.
+                                                                 0 = Extended op-code is 8'hA5.
+                                                                 1 = Extended op-code is 8'h5A.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_extop_en    : 1;  /**< [  7:  7](R/W) Discovery extended op-code enable.
+                                                                 0 = Extended op-code disabled.
+                                                                 1 = Extended op-code enabled.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_cmd_type    : 2;  /**< [  9:  8](R/W) Discovery command type mode enable.
+                                                                 0 = SDR mode enabled.
+                                                                 1 = DDR mode enabled.
+                                                                 2 = DTR mode enabled (QUAD mode only).
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_dummy_cnt   : 1;  /**< [ 10: 10](R/W) Discovery number of dummy clock cycles.
+                                                                 0 = 8 dummy clock cycles.
+                                                                 1 = 20 dummy clock cycles.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_abnum       : 1;  /**< [ 11: 11](R/W) Discovery 4-bit addressing enable.
+                                                                 0 = 3-bit addressing.
+                                                                 1 = 4-bit addressing.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_num_lines   : 4;  /**< [ 15: 12](R/W) Discovery mode. This is a 4-bit value. Writing a value selects number of xSPI I/Os used by Device
+                                                                 Discovery.
+                                                                 0x0 = Auto.
+                                                                 0x1 = 1 line.
+                                                                 0x2 = 2 lines.
+                                                                 0x4 = 4 lines.
+                                                                 0x8 = 8 lines.
+                                                                 0xC = 8 lines for Legacy Hyper Flash and xSPI Profile 2.0.
+                                                                 0xE = 1 line for Legacy SPI NAND.
+                                                                 Other values are reserved.
+                                                                 This field is updated after initialization process. */
+        uint32_t discovery_bank        : 3;  /**< [ 18: 16](R/W) Discovery bank select. This is a 3-bit value. Writing value of 0x0-0x7 selects a bank. This field
+                                                                 is updated after initialization process. */
+        uint32_t reserved_19_31        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_discovery_control_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_discovery_control cavm_spix_ctrl_cfg_common_discovery_control_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000260ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(a) cavm_spix_ctrl_cfg_common_discovery_control_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(a) "SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_dma_settings
+ *
+ * SPI Control Cfg Common Dma Settings Register
+ * DMA settings register. It is common register for both Master and Slave interface.
+ */
+union cavm_spix_ctrl_cfg_common_dma_settings
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_dma_settings_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_20_31        : 12;
+        uint32_t word_size             : 2;  /**< [ 19: 18](R/W) Field select a data word size that will be used to transfer data. Field encoding is as following:
+                                                                 0x0 = Byte.
+                                                                 0x1 = 16-bit word.
+                                                                 0x2 = 32-bit word.
+                                                                 0x3 = 64-bit word. */
+        uint32_t sdma_err_rsp          : 1;  /**< [ 17: 17](R/W) If this bit is set then ERROR response will be returned if host tries to access unprepared Slave
+                                                                 DMA interface. If this bit will be cleared the OK response is returned. */
+        uint32_t ote                   : 1;  /**< [ 16: 16](R/W) Outstanding transaction enable. It only applies to the master interface, the slave interface will
+                                                                 ignore this bit and will accept all incoming transactions. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t burst_sel             : 8;  /**< [  7:  0](R/W) Sets the burst used by data DMA for transferring data to/from flash device. The maximum burst size
+                                                                 can be calculated as burst_sel+1. This field should be changed only if controller is in IDLE state. */
+#else /* Word 0 - Little Endian */
+        uint32_t burst_sel             : 8;  /**< [  7:  0](R/W) Sets the burst used by data DMA for transferring data to/from flash device. The maximum burst size
+                                                                 can be calculated as burst_sel+1. This field should be changed only if controller is in IDLE state. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t ote                   : 1;  /**< [ 16: 16](R/W) Outstanding transaction enable. It only applies to the master interface, the slave interface will
+                                                                 ignore this bit and will accept all incoming transactions. */
+        uint32_t sdma_err_rsp          : 1;  /**< [ 17: 17](R/W) If this bit is set then ERROR response will be returned if host tries to access unprepared Slave
+                                                                 DMA interface. If this bit will be cleared the OK response is returned. */
+        uint32_t word_size             : 2;  /**< [ 19: 18](R/W) Field select a data word size that will be used to transfer data. Field encoding is as following:
+                                                                 0x0 = Byte.
+                                                                 0x1 = 16-bit word.
+                                                                 0x2 = 32-bit word.
+                                                                 0x3 = 64-bit word. */
+        uint32_t reserved_20_31        : 12;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_dma_settings_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_dma_settings cavm_spix_ctrl_cfg_common_dma_settings_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000023cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_DMA_SETTINGS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(a) cavm_spix_ctrl_cfg_common_dma_settings_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(a) "SPIX_CTRL_CFG_COMMON_DMA_SETTINGS"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_long_polling
+ *
+ * SPI Control Cfg Common Long Polling Register
+ * Wait count value for long polling.
+ */
+union cavm_spix_ctrl_cfg_common_long_polling
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_long_polling_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t long_polling          : 16; /**< [ 15:  0](R/W) Number of system clock cycles after issue of erase/write operation before the controller starts to
+                                                                 check device status (ready/busy and fail/pass). First status checking polling will happen after at
+                                                                 least this many number of system clock cycles. Next status checking will happen every short_polling
+                                                                 cycles. The long polling value should be significantly larger the short polling value. */
+#else /* Word 0 - Little Endian */
+        uint32_t long_polling          : 16; /**< [ 15:  0](R/W) Number of system clock cycles after issue of erase/write operation before the controller starts to
+                                                                 check device status (ready/busy and fail/pass). First status checking polling will happen after at
+                                                                 least this many number of system clock cycles. Next status checking will happen every short_polling
+                                                                 cycles. The long polling value should be significantly larger the short polling value. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_long_polling_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_long_polling cavm_spix_ctrl_cfg_common_long_polling_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000208ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_LONG_POLLING", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(a) cavm_spix_ctrl_cfg_common_long_polling_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(a) "SPIX_CTRL_CFG_COMMON_LONG_POLLING"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_sdma_addr0
+ *
+ * SPI Control Cfg Common Sdma Addr0 Register
+ * This register stores the buffer address in the host memory that will be used as a
+ * sink/source for the
+ * SDMA transfer. The SDMA address is based on the Memory Pointer field that was
+ * programed by the host as
+ * part of the CDMA/PIO command. A single CDMA/PIO command can trigger multiple transfers on the slave
+ * interface, so the SDMA address value will be automatically incremented and updated before each SDMA
+ * transfer.
+ */
+union cavm_spix_ctrl_cfg_common_sdma_addr0
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_sdma_addr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sdma_addr_l           : 32; /**< [ 31:  0](RO) The SDMA destination/source address - lower part. */
+#else /* Word 0 - Little Endian */
+        uint32_t sdma_addr_l           : 32; /**< [ 31:  0](RO) The SDMA destination/source address - lower part. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_sdma_addr0_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_sdma_addr0 cavm_spix_ctrl_cfg_common_sdma_addr0_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000024cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_ADDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(a) cavm_spix_ctrl_cfg_common_sdma_addr0_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(a) "SPIX_CTRL_CFG_COMMON_SDMA_ADDR0"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_sdma_addr1
+ *
+ * SPI Control Cfg Common Sdma Addr1 Register
+ * This register stores the buffer address in the host memory that will be used as a
+ * sink/source for the
+ * SDMA transfer. The SDMA address is based on the Memory Pointer field that was
+ * programed by the host as
+ * part of the CDMA/PIO command. A single CDMA/PIO command can trigger multiple transfers on the slave
+ * interface, so the SDMA address value will be automatically incremented and updated before each SDMA
+ * transfer.
+ */
+union cavm_spix_ctrl_cfg_common_sdma_addr1
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_sdma_addr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sdma_addr_h           : 32; /**< [ 31:  0](RO) The SDMA destination/source address - higher part. */
+#else /* Word 0 - Little Endian */
+        uint32_t sdma_addr_h           : 32; /**< [ 31:  0](RO) The SDMA destination/source address - higher part. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_sdma_addr1_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_sdma_addr1 cavm_spix_ctrl_cfg_common_sdma_addr1_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000250ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_ADDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(a) cavm_spix_ctrl_cfg_common_sdma_addr1_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(a) "SPIX_CTRL_CFG_COMMON_SDMA_ADDR1"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_sdma_size
+ *
+ * SPI Control Cfg Common Sdma Size Register
+ * Transferred data block size for the Slave DMA module.
+ */
+union cavm_spix_ctrl_cfg_common_sdma_size
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_sdma_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sdma_size             : 32; /**< [ 31:  0](RO) Transferred data block size in bytes for the Slave DMA module. Data size is rounded up to the data
+                                                                 bus word size. */
+#else /* Word 0 - Little Endian */
+        uint32_t sdma_size             : 32; /**< [ 31:  0](RO) Transferred data block size in bytes for the Slave DMA module. Data size is rounded up to the data
+                                                                 bus word size. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_sdma_size_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_sdma_size cavm_spix_ctrl_cfg_common_sdma_size_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000240ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_SIZE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(a) cavm_spix_ctrl_cfg_common_sdma_size_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(a) "SPIX_CTRL_CFG_COMMON_SDMA_SIZE"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_sdma_trd_info
+ *
+ * SPI Control Cfg Common Sdma Trd Info Register
+ * Information for current Slave DMA transaction related with execution thread.
+ */
+union cavm_spix_ctrl_cfg_common_sdma_trd_info
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_sdma_trd_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t sdma_dir              : 1;  /**< [  8:  8](RO) Transfer direction related to current Slave DMA transfer (0-read; 1-write). */
+        uint32_t reserved_3_7          : 5;
+        uint32_t sdma_trd              : 3;  /**< [  2:  0](RO) Thread number associated with transferred data block for the Slave DMA module. */
+#else /* Word 0 - Little Endian */
+        uint32_t sdma_trd              : 3;  /**< [  2:  0](RO) Thread number associated with transferred data block for the Slave DMA module. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t sdma_dir              : 1;  /**< [  8:  8](RO) Transfer direction related to current Slave DMA transfer (0-read; 1-write). */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_sdma_trd_info_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_sdma_trd_info cavm_spix_ctrl_cfg_common_sdma_trd_info_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000244ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(a) cavm_spix_ctrl_cfg_common_sdma_trd_info_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(a) "SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cfg_common_short_polling
+ *
+ * SPI Control Cfg Common Short Polling Register
+ * Status monitor cycle count value.
+ */
+union cavm_spix_ctrl_cfg_common_short_polling
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cfg_common_short_polling_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t short_polling         : 16; /**< [ 15:  0](R/W) Number of minimum system clocks after long polling delay before the controller starts to poll for
+                                                                 status if first status poll attempt returned information that controller is busy. The long polling
+                                                                 value should be significantly larger the short polling value. */
+#else /* Word 0 - Little Endian */
+        uint32_t short_polling         : 16; /**< [ 15:  0](R/W) Number of minimum system clocks after long polling delay before the controller starts to poll for
+                                                                 status if first status poll attempt returned information that controller is busy. The long polling
+                                                                 value should be significantly larger the short polling value. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cfg_common_short_polling_s cn; */
+};
+typedef union cavm_spix_ctrl_cfg_common_short_polling cavm_spix_ctrl_cfg_common_short_polling_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000020cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SHORT_POLLING", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(a) cavm_spix_ctrl_cfg_common_short_polling_t
+#define bustype_CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(a) "SPIX_CTRL_CFG_COMMON_SHORT_POLLING"
+#define device_bar_CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_boot_status
+ *
+ * SPI Control Command Stat Boot Status Register
+ * This register provides status of the latest boot operation.
+ */
+union cavm_spix_ctrl_cmd_stat_boot_status
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_boot_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t boot_bus_err          : 1;  /**< [  2:  2](RO) This field describes bus status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the bus interface receiving an error response from the target.
+                                                                 Allowed values are:
+                                                                 0 = no error detected.
+                                                                 1 = error detected. */
+        uint32_t boot_crc_err          : 1;  /**< [  1:  1](RO) This field describes crc status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the crc error on the xspi interface.
+                                                                 Allowed values are:
+                                                                 0 = no error detected,
+                                                                 1 = error detected. */
+        uint32_t boot_dqs_err          : 1;  /**< [  0:  0](RO) This field describes dqs status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the dqs error on the xspi interface.
+                                                                 Allowed values are:
+                                                                 0 = no error detected,
+                                                                 1 = error detected. */
+#else /* Word 0 - Little Endian */
+        uint32_t boot_dqs_err          : 1;  /**< [  0:  0](RO) This field describes dqs status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the dqs error on the xspi interface.
+                                                                 Allowed values are:
+                                                                 0 = no error detected,
+                                                                 1 = error detected. */
+        uint32_t boot_crc_err          : 1;  /**< [  1:  1](RO) This field describes crc status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the crc error on the xspi interface.
+                                                                 Allowed values are:
+                                                                 0 = no error detected,
+                                                                 1 = error detected. */
+        uint32_t boot_bus_err          : 1;  /**< [  2:  2](RO) This field describes bus status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the bus interface receiving an error response from the target.
+                                                                 Allowed values are:
+                                                                 0 = no error detected.
+                                                                 1 = error detected. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_boot_status_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_boot_status cavm_spix_ctrl_cmd_stat_boot_status_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000158ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_BOOT_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(a) cavm_spix_ctrl_cmd_stat_boot_status_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(a) "SPIX_CTRL_CMD_STAT_BOOT_STATUS"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_reg0
+ *
+ * SPI Control Command Stat Command Register 0
+ * Command register 0. Writing data to this register will initiate a new transaction of the xSPI Flash
+ * Controller in CDMA/PIO and STIG work mode. Fields encoding of those registers
+ * depends on selected work
+ * mode.
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_reg0
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_reg0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmd0                  : 32; /**< [ 31:  0](R/W) Command 0 register field. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd0                  : 32; /**< [ 31:  0](R/W) Command 0 register field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_reg0_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_reg0 cavm_spix_ctrl_cmd_stat_cmd_reg0_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000000ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(a) cavm_spix_ctrl_cmd_stat_cmd_reg0_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(a) "SPIX_CTRL_CMD_STAT_CMD_REG0"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_reg1
+ *
+ * SPI Control Command Stat Command Register 1
+ * Command register 1.
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_reg1
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_reg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmd1                  : 32; /**< [ 31:  0](R/W) Command 1 register field. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd1                  : 32; /**< [ 31:  0](R/W) Command 1 register field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_reg1_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_reg1 cavm_spix_ctrl_cmd_stat_cmd_reg1_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000004ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(a) cavm_spix_ctrl_cmd_stat_cmd_reg1_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(a) "SPIX_CTRL_CMD_STAT_CMD_REG1"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_reg2
+ *
+ * SPI Control Command Stat Command Register 2
+ * Command register 2.
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_reg2
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_reg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmd2                  : 32; /**< [ 31:  0](R/W) Command 2 register field. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd2                  : 32; /**< [ 31:  0](R/W) Command 2 register field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_reg2_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_reg2 cavm_spix_ctrl_cmd_stat_cmd_reg2_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000008ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(a) cavm_spix_ctrl_cmd_stat_cmd_reg2_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(a) "SPIX_CTRL_CMD_STAT_CMD_REG2"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_reg3
+ *
+ * SPI Control Command Stat Command Register 3
+ * Command register 3.
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_reg3
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_reg3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmd3                  : 32; /**< [ 31:  0](R/W) Command 3 register field. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd3                  : 32; /**< [ 31:  0](R/W) Command 3 register field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_reg3_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_reg3 cavm_spix_ctrl_cmd_stat_cmd_reg3_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000000cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(a) cavm_spix_ctrl_cmd_stat_cmd_reg3_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(a) "SPIX_CTRL_CMD_STAT_CMD_REG3"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_reg4
+ *
+ * SPI Control Command Stat Command Register 4
+ * Command register 4.
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_reg4
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_reg4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmd4                  : 32; /**< [ 31:  0](R/W) Command 4 register field. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd4                  : 32; /**< [ 31:  0](R/W) Command 4 register field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_reg4_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_reg4 cavm_spix_ctrl_cmd_stat_cmd_reg4_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000010ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(a) cavm_spix_ctrl_cmd_stat_cmd_reg4_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(a) "SPIX_CTRL_CMD_STAT_CMD_REG4"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_reg5
+ *
+ * SPI Control Command Stat Command Register 5
+ * Command register 5.
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_reg5
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_reg5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmd5                  : 32; /**< [ 31:  0](R/W) Command 5 register field. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd5                  : 32; /**< [ 31:  0](R/W) Command 5 register field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_reg5_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_reg5 cavm_spix_ctrl_cmd_stat_cmd_reg5_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000014ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(a) cavm_spix_ctrl_cmd_stat_cmd_reg5_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(a) "SPIX_CTRL_CMD_STAT_CMD_REG5"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_status
+ *
+ * SPI Control Command Stat Command Status Register
+ * Command status register for selected thread in ACMD work mode and for STIG work mode
+ * when xSPI flash
+ * transaction is completed.
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_status
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmd_status            : 32; /**< [ 31:  0](RO) Command status register field. This field gives the software direct access to selected thread
+                                                                 descriptors status or STIG status. Number of accessed thread can be selected with cmd_status_ptr
+                                                                 register (not applicable for STIG work mode). */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd_status            : 32; /**< [ 31:  0](RO) Command status register field. This field gives the software direct access to selected thread
+                                                                 descriptors status or STIG status. Number of accessed thread can be selected with cmd_status_ptr
+                                                                 register (not applicable for STIG work mode). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_status_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_status cavm_spix_ctrl_cmd_stat_cmd_status_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000044ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(a) cavm_spix_ctrl_cmd_stat_cmd_status_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(a) "SPIX_CTRL_CMD_STAT_CMD_STATUS"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_cmd_status_ptr
+ *
+ * SPI Control Command Stat Command Status Ptr Register
+ * Pointer register to select which thread status will be selected for ACMD work mode
+ * (not applicable for
+ * STIG and DIRECT work modes).
+ */
+union cavm_spix_ctrl_cmd_stat_cmd_status_ptr
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_cmd_status_ptr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t thrd_status_sel       : 3;  /**< [  2:  0](R/W) Number of thread whose status will be available in cmd_status register. */
+#else /* Word 0 - Little Endian */
+        uint32_t thrd_status_sel       : 3;  /**< [  2:  0](R/W) Number of thread whose status will be available in cmd_status register. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_cmd_status_ptr_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_cmd_status_ptr cavm_spix_ctrl_cmd_stat_cmd_status_ptr_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000040ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(a) cavm_spix_ctrl_cmd_stat_cmd_status_ptr_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(a) "SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_ctrl_status
+ *
+ * SPI Control Command Stat Control Status Register
+ * Controller internal state.
+ */
+union cavm_spix_ctrl_cmd_stat_ctrl_status
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_ctrl_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t init_comp             : 1;  /**< [ 16: 16](RO) The Cadence xSPI Controller has completed its reset and initialization process. */
+        uint32_t reserved_10_15        : 6;
+        uint32_t init_fail             : 2;  /**< [  9:  8](RO) Initialization process status:
+                                                                 0x0 = xSPI device detected.
+                                                                 0x1 = failed.
+                                                                 0x2 = Legacy SPI device detected.
+                                                                 0x3 = n/a. */
+        uint32_t ctrl_busy             : 1;  /**< [  7:  7](RO) This bit indicates if controller is in the busy state or not.
+                                                                 0 = Controller is idle.
+                                                                 1 = Controller is busy.
+                                                                 This bit is routed to the controller interface as ctrl_busy pin. */
+        uint32_t discovery_busy        : 1;  /**< [  6:  6](RO) If 1 the Device Discovery internal module is busy. When Device Discovery internal module is
+                                                                 inhibited then this bit is set during initial delay and PHY initialization procedure. */
+        uint32_t reserved_5            : 1;
+        uint32_t gcmd_eng_mc_busy      : 1;  /**< [  4:  4](RO) If 1 the Minicontroller waits for next/last instruction in glued chain or executes requested
+                                                                 sequence on xSPI i/f. Flag is generated only in STIG work mode. */
+        uint32_t gcmd_eng_busy         : 1;  /**< [  3:  3](RO) For DIRECT work mode: if 1 the DIRECT CMD Generator internal module is busy and will not accept
+                                                                 new request on Slave Data Interface.
+                                                                 For STIG work mode: if 1 the STIG internal module is busy. */
+        uint32_t acmd_eng_busy         : 1;  /**< [  2:  2](RO) If 1 the Auto Command Engine internal module is busy. */
+        uint32_t mdma_busy             : 1;  /**< [  1:  1](RO) If 1 the Master DMA internal module is busy. */
+        uint32_t sdma_busy             : 1;  /**< [  0:  0](RO) If 1 the Slave DMA internal module is busy. */
+#else /* Word 0 - Little Endian */
+        uint32_t sdma_busy             : 1;  /**< [  0:  0](RO) If 1 the Slave DMA internal module is busy. */
+        uint32_t mdma_busy             : 1;  /**< [  1:  1](RO) If 1 the Master DMA internal module is busy. */
+        uint32_t acmd_eng_busy         : 1;  /**< [  2:  2](RO) If 1 the Auto Command Engine internal module is busy. */
+        uint32_t gcmd_eng_busy         : 1;  /**< [  3:  3](RO) For DIRECT work mode: if 1 the DIRECT CMD Generator internal module is busy and will not accept
+                                                                 new request on Slave Data Interface.
+                                                                 For STIG work mode: if 1 the STIG internal module is busy. */
+        uint32_t gcmd_eng_mc_busy      : 1;  /**< [  4:  4](RO) If 1 the Minicontroller waits for next/last instruction in glued chain or executes requested
+                                                                 sequence on xSPI i/f. Flag is generated only in STIG work mode. */
+        uint32_t reserved_5            : 1;
+        uint32_t discovery_busy        : 1;  /**< [  6:  6](RO) If 1 the Device Discovery internal module is busy. When Device Discovery internal module is
+                                                                 inhibited then this bit is set during initial delay and PHY initialization procedure. */
+        uint32_t ctrl_busy             : 1;  /**< [  7:  7](RO) This bit indicates if controller is in the busy state or not.
+                                                                 0 = Controller is idle.
+                                                                 1 = Controller is busy.
+                                                                 This bit is routed to the controller interface as ctrl_busy pin. */
+        uint32_t init_fail             : 2;  /**< [  9:  8](RO) Initialization process status:
+                                                                 0x0 = xSPI device detected.
+                                                                 0x1 = failed.
+                                                                 0x2 = Legacy SPI device detected.
+                                                                 0x3 = n/a. */
+        uint32_t reserved_10_15        : 6;
+        uint32_t init_comp             : 1;  /**< [ 16: 16](RO) The Cadence xSPI Controller has completed its reset and initialization process. */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_ctrl_status_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_ctrl_status cavm_spix_ctrl_cmd_stat_ctrl_status_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000100ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CTRL_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(a) cavm_spix_ctrl_cmd_stat_ctrl_status_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(a) "SPIX_CTRL_CMD_STAT_CTRL_STATUS"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_dma_target_error_h
+ *
+ * SPI Control Command Stat Dma Target Error H Register
+ * Master data interface error address [63:32]. This register store address of request on the system
+ * master data interface that caused setting the cdma_terr or ddma_terr bits in the
+ * intr_status register.
+ * Address can be overwritten if error response is detected for the following command sequences.
+ */
+union cavm_spix_ctrl_cmd_stat_dma_target_error_h
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_dma_target_error_h_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t target_err_h          : 32; /**< [ 31:  0](RO) Address of the first request on the master interface that returned error response. */
+#else /* Word 0 - Little Endian */
+        uint32_t target_err_h          : 32; /**< [ 31:  0](RO) Address of the first request on the master interface that returned error response. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_dma_target_error_h_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_dma_target_error_h cavm_spix_ctrl_cmd_stat_dma_target_error_h_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000154ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(a) cavm_spix_ctrl_cmd_stat_dma_target_error_h_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(a) "SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_dma_target_error_l
+ *
+ * SPI Control Command Stat Dma Target Error L Register
+ * Master data interface error address [31:0]. This register store address of request on the system
+ * master data interface that caused setting the cdma_terr or ddma_terr bits in the
+ * intr_status register.
+ * Address can be overwritten if error response is detected for the following command sequences.
+ */
+union cavm_spix_ctrl_cmd_stat_dma_target_error_l
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_dma_target_error_l_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t target_err_l          : 32; /**< [ 31:  0](RO) Address of the first request on the master interface that returned error response. */
+#else /* Word 0 - Little Endian */
+        uint32_t target_err_l          : 32; /**< [ 31:  0](RO) Address of the first request on the master interface that returned error response. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_dma_target_error_l_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_dma_target_error_l cavm_spix_ctrl_cmd_stat_dma_target_error_l_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000150ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(a) cavm_spix_ctrl_cmd_stat_dma_target_error_l_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(a) "SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_intr_enable
+ *
+ * SPI Control Command Stat Intr Enable Register
+ * Interrupt enable register. If selected bit of this register is set, rising edge of
+ * the corresponding
+ * bit in intr_status will generate setting of external interrupt line.
+ */
+union cavm_spix_ctrl_cmd_stat_intr_enable
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_intr_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t intr_en               : 1;  /**< [ 31: 31](R/W) Global Interrupts enable flag. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t dir_dev_err_en        : 1;  /**< [ 28: 28](R/W) Enables interrupt when uncorrectable ECC or program fail error occurred in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err_en   : 1;  /**< [ 27: 27](R/W) Enables interrupt when correctable ECC error occurred in DIRECT work mode. */
+        uint32_t dir_cmd_err_en        : 1;  /**< [ 26: 26](R/W) Enables interrupt when invalid command sequence has been detected in DIRECT work mode. */
+        uint32_t dir_dqs_err_en        : 1;  /**< [ 25: 25](R/W) Enables interrupt when Minicontroller returns DQS error after read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t dir_crc_err_en        : 1;  /**< [ 24: 24](R/W) Enables interrupt when Minicontroller returns CRC error after read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t stig_done_en          : 1;  /**< [ 23: 23](R/W) Enables interrupt when instruction in glued chain is completed. */
+        uint32_t sdma_err_en           : 1;  /**< [ 22: 22](R/W) Enables interrupt when not allowed access to the Slave DMA interface is detected. */
+        uint32_t sdma_trigg_en         : 1;  /**< [ 21: 21](R/W) Enables interrupt when trigger condition for the Slave DMA is met. */
+        uint32_t cmd_ignored_en        : 1;  /**< [ 20: 20](R/W) Interrupt enable for detecting of ignored command. */
+        uint32_t reserved_19           : 1;
+        uint32_t ddma_terr_en          : 1;  /**< [ 18: 18](R/W) Interrupt enable for detecting Data DMA Master target error. */
+        uint32_t cdma_terr_en          : 1;  /**< [ 17: 17](R/W) Interrupt enable for detecting Auto CMD Engine target error. */
+        uint32_t ctrl_idle_en          : 1;  /**< [ 16: 16](R/W) Interrupt enable for detecting that Controller has returned to the IDLE state. */
+        uint32_t gp_open_drain_3_en    : 1;  /**< [ 15: 15](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[3] input pin. */
+        uint32_t gp_open_drain_2_en    : 1;  /**< [ 14: 14](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[2] input pin. */
+        uint32_t gp_open_drain_1_en    : 1;  /**< [ 13: 13](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[1] input pin. */
+        uint32_t gp_open_drain_0_en    : 1;  /**< [ 12: 12](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[0] input pin. */
+        uint32_t reserved_0_11         : 12;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_11         : 12;
+        uint32_t gp_open_drain_0_en    : 1;  /**< [ 12: 12](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[0] input pin. */
+        uint32_t gp_open_drain_1_en    : 1;  /**< [ 13: 13](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[1] input pin. */
+        uint32_t gp_open_drain_2_en    : 1;  /**< [ 14: 14](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[2] input pin. */
+        uint32_t gp_open_drain_3_en    : 1;  /**< [ 15: 15](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
+                                                                 xspi_dfi_gp_open_drain[3] input pin. */
+        uint32_t ctrl_idle_en          : 1;  /**< [ 16: 16](R/W) Interrupt enable for detecting that Controller has returned to the IDLE state. */
+        uint32_t cdma_terr_en          : 1;  /**< [ 17: 17](R/W) Interrupt enable for detecting Auto CMD Engine target error. */
+        uint32_t ddma_terr_en          : 1;  /**< [ 18: 18](R/W) Interrupt enable for detecting Data DMA Master target error. */
+        uint32_t reserved_19           : 1;
+        uint32_t cmd_ignored_en        : 1;  /**< [ 20: 20](R/W) Interrupt enable for detecting of ignored command. */
+        uint32_t sdma_trigg_en         : 1;  /**< [ 21: 21](R/W) Enables interrupt when trigger condition for the Slave DMA is met. */
+        uint32_t sdma_err_en           : 1;  /**< [ 22: 22](R/W) Enables interrupt when not allowed access to the Slave DMA interface is detected. */
+        uint32_t stig_done_en          : 1;  /**< [ 23: 23](R/W) Enables interrupt when instruction in glued chain is completed. */
+        uint32_t dir_crc_err_en        : 1;  /**< [ 24: 24](R/W) Enables interrupt when Minicontroller returns CRC error after read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t dir_dqs_err_en        : 1;  /**< [ 25: 25](R/W) Enables interrupt when Minicontroller returns DQS error after read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t dir_cmd_err_en        : 1;  /**< [ 26: 26](R/W) Enables interrupt when invalid command sequence has been detected in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err_en   : 1;  /**< [ 27: 27](R/W) Enables interrupt when correctable ECC error occurred in DIRECT work mode. */
+        uint32_t dir_dev_err_en        : 1;  /**< [ 28: 28](R/W) Enables interrupt when uncorrectable ECC or program fail error occurred in DIRECT work mode. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t intr_en               : 1;  /**< [ 31: 31](R/W) Global Interrupts enable flag. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_intr_enable_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_intr_enable cavm_spix_ctrl_cmd_stat_intr_enable_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000114ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_INTR_ENABLE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(a) cavm_spix_ctrl_cmd_stat_intr_enable_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(a) "SPIX_CTRL_CMD_STAT_INTR_ENABLE"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_intr_status
+ *
+ * SPI Control Command Stat Intr Status Register
+ * Controller status register.
+ */
+union cavm_spix_ctrl_cmd_stat_intr_status
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_intr_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W) This bit is set when correctable ECC error occured in DIRECT work mode. */
+        uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
+        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W) This bit is set when Minicontroller returns DQS error after the read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W) This bit is set when Minicontroller returns CRC error after the read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W) This bit is set when last instruction in glued chain is completed. */
+        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W) This bit is set when not allowed access to the Slave DMA interface is detected. */
+        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W) This bit is set when trigger condition for the Slave DMA is meet. */
+        uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W) ACMD work mode: detected sending of command to busy thread and ignored it.
+                                                                 STIG work mode: detected sending of command to busy STIG Engine module and ignored it. */
+        uint32_t reserved_19           : 1;
+        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
+                                                                 bus error during reading or writing data. */
+        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
+                                                                 error during reading descriptor from system memory or during descriptor status field write
+                                                                 operation. */
+        uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W) The xSPI controller has returned to the IDLE state. */
+        uint32_t gp_open_drain_3       : 1;  /**< [ 15: 15](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[3] input pin. */
+        uint32_t gp_open_drain_2       : 1;  /**< [ 14: 14](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[2] input pin. */
+        uint32_t gp_open_drain_1       : 1;  /**< [ 13: 13](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[1] input pin. */
+        uint32_t gp_open_drain_0       : 1;  /**< [ 12: 12](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[0] input pin. */
+        uint32_t reserved_0_11         : 12;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_11         : 12;
+        uint32_t gp_open_drain_0       : 1;  /**< [ 12: 12](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[0] input pin. */
+        uint32_t gp_open_drain_1       : 1;  /**< [ 13: 13](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[1] input pin. */
+        uint32_t gp_open_drain_2       : 1;  /**< [ 14: 14](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[2] input pin. */
+        uint32_t gp_open_drain_3       : 1;  /**< [ 15: 15](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[3] input pin. */
+        uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W) The xSPI controller has returned to the IDLE state. */
+        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
+                                                                 error during reading descriptor from system memory or during descriptor status field write
+                                                                 operation. */
+        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
+                                                                 bus error during reading or writing data. */
+        uint32_t reserved_19           : 1;
+        uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W) ACMD work mode: detected sending of command to busy thread and ignored it.
+                                                                 STIG work mode: detected sending of command to busy STIG Engine module and ignored it. */
+        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W) This bit is set when trigger condition for the Slave DMA is meet. */
+        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W) This bit is set when not allowed access to the Slave DMA interface is detected. */
+        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W) This bit is set when last instruction in glued chain is completed. */
+        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W) This bit is set when Minicontroller returns CRC error after the read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W) This bit is set when Minicontroller returns DQS error after the read or status checking command in
+                                                                 DIRECT work mode. */
+        uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W) This bit is set when correctable ECC error occured in DIRECT work mode. */
+        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_intr_status_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_intr_status cavm_spix_ctrl_cmd_stat_intr_status_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000110ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_INTR_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(a) cavm_spix_ctrl_cmd_stat_intr_status_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(a) "SPIX_CTRL_CMD_STAT_INTR_STATUS"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_trd_comp_intr_status
+ *
+ * SPI Control Command Stat Trd Comp Intr Status Register
+ * Each bit of this field correspond to the Auto Command Engine thread. Each bit
+ * informs about descriptor
+ * status for selected thread. It is set only when INT bit of descriptor is set.
+ */
+union cavm_spix_ctrl_cmd_stat_trd_comp_intr_status
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_trd_comp_intr_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t trd7_comp             : 1;  /**< [  7:  7](R/W) Thread 7 operation complete flag. */
+        uint32_t trd6_comp             : 1;  /**< [  6:  6](R/W) Thread 6 operation complete flag. */
+        uint32_t trd5_comp             : 1;  /**< [  5:  5](R/W) Thread 5 operation complete flag. */
+        uint32_t trd4_comp             : 1;  /**< [  4:  4](R/W) Thread 4 operation complete flag. */
+        uint32_t trd3_comp             : 1;  /**< [  3:  3](R/W) Thread 3 operation complete flag. */
+        uint32_t trd2_comp             : 1;  /**< [  2:  2](R/W) Thread 2 operation complete flag. */
+        uint32_t trd1_comp             : 1;  /**< [  1:  1](R/W) Thread 1 operation complete flag. */
+        uint32_t trd0_comp             : 1;  /**< [  0:  0](R/W) Thread 0 operation complete flag. */
+#else /* Word 0 - Little Endian */
+        uint32_t trd0_comp             : 1;  /**< [  0:  0](R/W) Thread 0 operation complete flag. */
+        uint32_t trd1_comp             : 1;  /**< [  1:  1](R/W) Thread 1 operation complete flag. */
+        uint32_t trd2_comp             : 1;  /**< [  2:  2](R/W) Thread 2 operation complete flag. */
+        uint32_t trd3_comp             : 1;  /**< [  3:  3](R/W) Thread 3 operation complete flag. */
+        uint32_t trd4_comp             : 1;  /**< [  4:  4](R/W) Thread 4 operation complete flag. */
+        uint32_t trd5_comp             : 1;  /**< [  5:  5](R/W) Thread 5 operation complete flag. */
+        uint32_t trd6_comp             : 1;  /**< [  6:  6](R/W) Thread 6 operation complete flag. */
+        uint32_t trd7_comp             : 1;  /**< [  7:  7](R/W) Thread 7 operation complete flag. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_trd_comp_intr_status_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_trd_comp_intr_status cavm_spix_ctrl_cmd_stat_trd_comp_intr_status_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000120ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(a) cavm_spix_ctrl_cmd_stat_trd_comp_intr_status_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(a) "SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_trd_error_intr_en
+ *
+ * SPI Control Command Stat Trd Error Intr En Register
+ * Interrupt enable register. If selected bit of this register is set, rising edge of
+ * corresponding bit
+ * in trd_error_intr_status will cause setting of the external interrupt line.
+ */
+union cavm_spix_ctrl_cmd_stat_trd_error_intr_en
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_trd_error_intr_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t trd_error_intr_en     : 8;  /**< [  7:  0](R/W) Interrupt enable for detecting thread error. */
+#else /* Word 0 - Little Endian */
+        uint32_t trd_error_intr_en     : 8;  /**< [  7:  0](R/W) Interrupt enable for detecting thread error. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_trd_error_intr_en_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_trd_error_intr_en cavm_spix_ctrl_cmd_stat_trd_error_intr_en_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000134ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(a) cavm_spix_ctrl_cmd_stat_trd_error_intr_en_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(a) "SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_trd_error_intr_status
+ *
+ * SPI Control Command Stat Trd Error Intr Status Register
+ * Thread error indicates that the Auto Command Engine thread detected an error condition. To get more
+ * information on the error, s/w needs to read the status field of the descriptor or
+ * appropriate status
+ * register depending on current work mode.
+ */
+union cavm_spix_ctrl_cmd_stat_trd_error_intr_status
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_trd_error_intr_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t trd7_error_stat       : 1;  /**< [  7:  7](R/W) Thread 7 error. */
+        uint32_t trd6_error_stat       : 1;  /**< [  6:  6](R/W) Thread 6 error. */
+        uint32_t trd5_error_stat       : 1;  /**< [  5:  5](R/W) Thread 5 error. */
+        uint32_t trd4_error_stat       : 1;  /**< [  4:  4](R/W) Thread 4 error. */
+        uint32_t trd3_error_stat       : 1;  /**< [  3:  3](R/W) Thread 3 error. */
+        uint32_t trd2_error_stat       : 1;  /**< [  2:  2](R/W) Thread 2 error. */
+        uint32_t trd1_error_stat       : 1;  /**< [  1:  1](R/W) Thread 1 error. */
+        uint32_t trd0_error_stat       : 1;  /**< [  0:  0](R/W) Thread 0 error. */
+#else /* Word 0 - Little Endian */
+        uint32_t trd0_error_stat       : 1;  /**< [  0:  0](R/W) Thread 0 error. */
+        uint32_t trd1_error_stat       : 1;  /**< [  1:  1](R/W) Thread 1 error. */
+        uint32_t trd2_error_stat       : 1;  /**< [  2:  2](R/W) Thread 2 error. */
+        uint32_t trd3_error_stat       : 1;  /**< [  3:  3](R/W) Thread 3 error. */
+        uint32_t trd4_error_stat       : 1;  /**< [  4:  4](R/W) Thread 4 error. */
+        uint32_t trd5_error_stat       : 1;  /**< [  5:  5](R/W) Thread 5 error. */
+        uint32_t trd6_error_stat       : 1;  /**< [  6:  6](R/W) Thread 6 error. */
+        uint32_t trd7_error_stat       : 1;  /**< [  7:  7](R/W) Thread 7 error. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_trd_error_intr_status_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_trd_error_intr_status cavm_spix_ctrl_cmd_stat_trd_error_intr_status_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000130ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(a) cavm_spix_ctrl_cmd_stat_trd_error_intr_status_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(a) "SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_cmd_stat_trd_status
+ *
+ * SPI Control Command Stat Trd Status Register
+ * Auto Command Engine threads state.
+ */
+union cavm_spix_ctrl_cmd_stat_trd_status
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_cmd_stat_trd_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t trd_busy              : 8;  /**< [  7:  0](RO) Indicates Auto Command Engine thread busy status. If 1 corresponding thread is busy. */
+#else /* Word 0 - Little Endian */
+        uint32_t trd_busy              : 8;  /**< [  7:  0](RO) Indicates Auto Command Engine thread busy status. If 1 corresponding thread is busy. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_cmd_stat_trd_status_s cn; */
+};
+typedef union cavm_spix_ctrl_cmd_stat_trd_status cavm_spix_ctrl_cmd_stat_trd_status_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000104ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(a) cavm_spix_ctrl_cmd_stat_trd_status_t
+#define bustype_CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(a) "SPIX_CTRL_CMD_STAT_TRD_STATUS"
+#define device_bar_CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_consts_ctrl_features_reg
+ *
+ * SPI Control Consts Control Features Register
+ * Shows available hardware features of the controller
+ */
+union cavm_spix_ctrl_consts_ctrl_features_reg
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_consts_ctrl_features_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t n_banks               : 2;  /**< [ 25: 24](RO) Maximum number of banks supported by hardware. This is an encoded value.
+                                                                 0x0 = One bank.
+                                                                 0x1 = Two banks.
+                                                                 0x2 = Four banks.
+                                                                 0x3 = Eight banks. */
+        uint32_t sfr_intf              : 2;  /**< [ 23: 22](RO) SFR interface type  1-APB, other values reserved. */
+        uint32_t dma_data_width        : 1;  /**< [ 21: 21](RO) Slave and Master DMA data width:
+                                                                 0 = 32bit.
+                                                                 1 = 64bit. */
+        uint32_t dma_addr_width        : 1;  /**< [ 20: 20](RO) Slave and Master DMA address width:
+                                                                 0 = 32bit.
+                                                                 1 = 64bit. */
+        uint32_t dma_intf              : 2;  /**< [ 19: 18](RO) DMA interface type (0-AXI4 other values reserved). */
+        uint32_t reserved_17           : 1;
+        uint32_t boot_available        : 1;  /**< [ 16: 16](RO) Boot feature present. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t asf_available         : 1;  /**< [ 12: 12](RO) ASF features present. */
+        uint32_t reserved_4_11         : 8;
+        uint32_t n_threads             : 4;  /**< [  3:  0](RO) Number of threads available in the controller. The following decoding is used:
+                                                                 0x0 = One thread.
+                                                                 0x1 = Two threads.
+                                                                 0x2 = Four threads.
+                                                                 0x3 = Eight threads.
+                                                                 0x4-0x15 = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t n_threads             : 4;  /**< [  3:  0](RO) Number of threads available in the controller. The following decoding is used:
+                                                                 0x0 = One thread.
+                                                                 0x1 = Two threads.
+                                                                 0x2 = Four threads.
+                                                                 0x3 = Eight threads.
+                                                                 0x4-0x15 = Reserved. */
+        uint32_t reserved_4_11         : 8;
+        uint32_t asf_available         : 1;  /**< [ 12: 12](RO) ASF features present. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t boot_available        : 1;  /**< [ 16: 16](RO) Boot feature present. */
+        uint32_t reserved_17           : 1;
+        uint32_t dma_intf              : 2;  /**< [ 19: 18](RO) DMA interface type (0-AXI4 other values reserved). */
+        uint32_t dma_addr_width        : 1;  /**< [ 20: 20](RO) Slave and Master DMA address width:
+                                                                 0 = 32bit.
+                                                                 1 = 64bit. */
+        uint32_t dma_data_width        : 1;  /**< [ 21: 21](RO) Slave and Master DMA data width:
+                                                                 0 = 32bit.
+                                                                 1 = 64bit. */
+        uint32_t sfr_intf              : 2;  /**< [ 23: 22](RO) SFR interface type  1-APB, other values reserved. */
+        uint32_t n_banks               : 2;  /**< [ 25: 24](RO) Maximum number of banks supported by hardware. This is an encoded value.
+                                                                 0x0 = One bank.
+                                                                 0x1 = Two banks.
+                                                                 0x2 = Four banks.
+                                                                 0x3 = Eight banks. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_consts_ctrl_features_reg_s cn; */
+};
+typedef union cavm_spix_ctrl_consts_ctrl_features_reg cavm_spix_ctrl_consts_ctrl_features_reg_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000f04ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CONSTS_CTRL_FEATURES_REG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(a) cavm_spix_ctrl_consts_ctrl_features_reg_t
+#define bustype_CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(a) "SPIX_CTRL_CONSTS_CTRL_FEATURES_REG"
+#define device_bar_CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_ctrl_consts_spi_ctrl_version
+ *
+ * SPI Control Consts Xspi Control Version Register
+ * Register contains release identification number.
+ */
+union cavm_spix_ctrl_consts_spi_ctrl_version
+{
+    uint32_t u;
+    struct cavm_spix_ctrl_consts_spi_ctrl_version_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t spi_ctrl_magic_number : 16; /**< [ 31: 16](RO) Controller's Magic Number. It is a unique number characteristic to the Cadence's xSPI Controller. */
+        uint32_t spi_ctrl_fix          : 8;  /**< [ 15:  8](RO) Fixed number (minor revision number). */
+        uint32_t spi_ctrl_rev          : 8;  /**< [  7:  0](RO) Controller revision number. */
+#else /* Word 0 - Little Endian */
+        uint32_t spi_ctrl_rev          : 8;  /**< [  7:  0](RO) Controller revision number. */
+        uint32_t spi_ctrl_fix          : 8;  /**< [ 15:  8](RO) Fixed number (minor revision number). */
+        uint32_t spi_ctrl_magic_number : 16; /**< [ 31: 16](RO) Controller's Magic Number. It is a unique number characteristic to the Cadence's xSPI Controller. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_ctrl_consts_spi_ctrl_version_s cn; */
+};
+typedef union cavm_spix_ctrl_consts_spi_ctrl_version cavm_spix_ctrl_consts_spi_ctrl_version_t;
+
+static inline uint64_t CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000f00ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CTRL_CONSTS_SPI_CTRL_VERSION", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(a) cavm_spix_ctrl_consts_spi_ctrl_version_t
+#define bustype_CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(a) "SPIX_CTRL_CONSTS_SPI_CTRL_VERSION"
+#define device_bar_CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(a) (a)
+#define arguments_CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_ers_seq_cfg_0
+ *
+ * SPI Dev Seq Regs Ers Seq Cfg 0 Register
+ * Register to configure ERASE_SECTOR sequence for PROFILE 1 and SPI NAND in ACMD work mode.
+ */
+union cavm_spix_dev_seq_regs_ers_seq_cfg_0
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_ers_seq_cfg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t erss_seq_p1_addr_edge : 1;  /**< [ 28: 28](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t erss_seq_p1_addr_ios  : 2;  /**< [ 25: 24](R/W) Number of lines used to send address phase. */
+        uint32_t erss_seq_p1_cmd_ext_val : 8;/**< [ 23: 16](R/W) Command extension value if enabled. */
+        uint32_t erss_seq_p1_cmd_ext_en : 1; /**< [ 15: 15](R/W) Command extension enable. */
+        uint32_t erss_seq_p1_addr_cnt  : 3;  /**< [ 14: 12](R/W) Number of address bytes. */
+        uint32_t erss_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t erss_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t erss_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+#else /* Word 0 - Little Endian */
+        uint32_t erss_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+        uint32_t erss_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t erss_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t erss_seq_p1_addr_cnt  : 3;  /**< [ 14: 12](R/W) Number of address bytes. */
+        uint32_t erss_seq_p1_cmd_ext_en : 1; /**< [ 15: 15](R/W) Command extension enable. */
+        uint32_t erss_seq_p1_cmd_ext_val : 8;/**< [ 23: 16](R/W) Command extension value if enabled. */
+        uint32_t erss_seq_p1_addr_ios  : 2;  /**< [ 25: 24](R/W) Number of lines used to send address phase. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t erss_seq_p1_addr_edge : 1;  /**< [ 28: 28](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_ers_seq_cfg_0_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_ers_seq_cfg_0 cavm_spix_dev_seq_regs_ers_seq_cfg_0_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000410ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(a) cavm_spix_dev_seq_regs_ers_seq_cfg_0_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(a) "SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_ers_seq_cfg_1
+ *
+ * SPI Dev Seq Regs Ers Seq Cfg 1 Register
+ * Register to configure ERASE_SECTOR sequence for PROFILE 1 and SPI NAND in ACMD work mode.
+ */
+union cavm_spix_dev_seq_regs_ers_seq_cfg_1
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_ers_seq_cfg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t erss_seq_p1_sect_size : 5;  /**< [  4:  0](R/W) Sector size. Value encoded as 2^erss_seq_p1_sect_size:
+                                                                 0x00 - 1B.
+                                                                 0x01 - 2B.
+                                                                 0x02 - 4B.
+                                                                 ....
+                                                                 0x0F - 32kB.
+                                                                 0x10 - 64kB.
+                                                                 ....
+                                                                 0x1F - (2^31)B. */
+#else /* Word 0 - Little Endian */
+        uint32_t erss_seq_p1_sect_size : 5;  /**< [  4:  0](R/W) Sector size. Value encoded as 2^erss_seq_p1_sect_size:
+                                                                 0x00 - 1B.
+                                                                 0x01 - 2B.
+                                                                 0x02 - 4B.
+                                                                 ....
+                                                                 0x0F - 32kB.
+                                                                 0x10 - 64kB.
+                                                                 ....
+                                                                 0x1F - (2^31)B. */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_ers_seq_cfg_1_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_ers_seq_cfg_1 cavm_spix_dev_seq_regs_ers_seq_cfg_1_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000414ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(a) cavm_spix_dev_seq_regs_ers_seq_cfg_1_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(a) "SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_ers_seq_cfg_2
+ *
+ * SPI Dev Seq Regs Ers Seq Cfg 2 Register
+ * Register to configure ERASE_ALL sequence for PROFILE 1 in ACMD work mode.
+ */
+union cavm_spix_dev_seq_regs_ers_seq_cfg_2
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_ers_seq_cfg_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t ersa_seq_p1_cmd_ext_val : 8;/**< [ 23: 16](R/W) Command extension value. */
+        uint32_t ersa_seq_p1_cmd_ext_en : 1; /**< [ 15: 15](R/W) Command extension enable. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t ersa_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t ersa_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t ersa_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+#else /* Word 0 - Little Endian */
+        uint32_t ersa_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+        uint32_t ersa_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t ersa_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t ersa_seq_p1_cmd_ext_en : 1; /**< [ 15: 15](R/W) Command extension enable. */
+        uint32_t ersa_seq_p1_cmd_ext_val : 8;/**< [ 23: 16](R/W) Command extension value. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_ers_seq_cfg_2_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_ers_seq_cfg_2 cavm_spix_dev_seq_regs_ers_seq_cfg_2_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000418ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(a) cavm_spix_dev_seq_regs_ers_seq_cfg_2_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(a) "SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_prog_seq_cfg_0
+ *
+ * SPI Dev Seq Regs Prog Seq Cfg 0 Register
+ * Register to configure PROGRAM sequence for PROFILE 1 and SPI NAND in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_prog_seq_cfg_0
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_prog_seq_cfg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t prog_seq_p1_dummy_cnt : 6;  /**< [ 29: 24](R/W) Number of dummy cycles in PROFILE 1. If 0 - dummy cycles disabled. */
+        uint32_t prog_seq_p1_data_edge : 1;  /**< [ 23: 23](R/W) Selecting between SDR/DDR mode for data phase. */
+        uint32_t reserved_22           : 1;
+        uint32_t prog_seq_p1_data_ios  : 2;  /**< [ 21: 20](R/W) Number of lines used to send data phase. */
+        uint32_t prog_seq_p1_addr_edge : 1;  /**< [ 19: 19](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t reserved_18           : 1;
+        uint32_t prog_seq_p1_addr_ios  : 2;  /**< [ 17: 16](R/W) Number of lines used to send address phase. */
+        uint32_t reserved_15           : 1;
+        uint32_t prog_seq_p1_addr_cnt  : 3;  /**< [ 14: 12](R/W) Number of address bytes. */
+        uint32_t prog_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t prog_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t prog_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+#else /* Word 0 - Little Endian */
+        uint32_t prog_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+        uint32_t prog_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t prog_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t prog_seq_p1_addr_cnt  : 3;  /**< [ 14: 12](R/W) Number of address bytes. */
+        uint32_t reserved_15           : 1;
+        uint32_t prog_seq_p1_addr_ios  : 2;  /**< [ 17: 16](R/W) Number of lines used to send address phase. */
+        uint32_t reserved_18           : 1;
+        uint32_t prog_seq_p1_addr_edge : 1;  /**< [ 19: 19](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t prog_seq_p1_data_ios  : 2;  /**< [ 21: 20](R/W) Number of lines used to send data phase. */
+        uint32_t reserved_22           : 1;
+        uint32_t prog_seq_p1_data_edge : 1;  /**< [ 23: 23](R/W) Selecting between SDR/DDR mode for data phase. */
+        uint32_t prog_seq_p1_dummy_cnt : 6;  /**< [ 29: 24](R/W) Number of dummy cycles in PROFILE 1. If 0 - dummy cycles disabled. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_prog_seq_cfg_0_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_prog_seq_cfg_0 cavm_spix_dev_seq_regs_prog_seq_cfg_0_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000420ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(a) cavm_spix_dev_seq_regs_prog_seq_cfg_0_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(a) "SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_prog_seq_cfg_1
+ *
+ * SPI Dev Seq Regs Prog Seq Cfg 1 Register
+ * Register to configure PROGRAM sequence for PROFILE 1 and SPI NAND in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_prog_seq_cfg_1
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_prog_seq_cfg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t prog_seq_p1_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value. */
+        uint32_t reserved_1_7          : 7;
+        uint32_t prog_seq_p1_cmd_ext_en : 1; /**< [  0:  0](R/W) Command extension enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t prog_seq_p1_cmd_ext_en : 1; /**< [  0:  0](R/W) Command extension enable. */
+        uint32_t reserved_1_7          : 7;
+        uint32_t prog_seq_p1_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_prog_seq_cfg_1_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_prog_seq_cfg_1 cavm_spix_dev_seq_regs_prog_seq_cfg_1_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000424ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(a) cavm_spix_dev_seq_regs_prog_seq_cfg_1_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(a) "SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_prog_seq_cfg_2
+ *
+ * SPI Dev Seq Regs Prog Seq Cfg 2 Register
+ * Register to configure PROGRAM sequence for PROFILE 2 in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_prog_seq_cfg_2
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_prog_seq_cfg_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_14_31        : 18;
+        uint32_t prog_seq_p2_latency_cnt : 6;/**< [ 13:  8](R/W) Number of latency cycles for PROFILE 2 - HR only. Setting this bit to 0 will disable latency
+                                                                 cycles. This value should be set to 'N-1', where 'N' is the number of latency clock cycles
+                                                                 expected by the memory device. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t prog_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
+                                                                 Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
+                                                                 bit is set to 0 those bits will be set to (sAWADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
+                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+        uint32_t prog_seq_p2_burst_type : 1; /**< [  1:  1](R/W) Burst type - corresponds to 45th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Wrapped burst.
+                                                                 1 = Linear burst. */
+        uint32_t prog_seq_p2_target    : 1;  /**< [  0:  0](R/W) Target space - corresponds to 46th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Memory space.
+                                                                 1 = Register space. */
+#else /* Word 0 - Little Endian */
+        uint32_t prog_seq_p2_target    : 1;  /**< [  0:  0](R/W) Target space - corresponds to 46th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Memory space.
+                                                                 1 = Register space. */
+        uint32_t prog_seq_p2_burst_type : 1; /**< [  1:  1](R/W) Burst type - corresponds to 45th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Wrapped burst.
+                                                                 1 = Linear burst. */
+        uint32_t prog_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
+                                                                 Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
+                                                                 bit is set to 0 those bits will be set to (sAWADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
+                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+        uint32_t reserved_3_7          : 5;
+        uint32_t prog_seq_p2_latency_cnt : 6;/**< [ 13:  8](R/W) Number of latency cycles for PROFILE 2 - HR only. Setting this bit to 0 will disable latency
+                                                                 cycles. This value should be set to 'N-1', where 'N' is the number of latency clock cycles
+                                                                 expected by the memory device. */
+        uint32_t reserved_14_31        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_prog_seq_cfg_2_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_prog_seq_cfg_2 cavm_spix_dev_seq_regs_prog_seq_cfg_2_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000428ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(a) cavm_spix_dev_seq_regs_prog_seq_cfg_2_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(a) "SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_read_seq_cfg_0
+ *
+ * SPI Dev Seq Regs Read Seq Cfg 0 Register
+ * Register to configure READ sequence for PROFILE 1 and SPI NAND in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_read_seq_cfg_0
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_read_seq_cfg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t read_seq_p1_dummy_cnt : 6;  /**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles disabled. This field is used when sending mode-bits is
+                                                                 disabled. Otherwise the read_seq_p1_mb_dummy_cnt is be used. */
+        uint32_t read_seq_p1_data_edge : 1;  /**< [ 23: 23](R/W) Selecting between SDR/DDR mode for data phase. */
+        uint32_t reserved_22           : 1;
+        uint32_t read_seq_p1_data_ios  : 2;  /**< [ 21: 20](R/W) Number of lines used to send data phase. */
+        uint32_t read_seq_p1_addr_edge : 1;  /**< [ 19: 19](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t reserved_18           : 1;
+        uint32_t read_seq_p1_addr_ios  : 2;  /**< [ 17: 16](R/W) Number of lines used to send address phase. */
+        uint32_t reserved_15           : 1;
+        uint32_t read_seq_p1_addr_cnt  : 3;  /**< [ 14: 12](R/W) Number of address bytes. */
+        uint32_t read_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t read_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t read_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+#else /* Word 0 - Little Endian */
+        uint32_t read_seq_p1_cmd_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+        uint32_t read_seq_p1_cmd_ios   : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t read_seq_p1_cmd_edge  : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t read_seq_p1_addr_cnt  : 3;  /**< [ 14: 12](R/W) Number of address bytes. */
+        uint32_t reserved_15           : 1;
+        uint32_t read_seq_p1_addr_ios  : 2;  /**< [ 17: 16](R/W) Number of lines used to send address phase. */
+        uint32_t reserved_18           : 1;
+        uint32_t read_seq_p1_addr_edge : 1;  /**< [ 19: 19](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t read_seq_p1_data_ios  : 2;  /**< [ 21: 20](R/W) Number of lines used to send data phase. */
+        uint32_t reserved_22           : 1;
+        uint32_t read_seq_p1_data_edge : 1;  /**< [ 23: 23](R/W) Selecting between SDR/DDR mode for data phase. */
+        uint32_t read_seq_p1_dummy_cnt : 6;  /**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles disabled. This field is used when sending mode-bits is
+                                                                 disabled. Otherwise the read_seq_p1_mb_dummy_cnt is be used. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_read_seq_cfg_0_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_read_seq_cfg_0 cavm_spix_dev_seq_regs_read_seq_cfg_0_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000430ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(a) cavm_spix_dev_seq_regs_read_seq_cfg_0_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(a) "SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_read_seq_cfg_1
+ *
+ * SPI Dev Seq Regs Read Seq Cfg 1 Register
+ * Register to configure READ sequence for PROFILE 1 and SPI NAND in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_read_seq_cfg_1
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_read_seq_cfg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t read_seq_p1_mb_en     : 1;  /**< [ 31: 31](R/W) Set to 1'b1 to ensure the mode bits as defined in the xip_dis_mb_val field are  sent following the
+                                                                 address bytes. */
+        uint32_t reserved_30           : 1;
+        uint32_t read_seq_p1_mb_dummy_cnt : 6;/**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles are disabled. This field is used when sending mode-
+                                                                 bits is enabled. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t read_seq_p1_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t read_seq_p1_cache_random_read_en : 1;/**< [  4:  4](R/W) This bit changes behavior of the Read sequence to utilize the Read Page Cache Random/Read Page
+                                                                 Cache Random Last commands. This field is not used in DIRECT mode. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t read_seq_p1_cmd_ext_en : 1; /**< [  0:  0](R/W) Command extension enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t read_seq_p1_cmd_ext_en : 1; /**< [  0:  0](R/W) Command extension enable. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t read_seq_p1_cache_random_read_en : 1;/**< [  4:  4](R/W) This bit changes behavior of the Read sequence to utilize the Read Page Cache Random/Read Page
+                                                                 Cache Random Last commands. This field is not used in DIRECT mode. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t read_seq_p1_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t read_seq_p1_mb_dummy_cnt : 6;/**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles are disabled. This field is used when sending mode-
+                                                                 bits is enabled. */
+        uint32_t reserved_30           : 1;
+        uint32_t read_seq_p1_mb_en     : 1;  /**< [ 31: 31](R/W) Set to 1'b1 to ensure the mode bits as defined in the xip_dis_mb_val field are  sent following the
+                                                                 address bytes. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_read_seq_cfg_1_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_read_seq_cfg_1 cavm_spix_dev_seq_regs_read_seq_cfg_1_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000434ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(a) cavm_spix_dev_seq_regs_read_seq_cfg_1_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(a) "SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_read_seq_cfg_2
+ *
+ * SPI Dev Seq Regs Read Seq Cfg 2 Register
+ * Register to configure READ sequence for PROFILE 2 in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_read_seq_cfg_2
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_read_seq_cfg_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_14_31        : 18;
+        uint32_t read_seq_p2_latency_cnt : 6;/**< [ 13:  8](R/W) Number of latency cycles. Setting this bit to 0 disables latency clock cycles. This value should
+                                                                 be set to 'N-1', where 'N' is the number of latency clock cycles expected by the memory device. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t read_seq_p2_hf_bound_en : 1;/**< [  3:  3](R/W) It is used by the controller to calculate read transaction crossing page boundary. This field is
+                                                                 valid only when PROFILE 2 - HF is selected.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t read_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
+                                                                 Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
+                                                                 bit is set to 0 those bits will be set to (sARADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
+                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+        uint32_t read_seq_p2_burst_type : 1; /**< [  1:  1](R/W) Burst type - corresponds to 45th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Wrapped burst.
+                                                                 1 = Linear burst. */
+        uint32_t read_seq_p2_target    : 1;  /**< [  0:  0](R/W) Target space - corresponds to 46th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Memory space.
+                                                                 1 = Register space. */
+#else /* Word 0 - Little Endian */
+        uint32_t read_seq_p2_target    : 1;  /**< [  0:  0](R/W) Target space - corresponds to 46th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Memory space.
+                                                                 1 = Register space. */
+        uint32_t read_seq_p2_burst_type : 1; /**< [  1:  1](R/W) Burst type - corresponds to 45th Command/Address (CA) bit assignment.
+                                                                 Allowed values are:
+                                                                 0 = Wrapped burst.
+                                                                 1 = Linear burst. */
+        uint32_t read_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
+                                                                 Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
+                                                                 bit is set to 0 those bits will be set to (sARADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
+                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+        uint32_t read_seq_p2_hf_bound_en : 1;/**< [  3:  3](R/W) It is used by the controller to calculate read transaction crossing page boundary. This field is
+                                                                 valid only when PROFILE 2 - HF is selected.
+                                                                 Allowed values are:
+                                                                 0 = Disable.
+                                                                 1 = Enable. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t read_seq_p2_latency_cnt : 6;/**< [ 13:  8](R/W) Number of latency cycles. Setting this bit to 0 disables latency clock cycles. This value should
+                                                                 be set to 'N-1', where 'N' is the number of latency clock cycles expected by the memory device. */
+        uint32_t reserved_14_31        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_read_seq_cfg_2_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_read_seq_cfg_2 cavm_spix_dev_seq_regs_read_seq_cfg_2_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000438ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(a) cavm_spix_dev_seq_regs_read_seq_cfg_2_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(a) "SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_rst_seq_cfg_0
+ *
+ * SPI Dev Seq Regs Rst Seq Cfg 0 Register
+ * Register to configure RESET sequence for PROFILE 1 and SPI NAND in ACMD work mode.
+ */
+union cavm_spix_dev_seq_regs_rst_seq_cfg_0
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_rst_seq_cfg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t rst_seq_p1_cmd_edge   : 1;  /**< [ 28: 28](R/W) Selecting between SDR/DDR mode for both command phases. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t rst_seq_p1_cmd_ios    : 2;  /**< [ 25: 24](R/W) Number of lines used to send commands for both command phases. */
+        uint32_t reserved_23           : 1;
+        uint32_t rst_seq_p1_data_en    : 1;  /**< [ 22: 22](R/W) Enable sending data phase (Confirmation Byte In) following CMD1 phase. */
+        uint32_t rst_seq_p1_data_edge  : 1;  /**< [ 21: 21](R/W) Selecting between SDR/DDR mode for data phase (Confirmation Byte In) following CMD1 phase. */
+        uint32_t reserved_20           : 1;
+        uint32_t rst_seq_p1_data_ios   : 2;  /**< [ 19: 18](R/W) Number of lines used to send data phase (Confirmation Byte In) followig CMD1 phase. */
+        uint32_t reserved_17           : 1;
+        uint32_t rst_seq_p1_cmd0_en    : 1;  /**< [ 16: 16](R/W) Enable bit for CMD0 phase. */
+        uint32_t rst_seq_p1_cmd1_val   : 8;  /**< [ 15:  8](R/W) Command mnemonic value for CMD1 phase. */
+        uint32_t rst_seq_p1_cmd0_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value for CMD0 phase. */
+#else /* Word 0 - Little Endian */
+        uint32_t rst_seq_p1_cmd0_val   : 8;  /**< [  7:  0](R/W) Command mnemonic value for CMD0 phase. */
+        uint32_t rst_seq_p1_cmd1_val   : 8;  /**< [ 15:  8](R/W) Command mnemonic value for CMD1 phase. */
+        uint32_t rst_seq_p1_cmd0_en    : 1;  /**< [ 16: 16](R/W) Enable bit for CMD0 phase. */
+        uint32_t reserved_17           : 1;
+        uint32_t rst_seq_p1_data_ios   : 2;  /**< [ 19: 18](R/W) Number of lines used to send data phase (Confirmation Byte In) followig CMD1 phase. */
+        uint32_t reserved_20           : 1;
+        uint32_t rst_seq_p1_data_edge  : 1;  /**< [ 21: 21](R/W) Selecting between SDR/DDR mode for data phase (Confirmation Byte In) following CMD1 phase. */
+        uint32_t rst_seq_p1_data_en    : 1;  /**< [ 22: 22](R/W) Enable sending data phase (Confirmation Byte In) following CMD1 phase. */
+        uint32_t reserved_23           : 1;
+        uint32_t rst_seq_p1_cmd_ios    : 2;  /**< [ 25: 24](R/W) Number of lines used to send commands for both command phases. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t rst_seq_p1_cmd_edge   : 1;  /**< [ 28: 28](R/W) Selecting between SDR/DDR mode for both command phases. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_rst_seq_cfg_0_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_rst_seq_cfg_0 cavm_spix_dev_seq_regs_rst_seq_cfg_0_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000400ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(a) cavm_spix_dev_seq_regs_rst_seq_cfg_0_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(a) "SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_rst_seq_cfg_1
+ *
+ * SPI Dev Seq Regs Rst Seq Cfg 1 Register
+ * Register to configure RESET sequence for PROFILE 1 and SPI NAND in ACMD work mode.
+ */
+union cavm_spix_dev_seq_regs_rst_seq_cfg_1
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_rst_seq_cfg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rst_seq_p1_data_val   : 8;  /**< [ 31: 24](R/W) Value of Confirmation Byte In (if enabled) following CMD1 phase. */
+        uint32_t rst_seq_p1_cmd1_ext_val : 8;/**< [ 23: 16](R/W) Command extension value of CMD1 phase (if enabled). */
+        uint32_t rst_seq_p1_cmd0_ext_val : 8;/**< [ 15:  8](R/W) Command extension value of CMD0 phase (if enabled). */
+        uint32_t reserved_2_7          : 6;
+        uint32_t rst_seq_p1_cmd1_ext_en : 1; /**< [  1:  1](R/W) Command extension enable for CMD1 phase. */
+        uint32_t rst_seq_p1_cmd0_ext_en : 1; /**< [  0:  0](R/W) Command extension enable for CMD0 phase. */
+#else /* Word 0 - Little Endian */
+        uint32_t rst_seq_p1_cmd0_ext_en : 1; /**< [  0:  0](R/W) Command extension enable for CMD0 phase. */
+        uint32_t rst_seq_p1_cmd1_ext_en : 1; /**< [  1:  1](R/W) Command extension enable for CMD1 phase. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t rst_seq_p1_cmd0_ext_val : 8;/**< [ 15:  8](R/W) Command extension value of CMD0 phase (if enabled). */
+        uint32_t rst_seq_p1_cmd1_ext_val : 8;/**< [ 23: 16](R/W) Command extension value of CMD1 phase (if enabled). */
+        uint32_t rst_seq_p1_data_val   : 8;  /**< [ 31: 24](R/W) Value of Confirmation Byte In (if enabled) following CMD1 phase. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_rst_seq_cfg_1_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_rst_seq_cfg_1 cavm_spix_dev_seq_regs_rst_seq_cfg_1_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000404ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(a) cavm_spix_dev_seq_regs_rst_seq_cfg_1_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(a) "SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_0
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 0 Register
+ * Register to configure status checking sequence for PROFILE 1 and SPI NAND in ACMD and DIRECT work
+ * modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_0
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t stat_seq_p1_data_edge : 1;  /**< [ 22: 22](R/W) Selecting between SDR/DDR mode for data phase. */
+        uint32_t stat_seq_p1_data_ios  : 2;  /**< [ 21: 20](R/W) Number of lines used to send data phase. */
+        uint32_t reserved_13_19        : 7;
+        uint32_t stat_seq_p1_addr_edge : 1;  /**< [ 12: 12](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t stat_seq_p1_addr_ios  : 2;  /**< [ 11: 10](R/W) Number of lines used to send address phase. */
+        uint32_t stat_seq_p1_addr_cnt  : 2;  /**< [  9:  8](R/W) Number of address bytes for all status sequences.
+                                                                 Field encoding is as following:
+                                                                 0x0 = One address byte.
+                                                                 0x1 = Two address bytes.
+                                                                 0x2 = Three address bytes.
+                                                                 0x3 = Four address bytes. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t stat_seq_p1_cmd_ext_en : 1; /**< [  5:  5](R/W) Command extension enable. */
+        uint32_t stat_seq_p1_cmd_edge  : 1;  /**< [  4:  4](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_2_3          : 2;
+        uint32_t stat_seq_p1_cmd_ios   : 2;  /**< [  1:  0](R/W) Number of lines used to send command. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_p1_cmd_ios   : 2;  /**< [  1:  0](R/W) Number of lines used to send command. */
+        uint32_t reserved_2_3          : 2;
+        uint32_t stat_seq_p1_cmd_edge  : 1;  /**< [  4:  4](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t stat_seq_p1_cmd_ext_en : 1; /**< [  5:  5](R/W) Command extension enable. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t stat_seq_p1_addr_cnt  : 2;  /**< [  9:  8](R/W) Number of address bytes for all status sequences.
+                                                                 Field encoding is as following:
+                                                                 0x0 = One address byte.
+                                                                 0x1 = Two address bytes.
+                                                                 0x2 = Three address bytes.
+                                                                 0x3 = Four address bytes. */
+        uint32_t stat_seq_p1_addr_ios  : 2;  /**< [ 11: 10](R/W) Number of lines used to send address phase. */
+        uint32_t stat_seq_p1_addr_edge : 1;  /**< [ 12: 12](R/W) Selecting between SDR/DDR mode for address phase. */
+        uint32_t reserved_13_19        : 7;
+        uint32_t stat_seq_p1_data_ios  : 2;  /**< [ 21: 20](R/W) Number of lines used to send data phase. */
+        uint32_t stat_seq_p1_data_edge : 1;  /**< [ 22: 22](R/W) Selecting between SDR/DDR mode for data phase. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_0_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_0 cavm_spix_dev_seq_regs_stat_seq_cfg_0_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000450ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(a) cavm_spix_dev_seq_regs_stat_seq_cfg_0_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_1
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 1 Register
+ * Register to configure status checking sequence for PROFILE 1 and SPI NAND ACMD and
+ * DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_1
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t stat_seq_p1_ers_fail_addr_en : 1;/**< [ 30: 30](R/W) Enables address phase for checking fail status after ERASE operation. This field is not utilized
+                                                                 in DIRECT work mode. */
+        uint32_t stat_seq_p1_ers_fail_dummy_cnt : 6;/**< [ 29: 24](R/W) Number of dummy clock cycles utilized to check fail status after ERASE operation. This field is
+                                                                 not utilized in DIRECT work mode. */
+        uint32_t reserved_23           : 1;
+        uint32_t stat_seq_p1_prog_fail_addr_en : 1;/**< [ 22: 22](R/W) Enables address phase for checking fail status after PROGRAM operation. */
+        uint32_t stat_seq_p1_prog_fail_dummy_cnt : 6;/**< [ 21: 16](R/W) Number of dummy clock cycles utilized to check fail status after PROGRAM operation. */
+        uint32_t reserved_7_15         : 9;
+        uint32_t stat_seq_p1_dev_rdy_addr_en : 1;/**< [  6:  6](R/W) Enables address phase for checking ready/busy status after PROGRAM/ERASE and SOFT RESET/READ (only
+                                                                 for SPI NAND) operation. */
+        uint32_t stat_seq_p1_dev_rdy_dummy_cnt : 6;/**< [  5:  0](R/W) Number of dummy clock cycles utilized to check ready/busy status after PROGRAM/ERASE and SOFT
+                                                                 RESET/READ (only for SPI NAND) operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_p1_dev_rdy_dummy_cnt : 6;/**< [  5:  0](R/W) Number of dummy clock cycles utilized to check ready/busy status after PROGRAM/ERASE and SOFT
+                                                                 RESET/READ (only for SPI NAND) operation. */
+        uint32_t stat_seq_p1_dev_rdy_addr_en : 1;/**< [  6:  6](R/W) Enables address phase for checking ready/busy status after PROGRAM/ERASE and SOFT RESET/READ (only
+                                                                 for SPI NAND) operation. */
+        uint32_t reserved_7_15         : 9;
+        uint32_t stat_seq_p1_prog_fail_dummy_cnt : 6;/**< [ 21: 16](R/W) Number of dummy clock cycles utilized to check fail status after PROGRAM operation. */
+        uint32_t stat_seq_p1_prog_fail_addr_en : 1;/**< [ 22: 22](R/W) Enables address phase for checking fail status after PROGRAM operation. */
+        uint32_t reserved_23           : 1;
+        uint32_t stat_seq_p1_ers_fail_dummy_cnt : 6;/**< [ 29: 24](R/W) Number of dummy clock cycles utilized to check fail status after ERASE operation. This field is
+                                                                 not utilized in DIRECT work mode. */
+        uint32_t stat_seq_p1_ers_fail_addr_en : 1;/**< [ 30: 30](R/W) Enables address phase for checking fail status after ERASE operation. This field is not utilized
+                                                                 in DIRECT work mode. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_1_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_1 cavm_spix_dev_seq_regs_stat_seq_cfg_1_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000454ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(a) cavm_spix_dev_seq_regs_stat_seq_cfg_1_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_10
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 10 Register
+ * Register to configure status checking sequence for SPI NAND devices in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_10
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t stat_seq_ecc_fail_en  : 1;  /**< [ 31: 31](R/W) Enables checking ECC status after READ PAGE operation. */
+        uint32_t reserved_28_30        : 3;
+        uint32_t stat_seq_crdy_val     : 1;  /**< [ 27: 27](R/W) Value which will be compared with selected status bit in order to detect is the device in ready
+                                                                 state after the Read Page Cache Random operation (CRBSY bit). This field is not used in DIRECT
+                                                                 work mode. */
+        uint32_t stat_seq_crdy_idx     : 3;  /**< [ 26: 24](R/W) This field determine which bit of the status word contains the Cache Read Busy (CRBSY) bit
+                                                                 information for the SPI NAND Read Page Cache Random operation. This field is not used in DIRECT
+                                                                 work mode. */
+        uint32_t stat_seq_ecc_corr_val : 8;  /**< [ 23: 16](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+                                                                 to detect if the device returned the correctable ECC error during SPI NAND Page Read operation.
+                                                                 This method allows to detect single range of correctable errors returned by the XSPI device. */
+        uint32_t stat_seq_ecc_fail_val : 8;  /**< [ 15:  8](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+                                                                 to detect if the device returned the uncorrectable ECC error during SPI NAND Page Read operation. */
+        uint32_t stat_seq_ecc_fail_mask : 8; /**< [  7:  0](R/W) Mask utilized to select which bits of status word carries the ECC status. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_ecc_fail_mask : 8; /**< [  7:  0](R/W) Mask utilized to select which bits of status word carries the ECC status. */
+        uint32_t stat_seq_ecc_fail_val : 8;  /**< [ 15:  8](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+                                                                 to detect if the device returned the uncorrectable ECC error during SPI NAND Page Read operation. */
+        uint32_t stat_seq_ecc_corr_val : 8;  /**< [ 23: 16](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+                                                                 to detect if the device returned the correctable ECC error during SPI NAND Page Read operation.
+                                                                 This method allows to detect single range of correctable errors returned by the XSPI device. */
+        uint32_t stat_seq_crdy_idx     : 3;  /**< [ 26: 24](R/W) This field determine which bit of the status word contains the Cache Read Busy (CRBSY) bit
+                                                                 information for the SPI NAND Read Page Cache Random operation. This field is not used in DIRECT
+                                                                 work mode. */
+        uint32_t stat_seq_crdy_val     : 1;  /**< [ 27: 27](R/W) Value which will be compared with selected status bit in order to detect is the device in ready
+                                                                 state after the Read Page Cache Random operation (CRBSY bit). This field is not used in DIRECT
+                                                                 work mode. */
+        uint32_t reserved_28_30        : 3;
+        uint32_t stat_seq_ecc_fail_en  : 1;  /**< [ 31: 31](R/W) Enables checking ECC status after READ PAGE operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_10_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_10 cavm_spix_dev_seq_regs_stat_seq_cfg_10_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000478ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(a) cavm_spix_dev_seq_regs_stat_seq_cfg_10_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_2
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 2 Register
+ * Register to configure status checking sequence for PROFILE 1 and SPI NAND in ACMD and DIRECT work
+ * modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_2
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t stat_seq_p1_prog_fail_cmd_val : 8;/**< [ 31: 24](R/W) Command mnemonic value for command utilized to check fail status after PROGRAM operation. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t stat_seq_p1_ers_fail_cmd_val : 8;/**< [ 15:  8](R/W) Command mnemonic value for command utilized to check fail status after ERASE operation. This field
+                                                                 is not utilized in DIRECT work mode. */
+        uint32_t stat_seq_p1_dev_rdy_cmd_val : 8;/**< [  7:  0](R/W) Command mnemonic value for command utilized to check ready/busy status after PROGRAM/ERASE and
+                                                                 SOFT RESET/READ (only for SPI NAND) operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_p1_dev_rdy_cmd_val : 8;/**< [  7:  0](R/W) Command mnemonic value for command utilized to check ready/busy status after PROGRAM/ERASE and
+                                                                 SOFT RESET/READ (only for SPI NAND) operation. */
+        uint32_t stat_seq_p1_ers_fail_cmd_val : 8;/**< [ 15:  8](R/W) Command mnemonic value for command utilized to check fail status after ERASE operation. This field
+                                                                 is not utilized in DIRECT work mode. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t stat_seq_p1_prog_fail_cmd_val : 8;/**< [ 31: 24](R/W) Command mnemonic value for command utilized to check fail status after PROGRAM operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_2_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_2 cavm_spix_dev_seq_regs_stat_seq_cfg_2_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000458ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(a) cavm_spix_dev_seq_regs_stat_seq_cfg_2_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_3
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 3 Register
+ * Register to configure status checking sequence for PROFILE 1 and SPI NAND in ACMD and DIRECT work
+ * modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_3
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t stat_seq_p1_prog_fail_cmd_ext_val : 8;/**< [ 31: 24](R/W) Command extension value utilized to check fail status after PROGRAM operation. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t stat_seq_p1_ers_fail_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value utilized to check fail status after ERASE operation. This field is not
+                                                                 utilized in DIRECT work mode. */
+        uint32_t stat_seq_p1_dev_rdy_cmd_ext_val : 8;/**< [  7:  0](R/W) Command extension value utilized to check ready/busy status after PROGRAM/ERASE and SOFT
+                                                                 RESET/READ (only for SPI NAND) operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_p1_dev_rdy_cmd_ext_val : 8;/**< [  7:  0](R/W) Command extension value utilized to check ready/busy status after PROGRAM/ERASE and SOFT
+                                                                 RESET/READ (only for SPI NAND) operation. */
+        uint32_t stat_seq_p1_ers_fail_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value utilized to check fail status after ERASE operation. This field is not
+                                                                 utilized in DIRECT work mode. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t stat_seq_p1_prog_fail_cmd_ext_val : 8;/**< [ 31: 24](R/W) Command extension value utilized to check fail status after PROGRAM operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_3_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_3 cavm_spix_dev_seq_regs_stat_seq_cfg_3_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000045cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(a) cavm_spix_dev_seq_regs_stat_seq_cfg_3_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_4
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 4 Register
+ * Register to configure status checking sequence for PROFILE 2 - HF in ACMD and DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_4
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_14_31        : 18;
+        uint32_t stat_seq_p2_latency_cnt : 6;/**< [ 13:  8](R/W) Number of latency cycles between CA and STATUS reading. This value should be set to 'N-1', where
+                                                                 'N' is the number of latency clock cycles expected by the memory device. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t stat_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
+                                                                 Command/Address. If this bit is set to 1 those bits will be set to 1. Otherwise those bits will be
+                                                                 set to 0. */
+        uint32_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_1          : 2;
+        uint32_t stat_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
+                                                                 Command/Address. If this bit is set to 1 those bits will be set to 1. Otherwise those bits will be
+                                                                 set to 0. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t stat_seq_p2_latency_cnt : 6;/**< [ 13:  8](R/W) Number of latency cycles between CA and STATUS reading. This value should be set to 'N-1', where
+                                                                 'N' is the number of latency clock cycles expected by the memory device. */
+        uint32_t reserved_14_31        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_4_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_4 cavm_spix_dev_seq_regs_stat_seq_cfg_4_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000460ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(a) cavm_spix_dev_seq_regs_stat_seq_cfg_4_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_5
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 5 Register
+ * Register to configure status checking sequence for PROFILE 1, SPI NAND and PROFILE 2
+ * - HF in ACMD and
+ * DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_5
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t stat_seq_prog_fail_en : 1;  /**< [ 30: 30](R/W) Enables checking fail status after PROGRAM operation. */
+        uint32_t stat_seq_prog_fail_size : 1;/**< [ 29: 29](R/W) Size of status word (0-1B, 1-2B). */
+        uint32_t stat_seq_prog_fail_val : 1; /**< [ 28: 28](R/W) Value which will be compared with selected status bit in order to detect is the device in fail
+                                                                 state after PROGRAM operation. */
+        uint32_t stat_seq_prog_fail_idx : 4; /**< [ 27: 24](R/W) This field determine which bit of the status word contains the fail information after the PROGRAM
+                                                                 command. */
+        uint32_t reserved_15_23        : 9;
+        uint32_t stat_seq_ers_fail_en  : 1;  /**< [ 14: 14](R/W) Enables checking fail status after ERASE operation. This field is not utilized in DIRECT work mode. */
+        uint32_t stat_seq_ers_fail_size : 1; /**< [ 13: 13](R/W) Size of status word (0-1B, 1-2B). This field is not utilized in DIRECT work mode. */
+        uint32_t stat_seq_ers_fail_val : 1;  /**< [ 12: 12](R/W) Value which will be compared with selected status bit in order to detect is the device in ready
+                                                                 state after ERASE operation. This field is not utilized in DIRECT work mode. */
+        uint32_t stat_seq_ers_fail_idx : 4;  /**< [ 11:  8](R/W) This field determine which bit of the status word contains the fail information after the ERASE
+                                                                 command. This field is not utilized in DIRECT work mode. */
+        uint32_t reserved_7            : 1;
+        uint32_t stat_seq_dev_rdy_en   : 1;  /**< [  6:  6](R/W) Enables checking RDY/BUSY status after PROGRAM/ERASE operations. */
+        uint32_t stat_seq_dev_rdy_size : 1;  /**< [  5:  5](R/W) Size of status word (0-1B, 1-2B). */
+        uint32_t stat_seq_dev_rdy_val  : 1;  /**< [  4:  4](R/W) Value which will be compared with selected status bit in order to detect is the device in ready
+                                                                 state after PROGRAM/ERASE and SOFT RESET/READ (only for SPI NAND) operation. */
+        uint32_t stat_seq_dev_rdy_idx  : 4;  /**< [  3:  0](R/W) This field determine which bit of the status word contains the ready/busy information after
+                                                                 PROGRAM/ERASE and SOFT RESET/READ (only for SPI NAND) operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_dev_rdy_idx  : 4;  /**< [  3:  0](R/W) This field determine which bit of the status word contains the ready/busy information after
+                                                                 PROGRAM/ERASE and SOFT RESET/READ (only for SPI NAND) operation. */
+        uint32_t stat_seq_dev_rdy_val  : 1;  /**< [  4:  4](R/W) Value which will be compared with selected status bit in order to detect is the device in ready
+                                                                 state after PROGRAM/ERASE and SOFT RESET/READ (only for SPI NAND) operation. */
+        uint32_t stat_seq_dev_rdy_size : 1;  /**< [  5:  5](R/W) Size of status word (0-1B, 1-2B). */
+        uint32_t stat_seq_dev_rdy_en   : 1;  /**< [  6:  6](R/W) Enables checking RDY/BUSY status after PROGRAM/ERASE operations. */
+        uint32_t reserved_7            : 1;
+        uint32_t stat_seq_ers_fail_idx : 4;  /**< [ 11:  8](R/W) This field determine which bit of the status word contains the fail information after the ERASE
+                                                                 command. This field is not utilized in DIRECT work mode. */
+        uint32_t stat_seq_ers_fail_val : 1;  /**< [ 12: 12](R/W) Value which will be compared with selected status bit in order to detect is the device in ready
+                                                                 state after ERASE operation. This field is not utilized in DIRECT work mode. */
+        uint32_t stat_seq_ers_fail_size : 1; /**< [ 13: 13](R/W) Size of status word (0-1B, 1-2B). This field is not utilized in DIRECT work mode. */
+        uint32_t stat_seq_ers_fail_en  : 1;  /**< [ 14: 14](R/W) Enables checking fail status after ERASE operation. This field is not utilized in DIRECT work mode. */
+        uint32_t reserved_15_23        : 9;
+        uint32_t stat_seq_prog_fail_idx : 4; /**< [ 27: 24](R/W) This field determine which bit of the status word contains the fail information after the PROGRAM
+                                                                 command. */
+        uint32_t stat_seq_prog_fail_val : 1; /**< [ 28: 28](R/W) Value which will be compared with selected status bit in order to detect is the device in fail
+                                                                 state after PROGRAM operation. */
+        uint32_t stat_seq_prog_fail_size : 1;/**< [ 29: 29](R/W) Size of status word (0-1B, 1-2B). */
+        uint32_t stat_seq_prog_fail_en : 1;  /**< [ 30: 30](R/W) Enables checking fail status after PROGRAM operation. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_5_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_5 cavm_spix_dev_seq_regs_stat_seq_cfg_5_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000464ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(a) cavm_spix_dev_seq_regs_stat_seq_cfg_5_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_7
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 7 Register
+ * Register to configure status checking sequence for PROFILE 1, SPI NAND and PROFILE 2
+ * - HF in ACMD and
+ * DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_7
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t stat_seq_dev_rdy_addr : 32; /**< [ 31:  0](R/W) Value of address utilized to check rdy/busy status after PROGRAM/ERASE and SOFT RESET/READ (only
+                                                                 for SPI NAND) operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_dev_rdy_addr : 32; /**< [ 31:  0](R/W) Value of address utilized to check rdy/busy status after PROGRAM/ERASE and SOFT RESET/READ (only
+                                                                 for SPI NAND) operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_7_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_7 cavm_spix_dev_seq_regs_stat_seq_cfg_7_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000046cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(a) cavm_spix_dev_seq_regs_stat_seq_cfg_7_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_8
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 8 Register
+ * Register to configure status checking sequence for PROFILE 1, SPI NAND and PROFILE 2
+ * -HF in ACMD and
+ * DIRECT work modes.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_8
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t stat_seq_prog_fail_addr : 32;/**< [ 31:  0](R/W) Value of address utilized to check fail status after PROGRAM operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_prog_fail_addr : 32;/**< [ 31:  0](R/W) Value of address utilized to check fail status after PROGRAM operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_8_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_8 cavm_spix_dev_seq_regs_stat_seq_cfg_8_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000470ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(a) cavm_spix_dev_seq_regs_stat_seq_cfg_8_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_stat_seq_cfg_9
+ *
+ * SPI Dev Seq Regs Stat Seq Cfg 9 Register
+ * Register to configure status checking sequence for PROFILE 1, SPI NAND and PROFILE 2
+ * - HF in ACMD work
+ * mode.
+ */
+union cavm_spix_dev_seq_regs_stat_seq_cfg_9
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_stat_seq_cfg_9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t stat_seq_ers_fail_addr : 32;/**< [ 31:  0](R/W) Value of address utilized to check fail status after ERASE operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t stat_seq_ers_fail_addr : 32;/**< [ 31:  0](R/W) Value of address utilized to check fail status after ERASE operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_stat_seq_cfg_9_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_stat_seq_cfg_9 cavm_spix_dev_seq_regs_stat_seq_cfg_9_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000474ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(a) cavm_spix_dev_seq_regs_stat_seq_cfg_9_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(a) "SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_dev_seq_regs_we_seq_cfg_0
+ *
+ * SPI Dev Seq Regs We Seq Cfg 0 Register
+ * Register to configure Write Enable Latch (WEL) sequence for PROFILE 1 and SPI NAND
+ * in ACMD and DIRECT
+ * work modes.
+ */
+union cavm_spix_dev_seq_regs_we_seq_cfg_0
+{
+    uint32_t u;
+    struct cavm_spix_dev_seq_regs_we_seq_cfg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t we_seq_p1_en          : 1;  /**< [ 24: 24](R/W) Enables sending WEL command. */
+        uint32_t we_seq_p1_cmd_ext_val : 8;  /**< [ 23: 16](R/W) Command extension value. */
+        uint32_t we_seq_p1_cmd_ext_en  : 1;  /**< [ 15: 15](R/W) Command extension enable. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t we_seq_p1_cmd_edge    : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t we_seq_p1_cmd_ios     : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t we_seq_p1_cmd_val     : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+#else /* Word 0 - Little Endian */
+        uint32_t we_seq_p1_cmd_val     : 8;  /**< [  7:  0](R/W) Command mnemonic value. */
+        uint32_t we_seq_p1_cmd_ios     : 2;  /**< [  9:  8](R/W) Number of lines used to send command phase. */
+        uint32_t reserved_10           : 1;
+        uint32_t we_seq_p1_cmd_edge    : 1;  /**< [ 11: 11](R/W) Selecting between SDR/DDR mode for command phase. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t we_seq_p1_cmd_ext_en  : 1;  /**< [ 15: 15](R/W) Command extension enable. */
+        uint32_t we_seq_p1_cmd_ext_val : 8;  /**< [ 23: 16](R/W) Command extension value. */
+        uint32_t we_seq_p1_en          : 1;  /**< [ 24: 24](R/W) Enables sending WEL command. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_dev_seq_regs_we_seq_cfg_0_s cn; */
+};
+typedef union cavm_spix_dev_seq_regs_we_seq_cfg_0 cavm_spix_dev_seq_regs_we_seq_cfg_0_t;
+
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000000440ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(a) cavm_spix_dev_seq_regs_we_seq_cfg_0_t
+#define bustype_CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(a) "SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0"
+#define device_bar_CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(a) (a)
+#define arguments_CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_eco
+ *
+ * INTERNAL: SPI ECO Register
+ */
+union cavm_spix_eco
+{
+    uint64_t u;
+    struct cavm_spix_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_eco_s cn; */
+};
+typedef union cavm_spix_eco cavm_spix_eco_t;
+
+static inline uint64_t CAVM_SPIX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_ECO(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001060ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_ECO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_ECO(a) cavm_spix_eco_t
+#define bustype_CAVM_SPIX_ECO(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_ECO(a) "SPIX_ECO"
+#define device_bar_CAVM_SPIX_ECO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_ECO(a) (a)
+#define arguments_CAVM_SPIX_ECO(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_msix_pba#
+ *
+ * SPI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table, the bit number is indexed by the SPI_INT_VEC_E enumeration.
+ */
+union cavm_spix_msix_pbax
+{
+    uint64_t u;
+    struct cavm_spix_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for each interrupt, enumerated by SPI_INT_VEC_E. Bits that have no
+                                                                 associated SPI_INT_VEC_E are zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for each interrupt, enumerated by SPI_INT_VEC_E. Bits that have no
+                                                                 associated SPI_INT_VEC_E are zero. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_msix_pbax_s cn; */
+};
+typedef union cavm_spix_msix_pbax cavm_spix_msix_pbax_t;
+
+static inline uint64_t CAVM_SPIX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_MSIX_PBAX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b==0))
+        return 0x804000ff0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __cavm_csr_fatal("SPIX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_MSIX_PBAX(a,b) cavm_spix_msix_pbax_t
+#define bustype_CAVM_SPIX_MSIX_PBAX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_MSIX_PBAX(a,b) "SPIX_MSIX_PBAX"
+#define device_bar_CAVM_SPIX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_SPIX_MSIX_PBAX(a,b) (a)
+#define arguments_CAVM_SPIX_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) spi#_msix_vec#_addr
+ *
+ * SPI MSI-X Vector Table Address Registers
+ * This register is the MSI-X vector table, indexed by the SPI_INT_VEC_E enumeration.
+ */
+union cavm_spix_msix_vecx_addr
+{
+    uint64_t u;
+    struct cavm_spix_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's SPI_MSIX_VEC()_ADDR, SPI_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of SPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's SPI_MSIX_VEC()_ADDR, SPI_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of SPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_msix_vecx_addr_s cn; */
+};
+typedef union cavm_spix_msix_vecx_addr cavm_spix_msix_vecx_addr_t;
+
+static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x804000f00000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __cavm_csr_fatal("SPIX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_MSIX_VECX_ADDR(a,b) cavm_spix_msix_vecx_addr_t
+#define bustype_CAVM_SPIX_MSIX_VECX_ADDR(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_MSIX_VECX_ADDR(a,b) "SPIX_MSIX_VECX_ADDR"
+#define device_bar_CAVM_SPIX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_SPIX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_CAVM_SPIX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) spi#_msix_vec#_ctl
+ *
+ * SPI MSI-X Vector Table Control and Data Registers
+ * This register is the MSI-X vector table, indexed by the SPI_INT_VEC_E enumeration.
+ */
+union cavm_spix_msix_vecx_ctl
+{
+    uint64_t u;
+    struct cavm_spix_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_msix_vecx_ctl_s cn; */
+};
+typedef union cavm_spix_msix_vecx_ctl cavm_spix_msix_vecx_ctl_t;
+
+static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x804000f00008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __cavm_csr_fatal("SPIX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_MSIX_VECX_CTL(a,b) cavm_spix_msix_vecx_ctl_t
+#define bustype_CAVM_SPIX_MSIX_VECX_CTL(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_MSIX_VECX_CTL(a,b) "SPIX_MSIX_VECX_CTL"
+#define device_bar_CAVM_SPIX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_SPIX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_CAVM_SPIX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_ctb_rfile_phy_ctrl
+ *
+ * SPI Phy Ctb Rfile Phy Control Register
+ * This register handles the global control settings for the PHY.
+ */
+union cavm_spix_phy_ctb_rfile_phy_ctrl
+{
+    uint32_t u;
+    struct cavm_spix_phy_ctb_rfile_phy_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t pu_pd_polarity        : 1;  /**< [ 21: 21](R/W) Defines the polarity of the ALE port that in SD works as pull-up/pull-down signal for bit 2 of the
+                                                                 DATA.
+                                                                 0 - ALE port is a copy of dfi_ale.
+                                                                 1 - ALE port is inverted version of dfi_ale. */
+        uint32_t low_freq_sel          : 1;  /**< [ 20: 20](R/W) If this field is set high the DFI interface is synchronous to the falling edge of the clock ie.
+                                                                 the input signals are latched at the falling edge of the clk_ctrl and output signals are sync to
+                                                                 falling edge of the clk_ctrl. Otherwise the interface is sync to the rising edge of the clk_ctrl. */
+        uint32_t reserved_15_19        : 5;
+        uint32_t sdr_dqs_value         : 1;  /**< [ 14: 14](R/W) The value that should be driven on the DQS pin while SDR operations are in progress. Please note
+                                                                 that in the DDR modes of operations, the command and address cycles are still in SDR mode. This
+                                                                 field informs the PHY of the value to be driven onto the DQS bus during these SDR cycles. */
+        uint32_t reserved_10_13        : 4;
+        uint32_t phony_dqs_timing      : 6;  /**< [  9:  4](R/W) The timing of assertion of phony DQS to the data slices. If the extended_read_mode is disabled the
+                                                                 value should be zero. If the extended_read_mode is enabled the value should match the width of the
+                                                                 rebar pulse in terms of clock PHY clock cycles reduced by 1. e.g. if rebar pulse width is 4 clock
+                                                                 cycles the value of this field should be 3. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ctrl_clkperiod_delay  : 1;  /**< [  0:  0](R/W) Defines additional latency on the control signals ALE/CLE/WE/RE/CE/WP. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctrl_clkperiod_delay  : 1;  /**< [  0:  0](R/W) Defines additional latency on the control signals ALE/CLE/WE/RE/CE/WP. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t phony_dqs_timing      : 6;  /**< [  9:  4](R/W) The timing of assertion of phony DQS to the data slices. If the extended_read_mode is disabled the
+                                                                 value should be zero. If the extended_read_mode is enabled the value should match the width of the
+                                                                 rebar pulse in terms of clock PHY clock cycles reduced by 1. e.g. if rebar pulse width is 4 clock
+                                                                 cycles the value of this field should be 3. */
+        uint32_t reserved_10_13        : 4;
+        uint32_t sdr_dqs_value         : 1;  /**< [ 14: 14](R/W) The value that should be driven on the DQS pin while SDR operations are in progress. Please note
+                                                                 that in the DDR modes of operations, the command and address cycles are still in SDR mode. This
+                                                                 field informs the PHY of the value to be driven onto the DQS bus during these SDR cycles. */
+        uint32_t reserved_15_19        : 5;
+        uint32_t low_freq_sel          : 1;  /**< [ 20: 20](R/W) If this field is set high the DFI interface is synchronous to the falling edge of the clock ie.
+                                                                 the input signals are latched at the falling edge of the clk_ctrl and output signals are sync to
+                                                                 falling edge of the clk_ctrl. Otherwise the interface is sync to the rising edge of the clk_ctrl. */
+        uint32_t pu_pd_polarity        : 1;  /**< [ 21: 21](R/W) Defines the polarity of the ALE port that in SD works as pull-up/pull-down signal for bit 2 of the
+                                                                 DATA.
+                                                                 0 - ALE port is a copy of dfi_ale.
+                                                                 1 - ALE port is inverted version of dfi_ale. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_ctb_rfile_phy_ctrl_s cn; */
+};
+typedef union cavm_spix_phy_ctb_rfile_phy_ctrl cavm_spix_phy_ctb_rfile_phy_ctrl_t;
+
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010f0ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(a) cavm_spix_phy_ctb_rfile_phy_ctrl_t
+#define bustype_CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(a) "SPIX_PHY_CTB_RFILE_PHY_CTRL"
+#define device_bar_CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(a) (a)
+#define arguments_CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_ctrl_0
+ *
+ * SPI Phy Ctb Rfile Phy Gpio Control 0 Register
+ * This register is a general purpose register. The [31:0]vector is brought to the PHY I/Os. User may
+ * choose to use these pins to control any static settings that may be required for
+ * connected I/O pads.
+ */
+union cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_0
+{
+    uint32_t u;
+    struct cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t phy_gpio_ctrl_0_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+                                                                 use these pins to control any static settings that may be required for the connected I/O pads. */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_gpio_ctrl_0_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+                                                                 use these pins to control any static settings that may be required for the connected I/O pads. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_0_s cn; */
+};
+typedef union cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_0 cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_0_t;
+
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010f8ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_0_t
+#define bustype_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) "SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0"
+#define device_bar_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) (a)
+#define arguments_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_ctrl_1
+ *
+ * SPI Phy Ctb Rfile Phy Gpio Control 1 Register
+ * This register is a general purpose register. The [31:0] vector is brought to the PHY I/Os. User may
+ * choose to use these pins to control any static settings that may be required for the
+ * connected IO pads.
+ */
+union cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1
+{
+    uint32_t u;
+    struct cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY IOs. User may choose to
+                                                                 use these pins to control any static settings that may be required for the connected IO pads. */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY IOs. User may choose to
+                                                                 use these pins to control any static settings that may be required for the connected IO pads. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1_s cn; */
+};
+typedef union cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1 cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1_t;
+
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010fcll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1_t
+#define bustype_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) "SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1"
+#define device_bar_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) (a)
+#define arguments_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_status_0
+ *
+ * SPI Phy Ctb Rfile Phy Gpio Status 0 Register
+ * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+ * register. User may choose to use this as a status register.
+ */
+union cavm_spix_phy_ctb_rfile_phy_gpio_status_0
+{
+    uint32_t u;
+    struct cavm_spix_phy_ctb_rfile_phy_gpio_status_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t phy_gpio_status_0_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+                                                                 register. User may choose to use this as a status register. */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_gpio_status_0_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+                                                                 register. User may choose to use this as a status register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_ctb_rfile_phy_gpio_status_0_s cn; */
+};
+typedef union cavm_spix_phy_ctb_rfile_phy_gpio_status_0 cavm_spix_phy_ctb_rfile_phy_gpio_status_0_t;
+
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001100ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) cavm_spix_phy_ctb_rfile_phy_gpio_status_0_t
+#define bustype_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) "SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0"
+#define device_bar_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) (a)
+#define arguments_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_status_1
+ *
+ * SPI Phy Ctb Rfile Phy Gpio Status 1 Register
+ * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+ * register. User may choose to use this as a status register.
+ */
+union cavm_spix_phy_ctb_rfile_phy_gpio_status_1
+{
+    uint32_t u;
+    struct cavm_spix_phy_ctb_rfile_phy_gpio_status_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t phy_gpio_status_1_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY I/Os to this
+                                                                 register. User may choose to use this as a status register. */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_gpio_status_1_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY I/Os to this
+                                                                 register. User may choose to use this as a status register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_ctb_rfile_phy_gpio_status_1_s cn; */
+};
+typedef union cavm_spix_phy_ctb_rfile_phy_gpio_status_1 cavm_spix_phy_ctb_rfile_phy_gpio_status_1_t;
+
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001104ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) cavm_spix_phy_ctb_rfile_phy_gpio_status_1_t
+#define bustype_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) "SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1"
+#define device_bar_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) (a)
+#define arguments_CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_ctb_rfile_phy_tsel
+ *
+ * SPI Phy Ctb Rfile Phy Tsel Register
+ * This register handles the global control settings for the termination selects for reads.
+ * For SD and XSPI controllers this should be disabled.
+ */
+union cavm_spix_phy_ctb_rfile_phy_tsel
+{
+    uint32_t u;
+    struct cavm_spix_phy_ctb_rfile_phy_tsel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t tsel_off_value_data   : 4;  /**< [ 23: 20](R/W) Termination select off value for the data. */
+        uint32_t tsel_rd_value_data    : 4;  /**< [ 19: 16](R/W) Termination select read value for the data. */
+        uint32_t tsel_off_value_dqs    : 4;  /**< [ 15: 12](R/W) Termination select off value for the data strobe. */
+        uint32_t tsel_rd_value_dqs     : 4;  /**< [ 11:  8](R/W) Termination select read value for the data strobe. */
+        uint32_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_7          : 8;
+        uint32_t tsel_rd_value_dqs     : 4;  /**< [ 11:  8](R/W) Termination select read value for the data strobe. */
+        uint32_t tsel_off_value_dqs    : 4;  /**< [ 15: 12](R/W) Termination select off value for the data strobe. */
+        uint32_t tsel_rd_value_data    : 4;  /**< [ 19: 16](R/W) Termination select read value for the data. */
+        uint32_t tsel_off_value_data   : 4;  /**< [ 23: 20](R/W) Termination select off value for the data. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_ctb_rfile_phy_tsel_s cn; */
+};
+typedef union cavm_spix_phy_ctb_rfile_phy_tsel cavm_spix_phy_ctb_rfile_phy_tsel_t;
+
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010f4ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_TSEL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(a) cavm_spix_phy_ctb_rfile_phy_tsel_t
+#define bustype_CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(a) "SPIX_PHY_CTB_RFILE_PHY_TSEL"
+#define device_bar_CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(a) (a)
+#define arguments_CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_master_ctrl
+ *
+ * SPI Phy Dataslice Rfile Phy Dll Master Control Register
+ * This register holds the control for the Master DLL logic.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t param_dll_bypass_mode : 1;  /**< [ 23: 23](R/W) DLL bypass mode control. Controls the bypass mode of the master and slave DLLs. The
+                                                                 param_dll_bypass_mode is intended to be used only for debug.
+                                                                 0 = Normal operational mode. DLL functioning in normal mode of operation where the slave delay
+                                                                 line settings are used as fractional delay of the master delay line encoder reading of the number
+                                                                 of delays in one cycle.
+                                                                 1 = Bypass mode on. Delays are defined in phy_dll_slave_ctrl_reg. Master DLL is disabled with only
+                                                                 1 delay element in its delay line. The slave slave delay lines decode delays in absolute delay
+                                                                 elements rather than as fractional delays. The dll_lock field (bit [0]) of the phy_dll_obs_reg_0
+                                                                 parameter will be forced high. */
+        uint32_t param_phase_detect_sel : 3; /**< [ 22: 20](R/W) Selects the number of delay elements to be inserted between the phase detect flip-flops.
+                                                                 Defaults to 0x0 although the recommended value is 2 elements but if a lock condition is not
+                                                                 detected, the user should increase the number of delay elements.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_19           : 1;
+        uint32_t param_dll_lock_num    : 3;  /**< [ 18: 16](R/W) Holds the number of consecutive increment or decrement indications that will trigger an unlock
+                                                                 condition and increment the dll_unlock_cnt field (bits [7:3]) and either the lock_dec_dbg
+                                                                 (bits [23:16]) or lock_inc_dbg (bits [31:24]) fields of the phy_dll_obs_reg_0 parameter. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t param_dll_start_point : 8;  /**< [  7:  0](R/W) This value is the initial delay value for the DLL. This value is also used as the increment value
+                                                                 if the initial value is less than a half-clock cycle. This field should be set such that it is not
+                                                                 greater than 7/8ths of a clock period given the worst case element delay. For example, if the
+                                                                 frequency is 200MHz (5ns cycle time) with a worst case element 80ps delay, this field should be
+                                                                 set to = 5 * (7/8) / .080 = 54 elements. This calculation helps determine the start point which
+                                                                 achieves the fastest lock. However, a small value such as 0x04 may be used instead to ensure that
+                                                                 the DLL does not lock on a harmonic. Note that with a small value like this, the initial lock time
+                                                                 will be longer. Value smaller than 0x04 may cause no lock by DLL. */
+#else /* Word 0 - Little Endian */
+        uint32_t param_dll_start_point : 8;  /**< [  7:  0](R/W) This value is the initial delay value for the DLL. This value is also used as the increment value
+                                                                 if the initial value is less than a half-clock cycle. This field should be set such that it is not
+                                                                 greater than 7/8ths of a clock period given the worst case element delay. For example, if the
+                                                                 frequency is 200MHz (5ns cycle time) with a worst case element 80ps delay, this field should be
+                                                                 set to = 5 * (7/8) / .080 = 54 elements. This calculation helps determine the start point which
+                                                                 achieves the fastest lock. However, a small value such as 0x04 may be used instead to ensure that
+                                                                 the DLL does not lock on a harmonic. Note that with a small value like this, the initial lock time
+                                                                 will be longer. Value smaller than 0x04 may cause no lock by DLL. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t param_dll_lock_num    : 3;  /**< [ 18: 16](R/W) Holds the number of consecutive increment or decrement indications that will trigger an unlock
+                                                                 condition and increment the dll_unlock_cnt field (bits [7:3]) and either the lock_dec_dbg
+                                                                 (bits [23:16]) or lock_inc_dbg (bits [31:24]) fields of the phy_dll_obs_reg_0 parameter. */
+        uint32_t reserved_19           : 1;
+        uint32_t param_phase_detect_sel : 3; /**< [ 22: 20](R/W) Selects the number of delay elements to be inserted between the phase detect flip-flops.
+                                                                 Defaults to 0x0 although the recommended value is 2 elements but if a lock condition is not
+                                                                 detected, the user should increase the number of delay elements.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t param_dll_bypass_mode : 1;  /**< [ 23: 23](R/W) DLL bypass mode control. Controls the bypass mode of the master and slave DLLs. The
+                                                                 param_dll_bypass_mode is intended to be used only for debug.
+                                                                 0 = Normal operational mode. DLL functioning in normal mode of operation where the slave delay
+                                                                 line settings are used as fractional delay of the master delay line encoder reading of the number
+                                                                 of delays in one cycle.
+                                                                 1 = Bypass mode on. Delays are defined in phy_dll_slave_ctrl_reg. Master DLL is disabled with only
+                                                                 1 delay element in its delay line. The slave slave delay lines decode delays in absolute delay
+                                                                 elements rather than as fractional delays. The dll_lock field (bit [0]) of the phy_dll_obs_reg_0
+                                                                 parameter will be forced high. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000107cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) "SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_obs_reg_0
+ *
+ * SPI Phy Dataslice Rfile Phy Dll Obs Reg 0 Register
+ * This register holds the following observable points in the PHY.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_0
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lock_inc_dbg          : 8;  /**< [ 31: 24](RO) Holds the state of the cumulative dll_lock_inc register when the dll_unlock_cnt field(bits [7:3])
+                                                                 of this parameter was triggered to increment or was last saturated at a value of 0x1f. */
+        uint32_t lock_dec_dbg          : 8;  /**< [ 23: 16](RO) Holds the state of the cumulative dll_lock_dec register when the dll_unlock_cnt field(bits [7:3])
+                                                                 of this parameter was triggered to decrement or was last saturated at a value of 0x1f. */
+        uint32_t dll_lock_value        : 8;  /**< [ 15:  8](RO) Reports the number of delay elements that the DLL has determined for lock in either full clock or
+                                                                 half clock mode. In full clock mode, this value equals the number of delay elements in one cycle.
+                                                                 In half clock mode, this value equals the number of delay elements in one half clock cycle. In
+                                                                 saturation mode, this value equals the maximum number of delay elements. The slaves use this value
+                                                                 to set up their delays for the clk_wr and read DQS signals. This value is valid only when locking
+                                                                 mechanism is done. */
+        uint32_t dll_unlock_cnt        : 5;  /**< [  7:  3](RO) Reports the number of times that the master DLL consecutive increment or decrement value
+                                                                 programmed into the param_dll_lock_num field (bits [18:16]) of the phy_dll_master_ctrl_reg
+                                                                 register has been triggered. The dll_unlock_cnt will saturate at a value of 0x1f. Asserting the
+                                                                 dll_rst_n signal will reset this counter to 0. */
+        uint32_t dll_locked_mode       : 2;  /**< [  2:  1](RO) Indicates status of DLL. Defines the mode in which the DLL has achieved the lock.
+                                                                 0x0 = Full clock mode. The master delay line was long enough to lock on one full clock cycle of
+                                                                 delay. In this mode, the dll_lock_value field (bits [15:8]) of this parameter indicates the number
+                                                                 of delays in full clock cycles.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Half clock mode. The master delay line was not long enough to lock one full cycle of delay
+                                                                 but could lock on a half-cycle of delay. In this mode, the dll_lock_value field (bits [15:8]) of
+                                                                 this parameter indicates the number of delays in one half clock cycles.
+                                                                 0x3 = Saturation mode. The master delay line was not long enough to lock on a full or a half-clock
+                                                                 cycle. In this mode, the encoder value is fixed at the maximum delay line setting and the master
+                                                                 DLL will be disabled. The slave delay lines continue to use the fractional delays based upon the
+                                                                 fixed saturation value of the delay line. */
+        uint32_t dll_lock              : 1;  /**< [  0:  0](RO) Indicates status of DLL. It indicates the DLL locking when the DLL lock logic found (not inc AND
+                                                                 not dec) OR (an inc then dec) OR (a dec then inc). When param_dll_start_point is set smaller than
+                                                                 half clock period the first found (a dec then inc) isn't the really DLL locking point but dll_lock
+                                                                 is asserted.
+                                                                 0 = DLL has not locked.
+                                                                 1 = DLL is locked. */
+#else /* Word 0 - Little Endian */
+        uint32_t dll_lock              : 1;  /**< [  0:  0](RO) Indicates status of DLL. It indicates the DLL locking when the DLL lock logic found (not inc AND
+                                                                 not dec) OR (an inc then dec) OR (a dec then inc). When param_dll_start_point is set smaller than
+                                                                 half clock period the first found (a dec then inc) isn't the really DLL locking point but dll_lock
+                                                                 is asserted.
+                                                                 0 = DLL has not locked.
+                                                                 1 = DLL is locked. */
+        uint32_t dll_locked_mode       : 2;  /**< [  2:  1](RO) Indicates status of DLL. Defines the mode in which the DLL has achieved the lock.
+                                                                 0x0 = Full clock mode. The master delay line was long enough to lock on one full clock cycle of
+                                                                 delay. In this mode, the dll_lock_value field (bits [15:8]) of this parameter indicates the number
+                                                                 of delays in full clock cycles.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Half clock mode. The master delay line was not long enough to lock one full cycle of delay
+                                                                 but could lock on a half-cycle of delay. In this mode, the dll_lock_value field (bits [15:8]) of
+                                                                 this parameter indicates the number of delays in one half clock cycles.
+                                                                 0x3 = Saturation mode. The master delay line was not long enough to lock on a full or a half-clock
+                                                                 cycle. In this mode, the encoder value is fixed at the maximum delay line setting and the master
+                                                                 DLL will be disabled. The slave delay lines continue to use the fractional delays based upon the
+                                                                 fixed saturation value of the delay line. */
+        uint32_t dll_unlock_cnt        : 5;  /**< [  7:  3](RO) Reports the number of times that the master DLL consecutive increment or decrement value
+                                                                 programmed into the param_dll_lock_num field (bits [18:16]) of the phy_dll_master_ctrl_reg
+                                                                 register has been triggered. The dll_unlock_cnt will saturate at a value of 0x1f. Asserting the
+                                                                 dll_rst_n signal will reset this counter to 0. */
+        uint32_t dll_lock_value        : 8;  /**< [ 15:  8](RO) Reports the number of delay elements that the DLL has determined for lock in either full clock or
+                                                                 half clock mode. In full clock mode, this value equals the number of delay elements in one cycle.
+                                                                 In half clock mode, this value equals the number of delay elements in one half clock cycle. In
+                                                                 saturation mode, this value equals the maximum number of delay elements. The slaves use this value
+                                                                 to set up their delays for the clk_wr and read DQS signals. This value is valid only when locking
+                                                                 mechanism is done. */
+        uint32_t lock_dec_dbg          : 8;  /**< [ 23: 16](RO) Holds the state of the cumulative dll_lock_dec register when the dll_unlock_cnt field(bits [7:3])
+                                                                 of this parameter was triggered to decrement or was last saturated at a value of 0x1f. */
+        uint32_t lock_inc_dbg          : 8;  /**< [ 31: 24](RO) Holds the state of the cumulative dll_lock_inc register when the dll_unlock_cnt field(bits [7:3])
+                                                                 of this parameter was triggered to increment or was last saturated at a value of 0x1f. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_0_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_0 cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_0_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000108cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_0_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) "SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_obs_reg_1
+ *
+ * SPI Phy Dataslice Rfile Phy Dll Obs Reg 1 Register
+ * This register holds the following observable points in the PHY.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_1
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t decoder_out_wr        : 8;  /**< [ 23: 16](RO) Holds the encoded value for the clk_wr delay line for this slice. */
+        uint32_t decoder_out_rd_cmd    : 8;  /**< [ 15:  8](RO) Holds the encoded value for the CMD read delay line for this slice. */
+        uint32_t decoder_out_rd        : 8;  /**< [  7:  0](RO) Holds the encoded value for the read delay line for this slice. */
+#else /* Word 0 - Little Endian */
+        uint32_t decoder_out_rd        : 8;  /**< [  7:  0](RO) Holds the encoded value for the read delay line for this slice. */
+        uint32_t decoder_out_rd_cmd    : 8;  /**< [ 15:  8](RO) Holds the encoded value for the CMD read delay line for this slice. */
+        uint32_t decoder_out_wr        : 8;  /**< [ 23: 16](RO) Holds the encoded value for the clk_wr delay line for this slice. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_1_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_1 cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_1_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001090ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_1_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) "SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_obs_reg_2
+ *
+ * SPI Phy Dataslice Rfile Phy Dll Obs Reg 2 Register
+ * This register holds the following observable points in the PHY.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_2
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t decoder_out_wrdqs     : 8;  /**< [  7:  0](RO) Holds the encoded value for the clk_wrdqs delay line for this slice. */
+#else /* Word 0 - Little Endian */
+        uint32_t decoder_out_wrdqs     : 8;  /**< [  7:  0](RO) Holds the encoded value for the clk_wrdqs delay line for this slice. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_2_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_2 cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_2_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001094ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_2_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) "SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_slave_ctrl
+ *
+ * SPI Phy Dataslice Rfile Phy Dll Slave Control Register
+ * This register holds the control for the slave DLL logic.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_dll_slave_ctrl
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_dll_slave_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t read_dqs_cmd_delay    : 8;  /**< [ 31: 24](R/W) Controls the read command DQS delay which adjusts the timing in 1/256th of the clock period when in
+                                                                 normal DLL locked mode. In bypass mode, this field directly programs the number of delay elements. */
+        uint32_t clk_wrdqs_delay       : 8;  /**< [ 23: 16](R/W) Controls the clk_wrdqs delay line which adjusts the write DQS timing in 1/256th steps of the clock
+                                                                 period in normal DLL locked mode. In bypass mode, this field directly programs the number of delay
+                                                                 elements. clk_wrdqs delay line is used to adjust the write CMD bit timing. */
+        uint32_t clk_wr_delay          : 8;  /**< [ 15:  8](R/W) Controls the clk_wr delay line which adjusts the write DQ bit timing in 1/256th steps of the clock
+                                                                 period in normal DLL locked mode. In bypass mode, this field directly programs the number of
+                                                                 delay elements. */
+        uint32_t read_dqs_delay        : 8;  /**< [  7:  0](R/W) Controls the read DQS delay which adjusts the timing in 1/256th of the clock period when in normal
+                                                                 DLL locked mode. In bypass mode, this field directly programs the number of delay elements. */
+#else /* Word 0 - Little Endian */
+        uint32_t read_dqs_delay        : 8;  /**< [  7:  0](R/W) Controls the read DQS delay which adjusts the timing in 1/256th of the clock period when in normal
+                                                                 DLL locked mode. In bypass mode, this field directly programs the number of delay elements. */
+        uint32_t clk_wr_delay          : 8;  /**< [ 15:  8](R/W) Controls the clk_wr delay line which adjusts the write DQ bit timing in 1/256th steps of the clock
+                                                                 period in normal DLL locked mode. In bypass mode, this field directly programs the number of
+                                                                 delay elements. */
+        uint32_t clk_wrdqs_delay       : 8;  /**< [ 23: 16](R/W) Controls the clk_wrdqs delay line which adjusts the write DQS timing in 1/256th steps of the clock
+                                                                 period in normal DLL locked mode. In bypass mode, this field directly programs the number of delay
+                                                                 elements. clk_wrdqs delay line is used to adjust the write CMD bit timing. */
+        uint32_t read_dqs_cmd_delay    : 8;  /**< [ 31: 24](R/W) Controls the read command DQS delay which adjusts the timing in 1/256th of the clock period when in
+                                                                 normal DLL locked mode. In bypass mode, this field directly programs the number of delay elements. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_dll_slave_ctrl_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_dll_slave_ctrl cavm_spix_phy_dataslice_rfile_phy_dll_slave_ctrl_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001080ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) cavm_spix_phy_dataslice_rfile_phy_dll_slave_ctrl_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) "SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dq_timing
+ *
+ * SPI Phy Dataslice Rfile Phy Dq Timing Register
+ * This register controls the DQ related timing.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_dq_timing
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_dq_timing_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the IO mask for DATA/CMD is always enabled.
+                                                                 0 = disable ie. start/end defines the IO mask functionality. Recommended setting for SD/eMMC
+                                                                 controller.
+                                                                 1 = IO mask is always ON. */
+        uint32_t reserved_30           : 1;
+        uint32_t io_mask_end           : 3;  /**< [ 29: 27](R/W) Adjusts the ending point of the DQ/CMD pad input mask enable. Defines the delay after
+                                                                 dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1'b1
+                                                                 are passed to PHY). */
+        uint32_t io_mask_start         : 3;  /**< [ 26: 24](R/W) Adjusts the starting point of the DQ/CMD pad input mask enable. Defines the delay after
+                                                                 dfi_wrdata_en/dfi_wrcmd_en goes low when the mask is enabled (data/cmd are passed to PHY). */
+        uint32_t data_clkperiod_delay  : 8;  /**< [ 23: 16](R/W) Defines additional latency on the write datapath. It also adds a clock cycle delay for the data
+                                                                 OE path which is equivalent of adding 2 to the data_select_oe_end and data_select_oe_start. */
+        uint32_t data_select_tsel_start : 4; /**< [ 15: 12](R/W) Defines the DQ pad dynamic termination select enable time. Larger values add greater delay to when
+                                                                 tsel turns on. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t data_select_tsel_end  : 4;  /**< [ 11:  8](R/W) Defines the DQ pad dynamic termination select disable time. Larger values increase the delay to
+                                                                 when tsel turns off. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t reserved_7            : 1;
+        uint32_t data_select_oe_start  : 3;  /**< [  6:  4](R/W) Adjusts the starting point of the DQ pad output enable window. Lower numbers pull the rising edge
+                                                                 earlier in time and larger numbers cause the rising edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. */
+        uint32_t reserved_3            : 1;
+        uint32_t data_select_oe_end    : 3;  /**< [  2:  0](R/W) Adjusts the ending point of the DQ pad output enable window. Lower numbers pull the falling edge
+                                                                 earlier in time and larger numbers cause the falling edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. */
+#else /* Word 0 - Little Endian */
+        uint32_t data_select_oe_end    : 3;  /**< [  2:  0](R/W) Adjusts the ending point of the DQ pad output enable window. Lower numbers pull the falling edge
+                                                                 earlier in time and larger numbers cause the falling edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. */
+        uint32_t reserved_3            : 1;
+        uint32_t data_select_oe_start  : 3;  /**< [  6:  4](R/W) Adjusts the starting point of the DQ pad output enable window. Lower numbers pull the rising edge
+                                                                 earlier in time and larger numbers cause the rising edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. */
+        uint32_t reserved_7            : 1;
+        uint32_t data_select_tsel_end  : 4;  /**< [ 11:  8](R/W) Defines the DQ pad dynamic termination select disable time. Larger values increase the delay to
+                                                                 when tsel turns off. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t data_select_tsel_start : 4; /**< [ 15: 12](R/W) Defines the DQ pad dynamic termination select enable time. Larger values add greater delay to when
+                                                                 tsel turns on. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t data_clkperiod_delay  : 8;  /**< [ 23: 16](R/W) Defines additional latency on the write datapath. It also adds a clock cycle delay for the data
+                                                                 OE path which is equivalent of adding 2 to the data_select_oe_end and data_select_oe_start. */
+        uint32_t io_mask_start         : 3;  /**< [ 26: 24](R/W) Adjusts the starting point of the DQ/CMD pad input mask enable. Defines the delay after
+                                                                 dfi_wrdata_en/dfi_wrcmd_en goes low when the mask is enabled (data/cmd are passed to PHY). */
+        uint32_t io_mask_end           : 3;  /**< [ 29: 27](R/W) Adjusts the ending point of the DQ/CMD pad input mask enable. Defines the delay after
+                                                                 dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1'b1
+                                                                 are passed to PHY). */
+        uint32_t reserved_30           : 1;
+        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the IO mask for DATA/CMD is always enabled.
+                                                                 0 = disable ie. start/end defines the IO mask functionality. Recommended setting for SD/eMMC
+                                                                 controller.
+                                                                 1 = IO mask is always ON. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_dq_timing_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_dq_timing cavm_spix_phy_dataslice_rfile_phy_dq_timing_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001070ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) cavm_spix_phy_dataslice_rfile_phy_dq_timing_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) "SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dqs_timing
+ *
+ * SPI Phy Dataslice Rfile Phy Dqs Timing Register
+ * This register controls the DQS related timing.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_dqs_timing
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_dqs_timing_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
+                                                                 path which is equivalent of adding 2 to the dqs_select_oe_end and dqs_select_oe_start. */
+        uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' and
+                                                                 'use_lpbk_dqs' fields are set high.
+                                                                 0 = use internal lpbk_dqs (mem_rebar_ipad) for data capture.
+                                                                 1 =  use external lpbk_dqs (lpbk_dqs connected to the lpbk_dqs_IO PAD) for data capture. */
+        uint32_t use_lpbk_dqs          : 1;  /**< [ 21: 21](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' is set high.
+                                                                 0 = Use phony DQS for data capture.
+                                                                 1 = Use lpbk_dqs for data capture. Recommended setting for SD/eMMC controller. */
+        uint32_t use_phony_dqs         : 1;  /**< [ 20: 20](R/W) Bit to choose lpbk_dqs or phony DQS (generated in the control slice logic) or DQS from the device
+                                                                 to capture data for reads.
+                                                                 0 = Use DQS from device for data capture.
+                                                                 1 = Use phony DQS or lpbk_dqs for data capture. Bit 21 of the phy_dqs_timing_reg is used the
+                                                                 choose the source signal. */
+        uint32_t use_phony_dqs_cmd     : 1;  /**< [ 19: 19](R/W) Bit to choose phony DQS (or lpbk_dqs) from the control slice logic or DQS from the device to
+                                                                 capture command data for reads.
+                                                                 0 = Use DQS from device for command data capture.
+                                                                 1 = Use phony DQS or lpbk_dqs for command data capture. */
+        uint32_t reserved_17_18        : 2;
+        uint32_t phony_dqs_sel         : 1;  /**< [ 16: 16](R/W) If this bit is cleared the phony_dqs is synchronous with rising edge of the clk_phy before sending
+                                                                 to the entry flops. If this bit is set high the phony_dqs is synchronous with falling edge of
+                                                                 clk_phy before sending to the entry flops. */
+        uint32_t dqs_select_tsel_start : 4;  /**< [ 15: 12](R/W) Defines the DQ pad dynamic termination select enable time. Larger values add greater delay to when
+                                                                 tsel turns on. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t dqs_select_tsel_end   : 4;  /**< [ 11:  8](R/W) Defines the DQ pad dynamic termination select disable time. Larger values increase the delay to
+                                                                 when tsel turns off. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t dqs_select_oe_start   : 4;  /**< [  7:  4](R/W) Adjusts the starting point of the DQS pad output enable window. Lower numbers pull the rising edge
+                                                                 earlier in time and larger numbers cause the rising edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. */
+        uint32_t dqs_select_oe_end     : 4;  /**< [  3:  0](R/W) Adjusts the ending point of the DQS pad output enable window. Lower numbers pull the falling edge
+                                                                 earlier in time and larger numbers cause the falling edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. This field must be set to at least the value of bits
+                                                                 [7:4]+2 to prevent disabling the pad before the data is completely written. */
+#else /* Word 0 - Little Endian */
+        uint32_t dqs_select_oe_end     : 4;  /**< [  3:  0](R/W) Adjusts the ending point of the DQS pad output enable window. Lower numbers pull the falling edge
+                                                                 earlier in time and larger numbers cause the falling edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. This field must be set to at least the value of bits
+                                                                 [7:4]+2 to prevent disabling the pad before the data is completely written. */
+        uint32_t dqs_select_oe_start   : 4;  /**< [  7:  4](R/W) Adjusts the starting point of the DQS pad output enable window. Lower numbers pull the rising edge
+                                                                 earlier in time and larger numbers cause the rising edge to be delayed. Each bit changes the
+                                                                 output enable time by a 1/2 cycle resolution. */
+        uint32_t dqs_select_tsel_end   : 4;  /**< [ 11:  8](R/W) Defines the DQ pad dynamic termination select disable time. Larger values increase the delay to
+                                                                 when tsel turns off. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t dqs_select_tsel_start : 4;  /**< [ 15: 12](R/W) Defines the DQ pad dynamic termination select enable time. Larger values add greater delay to when
+                                                                 tsel turns on. Each bit changes the output enable time by a 1/2 cycle resolution. */
+        uint32_t phony_dqs_sel         : 1;  /**< [ 16: 16](R/W) If this bit is cleared the phony_dqs is synchronous with rising edge of the clk_phy before sending
+                                                                 to the entry flops. If this bit is set high the phony_dqs is synchronous with falling edge of
+                                                                 clk_phy before sending to the entry flops. */
+        uint32_t reserved_17_18        : 2;
+        uint32_t use_phony_dqs_cmd     : 1;  /**< [ 19: 19](R/W) Bit to choose phony DQS (or lpbk_dqs) from the control slice logic or DQS from the device to
+                                                                 capture command data for reads.
+                                                                 0 = Use DQS from device for command data capture.
+                                                                 1 = Use phony DQS or lpbk_dqs for command data capture. */
+        uint32_t use_phony_dqs         : 1;  /**< [ 20: 20](R/W) Bit to choose lpbk_dqs or phony DQS (generated in the control slice logic) or DQS from the device
+                                                                 to capture data for reads.
+                                                                 0 = Use DQS from device for data capture.
+                                                                 1 = Use phony DQS or lpbk_dqs for data capture. Bit 21 of the phy_dqs_timing_reg is used the
+                                                                 choose the source signal. */
+        uint32_t use_lpbk_dqs          : 1;  /**< [ 21: 21](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' is set high.
+                                                                 0 = Use phony DQS for data capture.
+                                                                 1 = Use lpbk_dqs for data capture. Recommended setting for SD/eMMC controller. */
+        uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' and
+                                                                 'use_lpbk_dqs' fields are set high.
+                                                                 0 = use internal lpbk_dqs (mem_rebar_ipad) for data capture.
+                                                                 1 =  use external lpbk_dqs (lpbk_dqs connected to the lpbk_dqs_IO PAD) for data capture. */
+        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
+                                                                 path which is equivalent of adding 2 to the dqs_select_oe_end and dqs_select_oe_start. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_dqs_timing_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_dqs_timing cavm_spix_phy_dataslice_rfile_phy_dqs_timing_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001074ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) cavm_spix_phy_dataslice_rfile_phy_dqs_timing_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) "SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_features
+ *
+ * SPI Phy Dataslice Rfile Phy Features Register
+ * This register shows available hardware features.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_features
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_features_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t asf_sup               : 1;  /**< [ 15: 15](RO) Support for Automotive Safety Feature. */
+        uint32_t pll_sup               : 1;  /**< [ 14: 14](RO) Support for PLL. */
+        uint32_t jtag_sup              : 1;  /**< [ 13: 13](RO) Support for JTAG muxes. */
+        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS io pad. */
+        uint32_t reg_intf              : 1;  /**< [ 11: 11](RO) SFR interface type.  This is an encoded value. 0 = DFI. 1 = APB. */
+        uint32_t per_bit_deskew        : 1;  /**< [ 10: 10](RO) Support for per-bit deskew. */
+        uint32_t dfi_clock_ratio       : 1;  /**< [  9:  9](RO) Support for clock ratio on DFI interface. This is an encoded value.
+                                                                 0 = 1:1.
+                                                                 1 = 1:2. */
+        uint32_t aging                 : 1;  /**< [  8:  8](RO) Support for aging in delay lines. */
+        uint32_t dll_tap_num           : 1;  /**< [  7:  7](RO) Number of taps in delay line. This is an encoded value. 0 = 128. 1 = 256. */
+        uint32_t bank_num              : 2;  /**< [  6:  5](RO) Maximum number of banks supported by hardware. This is an encoded value.
+                                                                 0x0 = One bank.
+                                                                 0x1 = Two banks.
+                                                                 0x2 = Four banks.
+                                                                 0x3 = Eight banks. */
+        uint32_t sd_emmc               : 1;  /**< [  4:  4](RO) Support for SD/eMMC. */
+        uint32_t spi                   : 1;  /**< [  3:  3](RO) Support for XSPI. */
+        uint32_t sdr_16bit             : 1;  /**< [  2:  2](RO) Support for 16bit in ONFI SDR work mode. */
+        uint32_t onfi_41               : 1;  /**< [  1:  1](RO) Support for ONFI4.1 - NAND Flash. */
+        uint32_t onfi_40               : 1;  /**< [  0:  0](RO) Support for ONFI4.0 - NAND Flash. */
+#else /* Word 0 - Little Endian */
+        uint32_t onfi_40               : 1;  /**< [  0:  0](RO) Support for ONFI4.0 - NAND Flash. */
+        uint32_t onfi_41               : 1;  /**< [  1:  1](RO) Support for ONFI4.1 - NAND Flash. */
+        uint32_t sdr_16bit             : 1;  /**< [  2:  2](RO) Support for 16bit in ONFI SDR work mode. */
+        uint32_t spi                   : 1;  /**< [  3:  3](RO) Support for XSPI. */
+        uint32_t sd_emmc               : 1;  /**< [  4:  4](RO) Support for SD/eMMC. */
+        uint32_t bank_num              : 2;  /**< [  6:  5](RO) Maximum number of banks supported by hardware. This is an encoded value.
+                                                                 0x0 = One bank.
+                                                                 0x1 = Two banks.
+                                                                 0x2 = Four banks.
+                                                                 0x3 = Eight banks. */
+        uint32_t dll_tap_num           : 1;  /**< [  7:  7](RO) Number of taps in delay line. This is an encoded value. 0 = 128. 1 = 256. */
+        uint32_t aging                 : 1;  /**< [  8:  8](RO) Support for aging in delay lines. */
+        uint32_t dfi_clock_ratio       : 1;  /**< [  9:  9](RO) Support for clock ratio on DFI interface. This is an encoded value.
+                                                                 0 = 1:1.
+                                                                 1 = 1:2. */
+        uint32_t per_bit_deskew        : 1;  /**< [ 10: 10](RO) Support for per-bit deskew. */
+        uint32_t reg_intf              : 1;  /**< [ 11: 11](RO) SFR interface type.  This is an encoded value. 0 = DFI. 1 = APB. */
+        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS io pad. */
+        uint32_t jtag_sup              : 1;  /**< [ 13: 13](RO) Support for JTAG muxes. */
+        uint32_t pll_sup               : 1;  /**< [ 14: 14](RO) Support for PLL. */
+        uint32_t asf_sup               : 1;  /**< [ 15: 15](RO) Support for Automotive Safety Feature. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_features_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_features cavm_spix_phy_dataslice_rfile_phy_features_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010e4ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) cavm_spix_phy_dataslice_rfile_phy_features_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) "SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_gate_lpbk_ctrl
+ *
+ * SPI Phy Dataslice Rfile Phy Gate Lpbk Control Register
+ * This register controls the gate and loopback control related timing.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transfering the data from DQS domain flops to the clk_phy clock domain.
+                                                                 0 = read pointer advances based upon a programmable delay of the dfi_rddata_en pulse from the DFI
+                                                                 interface.
+                                                                 1 = read pointer advances based upon a programmable delay of the empty signal. Recommended setting
+                                                                 for SD/eMMC controller. */
+        uint32_t sw_dqs_phase_bypass   : 1;  /**< [ 30: 30](R/W) 0 = Use phase detect circult to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wrdqs_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff means
+                                                                 half_cycle_shift = 1. */
+        uint32_t en_sw_half_cycle      : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the
+                                                                 clk_wrdqs domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 sw_dqs_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
+                                                                 parameter defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 'b0 if
+                                                                 the delay is less than a 1/2 cycle and set to 'b1 if the delay is greater than a 1/2 cycle. It is
+                                                                 recommended to allow the hardware to control this automatically. */
+        uint32_t sw_half_cycle_shift   : 1;  /**< [ 28: 28](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the write data path. */
+        uint32_t param_phase_detect_sel_oe : 3;/**< [ 27: 25](R/W) DLL Phase Detect Selector for DQS OE generation to handle the clock domain crossing between the
+                                                                 clock and clk_wrdqs signal. Selects the number of delay elements to be inserted between the phase
+                                                                 detect flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t rd_del_sel            : 6;  /**< [ 24: 19](R/W) Defines the read data delay. Holds the number of cycles to delay the dfi_rddata_en signal prior to
+                                                                 enabling the read FIFO. After this delay, the read pointers begin incrementing the read FIFO.
+                                                                 If 'sync_method' is set high the value of this field must take into account the synchronization
+                                                                 time of the pointers in the entry FIFO (adding three clock cycles should be sufficient). */
+        uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when 'sync_method' is set high.
+                                                                 Recommended value is zero with an expetion for Cadence SD/eMMC controller for which this field
+                                                                 need to be set high. */
+        uint32_t reserved_17           : 1;
+        uint32_t rd_del_sel_empty      : 1;  /**< [ 16: 16](R/W) Defines the read data delay for the empty signal generated based on the incoming DQS strobes. For
+                                                                 zero delay the data are passed from entry flops to the iodatain* flops one clock cycle after the
+                                                                 !empty signals is asserted. Normally the zero value of this field is sufficient as the signal is
+                                                                 generated based on the gray pointer synchronized with two stage synchronizer on clk_phy clock
+                                                                 domain which gives minimum two clock cycle path from entry flop to the iodatain flop. Increasing
+                                                                 the value of this field delays the moment of passing the data from entry flops to the iodatain
+                                                                 flops. Increased value gives even more time to propagate the data but the bigger value the bigger
+                                                                 probability to overflow the FIFO. Recommended value is zero. */
+        uint32_t lpbk_err_check_timing : 3;  /**< [ 15: 13](R/W) Sets the cycle delay between the LFSR and loopback error check logic to ensure that the LFSR
+                                                                 sourced data and data being looped back arrive at the same clock cycle for comparison. This value
+                                                                 is related to the rd_del_sel field, and is equal to 7 - rd_del_sel. */
+        uint32_t lpbk_fail_muxsel      : 1;  /**< [ 12: 12](R/W) Selects data output type for phy_obs_reg_0[23:8].
+                                                                 0 = Return the expected data.
+                                                                 1 = Return the actual data. */
+        uint32_t loopback_control      : 2;  /**< [ 11: 10](R/W) Loopback control.
+                                                                 0x0 = Normal Operation Mode.
+                                                                 0x1 = lpbk_start; Enables loopback write mode.
+                                                                 0x2 = lpbk_stop; Stop loopback to check error register.
+                                                                 0x3 = clear; Clear loopback registers. */
+        uint32_t lpbk_internal         : 1;  /**< [  9:  9](R/W) Controls the loopback read multiplexer.
+                                                                 0 = External Loopback.
+                                                                 1 = Internal loopback. */
+        uint32_t lpbk_en               : 1;  /**< [  8:  8](R/W) Controls internal write multiplexer. 0x0 = Normal Operation. 0x1 = Enable loopback. */
+        uint32_t reserved_7            : 1;
+        uint32_t gate_cfg_always_on    : 1;  /**< [  6:  6](R/W) This parameter cause the gate to be always on.
+                                                                 Recommended setting for SD/eMMC controller is 1. */
+        uint32_t gate_cfg_close        : 2;  /**< [  5:  4](R/W) Normally the gate is closing when all bits of dfi_cebar are high or when dfi_rd_pre_post_amble and
+                                                                 rebar_dfi are high. This parameter allows to extend the closing of the DQS gate. Recommended
+                                                                 value is zero. */
+        uint32_t gate_cfg              : 4;  /**< [  3:  0](R/W) Coarse adjust of gate open time. This value is the number of cycles to delay the dfi_rddata_en
+                                                                 signal prior to opening the gate in full cycle increments. Decreasing this value pulls the gate
+                                                                 earlier in time. This field should be programmed such that the gate signal lands in the valid DQS
+                                                                 gate window. */
+#else /* Word 0 - Little Endian */
+        uint32_t gate_cfg              : 4;  /**< [  3:  0](R/W) Coarse adjust of gate open time. This value is the number of cycles to delay the dfi_rddata_en
+                                                                 signal prior to opening the gate in full cycle increments. Decreasing this value pulls the gate
+                                                                 earlier in time. This field should be programmed such that the gate signal lands in the valid DQS
+                                                                 gate window. */
+        uint32_t gate_cfg_close        : 2;  /**< [  5:  4](R/W) Normally the gate is closing when all bits of dfi_cebar are high or when dfi_rd_pre_post_amble and
+                                                                 rebar_dfi are high. This parameter allows to extend the closing of the DQS gate. Recommended
+                                                                 value is zero. */
+        uint32_t gate_cfg_always_on    : 1;  /**< [  6:  6](R/W) This parameter cause the gate to be always on.
+                                                                 Recommended setting for SD/eMMC controller is 1. */
+        uint32_t reserved_7            : 1;
+        uint32_t lpbk_en               : 1;  /**< [  8:  8](R/W) Controls internal write multiplexer. 0x0 = Normal Operation. 0x1 = Enable loopback. */
+        uint32_t lpbk_internal         : 1;  /**< [  9:  9](R/W) Controls the loopback read multiplexer.
+                                                                 0 = External Loopback.
+                                                                 1 = Internal loopback. */
+        uint32_t loopback_control      : 2;  /**< [ 11: 10](R/W) Loopback control.
+                                                                 0x0 = Normal Operation Mode.
+                                                                 0x1 = lpbk_start; Enables loopback write mode.
+                                                                 0x2 = lpbk_stop; Stop loopback to check error register.
+                                                                 0x3 = clear; Clear loopback registers. */
+        uint32_t lpbk_fail_muxsel      : 1;  /**< [ 12: 12](R/W) Selects data output type for phy_obs_reg_0[23:8].
+                                                                 0 = Return the expected data.
+                                                                 1 = Return the actual data. */
+        uint32_t lpbk_err_check_timing : 3;  /**< [ 15: 13](R/W) Sets the cycle delay between the LFSR and loopback error check logic to ensure that the LFSR
+                                                                 sourced data and data being looped back arrive at the same clock cycle for comparison. This value
+                                                                 is related to the rd_del_sel field, and is equal to 7 - rd_del_sel. */
+        uint32_t rd_del_sel_empty      : 1;  /**< [ 16: 16](R/W) Defines the read data delay for the empty signal generated based on the incoming DQS strobes. For
+                                                                 zero delay the data are passed from entry flops to the iodatain* flops one clock cycle after the
+                                                                 !empty signals is asserted. Normally the zero value of this field is sufficient as the signal is
+                                                                 generated based on the gray pointer synchronized with two stage synchronizer on clk_phy clock
+                                                                 domain which gives minimum two clock cycle path from entry flop to the iodatain flop. Increasing
+                                                                 the value of this field delays the moment of passing the data from entry flops to the iodatain
+                                                                 flops. Increased value gives even more time to propagate the data but the bigger value the bigger
+                                                                 probability to overflow the FIFO. Recommended value is zero. */
+        uint32_t reserved_17           : 1;
+        uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when 'sync_method' is set high.
+                                                                 Recommended value is zero with an expetion for Cadence SD/eMMC controller for which this field
+                                                                 need to be set high. */
+        uint32_t rd_del_sel            : 6;  /**< [ 24: 19](R/W) Defines the read data delay. Holds the number of cycles to delay the dfi_rddata_en signal prior to
+                                                                 enabling the read FIFO. After this delay, the read pointers begin incrementing the read FIFO.
+                                                                 If 'sync_method' is set high the value of this field must take into account the synchronization
+                                                                 time of the pointers in the entry FIFO (adding three clock cycles should be sufficient). */
+        uint32_t param_phase_detect_sel_oe : 3;/**< [ 27: 25](R/W) DLL Phase Detect Selector for DQS OE generation to handle the clock domain crossing between the
+                                                                 clock and clk_wrdqs signal. Selects the number of delay elements to be inserted between the phase
+                                                                 detect flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t sw_half_cycle_shift   : 1;  /**< [ 28: 28](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the write data path. */
+        uint32_t en_sw_half_cycle      : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the
+                                                                 clk_wrdqs domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 sw_dqs_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
+                                                                 parameter defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 'b0 if
+                                                                 the delay is less than a 1/2 cycle and set to 'b1 if the delay is greater than a 1/2 cycle. It is
+                                                                 recommended to allow the hardware to control this automatically. */
+        uint32_t sw_dqs_phase_bypass   : 1;  /**< [ 30: 30](R/W) 0 = Use phase detect circult to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wrdqs_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff means
+                                                                 half_cycle_shift = 1. */
+        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transfering the data from DQS domain flops to the clk_phy clock domain.
+                                                                 0 = read pointer advances based upon a programmable delay of the dfi_rddata_en pulse from the DFI
+                                                                 interface.
+                                                                 1 = read pointer advances based upon a programmable delay of the empty signal. Recommended setting
+                                                                 for SD/eMMC controller. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001078ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) "SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_ie_timing
+ *
+ * SPI Phy Dataslice Rfile Phy Ie Timing Register
+ * This register controls the DQS related timing.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_ie_timing
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_ie_timing_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_21_31        : 11;
+        uint32_t ie_always_on          : 1;  /**< [ 20: 20](R/W) Forces the input enable(s) to be on always. */
+        uint32_t reserved_19           : 1;
+        uint32_t dq_ie_start           : 3;  /**< [ 18: 16](R/W) Define the start position for the DQ input enable. */
+        uint32_t reserved_15           : 1;
+        uint32_t dq_ie_stop            : 3;  /**< [ 14: 12](R/W) Define the stop position for the DQ input enable. */
+        uint32_t reserved_11           : 1;
+        uint32_t dqs_ie_start          : 3;  /**< [ 10:  8](R/W) Define the start position for the DQS input enable. */
+        uint32_t reserved_7            : 1;
+        uint32_t dqs_ie_stop           : 3;  /**< [  6:  4](R/W) Define the stop position for the DQS input enable. */
+        uint32_t rddata_en_ie_dly      : 4;  /**< [  3:  0](R/W) Specifies the number of clocks of delay for the dfi_rddata_en signal to line it up with the true
+                                                                 (normal) DFI read data position. The MC must deliver an early version of the read data enable to
+                                                                 allow time for the input pads to turn on and this field allows the PHY to create the original
+                                                                 timing. */
+#else /* Word 0 - Little Endian */
+        uint32_t rddata_en_ie_dly      : 4;  /**< [  3:  0](R/W) Specifies the number of clocks of delay for the dfi_rddata_en signal to line it up with the true
+                                                                 (normal) DFI read data position. The MC must deliver an early version of the read data enable to
+                                                                 allow time for the input pads to turn on and this field allows the PHY to create the original
+                                                                 timing. */
+        uint32_t dqs_ie_stop           : 3;  /**< [  6:  4](R/W) Define the stop position for the DQS input enable. */
+        uint32_t reserved_7            : 1;
+        uint32_t dqs_ie_start          : 3;  /**< [ 10:  8](R/W) Define the start position for the DQS input enable. */
+        uint32_t reserved_11           : 1;
+        uint32_t dq_ie_stop            : 3;  /**< [ 14: 12](R/W) Define the stop position for the DQ input enable. */
+        uint32_t reserved_15           : 1;
+        uint32_t dq_ie_start           : 3;  /**< [ 18: 16](R/W) Define the start position for the DQ input enable. */
+        uint32_t reserved_19           : 1;
+        uint32_t ie_always_on          : 1;  /**< [ 20: 20](R/W) Forces the input enable(s) to be on always. */
+        uint32_t reserved_21_31        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_ie_timing_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_ie_timing cavm_spix_phy_dataslice_rfile_phy_ie_timing_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001084ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) cavm_spix_phy_dataslice_rfile_phy_ie_timing_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) "SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_obs_reg_0
+ *
+ * SPI Phy Dataslice Rfile Phy Obs Reg 0 Register
+ * This register holds the following observable points in the PHY.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_obs_reg_0
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_obs_reg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t dqs_cmd_overflow      : 1;  /**< [ 27: 27](RO) CMD Status signal to indicate that the logic gate was closed too late ie. the number of DQS
+                                                                 strobes exceed the capacity of the entry FIFO. It indicates that rd_del_sel signal value is too
+                                                                 high and dfi_rddata are corrupted. It is possible that overflow status is asserted with underrun
+                                                                 status - in such case the overflow takes the precedence. The dll_rst_n or rst_n clears this flag. */
+        uint32_t dqs_cmd_underrun      : 1;  /**< [ 26: 26](RO) CMD Status signal to indicate that the logic gate had to be forced closed. It indicates that
+                                                                 either the DQS strobe did not appear during read or rd_del_sel signal value is too low and
+                                                                 dfi_rddata are corrupted. The dll_rst_n or rst_n clears this flag. */
+        uint32_t dqs_overflow          : 1;  /**< [ 25: 25](RO) Status signal to indicate that the logic gate was closed too late ie. the number of DQS strobes
+                                                                 exceed the capacity of the entry FIFO. It indicates that rd_del_sel signal value is too high
+                                                                 and dfi_rddata are corrupted. It is possible that overflow status is asserted with underrun status
+                                                                 - in such case the overflow takes the precedence. The dll_rst_n or rst_n clears this flag. */
+        uint32_t dqs_underrun          : 1;  /**< [ 24: 24](RO) Status signal to indicate that the logic gate had to be forced closed. It indicates that either
+                                                                 the DQS strobe did not appear during read or rd_del_sel signal value is too low and dfi_rddata are
+                                                                 corrupted. The dll_rst_n or rst_n clears this flag. */
+        uint32_t lpbk_dq_data          : 16; /**< [ 23:  8](RO) If errors are encountered in loopback test this field reports the actual data or the expected data,
+                                                                 depending on the setting of the phy_gate_lpbk_ctrl_reg [12] parameter bit. This field is not clear
+                                                                 by the clear state of the loopback. If there are no errors in loopback test the value is zero
+                                                                 (or value from previous state). */
+        uint32_t reserved_2_7          : 6;
+        uint32_t lpbk_status           : 2;  /**< [  1:  0](RO) Loopback Status
+                                                                 Bit0 - lpbk start; Defines the status of the loopback mode.
+                                                                   0 = Not in loopback mode.
+                                                                   1 = In loopback mode.
+                                                                 Bit1 - lpbk status; Defines the status of the loopback mode.
+                                                                   0 = Last Loopback test had no errors.
+                                                                   1 = Last loopback test contained data errors. */
+#else /* Word 0 - Little Endian */
+        uint32_t lpbk_status           : 2;  /**< [  1:  0](RO) Loopback Status
+                                                                 Bit0 - lpbk start; Defines the status of the loopback mode.
+                                                                   0 = Not in loopback mode.
+                                                                   1 = In loopback mode.
+                                                                 Bit1 - lpbk status; Defines the status of the loopback mode.
+                                                                   0 = Last Loopback test had no errors.
+                                                                   1 = Last loopback test contained data errors. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t lpbk_dq_data          : 16; /**< [ 23:  8](RO) If errors are encountered in loopback test this field reports the actual data or the expected data,
+                                                                 depending on the setting of the phy_gate_lpbk_ctrl_reg [12] parameter bit. This field is not clear
+                                                                 by the clear state of the loopback. If there are no errors in loopback test the value is zero
+                                                                 (or value from previous state). */
+        uint32_t dqs_underrun          : 1;  /**< [ 24: 24](RO) Status signal to indicate that the logic gate had to be forced closed. It indicates that either
+                                                                 the DQS strobe did not appear during read or rd_del_sel signal value is too low and dfi_rddata are
+                                                                 corrupted. The dll_rst_n or rst_n clears this flag. */
+        uint32_t dqs_overflow          : 1;  /**< [ 25: 25](RO) Status signal to indicate that the logic gate was closed too late ie. the number of DQS strobes
+                                                                 exceed the capacity of the entry FIFO. It indicates that rd_del_sel signal value is too high
+                                                                 and dfi_rddata are corrupted. It is possible that overflow status is asserted with underrun status
+                                                                 - in such case the overflow takes the precedence. The dll_rst_n or rst_n clears this flag. */
+        uint32_t dqs_cmd_underrun      : 1;  /**< [ 26: 26](RO) CMD Status signal to indicate that the logic gate had to be forced closed. It indicates that
+                                                                 either the DQS strobe did not appear during read or rd_del_sel signal value is too low and
+                                                                 dfi_rddata are corrupted. The dll_rst_n or rst_n clears this flag. */
+        uint32_t dqs_cmd_overflow      : 1;  /**< [ 27: 27](RO) CMD Status signal to indicate that the logic gate was closed too late ie. the number of DQS
+                                                                 strobes exceed the capacity of the entry FIFO. It indicates that rd_del_sel signal value is too
+                                                                 high and dfi_rddata are corrupted. It is possible that overflow status is asserted with underrun
+                                                                 status - in such case the overflow takes the precedence. The dll_rst_n or rst_n clears this flag. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_obs_reg_0_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_obs_reg_0 cavm_spix_phy_dataslice_rfile_phy_obs_reg_0_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001088ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) cavm_spix_phy_dataslice_rfile_phy_obs_reg_0_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) "SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_rd_deskew
+ *
+ * SPI Phy Dataslice Rfile Phy Rd Deskew Register
+ * This register holds the values of delay of each DQ bit on the read path.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_rd_deskew
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_rd_deskew_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rd_dq7_deskew_delay   : 4;  /**< [ 31: 28](R/W) Deskew delay for DQ bit 7. */
+        uint32_t rd_dq6_deskew_delay   : 4;  /**< [ 27: 24](R/W) Deskew delay for DQ bit 6. */
+        uint32_t rd_dq5_deskew_delay   : 4;  /**< [ 23: 20](R/W) Deskew delay for DQ bit 5. */
+        uint32_t rd_dq4_deskew_delay   : 4;  /**< [ 19: 16](R/W) Deskew delay for DQ bit 4. */
+        uint32_t rd_dq3_deskew_delay   : 4;  /**< [ 15: 12](R/W) Deskew delay for DQ bit 3. */
+        uint32_t rd_dq2_deskew_delay   : 4;  /**< [ 11:  8](R/W) Deskew delay for DQ bit 2. */
+        uint32_t rd_dq1_deskew_delay   : 4;  /**< [  7:  4](R/W) Deskew delay for DQ bit 1. */
+        uint32_t rd_dq0_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for DQ bit 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t rd_dq0_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for DQ bit 0. */
+        uint32_t rd_dq1_deskew_delay   : 4;  /**< [  7:  4](R/W) Deskew delay for DQ bit 1. */
+        uint32_t rd_dq2_deskew_delay   : 4;  /**< [ 11:  8](R/W) Deskew delay for DQ bit 2. */
+        uint32_t rd_dq3_deskew_delay   : 4;  /**< [ 15: 12](R/W) Deskew delay for DQ bit 3. */
+        uint32_t rd_dq4_deskew_delay   : 4;  /**< [ 19: 16](R/W) Deskew delay for DQ bit 4. */
+        uint32_t rd_dq5_deskew_delay   : 4;  /**< [ 23: 20](R/W) Deskew delay for DQ bit 5. */
+        uint32_t rd_dq6_deskew_delay   : 4;  /**< [ 27: 24](R/W) Deskew delay for DQ bit 6. */
+        uint32_t rd_dq7_deskew_delay   : 4;  /**< [ 31: 28](R/W) Deskew delay for DQ bit 7. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_rd_deskew_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_rd_deskew cavm_spix_phy_dataslice_rfile_phy_rd_deskew_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010acll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) cavm_spix_phy_dataslice_rfile_phy_rd_deskew_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) "SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_static_togg
+ *
+ * SPI Phy Dataslice Rfile Phy Static Togg Register
+ * This register controls the static aging feature of the PHY.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_static_togg
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_static_togg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t read_dqs_togg_enable  : 1;  /**< [ 24: 24](R/W) Enables the toggling for the active part of the read_dqs delay line in idle state. For SD and XSPI
+                                                                 set this field to zero. Toggling on active part of the read_dqs delay line for those controllers
+                                                                 should be disabled
+                                                                 0 = disabled.
+                                                                 1 = enabled. */
+        uint32_t static_togg_enable    : 4;  /**< [ 23: 20](R/W) Control to enable the toggle signal during static activity. When low the feature is disabled.
+                                                                 bit 0 = master delay line enable.
+                                                                 bit 1 = read path delay line enable.
+                                                                 bit 2 = write path delay line enable.
+                                                                 bit 3 = write dqs path delay line enable. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t static_togg_global_enable : 1;/**< [ 16: 16](R/W) Global control to enable the toggle signal during static activity. */
+        uint32_t static_tog_clk_div    : 16; /**< [ 15:  0](R/W) Clock divider to create toggle signal. */
+#else /* Word 0 - Little Endian */
+        uint32_t static_tog_clk_div    : 16; /**< [ 15:  0](R/W) Clock divider to create toggle signal. */
+        uint32_t static_togg_global_enable : 1;/**< [ 16: 16](R/W) Global control to enable the toggle signal during static activity. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t static_togg_enable    : 4;  /**< [ 23: 20](R/W) Control to enable the toggle signal during static activity. When low the feature is disabled.
+                                                                 bit 0 = master delay line enable.
+                                                                 bit 1 = read path delay line enable.
+                                                                 bit 2 = write path delay line enable.
+                                                                 bit 3 = write dqs path delay line enable. */
+        uint32_t read_dqs_togg_enable  : 1;  /**< [ 24: 24](R/W) Enables the toggling for the active part of the read_dqs delay line in idle state. For SD and XSPI
+                                                                 set this field to zero. Toggling on active part of the read_dqs delay line for those controllers
+                                                                 should be disabled
+                                                                 0 = disabled.
+                                                                 1 = enabled. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_static_togg_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_static_togg cavm_spix_phy_dataslice_rfile_phy_static_togg_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001098ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) cavm_spix_phy_dataslice_rfile_phy_static_togg_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) "SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_version
+ *
+ * SPI Phy Dataslice Rfile Phy Version Register
+ * This register contains release identification number.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_version
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_version_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t combo_phy_magic_number : 16;/**< [ 31: 16](RO) Magic number. */
+        uint32_t phy_fix               : 8;  /**< [ 15:  8](RO) Fixed number (minor revision number). */
+        uint32_t phy_rev               : 8;  /**< [  7:  0](RO) PHY revision number. */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_rev               : 8;  /**< [  7:  0](RO) PHY revision number. */
+        uint32_t phy_fix               : 8;  /**< [ 15:  8](RO) Fixed number (minor revision number). */
+        uint32_t combo_phy_magic_number : 16;/**< [ 31: 16](RO) Magic number. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_version_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_version cavm_spix_phy_dataslice_rfile_phy_version_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010e0ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_VERSION", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(a) cavm_spix_phy_dataslice_rfile_phy_version_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(a) "SPIX_PHY_DATASLICE_RFILE_PHY_VERSION"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_deskew
+ *
+ * SPI Phy Dataslice Rfile Phy Wr Deskew Register
+ * This register holds the values of delay of each DQ bit on the write path.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_wr_deskew
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_wr_deskew_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wr_dq7_deskew_delay   : 4;  /**< [ 31: 28](R/W) Deskew delay for DQ bit 7. */
+        uint32_t wr_dq6_deskew_delay   : 4;  /**< [ 27: 24](R/W) Deskew delay for DQ bit 6. */
+        uint32_t wr_dq5_deskew_delay   : 4;  /**< [ 23: 20](R/W) Deskew delay for DQ bit 5. */
+        uint32_t wr_dq4_deskew_delay   : 4;  /**< [ 19: 16](R/W) Deskew delay for DQ bit 4. */
+        uint32_t wr_dq3_deskew_delay   : 4;  /**< [ 15: 12](R/W) Deskew delay for DQ bit 3. */
+        uint32_t wr_dq2_deskew_delay   : 4;  /**< [ 11:  8](R/W) Deskew delay for DQ bit 2. */
+        uint32_t wr_dq1_deskew_delay   : 4;  /**< [  7:  4](R/W) Deskew delay for DQ bit 1. */
+        uint32_t wr_dq0_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for DQ bit 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t wr_dq0_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for DQ bit 0. */
+        uint32_t wr_dq1_deskew_delay   : 4;  /**< [  7:  4](R/W) Deskew delay for DQ bit 1. */
+        uint32_t wr_dq2_deskew_delay   : 4;  /**< [ 11:  8](R/W) Deskew delay for DQ bit 2. */
+        uint32_t wr_dq3_deskew_delay   : 4;  /**< [ 15: 12](R/W) Deskew delay for DQ bit 3. */
+        uint32_t wr_dq4_deskew_delay   : 4;  /**< [ 19: 16](R/W) Deskew delay for DQ bit 4. */
+        uint32_t wr_dq5_deskew_delay   : 4;  /**< [ 23: 20](R/W) Deskew delay for DQ bit 5. */
+        uint32_t wr_dq6_deskew_delay   : 4;  /**< [ 27: 24](R/W) Deskew delay for DQ bit 6. */
+        uint32_t wr_dq7_deskew_delay   : 4;  /**< [ 31: 28](R/W) Deskew delay for DQ bit 7. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_wr_deskew_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_wr_deskew cavm_spix_phy_dataslice_rfile_phy_wr_deskew_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000109cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) cavm_spix_phy_dataslice_rfile_phy_wr_deskew_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) "SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
+ *
+ * SPI Phy Dataslice Rfile Phy Wr Deskew Pd Control 0 Register
+ * This register holds the values of phase detect block for each DQ bit on the write path.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t dq3_sw_dq_phase_bypass : 1; /**< [ 30: 30](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift= 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t dq3_en_sw_half_cycle  : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq3_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq3_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq3_sw_half_cycle_shift field (bit [12]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq3_sw_half_cycle_shift : 1;/**< [ 28: 28](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 3 of the write data path. */
+        uint32_t reserved_27           : 1;
+        uint32_t dq3_phase_detect_sel  : 3;  /**< [ 26: 24](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_23           : 1;
+        uint32_t dq2_sw_dq_phase_bypass : 1; /**< [ 22: 22](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift= 0 and a delay line setting of 0x80-0xff means
+                                                                 half_cycle_shift = 1. */
+        uint32_t dq2_en_sw_half_cycle  : 1;  /**< [ 21: 21](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq2_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq2_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq2_sw_half_cycle_shift field (bit [8]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq2_sw_half_cycle_shift : 1;/**< [ 20: 20](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 2 of the write data path. */
+        uint32_t reserved_19           : 1;
+        uint32_t dq2_phase_detect_sel  : 3;  /**< [ 18: 16](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_15           : 1;
+        uint32_t dq1_sw_dq_phase_bypass : 1; /**< [ 14: 14](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t dq1_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq1_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq1_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq1_sw_half_cycle_shift field (bit [4]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq1_sw_half_cycle_shift : 1;/**< [ 12: 12](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 1 of the write data path. */
+        uint32_t reserved_11           : 1;
+        uint32_t dq1_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_7            : 1;
+        uint32_t dq0_sw_dq_phase_bypass : 1; /**< [  6:  6](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t dq0_en_sw_half_cycle  : 1;  /**< [  5:  5](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock.
+                                                                 This field is valid when dq0_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq0_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq0_sw_half_cycle_shift field (bit [0]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq0_sw_half_cycle_shift : 1;/**< [  4:  4](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 0 of the write data path. */
+        uint32_t reserved_3            : 1;
+        uint32_t dq0_phase_detect_sel  : 3;  /**< [  2:  0](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+#else /* Word 0 - Little Endian */
+        uint32_t dq0_phase_detect_sel  : 3;  /**< [  2:  0](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_3            : 1;
+        uint32_t dq0_sw_half_cycle_shift : 1;/**< [  4:  4](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 0 of the write data path. */
+        uint32_t dq0_en_sw_half_cycle  : 1;  /**< [  5:  5](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock.
+                                                                 This field is valid when dq0_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq0_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq0_sw_half_cycle_shift field (bit [0]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq0_sw_dq_phase_bypass : 1; /**< [  6:  6](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_7            : 1;
+        uint32_t dq1_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_11           : 1;
+        uint32_t dq1_sw_half_cycle_shift : 1;/**< [ 12: 12](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 1 of the write data path. */
+        uint32_t dq1_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq1_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq1_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq1_sw_half_cycle_shift field (bit [4]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq1_sw_dq_phase_bypass : 1; /**< [ 14: 14](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_15           : 1;
+        uint32_t dq2_phase_detect_sel  : 3;  /**< [ 18: 16](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_19           : 1;
+        uint32_t dq2_sw_half_cycle_shift : 1;/**< [ 20: 20](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 2 of the write data path. */
+        uint32_t dq2_en_sw_half_cycle  : 1;  /**< [ 21: 21](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq2_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq2_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq2_sw_half_cycle_shift field (bit [8]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq2_sw_dq_phase_bypass : 1; /**< [ 22: 22](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift= 0 and a delay line setting of 0x80-0xff means
+                                                                 half_cycle_shift = 1. */
+        uint32_t reserved_23           : 1;
+        uint32_t dq3_phase_detect_sel  : 3;  /**< [ 26: 24](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_27           : 1;
+        uint32_t dq3_sw_half_cycle_shift : 1;/**< [ 28: 28](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 3 of the write data path. */
+        uint32_t dq3_en_sw_half_cycle  : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq3_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq3_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq3_sw_half_cycle_shift field (bit [12]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq3_sw_dq_phase_bypass : 1; /**< [ 30: 30](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift= 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0 cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010a4ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) "SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
+ *
+ * SPI Phy Dataslice Rfile Phy Wr Deskew Pd Control 1 Register
+ * This register holds the values of phase detect block for each DQ bit on the write path.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t dq7_sw_dq_phase_bypass : 1; /**< [ 30: 30](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t dq7_en_sw_half_cycle  : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq7_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq7_sw_half_cycle_shift field of this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq7_sw_half_cycle_shift field (bit [28]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq7_sw_half_cycle_shift : 1;/**< [ 28: 28](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 7 of the write data path. */
+        uint32_t reserved_27           : 1;
+        uint32_t dq7_phase_detect_sel  : 3;  /**< [ 26: 24](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_23           : 1;
+        uint32_t dq6_sw_dq_phase_bypass : 1; /**< [ 22: 22](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t dq6_en_sw_half_cycle  : 1;  /**< [ 21: 21](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq6_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq6_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq6_sw_half_cycle_shift field (bit [24]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq6_sw_half_cycle_shift : 1;/**< [ 20: 20](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 6 of the write data path. */
+        uint32_t reserved_19           : 1;
+        uint32_t dq6_phase_detect_sel  : 3;  /**< [ 18: 16](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_15           : 1;
+        uint32_t dq5_sw_dq_phase_bypass : 1; /**< [ 14: 14](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t dq5_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock.
+                                                                 This field is valid when dq5_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq5_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq5_sw_half_cycle_shift field (bit [20]) of the phy_wr_deskew_pd_ctrl_reg parameter be
+                                                                 cleared to '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than
+                                                                 a 1/2 cycle. It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq5_sw_half_cycle_shift : 1;/**< [ 12: 12](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 5 of the write data path. */
+        uint32_t reserved_11           : 1;
+        uint32_t dq5_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_7            : 1;
+        uint32_t dq4_sw_dq_phase_bypass : 1; /**< [  6:  6](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t dq4_en_sw_half_cycle  : 1;  /**< [  5:  5](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock.
+                                                                 This field is valid when dq4_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq4_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq4_sw_half_cycle_shift field (bit [16]) of the phy_wr_deskew_pd_ctrl_reg parameter be
+                                                                 cleared to '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than
+                                                                 a 1/2 cycle. It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq4_sw_half_cycle_shift : 1;/**< [  4:  4](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 4 of the write data path. */
+        uint32_t reserved_3            : 1;
+        uint32_t dq4_phase_detect_sel  : 3;  /**< [  2:  0](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+#else /* Word 0 - Little Endian */
+        uint32_t dq4_phase_detect_sel  : 3;  /**< [  2:  0](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_3            : 1;
+        uint32_t dq4_sw_half_cycle_shift : 1;/**< [  4:  4](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 4 of the write data path. */
+        uint32_t dq4_en_sw_half_cycle  : 1;  /**< [  5:  5](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock.
+                                                                 This field is valid when dq4_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq4_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq4_sw_half_cycle_shift field (bit [16]) of the phy_wr_deskew_pd_ctrl_reg parameter be
+                                                                 cleared to '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than
+                                                                 a 1/2 cycle. It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq4_sw_dq_phase_bypass : 1; /**< [  6:  6](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_7            : 1;
+        uint32_t dq5_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_11           : 1;
+        uint32_t dq5_sw_half_cycle_shift : 1;/**< [ 12: 12](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 5 of the write data path. */
+        uint32_t dq5_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock.
+                                                                 This field is valid when dq5_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq5_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq5_sw_half_cycle_shift field (bit [20]) of the phy_wr_deskew_pd_ctrl_reg parameter be
+                                                                 cleared to '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than
+                                                                 a 1/2 cycle. It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq5_sw_dq_phase_bypass : 1; /**< [ 14: 14](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_15           : 1;
+        uint32_t dq6_phase_detect_sel  : 3;  /**< [ 18: 16](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_19           : 1;
+        uint32_t dq6_sw_half_cycle_shift : 1;/**< [ 20: 20](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 6 of the write data path. */
+        uint32_t dq6_en_sw_half_cycle  : 1;  /**< [ 21: 21](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq6_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq6_sw_half_cycle_shift field this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq6_sw_half_cycle_shift field (bit [24]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq6_sw_dq_phase_bypass : 1; /**< [ 22: 22](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_23           : 1;
+        uint32_t dq7_phase_detect_sel  : 3;  /**< [ 26: 24](R/W) DLL Phase Detect Selector for DQ generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_27           : 1;
+        uint32_t dq7_sw_half_cycle_shift : 1;/**< [ 28: 28](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit 7 of the write data path. */
+        uint32_t dq7_en_sw_half_cycle  : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. This field is valid when
+                                                                 dq7_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the dq7_sw_half_cycle_shift field of this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 dq7_sw_half_cycle_shift field (bit [28]) of the phy_wr_deskew_pd_ctrl_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t dq7_sw_dq_phase_bypass : 1; /**< [ 30: 30](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1 cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010a8ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) "SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
+ *
+ * SPI Phy Dataslice Rfile Phy Wr Rd Deskew Command Register
+ * This register holds the values of delay of CMD bit on the write and read path as
+ * well as the values of
+ * phase detect block for CMD bit on the write path.
+ */
+union cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
+{
+    uint32_t u;
+    struct cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t rd_cmd_deskew_delay   : 4;  /**< [ 27: 24](R/W) Deskew delay for CMD signal. */
+        uint32_t reserved_17_23        : 7;
+        uint32_t cmd_clkperiod_delay   : 1;  /**< [ 16: 16](R/W) Defines additional latency on the CMD signal. */
+        uint32_t reserved_15           : 1;
+        uint32_t cmd_sw_dq_phase_bypass : 1; /**< [ 14: 14](R/W) 0x0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 0x1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t cmd_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. this field is valid when
+                                                                 cmd_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the cmd_sw_half_cycle_shift field of this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 cmd_sw_half_cycle_shift field (bit [12]) of the phy_wr_rd_deskew_cmd_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t cmd_sw_half_cycle_shift : 1;/**< [ 12: 12](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit of the write cmd path. */
+        uint32_t reserved_11           : 1;
+        uint32_t cmd_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for CMD generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal */
+#else /* Word 0 - Little Endian */
+        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal */
+        uint32_t reserved_4_7          : 4;
+        uint32_t cmd_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for CMD generation to handle the clock domain crossing between the clock
+                                                                 and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
+                                                                 flip-flops. Defaults to 0x0.
+                                                                 0x0 = One delay element.
+                                                                 0x1 = Two delay element.
+                                                                 0x2 = Three delay element.
+                                                                 0x3 = Four delay element.
+                                                                 0x4 = Five delay element.
+                                                                 0x5 = Six delay element.
+                                                                 0x6 = Seven delay element.
+                                                                 0x7 = Eight delay element. */
+        uint32_t reserved_11           : 1;
+        uint32_t cmd_sw_half_cycle_shift : 1;/**< [ 12: 12](R/W) 0 = No effect.
+                                                                 1 = Adds a half clock delay to the bit of the write cmd path. */
+        uint32_t cmd_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
+                                                                 domain on the positive or negative edge of the PHY clock. this field is valid when
+                                                                 cmd_sw_dq_phase_bypass is low.
+                                                                 0 = Hardware automatically controls any shifting needed for the write level delay line.
+                                                                 1 = The setting in the cmd_sw_half_cycle_shift field of this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
+                                                                 cmd_sw_half_cycle_shift field (bit [12]) of the phy_wr_rd_deskew_cmd_reg parameter be cleared to
+                                                                 '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
+                                                                 It is recommended to allow the hardware to control this automatically. */
+        uint32_t cmd_sw_dq_phase_bypass : 1; /**< [ 14: 14](R/W) 0x0 = Use phase detect circuit to determine the half_cycle_shift.
+                                                                 0x1 = Use the clk_wr_delay delay line setting to determine the half_cycle_shift. A delay line
+                                                                 setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff
+                                                                 means half_cycle_shift = 1. */
+        uint32_t reserved_15           : 1;
+        uint32_t cmd_clkperiod_delay   : 1;  /**< [ 16: 16](R/W) Defines additional latency on the CMD signal. */
+        uint32_t reserved_17_23        : 7;
+        uint32_t rd_cmd_deskew_delay   : 4;  /**< [ 27: 24](R/W) Deskew delay for CMD signal. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd_s cn; */
+};
+typedef union cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd_t;
+
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64_t a)
+{
+    if (a<=1)
+        return 0x8040000010a0ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd_t
+#define bustype_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) "SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD"
+#define device_bar_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) (a)
+#define arguments_CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_clock_mode_settings
+ *
+ * SPI Rf Minictrl Regs Clock Mode Settings Register
+ * SPI Clock Mode.
+ */
+union cavm_spix_rf_minictrl_regs_clock_mode_settings
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_clock_mode_settings_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t spi_clock_mode        : 1;  /**< [  0:  0](R/W) Defines SPI Clock Mode. For DDR transfers this bit should always be set low to meet DDR Flash
+                                                                 timings. For SDR transfers, allowable values are as follows:
+                                                                 0 = SPI MODE 0 (clock is low when SPI bus is in idle).
+                                                                 1 = SPI MODE 3 (clock is high when SPI bus is in idle). */
+#else /* Word 0 - Little Endian */
+        uint32_t spi_clock_mode        : 1;  /**< [  0:  0](R/W) Defines SPI Clock Mode. For DDR transfers this bit should always be set low to meet DDR Flash
+                                                                 timings. For SDR transfers, allowable values are as follows:
+                                                                 0 = SPI MODE 0 (clock is low when SPI bus is in idle).
+                                                                 1 = SPI MODE 3 (clock is high when SPI bus is in idle). */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_clock_mode_settings_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_clock_mode_settings cavm_spix_rf_minictrl_regs_clock_mode_settings_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001008ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(a) cavm_spix_rf_minictrl_regs_clock_mode_settings_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(a) "SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_dev_active_max_reg
+ *
+ * SPI Rf Minictrl Regs Dev Active Max Register
+ * "This register is used to introduce maximum number of xspi_clk cycles through which
+ * CS# will be kept
+ * active (low) on Memory interface.""
+ */
+union cavm_spix_rf_minictrl_regs_dev_active_max_reg
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_dev_active_max_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dev_active_max        : 32; /**< [ 31:  0](R/W) The value in this field is only valid if bit[125] (TCMS_EN) of READ_PROFILE_1, PP_PROFILE_1 or
+                                                                 CMD_CODE_SEQ is set high. This timing should be enabled only while working with RAM devices which
+                                                                 require timing constraint for Chip Select low pulse width (the most common name is tCMS or tCEM in
+                                                                 device specification). If any of READ_PROFILE_1, PP_PROFILE_1 or CMD_CODE_SEQ sequence is glued
+                                                                 with DATA_SEQ, the controller internally calculates transaction timing (providing bit[125]
+                                                                 (TCMS_EN) is enabled) and splits requested sequence for smaller  pieces keeping track on not
+                                                                 exceeding dev_active_max (the transactions being split do not need to last exactly dev_active_max
+                                                                 number of cycles but slightly less depending on word alignment). The software must configure this
+                                                                 timing to be greater than the smallest possible to formulate minimal sub-sequence out of requested
+                                                                 sequence: (dev_active_max \> CSSOT + Command/address phase + dummy phase + 8B (single system data
+                                                                 word) + CSEOT + 1 (controller latency)). The assumption is made that operation frequency is
+                                                                 selected fast enough to handle all other commands supported by xSPI RAM Device without Chip Select
+                                                                 low pulse width timing violation. */
+#else /* Word 0 - Little Endian */
+        uint32_t dev_active_max        : 32; /**< [ 31:  0](R/W) The value in this field is only valid if bit[125] (TCMS_EN) of READ_PROFILE_1, PP_PROFILE_1 or
+                                                                 CMD_CODE_SEQ is set high. This timing should be enabled only while working with RAM devices which
+                                                                 require timing constraint for Chip Select low pulse width (the most common name is tCMS or tCEM in
+                                                                 device specification). If any of READ_PROFILE_1, PP_PROFILE_1 or CMD_CODE_SEQ sequence is glued
+                                                                 with DATA_SEQ, the controller internally calculates transaction timing (providing bit[125]
+                                                                 (TCMS_EN) is enabled) and splits requested sequence for smaller  pieces keeping track on not
+                                                                 exceeding dev_active_max (the transactions being split do not need to last exactly dev_active_max
+                                                                 number of cycles but slightly less depending on word alignment). The software must configure this
+                                                                 timing to be greater than the smallest possible to formulate minimal sub-sequence out of requested
+                                                                 sequence: (dev_active_max \> CSSOT + Command/address phase + dummy phase + 8B (single system data
+                                                                 word) + CSEOT + 1 (controller latency)). The assumption is made that operation frequency is
+                                                                 selected fast enough to handle all other commands supported by xSPI RAM Device without Chip Select
+                                                                 low pulse width timing violation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_dev_active_max_reg_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_dev_active_max_reg cavm_spix_rf_minictrl_regs_dev_active_max_reg_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001018ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(a) cavm_spix_rf_minictrl_regs_dev_active_max_reg_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(a) "SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_dev_delay_reg
+ *
+ * SPI Rf Minictrl Regs Dev Delay Register
+ * This register is used to introduce relative device selection delays with respect to generated xSPI
+ * Flash Interface.
+ */
+union cavm_spix_rf_minictrl_regs_dev_delay_reg
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_dev_delay_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t csda_min_delay        : 8;  /**< [ 31: 24](R/W) CSDA_MIN - Minimum Chip Select de-assertion timing. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t cseot_delay           : 8;  /**< [ 15:  8](R/W) Chip Select End Of Transfer. It allows to improve last active clock edge to CS de-assertion device
+                                                                 timing. */
+        uint32_t cssot_delay           : 8;  /**< [  7:  0](R/W) Chip Select Start Of Transfer. It allows to improve CS de-assertion device timing to first active
+                                                                 clock edge. */
+#else /* Word 0 - Little Endian */
+        uint32_t cssot_delay           : 8;  /**< [  7:  0](R/W) Chip Select Start Of Transfer. It allows to improve CS de-assertion device timing to first active
+                                                                 clock edge. */
+        uint32_t cseot_delay           : 8;  /**< [ 15:  8](R/W) Chip Select End Of Transfer. It allows to improve last active clock edge to CS de-assertion device
+                                                                 timing. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t csda_min_delay        : 8;  /**< [ 31: 24](R/W) CSDA_MIN - Minimum Chip Select de-assertion timing. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_dev_delay_reg_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_dev_delay_reg cavm_spix_rf_minictrl_regs_dev_delay_reg_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001010ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(a) cavm_spix_rf_minictrl_regs_dev_delay_reg_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(a) "SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_dll_phy_ctrl
+ *
+ * SPI Rf Minictrl Regs Dll Phy Control Register
+ * Configuration of the resynchronization of slave DLL of PHY. When the PHY is used
+ * with the Cadence xSPI
+ * controller, this register is automatically updated by the Device Discovery module during
+ * initialization.
+ */
+union cavm_spix_rf_minictrl_regs_dll_phy_ctrl
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_dll_phy_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t dfi_ctrlupd_req       : 1;  /**< [ 25: 25](R/W) Signal to re-synchronize the DLLs and read and write FIFO pointers. To send the update request to
+                                                                 the PHY, the host must first set this field high then wait until this bit will be set low. This
+                                                                 signal should not be used when automatic resync is enabled that is:. 'dll_phy_update_cnt' is not
+                                                                 zero. */
+        uint32_t dll_rst_n             : 1;  /**< [ 24: 24](R/W) Signal to reset the DLLs of the PHY and start searching for lock again. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t sdr_edge_active       : 1;  /**< [ 21: 21](R/W) The PHY samples data on both edges of sampling clock. In SDR Mode, only one sample is needed. If
+                                                                 this bit is low, the controller propagates data from positive edge of PHY sampling clock. If this
+                                                                 bit is high, the controller propagates data from negative edge of PHY sampling clock. In DDR Mode,
+                                                                 this bit should be set low. */
+        uint32_t dqs_last_data_drop_en : 1;  /**< [ 20: 20](R/W) This bit should be set when the Flash Device being used issues data on negative edge of Flash clock
+                                                                 and returns them with DQS and the PHY is configured to sample data in DQS Mode. In this case,
+                                                                 number of DQS edges equals to number of requested data + 1. If this bit is set, the controller
+                                                                 internally requests this redundant data at the end of the transfer cleaning up the PHY fifo. */
+        uint32_t reserved_18_19        : 2;
+        uint32_t extended_wr_mode      : 1;  /**< [ 17: 17](R/W) PHY functionality not applicable for xSPI Flash Controller. */
+        uint32_t extended_rd_mode      : 1;  /**< [ 16: 16](R/W) PHY functionality not applicable for xSPI Flash Controller. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t resync_high_wait_cnt  : 4;  /**< [ 11:  8](R/W) This field defines the number of Minicontroller clock cycles (xspi_clk) for  which the DLL update
+                                                                 request (dfi_ctrlupd_req) has to be asserted to resynchronize the DLLs and read and write FIFO
+                                                                 pointers. */
+        uint32_t resync_idle_cnt       : 8;  /**< [  7:  0](R/W) This field defines the wait time (in terms of Minicontroller clock cycles (xspi_clk)) between the
+                                                                 de-assertion of the DLL update request (dfi_ctrlupd_req) and resuming traffic to the PHY. */
+#else /* Word 0 - Little Endian */
+        uint32_t resync_idle_cnt       : 8;  /**< [  7:  0](R/W) This field defines the wait time (in terms of Minicontroller clock cycles (xspi_clk)) between the
+                                                                 de-assertion of the DLL update request (dfi_ctrlupd_req) and resuming traffic to the PHY. */
+        uint32_t resync_high_wait_cnt  : 4;  /**< [ 11:  8](R/W) This field defines the number of Minicontroller clock cycles (xspi_clk) for  which the DLL update
+                                                                 request (dfi_ctrlupd_req) has to be asserted to resynchronize the DLLs and read and write FIFO
+                                                                 pointers. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t extended_rd_mode      : 1;  /**< [ 16: 16](R/W) PHY functionality not applicable for xSPI Flash Controller. */
+        uint32_t extended_wr_mode      : 1;  /**< [ 17: 17](R/W) PHY functionality not applicable for xSPI Flash Controller. */
+        uint32_t reserved_18_19        : 2;
+        uint32_t dqs_last_data_drop_en : 1;  /**< [ 20: 20](R/W) This bit should be set when the Flash Device being used issues data on negative edge of Flash clock
+                                                                 and returns them with DQS and the PHY is configured to sample data in DQS Mode. In this case,
+                                                                 number of DQS edges equals to number of requested data + 1. If this bit is set, the controller
+                                                                 internally requests this redundant data at the end of the transfer cleaning up the PHY fifo. */
+        uint32_t sdr_edge_active       : 1;  /**< [ 21: 21](R/W) The PHY samples data on both edges of sampling clock. In SDR Mode, only one sample is needed. If
+                                                                 this bit is low, the controller propagates data from positive edge of PHY sampling clock. If this
+                                                                 bit is high, the controller propagates data from negative edge of PHY sampling clock. In DDR Mode,
+                                                                 this bit should be set low. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t dll_rst_n             : 1;  /**< [ 24: 24](R/W) Signal to reset the DLLs of the PHY and start searching for lock again. */
+        uint32_t dfi_ctrlupd_req       : 1;  /**< [ 25: 25](R/W) Signal to re-synchronize the DLLs and read and write FIFO pointers. To send the update request to
+                                                                 the PHY, the host must first set this field high then wait until this bit will be set low. This
+                                                                 signal should not be used when automatic resync is enabled that is:. 'dll_phy_update_cnt' is not
+                                                                 zero. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_dll_phy_ctrl_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_dll_phy_ctrl cavm_spix_rf_minictrl_regs_dll_phy_ctrl_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001034ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(a) cavm_spix_rf_minictrl_regs_dll_phy_ctrl_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(a) "SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_dll_phy_update_cnt
+ *
+ * SPI Rf Minictrl Regs Dll Phy Update Cnt Register
+ * Configuration of the resynchronization of slave DLL of PHY.
+ */
+union cavm_spix_rf_minictrl_regs_dll_phy_update_cnt
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_dll_phy_update_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t resync_cnt            : 32; /**< [ 31:  0](R/W) This field defines the time interval (in terms of Minicontroller clock cycles (xspi_clk)) to send
+                                                                 an update (assert dfi_ctrlupd_req high) to the PHY to re-synchronize the slave DLL values with
+                                                                 that of the master DLL and to also re-synchronize the read and write FIFO pointers in the read
+                                                                 path. If the value in this field is zero, the controller will not send DLL update requests to the
+                                                                 PHY after it completes last DLL update request (if there is one in progress). dfi_ctrlupd_req
+                                                                 signal can be controlled directly by the host using the dfi_ctrlupd_req field in the dll_phy_ctrl
+                                                                 register.
+                                                                 NOTE: While this feature is enabled the access to the PHY registers shall not be performed. */
+#else /* Word 0 - Little Endian */
+        uint32_t resync_cnt            : 32; /**< [ 31:  0](R/W) This field defines the time interval (in terms of Minicontroller clock cycles (xspi_clk)) to send
+                                                                 an update (assert dfi_ctrlupd_req high) to the PHY to re-synchronize the slave DLL values with
+                                                                 that of the master DLL and to also re-synchronize the read and write FIFO pointers in the read
+                                                                 path. If the value in this field is zero, the controller will not send DLL update requests to the
+                                                                 PHY after it completes last DLL update request (if there is one in progress). dfi_ctrlupd_req
+                                                                 signal can be controlled directly by the host using the dfi_ctrlupd_req field in the dll_phy_ctrl
+                                                                 register.
+                                                                 NOTE: While this feature is enabled the access to the PHY registers shall not be performed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_dll_phy_update_cnt_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_dll_phy_update_cnt cavm_spix_rf_minictrl_regs_dll_phy_update_cnt_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001030ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(a) cavm_spix_rf_minictrl_regs_dll_phy_update_cnt_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(a) "SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_hf_offset_reg
+ *
+ * SPI Rf Minictrl Regs Hf Offset Register
+ * This register is used to decode Legacy Hyper Flash and xSPI Profile 2.0 address into
+ * interface address
+ * taking into account "reserved" area in command format.
+ */
+union cavm_spix_rf_minictrl_regs_hf_offset_reg
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_hf_offset_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_14_31        : 18;
+        uint32_t hf_offset_size        : 6;  /**< [ 13:  8](R/W) Offset size of reserved area in command format. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t hf_offset_index       : 6;  /**< [  5:  0](R/W) Starting index of reserved area in command format. */
+#else /* Word 0 - Little Endian */
+        uint32_t hf_offset_index       : 6;  /**< [  5:  0](R/W) Starting index of reserved area in command format. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t hf_offset_size        : 6;  /**< [ 13:  8](R/W) Offset size of reserved area in command format. */
+        uint32_t reserved_14_31        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_hf_offset_reg_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_hf_offset_reg cavm_spix_rf_minictrl_regs_hf_offset_reg_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001020ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(a) cavm_spix_rf_minictrl_regs_hf_offset_reg_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(a) "SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_jedec_rst_timing_reg
+ *
+ * SPI Rf Minictrl Regs Jedec Rst Timing Register
+ * This register is used to introduce relative device selection delays applicable for JEDEC Reset
+ * Instruction.
+ */
+union cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t tcsl_delay            : 8;  /**< [ 15:  8](R/W) Defines how many xspi_clk cycles constitute tCSL timing of JEDEC Reset Instruction. */
+        uint32_t tcsh_delay            : 8;  /**< [  7:  0](R/W) Defines how many xspi_clk cycles constitute tCSH timing of JEDEC Reset Instruction. */
+#else /* Word 0 - Little Endian */
+        uint32_t tcsh_delay            : 8;  /**< [  7:  0](R/W) Defines how many xspi_clk cycles constitute tCSH timing of JEDEC Reset Instruction. */
+        uint32_t tcsl_delay            : 8;  /**< [ 15:  8](R/W) Defines how many xspi_clk cycles constitute tCSL timing of JEDEC Reset Instruction. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(uint64_t a)
+{
+    if (a<=1)
+        return 0x80400000100cll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(a) cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(a) "SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_reset_pin_settings
+ *
+ * SPI Rf Minictrl Regs Reset Pin Settings Register
+ * Software Controlled Hardware RESET.
+ */
+union cavm_spix_rf_minictrl_regs_reset_pin_settings
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_reset_pin_settings_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t sw_ctrled_hw_rst_bank7 : 1; /**< [ 15: 15](R/W) "Activates 7th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[7] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[7] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank6 : 1; /**< [ 14: 14](R/W) "Activates 6th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[6] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[6] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank5 : 1; /**< [ 13: 13](R/W) "Activates 5th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[5] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[5] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank4 : 1; /**< [ 12: 12](R/W) "Activates 4th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[4] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[4] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank3 : 1; /**< [ 11: 11](R/W) "Activates 3rd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[3] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[3] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank2 : 1; /**< [ 10: 10](R/W) "Activates 2nd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[2] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[2] device is enabled for Software Controlled Hardware Reset trigger.
+                                                                 Reset trigger."" */
+        uint32_t sw_ctrled_hw_rst_bank1 : 1; /**< [  9:  9](R/W) "Activates 1st bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[1] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[1] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank0 : 1; /**< [  8:  8](R/W) "Activates 0th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[0] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[0] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t reserved_5_7          : 3;
+        uint32_t sw_ctrled_hw_rst_option : 1;/**< [  4:  4](R/W) "Defines Hardware RESET options as follows:
+                                                                 0 = Device RESET# pin will be used for toggling Device Hardware Reset functionality.
+                                                                 1 = Device DQ3 pin will be used for toggling Device Hardware Reset functionality." */
+        uint32_t reserved_2_3          : 2;
+        uint32_t rst_dq3_enable        : 1;  /**< [  1:  1](R/W) Enables passing RESET to the DQ3 port of the device (by switching direction of DQ3 pad). */
+        uint32_t sw_ctrled_hw_rst      : 1;  /**< [  0:  0](R/W) "Software Controlled Hardware Reset Signal. Value of this field is directly routed to the DQ3 or
+                                                                 RESET# output signal (depending on sw_ctrled_hw_rst_option). The value can be changed only when
+                                                                 xSPI Flash interface is in idle state (Minicontroller does not perform any sequence). Value of the
+                                                                 Software Controlled Hardware Reset Signal is overwritten in case DQ3 is valid transaction pin. The
+                                                                 controller does not check the device hardware reset setup/hold timings - this must be ensured by
+                                                                 the host. The host is also responsible for triggering suitable RESET method by selecting
+                                                                 corresponding Bank Number and RESET method (as defined in this register). Controller does not
+                                                                 drive RESET# value during read data phase of any active transfer(as transfer direction switches in
+                                                                 this transfer part)." */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_ctrled_hw_rst      : 1;  /**< [  0:  0](R/W) "Software Controlled Hardware Reset Signal. Value of this field is directly routed to the DQ3 or
+                                                                 RESET# output signal (depending on sw_ctrled_hw_rst_option). The value can be changed only when
+                                                                 xSPI Flash interface is in idle state (Minicontroller does not perform any sequence). Value of the
+                                                                 Software Controlled Hardware Reset Signal is overwritten in case DQ3 is valid transaction pin. The
+                                                                 controller does not check the device hardware reset setup/hold timings - this must be ensured by
+                                                                 the host. The host is also responsible for triggering suitable RESET method by selecting
+                                                                 corresponding Bank Number and RESET method (as defined in this register). Controller does not
+                                                                 drive RESET# value during read data phase of any active transfer(as transfer direction switches in
+                                                                 this transfer part)." */
+        uint32_t rst_dq3_enable        : 1;  /**< [  1:  1](R/W) Enables passing RESET to the DQ3 port of the device (by switching direction of DQ3 pad). */
+        uint32_t reserved_2_3          : 2;
+        uint32_t sw_ctrled_hw_rst_option : 1;/**< [  4:  4](R/W) "Defines Hardware RESET options as follows:
+                                                                 0 = Device RESET# pin will be used for toggling Device Hardware Reset functionality.
+                                                                 1 = Device DQ3 pin will be used for toggling Device Hardware Reset functionality." */
+        uint32_t reserved_5_7          : 3;
+        uint32_t sw_ctrled_hw_rst_bank0 : 1; /**< [  8:  8](R/W) "Activates 0th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[0] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[0] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank1 : 1; /**< [  9:  9](R/W) "Activates 1st bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[1] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[1] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank2 : 1; /**< [ 10: 10](R/W) "Activates 2nd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[2] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[2] device is enabled for Software Controlled Hardware Reset trigger.
+                                                                 Reset trigger."" */
+        uint32_t sw_ctrled_hw_rst_bank3 : 1; /**< [ 11: 11](R/W) "Activates 3rd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[3] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[3] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank4 : 1; /**< [ 12: 12](R/W) "Activates 4th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[4] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[4] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank5 : 1; /**< [ 13: 13](R/W) "Activates 5th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[5] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[5] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank6 : 1; /**< [ 14: 14](R/W) "Activates 6th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[6] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[6] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank7 : 1; /**< [ 15: 15](R/W) "Activates 7th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 only for #RESET pin option):
+                                                                 0 = CS[7] device is disabled for Software Controlled Hardware Reset trigger.
+                                                                 1 = CS[7] device is enabled for Software Controlled Hardware Reset trigger." */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_reset_pin_settings_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_reset_pin_settings cavm_spix_rf_minictrl_regs_reset_pin_settings_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001004ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(a) cavm_spix_rf_minictrl_regs_reset_pin_settings_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(a) "SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_rst_recovery_reg
+ *
+ * SPI Rf Minictrl Regs Rst Recovery Register
+ * This register is used to introduce relative reset recovery delay with respect to
+ * generated xSPI Flash
+ * Interface.
+ */
+union cavm_spix_rf_minictrl_regs_rst_recovery_reg
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_rst_recovery_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rst_recovery          : 32; /**< [ 31:  0](R/W) It defines additional delay for CS de-assertion to accommodate Device Reset Recovery timing. */
+#else /* Word 0 - Little Endian */
+        uint32_t rst_recovery          : 32; /**< [ 31:  0](R/W) It defines additional delay for CS de-assertion to accommodate Device Reset Recovery timing. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_rst_recovery_reg_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_rst_recovery_reg cavm_spix_rf_minictrl_regs_rst_recovery_reg_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001014ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(a) cavm_spix_rf_minictrl_regs_rst_recovery_reg_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(a) "SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) spi#_rf_minictrl_regs_wp_settings
+ *
+ * SPI Rf Minictrl Regs Wp Settings Register
+ * Write Protect.
+ */
+union cavm_spix_rf_minictrl_regs_wp_settings
+{
+    uint32_t u;
+    struct cavm_spix_rf_minictrl_regs_wp_settings_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t wp_enable             : 1;  /**< [  1:  1](R/W) Enables passing Write protect signal to the device (by switching direction of DQ2 pad). */
+        uint32_t wp                    : 1;  /**< [  0:  0](R/W) Write protect signal for all devices. Value of this register is directly routed to the DQ2 output
+                                                                 signal. The value can be changed only when xSPI Flash interface is in idle state (minicontroller
+                                                                 does not perform any sequence). Value of the write protection signal is overwritten in case DQ2 is
+                                                                 valid transaction pin. The controller does not check the write protect setup/hold timings - this
+                                                                 must be ensured by the host. Controller does not drive Write Protect value during read data phase
+                                                                 of any active transfer(as transfer direction switches in this transfer part). Write Protect on DQ2
+                                                                 functionality is only supported by Flash Devices and the controller in single and dual SPI Modes. */
+#else /* Word 0 - Little Endian */
+        uint32_t wp                    : 1;  /**< [  0:  0](R/W) Write protect signal for all devices. Value of this register is directly routed to the DQ2 output
+                                                                 signal. The value can be changed only when xSPI Flash interface is in idle state (minicontroller
+                                                                 does not perform any sequence). Value of the write protection signal is overwritten in case DQ2 is
+                                                                 valid transaction pin. The controller does not check the write protect setup/hold timings - this
+                                                                 must be ensured by the host. Controller does not drive Write Protect value during read data phase
+                                                                 of any active transfer(as transfer direction switches in this transfer part). Write Protect on DQ2
+                                                                 functionality is only supported by Flash Devices and the controller in single and dual SPI Modes. */
+        uint32_t wp_enable             : 1;  /**< [  1:  1](R/W) Enables passing Write protect signal to the device (by switching direction of DQ2 pad). */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_rf_minictrl_regs_wp_settings_s cn; */
+};
+typedef union cavm_spix_rf_minictrl_regs_wp_settings cavm_spix_rf_minictrl_regs_wp_settings_t;
+
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001000ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_WP_SETTINGS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(a) cavm_spix_rf_minictrl_regs_wp_settings_t
+#define bustype_CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(a) "SPIX_RF_MINICTRL_REGS_WP_SETTINGS"
+#define device_bar_CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(a) (a)
+#define arguments_CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_shim_cfg
+ *
+ * SPI Shim Configuration Register
+ * This register allows configuration of various shim (XSPI) features. The fields XS_NCB_OOB_*
+ * are captured when there are no outstanding OOB errors indicated in INTSTAT and a new OOB error
+ * arrives. The fields XS_BAD_DMA_* are captured when there are no outstanding DMA errors
+ * indicated in INTSTAT and a new DMA error arrives.
+ */
+union cavm_spix_shim_cfg
+{
+    uint64_t u;
+    struct cavm_spix_shim_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound XSPI register access.
+                                                                 0 = read.
+                                                                 1 = write. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound XSPI register access. The NCB outbound SRCID for the OOB
+                                                                 error.
+                                                                 \<59:58\> = chipID.
+                                                                 \<57\> = Request source: 0 = core, 1 = NCB-device.
+                                                                 \<56:51\> = Core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
+                                                                 \<50:48\> = SubID. */
+        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from XSPI.
+                                                                 0 = Read error log.
+                                                                 1 = Write error log. */
+        uint64_t reserved_44_46        : 3;
+        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from XSPI. Encodes the type of error encountered
+                                                                 (error largest encoded value has priority). See SPI_XM_BAD_DMA_TYPE_E. */
+        uint64_t reserved_14_39        : 26;
+        uint64_t dma_read_cmd          : 2;  /**< [ 13: 12](R/W) Selects the NCB read command used by DMA accesses. See SPI_DMA_READ_CMD_E. */
+        uint64_t reserved_11           : 1;
+        uint64_t dma_write_cmd         : 1;  /**< [ 10: 10](R/W) Selects the NCB write command used by DMA accesses. See SPI_DMA_WRITE_CMD_E. */
+        uint64_t reserved_0_9          : 10;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_9          : 10;
+        uint64_t dma_write_cmd         : 1;  /**< [ 10: 10](R/W) Selects the NCB write command used by DMA accesses. See SPI_DMA_WRITE_CMD_E. */
+        uint64_t reserved_11           : 1;
+        uint64_t dma_read_cmd          : 2;  /**< [ 13: 12](R/W) Selects the NCB read command used by DMA accesses. See SPI_DMA_READ_CMD_E. */
+        uint64_t reserved_14_39        : 26;
+        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from XSPI. Encodes the type of error encountered
+                                                                 (error largest encoded value has priority). See SPI_XM_BAD_DMA_TYPE_E. */
+        uint64_t reserved_44_46        : 3;
+        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from XSPI.
+                                                                 0 = Read error log.
+                                                                 1 = Write error log. */
+        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound XSPI register access. The NCB outbound SRCID for the OOB
+                                                                 error.
+                                                                 \<59:58\> = chipID.
+                                                                 \<57\> = Request source: 0 = core, 1 = NCB-device.
+                                                                 \<56:51\> = Core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
+                                                                 \<50:48\> = SubID. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound XSPI register access.
+                                                                 0 = read.
+                                                                 1 = write. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_shim_cfg_s cn; */
+};
+typedef union cavm_spix_shim_cfg cavm_spix_shim_cfg_t;
+
+static inline uint64_t CAVM_SPIX_SHIM_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_SHIM_CFG(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001050ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_SHIM_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_SHIM_CFG(a) cavm_spix_shim_cfg_t
+#define bustype_CAVM_SPIX_SHIM_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_SHIM_CFG(a) "SPIX_SHIM_CFG"
+#define device_bar_CAVM_SPIX_SHIM_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_SHIM_CFG(a) (a)
+#define arguments_CAVM_SPIX_SHIM_CFG(a) (a),-1,-1,-1
+
+#endif /* __CAVM_CSRS_SPI_H__ */

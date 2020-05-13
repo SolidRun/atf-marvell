@@ -144,7 +144,7 @@ typedef union cavm_oclax_active_pc cavm_oclax_active_pc_t;
 static inline uint64_t CAVM_OCLAX_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_ACTIVE_PC(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000620ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -225,7 +225,7 @@ typedef union cavm_oclax_cdhx_ctl cavm_oclax_cdhx_ctl_t;
 static inline uint64_t CAVM_OCLAX_CDHX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_CDHX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=1))
+    if ((a<=6) && (b<=1))
         return 0x87e0b0000600ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("OCLAX_CDHX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -284,7 +284,7 @@ typedef union cavm_oclax_cdhx_inject_state cavm_oclax_cdhx_inject_state_t;
 static inline uint64_t CAVM_OCLAX_CDHX_INJECT_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_CDHX_INJECT_STATE(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=1))
+    if ((a<=6) && (b<=1))
         return 0x87e0b0000610ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("OCLAX_CDHX_INJECT_STATE", 2, a, b, 0, 0, 0, 0);
 }
@@ -331,7 +331,7 @@ typedef union cavm_oclax_const cavm_oclax_const_t;
 static inline uint64_t CAVM_OCLAX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_CONST(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -368,7 +368,7 @@ typedef union cavm_oclax_datx cavm_oclax_datx_t;
 static inline uint64_t CAVM_OCLAX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_DATX(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=16383))
+    if ((a<=6) && (b<=16383))
         return 0x87e0b0400000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3fff);
     __cavm_csr_fatal("OCLAX_DATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -421,7 +421,7 @@ typedef union cavm_oclax_dat_pop cavm_oclax_dat_pop_t;
 static inline uint64_t CAVM_OCLAX_DAT_POP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_DAT_POP(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000800ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_DAT_POP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -458,7 +458,7 @@ typedef union cavm_oclax_eco cavm_oclax_eco_t;
 static inline uint64_t CAVM_OCLAX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_ECO(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b00000d0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -495,7 +495,7 @@ typedef union cavm_oclax_fifo_depth cavm_oclax_fifo_depth_t;
 static inline uint64_t CAVM_OCLAX_FIFO_DEPTH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FIFO_DEPTH(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000200ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_FIFO_DEPTH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -520,7 +520,7 @@ union cavm_oclax_fifo_limit
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t overfull              : 16; /**< [ 63: 48](R/W) Stop level. When OCLA()_FIFO_DEPTH \> [OVERFULL], stop capturing and set
                                                                  OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
-                                                                 OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+                                                                 OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to ensure that overflow can be
                                                                  detected. */
         uint64_t ddr                   : 16; /**< [ 47: 32](R/W) DDR level. When OCLA()_FIFO_DEPTH \> [DDR], FIFO entries will be removed, packed into a
                                                                  cache line, and overflowed to LLC/DRAM. All-ones disables overflow to LLC/DRAM. If nonzero
@@ -539,7 +539,7 @@ union cavm_oclax_fifo_limit
                                                                  must be at least 52. */
         uint64_t overfull              : 16; /**< [ 63: 48](R/W) Stop level. When OCLA()_FIFO_DEPTH \> [OVERFULL], stop capturing and set
                                                                  OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
-                                                                 OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+                                                                 OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to ensure that overflow can be
                                                                  detected. */
 #endif /* Word 0 - End */
     } s;
@@ -550,7 +550,7 @@ typedef union cavm_oclax_fifo_limit cavm_oclax_fifo_limit_t;
 static inline uint64_t CAVM_OCLAX_FIFO_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FIFO_LIMIT(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000240ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_FIFO_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -587,7 +587,7 @@ typedef union cavm_oclax_fifo_tail cavm_oclax_fifo_tail_t;
 static inline uint64_t CAVM_OCLAX_FIFO_TAIL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FIFO_TAIL(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000260ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_FIFO_TAIL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -630,7 +630,7 @@ typedef union cavm_oclax_fifo_trig cavm_oclax_fifo_trig_t;
 static inline uint64_t CAVM_OCLAX_FIFO_TRIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FIFO_TRIG(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b00002a0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_FIFO_TRIG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -671,7 +671,7 @@ typedef union cavm_oclax_fifo_wrap cavm_oclax_fifo_wrap_t;
 static inline uint64_t CAVM_OCLAX_FIFO_WRAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FIFO_WRAP(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000280ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_FIFO_WRAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -719,7 +719,7 @@ typedef union cavm_oclax_fsmx_andx_ix cavm_oclax_fsmx_andx_ix_t;
 static inline uint64_t CAVM_OCLAX_FSMX_ANDX_IX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FSMX_ANDX_IX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=4) && (b<=1) && (c<=15) && (d<=1))
+    if ((a<=6) && (b<=1) && (c<=15) && (d<=1))
         return 0x87e0b0300000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
     __cavm_csr_fatal("OCLAX_FSMX_ANDX_IX", 4, a, b, c, d, 0, 0);
 }
@@ -756,7 +756,7 @@ typedef union cavm_oclax_fsmx_orx cavm_oclax_fsmx_orx_t;
 static inline uint64_t CAVM_OCLAX_FSMX_ORX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FSMX_ORX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=1) && (c<=15))
+    if ((a<=6) && (b<=1) && (c<=15))
         return 0x87e0b0310000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("OCLAX_FSMX_ORX", 3, a, b, c, 0, 0, 0);
 }
@@ -816,7 +816,7 @@ typedef union cavm_oclax_fsmx_statex cavm_oclax_fsmx_statex_t;
 static inline uint64_t CAVM_OCLAX_FSMX_STATEX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_FSMX_STATEX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=1) && (c<=15))
+    if ((a<=6) && (b<=1) && (c<=15))
         return 0x87e0b0320000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("OCLAX_FSMX_STATEX", 3, a, b, c, 0, 0, 0);
 }
@@ -844,14 +844,18 @@ union cavm_oclax_gen_ctl
                                                                  Internal:
                                                                  Trace FIFO wrapping modes. Only valid if OCLA()_GEN_CTL[TRACE_EN] is set.
                                                                  0 = FIFO stops writing to new entries when full.
-                                                                 1 = FIFO overwrites oldest entry when full. */
+                                                                 1 = FIFO overwrites oldest entry when full.
+
+                                                                 Note: this feature is only available in ROC_OCLA which is OCLA(6). */
         uint64_t trace_en              : 1;  /**< [  7:  7](R/W) Reserved.
                                                                  Internal:
                                                                  Enable FSM state tracing for debug. When set, any FSM transitions are detected and stored
                                                                  in a FIFO that writes new entries when OCLA()_STATE_SET[FSM0_ENA] or
                                                                  OCLA()_STATE_SET[FSM1_ENA] have been set.
                                                                  To read the FIFO, OCLA()_STATE_INT[FSM0_ENA] and OCLA()_STATE_INT[FSM1_ENA] must be
-                                                                 written to halt FSM state changes. The FIFO entries can be read in OCLA()_TRACE_FIFO(). */
+                                                                 written to halt FSM state changes. The FIFO entries can be read in OCLA()_TRACE_FIFO().
+
+                                                                 Note: this feature is only available in ROC_OCLA which is OCLA(6). */
         uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
                                                                  0 = MCD does not cause trigger.
                                                                  1 = When the corresponding MCD is received it will cause
@@ -893,12 +897,16 @@ union cavm_oclax_gen_ctl
                                                                  in a FIFO that writes new entries when OCLA()_STATE_SET[FSM0_ENA] or
                                                                  OCLA()_STATE_SET[FSM1_ENA] have been set.
                                                                  To read the FIFO, OCLA()_STATE_INT[FSM0_ENA] and OCLA()_STATE_INT[FSM1_ENA] must be
-                                                                 written to halt FSM state changes. The FIFO entries can be read in OCLA()_TRACE_FIFO(). */
+                                                                 written to halt FSM state changes. The FIFO entries can be read in OCLA()_TRACE_FIFO().
+
+                                                                 Note: this feature is only available in ROC_OCLA which is OCLA(6). */
         uint64_t trace_wrap            : 1;  /**< [  8:  8](R/W) Reserved.
                                                                  Internal:
                                                                  Trace FIFO wrapping modes. Only valid if OCLA()_GEN_CTL[TRACE_EN] is set.
                                                                  0 = FIFO stops writing to new entries when full.
-                                                                 1 = FIFO overwrites oldest entry when full. */
+                                                                 1 = FIFO overwrites oldest entry when full.
+
+                                                                 Note: this feature is only available in ROC_OCLA which is OCLA(6). */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -909,7 +917,7 @@ typedef union cavm_oclax_gen_ctl cavm_oclax_gen_ctl_t;
 static inline uint64_t CAVM_OCLAX_GEN_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_GEN_CTL(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000060ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_GEN_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -948,7 +956,7 @@ typedef union cavm_oclax_matx_count cavm_oclax_matx_count_t;
 static inline uint64_t CAVM_OCLAX_MATX_COUNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MATX_COUNT(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=3))
+    if ((a<=6) && (b<=3))
         return 0x87e0b0230000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("OCLAX_MATX_COUNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -995,7 +1003,7 @@ typedef union cavm_oclax_matx_ctl cavm_oclax_matx_ctl_t;
 static inline uint64_t CAVM_OCLAX_MATX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MATX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=3))
+    if ((a<=6) && (b<=3))
         return 0x87e0b0200000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("OCLAX_MATX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1046,7 +1054,7 @@ typedef union cavm_oclax_matx_maskx cavm_oclax_matx_maskx_t;
 static inline uint64_t CAVM_OCLAX_MATX_MASKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MATX_MASKX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=3) && (c<=1))
+    if ((a<=6) && (b<=3) && (c<=1))
         return 0x87e0b0220000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("OCLAX_MATX_MASKX", 3, a, b, c, 0, 0, 0);
 }
@@ -1085,7 +1093,7 @@ typedef union cavm_oclax_matx_thresh cavm_oclax_matx_thresh_t;
 static inline uint64_t CAVM_OCLAX_MATX_THRESH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MATX_THRESH(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=3))
+    if ((a<=6) && (b<=3))
         return 0x87e0b0240000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("OCLAX_MATX_THRESH", 2, a, b, 0, 0, 0, 0);
 }
@@ -1124,7 +1132,7 @@ typedef union cavm_oclax_matx_valuex cavm_oclax_matx_valuex_t;
 static inline uint64_t CAVM_OCLAX_MATX_VALUEX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MATX_VALUEX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=3) && (c<=1))
+    if ((a<=6) && (b<=3) && (c<=1))
         return 0x87e0b0210000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("OCLAX_MATX_VALUEX", 3, a, b, c, 0, 0, 0);
 }
@@ -1161,7 +1169,7 @@ typedef union cavm_oclax_mparid cavm_oclax_mparid_t;
 static inline uint64_t CAVM_OCLAX_MPARID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MPARID(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b00000e0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_MPARID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1199,7 +1207,7 @@ typedef union cavm_oclax_msix_pbax cavm_oclax_msix_pbax_t;
 static inline uint64_t CAVM_OCLAX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b==0))
+    if ((a<=6) && (b==0))
         return 0x87e0b0ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("OCLAX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1285,7 +1293,7 @@ typedef union cavm_oclax_msix_vecx_addr cavm_oclax_msix_vecx_addr_t;
 static inline uint64_t CAVM_OCLAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b==0))
+    if ((a<=6) && (b==0))
         return 0x87e0b0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("OCLAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -1325,7 +1333,7 @@ typedef union cavm_oclax_msix_vecx_ctl cavm_oclax_msix_vecx_ctl_t;
 static inline uint64_t CAVM_OCLAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b==0))
+    if ((a<=6) && (b==0))
         return 0x87e0b0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("OCLAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1362,7 +1370,7 @@ typedef union cavm_oclax_rawx cavm_oclax_rawx_t;
 static inline uint64_t CAVM_OCLAX_RAWX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_RAWX(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=1))
+    if ((a<=6) && (b<=1))
         return 0x87e0b0000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("OCLAX_RAWX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1405,7 +1413,7 @@ typedef union cavm_oclax_sft_rst cavm_oclax_sft_rst_t;
 static inline uint64_t CAVM_OCLAX_SFT_RST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_SFT_RST(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000020ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_SFT_RST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1463,7 +1471,7 @@ typedef union cavm_oclax_stack_base cavm_oclax_stack_base_t;
 static inline uint64_t CAVM_OCLAX_STACK_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STACK_BASE(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000400ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STACK_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1509,7 +1517,7 @@ typedef union cavm_oclax_stack_cur cavm_oclax_stack_cur_t;
 static inline uint64_t CAVM_OCLAX_STACK_CUR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STACK_CUR(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000480ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STACK_CUR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1547,7 +1555,7 @@ typedef union cavm_oclax_stack_store_cnt cavm_oclax_stack_store_cnt_t;
 static inline uint64_t CAVM_OCLAX_STACK_STORE_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STACK_STORE_CNT(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000460ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STACK_STORE_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1591,7 +1599,7 @@ typedef union cavm_oclax_stack_top cavm_oclax_stack_top_t;
 static inline uint64_t CAVM_OCLAX_STACK_TOP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STACK_TOP(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000420ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STACK_TOP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1631,7 +1639,7 @@ typedef union cavm_oclax_stack_wrap cavm_oclax_stack_wrap_t;
 static inline uint64_t CAVM_OCLAX_STACK_WRAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STACK_WRAP(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000440ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STACK_WRAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1668,7 +1676,7 @@ typedef union cavm_oclax_stagex cavm_oclax_stagex_t;
 static inline uint64_t CAVM_OCLAX_STAGEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STAGEX(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=71))
+    if ((a<=6) && (b<=71))
         return 0x87e0b0100000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("OCLAX_STAGEX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1726,7 +1734,7 @@ typedef union cavm_oclax_state_ena_w1c cavm_oclax_state_ena_w1c_t;
 static inline uint64_t CAVM_OCLAX_STATE_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STATE_ENA_W1C(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b00000b8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STATE_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1784,7 +1792,7 @@ typedef union cavm_oclax_state_ena_w1s cavm_oclax_state_ena_w1s_t;
 static inline uint64_t CAVM_OCLAX_STATE_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STATE_ENA_W1S(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b00000b0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STATE_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1873,7 +1881,7 @@ typedef union cavm_oclax_state_int cavm_oclax_state_int_t;
 static inline uint64_t CAVM_OCLAX_STATE_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STATE_INT(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0000080ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STATE_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1945,7 +1953,7 @@ typedef union cavm_oclax_state_set cavm_oclax_state_set_t;
 static inline uint64_t CAVM_OCLAX_STATE_SET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_STATE_SET(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b00000a0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_STATE_SET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1982,7 +1990,7 @@ typedef union cavm_oclax_time cavm_oclax_time_t;
 static inline uint64_t CAVM_OCLAX_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_TIME(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b00000c0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_TIME", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2001,6 +2009,8 @@ static inline uint64_t CAVM_OCLAX_TIME(uint64_t a)
  * Reserved.
  * Internal:
  * This register reads the contents of the Trace FIFO.
+ *
+ * Note: this CSR only exists in ROC_OCLA which is OCLA(6) in CN98XX.
  */
 union cavm_oclax_trace_fifox
 {
@@ -2026,7 +2036,7 @@ typedef union cavm_oclax_trace_fifox cavm_oclax_trace_fifox_t;
 static inline uint64_t CAVM_OCLAX_TRACE_FIFOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_TRACE_FIFOX(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=1023))
+    if ((a<=6) && (b<=1023))
         return 0x87e0b0010000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
     __cavm_csr_fatal("OCLAX_TRACE_FIFOX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2051,6 +2061,8 @@ static inline uint64_t CAVM_OCLAX_TRACE_FIFOX(uint64_t a, uint64_t b)
  *
  * These register fields must be cleared before starting the next
  * trace capture.
+ *
+ * Note: this CSR only exists in ROC_OCLA which is OCLA(6) in CN98XX.
  */
 union cavm_oclax_trace_fifo_state
 {
@@ -2076,7 +2088,7 @@ typedef union cavm_oclax_trace_fifo_state cavm_oclax_trace_fifo_state_t;
 static inline uint64_t CAVM_OCLAX_TRACE_FIFO_STATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_OCLAX_TRACE_FIFO_STATE(uint64_t a)
 {
-    if (a<=4)
+    if (a<=6)
         return 0x87e0b0018000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("OCLAX_TRACE_FIFO_STATE", 1, a, 0, 0, 0, 0, 0);
 }

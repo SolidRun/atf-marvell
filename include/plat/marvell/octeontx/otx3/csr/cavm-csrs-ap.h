@@ -300,26 +300,10 @@ union cavm_ap_ccsidr_el1
                                                                  For CNXXXX does not apply as hardware managed coherence. */
         uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
                                                                  indicates 1 set in the cache. The number of sets does not have
-                                                                 to be a power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
-
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x2, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 to be a power of 2. */
         uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
                                                                  an associativity of 1. The associativity does not have to be a
-                                                                 power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
-
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 power of 2. */
         uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
 
                                                                  For CNXXXX, 128 bytes. */
@@ -329,26 +313,10 @@ union cavm_ap_ccsidr_el1
                                                                  For CNXXXX, 128 bytes. */
         uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
                                                                  an associativity of 1. The associativity does not have to be a
-                                                                 power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
-
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 power of 2. */
         uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
                                                                  indicates 1 set in the cache. The number of sets does not have
-                                                                 to be a power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
-
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x2, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 to be a power of 2. */
         uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
                                                                  0 = Write-allocation not supported.
                                                                  1 = Write-allocation supported.
@@ -2846,7 +2814,7 @@ static inline uint64_t CAVM_AP_CURRENTEL_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_access_el1
  *
- * AP Cavium Access EL1 Register
+ * AP Marvell Access EL1 Register
  * This register controls trapping on register accesses.
  *
  * Read/write access at EL1, EL2 and EL3.
@@ -2863,7 +2831,7 @@ static inline uint64_t CAVM_AP_CURRENTEL_FUNC(void)
  *
  * Internal:
  * If access is denied at multiple exception levels then the
- * trap occurs at the lowest. This is similar to ARM's
+ * trap occurs at the lowest. This is similar to Arm's
  * AP_CPACR_EL1/AP_CPTR_EL2/AP_CPTR_EL3.
  */
 union cavm_ap_cvm_access_el1
@@ -2939,8 +2907,8 @@ static inline uint64_t CAVM_AP_CVM_ACCESS_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_access_el2
  *
- * AP Cavium Access EL2 Register
- * This register controls trap/access of Cavium registers. Read/write access at EL2 and EL3.
+ * AP Marvell Access EL2 Register
+ * This register controls trap/access of Marvell registers. Read/write access at EL2 and EL3.
  */
 union cavm_ap_cvm_access_el2
 {
@@ -3015,7 +2983,7 @@ static inline uint64_t CAVM_AP_CVM_ACCESS_EL2_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_access_el3
  *
- * AP Cavium Access EL3 Register
+ * AP Marvell Access EL3 Register
  * Internal:
  * Software should expose the CvmCACHE instruction to EL2 or
  * EL1 with extreme caution. Exposing this instruction to lower
@@ -3103,7 +3071,7 @@ static inline uint64_t CAVM_AP_CVM_ACCESS_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_bist0_el1
  *
- * AP Cavium BIST0 Register
+ * AP Marvell BIST0 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
 union cavm_ap_cvm_bist0_el1
@@ -3165,7 +3133,7 @@ static inline uint64_t CAVM_AP_CVM_BIST0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_bist1_el1
  *
- * AP Cavium BIST1 Register
+ * AP Marvell BIST1 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
 union cavm_ap_cvm_bist1_el1
@@ -3199,7 +3167,7 @@ static inline uint64_t CAVM_AP_CVM_BIST1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_bist2_el1
  *
- * AP Cavium BIST2 Register
+ * AP Marvell BIST2 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
 union cavm_ap_cvm_bist2_el1
@@ -3233,7 +3201,7 @@ static inline uint64_t CAVM_AP_CVM_BIST2_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_bist3_el1
  *
- * AP Cavium BIST3 Register
+ * AP Marvell BIST3 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
 union cavm_ap_cvm_bist3_el1
@@ -3276,7 +3244,7 @@ static inline uint64_t CAVM_AP_CVM_BIST3_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_bp_ctl_el3
  *
- * AP Cavium Branch Prediction Control Register
+ * AP Marvell Branch Prediction Control Register
  */
 union cavm_ap_cvm_bp_ctl_el3
 {
@@ -3313,8 +3281,8 @@ static inline uint64_t CAVM_AP_CVM_BP_CTL_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_cpid_el2
  *
- * AP Cavium Cache Partitioning EL2 Register
- * This register provides Cavium-specific control information.
+ * AP Marvell Cache Partitioning EL2 Register
+ * This register provides Marvell-specific control information.
  */
 union cavm_ap_cvm_cpid_el2
 {
@@ -3323,9 +3291,13 @@ union cavm_ap_cvm_cpid_el2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. */
+        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. The LLC complex uses 8-bit CPIDs. CCU CPID bit 7 is inserted
+                                                                 by hardware, where 0=data access and 1=instruction access. CCU CPID bits 6:0
+                                                                 come from this field. */
 #else /* Word 0 - Little Endian */
-        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. */
+        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. The LLC complex uses 8-bit CPIDs. CCU CPID bit 7 is inserted
+                                                                 by hardware, where 0=data access and 1=instruction access. CCU CPID bits 6:0
+                                                                 come from this field. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -3349,8 +3321,8 @@ static inline uint64_t CAVM_AP_CVM_CPID_EL2_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_cpid_el3
  *
- * AP Cavium Cache Partitioning EL3 Register
- * This register provides Cavium-specific control information.
+ * AP Marvell Cache Partitioning EL3 Register
+ * This register provides Marvell-specific control information.
  */
 union cavm_ap_cvm_cpid_el3
 {
@@ -3359,9 +3331,13 @@ union cavm_ap_cvm_cpid_el3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. */
+        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. The LLC complex uses 8-bit CPIDs. CCU CPID bit 7 is inserted
+                                                                 by hardware, where 0=data access and 1=instruction access. CCU CPID bits 6:0
+                                                                 come from this field. */
 #else /* Word 0 - Little Endian */
-        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. */
+        uint64_t cpid                  : 7;  /**< [  6:  0](R/W) Cache partition ID. The LLC complex uses 8-bit CPIDs. CCU CPID bit 7 is inserted
+                                                                 by hardware, where 0=data access and 1=instruction access. CCU CPID bits 6:0
+                                                                 come from this field. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -3385,7 +3361,7 @@ static inline uint64_t CAVM_AP_CVM_CPID_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_dcachedata0_el1
  *
- * AP Cavium Dcache Data 0 Register
+ * AP Marvell Dcache Data 0 Register
  */
 union cavm_ap_cvm_dcachedata0_el1
 {
@@ -3418,7 +3394,7 @@ static inline uint64_t CAVM_AP_CVM_DCACHEDATA0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_dcachedata1_el1
  *
- * AP Cavium Dcache Data 1 Register
+ * AP Marvell Dcache Data 1 Register
  */
 union cavm_ap_cvm_dcachedata1_el1
 {
@@ -3453,7 +3429,7 @@ static inline uint64_t CAVM_AP_CVM_DCACHEDATA1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_dcacheptag0_el1
  *
- * AP Cavium Dcache Ptag 0 Register
+ * AP Marvell Dcache Ptag 0 Register
  */
 union cavm_ap_cvm_dcacheptag0_el1
 {
@@ -3494,7 +3470,7 @@ static inline uint64_t CAVM_AP_CVM_DCACHEPTAG0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_dcachevtag0_el1
  *
- * AP Cavium Dcache Vtag 0 Register
+ * AP Marvell Dcache Vtag 0 Register
  */
 union cavm_ap_cvm_dcachevtag0_el1
 {
@@ -3549,7 +3525,7 @@ static inline uint64_t CAVM_AP_CVM_DCACHEVTAG0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_dcachevtag1_el1
  *
- * AP Cavium Dcache Vtag 1 Register
+ * AP Marvell Dcache Vtag 1 Register
  */
 union cavm_ap_cvm_dcachevtag1_el1
 {
@@ -3590,7 +3566,7 @@ static inline uint64_t CAVM_AP_CVM_DCACHEVTAG1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug0_el3
  *
- * INTERNAL: AP Cavium Debug 0 Register
+ * INTERNAL: AP Marvell Debug 0 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3631,7 +3607,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG0_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug10_el3
  *
- * INTERNAL: AP Cavium Debug 10 Register
+ * INTERNAL: AP Marvell Debug 10 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3666,7 +3642,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG10_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug11_el3
  *
- * INTERNAL: AP Cavium Debug 11 Register
+ * INTERNAL: AP Marvell Debug 11 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3701,7 +3677,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG11_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug1_el3
  *
- * INTERNAL: AP Cavium Debug 1 Register
+ * INTERNAL: AP Marvell Debug 1 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3746,7 +3722,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG1_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug2_el3
  *
- * INTERNAL: AP Cavium Debug 2 Register
+ * INTERNAL: AP Marvell Debug 2 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3781,7 +3757,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG2_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug3_el3
  *
- * INTERNAL: AP Cavium Debug 3 Register
+ * INTERNAL: AP Marvell Debug 3 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3868,7 +3844,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG3_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug4_el3
  *
- * INTERNAL: AP Cavium Debug 4 Register
+ * INTERNAL: AP Marvell Debug 4 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3951,7 +3927,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG4_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug6_el3
  *
- * INTERNAL: AP Cavium Debug 6 Register
+ * INTERNAL: AP Marvell Debug 6 Register
  *
  * This register is for diagnostic use only.
  */
@@ -3996,7 +3972,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG6_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug7_el3
  *
- * INTERNAL: AP Cavium Debug 7 Register
+ * INTERNAL: AP Marvell Debug 7 Register
  *
  * This register is for diagnostic use only.
  */
@@ -4055,7 +4031,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG7_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug8_el3
  *
- * INTERNAL: AP Cavium Debug 8 Register
+ * INTERNAL: AP Marvell Debug 8 Register
  *
  * This register is for diagnostic use only.
  */
@@ -4102,7 +4078,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG8_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug9_el3
  *
- * INTERNAL: AP Cavium Debug 9 Register
+ * INTERNAL: AP Marvell Debug 9 Register
  *
  * This register is for diagnostic use only.
  */
@@ -4155,7 +4131,7 @@ static inline uint64_t CAVM_AP_CVM_DEBUG9_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_dll_observabilty_el3
  *
- * INTERNAL: AP Cavium DLL Observability Register
+ * INTERNAL: AP Marvell DLL Observability Register
  */
 union cavm_ap_cvm_dll_observabilty_el3
 {
@@ -4208,7 +4184,7 @@ static inline uint64_t CAVM_AP_CVM_DLL_OBSERVABILTY_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_erricache_el1
  *
- * AP Cavium Error Icache Register
+ * AP Marvell Error Icache Register
  */
 union cavm_ap_cvm_erricache_el1
 {
@@ -4265,7 +4241,7 @@ static inline uint64_t CAVM_AP_CVM_ERRICACHE_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_errmem_el1
  *
- * AP Cavium Error Memory Register
+ * AP Marvell Error Memory Register
  */
 union cavm_ap_cvm_errmem_el1
 {
@@ -4307,7 +4283,7 @@ static inline uint64_t CAVM_AP_CVM_ERRMEM_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_evattid_el1
  *
- * AP Cavium EVATTID Register
+ * AP Marvell EVATTID Register
  * This register is for diagnostic use only.
  */
 union cavm_ap_cvm_evattid_el1
@@ -4371,7 +4347,7 @@ static inline uint64_t CAVM_AP_CVM_EVATTID_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_icachedata0_el1
  *
- * INTERNAL: AP Cavium Icache Data 0 Register
+ * INTERNAL: AP Marvell Icache Data 0 Register
  */
 union cavm_ap_cvm_icachedata0_el1
 {
@@ -4404,7 +4380,7 @@ static inline uint64_t CAVM_AP_CVM_ICACHEDATA0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_icachedata1_el1
  *
- * INTERNAL: AP Cavium Icache Data 1 Register
+ * INTERNAL: AP Marvell Icache Data 1 Register
  */
 union cavm_ap_cvm_icachedata1_el1
 {
@@ -4439,7 +4415,7 @@ static inline uint64_t CAVM_AP_CVM_ICACHEDATA1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_icachetag0_el1
  *
- * INTERNAL: AP Cavium Icache Tag 0 Register
+ * INTERNAL: AP Marvell Icache Tag 0 Register
  */
 union cavm_ap_cvm_icachetag0_el1
 {
@@ -4482,7 +4458,7 @@ static inline uint64_t CAVM_AP_CVM_ICACHETAG0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug0_el3
  *
- * INTERNAL: AP Cavium Memory Debug 0 Register
+ * INTERNAL: AP Marvell Memory Debug 0 Register
  */
 union cavm_ap_cvm_memdebug0_el3
 {
@@ -4515,7 +4491,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG0_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug1_el3
  *
- * INTERNAL: AP Cavium Memory Debug 1 Register
+ * INTERNAL: AP Marvell Memory Debug 1 Register
  */
 union cavm_ap_cvm_memdebug1_el3
 {
@@ -4548,7 +4524,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG1_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug2_el3
  *
- * INTERNAL: AP Cavium Memory Debug 2 Register
+ * INTERNAL: AP Marvell Memory Debug 2 Register
  */
 union cavm_ap_cvm_memdebug2_el3
 {
@@ -4581,7 +4557,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG2_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug3_el3
  *
- * INTERNAL: AP Cavium Memory Debug 3 Register
+ * INTERNAL: AP Marvell Memory Debug 3 Register
  */
 union cavm_ap_cvm_memdebug3_el3
 {
@@ -4614,7 +4590,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG3_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug4_el3
  *
- * INTERNAL: AP Cavium Memory Debug 4 Register
+ * INTERNAL: AP Marvell Memory Debug 4 Register
  */
 union cavm_ap_cvm_memdebug4_el3
 {
@@ -4647,7 +4623,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG4_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug5_el3
  *
- * INTERNAL: AP Cavium Memory Debug 5 Register
+ * INTERNAL: AP Marvell Memory Debug 5 Register
  */
 union cavm_ap_cvm_memdebug5_el3
 {
@@ -4680,7 +4656,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG5_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug6_el3
  *
- * INTERNAL: AP Cavium Memory Debug 6 Register
+ * INTERNAL: AP Marvell Memory Debug 6 Register
  */
 union cavm_ap_cvm_memdebug6_el3
 {
@@ -4713,7 +4689,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG6_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_memdebug7_el3
  *
- * INTERNAL: AP Cavium Memory Debug 7 Register
+ * INTERNAL: AP Marvell Memory Debug 7 Register
  */
 union cavm_ap_cvm_memdebug7_el3
 {
@@ -4746,7 +4722,7 @@ static inline uint64_t CAVM_AP_CVM_MEMDEBUG7_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_nvbar_el3
  *
- * AP Cavium DEL3T Address Register
+ * AP Marvell DEL3T Address Register
  */
 union cavm_ap_cvm_nvbar_el3
 {
@@ -4754,11 +4730,11 @@ union cavm_ap_cvm_nvbar_el3
     struct cavm_ap_cvm_nvbar_el3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vector_address        : 53; /**< [ 63: 11](R/W) Cavium-specific exception vector address. */
+        uint64_t vector_address        : 53; /**< [ 63: 11](R/W) Marvell-specific exception vector address. */
         uint64_t reserved_0_10         : 11;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_10         : 11;
-        uint64_t vector_address        : 53; /**< [ 63: 11](R/W) Cavium-specific exception vector address. */
+        uint64_t vector_address        : 53; /**< [ 63: 11](R/W) Marvell-specific exception vector address. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ap_cvm_nvbar_el3_s cn; */
@@ -4781,7 +4757,7 @@ static inline uint64_t CAVM_AP_CVM_NVBAR_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_pn_el1
  *
- * AP Cavium Processor Number Register
+ * AP Marvell Processor Number Register
  * This register is accessible at EL1, but subject to the access controls in AP_CVM_ACCESS_EL1/EL2/EL3
  */
 union cavm_ap_cvm_pn_el1
@@ -4821,7 +4797,7 @@ static inline uint64_t CAVM_AP_CVM_PN_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_power_el1
  *
- * AP Cavium Power Control Register
+ * AP Marvell Power Control Register
  * This register controls power management.
  */
 union cavm_ap_cvm_power_el1
@@ -4945,7 +4921,7 @@ static inline uint64_t CAVM_AP_CVM_POWER_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_scratch#_el1
  *
- * AP Cavium Scratchpad Register
+ * AP Marvell Scratchpad Register
  * This register provides aid to post silicon debug as a scratchpad for software.
  */
 union cavm_ap_cvm_scratchx_el1
@@ -4980,7 +4956,7 @@ static inline uint64_t CAVM_AP_CVM_SCRATCHX_EL1(uint64_t a)
 /**
  * Register (SYSREG) ap_cvm_statprofcmp_el1
  *
- * AP Cavium Statistical Profiling Comparator Value Register
+ * AP Marvell Statistical Profiling Comparator Value Register
  */
 union cavm_ap_cvm_statprofcmp_el1
 {
@@ -5017,7 +4993,7 @@ static inline uint64_t CAVM_AP_CVM_STATPROFCMP_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_statprofctl_el1
  *
- * AP Cavium Statistical Profiling Configuration Register
+ * AP Marvell Statistical Profiling Configuration Register
  */
 union cavm_ap_cvm_statprofctl_el1
 {
@@ -5038,19 +5014,19 @@ union cavm_ap_cvm_statprofctl_el1
                                                                  0 = Comparator matches AP_CVM_STATPROFCMP_EL1[52:2] against instruction PC.
                                                                  1 = Comparator matches AP_CVM_STATPROFCMP_EL1[31:0] against instruction opcode
                                                                     with bits enabled for comparison with a corresponding 1 in AP_CVM_STATPROFCMP_EL1[63:32]. */
-        uint64_t dir_sample            : 1;  /**< [  1:  1](R/W) When set, replaces statistical profile's random sample selection logic
-                                                                 with the output of the instruction and/or address comparators from the
-                                                                 trace logic. This provides the ability to profile a specific instruction.
-                                                                 Note that this feature will not function if trace is enabled. */
+        uint64_t dir_sample            : 1;  /**< [  1:  1](R/W) When set, replaces statistical profile's random sample selection logic with the
+                                                                 output of the instruction/address comparator described in AP_CVM_STATPROFCMP_EL1[CMP_VAL]
+                                                                 and AP_CVM_STATPROFCTL_EL1[OC_PC]. This provides the ability to profile a specific
+                                                                 instruction. */
         uint64_t ernd                  : 1;  /**< [  0:  0](R/W) Provides the value for AP_PMSIDR_EL1[ERND]. This field describes how
                                                                  randomization is used in selecting the sample. See AP_PMSIDR_EL1[ERND]. */
 #else /* Word 0 - Little Endian */
         uint64_t ernd                  : 1;  /**< [  0:  0](R/W) Provides the value for AP_PMSIDR_EL1[ERND]. This field describes how
                                                                  randomization is used in selecting the sample. See AP_PMSIDR_EL1[ERND]. */
-        uint64_t dir_sample            : 1;  /**< [  1:  1](R/W) When set, replaces statistical profile's random sample selection logic
-                                                                 with the output of the instruction and/or address comparators from the
-                                                                 trace logic. This provides the ability to profile a specific instruction.
-                                                                 Note that this feature will not function if trace is enabled. */
+        uint64_t dir_sample            : 1;  /**< [  1:  1](R/W) When set, replaces statistical profile's random sample selection logic with the
+                                                                 output of the instruction/address comparator described in AP_CVM_STATPROFCMP_EL1[CMP_VAL]
+                                                                 and AP_CVM_STATPROFCTL_EL1[OC_PC]. This provides the ability to profile a specific
+                                                                 instruction. */
         uint64_t oc_pc                 : 1;  /**< [  2:  2](R/W) When in directed sample mode, indicates whether the instruction to be
                                                                  sample is found by matching the PC or the OpCode.
                                                                  0 = Comparator matches AP_CVM_STATPROFCMP_EL1[52:2] against instruction PC.
@@ -5086,7 +5062,7 @@ static inline uint64_t CAVM_AP_CVM_STATPROFCTL_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_trapaddr#_el3
  *
- * AP Cavium Trap Address Register
+ * AP Marvell Trap Address Register
  * This register provides ternary match bits for physical address traps.
  *
  * Usage Constraints:
@@ -5097,7 +5073,7 @@ static inline uint64_t CAVM_AP_CVM_STATPROFCTL_EL1_FUNC(void)
  *
  * Configurations:
  *   R/W fields in this register reset to IMPLEMENTATION DEFINED values that might be UNKNOWN.
- *   Cavium implementations will reset to 0x0.
+ *   Marvell implementations will reset to 0x0.
  */
 union cavm_ap_cvm_trapaddrx_el3
 {
@@ -5143,7 +5119,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPADDRX_EL3(uint64_t a)
 /**
  * Register (SYSREG) ap_cvm_trapaddrena#_el3
  *
- * AP Cavium Trap Address Enable Register
+ * AP Marvell Trap Address Enable Register
  * This register provides ternary enable bits for physical address traps.
  *
  * Usage Constraints:
@@ -5154,7 +5130,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPADDRX_EL3(uint64_t a)
  *
  * Configurations:
  *   R/W fields in this register reset to IMPLEMENTATION DEFINED values that might be UNKNOWN.
- *   Cavium implementations will reset to 0x0.
+ *   Marvell implementations will reset to 0x0.
  */
 union cavm_ap_cvm_trapaddrenax_el3
 {
@@ -5192,8 +5168,8 @@ static inline uint64_t CAVM_AP_CVM_TRAPADDRENAX_EL3(uint64_t a)
 /**
  * Register (SYSREG) ap_cvm_trapctl#_el3
  *
- * AP Cavium Trap Control Register
- * This register provides control and identification of the Cavium physical address and
+ * AP Marvell Trap Control Register
+ * This register provides control and identification of the Marvell physical address and
  * instruction trap functionality. There are eight of these registers. Registers zero
  * through three apply to the instruction matchers and registers four through seven apply
  * to the address matchers.
@@ -5206,7 +5182,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPADDRENAX_EL3(uint64_t a)
  *
  * Configurations:
  *   R/W fields in this register reset to IMPLEMENTATION DEFINED values that might be UNKNOWN.
- *   Cavium implementations will reset to 0x0.
+ *   Marvell implementations will reset to 0x0.
  */
 union cavm_ap_cvm_trapctlx_el3
 {
@@ -5272,7 +5248,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPCTLX_EL3(uint64_t a)
 /**
  * Register (SYSREG) ap_cvm_trapinsn#_el3
  *
- * AP Cavium Trap Instructions Register
+ * AP Marvell Trap Instructions Register
  * This register provides ternary match and enable bits for instruction word traps.
  *
  * Usage Constraints:
@@ -5283,7 +5259,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPCTLX_EL3(uint64_t a)
  *
  * Configurations:
  *   R/W fields in this register reset to IMPLEMENTATION DEFINED values that might be UNKNOWN.
- *   Cavium implementations will reset to 0x0.
+ *   Marvell implementations will reset to 0x0.
  */
 union cavm_ap_cvm_trapinsnx_el3
 {
@@ -5319,7 +5295,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPINSNX_EL3(uint64_t a)
 /**
  * Register (SYSREG) ap_cvm_trapopc_el3
  *
- * AP Cavium Trap Exception Opcode Register
+ * AP Marvell Trap Exception Opcode Register
  * This register stores syndrome information on a trap fault.
  *
  * Usage Constraints:
@@ -5328,7 +5304,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPINSNX_EL3(uint64_t a)
  *   There are no traps nor enables affecting this register.
  * Configurations:
  *   RW fields in this register reset to IMPLEMENTATION DEFINED values that might be UNKNOWN.
- *   Cavium implementations will reset to 0x0.
+ *   Marvell implementations will reset to 0x0.
  */
 union cavm_ap_cvm_trapopc_el3
 {
@@ -5369,7 +5345,7 @@ static inline uint64_t CAVM_AP_CVM_TRAPOPC_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_xlatdata#_el1
  *
- * AP Cavium Translation Data 0 and 1 EL1 Register
+ * AP Marvell Translation Data 0 and 1 EL1 Register
  */
 union cavm_ap_cvm_xlatdatax_el1
 {
@@ -5425,7 +5401,7 @@ static inline uint64_t CAVM_AP_CVM_XLATDATAX_EL1(uint64_t a)
 /**
  * Register (SYSREG) ap_cvm_xlatvtag0_el1
  *
- * AP Cavium Translation Tag 0 EL1 Register
+ * AP Marvell Translation Tag 0 EL1 Register
  */
 union cavm_ap_cvm_xlatvtag0_el1
 {
@@ -5482,7 +5458,7 @@ static inline uint64_t CAVM_AP_CVM_XLATVTAG0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_xlatvtag1_el1
  *
- * AP Cavium Translation Tag 1 EL1 Register
+ * AP Marvell Translation Tag 1 EL1 Register
  */
 union cavm_ap_cvm_xlatvtag1_el1
 {
@@ -5529,8 +5505,8 @@ static inline uint64_t CAVM_AP_CVM_XLATVTAG1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvmctl2_el1
  *
- * AP Cavium Control Register
- * This register provides Cavium-specific control information.
+ * AP Marvell Control Register
+ * This register provides Marvell control information.
  */
 union cavm_ap_cvmctl2_el1
 {
@@ -5538,7 +5514,8 @@ union cavm_ap_cvmctl2_el1
     struct cavm_ap_cvmctl2_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
+        uint64_t reserved_53_63        : 11;
+        uint64_t disable_ldi_interrupt : 1;  /**< [ 52: 52](R/W) Disable interrupts attaching to LDI. For diagnostic use only. */
         uint64_t jsr_dis               : 1;  /**< [ 51: 51](R/W) Disable the return stack. For diagnostic use only. */
         uint64_t btc_hysteresis_dis    : 1;  /**< [ 50: 50](R/W) Disable hysteresis in the branch-target cache. For diagnostic use only. */
         uint64_t btc_dis               : 1;  /**< [ 49: 49](R/W) Disable the branch-target cache. For diagnostic use only. */
@@ -5594,7 +5571,8 @@ union cavm_ap_cvmctl2_el1
         uint64_t btc_dis               : 1;  /**< [ 49: 49](R/W) Disable the branch-target cache. For diagnostic use only. */
         uint64_t btc_hysteresis_dis    : 1;  /**< [ 50: 50](R/W) Disable hysteresis in the branch-target cache. For diagnostic use only. */
         uint64_t jsr_dis               : 1;  /**< [ 51: 51](R/W) Disable the return stack. For diagnostic use only. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t disable_ldi_interrupt : 1;  /**< [ 52: 52](R/W) Disable interrupts attaching to LDI. For diagnostic use only. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ap_cvmctl2_el1_s cn; */
@@ -5617,8 +5595,8 @@ static inline uint64_t CAVM_AP_CVMCTL2_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvmctl_el1
  *
- * AP Cavium Control Register
- * This register provides Cavium-specific control information.
+ * AP Marvell Control Register
+ * This register provides Marvell control information.
  */
 union cavm_ap_cvmctl_el1
 {
@@ -5626,7 +5604,11 @@ union cavm_ap_cvmctl_el1
     struct cavm_ap_cvmctl_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
+        uint64_t acquire_imposes_barrier : 1;/**< [ 63: 63](R/W) If set, instructions with acquire properties have additional dependence
+                                                                 with later instructions. */
+        uint64_t serialize_io_loads    : 1;  /**< [ 62: 62](R/W) If set, serialize IO loads. */
+        uint64_t disable_store_barrier_func : 1;/**< [ 61: 61](R/W) Disable store barrier functionality (v8.5 disable). */
+        uint64_t disable_large_offset_dpref : 1;/**< [ 60: 60](R/W) Disable large offset predictor. */
         uint64_t disable_forward_progress : 1;/**< [ 59: 59](R/W) Disable forward progress requirement for remote TLBI flow. For diagnostic use only. */
         uint64_t force_st_r            : 1;  /**< [ 58: 58](R/W) Force release attributes to all stores. For diagnostic use only. */
         uint64_t force_ld_a            : 1;  /**< [ 57: 57](R/W) Force acquire attributes to all loads. For diagnostic use only. */
@@ -5639,7 +5621,7 @@ union cavm_ap_cvmctl_el1
         uint64_t force_trc_clock       : 1;  /**< [ 50: 50](R/W) Force trace etm/etr clocks on. For diagnostic use only. */
         uint64_t disable_branch_elimination : 1;/**< [ 49: 49](R/W) Disable branch elimination. */
         uint64_t disable_optimum_occupancy : 1;/**< [ 48: 48](R/W) Increase ibuf occupancy time. */
-        uint64_t disable_load2         : 1;  /**< [ 47: 47](R/W) Disable second load port. */
+        uint64_t rsvd_47               : 1;  /**< [ 47: 47](R/W) Reserved. */
         uint64_t force_strong_ordering : 1;  /**< [ 46: 46](R/W) Force strong load ordering.
                                                                  0 = Weak ordering.
                                                                  1 = Strong ordering.
@@ -5648,10 +5630,20 @@ union cavm_ap_cvmctl_el1
                                                                  CN8XXX is always strong ordering. */
         uint64_t disable_mem_ooo       : 1;  /**< [ 45: 45](R/W) Disable all memory out-of-order. */
         uint64_t disable_ooo           : 1;  /**< [ 44: 44](R/W) Disable all out-of-order. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
-        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
-        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
-        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
+        uint64_t dpref                 : 4;  /**< [ 43: 40](R/W) Dstream prefetch control.
+                                                                 0x0 = No hardware data prefetch. This implicitly disables large offset
+                                                                 prefetcher (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]).
+                                                                 0x1 = Delta stream prefetcher activated only when there is no backpressure.
+                                                                 0x2 = Both delta stream and next line prefetchers activated only when there is
+                                                                 no backpressure.
+                                                                 0x9 = Delta stream prefetcher activated regardless of backpressure.
+                                                                 0xA = Both delta stream and next line prefetchers activated regardless of
+                                                                 backpressure.
+                                                                 _else = Unpredictable.
+
+                                                                 For values 1, 2, 9, and 10, the large offset prefetcher
+                                                                 (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]) has to be activated / deactivated
+                                                                 separately. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
@@ -5711,10 +5703,20 @@ union cavm_ap_cvmctl_el1
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
-        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
-        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
+        uint64_t dpref                 : 4;  /**< [ 43: 40](R/W) Dstream prefetch control.
+                                                                 0x0 = No hardware data prefetch. This implicitly disables large offset
+                                                                 prefetcher (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]).
+                                                                 0x1 = Delta stream prefetcher activated only when there is no backpressure.
+                                                                 0x2 = Both delta stream and next line prefetchers activated only when there is
+                                                                 no backpressure.
+                                                                 0x9 = Delta stream prefetcher activated regardless of backpressure.
+                                                                 0xA = Both delta stream and next line prefetchers activated regardless of
+                                                                 backpressure.
+                                                                 _else = Unpredictable.
+
+                                                                 For values 1, 2, 9, and 10, the large offset prefetcher
+                                                                 (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]) has to be activated / deactivated
+                                                                 separately. */
         uint64_t disable_ooo           : 1;  /**< [ 44: 44](R/W) Disable all out-of-order. */
         uint64_t disable_mem_ooo       : 1;  /**< [ 45: 45](R/W) Disable all memory out-of-order. */
         uint64_t force_strong_ordering : 1;  /**< [ 46: 46](R/W) Force strong load ordering.
@@ -5723,7 +5725,7 @@ union cavm_ap_cvmctl_el1
 
                                                                  Internal:
                                                                  CN8XXX is always strong ordering. */
-        uint64_t disable_load2         : 1;  /**< [ 47: 47](R/W) Disable second load port. */
+        uint64_t rsvd_47               : 1;  /**< [ 47: 47](R/W) Reserved. */
         uint64_t disable_optimum_occupancy : 1;/**< [ 48: 48](R/W) Increase ibuf occupancy time. */
         uint64_t disable_branch_elimination : 1;/**< [ 49: 49](R/W) Disable branch elimination. */
         uint64_t force_trc_clock       : 1;  /**< [ 50: 50](R/W) Force trace etm/etr clocks on. For diagnostic use only. */
@@ -5736,13 +5738,21 @@ union cavm_ap_cvmctl_el1
         uint64_t force_ld_a            : 1;  /**< [ 57: 57](R/W) Force acquire attributes to all loads. For diagnostic use only. */
         uint64_t force_st_r            : 1;  /**< [ 58: 58](R/W) Force release attributes to all stores. For diagnostic use only. */
         uint64_t disable_forward_progress : 1;/**< [ 59: 59](R/W) Disable forward progress requirement for remote TLBI flow. For diagnostic use only. */
-        uint64_t reserved_60_63        : 4;
+        uint64_t disable_large_offset_dpref : 1;/**< [ 60: 60](R/W) Disable large offset predictor. */
+        uint64_t disable_store_barrier_func : 1;/**< [ 61: 61](R/W) Disable store barrier functionality (v8.5 disable). */
+        uint64_t serialize_io_loads    : 1;  /**< [ 62: 62](R/W) If set, serialize IO loads. */
+        uint64_t acquire_imposes_barrier : 1;/**< [ 63: 63](R/W) If set, instructions with acquire properties have additional dependence
+                                                                 with later instructions. */
 #endif /* Word 0 - End */
     } s;
     struct cavm_ap_cvmctl_el1_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
+        uint64_t acquire_imposes_barrier : 1;/**< [ 63: 63](R/W) If set, instructions with acquire properties have additional dependence
+                                                                 with later instructions. */
+        uint64_t serialize_io_loads    : 1;  /**< [ 62: 62](R/W) If set, serialize IO loads. */
+        uint64_t disable_store_barrier_func : 1;/**< [ 61: 61](R/W) Disable store barrier functionality (v8.5 disable). */
+        uint64_t disable_large_offset_dpref : 1;/**< [ 60: 60](R/W) Disable large offset predictor. */
         uint64_t disable_forward_progress : 1;/**< [ 59: 59](R/W) Disable forward progress requirement for remote TLBI flow. For diagnostic use only. */
         uint64_t force_st_r            : 1;  /**< [ 58: 58](R/W) Force release attributes to all stores. For diagnostic use only. */
         uint64_t force_ld_a            : 1;  /**< [ 57: 57](R/W) Force acquire attributes to all loads. For diagnostic use only. */
@@ -5755,7 +5765,7 @@ union cavm_ap_cvmctl_el1
         uint64_t force_trc_clock       : 1;  /**< [ 50: 50](R/W) Force trace etm/etr clocks on. For diagnostic use only. */
         uint64_t disable_branch_elimination : 1;/**< [ 49: 49](R/W) Disable branch elimination. */
         uint64_t disable_optimum_occupancy : 1;/**< [ 48: 48](R/W) Increase ibuf occupancy time. */
-        uint64_t disable_load2         : 1;  /**< [ 47: 47](R/W) Disable second load port. */
+        uint64_t rsvd_47               : 1;  /**< [ 47: 47](R/W) Reserved. */
         uint64_t force_strong_ordering : 1;  /**< [ 46: 46](R/W) Force strong load ordering.
                                                                  0 = Weak ordering.
                                                                  1 = Strong ordering.
@@ -5764,10 +5774,20 @@ union cavm_ap_cvmctl_el1
                                                                  CN8XXX is always strong ordering. */
         uint64_t disable_mem_ooo       : 1;  /**< [ 45: 45](R/W) Disable all memory out-of-order. */
         uint64_t disable_ooo           : 1;  /**< [ 44: 44](R/W) Disable all out-of-order. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
-        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
-        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
-        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
+        uint64_t dpref                 : 4;  /**< [ 43: 40](R/W) Dstream prefetch control.
+                                                                 0x0 = No hardware data prefetch. This implicitly disables large offset
+                                                                 prefetcher (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]).
+                                                                 0x1 = Delta stream prefetcher activated only when there is no backpressure.
+                                                                 0x2 = Both delta stream and next line prefetchers activated only when there is
+                                                                 no backpressure.
+                                                                 0x9 = Delta stream prefetcher activated regardless of backpressure.
+                                                                 0xA = Both delta stream and next line prefetchers activated regardless of
+                                                                 backpressure.
+                                                                 _else = Unpredictable.
+
+                                                                 For values 1, 2, 9, and 10, the large offset prefetcher
+                                                                 (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]) has to be activated / deactivated
+                                                                 separately. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
@@ -5831,10 +5851,20 @@ union cavm_ap_cvmctl_el1
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
-        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
-        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
+        uint64_t dpref                 : 4;  /**< [ 43: 40](R/W) Dstream prefetch control.
+                                                                 0x0 = No hardware data prefetch. This implicitly disables large offset
+                                                                 prefetcher (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]).
+                                                                 0x1 = Delta stream prefetcher activated only when there is no backpressure.
+                                                                 0x2 = Both delta stream and next line prefetchers activated only when there is
+                                                                 no backpressure.
+                                                                 0x9 = Delta stream prefetcher activated regardless of backpressure.
+                                                                 0xA = Both delta stream and next line prefetchers activated regardless of
+                                                                 backpressure.
+                                                                 _else = Unpredictable.
+
+                                                                 For values 1, 2, 9, and 10, the large offset prefetcher
+                                                                 (AP_CVMCTL_EL1[DISABLE_LARGE_OFFSET_DPREF]) has to be activated / deactivated
+                                                                 separately. */
         uint64_t disable_ooo           : 1;  /**< [ 44: 44](R/W) Disable all out-of-order. */
         uint64_t disable_mem_ooo       : 1;  /**< [ 45: 45](R/W) Disable all memory out-of-order. */
         uint64_t force_strong_ordering : 1;  /**< [ 46: 46](R/W) Force strong load ordering.
@@ -5843,7 +5873,7 @@ union cavm_ap_cvmctl_el1
 
                                                                  Internal:
                                                                  CN8XXX is always strong ordering. */
-        uint64_t disable_load2         : 1;  /**< [ 47: 47](R/W) Disable second load port. */
+        uint64_t rsvd_47               : 1;  /**< [ 47: 47](R/W) Reserved. */
         uint64_t disable_optimum_occupancy : 1;/**< [ 48: 48](R/W) Increase ibuf occupancy time. */
         uint64_t disable_branch_elimination : 1;/**< [ 49: 49](R/W) Disable branch elimination. */
         uint64_t force_trc_clock       : 1;  /**< [ 50: 50](R/W) Force trace etm/etr clocks on. For diagnostic use only. */
@@ -5856,7 +5886,11 @@ union cavm_ap_cvmctl_el1
         uint64_t force_ld_a            : 1;  /**< [ 57: 57](R/W) Force acquire attributes to all loads. For diagnostic use only. */
         uint64_t force_st_r            : 1;  /**< [ 58: 58](R/W) Force release attributes to all stores. For diagnostic use only. */
         uint64_t disable_forward_progress : 1;/**< [ 59: 59](R/W) Disable forward progress requirement for remote TLBI flow. For diagnostic use only. */
-        uint64_t reserved_60_63        : 4;
+        uint64_t disable_large_offset_dpref : 1;/**< [ 60: 60](R/W) Disable large offset predictor. */
+        uint64_t disable_store_barrier_func : 1;/**< [ 61: 61](R/W) Disable store barrier functionality (v8.5 disable). */
+        uint64_t serialize_io_loads    : 1;  /**< [ 62: 62](R/W) If set, serialize IO loads. */
+        uint64_t acquire_imposes_barrier : 1;/**< [ 63: 63](R/W) If set, instructions with acquire properties have additional dependence
+                                                                 with later instructions. */
 #endif /* Word 0 - End */
     } cn;
 };
@@ -5878,7 +5912,7 @@ static inline uint64_t CAVM_AP_CVMCTL_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvmmemctl0_el1
  *
- * AP Cavium Memory Control 0 Register
+ * AP Marvell Memory Control 0 Register
  * This register controls memory features.
  */
 union cavm_ap_cvmmemctl0_el1
@@ -6120,7 +6154,7 @@ static inline uint64_t CAVM_AP_CVMMEMCTL0_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvmmemctl1_el1
  *
- * AP Cavium Memory Control 1 Register
+ * AP Marvell Memory Control 1 Register
  * This register controls additional memory-unit features.
  * Internal:
  * Back-end, non-debug.
@@ -6139,9 +6173,9 @@ union cavm_ap_cvmmemctl1_el1
         uint64_t rbfevictbyp3dis       : 1;  /**< [ 55: 55](R/W) MAF RBUF evict datapath 3-cycle bypass disable. For diagnostic use only. */
         uint64_t rbfevictbyp2dis       : 1;  /**< [ 54: 54](R/W) MAF RBUF evict datapath 2-cycle bypass disable. For diagnostic use only. */
         uint64_t xmcpriwbfdis          : 1;  /**< [ 53: 53](RO) XMC priority disable for predicted unlock WBF eviction. For diagnostic use only. */
-        uint64_t xmcpristdis           : 1;  /**< [ 52: 52](R/W) XMC priority disable for predicted unlock ST. For diagnostic use only. */
-        uint64_t xmcpriswpdis          : 1;  /**< [ 51: 51](R/W) XMC priority disable for predicted unlock SWP. For diagnostic use only. */
-        uint64_t xmcpricasdis          : 1;  /**< [ 50: 50](R/W) XMC priority disable for predicted unlock CAS. For diagnostic use only. */
+        uint64_t xmcpristdis           : 1;  /**< [ 52: 52](R/W) XMC priority disable for predicted unlock ST with release semantics. For diagnostic use only. */
+        uint64_t xmcpriswpdis          : 1;  /**< [ 51: 51](R/W) XMC priority disable for predicted unlock SWP with release semantics. For diagnostic use only. */
+        uint64_t xmcpricasdis          : 1;  /**< [ 50: 50](R/W) XMC priority disable for predicted unlock CAS with release semantics. For diagnostic use only. */
         uint64_t iostmergedis          : 1;  /**< [ 49: 49](R/W) IO ST merging disable. */
         uint64_t ioldmergedis          : 1;  /**< [ 48: 48](R/W) IO LD merging disable. */
         uint64_t gclkforce             : 1;  /**< [ 47: 47](R/W) Force gated clocks to be on. For diagnostic use only. */
@@ -6249,9 +6283,9 @@ union cavm_ap_cvmmemctl1_el1
         uint64_t gclkforce             : 1;  /**< [ 47: 47](R/W) Force gated clocks to be on. For diagnostic use only. */
         uint64_t ioldmergedis          : 1;  /**< [ 48: 48](R/W) IO LD merging disable. */
         uint64_t iostmergedis          : 1;  /**< [ 49: 49](R/W) IO ST merging disable. */
-        uint64_t xmcpricasdis          : 1;  /**< [ 50: 50](R/W) XMC priority disable for predicted unlock CAS. For diagnostic use only. */
-        uint64_t xmcpriswpdis          : 1;  /**< [ 51: 51](R/W) XMC priority disable for predicted unlock SWP. For diagnostic use only. */
-        uint64_t xmcpristdis           : 1;  /**< [ 52: 52](R/W) XMC priority disable for predicted unlock ST. For diagnostic use only. */
+        uint64_t xmcpricasdis          : 1;  /**< [ 50: 50](R/W) XMC priority disable for predicted unlock CAS with release semantics. For diagnostic use only. */
+        uint64_t xmcpriswpdis          : 1;  /**< [ 51: 51](R/W) XMC priority disable for predicted unlock SWP with release semantics. For diagnostic use only. */
+        uint64_t xmcpristdis           : 1;  /**< [ 52: 52](R/W) XMC priority disable for predicted unlock ST with release semantics. For diagnostic use only. */
         uint64_t xmcpriwbfdis          : 1;  /**< [ 53: 53](RO) XMC priority disable for predicted unlock WBF eviction. For diagnostic use only. */
         uint64_t rbfevictbyp2dis       : 1;  /**< [ 54: 54](R/W) MAF RBUF evict datapath 2-cycle bypass disable. For diagnostic use only. */
         uint64_t rbfevictbyp3dis       : 1;  /**< [ 55: 55](R/W) MAF RBUF evict datapath 3-cycle bypass disable. For diagnostic use only. */
@@ -6282,7 +6316,7 @@ static inline uint64_t CAVM_AP_CVMMEMCTL1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvmmemctl2_el1
  *
- * AP Cavium Memory Control 2 Register
+ * AP Marvell Memory Control 2 Register
  * This register controls additional memory-unit features.
  * Internal:
  * Back-end, non-debug.
@@ -6313,6 +6347,11 @@ union cavm_ap_cvmmemctl2_el1
         uint64_t mtlbiswprefdis        : 1;  /**< [ 32: 32](R/W) Disable MTLB access on istream software prefetches. */
         uint64_t rsvd_25_31            : 7;  /**< [ 31: 25](R/W) Reserved. */
         uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
+
+                                                                 [MTLB0_BLOCK_MSK] must always be a subset of TLBI_BLOCK_MSK. For example, if
+                                                                 [TLBI_BLOCK_MSK] indicates the following block sizes: 4KB, 64KB, 2MB, then
+                                                                 [MTLB0_BLOCK_MSK] cannot have any other block size in it.
+
                                                                  For each bit {a} in this field:
                                                                  _ Mask\<{a}\>=0 = blocksize {a} is not precisely invalidated.
                                                                  _ Mask\<{a}\>=1 = blocksize {a} is     precisely invalidated.
@@ -6328,6 +6367,11 @@ union cavm_ap_cvmmemctl2_el1
                                                                  _ Mask\<8\> represents block size 2^42. */
         uint64_t rsvd_9_15             : 7;  /**< [ 15:  9](R/W) Reserved. */
         uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
+
+                                                                 [MTLB0_BLOCK_MSK] must always be a subset of TLBI_BLOCK_MSK. For example, if
+                                                                 [TLBI_BLOCK_MSK] indicates the following block sizes: 4KB, 64KB, 2MB, then
+                                                                 [MTLB0_BLOCK_MSK] cannot have any other block size in it.
+
                                                                  For each bit {a} in this field:
                                                                  _ Mask\<{a}\>=0 = blocksize {a} allocated in MTLB1.
                                                                  _ Mask\<{a}\>=1 = blocksize {a} allocated in MTLB0.
@@ -6343,6 +6387,11 @@ union cavm_ap_cvmmemctl2_el1
                                                                  _ Mask\<8\> represents block size 2^42. */
 #else /* Word 0 - Little Endian */
         uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
+
+                                                                 [MTLB0_BLOCK_MSK] must always be a subset of TLBI_BLOCK_MSK. For example, if
+                                                                 [TLBI_BLOCK_MSK] indicates the following block sizes: 4KB, 64KB, 2MB, then
+                                                                 [MTLB0_BLOCK_MSK] cannot have any other block size in it.
+
                                                                  For each bit {a} in this field:
                                                                  _ Mask\<{a}\>=0 = blocksize {a} allocated in MTLB1.
                                                                  _ Mask\<{a}\>=1 = blocksize {a} allocated in MTLB0.
@@ -6358,6 +6407,11 @@ union cavm_ap_cvmmemctl2_el1
                                                                  _ Mask\<8\> represents block size 2^42. */
         uint64_t rsvd_9_15             : 7;  /**< [ 15:  9](R/W) Reserved. */
         uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
+
+                                                                 [MTLB0_BLOCK_MSK] must always be a subset of TLBI_BLOCK_MSK. For example, if
+                                                                 [TLBI_BLOCK_MSK] indicates the following block sizes: 4KB, 64KB, 2MB, then
+                                                                 [MTLB0_BLOCK_MSK] cannot have any other block size in it.
+
                                                                  For each bit {a} in this field:
                                                                  _ Mask\<{a}\>=0 = blocksize {a} is not precisely invalidated.
                                                                  _ Mask\<{a}\>=1 = blocksize {a} is     precisely invalidated.
@@ -6412,7 +6466,7 @@ static inline uint64_t CAVM_AP_CVMMEMCTL2_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvmmemctl3_el1
  *
- * AP Cavium Memory Control 3 Register
+ * AP Marvell Memory Control 3 Register
  * This register controls additional memory-unit features.
  * Internal:
  * Back-end, non-debug.
@@ -6838,13 +6892,13 @@ union cavm_ap_dbgbvrx_el1
     struct cavm_ap_dbgbvrx_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Data for breakpoint value. This doesn't match ARM docs as
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Data for breakpoint value. This doesn't match Arm docs as
                                                                  they have many encoding of the same register.
                                                                  Reserved, Sign extended. Hardwired to the value of the sign
                                                                      bit, bit [48]. Hardware and software must treat this field as
                                                                      RES0 if bit[48] is 0, and as RES1 if bit[48] is 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Data for breakpoint value. This doesn't match ARM docs as
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Data for breakpoint value. This doesn't match Arm docs as
                                                                  they have many encoding of the same register.
                                                                  Reserved, Sign extended. Hardwired to the value of the sign
                                                                      bit, bit [48]. Hardware and software must treat this field as
@@ -7286,7 +7340,7 @@ union cavm_ap_dbgwcrx_el1
                                                                  x1xxxxxx    Match byte at DBGWVR\<n\>_EL1+6
                                                                  1xxxxxxx    Match byte at DBGWVR\<n\>_EL1+7
 
-                                                                 If DBGWVR\<n\>_EL1[2] == 1, only BAS[3:0] is used. ARM
+                                                                 If DBGWVR\<n\>_EL1[2] == 1, only BAS[3:0] is used. Arm
                                                                      deprecates setting DBGWVR\<n\>_EL1 == 1.
                                                                  If BAS is zero, no bytes are watched by this watchpoint.
                                                                  Ignored if E is 0. */
@@ -7344,7 +7398,7 @@ union cavm_ap_dbgwcrx_el1
                                                                  x1xxxxxx    Match byte at DBGWVR\<n\>_EL1+6
                                                                  1xxxxxxx    Match byte at DBGWVR\<n\>_EL1+7
 
-                                                                 If DBGWVR\<n\>_EL1[2] == 1, only BAS[3:0] is used. ARM
+                                                                 If DBGWVR\<n\>_EL1[2] == 1, only BAS[3:0] is used. Arm
                                                                      deprecates setting DBGWVR\<n\>_EL1 == 1.
                                                                  If BAS is zero, no bytes are watched by this watchpoint.
                                                                  Ignored if E is 0. */
@@ -7409,12 +7463,12 @@ union cavm_ap_dbgwvrx_el1
                                                                      bit, bit [52]. Hardware and software must treat this field as
                                                                      RES0 if bit[52] is 0, and as RES1 if bit[52] is 1. */
         uint64_t va                    : 51; /**< [ 52:  2](R/W) Bits[52:2] of the address value for comparison.
-                                                                 ARM deprecates setting DBGWVR\<n\>_EL1[2] == 1. */
+                                                                 Arm deprecates setting DBGWVR\<n\>_EL1[2] == 1. */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
         uint64_t va                    : 51; /**< [ 52:  2](R/W) Bits[52:2] of the address value for comparison.
-                                                                 ARM deprecates setting DBGWVR\<n\>_EL1[2] == 1. */
+                                                                 Arm deprecates setting DBGWVR\<n\>_EL1[2] == 1. */
         uint64_t ress                  : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardwired to the value of the sign
                                                                      bit, bit [52]. Hardware and software must treat this field as
                                                                      RES0 if bit[52] is 0, and as RES1 if bit[52] is 1. */
@@ -7620,7 +7674,9 @@ union cavm_ap_dspsr_el0
                                                                  Debug state was entered. */
         uint32_t il                    : 1;  /**< [ 20: 20](R/W) Illegal Execution State bit. Shows the value of PSTATE[IL]
                                                                      immediately before Debug state was entered. */
-        uint32_t reserved_10_19        : 10;
+        uint32_t reserved_13_19        : 7;
+        uint32_t ssbs                  : 1;  /**< [ 12: 12](R/W) Speculative store bypass safe. */
+        uint32_t reserved_10_11        : 2;
         uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE.[D,A,I,F] */
         uint32_t aa                    : 1;  /**< [  8:  8](R/W) Asynchronous data abort mask bit.
                                                                  0 = Exception not masked.
@@ -7652,7 +7708,9 @@ union cavm_ap_dspsr_el0
                                                                  0 = Exception not masked.
                                                                  1 = Exception masked. */
         uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE.[D,A,I,F] */
-        uint32_t reserved_10_19        : 10;
+        uint32_t reserved_10_11        : 2;
+        uint32_t ssbs                  : 1;  /**< [ 12: 12](R/W) Speculative store bypass safe. */
+        uint32_t reserved_13_19        : 7;
         uint32_t il                    : 1;  /**< [ 20: 20](R/W) Illegal Execution State bit. Shows the value of PSTATE[IL]
                                                                      immediately before Debug state was entered. */
         uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
@@ -7834,12 +7892,12 @@ union cavm_ap_errselr_el1
                                                                        - The ERX* registers are RAZ/WI.
                                                                        - ERX* register reads and writes are NOPs.
                                                                        - ERX* register reads and writes are UNDEFINED.
-                                                                     Note: The ARM preferred behavior if one or more records are implemented is:
+                                                                     Note: The Arm preferred behavior if one or more records are implemented is:
                                                                        - SEL is implemented as an N-bit field, where N is the smallest value such that
                                                                  ERRIDR_EL1.NUM . 2N.
                                                                        - If the value written to SEL modulo 2N is greater than or equal to ERRIDR_EL1.NUM,
                                                                  a dummy RAZ/WI record is selected.
-                                                                     If zero records are implemented, the ARM preferred behavior is for ERRSELR_EL1 and
+                                                                     If zero records are implemented, the Arm preferred behavior is for ERRSELR_EL1 and
                                                                  ERX* to be undefined. */
 #else /* Word 0 - Little Endian */
         uint64_t sel                   : 16; /**< [ 15:  0](R/W) Selects the record accessed through the ERX registers.
@@ -7853,12 +7911,12 @@ union cavm_ap_errselr_el1
                                                                        - The ERX* registers are RAZ/WI.
                                                                        - ERX* register reads and writes are NOPs.
                                                                        - ERX* register reads and writes are UNDEFINED.
-                                                                     Note: The ARM preferred behavior if one or more records are implemented is:
+                                                                     Note: The Arm preferred behavior if one or more records are implemented is:
                                                                        - SEL is implemented as an N-bit field, where N is the smallest value such that
                                                                  ERRIDR_EL1.NUM . 2N.
                                                                        - If the value written to SEL modulo 2N is greater than or equal to ERRIDR_EL1.NUM,
                                                                  a dummy RAZ/WI record is selected.
-                                                                     If zero records are implemented, the ARM preferred behavior is for ERRSELR_EL1 and
+                                                                     If zero records are implemented, the Arm preferred behavior is for ERRSELR_EL1 and
                                                                  ERX* to be undefined. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -8222,7 +8280,7 @@ union cavm_ap_erxfr_el1
         uint64_t imp_fe                : 2;  /**< [  3:  2](RO) Implementation defined.
                                                                  0x0 = No additional feature.
                                                                  0x1 = Reserved.
-                                                                 0x2 = Cavium force error feature is supported.
+                                                                 0x2 = Marvell force error feature is supported.
                                                                  0x3 = Reserved.
 
                                                                  For CNXXXX depends on the record.
@@ -8248,7 +8306,7 @@ union cavm_ap_erxfr_el1
         uint64_t imp_fe                : 2;  /**< [  3:  2](RO) Implementation defined.
                                                                  0x0 = No additional feature.
                                                                  0x1 = Reserved.
-                                                                 0x2 = Cavium force error feature is supported.
+                                                                 0x2 = Marvell force error feature is supported.
                                                                  0x3 = Reserved.
 
                                                                  For CNXXXX depends on the record.
@@ -8516,7 +8574,7 @@ union cavm_ap_erxstatus_el1
                                                                  * A corrected error is detected and the corrected error counter overflows (or
                                                                  is not implemented).
 
-                                                                 For more information see the ARM RAS standard. */
+                                                                 For more information see the Arm RAS standard. */
         uint64_t mv                    : 1;  /**< [ 26: 26](R/W1C/H) Miscellaneous registers valid. The AP_ERXMISC0_EL1 and AP_ERXMISC1_EL1 contains
                                                                  additional information for an error recorded by this record.
 
@@ -8621,7 +8679,7 @@ union cavm_ap_erxstatus_el1
                                                                  * A corrected error is detected and the corrected error counter overflows (or
                                                                  is not implemented).
 
-                                                                 For more information see the ARM RAS standard. */
+                                                                 For more information see the Arm RAS standard. */
         uint64_t er                    : 1;  /**< [ 28: 28](R/W1C/H) Error reported.
                                                                  0 = No external abort reported.
                                                                  1 = The applicable one of the AP_ERXCTLR_EL1[WUE],[RUE],[UE] bits was set when
@@ -8781,7 +8839,11 @@ union cavm_ap_esr_elx
                                                                      that     might have been used at the Exception level from
                                                                      which the     exception was taken.  The value 0b11111.
 
-                                                                 When the EC field is0b000000 RES0. */
+                                                                 When the EC field is RES0.
+
+                                                                 Internal:
+                                                                 For Marvell IO traps bit 10 is opposite general conventions - what should be
+                                                                 FAR_EL3_Not_valid is FAR_EL3_Valid; see bug35575. */
 #else /* Word 0 - Little Endian */
         uint32_t iss                   : 25; /**< [ 24:  0](R/W) Instruction Specific Syndrome. Architecturally, this field can
                                                                      be defined independently for each defined Exception class.
@@ -8803,7 +8865,11 @@ union cavm_ap_esr_elx
                                                                      that     might have been used at the Exception level from
                                                                      which the     exception was taken.  The value 0b11111.
 
-                                                                 When the EC field is0b000000 RES0. */
+                                                                 When the EC field is RES0.
+
+                                                                 Internal:
+                                                                 For Marvell IO traps bit 10 is opposite general conventions - what should be
+                                                                 FAR_EL3_Not_valid is FAR_EL3_Valid; see bug35575. */
         uint32_t il                    : 1;  /**< [ 25: 25](R/W) Instruction Length for synchronous exceptions.
                                                                  0 = 16-bit instruction trapped.
                                                                  1 = 32-bit instruction trapped. This value is also used when the
@@ -11877,10 +11943,10 @@ union cavm_ap_icc_rpr_el1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pri                   : 8;  /**< [  7:  0](R/W) The current running priority on the CPU interface. This is the
+        uint32_t pri                   : 8;  /**< [  7:  0](RO/H) The current running priority on the CPU interface. This is the
                                                                      priority of the current active interrupt. */
 #else /* Word 0 - Little Endian */
-        uint32_t pri                   : 8;  /**< [  7:  0](R/W) The current running priority on the CPU interface. This is the
+        uint32_t pri                   : 8;  /**< [  7:  0](RO/H) The current running priority on the CPU interface. This is the
                                                                      priority of the current active interrupt. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -13441,7 +13507,7 @@ static inline uint64_t CAVM_AP_ICH_VTR_EL2_FUNC(void)
  *
  * Reserved for future expansion of information about the
  *     implementation defined features of the processor in AArch64.
- *     ARM doesn't actually assign a name to these registers, so
+ *     Arm doesn't actually assign a name to these registers, so
  *     for CNXXXX a made up one.
  */
 union cavm_ap_id_aa64afrx_el1_res0
@@ -13549,7 +13615,7 @@ static inline uint64_t CAVM_AP_ID_AA64AFR1_EL1_FUNC(void)
  * INTERNAL: AP AArch64 Reserved Register
  *
  * Reserved for future expansion of top level information about
- *     the debug system in AArch64. ARM doesn't actually assign
+ *     the debug system in AArch64. Arm doesn't actually assign
  *     a name to these registers, so CNXXXX made up one.
  */
 union cavm_ap_id_aa64dfrx_el1_res0
@@ -13747,7 +13813,7 @@ static inline uint64_t CAVM_AP_ID_AA64DFR1_EL1_FUNC(void)
  *
  * Reserved for future expansion of the information about the
  *     instruction sets implemented by the processor in AArch64.
- *     ARM doesn't actually assign a name to these registers, so
+ *     Arm doesn't actually assign a name to these registers, so
  *     CNXXXX made up one.
  */
 union cavm_ap_id_aa64isarx_el1_res0
@@ -13816,21 +13882,24 @@ union cavm_ap_id_aa64isar0_el1
                                                                  0x1 = CRC32B, CRC32H, CRC32W, CRC32X, CRC32CB, CRC32CH, CRC32CW, and
                                                                      CRC32CX instructions implemented.
 
-                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
+                                                                 Internal:
+                                                                 In CNXXXX, supported unless crypto disabled by FUS_FUSE_NUM_E::AP_NOCRYPTO(). */
         uint64_t sha2                  : 4;  /**< [ 15: 12](RO) SHA2 instructions in AArch64.
                                                                  All other values are reserved.
                                                                  0x0 = No SHA2 instructions implemented.
                                                                  0x1 = SHA256H, SHA256H2, SHA256SU0, and SHA256SU1 instructions
                                                                      implemented.
 
-                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
+                                                                 Internal:
+                                                                 In CNXXXX, supported unless crypto disabled by FUS_FUSE_NUM_E::AP_NOCRYPTO(). */
         uint64_t sha1                  : 4;  /**< [ 11:  8](RO) SHA1 instructions in AArch64.
                                                                  All other values are reserved.
                                                                  0x0 = No SHA1 instructions implemented.
                                                                  0x1 = SHA1C, SHA1P, SHA1M, SHA1H, SHA1SU0, and SHA1SU1 instructions
                                                                      implemented.
 
-                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
+                                                                 Internal:
+                                                                 In CNXXXX, supported unless crypto disabled by FUS_FUSE_NUM_E::AP_NOCRYPTO(). */
         uint64_t aes                   : 4;  /**< [  7:  4](RO) AES instructions in AArch64.
                                                                  0x0 = No AES instructions implemented.
                                                                  0x1 = AESE, AESD, AESMC, and AESIMC instructions implemented.
@@ -13854,14 +13923,16 @@ union cavm_ap_id_aa64isar0_el1
                                                                  0x1 = SHA1C, SHA1P, SHA1M, SHA1H, SHA1SU0, and SHA1SU1 instructions
                                                                      implemented.
 
-                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
+                                                                 Internal:
+                                                                 In CNXXXX, supported unless crypto disabled by FUS_FUSE_NUM_E::AP_NOCRYPTO(). */
         uint64_t sha2                  : 4;  /**< [ 15: 12](RO) SHA2 instructions in AArch64.
                                                                  All other values are reserved.
                                                                  0x0 = No SHA2 instructions implemented.
                                                                  0x1 = SHA256H, SHA256H2, SHA256SU0, and SHA256SU1 instructions
                                                                      implemented.
 
-                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
+                                                                 Internal:
+                                                                 In CNXXXX, supported unless crypto disabled by FUS_FUSE_NUM_E::AP_NOCRYPTO(). */
         uint64_t crc32                 : 4;  /**< [ 19: 16](RO) CRC32 instructions in AArch64.
                                                                  All other values are reserved.
                                                                  This field must have the same value as ID_ISAR5[CRC32]. The
@@ -13872,7 +13943,8 @@ union cavm_ap_id_aa64isar0_el1
                                                                  0x1 = CRC32B, CRC32H, CRC32W, CRC32X, CRC32CB, CRC32CH, CRC32CW, and
                                                                      CRC32CX instructions implemented.
 
-                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
+                                                                 Internal:
+                                                                 In CNXXXX, supported unless crypto disabled by FUS_FUSE_NUM_E::AP_NOCRYPTO(). */
         uint64_t atomic                : 4;  /**< [ 23: 20](RO) Atomic instructions in AArch64
                                                                      0x0 = No Atomic instructions implemented.
                                                                      0x1 = Reserved.
@@ -13919,7 +13991,9 @@ union cavm_ap_id_aa64isar1_el1
     struct cavm_ap_id_aa64isar1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_40_63        : 24;
+        uint64_t sb                    : 4;  /**< [ 39: 36](RO) Speculative Barrier. */
+        uint64_t reserved_4_35         : 32;
         uint64_t dpb                   : 4;  /**< [  3:  0](RO) 0x0 = DC CVAP not supported in AArch64.
                                                                  0x1 = DC CVAP supported in AArch64.
 
@@ -13929,7 +14003,9 @@ union cavm_ap_id_aa64isar1_el1
                                                                  0x1 = DC CVAP supported in AArch64.
 
                                                                  All other values reserved. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_4_35         : 32;
+        uint64_t sb                    : 4;  /**< [ 39: 36](RO) Speculative Barrier. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ap_id_aa64isar1_el1_s cn; */
@@ -13956,7 +14032,7 @@ static inline uint64_t CAVM_AP_ID_AA64ISAR1_EL1_FUNC(void)
  *
  * Reserved for future expansion of the information about the
  *     implemented memory model and memory management support in
- *     AArch64. ARM doesn't actually assign a name to these
+ *     AArch64. Arm doesn't actually assign a name to these
  *     registers, so CNXXXX made up one.
  */
 union cavm_ap_id_aa64mmfrx_el1_res0
@@ -14385,7 +14461,7 @@ static inline uint64_t CAVM_AP_ID_AA64MMFR2_EL1_FUNC(void)
  * INTERNAL: AP AArch64 Reserved Register
  *
  * Reserved for future expansion of information about implemented
- *     processor features in AArch64. ARM doesn't actually assign
+ *     processor features in AArch64. Arm doesn't actually assign
  *     a name to these registers, so CNXXXX made up one.
  */
 union cavm_ap_id_aa64pfrx_el1_res0
@@ -14569,9 +14645,57 @@ union cavm_ap_id_aa64pfr1_el1
     struct cavm_ap_id_aa64pfr1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_8_63         : 56;
+        uint64_t ssbs                  : 4;  /**< [  7:  4](RO) 0000 - AArch64 provides no mechanism to control the use of Speculative Store Bypassing
+                                                                 0001 - AArch64 provides the PSTATE.SSBS mechanism to mark regions that are
+                                                                 Speculative Store Bypassing Safe, but does not implement the MSR/MRS
+                                                                 instructions to directly read and write the PSTATE.SSBS field
+                                                                 0010 - AArch64 provides the PSTATE.SSBS mechanism to mark regions that are
+                                                                 Speculative Store Bypassing Safe, and the MSR/MRS instructions to directly read
+                                                                 and write the PSTATE.SSBS field
+
+                                                                 All other values RESERVED
+
+                                                                 CYA bit = CVMCTL_EL1[61]
+                                                                 CYA bit = 0 =\> v8.5 enabled for T93 1.1 and T95.
+                                                                 SB  : ID_AA64ISAR1_EL1[39:36] = 0001 [SB instruction implemented]
+                                                                 SSBS: ID_AA64PFR1_EL1[7:4]    = 0010 [AArch64 provides the PSTATE.SSBS mechanism
+                                                                 to mark regions that are Speculative Store Bypassing Safe, and the MSR/MRS
+                                                                 instructions to directly read and write the PSTATE.SSBS field -- our
+                                                                 interpretation is that this means stores and loads are in order when PSTATE.SSBS
+                                                                 is zero]
+
+                                                                 CYA bit = 1 =\> v8.5 disabled for T93 1.1 and T95:
+                                                                 SB  : ID_AA64ISAR1_EL1[39:36] = 0000 [SB instruction not implemented]
+                                                                 SSBS: ID_AA64PFR1_EL1[7:4]    = 0000 [AArch64 provides no mechanism to control
+                                                                 the use of Speculative Store Bypassing] */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_0_3          : 4;
+        uint64_t ssbs                  : 4;  /**< [  7:  4](RO) 0000 - AArch64 provides no mechanism to control the use of Speculative Store Bypassing
+                                                                 0001 - AArch64 provides the PSTATE.SSBS mechanism to mark regions that are
+                                                                 Speculative Store Bypassing Safe, but does not implement the MSR/MRS
+                                                                 instructions to directly read and write the PSTATE.SSBS field
+                                                                 0010 - AArch64 provides the PSTATE.SSBS mechanism to mark regions that are
+                                                                 Speculative Store Bypassing Safe, and the MSR/MRS instructions to directly read
+                                                                 and write the PSTATE.SSBS field
+
+                                                                 All other values RESERVED
+
+                                                                 CYA bit = CVMCTL_EL1[61]
+                                                                 CYA bit = 0 =\> v8.5 enabled for T93 1.1 and T95.
+                                                                 SB  : ID_AA64ISAR1_EL1[39:36] = 0001 [SB instruction implemented]
+                                                                 SSBS: ID_AA64PFR1_EL1[7:4]    = 0010 [AArch64 provides the PSTATE.SSBS mechanism
+                                                                 to mark regions that are Speculative Store Bypassing Safe, and the MSR/MRS
+                                                                 instructions to directly read and write the PSTATE.SSBS field -- our
+                                                                 interpretation is that this means stores and loads are in order when PSTATE.SSBS
+                                                                 is zero]
+
+                                                                 CYA bit = 1 =\> v8.5 disabled for T93 1.1 and T95:
+                                                                 SB  : ID_AA64ISAR1_EL1[39:36] = 0000 [SB instruction not implemented]
+                                                                 SSBS: ID_AA64PFR1_EL1[7:4]    = 0000 [AArch64 provides no mechanism to control
+                                                                 the use of Speculative Store Bypassing] */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ap_id_aa64pfr1_el1_s cn; */
@@ -14703,7 +14827,7 @@ static inline uint64_t CAVM_AP_ID_ISARX_EL1(uint64_t a)
  *
  * INTERNAL: AP ARM32 Instruction Set Attribute Register
  *
- * Instruction set attribute register. ARM doesn't actually assign a name to these registers, so
+ * Instruction set attribute register. Arm doesn't actually assign a name to these registers, so
  * CNXXXX made up one.
  */
 union cavm_ap_id_isar7_el1_res0
@@ -17174,11 +17298,11 @@ union cavm_ap_midr_el1
     struct cavm_ap_midr_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer code that has been assigned by ARM. Assigned codes include the
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer code that has been assigned by Arm. Assigned codes include the
                                                                  following:
-                                                                 0x41 = 'A' = ARM Limited.
+                                                                 0x41 = 'A' = Arm Limited.
                                                                  0x42 = 'B' = Broadcom Corporation.
-                                                                 0x43 = 'C' = Cavium Inc.
+                                                                 0x43 = 'C' = Marvell (Cavium) Inc.
                                                                  0x44 = 'D' = Digital Equipment Corporation.
                                                                  0x49 = 'I' = Infineon Technologies AG.
                                                                  0x4D = 'M' = Motorola or Freescale Semiconductor Inc.
@@ -17194,7 +17318,7 @@ union cavm_ap_midr_el1
                                                                      variants, or major revisions of a product.
 
                                                                  For CNXXXX this is the major revision field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] bits 21..19 for more information. */
+                                                                 See FUS_FUSE_NUM_E::CHIP_ID() for more information. */
         uint32_t architecture          : 4;  /**< [ 19: 16](RO) 0x1 = ARMv4.
                                                                  0x2 = ARMv4T.
                                                                  0x3 = ARMv5 (obsolete).
@@ -17206,24 +17330,24 @@ union cavm_ap_midr_el1
 
                                                                  For CNXXXX, CPUID scheme. */
         uint32_t partnum               : 12; /**< [ 15:  4](RO) An implementation defined primary part number for the device.
-                                                                 On processors implemented by ARM, if the top four bits of the
+                                                                 On processors implemented by Arm, if the top four bits of the
                                                                      primary part number are 0x00x7.
-                                                                 Processors implemented by ARM have an Implementer code of 0x41.
+                                                                 Processors implemented by Arm have an Implementer code of 0x41.
 
                                                                  For CNXXXX, the chip ID. Enumerated by PCC_PROD_E. */
         uint32_t revision              : 4;  /**< [  3:  0](RO) An implementation defined revision number for the device.
 
                                                                  For CNXXXX this is the minor revision field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] bits 18..16 for more information. */
+                                                                 See FUS_FUSE_NUM_E::CHIP_ID() for more information. */
 #else /* Word 0 - Little Endian */
         uint32_t revision              : 4;  /**< [  3:  0](RO) An implementation defined revision number for the device.
 
                                                                  For CNXXXX this is the minor revision field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] bits 18..16 for more information. */
+                                                                 See FUS_FUSE_NUM_E::CHIP_ID() for more information. */
         uint32_t partnum               : 12; /**< [ 15:  4](RO) An implementation defined primary part number for the device.
-                                                                 On processors implemented by ARM, if the top four bits of the
+                                                                 On processors implemented by Arm, if the top four bits of the
                                                                      primary part number are 0x00x7.
-                                                                 Processors implemented by ARM have an Implementer code of 0x41.
+                                                                 Processors implemented by Arm have an Implementer code of 0x41.
 
                                                                  For CNXXXX, the chip ID. Enumerated by PCC_PROD_E. */
         uint32_t architecture          : 4;  /**< [ 19: 16](RO) 0x1 = ARMv4.
@@ -17241,12 +17365,12 @@ union cavm_ap_midr_el1
                                                                      variants, or major revisions of a product.
 
                                                                  For CNXXXX this is the major revision field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] bits 21..19 for more information. */
-        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer code that has been assigned by ARM. Assigned codes include the
+                                                                 See FUS_FUSE_NUM_E::CHIP_ID() for more information. */
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Implementer code that has been assigned by Arm. Assigned codes include the
                                                                  following:
-                                                                 0x41 = 'A' = ARM Limited.
+                                                                 0x41 = 'A' = Arm Limited.
                                                                  0x42 = 'B' = Broadcom Corporation.
-                                                                 0x43 = 'C' = Cavium Inc.
+                                                                 0x43 = 'C' = Marvell (Cavium) Inc.
                                                                  0x44 = 'D' = Digital Equipment Corporation.
                                                                  0x49 = 'I' = Infineon Technologies AG.
                                                                  0x4D = 'M' = Motorola or Freescale Semiconductor Inc.
@@ -17310,23 +17434,15 @@ union cavm_ap_mpidr_el1
         uint64_t aff2                  : 8;  /**< [ 23: 16](RO) Affinity level 2. Second highest level affinity field.
 
                                                                  For CNXXXX, the socket number. */
-        uint64_t aff1                  : 8;  /**< [ 15:  8](RO) Affinity level 1. Third highest level affinity field.
-
-                                                                 For CN93XX the processor number lower 2 bits. */
+        uint64_t aff1                  : 8;  /**< [ 15:  8](RO) Affinity level 1. Third highest level affinity field. */
         uint64_t aff0                  : 8;  /**< [  7:  0](RO) Affinity level 0. Lowest level affinity field.
                                                                  WARNING: The GIC register ICC_SGI{0,1}R_EL1 limits this
-                                                                 to 0-15 as its a 16 bit mask.
-
-                                                                 For CN93XX the processor number upper 3 bits. */
+                                                                 to 0-15 as its a 16 bit mask. */
 #else /* Word 0 - Little Endian */
         uint64_t aff0                  : 8;  /**< [  7:  0](RO) Affinity level 0. Lowest level affinity field.
                                                                  WARNING: The GIC register ICC_SGI{0,1}R_EL1 limits this
-                                                                 to 0-15 as its a 16 bit mask.
-
-                                                                 For CN93XX the processor number upper 3 bits. */
-        uint64_t aff1                  : 8;  /**< [ 15:  8](RO) Affinity level 1. Third highest level affinity field.
-
-                                                                 For CN93XX the processor number lower 2 bits. */
+                                                                 to 0-15 as its a 16 bit mask. */
+        uint64_t aff1                  : 8;  /**< [ 15:  8](RO) Affinity level 1. Third highest level affinity field. */
         uint64_t aff2                  : 8;  /**< [ 23: 16](RO) Affinity level 2. Second highest level affinity field.
 
                                                                  For CNXXXX, the socket number. */
@@ -18089,7 +18205,7 @@ static inline uint64_t CAVM_AP_PMBPTR_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_pmbsr_el1
  *
- * AP Profiling Buffer Status/syndrome Register
+ * AP Profiling Buffer Status/Syndrome Register
  * Provides syndrome information to software when the buffer is disabled because the management
  * interrupt has been raised.
  */
@@ -18111,13 +18227,11 @@ union cavm_ap_pmbsr_el1
         uint64_t dl                    : 1;  /**< [ 19: 19](R/W) Partial record lost.
                                                                    0 = PMBPTR_EL1 points to the first byte after the last complete record written to the
                                                                  buffer.
-                                                                   1 = Part of a record was lost due to a service event or external abort. PMBPTR_EL1 might
-                                                                 not point to
-                                                                   the first byte after the last complete record written to the buffer, and so restarting
-                                                                 collection might
-                                                                   result in a data record stream that software cannot parse. All records prior to the last
-                                                                 record have
-                                                                   been written to the buffer. */
+                                                                   1 = Part of a record was lost due to a service event or external
+                                                                 abort. PMBPTR_EL1 might not point to the first byte after the last complete
+                                                                 record written to the buffer, and so restarting collection might result in a
+                                                                 data record stream that software cannot parse. All records prior to the last
+                                                                 record have been written to the buffer. */
         uint64_t ea                    : 1;  /**< [ 18: 18](R/W) External abort.
                                                                    0 = An external abort has not been asserted.
                                                                    1 = An external abort has been asserted. */
@@ -18188,13 +18302,11 @@ union cavm_ap_pmbsr_el1
         uint64_t dl                    : 1;  /**< [ 19: 19](R/W) Partial record lost.
                                                                    0 = PMBPTR_EL1 points to the first byte after the last complete record written to the
                                                                  buffer.
-                                                                   1 = Part of a record was lost due to a service event or external abort. PMBPTR_EL1 might
-                                                                 not point to
-                                                                   the first byte after the last complete record written to the buffer, and so restarting
-                                                                 collection might
-                                                                   result in a data record stream that software cannot parse. All records prior to the last
-                                                                 record have
-                                                                   been written to the buffer. */
+                                                                   1 = Part of a record was lost due to a service event or external
+                                                                 abort. PMBPTR_EL1 might not point to the first byte after the last complete
+                                                                 record written to the buffer, and so restarting collection might result in a
+                                                                 data record stream that software cannot parse. All records prior to the last
+                                                                 record have been written to the buffer. */
         uint64_t reserved_20_25        : 6;
         uint64_t ec                    : 6;  /**< [ 31: 26](R/W) Exception class.
                                                                    000000 = Buffer management event.
@@ -18729,7 +18841,7 @@ union cavm_ap_pmcr_el0
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t imp                   : 8;  /**< [ 31: 24](RO) Implementer code. This field is RO with an implementation
                                                                      defined value.
-                                                                 The implementer codes are allocated by ARM. Values have the
+                                                                 The implementer codes are allocated by Arm. Values have the
                                                                      same interpretation as bits [31:24] of the MIDR. */
         uint32_t idcode                : 8;  /**< [ 23: 16](RO) Identification code. This field is RO with an implementation
                                                                      defined value.
@@ -18749,7 +18861,7 @@ union cavm_ap_pmcr_el0
         uint32_t reserved_7_10         : 4;
         uint32_t lc                    : 1;  /**< [  6:  6](RO) Long cycle counter enable. Determines which AP_PMCCNTR_EL0 bit
                                                                      generates an overflow recorded by PMOVSR[31].
-                                                                 ARM deprecates use of AP_PMCR_EL0[LC] = 0.
+                                                                 Arm deprecates use of AP_PMCR_EL0[LC] = 0.
                                                                  0 = Cycle counter overflow on increment that changes
                                                                      AP_PMCCNTR_EL0[31] from 1 to 0.
                                                                  1 = Cycle counter overflow on increment that changes
@@ -18783,7 +18895,7 @@ union cavm_ap_pmcr_el0
         uint32_t dd                    : 1;  /**< [  3:  3](RO) Clock divider.
                                                                  If AP_PMCR_EL0[LC] == 1, this bit is ignored and the cycle counter
                                                                      counts every clock cycle.
-                                                                 ARM deprecates use of PMCR[D] = 1.
+                                                                 Arm deprecates use of PMCR[D] = 1.
                                                                  0 = When enabled, AP_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, AP_PMCCNTR_EL0 counts once every 64 clock cycles.
 
@@ -18846,7 +18958,7 @@ union cavm_ap_pmcr_el0
         uint32_t dd                    : 1;  /**< [  3:  3](RO) Clock divider.
                                                                  If AP_PMCR_EL0[LC] == 1, this bit is ignored and the cycle counter
                                                                      counts every clock cycle.
-                                                                 ARM deprecates use of PMCR[D] = 1.
+                                                                 Arm deprecates use of PMCR[D] = 1.
                                                                  0 = When enabled, AP_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, AP_PMCCNTR_EL0 counts once every 64 clock cycles.
 
@@ -18877,7 +18989,7 @@ union cavm_ap_pmcr_el0
                                                                  1 =  AP_PMCCNTR_EL0 does not count when event counting is prohibited. */
         uint32_t lc                    : 1;  /**< [  6:  6](RO) Long cycle counter enable. Determines which AP_PMCCNTR_EL0 bit
                                                                      generates an overflow recorded by PMOVSR[31].
-                                                                 ARM deprecates use of AP_PMCR_EL0[LC] = 0.
+                                                                 Arm deprecates use of AP_PMCR_EL0[LC] = 0.
                                                                  0 = Cycle counter overflow on increment that changes
                                                                      AP_PMCCNTR_EL0[31] from 1 to 0.
                                                                  1 = Cycle counter overflow on increment that changes
@@ -18902,7 +19014,7 @@ union cavm_ap_pmcr_el0
                                                                      the identification code. */
         uint32_t imp                   : 8;  /**< [ 31: 24](RO) Implementer code. This field is RO with an implementation
                                                                      defined value.
-                                                                 The implementer codes are allocated by ARM. Values have the
+                                                                 The implementer codes are allocated by Arm. Values have the
                                                                      same interpretation as bits [31:24] of the MIDR. */
 #endif /* Word 0 - End */
     } s;
@@ -19024,7 +19136,7 @@ union cavm_ap_pmevtyperx_el0
                                                                   The value read back on evtCount is an UNKNOWN value with the
                                                                      same effect.
 
-                                                                 ARM recommends that the behavior across a family of
+                                                                 Arm recommends that the behavior across a family of
                                                                      implementations is defined such that if a given implementation
                                                                      does not include an event from a set of common implementation
                                                                      defined events, then no event is counted and the value read
@@ -19052,7 +19164,7 @@ union cavm_ap_pmevtyperx_el0
                                                                   The value read back on evtCount is an UNKNOWN value with the
                                                                      same effect.
 
-                                                                 ARM recommends that the behavior across a family of
+                                                                 Arm recommends that the behavior across a family of
                                                                      implementations is defined such that if a given implementation
                                                                      does not include an event from a set of common implementation
                                                                      defined events, then no event is counted and the value read
@@ -20927,7 +21039,9 @@ union cavm_ap_sctlr_el1
     struct cavm_ap_sctlr_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_45_63        : 19;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_30_43        : 14;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
         uint64_t reserved_27           : 1;
         uint64_t uci                   : 1;  /**< [ 26: 26](R/W) When set, enables EL0 access in AArch64 for DC CVAU, DC CIVAC,
@@ -21062,7 +21176,7 @@ union cavm_ap_sctlr_el1
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -21182,7 +21296,7 @@ union cavm_ap_sctlr_el1
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -21293,13 +21407,17 @@ union cavm_ap_sctlr_el1
                                                                      DC CVAC, and IC IVAU instructions. */
         uint64_t reserved_27           : 1;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_30_43        : 14;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } s;
     struct cavm_ap_sctlr_el1_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_45_63        : 19;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_30_43        : 14;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
         uint64_t reserved_27           : 1;
         uint64_t uci                   : 1;  /**< [ 26: 26](R/W) When set, enables EL0 access in AArch64 for DC CVAU, DC CIVAC,
@@ -21434,7 +21552,7 @@ union cavm_ap_sctlr_el1
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -21556,7 +21674,7 @@ union cavm_ap_sctlr_el1
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -21667,7 +21785,9 @@ union cavm_ap_sctlr_el1
                                                                      DC CVAC, and IC IVAU instructions. */
         uint64_t reserved_27           : 1;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_30_43        : 14;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -21735,7 +21855,9 @@ union cavm_ap_sctlr_el2
     struct cavm_ap_sctlr_el2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_45_63        : 19;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_30_43        : 14;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
         uint64_t reserved_26_27        : 2;
         uint64_t ee                    : 1;  /**< [ 25: 25](R/W) Exception Endianness. This bit controls the endianness for:
@@ -21929,209 +22051,12 @@ union cavm_ap_sctlr_el2
                                                                  1 = Big-endian. */
         uint64_t reserved_26_27        : 2;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_30_43        : 14;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_ap_sctlr_el2_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_31        : 2;
-        uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_26_27        : 2;
-        uint64_t ee                    : 1;  /**< [ 25: 25](R/W) Exception Endianness. This bit controls the endianness for:
-                                                                  Explicit data accesses at EL3.
-                                                                  Stage 1 translation table walks at EL3.
-
-                                                                 If an implementation does not provide Big-endian support, this
-                                                                     bit is RES0. If it does not provide Little-endian support,
-                                                                     this bit is RES1.
-                                                                 The EE bit is permitted to be cached in a TLB.
-                                                                 0 = Little-endian.
-                                                                 1 = Big-endian. */
-        uint64_t reserved_24           : 1;
-        uint64_t span                  : 1;  /**< [ 23: 23](R/W) v8.1: Bit[23]: SPAN set PSTATE/CPSR[AP_PAN] bit on taking an exception
-                                                                 to the EL* exception level.
-                                                                 0 = PSTATE/CPSR[AP_PAN] is set on taking an exception to the EL* exception level.
-                                                                 1 = PSTATE/CPSR[AP_PAN] is left unchanged on taking an exception to the EL* exception level.
-
-                                                                 This bit has no effect on the PSTATE/CPSR[AP_PAN] when taking exceptions to any other
-                                                                 exception level. */
-        uint64_t rsvd_22               : 1;  /**< [ 22: 22](RO) Reserved 1. */
-        uint64_t iesb                  : 1;  /**< [ 21: 21](R/W) Implicit error synchronization event enable. Possible values are:
-                                                                   0 Disabled.
-                                                                   1 An implicit error synchronization event is added:
-                                                                     After each exception taken to EL2.
-                                                                     Before the operational pseudocode of each ERET instruction executed at EL2.
-                                                                 When the PE is in Debug state, the effect of this field is CONSTRAINED
-                                                                 UNPREDICTABLE, and its Effective value might be 0 or 1 regardless of the value
-                                                                 of the field. If the Effective value of the field is 1, then an implicit error
-                                                                 synchronization event is added after each DCPSx instruction taken to EL2 and
-                                                                 before each DRPS instruction executed at EL2, in addition to the other cases
-                                                                 where it is added.
-                                                                 This field is part of ARMv8.2-IESB.
-                                                                 This field resets to a value that is architecturally UNKNOWN. */
-        uint64_t reserved_20           : 1;
-        uint64_t wxn                   : 1;  /**< [ 19: 19](R/W) Write permission implies XN (Execute Never). This bit can be
-                                                                     used to require all memory regions with write permission to be
-                                                                     treated as XN.
-                                                                 The WXN bit is permitted to be cached in a TLB.
-                                                                 0 = Regions with write permission are not forced to XN.
-                                                                 1 = Regions with write permission are forced to XN. */
-        uint64_t rsvd_18               : 1;  /**< [ 18: 18](RO) Reserved 1. */
-        uint64_t reserved_17           : 1;
-        uint64_t rsvd_16               : 1;  /**< [ 16: 16](RO) Reserved 1. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t i                     : 1;  /**< [ 12: 12](R/W) Instruction cache enable. This is an enable bit for
-                                                                     instruction caches at EL3.
-                                                                 When this bit is 0, all EL3 Normal memory instruction accesses
-                                                                     are Non-cacheable. This bit has no effect on the EL1&0 or EL2
-                                                                     translation regimes.
-                                                                 0 = Instruction caches disabled at EL3. If AP_SCTLR_EL3[M] is set to
-                                                                     0, instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Non-
-                                                                     cacheable, Outer Non-cacheable.
-                                                                 1 = Instruction caches enabled at EL3. If AP_SCTLR_EL3[M] is set to 0,
-                                                                     instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Write-
-                                                                     Through, Outer Write-Through. */
-        uint64_t rsvd_11               : 1;  /**< [ 11: 11](RO) Reserved 1. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t rsvd_4_5              : 2;  /**< [  5:  4](RO) Reserved 1. */
-        uint64_t sa                    : 1;  /**< [  3:  3](R/W) Stack Alignment Check Enable. When set, use of the stack
-                                                                     pointer as the base address in a load/store instruction at
-                                                                     this register's Exception level must be aligned to a 16-byte
-                                                                     boundary, or a Stack Alignment Fault exception will be raised. */
-        uint64_t cc                    : 1;  /**< [  2:  2](R/W) Cache enable. This is an enable bit for data and unified
-                                                                     caches at EL3:
-
-                                                                 When this bit is 0, all EL3 Normal memory data accesses and
-                                                                     all accesses to the EL3 translation tables are Non-cacheable.
-                                                                     This bit has no effect on the EL1&0 or EL2 translation
-                                                                     regimes.
-                                                                 0 = Data and unified caches disabled at EL3.
-                                                                 1 = Data and unified caches enabled at EL3. */
-        uint64_t aa                    : 1;  /**< [  1:  1](R/W) Alignment check enable. This is the enable bit for Alignment
-                                                                     fault checking:
-
-                                                                 Load/store exclusive and load-acquire/store-release
-                                                                     instructions have an alignment check regardless of the value
-                                                                     of the A bit.
-
-                                                                 0 = Alignment fault checking disabled.
-                                                                 Instructions that load or store one or more registers, other
-                                                                     than load/store exclusive and load-acquire/store-release, do
-                                                                     not check that the address being accessed is aligned to the
-                                                                     size of the data element(s) being accessed.
-
-                                                                 1 = Alignment fault checking enabled.
-                                                                 All instructions that load or store one or more registers have
-                                                                     an alignment check that the address being accessed is aligned
-                                                                     to the size of the data element(s) being accessed. If this
-                                                                     check fails it causes an Alignment fault, which is taken as a
-                                                                     Data Abort exception. */
-        uint64_t m                     : 1;  /**< [  0:  0](R/W) MMU enable for EL3 stage 1 address translation.
-                                                                 0 = EL3 stage 1 address translation disabled.
-                                                                 1 = EL3 stage 1 address translation enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t m                     : 1;  /**< [  0:  0](R/W) MMU enable for EL3 stage 1 address translation.
-                                                                 0 = EL3 stage 1 address translation disabled.
-                                                                 1 = EL3 stage 1 address translation enabled. */
-        uint64_t aa                    : 1;  /**< [  1:  1](R/W) Alignment check enable. This is the enable bit for Alignment
-                                                                     fault checking:
-
-                                                                 Load/store exclusive and load-acquire/store-release
-                                                                     instructions have an alignment check regardless of the value
-                                                                     of the A bit.
-
-                                                                 0 = Alignment fault checking disabled.
-                                                                 Instructions that load or store one or more registers, other
-                                                                     than load/store exclusive and load-acquire/store-release, do
-                                                                     not check that the address being accessed is aligned to the
-                                                                     size of the data element(s) being accessed.
-
-                                                                 1 = Alignment fault checking enabled.
-                                                                 All instructions that load or store one or more registers have
-                                                                     an alignment check that the address being accessed is aligned
-                                                                     to the size of the data element(s) being accessed. If this
-                                                                     check fails it causes an Alignment fault, which is taken as a
-                                                                     Data Abort exception. */
-        uint64_t cc                    : 1;  /**< [  2:  2](R/W) Cache enable. This is an enable bit for data and unified
-                                                                     caches at EL3:
-
-                                                                 When this bit is 0, all EL3 Normal memory data accesses and
-                                                                     all accesses to the EL3 translation tables are Non-cacheable.
-                                                                     This bit has no effect on the EL1&0 or EL2 translation
-                                                                     regimes.
-                                                                 0 = Data and unified caches disabled at EL3.
-                                                                 1 = Data and unified caches enabled at EL3. */
-        uint64_t sa                    : 1;  /**< [  3:  3](R/W) Stack Alignment Check Enable. When set, use of the stack
-                                                                     pointer as the base address in a load/store instruction at
-                                                                     this register's Exception level must be aligned to a 16-byte
-                                                                     boundary, or a Stack Alignment Fault exception will be raised. */
-        uint64_t rsvd_4_5              : 2;  /**< [  5:  4](RO) Reserved 1. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t rsvd_11               : 1;  /**< [ 11: 11](RO) Reserved 1. */
-        uint64_t i                     : 1;  /**< [ 12: 12](R/W) Instruction cache enable. This is an enable bit for
-                                                                     instruction caches at EL3.
-                                                                 When this bit is 0, all EL3 Normal memory instruction accesses
-                                                                     are Non-cacheable. This bit has no effect on the EL1&0 or EL2
-                                                                     translation regimes.
-                                                                 0 = Instruction caches disabled at EL3. If AP_SCTLR_EL3[M] is set to
-                                                                     0, instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Non-
-                                                                     cacheable, Outer Non-cacheable.
-                                                                 1 = Instruction caches enabled at EL3. If AP_SCTLR_EL3[M] is set to 0,
-                                                                     instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Write-
-                                                                     Through, Outer Write-Through. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t rsvd_16               : 1;  /**< [ 16: 16](RO) Reserved 1. */
-        uint64_t reserved_17           : 1;
-        uint64_t rsvd_18               : 1;  /**< [ 18: 18](RO) Reserved 1. */
-        uint64_t wxn                   : 1;  /**< [ 19: 19](R/W) Write permission implies XN (Execute Never). This bit can be
-                                                                     used to require all memory regions with write permission to be
-                                                                     treated as XN.
-                                                                 The WXN bit is permitted to be cached in a TLB.
-                                                                 0 = Regions with write permission are not forced to XN.
-                                                                 1 = Regions with write permission are forced to XN. */
-        uint64_t reserved_20           : 1;
-        uint64_t iesb                  : 1;  /**< [ 21: 21](R/W) Implicit error synchronization event enable. Possible values are:
-                                                                   0 Disabled.
-                                                                   1 An implicit error synchronization event is added:
-                                                                     After each exception taken to EL2.
-                                                                     Before the operational pseudocode of each ERET instruction executed at EL2.
-                                                                 When the PE is in Debug state, the effect of this field is CONSTRAINED
-                                                                 UNPREDICTABLE, and its Effective value might be 0 or 1 regardless of the value
-                                                                 of the field. If the Effective value of the field is 1, then an implicit error
-                                                                 synchronization event is added after each DCPSx instruction taken to EL2 and
-                                                                 before each DRPS instruction executed at EL2, in addition to the other cases
-                                                                 where it is added.
-                                                                 This field is part of ARMv8.2-IESB.
-                                                                 This field resets to a value that is architecturally UNKNOWN. */
-        uint64_t rsvd_22               : 1;  /**< [ 22: 22](RO) Reserved 1. */
-        uint64_t span                  : 1;  /**< [ 23: 23](R/W) v8.1: Bit[23]: SPAN set PSTATE/CPSR[AP_PAN] bit on taking an exception
-                                                                 to the EL* exception level.
-                                                                 0 = PSTATE/CPSR[AP_PAN] is set on taking an exception to the EL* exception level.
-                                                                 1 = PSTATE/CPSR[AP_PAN] is left unchanged on taking an exception to the EL* exception level.
-
-                                                                 This bit has no effect on the PSTATE/CPSR[AP_PAN] when taking exceptions to any other
-                                                                 exception level. */
-        uint64_t reserved_24           : 1;
-        uint64_t ee                    : 1;  /**< [ 25: 25](R/W) Exception Endianness. This bit controls the endianness for:
-                                                                  Explicit data accesses at EL3.
-                                                                  Stage 1 translation table walks at EL3.
-
-                                                                 If an implementation does not provide Big-endian support, this
-                                                                     bit is RES0. If it does not provide Little-endian support,
-                                                                     this bit is RES1.
-                                                                 The EE bit is permitted to be cached in a TLB.
-                                                                 0 = Little-endian.
-                                                                 1 = Big-endian. */
-        uint64_t reserved_26_27        : 2;
-        uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_ap_sctlr_el2_s cn; */
 };
 typedef union cavm_ap_sctlr_el2 cavm_ap_sctlr_el2_t;
 
@@ -22163,7 +22088,9 @@ union cavm_ap_sctlr_el2_e2h
     struct cavm_ap_sctlr_el2_e2h_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_45_63        : 19;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_30_43        : 14;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
         uint64_t reserved_27           : 1;
         uint64_t uci                   : 1;  /**< [ 26: 26](R/W) When set, enables EL0 access in AArch64 for DC CVAU, DC CIVAC,
@@ -22297,7 +22224,7 @@ union cavm_ap_sctlr_el2_e2h
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -22428,7 +22355,7 @@ union cavm_ap_sctlr_el2_e2h
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -22533,13 +22460,17 @@ union cavm_ap_sctlr_el2_e2h
                                                                      DC CVAC, and IC IVAU instructions. */
         uint64_t reserved_27           : 1;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_30_43        : 14;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } s;
     struct cavm_ap_sctlr_el2_e2h_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_45_63        : 19;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_30_43        : 14;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
         uint64_t reserved_27           : 1;
         uint64_t uci                   : 1;  /**< [ 26: 26](R/W) When set, enables EL0 access in AArch64 for DC CVAU, DC CIVAC,
@@ -22673,7 +22604,7 @@ union cavm_ap_sctlr_el2_e2h
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -22806,7 +22737,7 @@ union cavm_ap_sctlr_el2_e2h
                                                                      pattern also covers UNPREDICTABLE cases with BLX Rn.
 
                                                                  Contrary to the standard treatment of conditional UNdefined
-                                                                     instructions in the ARM architecture, in this case these
+                                                                     instructions in the Arm architecture, in this case these
                                                                      instructions are always treated as UNdefined, regardless of
                                                                      whether the instruction would pass or fail its condition codes
                                                                      as a result of being in an IT block.
@@ -22911,7 +22842,9 @@ union cavm_ap_sctlr_el2_e2h
                                                                      DC CVAC, and IC IVAU instructions. */
         uint64_t reserved_27           : 1;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_30_43        : 14;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -22943,7 +22876,9 @@ union cavm_ap_sctlr_el3
     struct cavm_ap_sctlr_el3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_45_63        : 19;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_30_43        : 14;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
         uint64_t reserved_26_27        : 2;
         uint64_t ee                    : 1;  /**< [ 25: 25](R/W) Exception Endianness. This bit controls the endianness for:
@@ -23133,205 +23068,12 @@ union cavm_ap_sctlr_el3
                                                                  1 = Big-endian. */
         uint64_t reserved_26_27        : 2;
         uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_30_43        : 14;
+        uint64_t dssbs                 : 1;  /**< [ 44: 44](R/W) D Speculative store bypass safe. */
+        uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_ap_sctlr_el3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_31        : 2;
-        uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_26_27        : 2;
-        uint64_t ee                    : 1;  /**< [ 25: 25](R/W) Exception Endianness. This bit controls the endianness for:
-                                                                  Explicit data accesses at EL3.
-                                                                  Stage 1 translation table walks at EL3.
-
-                                                                 If an implementation does not provide Big-endian support, this
-                                                                     bit is RES0. If it does not provide Little-endian support,
-                                                                     this bit is RES1.
-
-                                                                 The EE bit is permitted to be cached in a TLB.
-                                                                 0 = Little-endian.
-                                                                 1 = Big-endian. */
-        uint64_t reserved_24           : 1;
-        uint64_t rsvd_23               : 1;  /**< [ 23: 23](RO) Reserved 1. */
-        uint64_t rsvd_22               : 1;  /**< [ 22: 22](RO) Reserved 1. */
-        uint64_t iesb                  : 1;  /**< [ 21: 21](R/W) Implicit error synchronization event enable. Possible values are:
-                                                                   0 Disabled.
-                                                                   1 An implicit error synchronization event is added:
-                                                                     After each exception taken to EL3.
-                                                                     Before the operational pseudocode of each ERET instruction executed at EL3.
-                                                                 When the PE is in Debug state, the effect of this field is CONSTRAINED
-                                                                 UNPREDICTABLE, and its Effective value might be 0 or 1 regardless of the value
-                                                                 of the field. If the Effective value of the field is 1, then an implicit error
-                                                                 synchronization event is added after each DCPSx instruction taken to EL3 and
-                                                                 before each DRPS instruction executed at EL3, in addition to the other cases
-                                                                 where it is added.
-                                                                 This field is part of ARMv8.2-IESB.
-                                                                 This field resets to a value that is architecturally UNKNOWN. */
-        uint64_t reserved_20           : 1;
-        uint64_t wxn                   : 1;  /**< [ 19: 19](R/W) Write permission implies XN (Execute Never). This bit can be
-                                                                     used to require all memory regions with write permission to be
-                                                                     treated as XN.
-                                                                 The WXN bit is permitted to be cached in a TLB.
-                                                                 0 = Regions with write permission are not forced to XN.
-                                                                 1 = Regions with write permission are forced to XN. */
-        uint64_t rsvd_18               : 1;  /**< [ 18: 18](RO) Reserved 1. */
-        uint64_t reserved_17           : 1;
-        uint64_t rsvd_16               : 1;  /**< [ 16: 16](RO) Reserved 1. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t i                     : 1;  /**< [ 12: 12](R/W) Instruction cache enable. This is an enable bit for
-                                                                     instruction caches at EL3:
-
-                                                                 When this bit is 0, all EL3 Normal memory instruction accesses
-                                                                     are Non-cacheable. This bit has no effect on the EL1&0 or EL2
-                                                                     translation regimes.
-
-                                                                 0 = Instruction caches disabled at EL3. If AP_SCTLR_EL3[M] is set to
-                                                                     0, instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Non-
-                                                                     cacheable, Outer Non-cacheable.
-                                                                 1 = Instruction caches enabled at EL3. If AP_SCTLR_EL3[M] is set to 0,
-                                                                     instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Write-
-                                                                     Through, Outer Write-Through. */
-        uint64_t rsvd_11               : 1;  /**< [ 11: 11](RO) Reserved 1. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t rsvd_4_5              : 2;  /**< [  5:  4](RO) Reserved 1. */
-        uint64_t sa                    : 1;  /**< [  3:  3](R/W) Stack alignment check enable. When set, use of the stack
-                                                                     pointer as the base address in a load/store instruction at
-                                                                     this register's exception level must be aligned to a 16-byte
-                                                                     boundary, or a stack alignment fault exception will be raised. */
-        uint64_t cc                    : 1;  /**< [  2:  2](R/W) Cache enable. This is an enable bit for data and unified
-                                                                     caches at EL3.
-
-                                                                 When this bit is 0, all EL3 normal memory data accesses and
-                                                                     all accesses to the EL3 translation tables are Non-cacheable.
-                                                                     This bit has no effect on the EL1&0 or EL2 translation
-                                                                     regimes.
-
-                                                                 0 = Data and unified caches disabled at EL3.
-                                                                 1 = Data and unified caches enabled at EL3. */
-        uint64_t aa                    : 1;  /**< [  1:  1](R/W) Alignment check enable. This is the enable bit for Alignment
-                                                                     fault checking:
-
-                                                                 Load/store exclusive and load-acquire/store-release
-                                                                     instructions have an alignment check regardless of the value
-                                                                     of the A bit.
-
-                                                                 0 = Alignment fault checking disabled.
-                                                                 Instructions that load or store one or more registers, other
-                                                                     than load/store exclusive and load-acquire/store-release, do
-                                                                     not check that the address being accessed is aligned to the
-                                                                     size of the data element(s) being accessed.
-
-                                                                 1 = Alignment fault checking enabled.
-                                                                 All instructions that load or store one or more registers have
-                                                                     an alignment check that the address being accessed is aligned
-                                                                     to the size of the data element(s) being accessed. If this
-                                                                     check fails it causes an Alignment fault, which is taken as a
-                                                                     Data Abort exception. */
-        uint64_t m                     : 1;  /**< [  0:  0](R/W) MMU enable for EL3 stage 1 address translation.
-                                                                 0 = EL3 stage 1 address translation disabled.
-                                                                 1 = EL3 stage 1 address translation enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t m                     : 1;  /**< [  0:  0](R/W) MMU enable for EL3 stage 1 address translation.
-                                                                 0 = EL3 stage 1 address translation disabled.
-                                                                 1 = EL3 stage 1 address translation enabled. */
-        uint64_t aa                    : 1;  /**< [  1:  1](R/W) Alignment check enable. This is the enable bit for Alignment
-                                                                     fault checking:
-
-                                                                 Load/store exclusive and load-acquire/store-release
-                                                                     instructions have an alignment check regardless of the value
-                                                                     of the A bit.
-
-                                                                 0 = Alignment fault checking disabled.
-                                                                 Instructions that load or store one or more registers, other
-                                                                     than load/store exclusive and load-acquire/store-release, do
-                                                                     not check that the address being accessed is aligned to the
-                                                                     size of the data element(s) being accessed.
-
-                                                                 1 = Alignment fault checking enabled.
-                                                                 All instructions that load or store one or more registers have
-                                                                     an alignment check that the address being accessed is aligned
-                                                                     to the size of the data element(s) being accessed. If this
-                                                                     check fails it causes an Alignment fault, which is taken as a
-                                                                     Data Abort exception. */
-        uint64_t cc                    : 1;  /**< [  2:  2](R/W) Cache enable. This is an enable bit for data and unified
-                                                                     caches at EL3.
-
-                                                                 When this bit is 0, all EL3 normal memory data accesses and
-                                                                     all accesses to the EL3 translation tables are Non-cacheable.
-                                                                     This bit has no effect on the EL1&0 or EL2 translation
-                                                                     regimes.
-
-                                                                 0 = Data and unified caches disabled at EL3.
-                                                                 1 = Data and unified caches enabled at EL3. */
-        uint64_t sa                    : 1;  /**< [  3:  3](R/W) Stack alignment check enable. When set, use of the stack
-                                                                     pointer as the base address in a load/store instruction at
-                                                                     this register's exception level must be aligned to a 16-byte
-                                                                     boundary, or a stack alignment fault exception will be raised. */
-        uint64_t rsvd_4_5              : 2;  /**< [  5:  4](RO) Reserved 1. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t rsvd_11               : 1;  /**< [ 11: 11](RO) Reserved 1. */
-        uint64_t i                     : 1;  /**< [ 12: 12](R/W) Instruction cache enable. This is an enable bit for
-                                                                     instruction caches at EL3:
-
-                                                                 When this bit is 0, all EL3 Normal memory instruction accesses
-                                                                     are Non-cacheable. This bit has no effect on the EL1&0 or EL2
-                                                                     translation regimes.
-
-                                                                 0 = Instruction caches disabled at EL3. If AP_SCTLR_EL3[M] is set to
-                                                                     0, instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Non-
-                                                                     cacheable, Outer Non-cacheable.
-                                                                 1 = Instruction caches enabled at EL3. If AP_SCTLR_EL3[M] is set to 0,
-                                                                     instruction accesses from stage 1 of the EL3 translation
-                                                                     regime are to Normal memory, Outer Shareable, Inner Write-
-                                                                     Through, Outer Write-Through. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t rsvd_16               : 1;  /**< [ 16: 16](RO) Reserved 1. */
-        uint64_t reserved_17           : 1;
-        uint64_t rsvd_18               : 1;  /**< [ 18: 18](RO) Reserved 1. */
-        uint64_t wxn                   : 1;  /**< [ 19: 19](R/W) Write permission implies XN (Execute Never). This bit can be
-                                                                     used to require all memory regions with write permission to be
-                                                                     treated as XN.
-                                                                 The WXN bit is permitted to be cached in a TLB.
-                                                                 0 = Regions with write permission are not forced to XN.
-                                                                 1 = Regions with write permission are forced to XN. */
-        uint64_t reserved_20           : 1;
-        uint64_t iesb                  : 1;  /**< [ 21: 21](R/W) Implicit error synchronization event enable. Possible values are:
-                                                                   0 Disabled.
-                                                                   1 An implicit error synchronization event is added:
-                                                                     After each exception taken to EL3.
-                                                                     Before the operational pseudocode of each ERET instruction executed at EL3.
-                                                                 When the PE is in Debug state, the effect of this field is CONSTRAINED
-                                                                 UNPREDICTABLE, and its Effective value might be 0 or 1 regardless of the value
-                                                                 of the field. If the Effective value of the field is 1, then an implicit error
-                                                                 synchronization event is added after each DCPSx instruction taken to EL3 and
-                                                                 before each DRPS instruction executed at EL3, in addition to the other cases
-                                                                 where it is added.
-                                                                 This field is part of ARMv8.2-IESB.
-                                                                 This field resets to a value that is architecturally UNKNOWN. */
-        uint64_t rsvd_22               : 1;  /**< [ 22: 22](RO) Reserved 1. */
-        uint64_t rsvd_23               : 1;  /**< [ 23: 23](RO) Reserved 1. */
-        uint64_t reserved_24           : 1;
-        uint64_t ee                    : 1;  /**< [ 25: 25](R/W) Exception Endianness. This bit controls the endianness for:
-                                                                  Explicit data accesses at EL3.
-                                                                  Stage 1 translation table walks at EL3.
-
-                                                                 If an implementation does not provide Big-endian support, this
-                                                                     bit is RES0. If it does not provide Little-endian support,
-                                                                     this bit is RES1.
-
-                                                                 The EE bit is permitted to be cached in a TLB.
-                                                                 0 = Little-endian.
-                                                                 1 = Big-endian. */
-        uint64_t reserved_26_27        : 2;
-        uint64_t rsvd_28_29            : 2;  /**< [ 29: 28](RO) Reserved 1. */
-        uint64_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_ap_sctlr_el3_s cn; */
 };
 typedef union cavm_ap_sctlr_el3 cavm_ap_sctlr_el3_t;
 
@@ -23638,7 +23380,9 @@ union cavm_ap_spsr_elx
                                                                  allocated into bit[20] of the SPSR. It is impossible for
                                                                  software to observe the value 1 in the CPSR in AArch32, or
                                                                  to observe the current Process State value in AArch64. */
-        uint32_t reserved_10_19        : 10;
+        uint32_t reserved_13_19        : 7;
+        uint32_t ssbs                  : 1;  /**< [ 12: 12](R/W) Speculative store bypass safe. */
+        uint32_t reserved_10_11        : 2;
         uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
         uint32_t aa                    : 1;  /**< [  8:  8](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
         uint32_t i                     : 1;  /**< [  7:  7](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
@@ -23664,7 +23408,9 @@ union cavm_ap_spsr_elx
         uint32_t i                     : 1;  /**< [  7:  7](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
         uint32_t aa                    : 1;  /**< [  8:  8](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
         uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t reserved_10_19        : 10;
+        uint32_t reserved_10_11        : 2;
+        uint32_t ssbs                  : 1;  /**< [ 12: 12](R/W) Speculative store bypass safe. */
+        uint32_t reserved_13_19        : 7;
         uint32_t il                    : 1;  /**< [ 20: 20](R/W) The IL bit is added to process state to indicate that on
                                                                  exception return or as a result of an explicit change of the
                                                                  CPSR mode field in AArch32, an illegal state or mode was
@@ -23874,6 +23620,69 @@ static inline uint64_t CAVM_AP_SPSR_UND_FUNC(void)
 #define basename_CAVM_AP_SPSR_UND "AP_SPSR_UND"
 #define busnum_CAVM_AP_SPSR_UND 0
 #define arguments_CAVM_AP_SPSR_UND -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_ssbs
+ *
+ * AP Speculative Store Bypass Safe Register
+ * v8.5: Speculative store bypass safe bit.
+ *
+ * A new PSTATE/CPSR bit is added, SSBS (Speculative Store Bypass Safe) which is set by
+ * software to indicate whether hardware is permitted to load or store speculatively,
+ * in a manner that could practically give rise to a cache timing side channel, using
+ * an address derived from a register value that has been loaded from memory using a
+ * load instruction (L) that speculatively read an entry from earlier in the coherence
+ * order for the location being loaded from than the entry generated by the latest
+ * store (S) to that location using the same virtual address as L.
+ * When not in Debug State:
+ *   - When PSTATE.SSBS ==0/CPSR.SSBS==0, hardware is not permitted to load or store
+ * speculatively in this way.
+ *   - When PSTATE.SSBS ==1/CPSR.SSBS==1, hardware is permitted to load or store
+ * speculatively in this way.
+ * When in Debug state, hardware is permitted to load or store speculatively in this
+ * way, regardless of the value of the PSTATE.SSBS/CPSR.SSBS bit.
+ *
+ * Note: Legacy software, written before v8.5, will set the SPSR_ELx.SSBS to 0, meaning
+ * that when this software is run on v8.5 hardware, PSTATE.SSBS bit will not set, and
+ * hardware is not permit to use speculative loads with outstanding memory
+ * disambiguation issues for any subsequent speculative memory accesses if there is any
+ * possibility of those subsequent memory accesses creating a cache timing side
+ * channel.
+ * As with other special purpose registers, all direct and indirect reads and writes to
+ * the register appear to occur in program order relative to other instructions,
+ * without the need for any explicit synchronization.
+ */
+union cavm_ap_ssbs
+{
+    uint64_t u;
+    struct cavm_ap_ssbs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t ssbs                  : 1;  /**< [ 12: 12](R/W) Speculative store bypass safe. */
+        uint64_t reserved_0_11         : 12;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_11         : 12;
+        uint64_t ssbs                  : 1;  /**< [ 12: 12](R/W) Speculative store bypass safe. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ap_ssbs_s cn; */
+};
+typedef union cavm_ap_ssbs cavm_ap_ssbs_t;
+
+#define CAVM_AP_SSBS CAVM_AP_SSBS_FUNC()
+static inline uint64_t CAVM_AP_SSBS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AP_SSBS_FUNC(void)
+{
+    return 0x30304020600ll;
+}
+
+#define typedef_CAVM_AP_SSBS cavm_ap_ssbs_t
+#define bustype_CAVM_AP_SSBS CSR_TYPE_SYSREG
+#define basename_CAVM_AP_SSBS "AP_SSBS"
+#define busnum_CAVM_AP_SSBS 0
+#define arguments_CAVM_AP_SSBS -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_tcr_el1
@@ -27117,7 +26926,7 @@ static inline uint64_t CAVM_AP_TRCIDRX(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_AP_TRCIDRX(uint64_t a)
 {
     if (a<=13)
-        return 0x020100000600 | ((8-((a>>3)<<3)|(a&7))<<16 | (1-(a>>3))<<8);
+        return 0x020100000600 | (((8-((a>>3)<<3))|(a&7))<<16 | (1-(a>>3))<<8);
     __cavm_csr_fatal("AP_TRCIDRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29020,11 +28829,11 @@ union cavm_ap_vpidr_el2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t implementer           : 8;  /**< [ 31: 24](R/W) The implementer code. This field must hold an implementer code
-                                                                     that has been assigned by ARM.
+                                                                     that has been assigned by Arm.
                                                                  Hex representation  ASCII representation.
-                                                                 0x41 = 'A' = ARM Limited.
+                                                                 0x41 = 'A' = Arm Limited.
                                                                  0x42 = 'B' = Broadcom Corporation.
-                                                                 0x43 = 'C' = Cavium Inc.
+                                                                 0x43 = 'C' = Marvell (Cavium) Inc.
                                                                  0x44 = 'D' = Digital Equipment Corporation.
                                                                  0x49 = 'I' = Infineon Technologies AG.
                                                                  0x4D = 'M' = Motorola or Freescale Semiconductor Inc.
@@ -29034,8 +28843,8 @@ union cavm_ap_vpidr_el2
                                                                  0x56 = 'V' = Marvell International Ltd.
                                                                  0x69 = 'i' = Intel Corporation.
 
-                                                                 ARM can assign codes that are not published in this manual.
-                                                                     All values not assigned by ARM are reserved and must not be
+                                                                 Arm can assign codes that are not published in this manual.
+                                                                     All values not assigned by Arm are reserved and must not be
                                                                      used. */
         uint32_t variant               : 4;  /**< [ 23: 20](R/W) An implementation defined variant number. Typically, this
                                                                      field is used to distinguish between different product
@@ -29051,13 +28860,13 @@ union cavm_ap_vpidr_el2
                                                                  0xF = Defined by CPUID scheme.
                                                                  _ All other values are reserved. */
         uint32_t partnum               : 12; /**< [ 15:  4](R/W) An implementation defined primary part number for the device.
-                                                                 On processors implemented by ARM, if the top four bits of the
+                                                                 On processors implemented by Arm, if the top four bits of the
                                                                      primary part number are 0x00x7. */
         uint32_t revision              : 4;  /**< [  3:  0](R/W) An implementation defined revision number for the device. */
 #else /* Word 0 - Little Endian */
         uint32_t revision              : 4;  /**< [  3:  0](R/W) An implementation defined revision number for the device. */
         uint32_t partnum               : 12; /**< [ 15:  4](R/W) An implementation defined primary part number for the device.
-                                                                 On processors implemented by ARM, if the top four bits of the
+                                                                 On processors implemented by Arm, if the top four bits of the
                                                                      primary part number are 0x00x7. */
         uint32_t architecture          : 4;  /**< [ 19: 16](R/W) Architecture:
                                                                  0x1 = ARMv4.
@@ -29073,11 +28882,11 @@ union cavm_ap_vpidr_el2
                                                                      field is used to distinguish between different product
                                                                      variants, or major revisions of a product. */
         uint32_t implementer           : 8;  /**< [ 31: 24](R/W) The implementer code. This field must hold an implementer code
-                                                                     that has been assigned by ARM.
+                                                                     that has been assigned by Arm.
                                                                  Hex representation  ASCII representation.
-                                                                 0x41 = 'A' = ARM Limited.
+                                                                 0x41 = 'A' = Arm Limited.
                                                                  0x42 = 'B' = Broadcom Corporation.
-                                                                 0x43 = 'C' = Cavium Inc.
+                                                                 0x43 = 'C' = Marvell (Cavium) Inc.
                                                                  0x44 = 'D' = Digital Equipment Corporation.
                                                                  0x49 = 'I' = Infineon Technologies AG.
                                                                  0x4D = 'M' = Motorola or Freescale Semiconductor Inc.
@@ -29087,8 +28896,8 @@ union cavm_ap_vpidr_el2
                                                                  0x56 = 'V' = Marvell International Ltd.
                                                                  0x69 = 'i' = Intel Corporation.
 
-                                                                 ARM can assign codes that are not published in this manual.
-                                                                     All values not assigned by ARM are reserved and must not be
+                                                                 Arm can assign codes that are not published in this manual.
+                                                                     All values not assigned by Arm are reserved and must not be
                                                                      used. */
 #endif /* Word 0 - End */
     } s;
@@ -29444,7 +29253,7 @@ union cavm_ap_vttbr_el2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vmid                  : 16; /**< [ 63: 48](R/W) The VMID for the translation table. Expanded to 16 bits
-                                                                 by the ARM Large System Extensions. */
+                                                                 by the Arm Large System Extensions. */
         uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits\<47:x\>. Bits \<x-1:0\> are
                                                                      RES0.
 
@@ -29495,7 +29304,7 @@ union cavm_ap_vttbr_el2
                                                                      using this register can be corrupted in those bits that are
                                                                      nonzero. */
         uint64_t vmid                  : 16; /**< [ 63: 48](R/W) The VMID for the translation table. Expanded to 16 bits
-                                                                 by the ARM Large System Extensions. */
+                                                                 by the Arm Large System Extensions. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ap_vttbr_el2_s cn; */

@@ -231,7 +231,7 @@ union cavm_dap_imp_dar
         uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
 
                                                                  When in trusted mode or RST_BOOT[JTAGDIS]=1 resets to zero, else one. */
-        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
+        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use Arm-AP inside DAP for DAB serial bus accesses.
 
                                                                  When in trusted mode or RST_BOOT[JTAGDIS]=1 resets to zero, else one. */
         uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure noninvasive debug enable.
@@ -259,7 +259,7 @@ union cavm_dap_imp_dar
         uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure noninvasive debug enable.
 
                                                                  When in trusted mode or RST_BOOT[JTAGDIS]=1 resets to zero, else one. */
-        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
+        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use Arm-AP inside DAP for DAB serial bus accesses.
 
                                                                  When in trusted mode or RST_BOOT[JTAGDIS]=1 resets to zero, else one. */
         uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
