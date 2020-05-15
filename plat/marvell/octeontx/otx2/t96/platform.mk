@@ -27,7 +27,7 @@ ARM_ARCH_MINOR		:=	2
 # Allow to use armv8.2 specific instructions
 TF_CFLAGS_aarch64	:=	$(patsubst -march=%, -march=armv8.2-a, $(TF_CFLAGS_aarch64))
 
-PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx3/csr 			\
+PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/csr 			\
 				-Iinclude/plat/marvell/octeontx/otx2			\
 				-Iplat/marvell/octeontx/otx2/t96/include		\
 				-Ilib/libphy/marvell_88x5113/include			\

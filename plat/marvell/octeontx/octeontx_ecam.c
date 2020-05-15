@@ -412,12 +412,15 @@ static void init_iobn(uint64_t config_base, uint64_t config_size)
  * different devices.
  */
 struct ecam_init_callback init_callbacks[] = {
-	//{0xa008, 0x177d, init_smmu},
+#if !defined(PLAT_t106)
+	{0xa008, 0x177d, init_smmu},
+	{0xa020, 0x177d, init_pem},
+#endif
 	{0xa00f, 0x177d, init_uaa},
 	{0xa017, 0x177d, init_gti},
-	//{0xa020, 0x177d, init_pem},
 	{0xa027, 0x177d, init_iobn},
 	{0xa06b, 0x177d, init_iobn},
+	{0xa094, 0x177d, init_iobn},
 	{ECAM_INVALID_DEV_ID, 0, 0},	//no more callbacks
 };
 
@@ -614,6 +617,10 @@ static void octeontx_ecam_dev_enumerate(struct ecam_device *device)
 			plat_ops.enable_dev(device);
 		}
 	}
+	/* Program SSID for the device if applicable for
+	* the platform
+	*/
+	plat_ops.program_ssid(device, pconfig);
 
 	debug_io("%s: pconfig: 0x%llx, value: 0x%x\n", __func__, pconfig,
 		octeontx_read32(pconfig));

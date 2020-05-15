@@ -20,7 +20,8 @@
 #define STREAM_DEV_IDX(streamid) (((streamid) >> STREAM_DEV_SHIFT) & 0x1f)
 #define STREAM_RSL_IDX(streamid) (((streamid) & 0xff))
 
-#define OCTEONTX_ECAM_MAX_BUS	256
+//#define OCTEONTX_ECAM_MAX_BUS	256
+#define OCTEONTX_ECAM_MAX_BUS	1024
 #define OCTEONTX_ECAM_MAX_DEV	32
 #define OCTEONTX_ECAM_MAX_FUNC	256
 
@@ -184,6 +185,7 @@ struct ecam_platform_defs {
 	void (*disable_dev)(struct ecam_device *dev);
 	void (*enable_func)(struct ecam_device *dev);
 	void (*disable_func)(struct ecam_device *dev);
+	void (*program_ssid)(struct ecam_device *dev, uint64_t pconfig);
 };
 
 /*

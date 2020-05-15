@@ -1,12 +1,12 @@
 /*
- * Copyright (C) 2016-2018 Marvell International Ltd.
+ * Copyright (C) 2016-2020 Marvell International Ltd.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
  */
 
-#ifndef __T96_PLAT_SETUP_H__
-#define __T96_PLAT_SETUP_H__
+#ifndef __T106_PLAT_SETUP_H__
+#define __T106_PLAT_SETUP_H__
 
 /*
  * The array mapping platform core position (implemented by plat_my_core_pos())
@@ -24,7 +24,7 @@ static const uint32_t plat_octeontx_core_pos_to_scmi_dmn_id_map[PLATFORM_CORE_CO
 				16, 17, 18, 19,
 				20, 21, 22, 23};
 
-/* CPU topology tree description for T96 */
+/* CPU topology tree description for T106 */
 static const unsigned char plat_octeontx_power_domain_tree_desc[] = {
 	/* No of root nodes */
 	PLATFORM_MAX_NODES,
@@ -40,4 +40,4 @@ static const unsigned char plat_octeontx_power_domain_tree_desc[] = {
 /* plat APIs specific to Octeon TX2 family */
 int plat_get_max_lane_num(int qlm);
 
-#endif /* __T93_PLAT_SETUP_H__ */
+#endif /* __T106_PLAT_SETUP_H__ */

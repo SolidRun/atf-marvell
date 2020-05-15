@@ -15,19 +15,24 @@
 
 	/* Global functions */
 	.globl	plat_my_core_pos
-	.globl	octeontx_io_trap_handler
+	.globl	octeontx_calc_core_pos
 
 	/* -----------------------------------------------------
 	 * unsigned int plat_my_core_pos(void);
-	 *
-	 * result: CorePos = (CoreId  * 4) + ClusterId
+	 * no clusters
+	 * result: CorePos = aff2 of MPIDR_EL1
 	 * -----------------------------------------------------
 	 */
 func plat_my_core_pos
-	mrs	x0, CVM_PN_EL1
-	and	x0, x0, #0xFFFF
-	ret
+	mrs	x0, mpidr_el1
+	b	octeontx_calc_core_pos
 endfunc plat_my_core_pos
+
+func octeontx_calc_core_pos
+	and	x1, x0, x0, LSR #MPIDR_AFF2_SHIFT
+	and	x0, x1, #0xFF
+	ret
+endfunc octeontx_calc_core_pos
 
 /* Main entry point for Cavium-specific trapping mechanism */
 func octeontx_io_trap_handler
@@ -71,7 +76,7 @@ func octeontx_io_trap_handler
 	mov	sp, x12
 
 	/* Go to C trap handler and then immediately drop into el3_exit() */
-	bl	octeontx_trap_handler
+	;bl	octeontx_trap_handler
 
 	b	el3_exit
 endfunc octeontx_io_trap_handler

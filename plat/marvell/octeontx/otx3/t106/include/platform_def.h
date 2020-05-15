@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2018 Marvell International Ltd.
+ * Copyright (C) 2016-2020 Marvell International Ltd.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -31,8 +31,8 @@
 #define PLAT_MAX_PWR_LVL		MPIDR_AFFLVL2
 
 /* SATA-related definitions */
-#define MAX_SATA_CONTROLLERS		16
-#define MAX_SATA_GSER			8
+#define MAX_SATA_CONTROLLERS		0
+#define MAX_SATA_GSER			0
 
 /*******************************************************************************
  * Platform power states
@@ -44,7 +44,7 @@
 #define PLAT_MAX_OFF_STATE		OCTEONTX_STATE_OFF
 
 #define PLATFORM_NODE_COUNT		(PLATFORM_MAX_NODES)
-#define PLATFORM_CLUSTER_COUNT		(PLATFORM_MAX_NODES * \
+#define PLATFORM_CLUSTER_COUNT         (PLATFORM_MAX_NODES * \
 						PLATFORM_MAX_CLUSTERS_PER_NODE)
 #define PLATFORM_MAX_CPUS_PER_CLUSTER	PLATFORM_CORE_PER_CLUSTER
 #define PLATFORM_CORE_COUNT		(PLATFORM_CLUSTER_COUNT * \
@@ -80,11 +80,11 @@
 
 #define NS_DMA_MEMORY_SIZE		0x100000
 
-#define CVM_PN_EL1			S3_0_C11_C4_2
+//#define CVM_PN_EL1			S3_0_C11_C4_2
 
 #define PLATFORM_MAX_NODES		1
-#define PLATFORM_MAX_CLUSTERS_PER_NODE	4
-#define PLATFORM_CORE_PER_CLUSTER	6
+#define PLATFORM_MAX_CLUSTERS_PER_NODE	1
+#define PLATFORM_CORE_PER_CLUSTER	24
 
 #define MAX_XLAT_TABLES			130
 

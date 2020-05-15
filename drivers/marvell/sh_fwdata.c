@@ -55,7 +55,10 @@ static struct cgx_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
 
 void sh_fwdata_init(void)
 {
-#if !defined(PLAT_t106) /* FIXME : no c_mul /pnr_mul field */
+#if defined(PLAT_t106) /* FIXME : no c_mul /pnr_mul field */
+	cavm_rst_core_pll_t rst_core_pll;
+	cavm_rst_pnr_pll_t rst_pnr_pll;
+#else
 	union cavm_rst_boot cavm_rst_boot_t;
 #endif
 	struct sh_fwdata *fwdata;
@@ -91,8 +94,10 @@ void sh_fwdata_init(void)
 		pf_mac++;
 	}
 #if defined(PLAT_t106) /* FIXME : no c_mul /pnr_mul field */
-	fwdata->rclk = 0;
-	fwdata->sclk = 0;
+	rst_core_pll.u = CSR_READ(CAVM_RST_CORE_PLL);
+	rst_pnr_pll.u = CSR_READ(CAVM_RST_PNR_PLL);
+	fwdata->rclk = rst_core_pll.s.cur_mul * RST_REF_CLK;
+	fwdata->sclk = rst_pnr_pll.s.cur_mul * RST_REF_CLK;
 #else
 	cavm_rst_boot_t.u = CSR_READ(CAVM_RST_BOOT);
 	fwdata->rclk = cavm_rst_boot_t.s.c_mul * RST_REF_CLK;

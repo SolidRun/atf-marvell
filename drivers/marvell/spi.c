@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2018 Marvell International Ltd.
+ * Copyright (C) 2016-2020 Marvell International Ltd.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -27,7 +27,7 @@ static file_state_t current_file = { 0 };
 
 uint32_t spi_mode;
 
-#if !defined(PLAT_t106)
+#if 0
 static int spi_config_cn8xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	int cpha, int spi_con, int cs)
 {
@@ -66,19 +66,28 @@ static int spi_config_cn8xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	CSR_WRITE(CAVM_MPI_CFG, mpi_cfg.u);
 	return 0;
 }
+#endif
 
 static int spi_config_cn9xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	int cpha, int spi_con, int cs)
 {
 	uint64_t sclk;
+#if !defined(PLAT_t106)
 	union cavm_rst_boot rst_boot;
+#else
+	cavm_rst_pnr_pll_t rst_pnr_pll;
+#endif
 	union cavm_mpix_cfg mpi_cfg;
-
 	mpi_cfg.u = CSR_READ(CAVM_MPIX_CFG(spi_con));
 
 	if (mode & SPI_FORCE_LEGACY_MODE) {
+#if defined(PLAT_t106)
+		rst_pnr_pll.u = CSR_READ(CAVM_RST_PNR_PLL);
+		sclk = rst_pnr_pll.s.cur_mul * PLL_REF_CLK_CN9XXX;
+#else
 		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 		sclk = PLL_REF_CLK_CN9XXX * rst_boot.s.pnr_mul;
+#endif
 		mpi_cfg.s.legacy_dis = 0; /* Use legacy mode */
 	} else {
 		sclk = PLL_REF_CLK_CN9XXX; /* With tb100_en use always 100Mhz */
@@ -107,10 +116,13 @@ static int spi_config_cn9xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
+#if 0
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		return spi_config_cn8xxx(
 				spi_clk, mode, cpol, cpha, spi_con, cs);
-	} else if (cavm_is_model(OCTEONTX_CN9XXX)) {
+	//} else if (cavm_is_model(OCTEONTX_CN9XXX)) {
+#endif
+	if (1) { /* Applicable for T106xxx as well */
 		return spi_config_cn9xxx(
 				spi_clk, mode, cpol, cpha, spi_con, cs);
 	} else {
@@ -122,8 +134,8 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
 		    int spi_con, int cs, int last_data)
 {
-	union cavm_mpi_tx mpi_tx;
-	union cavm_mpi_sts mpi_sts;
+	union cavm_mpix_tx mpi_tx;
+	union cavm_mpix_sts mpi_sts;
 	int i;
 
 	while (len > 0) {
@@ -131,9 +143,7 @@ static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
 
 		if (dout) {
 			for (i = 0; i < size; i++) {
-				if (cavm_is_model(OCTEONTX_CN8XXX))
-					CSR_WRITE(CAVM_MPI_DATX(i), *dout++);
-				else if (cavm_is_model(OCTEONTX_CN9XXX))
+				if (1)
 					CSR_WRITE(CAVM_MPIX_DATX(spi_con, i), *dout++);
 				else
 					return -1;
@@ -150,17 +160,14 @@ static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
 
 		mpi_tx.s.txnum = dout ? size : 0;
 		mpi_tx.s.totnum = size;
-		if (cavm_is_model(OCTEONTX_CN8XXX))
-			CSR_WRITE(CAVM_MPI_TX, mpi_tx.u);
-		else if (cavm_is_model(OCTEONTX_CN9XXX))
+		//else if (cavm_is_model(OCTEONTX_CN9XXX))
+		if (1)
 			CSR_WRITE(CAVM_MPIX_TX(spi_con), mpi_tx.u);
 		else
 			return -1;
 		/* Wait for tx/rx to complete */
 		do {
-			if (cavm_is_model(OCTEONTX_CN8XXX))
-				mpi_sts.u = CSR_READ(CAVM_MPI_STS);
-			else if (cavm_is_model(OCTEONTX_CN9XXX))
+			if (1)
 				mpi_sts.u = CSR_READ(CAVM_MPIX_STS(spi_con));
 			else
 				return -1;
@@ -168,9 +175,7 @@ static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
 
 		if (din) {
 			for (i = 0; i < size; i++) {
-				if (cavm_is_model(OCTEONTX_CN8XXX))
-					*din++ = CSR_READ(CAVM_MPI_DATX(i));
-				else if (cavm_is_model(OCTEONTX_CN9XXX))
+				if (1)
 					*din++ = CSR_READ(CAVM_MPIX_DATX(spi_con, i));
 				else
 					return -1;
@@ -185,7 +190,7 @@ static int spi_xfer_cn9xxx(unsigned char *dout, unsigned char *din, int len,
 		    int spi_con, int cs, int last_data, int lsbfirst)
 {
 	union cavm_mpix_xmit mpi_tx;
-	union cavm_mpi_sts mpi_sts;
+	union cavm_mpix_sts mpi_sts;
 	int i, j;
 	uint64_t data;
 
@@ -246,7 +251,8 @@ static inline int spi_xfer(unsigned char *dout, unsigned char *din, int len,
 {
 	union cavm_mpix_cfg mpi_cfg;
 
-	if (cavm_is_model(OCTEONTX_CN9XXX)) {
+	//if (cavm_is_model(OCTEONTX_CN9XXX)) {
+	if (1) {
 		mpi_cfg.u = CSR_READ(CAVM_MPIX_CFG(spi_con));
 		if (mpi_cfg.s.legacy_dis) {
 			return spi_xfer_cn9xxx(dout, din, len, spi_con, cs,
@@ -277,7 +283,8 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 	/* Address len + command byte */
 	len = (addr_len >> 3) + 1;
 
-	if (cavm_is_model(OCTEONTX_CN9XXX) &&
+	//if (cavm_is_model(OCTEONTX_CN9XXX) &&
+	if (1 && 
 		!(spi_mode & SPI_FORCE_X1_READ) &&
 		!(spi_mode & SPI_FORCE_LEGACY_MODE)) {
 
@@ -413,7 +420,6 @@ int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 
 	return 0;
 }
-#endif
 
 /*
  * APIs to read from SPI NOR flash
@@ -452,7 +458,7 @@ static int spi_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 
 #if defined(PLAT_t106)
 		/* FIXME: add support for SPI operations for T106 */
-		return 0;
+		//return 0;
 #endif
 		return spi_config(CONFIG_SPI_FREQUENCY, spi_mode, 0, 0,
 				  current_file.spi_con, current_file.cs);

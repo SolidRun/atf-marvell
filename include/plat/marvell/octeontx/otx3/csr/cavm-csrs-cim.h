@@ -1342,6 +1342,7 @@ static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_NS(uint64_t a)
 #define busnum_CAVM_CIMX_ICC_CTLR_EL1_NS(a) (a)
 #define arguments_CAVM_CIMX_ICC_CTLR_EL1_NS(a) (a),-1,-1,-1
 
+#if 0
 /**
  * Register (NCB) cim#_icc_ctlr_el1_s
  *
@@ -1432,7 +1433,7 @@ static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_S(uint64_t a)
 #define basename_CAVM_CIMX_ICC_CTLR_EL1_S(a) "CIMX_ICC_CTLR_EL1_S"
 #define busnum_CAVM_CIMX_ICC_CTLR_EL1_S(a) (a)
 #define arguments_CAVM_CIMX_ICC_CTLR_EL1_S(a) (a),-1,-1,-1
-
+#endif
 /**
  * Register (NCB) cim#_icc_ctlr_el3
  *

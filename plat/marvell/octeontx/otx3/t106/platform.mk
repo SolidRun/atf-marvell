@@ -66,7 +66,6 @@ BL31_SOURCES		+=	plat/marvell/octeontx/otx3/plat_topology.c		\
 				plat/marvell/octeontx/otx3/plat_pm.c			\
 				plat/marvell/octeontx/otx3/plat_pwrc.c		\
 				plat/marvell/octeontx/otx3/plat_scmi.c		\
-				plat/marvell/octeontx/otx3/plat_flr.c		\
 				plat/marvell/octeontx/otx3/plat_npc_mcam_profile.c	\
 				plat/marvell/octeontx/otx3/plat_legacy_pm_ops.c		\
 				plat/marvell/octeontx/otx3/plat_svc.c		\

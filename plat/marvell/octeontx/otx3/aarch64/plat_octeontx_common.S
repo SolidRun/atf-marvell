@@ -11,38 +11,35 @@
 #include <cpu_macros.S>
 #include <plat_macros.S>
 
-#define OCTEONTX2_CN98XX_MIDR		0x430F0B10
-#define OCTEONTX2_CN96XX_MIDR		0x430F0B20
-#define OCTEONTX2_CNF95XX_MIDR		0x430F0B30
-#define OCTEONTX2_LOKI_MIDR		0x430F0B40
-#define OCTEONTX2_F95MM_MIDR		0x430F0B50
+
+#define OCTEONTX3_T106XX_MIDR		0x430F0B50
 
 #define EC_CAVIUM_IO_TRAP		U(0x1f)
 
-func octeontx2_reset_func
+func octeontx3_reset_func
 	ret
-endfunc octeontx2_reset_func
+endfunc octeontx3_reset_func
 
-func octeontx2_core_pwr_dwn
+func octeontx3_core_pwr_dwn
 	ret
-endfunc octeontx2_core_pwr_dwn
+endfunc octeontx3_core_pwr_dwn
 
-func octeontx2_cluster_pwr_dwn
+func octeontx3_cluster_pwr_dwn
 	ret
-endfunc octeontx2_cluster_pwr_dwn
+endfunc octeontx3_cluster_pwr_dwn
 
-func octeontx2_cpu_reg_dump
+func octeontx3_cpu_reg_dump
 	ret
-endfunc octeontx2_cpu_reg_dump
+endfunc octeontx3_cpu_reg_dump
 
 	/* ----------------------------------------------
-	 * void octeontx2_exception_handler(int)
+	 * void octeontx3_exception_handler(int)
 	 * Function for handling sync exceptions specific
 	 * for this platform. x1 argument contains EC
 	 * from el3_esr.
 	 * ----------------------------------------------
 	 */
-func octeontx2_exception_handler
+func octeontx3_exception_handler
 /* These errors are handled only in runtime (in BL31) */
 #if defined(IMAGE_BL31)
 	/* -----------------------------------------------------
@@ -52,7 +49,7 @@ func octeontx2_exception_handler
 	 * -----------------------------------------------------
 	 */
 	cmp	x1, #EC_CAVIUM_IO_TRAP
-	b.eq	octeontx_io_trap_handler
+	/* b.eq	octeontx_io_trap_handler */
 
 	/* ------------------------------------------------------
 	 * The following handles WFI trapped in EL0.
@@ -68,43 +65,20 @@ func octeontx2_exception_handler
 	 * ---------------------------------------------------
 	 */
 	ret
-endfunc octeontx2_exception_handler
+endfunc octeontx3_exception_handler
 
 #if REPORT_ERRATA
 /*
  * Errata printing function for octeontx2. Must follow AAPCS.
  */
-func octeontx2_errata_report
+func octeontx3_errata_report
 	ret
-endfunc octeontx2_errata_report
+endfunc octeontx3_errata_report
 #endif
 
-declare_cpu_ops_eh octeontx2, OCTEONTX2_CN96XX_MIDR, \
-	octeontx2_reset_func, \
-	octeontx2_exception_handler, \
-	octeontx2_core_pwr_dwn, \
-	octeontx2_cluster_pwr_dwn
+declare_cpu_ops_eh octeontx3, OCTEONTX3_T106XX_MIDR, \
+	octeontx3_reset_func, \
+	octeontx3_exception_handler, \
+	octeontx3_core_pwr_dwn, \
+	octeontx3_cluster_pwr_dwn
 
-declare_cpu_ops_eh octeontx2, OCTEONTX2_CNF95XX_MIDR, \
-	octeontx2_reset_func, \
-	octeontx2_exception_handler, \
-	octeontx2_core_pwr_dwn, \
-	octeontx2_cluster_pwr_dwn
-
-declare_cpu_ops_eh octeontx2, OCTEONTX2_LOKI_MIDR, \
-	octeontx2_reset_func, \
-	octeontx2_exception_handler, \
-	octeontx2_core_pwr_dwn, \
-	octeontx2_cluster_pwr_dwn
-
-declare_cpu_ops_eh octeontx2, OCTEONTX2_CN98XX_MIDR, \
-	octeontx2_reset_func, \
-	octeontx2_exception_handler, \
-	octeontx2_core_pwr_dwn, \
-	octeontx2_cluster_pwr_dwn
-
-declare_cpu_ops_eh octeontx2, OCTEONTX2_F95MM_MIDR, \
-	octeontx2_reset_func, \
-	octeontx2_exception_handler, \
-	octeontx2_core_pwr_dwn, \
-	octeontx2_cluster_pwr_dwn

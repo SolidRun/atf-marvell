@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (C) 2020 Marvell International Ltd.
  * This program is provided "as is" without any warranty of any kind,
  * and is distributed under the applicable Marvell proprietary limited use
  * license agreement.
@@ -44,17 +44,17 @@ extern void plat_armtrace_init(void);
  */
 void plat_octeontx_setup(void)
 {
+#if 0
 	sh_fwdata_init();
 
-#if 0
 	/* Initialize CGX framework */
 	cgx_fw_intf_init();
-#endif
-	/* setup gpio interrupt handling */
-	plat_gpio_irq_setup();
 
 	/* Workaround for FLR handling on CN9xxx */
 	plat_flr_init();
+#endif
+	/* setup gpio interrupt handling */
+	plat_gpio_irq_setup();
 
 #if RAS_EXTENSION
 	otx2_ras_init();
@@ -82,19 +82,8 @@ void plat_octeontx_setup(void)
 unsigned int plat_configure_cpt_rid(void)
 {
 	unsigned int val = 0;
-	uint64_t midr;
-
-	midr = read_midr();
 
 	/* program CPT revision id */
-	if (IS_OCTEONTX_PN(midr, T98PARTNUM))
-		val = 3;
-	else if (IS_OCTEONTX_PN(midr, T96PARTNUM)) {
-		if (IS_OCTEONTX_VAR(midr, T96PARTNUM, 1))
-			val = 1;
-		else
-			val = 2;
-	}
 	return val;
 }
 
@@ -235,6 +224,8 @@ int plat_get_ooo_status(void)
 
 void plat_octeontx_cpu_setup(void)
 {
+#if 0
+	/* All CVM_ SYS registers are removed for 10xxx */
 	uint64_t cvmctl_el1, cvmmemctl0_el1, cvmmemctl1_el1, cvmmemctl2_el1;
 	uint64_t cvmctl2_el1;
 
@@ -308,10 +299,13 @@ void plat_octeontx_cpu_setup(void)
 	write_cvm_access_el1(read_cvm_access_el1() & ~(1 << 8));
 	write_cvm_access_el2(read_cvm_access_el2() & ~(1 << 8));
 	write_cvm_access_el3(read_cvm_access_el3() & ~(1 << 8));
+#endif
 }
 
 int octeontx3_configure_ooo(int x1)
 {
+#if 0
+	/* All CVM_ SYS registers are removed for 10xxx */
 	uint64_t cvmctl_el1;
 
 	disable_ooo = x1 ? 1 : 0;
@@ -323,6 +317,6 @@ int octeontx3_configure_ooo(int x1)
 		unset_bit(cvmctl_el1, 44);
 
 	write_cvmctl_el1(cvmctl_el1);
-
+#endif
 	return 0;
 }

@@ -266,7 +266,9 @@ static int cn106xx_is_bus_disabled(struct ecam_device *dev)
 {
 	int rc = 0;
 
-	/* Below buses does not exist in internal T96 topology */
+	/* FIXME for t106
+	 * Below buses does not exist in internal T96 topology
+	 */
 	if (((dev->domain == 0) && (dev->bus > 12)) ||
 	    ((dev->domain == 1) && ((dev->bus > 1) && (dev->bus != 4)))  ||
 	    ((dev->domain == 2) && (dev->bus > 16)))
@@ -502,6 +504,25 @@ static int cn106xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig
 	return 1;
 }
 
+static void cn106xx_program_ssid(struct ecam_device *dev, uint64_t pconfig)
+{
+#ifdef DEBUG_ATF_PLAT_ECAM
+	cavm_pccpf_xxx_id_t pccpf_id;
+#endif
+	cavm_pccpf_xxx_vsec_sctl2_t vsec_sctl2;
+
+#ifdef DEBUG_ATF_PLAT_ECAM
+	pccpf_id.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_ID);
+	debug_plat_ecam("%s: DeviceID=0x%04x\n", __func__, pccpf_id.s.devid);
+#endif
+	/* Program Sub system ID with chip type */
+	vsec_sctl2.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2);
+	vsec_sctl2.s.ssid = ((CAVM_PCC_PROD_E_CN106XX << 8) & 0xFFFF);
+	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2, vsec_sctl2.u);
+	
+	return;
+}
+
 struct ecam_probe_callback *cn106xx_get_probe_callbacks(void)
 {
 	return &probe_callbacks[0];
@@ -529,4 +550,5 @@ const struct ecam_platform_defs plat_ops = {
 	.disable_dev = cn106xx_disable_dev,
 	.enable_func = cn106xx_enable_func,
 	.disable_func = cn106xx_disable_func,
+	.program_ssid = cn106xx_program_ssid,
 };

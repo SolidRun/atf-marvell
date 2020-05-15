@@ -93,7 +93,7 @@ static void octeontx_pwr_domain_on_finish(const psci_power_state_t *target_state
 	plat_octeontx_cpu_setup();
 
 	/* Init FLR for secondary cores */
-	plat_flr_init();
+	//plat_flr_init();
 }
 
 /*******************************************************************************

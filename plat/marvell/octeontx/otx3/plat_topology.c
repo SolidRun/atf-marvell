@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Marvell International Ltd.
+ * Copyright (C) 2016-2020 Marvell International Ltd.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -26,25 +26,21 @@ const unsigned char *plat_get_power_domain_tree_desc(void)
  ******************************************************************************/
 int plat_core_pos_by_mpidr(u_register_t mpidr)
 {
-	unsigned int node_id, cluster_id, cpu_id;
+	unsigned int cpu_id;
 
 	mpidr &= MPIDR_AFFINITY_MASK;
 
-	if (mpidr & ~(MPIDR_CLUSTER_MASK | MPIDR_CPU_MASK | MPIDR_NODE_MASK))
+	/* Core index is part of aff2, aff1 and aff0 are zeros,
+	 * hence use MPIDR_NODE_MASK to find if MPIDR read
+	 * is valid
+	 */
+	if (mpidr & ~(MPIDR_NODE_MASK))
 		return -1;
 
-	node_id = (mpidr >> MPIDR_AFF2_SHIFT) & MPIDR_AFFLVL_MASK;
-	cluster_id = (mpidr >> MPIDR_AFF1_SHIFT) & MPIDR_AFFLVL_MASK;
-	cpu_id = (mpidr >> MPIDR_AFF0_SHIFT) & MPIDR_AFFLVL_MASK;
-
-	if (node_id >= PLATFORM_MAX_NODES)
-		return -1;
-
-	if (cluster_id >= PLATFORM_MAX_CLUSTERS_PER_NODE)
-		return -1;
+	cpu_id = (mpidr >> MPIDR_AFF2_SHIFT) & MPIDR_AFFLVL_MASK;
 
 	if (cpu_id >= PLATFORM_MAX_CPUS_PER_CLUSTER)
 		return -1;
 
-	return ((cpu_id * PLATFORM_MAX_CLUSTERS_PER_NODE) + cluster_id);
+	return cpu_id;
 }
