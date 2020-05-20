@@ -6,6 +6,9 @@
 RAS_EXTENSION		:=       0
 HANDLE_EA_EL3_FIRST	:=       1
 
+# Enable GIC v4 extension
+GIC_ENABLE_V4_EXTN      :=       1
+
 # Include common Marvell platform's makefile helper
 include plat/marvell/octeontx/platform.mk
 

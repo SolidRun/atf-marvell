@@ -15,6 +15,11 @@ SDEI_SUPPORT            :=       1
 $(eval $(call add_define,SDEI_SUPPORT))
 endif
 
+# disable GIC v4 (unless defined by platform)
+GIC_ENABLE_V4_EXTN      ?=       0
+$(eval $(call assert_boolean,GIC_ENABLE_V4_EXTN))
+$(eval $(call add_define,GIC_ENABLE_V4_EXTN))
+
 ifeq (${BUILD_TYPE}, release)
 	# Use LOG_LEVEL_WARN in release builds
         LOG_LEVEL	:=	30
