@@ -84,9 +84,10 @@
  * Internal:
  * P2X/X2P channel enumeration for t9x.
  */
-#define CAVM_NIX_CHAN_E_CGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c))
+#define CAVM_NIX_CHAN_E_CPT_CHX(a) (0x400 + (a))
 #define CAVM_NIX_CHAN_E_LBKX_CHX(a,b) (0 + 0x100 * (a) + (b))
 #define CAVM_NIX_CHAN_E_RX(a) (0 + 0x100 * (a))
+#define CAVM_NIX_CHAN_E_RPMX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c))
 #define CAVM_NIX_CHAN_E_SDP_CHX(a) (0x700 + (a))
 
 /**
@@ -117,9 +118,9 @@
  * NIX Interface Number Enumeration
  * Enumerates the bit index of NIX_AF_STATUS[CALIBRATE_STATUS].
  */
-#define CAVM_NIX_INTF_E_CGXX(a) (0 + (a))
-#define CAVM_NIX_INTF_E_LBKX(a) (1 + (a))
-#define CAVM_NIX_INTF_E_SDP (2)
+#define CAVM_NIX_INTF_E_LBKX(a) (0xc + (a))
+#define CAVM_NIX_INTF_E_RPMX(a) (0 + (a))
+#define CAVM_NIX_INTF_E_SDP (0xd)
 
 /**
  * Enumeration nix_lf_int_vec_e
@@ -145,10 +146,11 @@
  * NIX_AF_TL3_TL2()_LINK()_CFG and
  * NIX_AF_TX_LINK()_CFG.
  */
-#define CAVM_NIX_LINK_E_CGXX_LMACX(a,b) (0 + 4 * (a) + (b))
-#define CAVM_NIX_LINK_E_LBKX(a) (4 + (a))
-#define CAVM_NIX_LINK_E_MC (6)
-#define CAVM_NIX_LINK_E_SDP (5)
+#define CAVM_NIX_LINK_E_CPT (0xe)
+#define CAVM_NIX_LINK_E_LBKX(a) (0xc + (a))
+#define CAVM_NIX_LINK_E_MC (0xf)
+#define CAVM_NIX_LINK_E_RPMX_LMACX(a,b) (0 + 4 * (a) + (b))
+#define CAVM_NIX_LINK_E_SDP (0xd)
 
 /**
  * Enumeration nix_lsoalg_e
@@ -2683,13 +2685,13 @@ union cavm_nix_rq_ctx_s
         uint64_t octs                  : 48; /**< [431:384] Number of nondropped octets received (good and bad). Includes any
                                                                  timestamps, RX headers, Vtag bytes stripped by
                                                                  NIX_AF_LF()_RX_VTAG_TYPE()[STRIP], and frame minimum size pad bytes.
-                                                                 Excludes FCS stripped by CGX.
+                                                                 Excludes FCS stripped by RPM.
                                                                  If [POLICER_ENA]==1, counts only green color octs. */
 #else /* Word 6 - Little Endian */
         uint64_t octs                  : 48; /**< [431:384] Number of nondropped octets received (good and bad). Includes any
                                                                  timestamps, RX headers, Vtag bytes stripped by
                                                                  NIX_AF_LF()_RX_VTAG_TYPE()[STRIP], and frame minimum size pad bytes.
-                                                                 Excludes FCS stripped by CGX.
+                                                                 Excludes FCS stripped by RPM.
                                                                  If [POLICER_ENA]==1, counts only green color octs. */
         uint64_t reserved_432_447      : 16;
 #endif /* Word 6 - End */
@@ -3052,7 +3054,7 @@ union cavm_nix_rx_parse_s
                                                                  When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
                                                                  packet was received from. NIX(0) receives from SDP(0) and NIX(1) receives
                                                                  from SDP(1). */
-        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by CGX or LBK for received packet. */
+        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
         uint64_t vtag1_gone            : 1;  /**< [ 87: 87] Vtag 1 gone. See [VTAG0_GONE]. */
         uint64_t vtag1_valid           : 1;  /**< [ 86: 86] Vtag 1 valid. See [VTAG0_VALID]. */
         uint64_t vtag0_gone            : 1;  /**< [ 85: 85] Vtag 0 gone. Valid when [VTAG0_VALID] is set. Indicates Vtag 0 was stripped from
@@ -3080,7 +3082,7 @@ union cavm_nix_rx_parse_s
                                                                  NIX_AF_LF()_RX_VTAG_TYPE()[CAPTURE,STRIP] are set. */
         uint64_t vtag1_valid           : 1;  /**< [ 86: 86] Vtag 1 valid. See [VTAG0_VALID]. */
         uint64_t vtag1_gone            : 1;  /**< [ 87: 87] Vtag 1 gone. See [VTAG0_GONE]. */
-        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by CGX or LBK for received packet. */
+        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
         uint64_t nix_idx               : 2;  /**< [ 95: 94] NIX index. Identifies which NIX instance generated this structure.
                                                                  Internal:
                                                                  When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
@@ -3278,7 +3280,7 @@ union cavm_nix_rx_parse_s
                                                                  When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
                                                                  packet was received from. NIX(0) receives from SDP(0) and NIX(1) receives
                                                                  from SDP(1). */
-        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by CGX or LBK for received packet. */
+        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
         uint64_t vtag1_gone            : 1;  /**< [ 87: 87] Vtag 1 gone. See [VTAG0_GONE]. */
         uint64_t vtag1_valid           : 1;  /**< [ 86: 86] Vtag 1 valid. See [VTAG0_VALID]. */
         uint64_t vtag0_gone            : 1;  /**< [ 85: 85] Vtag 0 gone. Valid when [VTAG0_VALID] is set. Indicates Vtag 0 was stripped from
@@ -3306,7 +3308,7 @@ union cavm_nix_rx_parse_s
                                                                  NIX_AF_LF()_RX_VTAG_TYPE()[CAPTURE,STRIP] are set. */
         uint64_t vtag1_valid           : 1;  /**< [ 86: 86] Vtag 1 valid. See [VTAG0_VALID]. */
         uint64_t vtag1_gone            : 1;  /**< [ 87: 87] Vtag 1 gone. See [VTAG0_GONE]. */
-        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by CGX or LBK for received packet. */
+        uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
         uint64_t nix_idx               : 2;  /**< [ 95: 94] NIX index. Identifies which NIX instance generated this structure.
                                                                  Internal:
                                                                  When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
@@ -3464,13 +3466,19 @@ union cavm_nix_rx_vtag_action_s
     struct cavm_nix_rx_vtag_action_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t vtag1_valid           : 1;  /**< [ 47: 47] Vtag 1 valid. Remaining [VTAG1_*] fields are valid when set. */
+        uint64_t sa_hi                 : 16; /**< [ 63: 48] When [SA_OVRD]=1, the XORed SPI\<31:16\> value. */
+        uint64_t vtag1_valid           : 1;  /**< [ 47: 47] Vtag 1 valid. Remaining [VTAG1_*] fields are valid when set. Must be zero when
+                                                                 using VTAG1_LID as SA_ALG, and should typically be zero for all new software
+                                                                 when using NIX_RX_ACTION_S[OP] == UCAST_IPSEC (using [VTAG1_VALID] = 1 with
+                                                                 NIX_RX_ACTION_S[OP] == UCAST_IPSEC is only supported for backwards
+                                                                 compatibility.). Enumerated by [SA_ALG] */
         uint64_t vtag1_type            : 3;  /**< [ 46: 44] Vtag 1 type. See [VTAG0_TYPE]. */
         uint64_t reserved_43           : 1;
-        uint64_t vtag1_lid             : 3;  /**< [ 42: 40] Vtag 1 layer ID enumerated by NPC_LID_E. */
+        uint64_t vtag1_lid             : 3;  /**< [ 42: 40] Vtag 1 layer ID enumerated by NPC_LID_E. Field is used for SA algorithm
+                                                                 selection as SA_ALG when NIX_RX_ACTION_S[OP] == UCAST_IPSEC and
+                                                                 NIX_RX_VTAG_ACTION_S[VTAG1_VALID] = 0. */
         uint64_t vtag1_relptr          : 8;  /**< [ 39: 32] Vtag 1 relative pointer. See [VTAG0_RELPTR]. */
-        uint64_t reserved_16_31        : 16;
+        uint64_t sa_lo                 : 16; /**< [ 31: 16] When [SA_OVRD]=1, the XORed SPI\<15:0\> value. */
         uint64_t vtag0_valid           : 1;  /**< [ 15: 15] Vtag 0 valid. Remaining [VTAG0_*] fields are valid when set. */
         uint64_t vtag0_type            : 3;  /**< [ 14: 12] Vtag 0 type. Index to NIX_AF_LF()_RX_VTAG_TYPE() entry for the receive
                                                                  packet's VF/PF. The selected entry specifies the tag size and optional tag
@@ -3480,7 +3488,8 @@ union cavm_nix_rx_vtag_action_s
                                                                  NIX_RX_ACTION_S[OP] != NIX_RX_ACTIONOP_E::MCAST or
                                                                  NIX_RX_ACTIONOP_E::MIRROR, and by the NIX RX multicast/mirror replication
                                                                  list entries otherwise. */
-        uint64_t reserved_11           : 1;
+        uint64_t sa_xor                : 1;  /**< [ 11: 11] When NIX_RX_ACTION_S[OP] == UCAST_IPSEC, if set [SA_HI], [SA_LO] will XOR into
+                                                                 the SA index calculation. Must be zero if NIX_RX_ACTION_S[OP] != UCAST_IPSEC. */
         uint64_t vtag0_lid             : 3;  /**< [ 10:  8] Vtag 0 layer ID enumerated by NPC_LID_E. */
         uint64_t vtag0_relptr          : 8;  /**< [  7:  0] Vtag 0 relative pointer. Byte offset from start of selected layer to first
                                                                  tag 0 byte. Must be even. For example, if [VTAG0_LID] = NPC_LID_E::LB, then
@@ -3492,7 +3501,8 @@ union cavm_nix_rx_vtag_action_s
                                                                  the byte offset from packet start to the first tag 0 byte is
                                                                  NPC_RESULT_S[LB[LPTR]] + [VTAG0_RELPTR]. */
         uint64_t vtag0_lid             : 3;  /**< [ 10:  8] Vtag 0 layer ID enumerated by NPC_LID_E. */
-        uint64_t reserved_11           : 1;
+        uint64_t sa_xor                : 1;  /**< [ 11: 11] When NIX_RX_ACTION_S[OP] == UCAST_IPSEC, if set [SA_HI], [SA_LO] will XOR into
+                                                                 the SA index calculation. Must be zero if NIX_RX_ACTION_S[OP] != UCAST_IPSEC. */
         uint64_t vtag0_type            : 3;  /**< [ 14: 12] Vtag 0 type. Index to NIX_AF_LF()_RX_VTAG_TYPE() entry for the receive
                                                                  packet's VF/PF. The selected entry specifies the tag size and optional tag
                                                                  strip/capture actions.
@@ -3502,13 +3512,19 @@ union cavm_nix_rx_vtag_action_s
                                                                  NIX_RX_ACTIONOP_E::MIRROR, and by the NIX RX multicast/mirror replication
                                                                  list entries otherwise. */
         uint64_t vtag0_valid           : 1;  /**< [ 15: 15] Vtag 0 valid. Remaining [VTAG0_*] fields are valid when set. */
-        uint64_t reserved_16_31        : 16;
+        uint64_t sa_lo                 : 16; /**< [ 31: 16] When [SA_OVRD]=1, the XORed SPI\<15:0\> value. */
         uint64_t vtag1_relptr          : 8;  /**< [ 39: 32] Vtag 1 relative pointer. See [VTAG0_RELPTR]. */
-        uint64_t vtag1_lid             : 3;  /**< [ 42: 40] Vtag 1 layer ID enumerated by NPC_LID_E. */
+        uint64_t vtag1_lid             : 3;  /**< [ 42: 40] Vtag 1 layer ID enumerated by NPC_LID_E. Field is used for SA algorithm
+                                                                 selection as SA_ALG when NIX_RX_ACTION_S[OP] == UCAST_IPSEC and
+                                                                 NIX_RX_VTAG_ACTION_S[VTAG1_VALID] = 0. */
         uint64_t reserved_43           : 1;
         uint64_t vtag1_type            : 3;  /**< [ 46: 44] Vtag 1 type. See [VTAG0_TYPE]. */
-        uint64_t vtag1_valid           : 1;  /**< [ 47: 47] Vtag 1 valid. Remaining [VTAG1_*] fields are valid when set. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t vtag1_valid           : 1;  /**< [ 47: 47] Vtag 1 valid. Remaining [VTAG1_*] fields are valid when set. Must be zero when
+                                                                 using VTAG1_LID as SA_ALG, and should typically be zero for all new software
+                                                                 when using NIX_RX_ACTION_S[OP] == UCAST_IPSEC (using [VTAG1_VALID] = 1 with
+                                                                 NIX_RX_ACTION_S[OP] == UCAST_IPSEC is only supported for backwards
+                                                                 compatibility.). Enumerated by [SA_ALG] */
+        uint64_t sa_hi                 : 16; /**< [ 63: 48] When [SA_OVRD]=1, the XORed SPI\<31:16\> value. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nix_rx_vtag_action_s_s cn; */
@@ -3706,7 +3722,7 @@ union cavm_nix_send_ext_s
         uint64_t tstmp                 : 1;  /**< [ 15: 15] PTP timestamp. Ignored unless a NIX_SEND_MEM_S is present in the send
                                                                  descriptor with NIX_SEND_MEM_S[ALG] = NIX_SENDMEMALG_E::SETTSTMP. When set,
                                                                  hardware writes the packet's timestamp (MIO_PTP_CLOCK_HI) to LF IOVA
-                                                                 NIX_SEND_MEM_S[ADDR] when the targeted CGX LMAC transmits the packet. See
+                                                                 NIX_SEND_MEM_S[ADDR] when the targeted RPM LMAC transmits the packet. See
                                                                  also NIX_SENDMEMALG_E::SETTSTMP.
 
                                                                  If NIX_SQ_CTX_S[CQ_ENA] and software wishes to receive a CQE on timestamp
@@ -3748,7 +3764,7 @@ union cavm_nix_send_ext_s
         uint64_t tstmp                 : 1;  /**< [ 15: 15] PTP timestamp. Ignored unless a NIX_SEND_MEM_S is present in the send
                                                                  descriptor with NIX_SEND_MEM_S[ALG] = NIX_SENDMEMALG_E::SETTSTMP. When set,
                                                                  hardware writes the packet's timestamp (MIO_PTP_CLOCK_HI) to LF IOVA
-                                                                 NIX_SEND_MEM_S[ADDR] when the targeted CGX LMAC transmits the packet. See
+                                                                 NIX_SEND_MEM_S[ADDR] when the targeted RPM LMAC transmits the packet. See
                                                                  also NIX_SENDMEMALG_E::SETTSTMP.
 
                                                                  If NIX_SQ_CTX_S[CQ_ENA] and software wishes to receive a CQE on timestamp
@@ -3947,7 +3963,7 @@ union cavm_nix_send_hdr_s
                                                                  excluding any inserted VLAN and/or Vtag bytes. In other words, the total
                                                                  LSO data payload size is [TOTAL] - NIX_SEND_EXT_S[LSO_SB].
 
-                                                                 [TOTAL] does not include any of the outside FCS bytes that CGX may append
+                                                                 [TOTAL] does not include any of the outside FCS bytes that RPM may append
                                                                  to the packet(s). Hardware zero pads the packet when [TOTAL] is larger than
                                                                  the sum of all NIX_SEND_SG_S[SEG_SIZE*]s and NIX_SEND_IMM_S[SIZE]s in the
                                                                  descriptor. In addition, hardware zero pads the packet when
@@ -3965,7 +3981,7 @@ union cavm_nix_send_hdr_s
                                                                  excluding any inserted VLAN and/or Vtag bytes. In other words, the total
                                                                  LSO data payload size is [TOTAL] - NIX_SEND_EXT_S[LSO_SB].
 
-                                                                 [TOTAL] does not include any of the outside FCS bytes that CGX may append
+                                                                 [TOTAL] does not include any of the outside FCS bytes that RPM may append
                                                                  to the packet(s). Hardware zero pads the packet when [TOTAL] is larger than
                                                                  the sum of all NIX_SEND_SG_S[SEG_SIZE*]s and NIX_SEND_IMM_S[SIZE]s in the
                                                                  descriptor. In addition, hardware zero pads the packet when
@@ -4896,7 +4912,7 @@ union cavm_nix_sq_ctx_s
                                                                  [TAIL_SQB], and any linked SQBs in between. Excludes the SQB at [NEXT_SQB]. */
         uint64_t default_chan          : 12; /**< [111:100] Default channel enumerated by NIX_CHAN_E.
 
-                                                                 If the SQ transmits to CGX and/or LBK (corresponding
+                                                                 If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
                                                                  packet is transmitted when NIX_TX_ACTION_S[OP] =
                                                                  NIX_TX_ACTIONOP_E::UCAST_DEFAULT in the NPC result.
@@ -4947,7 +4963,7 @@ union cavm_nix_sq_ctx_s
                                                                  _ NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
         uint64_t default_chan          : 12; /**< [111:100] Default channel enumerated by NIX_CHAN_E.
 
-                                                                 If the SQ transmits to CGX and/or LBK (corresponding
+                                                                 If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
                                                                  packet is transmitted when NIX_TX_ACTION_S[OP] =
                                                                  NIX_TX_ACTIONOP_E::UCAST_DEFAULT in the NPC result.
@@ -6444,13 +6460,13 @@ union cavm_nixx_af_const
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Number of SDP links enumerated in NIX_LINK_E. */
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Number of LBK links enumerated in NIX_LINK_E. */
         uint64_t lbk_channels          : 8;  /**< [ 23: 16](RO) Number of channels per LBK interface/link. */
-        uint64_t num_cgx               : 4;  /**< [ 15: 12](RO) Number of CGX interfaces enumerated in NIX_LINK_E. */
-        uint64_t cgx_lmacs             : 4;  /**< [ 11:  8](RO) Number of LMACs (links) per CGX. */
-        uint64_t cgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels per CGX link/LMAC. */
+        uint64_t num_rpm               : 4;  /**< [ 15: 12](RO) Number of RPM interfaces enumerated in NIX_LINK_E. */
+        uint64_t rpm_lmacs             : 4;  /**< [ 11:  8](RO) Number of LMACs (links) per RPM. */
+        uint64_t rpm_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels per RPM link/LMAC. */
 #else /* Word 0 - Little Endian */
-        uint64_t cgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels per CGX link/LMAC. */
-        uint64_t cgx_lmacs             : 4;  /**< [ 11:  8](RO) Number of LMACs (links) per CGX. */
-        uint64_t num_cgx               : 4;  /**< [ 15: 12](RO) Number of CGX interfaces enumerated in NIX_LINK_E. */
+        uint64_t rpm_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels per RPM link/LMAC. */
+        uint64_t rpm_lmacs             : 4;  /**< [ 11:  8](RO) Number of LMACs (links) per RPM. */
+        uint64_t num_rpm               : 4;  /**< [ 15: 12](RO) Number of RPM interfaces enumerated in NIX_LINK_E. */
         uint64_t lbk_channels          : 8;  /**< [ 23: 16](RO) Number of channels per LBK interface/link. */
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Number of LBK links enumerated in NIX_LINK_E. */
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Number of SDP links enumerated in NIX_LINK_E. */
@@ -6876,6 +6892,90 @@ static inline uint64_t CAVM_NIXX_AF_CSI_ECO(uint64_t a)
 #define arguments_CAVM_NIXX_AF_CSI_ECO(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) nix#_af_dwrr_rpm_mtu
+ *
+ * NIX AF SQM PSE DWRR RPM MTU Register
+ * This is the register which would define Max MTU size for RPM packets. Used for DWRR
+ */
+union cavm_nixx_af_dwrr_rpm_mtu
+{
+    uint64_t u;
+    struct cavm_nixx_af_dwrr_rpm_mtu_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
+                                                                 (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
+                                                                 (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_dwrr_rpm_mtu_s cn; */
+};
+typedef union cavm_nixx_af_dwrr_rpm_mtu cavm_nixx_af_dwrr_rpm_mtu_t;
+
+static inline uint64_t CAVM_NIXX_AF_DWRR_RPM_MTU(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_DWRR_RPM_MTU(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400400007a0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_DWRR_RPM_MTU", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_DWRR_RPM_MTU(a) cavm_nixx_af_dwrr_rpm_mtu_t
+#define bustype_CAVM_NIXX_AF_DWRR_RPM_MTU(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_DWRR_RPM_MTU(a) "NIXX_AF_DWRR_RPM_MTU"
+#define device_bar_CAVM_NIXX_AF_DWRR_RPM_MTU(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_DWRR_RPM_MTU(a) (a)
+#define arguments_CAVM_NIXX_AF_DWRR_RPM_MTU(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_dwrr_sdp_mtu
+ *
+ * NIX AF SQM PSE DWRR SDP MTU Register
+ * This is the register which would define Max MTU size for SDP packets. Used for DWRR
+ */
+union cavm_nixx_af_dwrr_sdp_mtu
+{
+    uint64_t u;
+    struct cavm_nixx_af_dwrr_sdp_mtu_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
+                                                                 (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
+                                                                 (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_dwrr_sdp_mtu_s cn; */
+};
+typedef union cavm_nixx_af_dwrr_sdp_mtu cavm_nixx_af_dwrr_sdp_mtu_t;
+
+static inline uint64_t CAVM_NIXX_AF_DWRR_SDP_MTU(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_DWRR_SDP_MTU(uint64_t a)
+{
+    if (a<=1)
+        return 0x840040000790ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_DWRR_SDP_MTU", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_DWRR_SDP_MTU(a) cavm_nixx_af_dwrr_sdp_mtu_t
+#define bustype_CAVM_NIXX_AF_DWRR_SDP_MTU(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_DWRR_SDP_MTU(a) "NIXX_AF_DWRR_SDP_MTU"
+#define device_bar_CAVM_NIXX_AF_DWRR_SDP_MTU(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_DWRR_SDP_MTU(a) (a)
+#define arguments_CAVM_NIXX_AF_DWRR_SDP_MTU(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) nix#_af_err_int
  *
  * NIX Admin Function Error Interrupt Register
@@ -7157,7 +7257,7 @@ static inline uint64_t CAVM_NIXX_AF_ERR_INT_W1S(uint64_t a)
  * 802.3br frame preemption/express path is defeatured.
  * Old definition:
  *
- * Status of FIFO which transmits express packets to CGX and LBK.
+ * Status of FIFO which transmits express packets to RPM and LBK.
  */
 union cavm_nixx_af_expr_tx_fifo_status
 {
@@ -10627,7 +10727,7 @@ static inline uint64_t CAVM_NIXX_AF_NDC_TX_SYNC(uint64_t a)
  * Register (RVU_PF_BAR0) nix#_af_norm_tx_fifo_status
  *
  * NIX AF Normal Transmit FIFO Status Register
- * Status of FIFO which transmits normal packets to CGX and LBK.
+ * Status of FIFO which transmits normal packets to RPM and LBK.
  */
 union cavm_nixx_af_norm_tx_fifo_status
 {
@@ -12222,8 +12322,8 @@ typedef union cavm_nixx_af_reb_bp_testx cavm_nixx_af_reb_bp_testx_t;
 static inline uint64_t CAVM_NIXX_AF_REB_BP_TESTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_REB_BP_TESTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x840040004840ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=16))
+        return 0x840040004840ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_REB_BP_TESTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -12657,8 +12757,8 @@ typedef union cavm_nixx_af_rx_active_cycles_pcx cavm_nixx_af_rx_active_cycles_pc
 static inline uint64_t CAVM_NIXX_AF_RX_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=9))
-        return 0x840040004800ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
+    if ((a<=1) && (b<=18))
+        return 0x840040004800ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_RX_ACTIVE_CYCLES_PCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14401,25 +14501,25 @@ union cavm_nixx_af_rx_linkx_cfg
         uint64_t reserved_32_63        : 32;
         uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check on packets received from this link.
                                                                  See NIX_RE_OPCODE_E::OVERSIZE. This length must include any Vtags
-                                                                 which may be stripped and optional timestamp inserted by CGX. FCS bytes
-                                                                 stripped by CGX are not included. Must not exceed 9212 bytes (9216 minus 4
-                                                                 byte FCS) for CGX and LBK links. */
+                                                                 which may be stripped and optional timestamp inserted by RPM. FCS bytes
+                                                                 stripped by RPM are not included. Must not exceed 9212 bytes (9216 minus 4
+                                                                 byte FCS) for RPM and LBK links. */
         uint64_t minlen                : 16; /**< [ 15:  0](R/W) Byte count for min-sized frame check on packets received from this link,
-                                                                 excluding FCS potentially stripped outside NIX by CGX.
+                                                                 excluding FCS potentially stripped outside NIX by RPM.
                                                                  See NIX_RE_OPCODE_E::UNDERSIZE. Zero disables the check.
                                                                  See [MAXLEN] for packet bytes that may be included or excluded in the
                                                                  specified length. */
 #else /* Word 0 - Little Endian */
         uint64_t minlen                : 16; /**< [ 15:  0](R/W) Byte count for min-sized frame check on packets received from this link,
-                                                                 excluding FCS potentially stripped outside NIX by CGX.
+                                                                 excluding FCS potentially stripped outside NIX by RPM.
                                                                  See NIX_RE_OPCODE_E::UNDERSIZE. Zero disables the check.
                                                                  See [MAXLEN] for packet bytes that may be included or excluded in the
                                                                  specified length. */
         uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check on packets received from this link.
                                                                  See NIX_RE_OPCODE_E::OVERSIZE. This length must include any Vtags
-                                                                 which may be stripped and optional timestamp inserted by CGX. FCS bytes
-                                                                 stripped by CGX are not included. Must not exceed 9212 bytes (9216 minus 4
-                                                                 byte FCS) for CGX and LBK links. */
+                                                                 which may be stripped and optional timestamp inserted by RPM. FCS bytes
+                                                                 stripped by RPM are not included. Must not exceed 9212 bytes (9216 minus 4
+                                                                 byte FCS) for RPM and LBK links. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -14430,8 +14530,8 @@ typedef union cavm_nixx_af_rx_linkx_cfg cavm_nixx_af_rx_linkx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=5))
-        return 0x840040000540ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=14))
+        return 0x840040000540ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14484,8 +14584,8 @@ typedef union cavm_nixx_af_rx_linkx_slx_spkt_cnt cavm_nixx_af_rx_linkx_slx_spkt_
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_SLX_SPKT_CNT(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_SLX_SPKT_CNT(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=6) && (c<=1))
-        return 0x840040000500ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if ((a<=1) && (b<=15) && (c<=1))
+        return 0x840040000500ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_SLX_SPKT_CNT", 3, a, b, c, 0, 0, 0);
 }
 
@@ -14536,8 +14636,8 @@ typedef union cavm_nixx_af_rx_linkx_wrr_cfg cavm_nixx_af_rx_linkx_wrr_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=6))
-        return 0x840040000560ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=15))
+        return 0x840040000560ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_WRR_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14586,8 +14686,8 @@ typedef union cavm_nixx_af_rx_linkx_wrr_out_cfg cavm_nixx_af_rx_linkx_wrr_out_cf
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=6))
-        return 0x840040004a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=15))
+        return 0x840040004a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_WRR_OUT_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16034,11 +16134,11 @@ union cavm_nixx_af_smqx_cfg
                                                                  [ENQ_XOFF] must be set whenever this bit is set.
 
                                                                  The SMQ flush operation may stall if the downstream TL3/TL2 queue is
-                                                                 backpressured from CGX/LBK or the downstream TL4 queue is backpressured
+                                                                 backpressured from RPM/LBK or the downstream TL4 queue is backpressured
                                                                  from SDP. If the backpressure does not go away, software may need to
                                                                  disable it at the destination link(s), e.g. by clearing
-                                                                 CGX()_SMU()_RX_FRM_CTL[CTL_BCK] to disable physical backpressure from a
-                                                                 10G+ CGX LMAC. */
+                                                                 RPM()_SMU()_RX_FRM_CTL[CTL_BCK] to disable physical backpressure from a
+                                                                 10G+ RPM LMAC. */
         uint64_t express               : 1;  /**< [ 48: 48](R/W) Reserved. Must be zero.
                                                                  Internal:
                                                                  802.3br frame preemption/express path is defeatured.
@@ -16046,11 +16146,7 @@ union cavm_nixx_af_smqx_cfg
 
                                                                  Express.
                                                                  0 = The SMQ transmits normal packets.
-                                                                 1 = The SMQ transmits express packets.
-
-                                                                 Must have the same value as the corresponding
-                                                                 NIX_AF_TL3_TL2()_CFG[EXPRESS]. Hardware prioritizes enqueue to express SMQs
-                                                                 over normal SMQs. */
+                                                                 1 = The SMQ transmits express packets. */
         uint64_t rr_minlen             : 9;  /**< [ 47: 39](R/W) Round-robin minimum packet length. When less than or equal to [MINLEN],
                                                                  NIX will always use the packet length for round-robin (DWRR) arbitration
                                                                  between SQs.  Otherwise, for packets shorter than this value, NIX will use
@@ -16078,11 +16174,11 @@ union cavm_nixx_af_smqx_cfg
                                                                  does not point to this SMQ for any SQ outside of this LF. */
         uint64_t maxlen                : 16; /**< [ 23:  8](R/W) Maximum packet length in bytes, including optional VLAN bytes inserted by
                                                                  NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S,
-                                                                 but excluding FCS potentially appended outside NIX by CGX.
+                                                                 but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
                                                                  Must not exceed 9212 (9216 minus four byte FCS) if the SMQ transmits to
-                                                                 CGX and LBK. May be set to a larger value (up to 65535 bytes) if the SMQ
+                                                                 RPM and LBK. May be set to a larger value (up to 65535 bytes) if the SMQ
                                                                  transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is set).
 
                                                                  Software should set a value that does not exceed the MTU of any link to
@@ -16093,7 +16189,7 @@ union cavm_nixx_af_smqx_cfg
                                                                  1 = NIX_SEND_EXT_S[SHP_RA,SHP_DIS,SHP_CHG] values in the send descriptor,
                                                                  are ignored and treated as 0. */
         uint64_t minlen                : 7;  /**< [  6:  0](R/W) Minimum packet length in bytes, excluding FCS potentially appended outside
-                                                                 NIX by CGX. Packets smaller than the minimum length from this SMQ,
+                                                                 NIX by RPM. Packets smaller than the minimum length from this SMQ,
                                                                  including optional VLAN bytes inserted by NIX_SEND_EXT_S[VLAN*] and Vtag
                                                                  bytes inserted by NIX_TX_VTAG_ACTION_S, are padded with zeros. Software
                                                                  should program this to match the minimum length for all links that this SMQ
@@ -16103,7 +16199,7 @@ union cavm_nixx_af_smqx_cfg
                                                                  least 60 bytes. */
 #else /* Word 0 - Little Endian */
         uint64_t minlen                : 7;  /**< [  6:  0](R/W) Minimum packet length in bytes, excluding FCS potentially appended outside
-                                                                 NIX by CGX. Packets smaller than the minimum length from this SMQ,
+                                                                 NIX by RPM. Packets smaller than the minimum length from this SMQ,
                                                                  including optional VLAN bytes inserted by NIX_SEND_EXT_S[VLAN*] and Vtag
                                                                  bytes inserted by NIX_TX_VTAG_ACTION_S, are padded with zeros. Software
                                                                  should program this to match the minimum length for all links that this SMQ
@@ -16118,11 +16214,11 @@ union cavm_nixx_af_smqx_cfg
                                                                  are ignored and treated as 0. */
         uint64_t maxlen                : 16; /**< [ 23:  8](R/W) Maximum packet length in bytes, including optional VLAN bytes inserted by
                                                                  NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S,
-                                                                 but excluding FCS potentially appended outside NIX by CGX.
+                                                                 but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
                                                                  Must not exceed 9212 (9216 minus four byte FCS) if the SMQ transmits to
-                                                                 CGX and LBK. May be set to a larger value (up to 65535 bytes) if the SMQ
+                                                                 RPM and LBK. May be set to a larger value (up to 65535 bytes) if the SMQ
                                                                  transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is set).
 
                                                                  Software should set a value that does not exceed the MTU of any link to
@@ -16159,11 +16255,7 @@ union cavm_nixx_af_smqx_cfg
 
                                                                  Express.
                                                                  0 = The SMQ transmits normal packets.
-                                                                 1 = The SMQ transmits express packets.
-
-                                                                 Must have the same value as the corresponding
-                                                                 NIX_AF_TL3_TL2()_CFG[EXPRESS]. Hardware prioritizes enqueue to express SMQs
-                                                                 over normal SMQs. */
+                                                                 1 = The SMQ transmits express packets. */
         uint64_t flush                 : 1;  /**< [ 49: 49](R/W1S/H) Software can write a one to set this bit and initiate an SMQ flush.
                                                                  When set, hardware flushes all meta-descriptors/packets from this SMQ
                                                                  through PSE and the send data path. Hardware clears this bit and sets
@@ -16172,11 +16264,11 @@ union cavm_nixx_af_smqx_cfg
                                                                  [ENQ_XOFF] must be set whenever this bit is set.
 
                                                                  The SMQ flush operation may stall if the downstream TL3/TL2 queue is
-                                                                 backpressured from CGX/LBK or the downstream TL4 queue is backpressured
+                                                                 backpressured from RPM/LBK or the downstream TL4 queue is backpressured
                                                                  from SDP. If the backpressure does not go away, software may need to
                                                                  disable it at the destination link(s), e.g. by clearing
-                                                                 CGX()_SMU()_RX_FRM_CTL[CTL_BCK] to disable physical backpressure from a
-                                                                 10G+ CGX LMAC. */
+                                                                 RPM()_SMU()_RX_FRM_CTL[CTL_BCK] to disable physical backpressure from a
+                                                                 10G+ RPM LMAC. */
         uint64_t enq_xoff              : 1;  /**< [ 50: 50](R/W) Enqueue transmit off. When set, hardware will not enqueue meta-descriptors
                                                                  to the SMQ. */
         uint64_t pri_thr               : 6;  /**< [ 56: 51](R/W) SMQ enqueue priority threshold. When NIX_AF_SMQ()_STATUS[LEVEL] is less
@@ -16876,7 +16968,7 @@ union cavm_nixx_af_status
                                                                  Internal:
                                                                  A device inactive status means that the X2P agent did not respond to the calibration
                                                                  cycle.
-                                                                 This is most likely caused because the X2P agents (CGX, LBK, etc) was in reset during the
+                                                                 This is most likely caused because the X2P agents (RPM, LBK, etc) was in reset during the
                                                                  calibration cycle. */
         uint64_t reserved_11_15        : 5;
         uint64_t calibrate_done        : 1;  /**< [ 10: 10](RO/H) Calibrate cycle is complete. */
@@ -16918,7 +17010,7 @@ union cavm_nixx_af_status
                                                                  Internal:
                                                                  A device inactive status means that the X2P agent did not respond to the calibration
                                                                  cycle.
-                                                                 This is most likely caused because the X2P agents (CGX, LBK, etc) was in reset during the
+                                                                 This is most likely caused because the X2P agents (RPM, LBK, etc) was in reset during the
                                                                  calibration cycle. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
@@ -17305,13 +17397,11 @@ static inline uint64_t CAVM_NIXX_AF_TL1X_GREEN_PACKETS(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) nix#_af_tl1#_md_debug0
  *
  * NIX AF Transmit Level 1 Meta Descriptor Debug 0 Registers
- * NIX_AF_TL1()_MD_DEBUG0, NIX_AF_TL1()_MD_DEBUG1, NIX_AF_TL1()_MD_DEBUG2 and
- * NIX_AF_TL1()_MD_DEBUG3 provide access to the TLn queue meta descriptor. A TLn
+ * NIX_AF_TL1()_MD_DEBUG0, NIX_AF_TL1()_MD_DEBUG1 provide access to the TLn queue meta
+ * descriptor. A TLn
  * queue can hold up to two packet meta descriptors (PMD) and one flush meta
  * descriptor (FMD):
  * * PMD0 state is accessed with [PMD0_VLD], [PMD0_LENGTH] and NIX_AF_TL1()_MD_DEBUG1.
- * * PMD1 is accessed with [PMD1_VLD], [PMD1_LENGTH] and NIX_AF_TL1()_MD_DEBUG2.
- * * FMD is accessed with NIX_AF_TL1()_MD_DEBUG3.
  */
 union cavm_nixx_af_tl1x_md_debug0
 {
@@ -17489,147 +17579,6 @@ static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG1(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NIXX_AF_TL1X_MD_DEBUG1(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_TL1X_MD_DEBUG1(a,b) (a)
 #define arguments_CAVM_NIXX_AF_TL1X_MD_DEBUG1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_tl1#_md_debug2
- *
- * NIX AF Transmit Level 1 Meta Descriptor Debug 2 Registers
- * Packet meta descriptor 1 debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl1x_md_debug2
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl1x_md_debug2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t reserved_0_5          : 6;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_5          : 6;
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_tl1x_md_debug2_s cn; */
-};
-typedef union cavm_nixx_af_tl1x_md_debug2 cavm_nixx_af_tl1x_md_debug2_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG2(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=27))
-        return 0x840040000cd0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
-    __cavm_csr_fatal("NIXX_AF_TL1X_MD_DEBUG2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL1X_MD_DEBUG2(a,b) cavm_nixx_af_tl1x_md_debug2_t
-#define bustype_CAVM_NIXX_AF_TL1X_MD_DEBUG2(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL1X_MD_DEBUG2(a,b) "NIXX_AF_TL1X_MD_DEBUG2"
-#define device_bar_CAVM_NIXX_AF_TL1X_MD_DEBUG2(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL1X_MD_DEBUG2(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL1X_MD_DEBUG2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_tl1#_md_debug3
- *
- * NIX AF Transmit Level 1 Meta Descriptor Debug 3 Registers
- * Flush meta descriptor debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl1x_md_debug3
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl1x_md_debug3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_nixx_af_tl1x_md_debug3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_0_36         : 37;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_36         : 37;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_nixx_af_tl1x_md_debug3 cavm_nixx_af_tl1x_md_debug3_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG3(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=27))
-        return 0x840040000cd8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
-    __cavm_csr_fatal("NIXX_AF_TL1X_MD_DEBUG3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL1X_MD_DEBUG3(a,b) cavm_nixx_af_tl1x_md_debug3_t
-#define bustype_CAVM_NIXX_AF_TL1X_MD_DEBUG3(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL1X_MD_DEBUG3(a,b) "NIXX_AF_TL1X_MD_DEBUG3"
-#define device_bar_CAVM_NIXX_AF_TL1X_MD_DEBUG3(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL1X_MD_DEBUG3(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL1X_MD_DEBUG3(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_tl1#_red
@@ -18647,147 +18596,6 @@ static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG1(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NIXX_AF_TL2X_MD_DEBUG1(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_TL2X_MD_DEBUG1(a,b) (a)
 #define arguments_CAVM_NIXX_AF_TL2X_MD_DEBUG1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_tl2#_md_debug2
- *
- * NIX AF Transmit Level 2 Meta Descriptor Debug 2 Registers
- * Packet meta descriptor 1 debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl2x_md_debug2
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl2x_md_debug2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t reserved_0_5          : 6;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_5          : 6;
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_tl2x_md_debug2_s cn; */
-};
-typedef union cavm_nixx_af_tl2x_md_debug2 cavm_nixx_af_tl2x_md_debug2_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG2(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=255))
-        return 0x840040000ed0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
-    __cavm_csr_fatal("NIXX_AF_TL2X_MD_DEBUG2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL2X_MD_DEBUG2(a,b) cavm_nixx_af_tl2x_md_debug2_t
-#define bustype_CAVM_NIXX_AF_TL2X_MD_DEBUG2(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL2X_MD_DEBUG2(a,b) "NIXX_AF_TL2X_MD_DEBUG2"
-#define device_bar_CAVM_NIXX_AF_TL2X_MD_DEBUG2(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL2X_MD_DEBUG2(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL2X_MD_DEBUG2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_tl2#_md_debug3
- *
- * NIX AF Transmit Level 2 Meta Descriptor Debug 3 Registers
- * Flush meta descriptor debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl2x_md_debug3
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl2x_md_debug3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_nixx_af_tl2x_md_debug3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_0_36         : 37;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_36         : 37;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_nixx_af_tl2x_md_debug3 cavm_nixx_af_tl2x_md_debug3_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG3(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=255))
-        return 0x840040000ed8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
-    __cavm_csr_fatal("NIXX_AF_TL2X_MD_DEBUG3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL2X_MD_DEBUG3(a,b) cavm_nixx_af_tl2x_md_debug3_t
-#define bustype_CAVM_NIXX_AF_TL2X_MD_DEBUG3(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL2X_MD_DEBUG3(a,b) "NIXX_AF_TL2X_MD_DEBUG3"
-#define device_bar_CAVM_NIXX_AF_TL2X_MD_DEBUG3(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL2X_MD_DEBUG3(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL2X_MD_DEBUG3(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_tl2#_parent
@@ -19916,147 +19724,6 @@ static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG1(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_TL3X_MD_DEBUG1(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_tl3#_md_debug2
- *
- * NIX AF Transmit Level 3 Meta Descriptor Debug 2 Registers
- * Packet meta descriptor 1 debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl3x_md_debug2
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl3x_md_debug2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t reserved_0_5          : 6;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_5          : 6;
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_tl3x_md_debug2_s cn; */
-};
-typedef union cavm_nixx_af_tl3x_md_debug2 cavm_nixx_af_tl3x_md_debug2_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG2(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=255))
-        return 0x8400400010d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
-    __cavm_csr_fatal("NIXX_AF_TL3X_MD_DEBUG2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL3X_MD_DEBUG2(a,b) cavm_nixx_af_tl3x_md_debug2_t
-#define bustype_CAVM_NIXX_AF_TL3X_MD_DEBUG2(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL3X_MD_DEBUG2(a,b) "NIXX_AF_TL3X_MD_DEBUG2"
-#define device_bar_CAVM_NIXX_AF_TL3X_MD_DEBUG2(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL3X_MD_DEBUG2(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL3X_MD_DEBUG2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_tl3#_md_debug3
- *
- * NIX AF Transmit Level 3 Meta Descriptor Debug 3 Registers
- * Flush meta descriptor debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl3x_md_debug3
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl3x_md_debug3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_nixx_af_tl3x_md_debug3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_0_36         : 37;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_36         : 37;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_nixx_af_tl3x_md_debug3 cavm_nixx_af_tl3x_md_debug3_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG3(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=255))
-        return 0x8400400010d8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
-    __cavm_csr_fatal("NIXX_AF_TL3X_MD_DEBUG3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL3X_MD_DEBUG3(a,b) cavm_nixx_af_tl3x_md_debug3_t
-#define bustype_CAVM_NIXX_AF_TL3X_MD_DEBUG3(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL3X_MD_DEBUG3(a,b) "NIXX_AF_TL3X_MD_DEBUG3"
-#define device_bar_CAVM_NIXX_AF_TL3X_MD_DEBUG3(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL3X_MD_DEBUG3(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL3X_MD_DEBUG3(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) nix#_af_tl3#_parent
  *
  * NIX AF Transmit Level 3 Parent Registers
@@ -20716,8 +20383,8 @@ union cavm_nixx_af_tl3_tl2x_linkx_cfg
         uint64_t bp_ena                : 1;  /**< [ 13: 13](R/W) Backpressure enable. When set, the TL3/TL2 queue responds to backpressure
                                                                  from (NIX_AF_TX_LINK()_HW_XOFF/_SW_XOFF[CHAN_XOFF]\<[RELCHAN]\>).
 
-                                                                 Only one TL3/TL2 queue may be backpressured by a given CGX/LBK channel. If
-                                                                 multiple TL3/TL2 queues transmit to the same CGX/LBK channel, then this bit
+                                                                 Only one TL3/TL2 queue may be backpressured by a given RPM/LBK channel. If
+                                                                 multiple TL3/TL2 queues transmit to the same RPM/LBK channel, then this bit
                                                                  should be clear for those TL3/TL2 queues. */
         uint64_t ena                   : 1;  /**< [ 12: 12](R/W) Enable. When set, the TL3/TL2 queue can transmit on relative channel number
                                                                  [RELCHAN] of this link, and will respond to backpressure from link credits
@@ -20745,8 +20412,8 @@ union cavm_nixx_af_tl3_tl2x_linkx_cfg
         uint64_t bp_ena                : 1;  /**< [ 13: 13](R/W) Backpressure enable. When set, the TL3/TL2 queue responds to backpressure
                                                                  from (NIX_AF_TX_LINK()_HW_XOFF/_SW_XOFF[CHAN_XOFF]\<[RELCHAN]\>).
 
-                                                                 Only one TL3/TL2 queue may be backpressured by a given CGX/LBK channel. If
-                                                                 multiple TL3/TL2 queues transmit to the same CGX/LBK channel, then this bit
+                                                                 Only one TL3/TL2 queue may be backpressured by a given RPM/LBK channel. If
+                                                                 multiple TL3/TL2 queues transmit to the same RPM/LBK channel, then this bit
                                                                  should be clear for those TL3/TL2 queues. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -20758,8 +20425,8 @@ typedef union cavm_nixx_af_tl3_tl2x_linkx_cfg cavm_nixx_af_tl3_tl2x_linkx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_TL3_TL2X_LINKX_CFG(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3_TL2X_LINKX_CFG(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=255) && (c<=4))
-        return 0x840040001700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff) + 8ll * ((c) & 0x7);
+    if ((a<=1) && (b<=255) && (c<=12))
+        return 0x840040001700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TL3_TL2X_LINKX_CFG", 3, a, b, c, 0, 0, 0);
 }
 
@@ -21262,147 +20929,6 @@ static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG1(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_TL4X_MD_DEBUG1(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_tl4#_md_debug2
- *
- * NIX AF Transmit Level 4 Meta Descriptor Debug 2 Registers
- * Packet meta descriptor 1 debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl4x_md_debug2
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl4x_md_debug2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t reserved_0_5          : 6;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_5          : 6;
-        uint64_t red_algo_override     : 2;  /**< [  7:  6](R/W/H) NIX_SEND_EXT_S[SHP_RA] from the corresponding packet descriptor. [RED_ALGO_OVERRIDE]
-                                                                 is used by the TL4 through TL2 shapers, but not used by the TL1 rate limiters. */
-        uint64_t cir_dis               : 1;  /**< [  8:  8](R/W/H) CIR disable. Committed shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [CIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [CIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
-                                                                 (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
-                                                                 the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
-                                                                 [PIR_DIS] and [CIR_DIS] will always have the same value. */
-        uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
-        uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
-        uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
-        uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
-        uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
-                                                                 0x0 = Reserved, PMD has not cleared link credit request.
-                                                                 0x1 = Normal packet type.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = SDP packet type. */
-        uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
-        uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_tl4x_md_debug2_s cn; */
-};
-typedef union cavm_nixx_af_tl4x_md_debug2 cavm_nixx_af_tl4x_md_debug2_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG2(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=511))
-        return 0x8400400012d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
-    __cavm_csr_fatal("NIXX_AF_TL4X_MD_DEBUG2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL4X_MD_DEBUG2(a,b) cavm_nixx_af_tl4x_md_debug2_t
-#define bustype_CAVM_NIXX_AF_TL4X_MD_DEBUG2(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL4X_MD_DEBUG2(a,b) "NIXX_AF_TL4X_MD_DEBUG2"
-#define device_bar_CAVM_NIXX_AF_TL4X_MD_DEBUG2(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL4X_MD_DEBUG2(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL4X_MD_DEBUG2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_tl4#_md_debug3
- *
- * NIX AF Transmit Level 4 Meta Descriptor Debug 3 Registers
- * Flush meta descriptor debug. See NIX_AF_TL1()_MD_DEBUG0.
- */
-union cavm_nixx_af_tl4x_md_debug3
-{
-    uint64_t u;
-    struct cavm_nixx_af_tl4x_md_debug3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_nixx_af_tl4x_md_debug3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_0_36         : 37;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_36         : 37;
-        uint64_t reserved_37_38        : 2;
-        uint64_t reserved_39_51        : 13;
-        uint64_t reserved_52_61        : 10;
-        uint64_t reserved_62           : 1;
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_nixx_af_tl4x_md_debug3 cavm_nixx_af_tl4x_md_debug3_t;
-
-static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG3(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=511))
-        return 0x8400400012d8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
-    __cavm_csr_fatal("NIXX_AF_TL4X_MD_DEBUG3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TL4X_MD_DEBUG3(a,b) cavm_nixx_af_tl4x_md_debug3_t
-#define bustype_CAVM_NIXX_AF_TL4X_MD_DEBUG3(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL4X_MD_DEBUG3(a,b) "NIXX_AF_TL4X_MD_DEBUG3"
-#define device_bar_CAVM_NIXX_AF_TL4X_MD_DEBUG3(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL4X_MD_DEBUG3(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL4X_MD_DEBUG3(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) nix#_af_tl4#_parent
  *
  * NIX AF Transmit Level 4 Parent Registers
@@ -21758,7 +21284,7 @@ union cavm_nixx_af_tl4x_sdp_link_cfg
                                                                  queues transmit to the same SDP channel, then this bit should be clear for those
                                                                  TL4 queues. */
         uint64_t ena                   : 1;  /**< [ 12: 12](R/W) Enable.
-                                                                 0 = The TL4 queue will not transmit to SDP and may transmit to CGX and/or LBK.
+                                                                 0 = The TL4 queue will not transmit to SDP and may transmit to RPM and/or LBK.
                                                                  1 = The TL4 queue may only transmit to SDP and will respond to backpressure from
                                                                  NIX_AF_SDP_LINK_CREDIT. If [BP_ENA] is set, the queue also responds to channel
                                                                  backpressure. */
@@ -21772,7 +21298,7 @@ union cavm_nixx_af_tl4x_sdp_link_cfg
                                                                  queue. */
         uint64_t reserved_8_11         : 4;
         uint64_t ena                   : 1;  /**< [ 12: 12](R/W) Enable.
-                                                                 0 = The TL4 queue will not transmit to SDP and may transmit to CGX and/or LBK.
+                                                                 0 = The TL4 queue will not transmit to SDP and may transmit to RPM and/or LBK.
                                                                  1 = The TL4 queue may only transmit to SDP and will respond to backpressure from
                                                                  NIX_AF_SDP_LINK_CREDIT. If [BP_ENA] is set, the queue also responds to channel
                                                                  backpressure. */
@@ -22193,7 +21719,7 @@ static inline uint64_t CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(uint64_t a)
  * NIX AF Transmit Link Channel Configuration Registers
  * These registers specifies the base channel (start channel)  number and the range of
  * channels associated with the
- * CGX,LBK and SDP links.
+ * RPM,LBK,SDP,CPT and MC links.
  * Link index enumerated by NIX_LINK_E.
  */
 union cavm_nixx_af_tx_linkx_cfg
@@ -22232,8 +21758,8 @@ typedef union cavm_nixx_af_tx_linkx_cfg cavm_nixx_af_tx_linkx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=5))
-        return 0x840040004900ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=15))
+        return 0x840040004900ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TX_LINKX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22270,8 +21796,8 @@ typedef union cavm_nixx_af_tx_linkx_hw_xoff cavm_nixx_af_tx_linkx_hw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_HW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_HW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=4))
-        return 0x840040000a30ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=12))
+        return 0x840040000a30ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TX_LINKX_HW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22287,7 +21813,7 @@ static inline uint64_t CAVM_NIXX_AF_TX_LINKX_HW_XOFF(uint64_t a, uint64_t b)
  *
  * NIX AF Transmit Link Normal Credit Registers
  * These registers track credits per link for normal
- * packets sent to CGX and LBK. Link index enumerated by NIX_LINK_E.
+ * packets sent to RPM and LBK. Link index enumerated by NIX_LINK_E.
  */
 union cavm_nixx_af_tx_linkx_norm_cdt_adj
 {
@@ -22325,8 +21851,8 @@ typedef union cavm_nixx_af_tx_linkx_norm_cdt_adj cavm_nixx_af_tx_linkx_norm_cdt_
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CDT_ADJ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CDT_ADJ(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=4))
-        return 0x840040000a20ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=12))
+        return 0x840040000a20ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TX_LINKX_NORM_CDT_ADJ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22342,7 +21868,7 @@ static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CDT_ADJ(uint64_t a, uint64_t b
  *
  * NIX AF Transmit Link Normal Credit Registers
  * These registers track credits per link for normal
- * packets sent to CGX and LBK. Link index enumerated by NIX_LINK_E.
+ * packets sent to RPM and LBK. Link index enumerated by NIX_LINK_E.
  */
 union cavm_nixx_af_tx_linkx_norm_credit
 {
@@ -22364,13 +21890,13 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  significant bit should normally be programmed as zero (positive count). This gives a
                                                                  maximum value for this field of 2^19 - 1.
 
-                                                                 In order to prevent blocking between CGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 In order to prevent blocking between RPM LMACs, [CC_ENABLE] should be set to 1 and
                                                                  [CC_UNIT_CNT] should be less than
 
-                                                                 _     ((LMAC TX buffer size in CGX) - (MTU excluding FCS))/16
+                                                                 _     ((LMAC TX buffer size in RPM) - (MTU excluding FCS))/16
 
-                                                                 The LMAC TX buffer size is defined by CGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 CGX()_CMR_TX_LMACS[LMACS]=0x4 (16 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 The LMAC TX buffer size is defined by RPM()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 RPM()_CMR_TX_LMACS[LMACS]=0x4 (16 KB per LMAC) and the LMAC's MTU excluding FCS
                                                                  is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be \< (16384 - 9212)/16 =
                                                                  448.
 
@@ -22410,13 +21936,13 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  significant bit should normally be programmed as zero (positive count). This gives a
                                                                  maximum value for this field of 2^19 - 1.
 
-                                                                 In order to prevent blocking between CGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 In order to prevent blocking between RPM LMACs, [CC_ENABLE] should be set to 1 and
                                                                  [CC_UNIT_CNT] should be less than
 
-                                                                 _     ((LMAC TX buffer size in CGX) - (MTU excluding FCS))/16
+                                                                 _     ((LMAC TX buffer size in RPM) - (MTU excluding FCS))/16
 
-                                                                 The LMAC TX buffer size is defined by CGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 CGX()_CMR_TX_LMACS[LMACS]=0x4 (16 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 The LMAC TX buffer size is defined by RPM()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 RPM()_CMR_TX_LMACS[LMACS]=0x4 (16 KB per LMAC) and the LMAC's MTU excluding FCS
                                                                  is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be \< (16384 - 9212)/16 =
                                                                  448.
 
@@ -22446,8 +21972,8 @@ typedef union cavm_nixx_af_tx_linkx_norm_credit cavm_nixx_af_tx_linkx_norm_credi
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CREDIT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CREDIT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=4))
-        return 0x840040000a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if ((a<=1) && (b<=12))
+        return 0x840040000a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TX_LINKX_NORM_CREDIT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22690,7 +22216,7 @@ union cavm_nixx_af_tx_tstmp_cfg
                                                                  802.3br frame preemption/express path is defeatured.
                                                                  Old definition:
 
-                                                                 One bit per CGX LMAC, enumerated by NIX_LINK_E::CGX()_LMAC(). When a bit is
+                                                                 One bit per RPM LMAC, enumerated by NIX_LINK_E::RPM()_LMAC(). When a bit is
                                                                  set, only express packets to the LMAC are allowed to request PTP
                                                                  timestamps. When a bit is clear, only normal packets to the LMAC are
                                                                  allowed to request PTP timestamps. See NIX_SENDMEMALG_E::SETTSTMP. */
@@ -22714,7 +22240,7 @@ union cavm_nixx_af_tx_tstmp_cfg
                                                                  802.3br frame preemption/express path is defeatured.
                                                                  Old definition:
 
-                                                                 One bit per CGX LMAC, enumerated by NIX_LINK_E::CGX()_LMAC(). When a bit is
+                                                                 One bit per RPM LMAC, enumerated by NIX_LINK_E::RPM()_LMAC(). When a bit is
                                                                  set, only express packets to the LMAC are allowed to request PTP
                                                                  timestamps. When a bit is clear, only normal packets to the LMAC are
                                                                  allowed to request PTP timestamps. See NIX_SENDMEMALG_E::SETTSTMP. */

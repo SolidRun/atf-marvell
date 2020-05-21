@@ -1252,17 +1252,17 @@ static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1(uint64_t a)
 #define arguments_CAVM_CIMX_ICC_CTLR_EL1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) cim#_icc_ctlr_el1_ns
+ * Register (NCB) cim#_icc_ctlr_el1_nsec
  *
  * CIM Physical Nonsecure Control EL1 Register
  * This nonsecure register governs aspects of the behavior of the GIC CPU interface and
  * provides information about the features implemented for.
  * It is accessed in EL1 nonsecure mode.
  */
-union cavm_cimx_icc_ctlr_el1_ns
+union cavm_cimx_icc_ctlr_el1_nsec
 {
     uint64_t u;
-    struct cavm_cimx_icc_ctlr_el1_ns_s
+    struct cavm_cimx_icc_ctlr_el1_nsec_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1324,37 +1324,36 @@ union cavm_cimx_icc_ctlr_el1_ns
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_cimx_icc_ctlr_el1_ns_s cn; */
+    /* struct cavm_cimx_icc_ctlr_el1_nsec_s cn; */
 };
-typedef union cavm_cimx_icc_ctlr_el1_ns cavm_cimx_icc_ctlr_el1_ns_t;
+typedef union cavm_cimx_icc_ctlr_el1_nsec cavm_cimx_icc_ctlr_el1_nsec_t;
 
-static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_NS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_NS(uint64_t a)
+static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_NSEC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_NSEC(uint64_t a)
 {
     if (a<=32)
         return 0x87b000063320ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("CIMX_ICC_CTLR_EL1_NS", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("CIMX_ICC_CTLR_EL1_NSEC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_CIMX_ICC_CTLR_EL1_NS(a) cavm_cimx_icc_ctlr_el1_ns_t
-#define bustype_CAVM_CIMX_ICC_CTLR_EL1_NS(a) CSR_TYPE_NCB
-#define basename_CAVM_CIMX_ICC_CTLR_EL1_NS(a) "CIMX_ICC_CTLR_EL1_NS"
-#define busnum_CAVM_CIMX_ICC_CTLR_EL1_NS(a) (a)
-#define arguments_CAVM_CIMX_ICC_CTLR_EL1_NS(a) (a),-1,-1,-1
+#define typedef_CAVM_CIMX_ICC_CTLR_EL1_NSEC(a) cavm_cimx_icc_ctlr_el1_nsec_t
+#define bustype_CAVM_CIMX_ICC_CTLR_EL1_NSEC(a) CSR_TYPE_NCB
+#define basename_CAVM_CIMX_ICC_CTLR_EL1_NSEC(a) "CIMX_ICC_CTLR_EL1_NSEC"
+#define busnum_CAVM_CIMX_ICC_CTLR_EL1_NSEC(a) (a)
+#define arguments_CAVM_CIMX_ICC_CTLR_EL1_NSEC(a) (a),-1,-1,-1
 
-#if 0
 /**
- * Register (NCB) cim#_icc_ctlr_el1_s
+ * Register (NCB) cim#_icc_ctlr_el1_sec
  *
  * CIM Physical Secure Control EL1 Register
  * This secure register governs aspects of the behavior of the GIC CPU interface and provides
  * information about the features implemented.
  * It is accessed in EL1 secure mode.
  */
-union cavm_cimx_icc_ctlr_el1_s
+union cavm_cimx_icc_ctlr_el1_sec
 {
     uint64_t u;
-    struct cavm_cimx_icc_ctlr_el1_s_s
+    struct cavm_cimx_icc_ctlr_el1_sec_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1416,24 +1415,24 @@ union cavm_cimx_icc_ctlr_el1_s
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_cimx_icc_ctlr_el1_s_s cn; */
+    /* struct cavm_cimx_icc_ctlr_el1_sec_s cn; */
 };
-typedef union cavm_cimx_icc_ctlr_el1_s cavm_cimx_icc_ctlr_el1_s_t;
+typedef union cavm_cimx_icc_ctlr_el1_sec cavm_cimx_icc_ctlr_el1_sec_t;
 
-static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_S(uint64_t a)
+static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_SEC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CIMX_ICC_CTLR_EL1_SEC(uint64_t a)
 {
     if (a<=32)
         return 0x87b000067320ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("CIMX_ICC_CTLR_EL1_S", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("CIMX_ICC_CTLR_EL1_SEC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_CIMX_ICC_CTLR_EL1_S(a) cavm_cimx_icc_ctlr_el1_s_t
-#define bustype_CAVM_CIMX_ICC_CTLR_EL1_S(a) CSR_TYPE_NCB
-#define basename_CAVM_CIMX_ICC_CTLR_EL1_S(a) "CIMX_ICC_CTLR_EL1_S"
-#define busnum_CAVM_CIMX_ICC_CTLR_EL1_S(a) (a)
-#define arguments_CAVM_CIMX_ICC_CTLR_EL1_S(a) (a),-1,-1,-1
-#endif
+#define typedef_CAVM_CIMX_ICC_CTLR_EL1_SEC(a) cavm_cimx_icc_ctlr_el1_sec_t
+#define bustype_CAVM_CIMX_ICC_CTLR_EL1_SEC(a) CSR_TYPE_NCB
+#define basename_CAVM_CIMX_ICC_CTLR_EL1_SEC(a) "CIMX_ICC_CTLR_EL1_SEC"
+#define busnum_CAVM_CIMX_ICC_CTLR_EL1_SEC(a) (a)
+#define arguments_CAVM_CIMX_ICC_CTLR_EL1_SEC(a) (a),-1,-1,-1
+
 /**
  * Register (NCB) cim#_icc_ctlr_el3
  *

@@ -154,11 +154,11 @@ static inline uint64_t CAVM_ECAMX_CONST(uint64_t a)
  * This register sets the permissions for an ECAM access to a device
  * using a given ECAM bus number.
  *
- * Index {b} corresponds to the ECAM address's domain (address's ECAM_CFG_ADDR_S[DMN]).
+ * Index {a} corresponds to the ECAM address's domain (address's ECAM_CFG_ADDR_S[DMN]).
  * ECAM()_DOM()_CONST[PERMIT] is used to discover for which domains this register is
  * implemented; nonimplemented indices are RAZ.
  *
- * Index {c} corresponds to the ECAM address's bus number (address's ECAM_CFG_ADDR_S[BUS]).
+ * Index {b} corresponds to the ECAM address's bus number (address's ECAM_CFG_ADDR_S[BUS]).
  */
 union cavm_ecamx_domx_busx_permit
 {
@@ -216,7 +216,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_BUSX_PERMIT(uint64_t a, uint64_t b, uint6
  * ECAM Constants Register
  * This register contains constants for software discovery.
  *
- * Index {b} indicates the domain for which the attributes are to be returned.
+ * Index {a} indicates the domain for which the attributes are to be returned.
  */
 union cavm_ecamx_domx_const
 {
@@ -263,13 +263,11 @@ static inline uint64_t CAVM_ECAMX_DOMX_CONST(uint64_t a, uint64_t b)
  * This register sets the permissions for a ECAM access to a bus 0 device.
  * This register is used when the bus number is 0; i.e.  address's ECAM_CFG_ADDR_S[BUS] = 0x0.
  *
- * Index {a} is always zero as CNXXXX has a single ECAM.
- *
- * Index {b} corresponds to the ECAM address's domain (address's ECAM_CFG_ADDR_S[DOMAIN]).
+ * Index {a} corresponds to the ECAM address's domain (address's ECAM_CFG_ADDR_S[DOMAIN]).
  * ECAM()_DOM()_CONST[PERMIT] is used to discover for which domains this register is
  * implemented; nonimplemented indices are RAZ.
  *
- * Index {c} corresponds to the bus 0 non-ARI device number (address's
+ * Index {b} corresponds to the bus 0 non-ARI device number (address's
  * ECAM_CFG_ADDR_S[FUNC]\<7:3\>).
  */
 union cavm_ecamx_domx_devx_permit
@@ -328,28 +326,26 @@ static inline uint64_t CAVM_ECAMX_DOMX_DEVX_PERMIT(uint64_t a, uint64_t b, uint6
  * ECAM Domain Device Permit Registers
  * This register sets the permissions for an ECAM access to an RSL device.
  * This register is used when the domain and bus point to RSL; i.e.
- * address's ECAM_CFG_ADDR_S[DOMAIN]=PCC_DEV_CON_E::PCCBR_MRML*\<21:16\>,
- * ECAM_CFG_ADDR_S[BUS] = PCC_DEV_CON_E::PCCBR_MRML*\<15:8\>.
+ * address's ECAM_CFG_ADDR_S[DOMAIN]=PCC_DEV_CON_E::MRML\<21:16\>,
+ * ECAM_CFG_ADDR_S[BUS] = PCC_DEV_CON_E::MRML\<15:8\>.
  *
- * Index {a} is always zero as CNXXXX has a single ECAM.
- *
- * Index {b} corresponds to the ECAM address's domain (address's ECAM_CFG_ADDR_S[DOMAIN]).
+ * Index {a} corresponds to the ECAM address's domain (address's ECAM_CFG_ADDR_S[DOMAIN]).
  * ECAM()_DOM()_CONST[PERMIT] is used to discover for which domains this register is
  * implemented; nonimplemented indices are RAZ.
  *
- * Index {c} bits 9:8 are 0x0 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x1
+ * Index {b} bits 9:8 are 0x0 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x1
  * (MRML0).
  *
- * Index {c} bits 9:8 are 0x1 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x2
+ * Index {b} bits 9:8 are 0x1 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x2
  * (MRML1).
  *
- * Index {c} bits 9:8 are 0x2 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x3
+ * Index {b} bits 9:8 are 0x2 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x3
  * (MRML2).
  *
- * Index {c} bits 9:8 are 0x3 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x0
+ * Index {b} bits 9:8 are 0x3 when the RSL device's PCC_DEV_CON_E\<9:8\> value is 0x0
  * (MRML3).
  *
- * Index {c} bits 7:0 corresponds to the RSL device's PCC_DEV_CON_E\<7:0\> value.
+ * Index {b} bits 7:0 corresponds to the RSL device's PCC_DEV_CON_E\<7:0\> value.
  */
 union cavm_ecamx_domx_rslx_permit
 {

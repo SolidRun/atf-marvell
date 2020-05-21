@@ -378,7 +378,12 @@ union cavm_mdn_bist_config
     struct cavm_mdn_bist_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_17_31        : 15;
+        uint32_t reserved_18_31        : 14;
+        uint32_t drf_rdwr_disable      : 1;  /**< [ 17: 17](R/W) BIST DRF_SIM_RD_WR march disable. This March is only valid for DRFs
+                                                                 When this bit is cleared to zero, the simultaneous read-write march is enabled.
+                                                                 When this bit is set to one the simultaneous read write march is disabled.
+                                                                 If enabled, simultaneous read write march runs before marches 8 through 0
+                                                                 (controlled by [MARCH_DISABLE] vector). */
         uint32_t march_broadcast_disable : 1;/**< [ 16: 16](R/W) March broadcast disable. When set, disables writing to
                                                                  MDN_PROG_MARCH0 and MDN_PROG_MARCH1 through broadcast writes. */
         uint32_t prog_march_disable    : 1;  /**< [ 15: 15](R/W) BIST programmable march disable.
@@ -458,7 +463,12 @@ union cavm_mdn_bist_config
                                                                  (controlled by [MARCH_DISABLE] vector). */
         uint32_t march_broadcast_disable : 1;/**< [ 16: 16](R/W) March broadcast disable. When set, disables writing to
                                                                  MDN_PROG_MARCH0 and MDN_PROG_MARCH1 through broadcast writes. */
-        uint32_t reserved_17_31        : 15;
+        uint32_t drf_rdwr_disable      : 1;  /**< [ 17: 17](R/W) BIST DRF_SIM_RD_WR march disable. This March is only valid for DRFs
+                                                                 When this bit is cleared to zero, the simultaneous read-write march is enabled.
+                                                                 When this bit is set to one the simultaneous read write march is disabled.
+                                                                 If enabled, simultaneous read write march runs before marches 8 through 0
+                                                                 (controlled by [MARCH_DISABLE] vector). */
+        uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdn_bist_config_s cn; */

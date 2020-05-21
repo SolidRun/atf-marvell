@@ -25,9 +25,9 @@
  * EMMC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR0(a) (0x87e009000000ll + 0x1000000ll * (a))
+#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR0(a) (0x824000000000ll + 0x1000000ll * (a))
 #define CAVM_EMMC_BAR_E_EMMCX_PF_BAR0_SIZE 0x10000ull
-#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR4(a) (0x87e009f00000ll + 0x1000000ll * (a))
+#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR4(a) (0x824009f00000ll + 0x1000000ll * (a))
 #define CAVM_EMMC_BAR_E_EMMCX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -56,6 +56,7 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_EMMC_INT_VEC_E_INTS (0)
+#define CAVM_EMMC_INT_VEC_E_INTS_CLEAR (1)
 
 /**
  * Enumeration emmc_xm_bad_dma_type_e
@@ -95,7 +96,7 @@ static inline uint64_t CAVM_EMMCX_CONST(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_EMMCX_CONST(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000468ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000468ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -132,7 +133,7 @@ static inline uint64_t CAVM_EMMCX_ECO(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_EMMCX_ECO(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000470ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000470ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -144,7 +145,7 @@ static inline uint64_t CAVM_EMMCX_ECO(uint64_t a)
 #define arguments_CAVM_EMMCX_ECO(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs00
+ * Register (NCB32b) emmc#_host_cqrs_cqrs00
  *
  * EMMC Host Command Queuing Version Register
  */
@@ -173,19 +174,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS00(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS00(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000400ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000400ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS00", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS00(a) cavm_emmcx_host_cqrs_cqrs00_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS00(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS00(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS00(a) "EMMCX_HOST_CQRS_CQRS00"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS00(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS00(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS00(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs01
+ * Register (NCB32b) emmc#_host_cqrs_cqrs01
  *
  * EMMC Host Command Queuing Capabilities Register
  */
@@ -230,19 +231,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS01(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS01(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000404ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000404ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS01", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS01(a) cavm_emmcx_host_cqrs_cqrs01_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS01(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS01(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS01(a) "EMMCX_HOST_CQRS_CQRS01"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS01(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS01(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS01(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs02
+ * Register (NCB32b) emmc#_host_cqrs_cqrs02
  *
  * EMMC Host Command Queuing Configuration Register
  */
@@ -283,19 +284,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS02(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS02(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000408ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000408ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS02", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS02(a) cavm_emmcx_host_cqrs_cqrs02_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS02(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS02(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS02(a) "EMMCX_HOST_CQRS_CQRS02"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS02(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS02(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS02(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs03
+ * Register (NCB32b) emmc#_host_cqrs_cqrs03
  *
  * EMMC Host Command Queuing Control Register
  * CQRS03 -
@@ -339,19 +340,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS03(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS03(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900040cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000040cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS03", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS03(a) cavm_emmcx_host_cqrs_cqrs03_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS03(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS03(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS03(a) "EMMCX_HOST_CQRS_CQRS03"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS03(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS03(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS03(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs04
+ * Register (NCB32b) emmc#_host_cqrs_cqrs04
  *
  * EMMC Host Command Queuing Interrupt Status Register
  * Command Queuing Interrupt Status. This register has several status bit related to
@@ -397,19 +398,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS04(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS04(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000410ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000410ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS04", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS04(a) cavm_emmcx_host_cqrs_cqrs04_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS04(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS04(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS04(a) "EMMCX_HOST_CQRS_CQRS04"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS04(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS04(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS04(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs05
+ * Register (NCB32b) emmc#_host_cqrs_cqrs05
  *
  * EMMC Host Command Queuing Interrupt Status Enable Register
  * Statuses Enable bits enables interrupt sources. The status is enabled when bit is set 1 (S/W wrote
@@ -442,19 +443,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS05(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS05(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000414ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000414ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS05", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS05(a) cavm_emmcx_host_cqrs_cqrs05_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS05(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS05(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS05(a) "EMMCX_HOST_CQRS_CQRS05"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS05(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS05(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS05(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs06
+ * Register (NCB32b) emmc#_host_cqrs_cqrs06
  *
  * EMMC Host Command Queuing Interrupt Signal Enable Register
  * Command Queuing Interrupt Signal Enable. This register allows to turn on or turn off interrupt
@@ -490,19 +491,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS06(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS06(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000418ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000418ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS06", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS06(a) cavm_emmcx_host_cqrs_cqrs06_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS06(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS06(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS06(a) "EMMCX_HOST_CQRS_CQRS06"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS06(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS06(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS06(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs07
+ * Register (NCB32b) emmc#_host_cqrs_cqrs07
  *
  * EMMC Host Interrupt Coalescing Register
  * Interrupt Coalescing. This register allows to group a CQ transfer and report single interrupt for
@@ -563,19 +564,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS07(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS07(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900041cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000041cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS07", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS07(a) cavm_emmcx_host_cqrs_cqrs07_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS07(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS07(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS07(a) "EMMCX_HOST_CQRS_CQRS07"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS07(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS07(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS07(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs08
+ * Register (NCB32b) emmc#_host_cqrs_cqrs08
  *
  * EMMC Host Command Queuing Task Descriptor List Base Address Register
  */
@@ -602,19 +603,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS08(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS08(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000420ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000420ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS08", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS08(a) cavm_emmcx_host_cqrs_cqrs08_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS08(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS08(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS08(a) "EMMCX_HOST_CQRS_CQRS08"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS08(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS08(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS08(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs09
+ * Register (NCB32b) emmc#_host_cqrs_cqrs09
  *
  * EMMC Host Command Queuing Task Descriptor List Base Address Upper 32 Bits Register
  */
@@ -641,19 +642,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS09(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS09(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000424ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000424ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS09", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS09(a) cavm_emmcx_host_cqrs_cqrs09_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS09(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS09(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS09(a) "EMMCX_HOST_CQRS_CQRS09"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS09(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS09(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS09(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs10
+ * Register (NCB32b) emmc#_host_cqrs_cqrs10
  *
  * EMMC Host Command Queuing Task Doorbell Register
  * Command Queuing Task Doorbell. CQ has 32 tasks have individual bits to start
@@ -755,19 +756,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS10(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS10(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000428ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000428ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS10", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS10(a) cavm_emmcx_host_cqrs_cqrs10_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS10(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS10(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS10(a) "EMMCX_HOST_CQRS_CQRS10"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS10(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS10(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS10(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs11
+ * Register (NCB32b) emmc#_host_cqrs_cqrs11
  *
  * EMMC Host Task Complete Notification Register
  * Task Complete Notification. 32 bits related to 32 tasks. If task N is completed N bit is set 1. Bit
@@ -854,19 +855,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS11(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS11(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900042cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000042cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS11", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS11(a) cavm_emmcx_host_cqrs_cqrs11_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS11(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS11(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS11(a) "EMMCX_HOST_CQRS_CQRS11"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS11(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS11(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS11(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs12
+ * Register (NCB32b) emmc#_host_cqrs_cqrs12
  *
  * EMMC Host Device Queue Status Register
  */
@@ -893,19 +894,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS12(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS12(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000430ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000430ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS12", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS12(a) cavm_emmcx_host_cqrs_cqrs12_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS12(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS12(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS12(a) "EMMCX_HOST_CQRS_CQRS12"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS12(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS12(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS12(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs13
+ * Register (NCB32b) emmc#_host_cqrs_cqrs13
  *
  * EMMC Host Device Pending Tasks Register
  * This register information which task is submitted to eMMC (CMD44 and CMD45 was sent) and is not
@@ -993,19 +994,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS13(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS13(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000434ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000434ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS13", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS13(a) cavm_emmcx_host_cqrs_cqrs13_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS13(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS13(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS13(a) "EMMCX_HOST_CQRS_CQRS13"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS13(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS13(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS13(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs14
+ * Register (NCB32b) emmc#_host_cqrs_cqrs14
  *
  * EMMC Host Task Clear Register
  * S/W writes 1 to N bit of this register to clear task N. Bit remains 1 until clear operation is
@@ -1097,19 +1098,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS14(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS14(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000438ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000438ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS14", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS14(a) cavm_emmcx_host_cqrs_cqrs14_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS14(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS14(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS14(a) "EMMCX_HOST_CQRS_CQRS14"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS14(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS14(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS14(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs16
+ * Register (NCB32b) emmc#_host_cqrs_cqrs16
  *
  * EMMC Host Send Status Configuration 1 Register
  */
@@ -1148,19 +1149,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS16(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS16(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000440ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000440ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS16", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS16(a) cavm_emmcx_host_cqrs_cqrs16_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS16(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS16(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS16(a) "EMMCX_HOST_CQRS_CQRS16"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS16(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS16(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS16(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs17
+ * Register (NCB32b) emmc#_host_cqrs_cqrs17
  *
  * EMMC Host Send Status Configuration 2 Register
  */
@@ -1187,19 +1188,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS17(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS17(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000444ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000444ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS17", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS17(a) cavm_emmcx_host_cqrs_cqrs17_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS17(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS17(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS17(a) "EMMCX_HOST_CQRS_CQRS17"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS17(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS17(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS17(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs18
+ * Register (NCB32b) emmc#_host_cqrs_cqrs18
  *
  * EMMC Host Command Response for Direct-Command Task Register
  */
@@ -1222,19 +1223,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS18(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS18(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000448ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000448ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS18", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS18(a) cavm_emmcx_host_cqrs_cqrs18_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS18(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS18(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS18(a) "EMMCX_HOST_CQRS_CQRS18"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS18(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS18(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS18(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs20
+ * Register (NCB32b) emmc#_host_cqrs_cqrs20
  *
  * EMMC Host Response Mode Error Mask Register
  */
@@ -1263,19 +1264,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS20(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS20(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000450ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000450ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS20", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS20(a) cavm_emmcx_host_cqrs_cqrs20_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS20(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS20(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS20(a) "EMMCX_HOST_CQRS_CQRS20"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS20(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS20(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS20(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs21
+ * Register (NCB32b) emmc#_host_cqrs_cqrs21
  *
  * EMMC Host Task Error Information Register
  */
@@ -1330,19 +1331,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS21(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS21(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000454ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000454ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS21", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS21(a) cavm_emmcx_host_cqrs_cqrs21_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS21(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS21(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS21(a) "EMMCX_HOST_CQRS_CQRS21"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS21(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS21(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS21(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs22
+ * Register (NCB32b) emmc#_host_cqrs_cqrs22
  *
  * EMMC Host Command Response Index Register
  */
@@ -1367,19 +1368,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS22(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS22(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000458ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000458ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS22", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS22(a) cavm_emmcx_host_cqrs_cqrs22_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS22(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS22(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS22(a) "EMMCX_HOST_CQRS_CQRS22"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS22(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS22(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS22(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_cqrs_cqrs23
+ * Register (NCB32b) emmc#_host_cqrs_cqrs23
  *
  * EMMC Host Cqrs Cqrs23 Register
  * CQRS23 - Command Response Argument
@@ -1405,19 +1406,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS23(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS23(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900045cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000045cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS23", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CQRS_CQRS23(a) cavm_emmcx_host_cqrs_cqrs23_t
-#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS23(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CQRS_CQRS23(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CQRS_CQRS23(a) "EMMCX_HOST_CQRS_CQRS23"
 #define device_bar_CAVM_EMMCX_HOST_CQRS_CQRS23(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CQRS_CQRS23(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CQRS_CQRS23(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_crs_crs63
+ * Register (NCB32b) emmc#_host_crs_crs63
  *
  * EMMC Host Controller Version/Slot Interrupt Status Register
  */
@@ -1460,19 +1461,19 @@ static inline uint64_t CAVM_EMMCX_HOST_CRS_CRS63(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_CRS_CRS63(uint64_t a)
 {
     if (a==0)
-        return 0x87e0090002fcll + 0x1000000ll * ((a) & 0x0);
+        return 0x8240000002fcll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CRS_CRS63", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_CRS_CRS63(a) cavm_emmcx_host_crs_crs63_t
-#define bustype_CAVM_EMMCX_HOST_CRS_CRS63(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_CRS_CRS63(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_CRS_CRS63(a) "EMMCX_HOST_CRS_CRS63"
 #define device_bar_CAVM_EMMCX_HOST_CRS_CRS63(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_CRS_CRS63(a) (a)
 #define arguments_CAVM_EMMCX_HOST_CRS_CRS63(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs00
+ * Register (NCB32b) emmc#_host_hrs_hrs00
  *
  * EMMC Host General Information Register
  */
@@ -1509,19 +1510,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS00(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS00(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000000ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000000ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS00", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS00(a) cavm_emmcx_host_hrs_hrs00_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS00(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS00(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS00(a) "EMMCX_HOST_HRS_HRS00"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS00(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS00(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS00(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs01
+ * Register (NCB32b) emmc#_host_hrs_hrs01
  *
  * EMMC Host Debounce Setting Register
  */
@@ -1556,19 +1557,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS01(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS01(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000004ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000004ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS01", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS01(a) cavm_emmcx_host_hrs_hrs01_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS01(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS01(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS01(a) "EMMCX_HOST_HRS_HRS01"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS01(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS01(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS01(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs02
+ * Register (NCB32b) emmc#_host_hrs_hrs02
  *
  * EMMC Host Bus Setting Register
  */
@@ -1613,19 +1614,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS02(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS02(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000008ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000008ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS02", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS02(a) cavm_emmcx_host_hrs_hrs02_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS02(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS02(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS02(a) "EMMCX_HOST_HRS_HRS02"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS02(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS02(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS02(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs03
+ * Register (NCB32b) emmc#_host_hrs_hrs03
  *
  * EMMC Host AXI ERROR Responses Register
  * These registers extend the standard set of SD-HOST interrupt statuses by information about AXI
@@ -1724,19 +1725,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS03(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS03(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900000cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000000cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS03", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS03(a) cavm_emmcx_host_hrs_hrs03_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS03(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS03(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS03(a) "EMMCX_HOST_HRS_HRS03"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS03(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS03(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS03(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs04
+ * Register (NCB32b) emmc#_host_hrs_hrs04
  *
  * EMMC Host Hrs Hrs04 Register
  */
@@ -1763,19 +1764,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS04(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS04(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000010ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000010ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS04", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS04(a) cavm_emmcx_host_hrs_hrs04_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS04(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS04(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS04(a) "EMMCX_HOST_HRS_HRS04"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS04(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS04(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS04(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs05
+ * Register (NCB32b) emmc#_host_hrs_hrs05
  *
  * EMMC Host Hrs Hrs05 Register
  */
@@ -1810,19 +1811,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS05(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS05(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000014ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000014ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS05", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS05(a) cavm_emmcx_host_hrs_hrs05_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS05(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS05(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS05(a) "EMMCX_HOST_HRS_HRS05"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS05(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS05(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS05(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs06
+ * Register (NCB32b) emmc#_host_hrs_hrs06
  *
  * EMMC Host control Register
  */
@@ -1863,19 +1864,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS06(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS06(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000018ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000018ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS06", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS06(a) cavm_emmcx_host_hrs_hrs06_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS06(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS06(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS06(a) "EMMCX_HOST_HRS_HRS06"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS06(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS06(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS06(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs07
+ * Register (NCB32b) emmc#_host_hrs_hrs07
  *
  * EMMC Host IO Delay Information Register
  */
@@ -1922,19 +1923,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS07(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS07(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900001cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000001cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS07", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS07(a) cavm_emmcx_host_hrs_hrs07_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS07(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS07(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS07(a) "EMMCX_HOST_HRS_HRS07"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS07(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS07(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS07(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs08
+ * Register (NCB32b) emmc#_host_hrs_hrs08
  *
  * EMMC Host PHY DLL Update Control and Status Register
  */
@@ -1961,19 +1962,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS08(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS08(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000020ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000020ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS08", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS08(a) cavm_emmcx_host_hrs_hrs08_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS08(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS08(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS08(a) "EMMCX_HOST_HRS_HRS08"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS08(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS08(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS08(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs09
+ * Register (NCB32b) emmc#_host_hrs_hrs09
  *
  * EMMC Host PHY Control and Status Register
  */
@@ -2030,19 +2031,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS09(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS09(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000024ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000024ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS09", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS09(a) cavm_emmcx_host_hrs_hrs09_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS09(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS09(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS09(a) "EMMCX_HOST_HRS_HRS09"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS09(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS09(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS09(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs10
+ * Register (NCB32b) emmc#_host_hrs_hrs10
  *
  * EMMC Host Controller SDCLK start point adjustment Register
  */
@@ -2077,19 +2078,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS10(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS10(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000028ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000028ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS10", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS10(a) cavm_emmcx_host_hrs_hrs10_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS10(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS10(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS10(a) "EMMCX_HOST_HRS_HRS10"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS10(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS10(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS10(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs11
+ * Register (NCB32b) emmc#_host_hrs_hrs11
  *
  * EMMC Host control Register
  */
@@ -2114,19 +2115,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS11(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS11(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900002cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000002cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS11", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS11(a) cavm_emmcx_host_hrs_hrs11_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS11(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS11(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS11(a) "EMMCX_HOST_HRS_HRS11"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS11(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS11(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS11(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs12
+ * Register (NCB32b) emmc#_host_hrs_hrs12
  *
  * EMMC Host Interrupt Status Register
  */
@@ -2157,19 +2158,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS12(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS12(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000030ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000030ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS12", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS12(a) cavm_emmcx_host_hrs_hrs12_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS12(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS12(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS12(a) "EMMCX_HOST_HRS_HRS12"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS12(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS12(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS12(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs13
+ * Register (NCB32b) emmc#_host_hrs_hrs13
  *
  * EMMC Host Status Enable Register
  */
@@ -2216,19 +2217,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS13(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS13(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000034ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000034ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS13", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS13(a) cavm_emmcx_host_hrs_hrs13_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS13(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS13(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS13(a) "EMMCX_HOST_HRS_HRS13"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS13(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS13(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS13(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs14
+ * Register (NCB32b) emmc#_host_hrs_hrs14
  *
  * EMMC Host Signal Enable Register
  */
@@ -2275,19 +2276,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS14(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS14(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000038ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000038ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS14", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS14(a) cavm_emmcx_host_hrs_hrs14_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS14(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS14(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS14(a) "EMMCX_HOST_HRS_HRS14"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS14(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS14(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS14(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs16
+ * Register (NCB32b) emmc#_host_hrs_hrs16
  *
  * EMMC Host CMD/DAT output delay Register
  */
@@ -2336,19 +2337,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS16(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS16(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000040ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000040ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS16", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS16(a) cavm_emmcx_host_hrs_hrs16_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS16(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS16(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS16(a) "EMMCX_HOST_HRS_HRS16"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS16(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS16(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS16(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs29
+ * Register (NCB32b) emmc#_host_hrs_hrs29
  *
  * EMMC Host SD Magic Number Register
  * "Product Number" - identification number aligned to the right (LSB).
@@ -2372,19 +2373,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS29(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS29(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000074ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000074ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS29", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS29(a) cavm_emmcx_host_hrs_hrs29_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS29(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS29(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS29(a) "EMMCX_HOST_HRS_HRS29"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS29(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS29(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS29(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs30
+ * Register (NCB32b) emmc#_host_hrs_hrs30
  *
  * EMMC Host Capability Register
  * Host Capability Register. This register states whether configurable options are available or are
@@ -2423,19 +2424,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS30(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS30(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000078ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000078ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS30", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS30(a) cavm_emmcx_host_hrs_hrs30_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS30(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS30(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS30(a) "EMMCX_HOST_HRS_HRS30"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS30(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS30(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS30(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs31
+ * Register (NCB32b) emmc#_host_hrs_hrs31
  *
  * EMMC Host Controller Version Register
  * This register contains the host controller version number.
@@ -2465,19 +2466,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS31(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS31(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900007cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000007cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS31", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS31(a) cavm_emmcx_host_hrs_hrs31_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS31(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS31(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS31(a) "EMMCX_HOST_HRS_HRS31"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS31(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS31(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS31(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs32
+ * Register (NCB32b) emmc#_host_hrs_hrs32
  *
  * EMMC Host FSM Monitor Register
  */
@@ -2512,19 +2513,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS32(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS32(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000080ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000080ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS32", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS32(a) cavm_emmcx_host_hrs_hrs32_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS32(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS32(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS32(a) "EMMCX_HOST_HRS_HRS32"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS32(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS32(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS32(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs33
+ * Register (NCB32b) emmc#_host_hrs_hrs33
  *
  * EMMC Host Tune Status 0 Register
  */
@@ -2553,19 +2554,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS33(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS33(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000084ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000084ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS33", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS33(a) cavm_emmcx_host_hrs_hrs33_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS33(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS33(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS33(a) "EMMCX_HOST_HRS_HRS33"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS33(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS33(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS33(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs34
+ * Register (NCB32b) emmc#_host_hrs_hrs34
  *
  * EMMC Host Tune Status 1 Register
  */
@@ -2592,19 +2593,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS34(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS34(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000088ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000088ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS34", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS34(a) cavm_emmcx_host_hrs_hrs34_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS34(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS34(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS34(a) "EMMCX_HOST_HRS_HRS34"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS34(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS34(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS34(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs36
+ * Register (NCB32b) emmc#_host_hrs_hrs36
  *
  * EMMC Host Boot Status Register
  */
@@ -2643,19 +2644,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS36(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS36(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000090ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000090ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS36", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS36(a) cavm_emmcx_host_hrs_hrs36_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS36(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS36(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS36(a) "EMMCX_HOST_HRS_HRS36"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS36(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS36(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS36(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs40
+ * Register (NCB32b) emmc#_host_hrs_hrs40
  *
  * EMMC Host BASE Address 0 for Auto-configuration descriptor mechanism Register
  */
@@ -2680,19 +2681,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS40(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS40(uint64_t a)
 {
     if (a==0)
-        return 0x87e0090000a0ll + 0x1000000ll * ((a) & 0x0);
+        return 0x8240000000a0ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS40", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS40(a) cavm_emmcx_host_hrs_hrs40_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS40(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS40(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS40(a) "EMMCX_HOST_HRS_HRS40"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS40(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS40(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS40(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs41
+ * Register (NCB32b) emmc#_host_hrs_hrs41
  *
  * EMMC Host BASE Address 1 for Auto-configuration descriptor mechanism Register
  */
@@ -2717,19 +2718,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS41(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS41(uint64_t a)
 {
     if (a==0)
-        return 0x87e0090000a4ll + 0x1000000ll * ((a) & 0x0);
+        return 0x8240000000a4ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS41", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS41(a) cavm_emmcx_host_hrs_hrs41_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS41(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS41(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS41(a) "EMMCX_HOST_HRS_HRS41"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS41(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS41(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS41(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs42
+ * Register (NCB32b) emmc#_host_hrs_hrs42
  *
  * EMMC Host Auto-configuration descriptor mechanism enable/disable Register
  */
@@ -2774,19 +2775,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS42(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS42(uint64_t a)
 {
     if (a==0)
-        return 0x87e0090000a8ll + 0x1000000ll * ((a) & 0x0);
+        return 0x8240000000a8ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS42", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS42(a) cavm_emmcx_host_hrs_hrs42_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS42(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS42(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS42(a) "EMMCX_HOST_HRS_HRS42"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS42(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS42(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS42(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_hrs_hrs43
+ * Register (NCB32b) emmc#_host_hrs_hrs43
  *
  * EMMC Host Error status for auto-configuration descriptor mechanism Register
  */
@@ -2827,19 +2828,19 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS43(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS43(uint64_t a)
 {
     if (a==0)
-        return 0x87e0090000acll + 0x1000000ll * ((a) & 0x0);
+        return 0x8240000000acll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS43", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_HRS_HRS43(a) cavm_emmcx_host_hrs_hrs43_t
-#define bustype_CAVM_EMMCX_HOST_HRS_HRS43(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_HRS_HRS43(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_HRS_HRS43(a) "EMMCX_HOST_HRS_HRS43"
 #define device_bar_CAVM_EMMCX_HOST_HRS_HRS43(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_HRS_HRS43(a) (a)
 #define arguments_CAVM_EMMCX_HOST_HRS_HRS43(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs00
+ * Register (NCB32b) emmc#_host_srs_srs00
  *
  * EMMC Host SDMA System Address/Argument 2/32-bit block count Register
  */
@@ -2898,19 +2899,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS00(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS00(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000200ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000200ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS00", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS00(a) cavm_emmcx_host_srs_srs00_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS00(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS00(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS00(a) "EMMCX_HOST_SRS_SRS00"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS00(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS00(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS00(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs01
+ * Register (NCB32b) emmc#_host_srs_srs01
  *
  * EMMC Host Block Size / Block Count Register
  */
@@ -3013,19 +3014,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS01(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS01(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000204ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000204ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS01", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS01(a) cavm_emmcx_host_srs_srs01_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS01(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS01(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS01(a) "EMMCX_HOST_SRS_SRS01"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS01(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS01(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS01(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs02
+ * Register (NCB32b) emmc#_host_srs_srs02
  *
  * EMMC Host Argument 1 Register
  */
@@ -3050,19 +3051,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS02(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS02(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000208ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000208ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS02", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS02(a) cavm_emmcx_host_srs_srs02_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS02(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS02(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS02(a) "EMMCX_HOST_SRS_SRS02"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS02(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS02(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS02(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs03
+ * Register (NCB32b) emmc#_host_srs_srs03
  *
  * EMMC Host Command/Transfer Mode Register
  */
@@ -3355,19 +3356,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS03(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS03(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900020cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000020cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS03", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS03(a) cavm_emmcx_host_srs_srs03_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS03(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS03(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS03(a) "EMMCX_HOST_SRS_SRS03"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS03(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS03(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS03(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs04
+ * Register (NCB32b) emmc#_host_srs_srs04
  *
  * EMMC Host EMMC_HOST_SRS_SRS04-EMMC_HOST_SRS_SRS07 store response returned by the card Register
  * The mapping of the actual device response and the EMMC_HOST_SRS_SRS04 -
@@ -3408,19 +3409,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS04(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS04(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000210ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000210ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS04", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS04(a) cavm_emmcx_host_srs_srs04_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS04(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS04(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS04(a) "EMMCX_HOST_SRS_SRS04"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS04(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS04(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS04(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs05
+ * Register (NCB32b) emmc#_host_srs_srs05
  *
  * EMMC Host Described in EMMC_HOST_SRS_SRS04 Register
  */
@@ -3443,19 +3444,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS05(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS05(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000214ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000214ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS05", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS05(a) cavm_emmcx_host_srs_srs05_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS05(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS05(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS05(a) "EMMCX_HOST_SRS_SRS05"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS05(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS05(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS05(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs06
+ * Register (NCB32b) emmc#_host_srs_srs06
  *
  * EMMC Host Described in EMMC_HOST_SRS_SRS04 Register
  * Described in EMMC_HOST_SRS_SRS04.
@@ -3479,19 +3480,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS06(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS06(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000218ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000218ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS06", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS06(a) cavm_emmcx_host_srs_srs06_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS06(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS06(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS06(a) "EMMCX_HOST_SRS_SRS06"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS06(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS06(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS06(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs07
+ * Register (NCB32b) emmc#_host_srs_srs07
  *
  * EMMC Host Described in EMMC_HOST_SRS_SRS04 Register
  * Described in EMMC_HOST_SRS_SRS04.
@@ -3515,19 +3516,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS07(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS07(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900021cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000021cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS07", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS07(a) cavm_emmcx_host_srs_srs07_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS07(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS07(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS07(a) "EMMCX_HOST_SRS_SRS07"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS07(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS07(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS07(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs08
+ * Register (NCB32b) emmc#_host_srs_srs08
  *
  * EMMC Host Data Buffer Register
  */
@@ -3590,19 +3591,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS08(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS08(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000220ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000220ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS08", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS08(a) cavm_emmcx_host_srs_srs08_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS08(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS08(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS08(a) "EMMCX_HOST_SRS_SRS08"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS08(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS08(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS08(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs09
+ * Register (NCB32b) emmc#_host_srs_srs09
  *
  * EMMC Host Present State Register
  */
@@ -3847,19 +3848,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS09(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS09(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000224ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000224ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS09", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS09(a) cavm_emmcx_host_srs_srs09_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS09(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS09(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS09(a) "EMMCX_HOST_SRS_SRS09"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS09(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS09(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS09(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs10
+ * Register (NCB32b) emmc#_host_srs_srs10
  *
  * EMMC Host Control 1 (General / Power / Block-Gap / Wake-Up) Register
  */
@@ -4040,19 +4041,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS10(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS10(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000228ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000228ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS10", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS10(a) cavm_emmcx_host_srs_srs10_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS10(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS10(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS10(a) "EMMCX_HOST_SRS_SRS10"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS10(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS10(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS10(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs11
+ * Register (NCB32b) emmc#_host_srs_srs11
  *
  * EMMC Host Control 2 (Clock, Timeout, Reset) Register
  */
@@ -4225,19 +4226,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS11(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS11(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900022cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000022cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS11", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS11(a) cavm_emmcx_host_srs_srs11_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS11(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS11(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS11(a) "EMMCX_HOST_SRS_SRS11"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS11(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS11(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS11(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs12
+ * Register (NCB32b) emmc#_host_srs_srs12
  *
  * EMMC Host Error/Normal Interrupt Statu Register
  */
@@ -4436,19 +4437,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS12(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS12(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000230ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000230ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS12", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS12(a) cavm_emmcx_host_srs_srs12_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS12(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS12(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS12(a) "EMMCX_HOST_SRS_SRS12"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS12(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS12(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS12(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs13
+ * Register (NCB32b) emmc#_host_srs_srs13
  *
  * EMMC Host Error/Normal Status Enable Register
  */
@@ -4609,19 +4610,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS13(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS13(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000234ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000234ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS13", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS13(a) cavm_emmcx_host_srs_srs13_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS13(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS13(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS13(a) "EMMCX_HOST_SRS_SRS13"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS13(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS13(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS13(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs14
+ * Register (NCB32b) emmc#_host_srs_srs14
  *
  * EMMC Host Error/Normal Signal Enable Register
  */
@@ -4782,19 +4783,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS14(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS14(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000238ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000238ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS14", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS14(a) cavm_emmcx_host_srs_srs14_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS14(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS14(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS14(a) "EMMCX_HOST_SRS_SRS14"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS14(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS14(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS14(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs15
+ * Register (NCB32b) emmc#_host_srs_srs15
  *
  * EMMC Host Control 2 / Auto CMD Error Status Register
  */
@@ -4979,19 +4980,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS15(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS15(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900023cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000023cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS15", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS15(a) cavm_emmcx_host_srs_srs15_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS15(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS15(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS15(a) "EMMCX_HOST_SRS_SRS15"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS15(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS15(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS15(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs16
+ * Register (NCB32b) emmc#_host_srs_srs16
  *
  * EMMC Host Capabilities 1 Register
  */
@@ -5144,19 +5145,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS16(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS16(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000240ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000240ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS16", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS16(a) cavm_emmcx_host_srs_srs16_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS16(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS16(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS16(a) "EMMCX_HOST_SRS_SRS16"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS16(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS16(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS16(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs17
+ * Register (NCB32b) emmc#_host_srs_srs17
  *
  * EMMC Host Capabilities 2 Register
  */
@@ -5293,19 +5294,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS17(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS17(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000244ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000244ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS17", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS17(a) cavm_emmcx_host_srs_srs17_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS17(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS17(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS17(a) "EMMCX_HOST_SRS_SRS17"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS17(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS17(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS17(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs18
+ * Register (NCB32b) emmc#_host_srs_srs18
  *
  * EMMC Host Capabilities 3 Register
  */
@@ -5370,19 +5371,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS18(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS18(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000248ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000248ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS18", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS18(a) cavm_emmcx_host_srs_srs18_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS18(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS18(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS18(a) "EMMCX_HOST_SRS_SRS18"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS18(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS18(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS18(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs19
+ * Register (NCB32b) emmc#_host_srs_srs19
  *
  * EMMC Capabilities 4 Register
  */
@@ -5419,19 +5420,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS19(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS19(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900024cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000024cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS19", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS19(a) cavm_emmcx_host_srs_srs19_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS19(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS19(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS19(a) "EMMCX_HOST_SRS_SRS19"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS19(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS19(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS19(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs20
+ * Register (NCB32b) emmc#_host_srs_srs20
  *
  * EMMC Host Force Event Register
  * Each field of this register is related to the specific error status. Writing 1 to
@@ -5497,19 +5498,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS20(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS20(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000250ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000250ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS20", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS20(a) cavm_emmcx_host_srs_srs20_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS20(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS20(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS20(a) "EMMCX_HOST_SRS_SRS20"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS20(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS20(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS20(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs21
+ * Register (NCB32b) emmc#_host_srs_srs21
  *
  * EMMC Host ADMA Error Status Register
  */
@@ -5554,19 +5555,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS21(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS21(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000254ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000254ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS21", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS21(a) cavm_emmcx_host_srs_srs21_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS21(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS21(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS21(a) "EMMCX_HOST_SRS_SRS21"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS21(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS21(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS21(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs22
+ * Register (NCB32b) emmc#_host_srs_srs22
  *
  * EMMC Host ADMA/SDMA System Address 1 Register
  */
@@ -5621,19 +5622,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS22(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS22(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000258ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000258ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS22", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS22(a) cavm_emmcx_host_srs_srs22_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS22(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS22(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS22(a) "EMMCX_HOST_SRS_SRS22"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS22(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS22(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS22(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs23
+ * Register (NCB32b) emmc#_host_srs_srs23
  *
  * EMMC Host ADMA/SDMA System Address 2 Register
  */
@@ -5664,19 +5665,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS23(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS23(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900025cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000025cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS23", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS23(a) cavm_emmcx_host_srs_srs23_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS23(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS23(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS23(a) "EMMCX_HOST_SRS_SRS23"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS23(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS23(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS23(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs24
+ * Register (NCB32b) emmc#_host_srs_srs24
  *
  * EMMC Host Preset Value (Default Speed) Register
  * EMMC_HOST_SRS_SRS24[31:16] - Default Speed if: EMMC_HOST_SRS_SRS15[V18SE]=0 ,
@@ -5712,19 +5713,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS24(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS24(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000260ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000260ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS24", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS24(a) cavm_emmcx_host_srs_srs24_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS24(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS24(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS24(a) "EMMCX_HOST_SRS_SRS24"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS24(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS24(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS24(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs25
+ * Register (NCB32b) emmc#_host_srs_srs25
  *
  * EMMC Host Preset Value (High Speed and SDR12) Register
  * EMMC_HOST_SRS_SRS25[15:0] - High Speed if: EMMC_HOST_SRS_SRS15[V18SE]=0, SRS.HSE=1.
@@ -5770,19 +5771,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS25(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS25(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000264ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000264ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS25", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS25(a) cavm_emmcx_host_srs_srs25_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS25(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS25(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS25(a) "EMMCX_HOST_SRS_SRS25"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS25(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS25(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS25(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs26
+ * Register (NCB32b) emmc#_host_srs_srs26
  *
  * EMMC Host Preset Value (SDR25 and SDR50) Register
  * EMMC_HOST_SRS_SRS26[15:0] - SDR25 if: EMMC_HOST_SRS_SRS15[V18SE]=1, EMMC_HOST_SRS_SRS15[UMS]=0x1.
@@ -5831,19 +5832,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS26(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS26(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000268ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000268ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS26", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS26(a) cavm_emmcx_host_srs_srs26_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS26(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS26(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS26(a) "EMMCX_HOST_SRS_SRS26"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS26(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS26(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS26(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs27
+ * Register (NCB32b) emmc#_host_srs_srs27
  *
  * EMMC Host Preset Value (SDR104 and DDR50) Register
  * EMMC_HOST_SRS_SRS27[15:0] - SDR104 if: EMMC_HOST_SRS_SRS15[V18SE]=1, EMMC_HOST_SRS_SRS15[UMS]=0x3.
@@ -5889,19 +5890,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS27(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS27(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900026cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000026cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS27", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS27(a) cavm_emmcx_host_srs_srs27_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS27(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS27(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS27(a) "EMMCX_HOST_SRS_SRS27"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS27(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS27(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS27(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs30
+ * Register (NCB32b) emmc#_host_srs_srs30
  *
  * EMMC Host ADMA3 ID Address 1 Register
  */
@@ -5938,19 +5939,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS30(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS30(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000278ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000278ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS30", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS30(a) cavm_emmcx_host_srs_srs30_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS30(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS30(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS30(a) "EMMCX_HOST_SRS_SRS30"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS30(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS30(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS30(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_host_srs_srs31
+ * Register (NCB32b) emmc#_host_srs_srs31
  *
  * EMMC Host ADMA3 ID Address 2 Register
  */
@@ -5979,19 +5980,19 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS31(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS31(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900027cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000027cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS31", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_HOST_SRS_SRS31(a) cavm_emmcx_host_srs_srs31_t
-#define bustype_CAVM_EMMCX_HOST_SRS_SRS31(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_HOST_SRS_SRS31(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_HOST_SRS_SRS31(a) "EMMCX_HOST_SRS_SRS31"
 #define device_bar_CAVM_EMMCX_HOST_SRS_SRS31(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_HOST_SRS_SRS31(a) (a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS31(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) emmc#_msix_pba#
+ * Register (NCB) emmc#_msix_pba#
  *
  * EMMC MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the EMMC_INT_VEC_E enumeration.
@@ -6017,19 +6018,75 @@ static inline uint64_t CAVM_EMMCX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_EMMCX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b==0))
-        return 0x87e009f00010ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+        return 0x824009ff0000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("EMMCX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_MSIX_PBAX(a,b) cavm_emmcx_msix_pbax_t
-#define bustype_CAVM_EMMCX_MSIX_PBAX(a,b) CSR_TYPE_RSL
+#define bustype_CAVM_EMMCX_MSIX_PBAX(a,b) CSR_TYPE_NCB
 #define basename_CAVM_EMMCX_MSIX_PBAX(a,b) "EMMCX_MSIX_PBAX"
 #define device_bar_CAVM_EMMCX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_EMMCX_MSIX_PBAX(a,b) (a)
 #define arguments_CAVM_EMMCX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) emmc#_msix_vec#_ctl
+ * Register (NCB) emmc#_msix_vec#_addr
+ *
+ * EMMC MSI-X Vector Table Address Registers
+ * This register is the MSI-X vector table, indexed by the EMMC_INT_VEC_E enumeration.
+ */
+union cavm_emmcx_msix_vecx_addr
+{
+    uint64_t u;
+    struct cavm_emmcx_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's EMMC()_MSIX_VEC()_ADDR, EMMC()_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of EMMC()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's EMMC()_MSIX_VEC()_ADDR, EMMC()_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of EMMC()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_msix_vecx_addr_s cn; */
+};
+typedef union cavm_emmcx_msix_vecx_addr cavm_emmcx_msix_vecx_addr_t;
+
+static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=1))
+        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    __cavm_csr_fatal("EMMCX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_MSIX_VECX_ADDR(a,b) cavm_emmcx_msix_vecx_addr_t
+#define bustype_CAVM_EMMCX_MSIX_VECX_ADDR(a,b) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_MSIX_VECX_ADDR(a,b) "EMMCX_MSIX_VECX_ADDR"
+#define device_bar_CAVM_EMMCX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_EMMCX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_CAVM_EMMCX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) emmc#_msix_vec#_ctl
  *
  * EMMC MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the EMMC_INT_VEC_E enumeration.
@@ -6056,106 +6113,20 @@ typedef union cavm_emmcx_msix_vecx_ctl cavm_emmcx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=10))
-        return 0x87e009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0xf);
+    if ((a==0) && (b<=1))
+        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_MSIX_VECX_CTL(a,b) cavm_emmcx_msix_vecx_ctl_t
-#define bustype_CAVM_EMMCX_MSIX_VECX_CTL(a,b) CSR_TYPE_RSL
+#define bustype_CAVM_EMMCX_MSIX_VECX_CTL(a,b) CSR_TYPE_NCB
 #define basename_CAVM_EMMCX_MSIX_VECX_CTL(a,b) "EMMCX_MSIX_VECX_CTL"
 #define device_bar_CAVM_EMMCX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_EMMCX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_EMMCX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) emmc#_msix_vec_addr
- *
- * EMMC MSI-X Vector Table Address Registers
- * This register is the MSI-X vector table, indexed by the EMMC_INT_VEC_E enumeration.
- */
-union cavm_emmcx_msix_vec_addr
-{
-    uint64_t u;
-    struct cavm_emmcx_msix_vec_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or nonsecure states.
-                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
-                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
-
-                                                                 1 = This vector's EMMC()_MSIX_VEC()_ADDR, EMMC()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of EMMC()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the nonsecure world.
-                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
-                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
-
-                                                                 If PCCPF_EMMC()_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set.
-
-                                                                 Also note the following:
-                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
-                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
-                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
-                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
-                                                                 secure VF vectors) are considered physical, regardless of
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or nonsecure states.
-                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
-                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
-
-                                                                 1 = This vector's EMMC()_MSIX_VEC()_ADDR, EMMC()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of EMMC()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the nonsecure world.
-                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
-                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
-
-                                                                 If PCCPF_EMMC()_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set.
-
-                                                                 Also note the following:
-                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
-                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
-                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
-                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
-                                                                 secure VF vectors) are considered physical, regardless of
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_53_63        : 11;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_msix_vec_addr_s cn; */
-};
-typedef union cavm_emmcx_msix_vec_addr cavm_emmcx_msix_vec_addr_t;
-
-static inline uint64_t CAVM_EMMCX_MSIX_VEC_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EMMCX_MSIX_VEC_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x87e009f00000ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("EMMCX_MSIX_VEC_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EMMCX_MSIX_VEC_ADDR(a) cavm_emmcx_msix_vec_addr_t
-#define bustype_CAVM_EMMCX_MSIX_VEC_ADDR(a) CSR_TYPE_RSL
-#define basename_CAVM_EMMCX_MSIX_VEC_ADDR(a) "EMMCX_MSIX_VEC_ADDR"
-#define device_bar_CAVM_EMMCX_MSIX_VEC_ADDR(a) 0x4 /* PF_BAR4 */
-#define busnum_CAVM_EMMCX_MSIX_VEC_ADDR(a) (a)
-#define arguments_CAVM_EMMCX_MSIX_VEC_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) emmc#_phy_ctb_rfile_phy_ctrl
+ * Register (NCB32b) emmc#_phy_ctb_rfile_phy_ctrl
  *
  * EMMC Phy Ctb Rfile Phy Ctrl Reg Register
  * This register handles the global control settings for the PHY.
@@ -6215,19 +6186,19 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a) __attribute
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000580ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000580ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(a) cavm_emmcx_phy_ctb_rfile_phy_ctrl_t
-#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(a) "EMMCX_PHY_CTB_RFILE_PHY_CTRL"
 #define device_bar_CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(a) (a)
 #define arguments_CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_ctb_rfile_phy_gpio_ctrl_0
+ * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_ctrl_0
  *
  * EMMC Phy Ctb Rfile Phy Gpio Ctrl 0 Register
  * This register is a general purpose register. The [31:0]vector is brought to the PHY I/Os. User may
@@ -6255,19 +6226,19 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a) __at
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000588ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000588ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0_t
-#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) "EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0"
 #define device_bar_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) (a)
 #define arguments_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_ctb_rfile_phy_gpio_ctrl_1
+ * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_ctrl_1
  *
  * EMMC Phy Ctb Rfile Phy Gpio Ctrl 1 Register
  * This register is a general purpose register. The [31:0] vector is brought to the PHY I/Os. User may
@@ -6295,19 +6266,19 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a) __at
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900058cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000058cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_1_t
-#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) "EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1"
 #define device_bar_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) (a)
 #define arguments_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_ctb_rfile_phy_gpio_status_0
+ * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_status_0
  *
  * EMMC Phy Ctb Rfile Phy Gpio Status 0 Register
  * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
@@ -6334,19 +6305,19 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000590ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000590ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) cavm_emmcx_phy_ctb_rfile_phy_gpio_status_0_t
-#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) "EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0"
 #define device_bar_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) (a)
 #define arguments_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_ctb_rfile_phy_gpio_status_1
+ * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_status_1
  *
  * EMMC Phy Ctb Rfile Phy Gpio Status 1 Register
  * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
@@ -6373,19 +6344,19 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000594ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000594ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) cavm_emmcx_phy_ctb_rfile_phy_gpio_status_1_t
-#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) "EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1"
 #define device_bar_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) (a)
 #define arguments_CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_ctb_rfile_phy_tsel
+ * Register (NCB32b) emmc#_phy_ctb_rfile_phy_tsel
  *
  * EMMC Phy Ctb Rfile Phy Tsel Reg Register
  * This register handles the global control settings for the termination selects for reads.
@@ -6420,19 +6391,19 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a) __attribute
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000584ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000584ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_TSEL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(a) cavm_emmcx_phy_ctb_rfile_phy_tsel_t
-#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(a) "EMMCX_PHY_CTB_RFILE_PHY_TSEL"
 #define device_bar_CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(a) (a)
 #define arguments_CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_dll_master_ctrl
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_master_ctrl
  *
  * EMMC Phy Dataslice Rfile Phy Dll Master Ctrl Reg Register
  * This register holds the control for the Master DLL logic.
@@ -6522,19 +6493,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900050cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000050cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) cavm_emmcx_phy_dataslice_rfile_phy_dll_master_ctrl_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_0
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_0
  *
  * EMMC Phy Dataslice Rfile Phy Dll Obs Reg 0 Register
  * This register holds the following observable points in the PHY.
@@ -6620,19 +6591,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900051cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000051cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) cavm_emmcx_phy_dataslice_rfile_phy_dll_obs_reg_0_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_1
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_1
  *
  * EMMC Phy Dataslice Rfile Phy Dll Obs Reg 1 Register
  * This register holds the following observable points in the PHY.
@@ -6662,19 +6633,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000520ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000520ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) cavm_emmcx_phy_dataslice_rfile_phy_dll_obs_reg_1_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_2
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_2
  *
  * EMMC Phy Dataslice Rfile Phy Dll Obs Reg 2 Register
  * This register holds the following observable points in the PHY.
@@ -6700,19 +6671,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000524ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000524ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) cavm_emmcx_phy_dataslice_rfile_phy_dll_obs_reg_2_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_dll_slave_ctrl
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_slave_ctrl
  *
  * EMMC Phy Dataslice Rfile Phy Dll Slave Ctrl Reg Register
  * This register holds the control for the slave DLL logic.
@@ -6754,19 +6725,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000510ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000510ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) cavm_emmcx_phy_dataslice_rfile_phy_dll_slave_ctrl_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_dq_timing
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dq_timing
  *
  * EMMC Phy Dataslice Rfile Phy Dq Timing Reg Register
  * This register controls the DQ related timing.
@@ -6836,19 +6807,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000500ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000500ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) cavm_emmcx_phy_dataslice_rfile_phy_dq_timing_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_dqs_timing
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dqs_timing
  *
  * EMMC Phy Dataslice Rfile Phy Dqs Timing Reg Register
  * This register controls the DQS related timing.
@@ -6938,19 +6909,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000504ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000504ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) cavm_emmcx_phy_dataslice_rfile_phy_dqs_timing_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_features
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_features
  *
  * EMMC Phy Dataslice Rfile Phy Features Reg Register
  * This register shows available hardware features.
@@ -7016,19 +6987,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a) _
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000574ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000574ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) cavm_emmcx_phy_dataslice_rfile_phy_features_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_gate_lpbk_ctrl
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_gate_lpbk_ctrl
  *
  * EMMC Phy Dataslice Rfile Phy Gate Lpbk Ctrl Reg Register
  * This register controls the gate and loopback control related timing.
@@ -7196,19 +7167,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000508ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000508ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_ie_timing
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_ie_timing
  *
  * EMMC Phy Dataslice Rfile Phy Ie Timing Reg Register
  * This register controls the DQS related timing.
@@ -7258,19 +7229,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000514ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000514ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) cavm_emmcx_phy_dataslice_rfile_phy_ie_timing_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_obs_reg_0
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_obs_reg_0
  *
  * EMMC Phy Dataslice Rfile Phy Obs Reg 0 Register
  * This register holds the following observable points in the PHY.
@@ -7346,19 +7317,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000518ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000518ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) cavm_emmcx_phy_dataslice_rfile_phy_obs_reg_0_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_rd_deskew
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_rd_deskew
  *
  * EMMC Phy Dataslice Rfile Phy Rd Deskew Reg Register
  * This register holds the values of delay of each DQ bit on the read path.
@@ -7396,19 +7367,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900053cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000053cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) cavm_emmcx_phy_dataslice_rfile_phy_rd_deskew_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_static_togg
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_static_togg
  *
  * EMMC Phy Dataslice Rfile Phy Static Togg Reg Register
  * This register controls the static aging feature of the PHY.
@@ -7458,19 +7429,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000528ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000528ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) cavm_emmcx_phy_dataslice_rfile_phy_static_togg_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_version
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_version
  *
  * EMMC Phy Dataslice Rfile Phy Version Reg Register
  * This register contains release identification number.
@@ -7498,19 +7469,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000570ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000570ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(a) cavm_emmcx_phy_dataslice_rfile_phy_version_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_wr_deskew
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew
  *
  * EMMC Phy Dataslice Rfile Phy Wr Deskew Reg Register
  * This register holds the values of delay of each DQ bit on the write path.
@@ -7548,19 +7519,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 {
     if (a==0)
-        return 0x87e00900052cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000052cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
  *
  * EMMC Phy Dataslice Rfile Phy Wr Deskew Pd Ctrl 0 Reg Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
@@ -7806,19 +7777,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(ui
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000534ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000534ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
  *
  * EMMC Phy Dataslice Rfile Phy Wr Deskew Pd Ctrl 1 Reg Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
@@ -8064,19 +8035,19 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(ui
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000538ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000538ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) emmc#_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
+ * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
  *
  * EMMC Phy Dataslice Rfile Phy Wr Rd Deskew Cmd Reg Register
  * This register holds the values of delay of CMD bit on the write and read path as
@@ -8168,12 +8139,12 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint6
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000530ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000530ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) cavm_emmcx_phy_dataslice_rfile_phy_wr_rd_deskew_cmd_t
-#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) CSR_TYPE_RSL32b
+#define bustype_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) CSR_TYPE_NCB32b
 #define basename_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) "EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD"
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) (a)
@@ -8247,7 +8218,7 @@ static inline uint64_t CAVM_EMMCX_SHIM_CFG(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_EMMCX_SHIM_CFG(uint64_t a)
 {
     if (a==0)
-        return 0x87e009000460ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000460ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SHIM_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 

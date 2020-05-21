@@ -13,7 +13,6 @@
  * @defgroup lmt Local Memory Transaction (LMT) support
  * @{
  */
-#include "cavm-csrs-lmt.h"
 
 /**
  * Address of the LMT store area in physical memory

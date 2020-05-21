@@ -101,192 +101,6 @@
 #define CAVM_NCB_PSB_EVENT_E_NCB_WRITE_REQ_ARBID9 (0x25)
 
 /**
- * Register (RSL) lsw#_bp_test
- *
- * INTERNAL: LSW Backpressure Test Registers
- */
-union cavm_lswx_bp_test
-{
-    uint64_t u;
-    struct cavm_lswx_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t enable                : 8;  /**< [ 39: 32](R/W) Scratch CSR. */
-        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Scratch CSR. */
-        uint64_t lfsr_freq             : 16; /**< [ 15:  0](R/W) Scratch CSR. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 16; /**< [ 15:  0](R/W) Scratch CSR. */
-        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Scratch CSR. */
-        uint64_t enable                : 8;  /**< [ 39: 32](R/W) Scratch CSR. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_lswx_bp_test_s cn; */
-};
-typedef union cavm_lswx_bp_test cavm_lswx_bp_test_t;
-
-static inline uint64_t CAVM_LSWX_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_LSWX_BP_TEST(uint64_t a)
-{
-    if (a<=4)
-        return 0x87e1400e0000ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("LSWX_BP_TEST", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_LSWX_BP_TEST(a) cavm_lswx_bp_test_t
-#define bustype_CAVM_LSWX_BP_TEST(a) CSR_TYPE_RSL
-#define basename_CAVM_LSWX_BP_TEST(a) "LSWX_BP_TEST"
-#define device_bar_CAVM_LSWX_BP_TEST(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_LSWX_BP_TEST(a) (a)
-#define arguments_CAVM_LSWX_BP_TEST(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) lsw#_cfg
- *
- * LSW General Configuration Register
- */
-union cavm_lswx_cfg
-{
-    uint64_t u;
-    struct cavm_lswx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t force_lsw_cond_clk_en : 1;  /**< [  0:  0](R/W) Force on LSW clock. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t force_lsw_cond_clk_en : 1;  /**< [  0:  0](R/W) Force on LSW clock. For diagnostic use only. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_lswx_cfg_s cn; */
-};
-typedef union cavm_lswx_cfg cavm_lswx_cfg_t;
-
-static inline uint64_t CAVM_LSWX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_LSWX_CFG(uint64_t a)
-{
-    if (a<=4)
-        return 0x87e1400e0018ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("LSWX_CFG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_LSWX_CFG(a) cavm_lswx_cfg_t
-#define bustype_CAVM_LSWX_CFG(a) CSR_TYPE_RSL
-#define basename_CAVM_LSWX_CFG(a) "LSWX_CFG"
-#define device_bar_CAVM_LSWX_CFG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_LSWX_CFG(a) (a)
-#define arguments_CAVM_LSWX_CFG(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) lsw#_csclk_active
- *
- * LSW Conditional Coprocessor Clock Counter Register
- * This register counts conditional clocks for power management.
- */
-union cavm_lswx_csclk_active
-{
-    uint64_t u;
-    struct cavm_lswx_csclk_active_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_lswx_csclk_active_s cn; */
-};
-typedef union cavm_lswx_csclk_active cavm_lswx_csclk_active_t;
-
-static inline uint64_t CAVM_LSWX_CSCLK_ACTIVE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_LSWX_CSCLK_ACTIVE(uint64_t a)
-{
-    if (a<=4)
-        return 0x87e1400e0020ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("LSWX_CSCLK_ACTIVE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_LSWX_CSCLK_ACTIVE(a) cavm_lswx_csclk_active_t
-#define bustype_CAVM_LSWX_CSCLK_ACTIVE(a) CSR_TYPE_RSL
-#define basename_CAVM_LSWX_CSCLK_ACTIVE(a) "LSWX_CSCLK_ACTIVE"
-#define device_bar_CAVM_LSWX_CSCLK_ACTIVE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_LSWX_CSCLK_ACTIVE(a) (a)
-#define arguments_CAVM_LSWX_CSCLK_ACTIVE(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) lsw#_eco
- *
- * INTERNAL: LSW ECO Register
- */
-union cavm_lswx_eco
-{
-    uint64_t u;
-    struct cavm_lswx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_lswx_eco_s cn; */
-};
-typedef union cavm_lswx_eco cavm_lswx_eco_t;
-
-static inline uint64_t CAVM_LSWX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_LSWX_ECO(uint64_t a)
-{
-    if (a<=4)
-        return 0x87e1400e0010ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("LSWX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_LSWX_ECO(a) cavm_lswx_eco_t
-#define bustype_CAVM_LSWX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_LSWX_ECO(a) "LSWX_ECO"
-#define device_bar_CAVM_LSWX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_LSWX_ECO(a) (a)
-#define arguments_CAVM_LSWX_ECO(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) lsw#_scratch
- *
- * INTERNAL: LSW Backpressure Test Registers
- *
- * This register returns discovery information.
- */
-union cavm_lswx_scratch
-{
-    uint64_t u;
-    struct cavm_lswx_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t test                  : 64; /**< [ 63:  0](R/W) Scratch CSR. */
-#else /* Word 0 - Little Endian */
-        uint64_t test                  : 64; /**< [ 63:  0](R/W) Scratch CSR. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_lswx_scratch_s cn; */
-};
-typedef union cavm_lswx_scratch cavm_lswx_scratch_t;
-
-static inline uint64_t CAVM_LSWX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_LSWX_SCRATCH(uint64_t a)
-{
-    if (a<=4)
-        return 0x87e1400e0008ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("LSWX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_LSWX_SCRATCH(a) cavm_lswx_scratch_t
-#define bustype_CAVM_LSWX_SCRATCH(a) CSR_TYPE_RSL
-#define basename_CAVM_LSWX_SCRATCH(a) "LSWX_SCRATCH"
-#define device_bar_CAVM_LSWX_SCRATCH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_LSWX_SCRATCH(a) (a)
-#define arguments_CAVM_LSWX_SCRATCH(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) ncb#_arb#_crds
  *
  * NREQ Priority Register
@@ -973,5 +787,40 @@ static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) (a)
 #define arguments_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ngn#t_eco
+ *
+ * INTERNAL: NGNT ECO Register
+ */
+union cavm_ngnxt_eco
+{
+    uint64_t u;
+    struct cavm_ngnxt_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ngnxt_eco_s cn; */
+};
+typedef union cavm_ngnxt_eco cavm_ngnxt_eco_t;
+
+static inline uint64_t CAVM_NGNXT_ECO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NGNXT_ECO(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e1400f8100ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("NGNXT_ECO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NGNXT_ECO(a) cavm_ngnxt_eco_t
+#define bustype_CAVM_NGNXT_ECO(a) CSR_TYPE_RSL
+#define basename_CAVM_NGNXT_ECO(a) "NGNXT_ECO"
+#define device_bar_CAVM_NGNXT_ECO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_NGNXT_ECO(a) (a)
+#define arguments_CAVM_NGNXT_ECO(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_NCB_H__ */

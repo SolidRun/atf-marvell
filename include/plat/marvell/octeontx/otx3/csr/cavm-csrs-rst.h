@@ -556,13 +556,15 @@ union cavm_rst_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t clr_bist              : 1;  /**< [  0:  0](R/W) Perform clear BIST on each chip domain reset, instead of a full BIST.
+        uint64_t clr_bist              : 1;  /**< [  0:  0](R/W/H) Perform clear BIST on each chip domain reset, instead of a full BIST.
                                                                  Note that the first BIST during a cold domain reset is always a clear BIST.
-                                                                 This field is reinitialized with a cold domain reset. */
+                                                                 This field is reinitialized with a cold domain reset based on the
+                                                                 inverse of GPIO_STRAP_PIN_E[FULL_BIST]. */
 #else /* Word 0 - Little Endian */
-        uint64_t clr_bist              : 1;  /**< [  0:  0](R/W) Perform clear BIST on each chip domain reset, instead of a full BIST.
+        uint64_t clr_bist              : 1;  /**< [  0:  0](R/W/H) Perform clear BIST on each chip domain reset, instead of a full BIST.
                                                                  Note that the first BIST during a cold domain reset is always a clear BIST.
-                                                                 This field is reinitialized with a cold domain reset. */
+                                                                 This field is reinitialized with a cold domain reset based on the
+                                                                 inverse of GPIO_STRAP_PIN_E[FULL_BIST]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -779,13 +781,19 @@ union cavm_rst_const
     struct cavm_rst_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_32_63        : 32;
+        uint64_t plls                  : 16; /**< [ 31: 16](RO) PLL active. Each bit corresponds to a PLL enumerated by RST_PLL_E being available.
+                                                                 Internal:
+                                                                 Determined by tie__init_mul \> 0 for each PLL. */
         uint64_t rst_devs              : 8;  /**< [ 15:  8](RO) Number of RST_DEV_E enumeration values supported, and size of RST_DEV_MAP(). */
         uint64_t pems                  : 8;  /**< [  7:  0](RO) Number of PEMs supported by RST. */
 #else /* Word 0 - Little Endian */
         uint64_t pems                  : 8;  /**< [  7:  0](RO) Number of PEMs supported by RST. */
         uint64_t rst_devs              : 8;  /**< [ 15:  8](RO) Number of RST_DEV_E enumeration values supported, and size of RST_DEV_MAP(). */
-        uint64_t reserved_16_63        : 48;
+        uint64_t plls                  : 16; /**< [ 31: 16](RO) PLL active. Each bit corresponds to a PLL enumerated by RST_PLL_E being available.
+                                                                 Internal:
+                                                                 Determined by tie__init_mul \> 0 for each PLL. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_const_s cn; */
@@ -1218,7 +1226,13 @@ union cavm_rst_debug
     struct cavm_rst_debug_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t div_clk_rst           : 1;  /**< [  4:  4](R/W) Force clock divider reset.
+                                                                 Setting this field will force fixed clock dividers into reset.
+                                                                 Clearing this field will enable clock dividers.
+                                                                 For diagnostic use only.
+
+                                                                 This field is always reinitialized on a cold domain reset. */
         uint64_t dll_csr_wakeup        : 1;  /**< [  3:  3](R/W) Forces DLL setting to unlock.
                                                                  Setting this field will force all DLLs to track clock changes.
                                                                  For diagnostic use only.
@@ -1258,7 +1272,13 @@ union cavm_rst_debug
                                                                  For diagnostic use only.
 
                                                                  This field is always reinitialized on a cold domain reset. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t div_clk_rst           : 1;  /**< [  4:  4](R/W) Force clock divider reset.
+                                                                 Setting this field will force fixed clock dividers into reset.
+                                                                 Clearing this field will enable clock dividers.
+                                                                 For diagnostic use only.
+
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_debug_s cn; */

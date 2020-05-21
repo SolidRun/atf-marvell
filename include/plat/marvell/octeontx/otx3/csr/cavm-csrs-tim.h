@@ -984,9 +984,11 @@ union cavm_tim_af_fr_rn_gpios
     struct cavm_tim_af_fr_rn_gpios_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+                                                                 GPIO edge selection must be program (value other than 0x0) before writing this register. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+                                                                 GPIO edge selection must be program (value other than 0x0) before writing this register. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_fr_rn_gpios_s cn; */
@@ -1466,6 +1468,7 @@ union cavm_tim_af_reg_flags
         uint64_t dbg_ring_id           : 8;  /**< [ 15:  8](RAZ) Number of a ring, which his SM and controls will be send to OCLA. For diagnostic use only. */
         uint64_t reserved_7            : 1;
         uint64_t gpio_edge             : 2;  /**< [  6:  5](R/W) Edge used for GPIO timing.
+                                                                 This field must be configured before writing TIM_AF_FR_RN_GPIOS.
                                                                  0x0 = no edges and the timer tick is not generated.
                                                                  0x1 = TIM counts low-to-high transitions.
                                                                  0x2 = TIM counts high-to-low transitions.
@@ -1496,6 +1499,7 @@ union cavm_tim_af_reg_flags
                                                                  poison errors are logged in TIM_LF_RAS_INT always. */
         uint64_t force_extbus_ena      : 1;  /**< [  4:  4](R/W) When set, the extbus clock enable is always on. For diagnostic use only. */
         uint64_t gpio_edge             : 2;  /**< [  6:  5](R/W) Edge used for GPIO timing.
+                                                                 This field must be configured before writing TIM_AF_FR_RN_GPIOS.
                                                                  0x0 = no edges and the timer tick is not generated.
                                                                  0x1 = TIM counts low-to-high transitions.
                                                                  0x2 = TIM counts high-to-low transitions.

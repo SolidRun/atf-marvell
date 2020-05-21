@@ -272,7 +272,7 @@ static inline uint64_t CAVM_APR_AF_COREX_LSAX_ADDR(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_APR_AF_COREX_LSAX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x840168000030ll + 0x100000ll * ((a) & 0x3f) + 0x10000ll * ((b) & 0x1);
+        return 0x840168000030ll + 0x100000ll * ((a) & 0x3f) + 0x1000ll * ((b) & 0x1);
     __cavm_csr_fatal("APR_AF_COREX_LSAX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -336,7 +336,7 @@ static inline uint64_t CAVM_APR_AF_COREX_LSAX_ERR(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_APR_AF_COREX_LSAX_ERR(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x840168000038ll + 0x100000ll * ((a) & 0x3f) + 0x10000ll * ((b) & 0x1);
+        return 0x840168000038ll + 0x100000ll * ((a) & 0x3f) + 0x1000ll * ((b) & 0x1);
     __cavm_csr_fatal("APR_AF_COREX_LSAX_ERR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -392,7 +392,7 @@ static inline uint64_t CAVM_APR_AF_COREX_LSAX_RD_ERR(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_APR_AF_COREX_LSAX_RD_ERR(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x840168000028ll + 0x100000ll * ((a) & 0x3f) + 0x10000ll * ((b) & 0x1);
+        return 0x840168000028ll + 0x100000ll * ((a) & 0x3f) + 0x1000ll * ((b) & 0x1);
     __cavm_csr_fatal("APR_AF_COREX_LSAX_RD_ERR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -438,7 +438,7 @@ static inline uint64_t CAVM_APR_AF_COREX_LSAX_WR_ERR(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_APR_AF_COREX_LSAX_WR_ERR(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x840168000020ll + 0x100000ll * ((a) & 0x3f) + 0x10000ll * ((b) & 0x1);
+        return 0x840168000020ll + 0x100000ll * ((a) & 0x3f) + 0x1000ll * ((b) & 0x1);
     __cavm_csr_fatal("APR_AF_COREX_LSAX_WR_ERR", 2, a, b, 0, 0, 0, 0);
 }
 

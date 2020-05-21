@@ -103,12 +103,13 @@
  */
 #define CAVM_SSO_WA_E_ADDWQ (3)
 #define CAVM_SSO_WA_E_CPTX(a) (2 + 7 * (a))
-#define CAVM_SSO_WA_E_DPIX(a) (4 + 6 * (a))
+#define CAVM_SSO_WA_E_DPI (4)
 #define CAVM_SSO_WA_E_IOBN (0)
+#define CAVM_SSO_WA_E_MLX(a) (0xa + 2 * (a))
 #define CAVM_SSO_WA_E_NIXRXX(a) (1 + 7 * (a))
 #define CAVM_SSO_WA_E_NIXTXX(a) (5 + 6 * (a))
+#define CAVM_SSO_WA_E_PSM (7)
 #define CAVM_SSO_WA_E_TIM (6)
-#define CAVM_SSO_WA_E_ZIPX(a) (7 + 5 * (a))
 
 /**
  * Register (RVU_PF_BAR0) sso_af_active_cycles0
@@ -4646,7 +4647,7 @@ static inline uint64_t CAVM_SSO_AF_TIAQX_STATUS(uint64_t a)
  * Register (RVU_PF_BAR0) sso_af_tilemap#
  *
  * SSO AF Tile Map Registers
- * Contains PF, Func and GWS for the AP tile addressed by the given Index {a} tile ID.
+ * Contains PF, Func and GWS for the AP tile addressed by the given Index {a} tile ID + slot LSB.
  * For diagnostic use only.
  *
  * Internal:
@@ -4689,8 +4690,8 @@ typedef union cavm_sso_af_tilemapx cavm_sso_af_tilemapx_t;
 static inline uint64_t CAVM_SSO_AF_TILEMAPX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TILEMAPX(uint64_t a)
 {
-    if (a<=63)
-        return 0x840070400600ll + 0x1000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x840070400600ll + 0x1000ll * ((a) & 0x7f);
     __cavm_csr_fatal("SSO_AF_TILEMAPX", 1, a, 0, 0, 0, 0, 0);
 }
 

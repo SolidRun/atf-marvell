@@ -2598,9 +2598,17 @@ union cavm_pciercx_gen3_pipe_lb
         uint32_t rx_stat               : 3;  /**< [ 26: 24](RO) Reserved. */
         uint32_t reserved_22_23        : 2;
         uint32_t rxstat_ln             : 6;  /**< [ 21: 16](R/W) Reserved. */
-        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane). */
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane).
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0xf.
+                                                                 _ BPEM:      0x3. */
 #else /* Word 0 - Little Endian */
-        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane). */
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane).
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0xf.
+                                                                 _ BPEM:      0x3. */
         uint32_t rxstat_ln             : 6;  /**< [ 21: 16](R/W) Reserved. */
         uint32_t reserved_22_23        : 2;
         uint32_t rx_stat               : 3;  /**< [ 26: 24](RO) Reserved. */
@@ -3401,6 +3409,46 @@ static inline uint64_t CAVM_PCIERCX_L1SUB_CTL2(uint64_t a)
 #define arguments_CAVM_PCIERCX_L1SUB_CTL2(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGRC) pcierc#_lane_err
+ *
+ * Lane Error Status Register
+ */
+union cavm_pciercx_lane_err
+{
+    uint32_t u;
+    struct cavm_pciercx_lane_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t les                   : 4;  /**< [  3:  0](R/W1C) Lane error status bits.
+
+                                                                 For BPEM, LES[3:2] are not not implemented and will always RAZ. */
+#else /* Word 0 - Little Endian */
+        uint32_t les                   : 4;  /**< [  3:  0](R/W1C) Lane error status bits.
+
+                                                                 For BPEM, LES[3:2] are not not implemented and will always RAZ. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_lane_err_s cn; */
+};
+typedef union cavm_pciercx_lane_err cavm_pciercx_lane_err_t;
+
+static inline uint64_t CAVM_PCIERCX_LANE_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_LANE_ERR(uint64_t a)
+{
+    if (a<=3)
+        return 0x170 + 0 * ((a) & 0x3);
+    __cavm_csr_fatal("PCIERCX_LANE_ERR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_LANE_ERR(a) cavm_pciercx_lane_err_t
+#define bustype_CAVM_PCIERCX_LANE_ERR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_LANE_ERR(a) "PCIERCX_LANE_ERR"
+#define busnum_CAVM_PCIERCX_LANE_ERR(a) (a)
+#define arguments_CAVM_PCIERCX_LANE_ERR(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGRC) pcierc#_lane_skew
  *
  * PCIe RC Lane Skew Register
@@ -3412,7 +3460,11 @@ union cavm_pciercx_lane_skew
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
-        uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one). */
+        uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one).
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x3.
+                                                                 _ BPEM:      0x1. */
         uint32_t ebm                   : 1;  /**< [ 26: 26](R/W) Selects Gen3/Gen4 elasticity buffer operating mode.
                                                                  0 = Nominal half full buffer mode.
                                                                  1 = Nominal empty buffer mode */
@@ -3432,7 +3484,11 @@ union cavm_pciercx_lane_skew
         uint32_t ebm                   : 1;  /**< [ 26: 26](R/W) Selects Gen3/Gen4 elasticity buffer operating mode.
                                                                  0 = Nominal half full buffer mode.
                                                                  1 = Nominal empty buffer mode */
-        uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one). */
+        uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one).
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x3.
+                                                                 _ BPEM:      0x1. */
         uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
 #endif /* Word 0 - End */
     } s;
@@ -3985,42 +4041,6 @@ static inline uint64_t CAVM_PCIERCX_LINK_CTL3(uint64_t a)
 #define basename_CAVM_PCIERCX_LINK_CTL3(a) "PCIERCX_LINK_CTL3"
 #define busnum_CAVM_PCIERCX_LINK_CTL3(a) (a)
 #define arguments_CAVM_PCIERCX_LINK_CTL3(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_link_err_status
- *
- * Lane Error Status Register
- */
-union cavm_pciercx_link_err_status
-{
-    uint32_t u;
-    struct cavm_pciercx_link_err_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t les                   : 16; /**< [ 15:  0](R/W1C) Lane error status bits. */
-#else /* Word 0 - Little Endian */
-        uint32_t les                   : 16; /**< [ 15:  0](R/W1C) Lane error status bits. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_link_err_status_s cn; */
-};
-typedef union cavm_pciercx_link_err_status cavm_pciercx_link_err_status_t;
-
-static inline uint64_t CAVM_PCIERCX_LINK_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIERCX_LINK_ERR_STATUS(uint64_t a)
-{
-    if (a<=3)
-        return 0x170 + 0 * ((a) & 0x3);
-    __cavm_csr_fatal("PCIERCX_LINK_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PCIERCX_LINK_ERR_STATUS(a) cavm_pciercx_link_err_status_t
-#define bustype_CAVM_PCIERCX_LINK_ERR_STATUS(a) CSR_TYPE_PCICONFIGRC
-#define basename_CAVM_PCIERCX_LINK_ERR_STATUS(a) "PCIERCX_LINK_ERR_STATUS"
-#define busnum_CAVM_PCIERCX_LINK_ERR_STATUS(a) (a)
-#define arguments_CAVM_PCIERCX_LINK_ERR_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_margin_ext_cap_hdr
@@ -6536,8 +6556,8 @@ union cavm_pciercx_port_ctl
         uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
         uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
                                                                  0x1 = x1.
-                                                                 0x3 = x2.
-                                                                 0x7 = x4.
+                                                                 0x3 = x2 (BPEM).
+                                                                 0x7 = x4 (UPEM).
                                                                  0xF = x8 (not supported).
                                                                  0x1F = x16 (not supported).
                                                                  0x3F = x32 (not supported).
@@ -6592,8 +6612,8 @@ union cavm_pciercx_port_ctl
         uint32_t reserved_12_15        : 4;
         uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
                                                                  0x1 = x1.
-                                                                 0x3 = x2.
-                                                                 0x7 = x4.
+                                                                 0x3 = x2 (BPEM).
+                                                                 0x7 = x4 (UPEM).
                                                                  0xF = x8 (not supported).
                                                                  0x1F = x16 (not supported).
                                                                  0x3F = x32 (not supported).

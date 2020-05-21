@@ -64,8 +64,8 @@ typedef union cavm_tadx_asc_err cavm_tadx_asc_err_t;
 static inline uint64_t CAVM_TADX_ASC_ERR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_ASC_ERR(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000040ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000040ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_ASC_ERR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -137,8 +137,8 @@ typedef union cavm_tadx_bp_test1 cavm_tadx_bp_test1_t;
 static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000010ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000010ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -210,8 +210,8 @@ typedef union cavm_tadx_bp_test2 cavm_tadx_bp_test2_t;
 static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000018ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000018ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -283,8 +283,8 @@ typedef union cavm_tadx_bp_test3 cavm_tadx_bp_test3_t;
 static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000020ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000020ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -356,8 +356,8 @@ typedef union cavm_tadx_bp_test4 cavm_tadx_bp_test4_t;
 static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000028ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000028ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -429,8 +429,8 @@ typedef union cavm_tadx_bp_test5 cavm_tadx_bp_test5_t;
 static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000030ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000030ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -469,8 +469,8 @@ typedef union cavm_tadx_cache_flush_status cavm_tadx_cache_flush_status_t;
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000038ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000038ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_CACHE_FLUSH_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -509,8 +509,8 @@ typedef union cavm_tadx_dat_err cavm_tadx_dat_err_t;
 static inline uint64_t CAVM_TADX_DAT_ERR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_DAT_ERR(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000048ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000048ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_DAT_ERR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -557,8 +557,8 @@ typedef union cavm_tadx_dbe_dbg_cnt cavm_tadx_dbe_dbg_cnt_t;
 static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000060ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000060ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_DBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -603,8 +603,8 @@ typedef union cavm_tadx_ecc_dbg_en cavm_tadx_ecc_dbg_en_t;
 static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000050ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000050ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_ECC_DBG_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -642,8 +642,8 @@ typedef union cavm_tadx_eco cavm_tadx_eco_t;
 static inline uint64_t CAVM_TADX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_ECO(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000008ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -667,11 +667,11 @@ union cavm_tadx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..63)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -682,8 +682,8 @@ typedef union cavm_tadx_int_ena_w1c cavm_tadx_int_ena_w1c_t;
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200008010ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200008010ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -707,11 +707,11 @@ union cavm_tadx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..63)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -722,8 +722,8 @@ typedef union cavm_tadx_int_ena_w1s cavm_tadx_int_ena_w1s_t;
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200008018ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200008018ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -762,8 +762,8 @@ typedef union cavm_tadx_int_w1c cavm_tadx_int_w1c_t;
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200008000ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200008000ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -787,11 +787,11 @@ union cavm_tadx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..63)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -802,8 +802,8 @@ typedef union cavm_tadx_int_w1s cavm_tadx_int_w1s_t;
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200008008ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200008008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -841,8 +841,8 @@ typedef union cavm_tadx_mpamx_acnt cavm_tadx_mpamx_acnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_ACNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_ACNT(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=255))
-        return 0x87e200001000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xff);
+    if ((a<=127) && (b<=255))
+        return 0x87e200001000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("TADX_MPAMX_ACNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -880,8 +880,8 @@ typedef union cavm_tadx_mpamx_hcnt cavm_tadx_mpamx_hcnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_HCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_HCNT(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=255))
-        return 0x87e200001008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xff);
+    if ((a<=127) && (b<=255))
+        return 0x87e200001008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("TADX_MPAMX_HCNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -921,8 +921,8 @@ typedef union cavm_tadx_mpamx_rcnt cavm_tadx_mpamx_rcnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=255))
-        return 0x87e200002000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xff);
+    if ((a<=127) && (b<=255))
+        return 0x87e200002000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("TADX_MPAMX_RCNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -958,8 +958,8 @@ typedef union cavm_tadx_msix_pbax cavm_tadx_msix_pbax_t;
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b==0))
-        return 0x87e200808000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+    if ((a<=127) && (b==0))
+        return 0x87e200808000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1000,8 +1000,8 @@ typedef union cavm_tadx_msix_vecx_addr cavm_tadx_msix_vecx_addr_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b==0))
-        return 0x87e200800000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if ((a<=127) && (b==0))
+        return 0x87e200800000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1040,8 +1040,8 @@ typedef union cavm_tadx_msix_vecx_ctl cavm_tadx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b==0))
-        return 0x87e200800008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if ((a<=127) && (b==0))
+        return 0x87e200800008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1078,8 +1078,8 @@ typedef union cavm_tadx_pfcx cavm_tadx_pfcx_t;
 static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=3))
-        return 0x87e200000800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+    if ((a<=127) && (b<=3))
+        return 0x87e200000800ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("TADX_PFCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1124,8 +1124,8 @@ typedef union cavm_tadx_prf cavm_tadx_prf_t;
 static inline uint64_t CAVM_TADX_PRF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_PRF(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000068ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000068ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_PRF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1163,8 +1163,8 @@ typedef union cavm_tadx_req_rcnt cavm_tadx_req_rcnt_t;
 static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200002008ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200002008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_REQ_RCNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1211,8 +1211,8 @@ typedef union cavm_tadx_sbe_dbg_cnt cavm_tadx_sbe_dbg_cnt_t;
 static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000058ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000058ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_SBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1251,8 +1251,8 @@ typedef union cavm_tadx_scratch cavm_tadx_scratch_t;
 static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e200000000ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e200000000ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 

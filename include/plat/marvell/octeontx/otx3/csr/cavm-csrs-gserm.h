@@ -14337,55 +14337,63 @@ union cavm_gsermx_cmn_reg_67
         uint32_t reserved_8_31         : 24;
         uint32_t cmn_ana_rsvda         : 8;  /**< [  7:  0](R/W) Common Analog Reserved Byte A.
                                                                  [0]: Used for CLKEN of bandgap control.
-                                                                 1'b0: Disable bandgap chopper clock.
-                                                                 1'b1: Enable bandgap chopper clock.
+                                                                 0 = Disable bandgap chopper clock.
+                                                                 1 = Enable bandgap chopper clock.
+
                                                                  [1] Used for select of bandgap chopper clock source.
-                                                                 1'b0: Select bandgap internal free-running oscillation clock.
-                                                                 1'b1: Select the external refclk.
+                                                                 0 = Select bandgap internal free-running oscillation clock.
+                                                                 1 = Select the external refclk.
+
                                                                  ~cmn_ana_rsvda[4] cmn_ana_rsvda[3:2]: Used to select VDDCP AVDD range, AVDD_SEL[2:0] inside VDDCP.
-                                                                 3'b000: 		0.9 - 0.95V
-                                                                 3'b001: 		0.95 - 1.0V
-                                                                 3'b010: 		1.0 - 1.05V
-                                                                 3'b011: 		1.05 - 1.1V
-                                                                 3'b1xx: 		1.1 - 1.25V
+                                                                 0x0 = 0.9 - 0.95V.
+                                                                 0x1 = 0.95 - 1.0V.
+                                                                 0x2 = 1.0 - 1.05V.
+                                                                 0x3 = 1.05 - 1.1V.
+                                                                 0x4-7 = 1.1 - 1.25V.
+
                                                                  [4]: Also used to select 1.2v/0.9v AVDD.
-                                                                 1'b0: 1.2V
-                                                                 1'b1: 0.9V
+                                                                 0 = 1.2V.
+                                                                 1 = 0.9V.
+
                                                                  [7:5] Used to select VREF for PCM: pcm_vref_sel[2:0] inside process_mon block.
-                                                                 3'b000: 		900 mV for AVDD 1.2V
-                                                                 3'b001: 		875 mV
-                                                                 3'b010: 		850 mV
-                                                                 3'b011: 		825 mV
-                                                                 3'b100: 		800 mV for AVDD 0.9V
-                                                                 3'b101: 		775 mV
-                                                                 3'b110: 		750 mV
-                                                                 3'b111: 		725 mV */
+                                                                 0x0 = 900 mV for AVDD 1.2V.
+                                                                 0x1 = 875 mV.
+                                                                 0x2 = 850 mV.
+                                                                 0x3 = 825 mV.
+                                                                 0x4 = 800 mV for AVDD 0.9V.
+                                                                 0x5 = 775 mV.
+                                                                 0x6 = 750 mV.
+                                                                 0x7 = 725 mV. */
 #else /* Word 0 - Little Endian */
         uint32_t cmn_ana_rsvda         : 8;  /**< [  7:  0](R/W) Common Analog Reserved Byte A.
                                                                  [0]: Used for CLKEN of bandgap control.
-                                                                 1'b0: Disable bandgap chopper clock.
-                                                                 1'b1: Enable bandgap chopper clock.
+                                                                 0 = Disable bandgap chopper clock.
+                                                                 1 = Enable bandgap chopper clock.
+
                                                                  [1] Used for select of bandgap chopper clock source.
-                                                                 1'b0: Select bandgap internal free-running oscillation clock.
-                                                                 1'b1: Select the external refclk.
+                                                                 0 = Select bandgap internal free-running oscillation clock.
+                                                                 1 = Select the external refclk.
+
                                                                  ~cmn_ana_rsvda[4] cmn_ana_rsvda[3:2]: Used to select VDDCP AVDD range, AVDD_SEL[2:0] inside VDDCP.
-                                                                 3'b000: 		0.9 - 0.95V
-                                                                 3'b001: 		0.95 - 1.0V
-                                                                 3'b010: 		1.0 - 1.05V
-                                                                 3'b011: 		1.05 - 1.1V
-                                                                 3'b1xx: 		1.1 - 1.25V
+                                                                 0x0 = 0.9 - 0.95V.
+                                                                 0x1 = 0.95 - 1.0V.
+                                                                 0x2 = 1.0 - 1.05V.
+                                                                 0x3 = 1.05 - 1.1V.
+                                                                 0x4-7 = 1.1 - 1.25V.
+
                                                                  [4]: Also used to select 1.2v/0.9v AVDD.
-                                                                 1'b0: 1.2V
-                                                                 1'b1: 0.9V
+                                                                 0 = 1.2V.
+                                                                 1 = 0.9V.
+
                                                                  [7:5] Used to select VREF for PCM: pcm_vref_sel[2:0] inside process_mon block.
-                                                                 3'b000: 		900 mV for AVDD 1.2V
-                                                                 3'b001: 		875 mV
-                                                                 3'b010: 		850 mV
-                                                                 3'b011: 		825 mV
-                                                                 3'b100: 		800 mV for AVDD 0.9V
-                                                                 3'b101: 		775 mV
-                                                                 3'b110: 		750 mV
-                                                                 3'b111: 		725 mV */
+                                                                 0x0 = 900 mV for AVDD 1.2V.
+                                                                 0x1 = 875 mV.
+                                                                 0x2 = 850 mV.
+                                                                 0x3 = 825 mV.
+                                                                 0x4 = 800 mV for AVDD 0.9V.
+                                                                 0x5 = 775 mV.
+                                                                 0x6 = 750 mV.
+                                                                 0x7 = 725 mV. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -14422,21 +14430,21 @@ union cavm_gsermx_cmn_reg_68
         uint32_t reserved_8_31         : 24;
         uint32_t cmn_ana_rsvdb         : 8;  /**< [  7:  0](R/W) Common Analog Reserved Byte B.
                                                                  [0]: Assigned to TSEN_AVDD_VREF_SEL[0].
-                                                                 [1]: Assigned to ~TSEN_AVDD_VREF_SEL[1]
+                                                                 [1]: Assigned to ~TSEN_AVDD_VREF_SEL[1].
                                                                  cmn_ana_rsvdb[1:0]  TSEN_VREF_SEL[1:0]
-                                                                 2'b00  		  2'b10		 AVDD and AVDDL are both connected to 1.2V AVDD supply.
-                                                                 1'b01             2'b11          AVDD is connected to charge pump regulator
+                                                                 0x0, 0x2 = AVDD and AVDDL are both connected to 1.2V AVDD supply.
+                                                                 0x1, 0x3 = AVDD is connected to charge pump regulator
                                                                  1.35V, AVDDL is connected to 0.9V AVDD supply.
-                                                                 [2]: Assigned to TSEN_AVDD_FILTER_EN */
+                                                                 [2]: Assigned to TSEN_AVDD_FILTER_EN. */
 #else /* Word 0 - Little Endian */
         uint32_t cmn_ana_rsvdb         : 8;  /**< [  7:  0](R/W) Common Analog Reserved Byte B.
                                                                  [0]: Assigned to TSEN_AVDD_VREF_SEL[0].
-                                                                 [1]: Assigned to ~TSEN_AVDD_VREF_SEL[1]
+                                                                 [1]: Assigned to ~TSEN_AVDD_VREF_SEL[1].
                                                                  cmn_ana_rsvdb[1:0]  TSEN_VREF_SEL[1:0]
-                                                                 2'b00  		  2'b10		 AVDD and AVDDL are both connected to 1.2V AVDD supply.
-                                                                 1'b01             2'b11          AVDD is connected to charge pump regulator
+                                                                 0x0, 0x2 = AVDD and AVDDL are both connected to 1.2V AVDD supply.
+                                                                 0x1, 0x3 = AVDD is connected to charge pump regulator
                                                                  1.35V, AVDDL is connected to 0.9V AVDD supply.
-                                                                 [2]: Assigned to TSEN_AVDD_FILTER_EN */
+                                                                 [2]: Assigned to TSEN_AVDD_FILTER_EN. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;

@@ -20,6 +20,14 @@
  */
 
 /**
+ * Enumeration npc_ctype_e
+ *
+ * NPC Channel Type Enumeration
+ * Enumerates the NPC channel CTYPEs.
+ */
+#define CAVM_NPC_CTYPE_E_CTYPEX(a) (0 + (a))
+
+/**
  * Enumeration npc_errlev_e
  *
  * NPC Error Level Enumeration
@@ -78,6 +86,14 @@
 #define CAVM_NPC_MCAMKEYW_E_X1 (0)
 #define CAVM_NPC_MCAMKEYW_E_X2 (1)
 #define CAVM_NPC_MCAMKEYW_E_X4 (2)
+
+/**
+ * Enumeration npc_ptype_e
+ *
+ * NPC Port-Kind Type Enumeration
+ * Enumerates the NPC pkind PTYPEs.
+ */
+#define CAVM_NPC_PTYPE_E_PTYPEX(a) (0 + (a))
 
 /**
  * Structure npc_layer_info_s
@@ -155,11 +171,15 @@ union cavm_npc_mcam_key_x1_s
     struct cavm_npc_mcam_key_x1_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_6_63         : 58;
+        uint64_t ctype                 : 2;  /**< [  5:  4] NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_2_3          : 2;
         uint64_t intf                  : 2;  /**< [  1:  0] NPC interface enumerated by NPC_INTF_E. */
 #else /* Word 0 - Little Endian */
         uint64_t intf                  : 2;  /**< [  1:  0] NPC interface enumerated by NPC_INTF_E. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_2_3          : 2;
+        uint64_t ctype                 : 2;  /**< [  5:  4] NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t kw0                   : 64; /**< [127: 64] Key word 0. */
@@ -190,11 +210,15 @@ union cavm_npc_mcam_key_x2_s
     struct cavm_npc_mcam_key_x2_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_6_63         : 58;
+        uint64_t ctype                 : 2;  /**< [  5:  4] NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_2_3          : 2;
         uint64_t intf                  : 2;  /**< [  1:  0] NPC interface enumerated by NPC_INTF_E. */
 #else /* Word 0 - Little Endian */
         uint64_t intf                  : 2;  /**< [  1:  0] NPC interface enumerated by NPC_INTF_E. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_2_3          : 2;
+        uint64_t ctype                 : 2;  /**< [  5:  4] NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t kw0                   : 64; /**< [127: 64] Key word 0. */
@@ -235,11 +259,15 @@ union cavm_npc_mcam_key_x4_s
     struct cavm_npc_mcam_key_x4_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_6_63         : 58;
+        uint64_t ctype                 : 2;  /**< [  5:  4] NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_2_3          : 2;
         uint64_t intf                  : 2;  /**< [  1:  0] NPC interface enumerated by NPC_INTF_E. */
 #else /* Word 0 - Little Endian */
         uint64_t intf                  : 2;  /**< [  1:  0] NPC interface enumerated by NPC_INTF_E. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_2_3          : 2;
+        uint64_t ctype                 : 2;  /**< [  5:  4] NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t kw0                   : 64; /**< [127: 64] Key word 0. */
@@ -421,7 +449,8 @@ union cavm_npc_result_s
                                                                  packet ([INTF]=NPC_INTF_E::NIX(n)_TX). */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_252_255      : 4;
+        uint64_t ctype                 : 2;  /**< [255:254] NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t ptype                 : 2;  /**< [253:252] PType enumerated by NPC_PTYPE_E. */
         uint64_t lc                    : 20; /**< [251:232] Layer C parse information. Format specified by NPC_LAYER_INFO_S. */
         uint64_t lb                    : 20; /**< [231:212] Layer B parse information. Format specified by NPC_LAYER_INFO_S. */
         uint64_t la                    : 20; /**< [211:192] Layer A parse information. Format specified by NPC_LAYER_INFO_S. */
@@ -429,7 +458,8 @@ union cavm_npc_result_s
         uint64_t la                    : 20; /**< [211:192] Layer A parse information. Format specified by NPC_LAYER_INFO_S. */
         uint64_t lb                    : 20; /**< [231:212] Layer B parse information. Format specified by NPC_LAYER_INFO_S. */
         uint64_t lc                    : 20; /**< [251:232] Layer C parse information. Format specified by NPC_LAYER_INFO_S. */
-        uint64_t reserved_252_255      : 4;
+        uint64_t ptype                 : 2;  /**< [253:252] PType enumerated by NPC_PTYPE_E. */
+        uint64_t ctype                 : 2;  /**< [255:254] NPC CTYPE enumerated by NPC_CTYPE_E. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t reserved_316_319      : 4;
@@ -2035,7 +2065,8 @@ union cavm_npc_af_kpux_entryx_camx
     struct cavm_npc_af_kpux_entryx_camx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
+        uint64_t reserved_58_63        : 6;
+        uint64_t ptype                 : 2;  /**< [ 57: 56](R/W) Current packet ptype . */
         uint64_t state                 : 8;  /**< [ 55: 48](R/W) Current parse state. */
         uint64_t dp2_data              : 16; /**< [ 47: 32](R/W) Decision point 2 data in network byte order. */
         uint64_t dp1_data              : 16; /**< [ 31: 16](R/W) Decision point 1 data in network byte order. */
@@ -2049,7 +2080,8 @@ union cavm_npc_af_kpux_entryx_camx
         uint64_t dp1_data              : 16; /**< [ 31: 16](R/W) Decision point 1 data in network byte order. */
         uint64_t dp2_data              : 16; /**< [ 47: 32](R/W) Decision point 2 data in network byte order. */
         uint64_t state                 : 8;  /**< [ 55: 48](R/W) Current parse state. */
-        uint64_t reserved_56_63        : 8;
+        uint64_t ptype                 : 2;  /**< [ 57: 56](R/W) Current packet ptype . */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_kpux_entryx_camx_s cn; */
@@ -2269,7 +2301,8 @@ union cavm_npc_af_lkup_ctl
     struct cavm_npc_af_lkup_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_34_63        : 30;
+        uint64_t ctype                 : 2;  /**< [ 33: 32](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
         uint64_t exec                  : 1;  /**< [ 31: 31](R/W1S/H) Execute lookup. Writing a one to this bit initiates the lookup.
                                                                  Hardware writes the lookup result to NPC_AF_LKUP_RESULT() and clears this bit when done. */
         uint64_t op                    : 3;  /**< [ 30: 28](R/W) Lookup operation enumerated by NPC_LKUPOP_E. */
@@ -2291,7 +2324,8 @@ union cavm_npc_af_lkup_ctl
         uint64_t op                    : 3;  /**< [ 30: 28](R/W) Lookup operation enumerated by NPC_LKUPOP_E. */
         uint64_t exec                  : 1;  /**< [ 31: 31](R/W1S/H) Execute lookup. Writing a one to this bit initiates the lookup.
                                                                  Hardware writes the lookup result to NPC_AF_LKUP_RESULT() and clears this bit when done. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t ctype                 : 2;  /**< [ 33: 32](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_lkup_ctl_s cn; */
@@ -2928,6 +2962,7 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t 
  * of every MCAM entry are used as individual entries, each of which is
  * independently compared with the search key as follows:
  * _ NPC_AF_MCAME()_BANK()_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X1_S[INTF].
+ * _ NPC_AF_MCAME()_BANK()_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X1_S[CTYPE].
  * _ NPC_AF_MCAME()_BANK()_CAM()_W0[MD] corresponds to NPC_MCAM_KEY_X1_S[KW0].
  * _ NPC_AF_MCAME()_BANK()_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X1_S[KW1].
  *
@@ -2937,9 +2972,11 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t 
  * double-wide entry, and each double-wide entry is independently compared
  * with the search key as follows:
  * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X2_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X2_S[CTYPE].
  * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_W0[MD] corresponds to NPC_MCAM_KEY_X2_S[KW0].
  * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X2_S[KW1]\<47:0\>.
  * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X2_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X2_S[CTYPE].
  * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W0[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X2_S[KW1]\<63:48\>.
  * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W0[MD]\<63:16\> corresponds to NPC_MCAM_KEY_X2_S[KW2]\<47:0\>.
  * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W1[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X2_S[KW2]\<63:48\>.
@@ -2949,19 +2986,23 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t 
  * format (NPC_AF_INTF()_KEX_CFG[KEYW] = NPC_MCAMKEYW_E::X4), the four banks of every MCAM entry
  * are used as a single quad-wide entry that is compared with the search key as follows:
  * _ NPC_AF_MCAME()_BANK(0)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(0)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
  * _ NPC_AF_MCAME()_BANK(0)_CAM()_W0[MD] corresponds to NPC_MCAM_KEY_X4_S[KW0].
  * _ NPC_AF_MCAME()_BANK(0)_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X4_S[KW1]\<47:0\>.
  * _ NPC_AF_MCAME()_BANK(1)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(1)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
  * _ NPC_AF_MCAME()_BANK(1)_CAM()_W0[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X4_S[KW1]\<63:48\>.
  * _ NPC_AF_MCAME()_BANK(1)_CAM()_W0[MD]\<63:16\> corresponds to NPC_MCAM_KEY_X4_S[KW2]\<47:0\>.
  * _ NPC_AF_MCAME()_BANK(1)_CAM()_W1[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X4_S[KW2]\<63:48\>.
  * _ NPC_AF_MCAME()_BANK(1)_CAM()_W1[MD]\<47:16\> corresponds to NPC_MCAM_KEY_X4_S[KW3]\<31:0\>.
  * _ NPC_AF_MCAME()_BANK(2)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(2)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
  * _ NPC_AF_MCAME()_BANK(2)_CAM()_W0[MD]\<31:0\> corresponds to NPC_MCAM_KEY_X4_S[KW3]\<63:32\>.
  * _ NPC_AF_MCAME()_BANK(2)_CAM()_W0[MD]\<63:32\> corresponds to NPC_MCAM_KEY_X4_S[KW4]\<31:0\>.
  * _ NPC_AF_MCAME()_BANK(2)_CAM()_W1[MD]\<31:0\> corresponds to NPC_MCAM_KEY_X4_S[KW4]\<63:32\>.
  * _ NPC_AF_MCAME()_BANK(2)_CAM()_W1[MD]\<47:32\> corresponds to NPC_MCAM_KEY_X4_S[KW5]\<15:0\>.
  * _ NPC_AF_MCAME()_BANK(3)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(3)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
  * _ NPC_AF_MCAME()_BANK(3)_CAM()_W0[MD]\<47:0\> corresponds to NPC_MCAM_KEY_X4_S[KW5]\<63:16\>.
  * _ NPC_AF_MCAME()_BANK(3)_CAM()_W0[MD]\<63:48\> corresponds to NPC_MCAM_KEY_X4_S[KW6]\<15:0\>.
  * _ NPC_AF_MCAME()_BANK(3)_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X4_S[KW6]\<63:16\>.
@@ -2980,11 +3021,15 @@ union cavm_npc_af_mcamex_bankx_camx_intf
     struct cavm_npc_af_mcamex_bankx_camx_intf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_6_63         : 58;
+        uint64_t ctype                 : 2;  /**< [  5:  4](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_2_3          : 2;
         uint64_t intf                  : 2;  /**< [  1:  0](R/W) NPC interface. Enumerated by NPC_INTF_E. */
 #else /* Word 0 - Little Endian */
         uint64_t intf                  : 2;  /**< [  1:  0](R/W) NPC interface. Enumerated by NPC_INTF_E. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_2_3          : 2;
+        uint64_t ctype                 : 2;  /**< [  5:  4](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_mcamex_bankx_camx_intf_s cn; */
@@ -3017,11 +3062,15 @@ union cavm_npc_af_mcamex_bankx_camx_intf_ext
     struct cavm_npc_af_mcamex_bankx_camx_intf_ext_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_6_63         : 58;
+        uint64_t ctype                 : 2;  /**< [  5:  4](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_2_3          : 2;
         uint64_t intf                  : 2;  /**< [  1:  0](R/W) NPC interface. Enumerated by NPC_INTF_E. */
 #else /* Word 0 - Little Endian */
         uint64_t intf                  : 2;  /**< [  1:  0](R/W) NPC interface. Enumerated by NPC_INTF_E. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_2_3          : 2;
+        uint64_t ctype                 : 2;  /**< [  5:  4](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_mcamex_bankx_camx_intf_ext_s cn; */
@@ -4196,5 +4245,44 @@ static inline uint64_t CAVM_NPC_AF_PKINDX_CPI_DEFX(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NPC_AF_PKINDX_CPI_DEFX(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPC_AF_PKINDX_CPI_DEFX(a,b) (a)
 #define arguments_CAVM_NPC_AF_PKINDX_CPI_DEFX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_pkind#_type
+ *
+ * NPC AF PKIND TYPE Data Registers
+ * NPC_AF_PKIND_TYPE, NPC_AF_KPU()_ENTRY()_ACTION0 and NPC_AF_KPU()_ENTRY()_ACTION1
+ * specifies the next state and operations to perform before exiting the KPU.
+ */
+union cavm_npc_af_pkindx_type
+{
+    uint64_t u;
+    struct cavm_npc_af_pkindx_type_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t ptype                 : 2;  /**< [  1:  0](R/W) When nonzero, indicates additional information used in kcam keys 0-15. */
+#else /* Word 0 - Little Endian */
+        uint64_t ptype                 : 2;  /**< [  1:  0](R/W) When nonzero, indicates additional information used in kcam keys 0-15. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_pkindx_type_s cn; */
+};
+typedef union cavm_npc_af_pkindx_type cavm_npc_af_pkindx_type_t;
+
+static inline uint64_t CAVM_NPC_AF_PKINDX_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_PKINDX_TYPE(uint64_t a)
+{
+    if (a<=63)
+        return 0x840060080010ll + 0x40ll * ((a) & 0x3f);
+    __cavm_csr_fatal("NPC_AF_PKINDX_TYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_PKINDX_TYPE(a) cavm_npc_af_pkindx_type_t
+#define bustype_CAVM_NPC_AF_PKINDX_TYPE(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_PKINDX_TYPE(a) "NPC_AF_PKINDX_TYPE"
+#define device_bar_CAVM_NPC_AF_PKINDX_TYPE(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_PKINDX_TYPE(a) (a)
+#define arguments_CAVM_NPC_AF_PKINDX_TYPE(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_NPC_H__ */

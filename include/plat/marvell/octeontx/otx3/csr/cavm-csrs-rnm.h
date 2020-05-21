@@ -110,21 +110,13 @@ union cavm_rnm_const
     struct cavm_rnm_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t zucs                  : 4;  /**< [  3:  0](RO) Number of ZUC engines minus one, and corresponding RNM_ZUC()_INIT_LFSR() and
-                                                                 RNM_ZUC()_INIT_NLF() registers.
-
-                                                                 If 0xF, no ZUC engines.
-
-                                                                 For CNXXXX, 0x0, for one set of ZUC engines. */
+        uint64_t reserved_6_63         : 58;
+        uint64_t drbgs                 : 2;  /**< [  5:  4](RO/H) Number of DRBG engines minus one, and corresponding RNM_DRBG()_ENT_FORCE() registers. */
+        uint64_t zucs                  : 4;  /**< [  3:  0](RAZ) Ignored, deprecated feature. */
 #else /* Word 0 - Little Endian */
-        uint64_t zucs                  : 4;  /**< [  3:  0](RO) Number of ZUC engines minus one, and corresponding RNM_ZUC()_INIT_LFSR() and
-                                                                 RNM_ZUC()_INIT_NLF() registers.
-
-                                                                 If 0xF, no ZUC engines.
-
-                                                                 For CNXXXX, 0x0, for one set of ZUC engines. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t zucs                  : 4;  /**< [  3:  0](RAZ) Ignored, deprecated feature. */
+        uint64_t drbgs                 : 2;  /**< [  5:  4](RO/H) Number of DRBG engines minus one, and corresponding RNM_DRBG()_ENT_FORCE() registers. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_const_s cn; */
@@ -159,50 +151,27 @@ union cavm_rnm_ctl_status
     struct cavm_rnm_ctl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t lower_bandwidth_higher_entropy : 1;/**< [ 14: 14](SR/W) When clear, a new 64-bit random word is produced every 81 cycles. When set a new
-                                                                 64-bit random word is produced every 8*81=648 cycles. The slower operation
-                                                                 allows 8 times the entropy to be accumulated in each output. */
-        uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](SR/W) When set, entropy is increased 25 times. This puts the RNG unit in a mode
-                                                                 compatible with prior chip generations. However, because this XOR's the output
-                                                                 of multiple ring oscillators, this may not be compatible with FIPS 800-90B.
-
-                                                                 Internal:
-                                                                 When set, exporting raw entropy will result in ent_val being ignored and the
-                                                                 internal 5 bit XOR'd entropy being sent out (padded to 8 bits). */
+        uint64_t reserved_30_63        : 34;
+        uint64_t drbg_ent_disable      : 2;  /**< [ 29: 28](SR/W/H) Before setting write 128 bits to RNM_DRBG(0..1)_ENT_FORCE(0..1), once set entropy bus will
+                                                                 be forced to specified value. Set corresponding bit of RNM_CTL_STATUS[DRBG_EN]
+                                                                 to 0 to disable the engine
+                                                                 before writing. */
+        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to put the DRBG into reset. Must be set before RNM_CTL_STATUS[DRBG_ENT_DISABLE].
+                                                                 Lower bit for DRBG0, upper for DRBG1. */
+        uint64_t ebg_poll_delay        : 10; /**< [ 25: 16](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
+        uint64_t ebg_ctl_lock          : 1;  /**< [ 15: 15](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
+                                                                 Locked until system is reset (0 writes ignored). */
+        uint64_t lower_bandwidth_higher_entropy : 1;/**< [ 14: 14](RAZ) Ignored, deprecated feature. */
+        uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](RAZ) Ignored, deprecated feature. */
         uint64_t force_clk             : 1;  /**< [ 12: 12](SR/W) When set, conditional clock is always on. For diagnostic use only. */
-        uint64_t zuc_en                : 1;  /**< [ 11: 11](SR/W) Enable output of all ZUC engines. Before setting this bit software must write to
-                                                                 all RNM_ZUC()_INIT_LFSR(), and all RNM_ZUC()_INIT_NLF() registers. */
+        uint64_t zuc_en                : 1;  /**< [ 11: 11](RAZ) Ignored, deprecated feature. */
         uint64_t eer_lck               : 1;  /**< [ 10: 10](SRO/H) Encryption enable register locked. */
         uint64_t eer_val               : 1;  /**< [  9:  9](SRO/H) Dormant encryption key match. */
-        uint64_t ent_sel               : 4;  /**< [  8:  5](SR/W) Select input to RNM FIFO.
-                                                                 0x0 = 0-7.
-                                                                 0x1 = 8-15.
-                                                                 0x2 = 16-23.
-                                                                 0x3 = 24-31.
-                                                                 0x4 = 32-39.
-                                                                 0x5 = 40-47.
-                                                                 0x6 = 48-55.
-                                                                 0x7 = 56-63.
-                                                                 0x8 = 64-71.
-                                                                 0x9 = 72-79.
-                                                                 0xA = 80-87.
-                                                                 0xB = 88-95.
-                                                                 0xC = 96-103.
-                                                                 0xD = 104-111.
-                                                                 0xE = 112-119.
-                                                                 0xF = 120-127. */
-        uint64_t exp_ent               : 1;  /**< [  4:  4](SR/W) Exported entropy enable for random number generator. The next random number is
-                                                                 available 80 coprocessor-clock cycles after switching this bit from zero to one. The
-                                                                 next random number is available 730 coprocessor-clock cycles after switching this
-                                                                 bit from one to zero. When [EXP_ENT] = 1, [ENT_EN] must be set to 1. For diagnostic use only. */
-        uint64_t rng_rst               : 1;  /**< [  3:  3](SR/W) Reset the RNG. Setting this bit to one cancels the generation of the current
-                                                                 random number. Clearing this bit takes the RNG out of reset after which a
-                                                                 startup health test is performed followed by rng output. The startup health test
-                                                                 takes approximately 11000 coprocessor-cycles. This bit is not automatically
-                                                                 cleared. When [RNG_RST] = 1, reading RNM_RANDOM is unpredictable. */
-        uint64_t rnm_rst               : 1;  /**< [  2:  2](SRO) Reserved. Writes are ignored for backward compatibility. */
-        uint64_t rng_en                : 1;  /**< [  1:  1](SR/W) Enables the output of the RNG. When [RNG_RST] = 1, reading RNM_RANDOM is unpredictable. */
+        uint64_t ent_sel               : 4;  /**< [  8:  5](RAZ) Ignored, deprecated feature. */
+        uint64_t exp_ent               : 1;  /**< [  4:  4](RAZ) Ignored, deprecated feature. */
+        uint64_t rng_rst               : 1;  /**< [  3:  3](RAZ) Ignored, deprecated feature. */
+        uint64_t rnm_rst               : 1;  /**< [  2:  2](RAZ) Reserved. Writes are ignored for backward compatibility. */
+        uint64_t rng_en                : 1;  /**< [  1:  1](RAZ) Ignored, deprecated feature. */
         uint64_t ent_en                : 1;  /**< [  0:  0](SR/W) Ignored, deprecated feature.
                                                                  Internal:
                                                                  Entropy is always enabled regardless of this bit. */
@@ -210,50 +179,27 @@ union cavm_rnm_ctl_status
         uint64_t ent_en                : 1;  /**< [  0:  0](SR/W) Ignored, deprecated feature.
                                                                  Internal:
                                                                  Entropy is always enabled regardless of this bit. */
-        uint64_t rng_en                : 1;  /**< [  1:  1](SR/W) Enables the output of the RNG. When [RNG_RST] = 1, reading RNM_RANDOM is unpredictable. */
-        uint64_t rnm_rst               : 1;  /**< [  2:  2](SRO) Reserved. Writes are ignored for backward compatibility. */
-        uint64_t rng_rst               : 1;  /**< [  3:  3](SR/W) Reset the RNG. Setting this bit to one cancels the generation of the current
-                                                                 random number. Clearing this bit takes the RNG out of reset after which a
-                                                                 startup health test is performed followed by rng output. The startup health test
-                                                                 takes approximately 11000 coprocessor-cycles. This bit is not automatically
-                                                                 cleared. When [RNG_RST] = 1, reading RNM_RANDOM is unpredictable. */
-        uint64_t exp_ent               : 1;  /**< [  4:  4](SR/W) Exported entropy enable for random number generator. The next random number is
-                                                                 available 80 coprocessor-clock cycles after switching this bit from zero to one. The
-                                                                 next random number is available 730 coprocessor-clock cycles after switching this
-                                                                 bit from one to zero. When [EXP_ENT] = 1, [ENT_EN] must be set to 1. For diagnostic use only. */
-        uint64_t ent_sel               : 4;  /**< [  8:  5](SR/W) Select input to RNM FIFO.
-                                                                 0x0 = 0-7.
-                                                                 0x1 = 8-15.
-                                                                 0x2 = 16-23.
-                                                                 0x3 = 24-31.
-                                                                 0x4 = 32-39.
-                                                                 0x5 = 40-47.
-                                                                 0x6 = 48-55.
-                                                                 0x7 = 56-63.
-                                                                 0x8 = 64-71.
-                                                                 0x9 = 72-79.
-                                                                 0xA = 80-87.
-                                                                 0xB = 88-95.
-                                                                 0xC = 96-103.
-                                                                 0xD = 104-111.
-                                                                 0xE = 112-119.
-                                                                 0xF = 120-127. */
+        uint64_t rng_en                : 1;  /**< [  1:  1](RAZ) Ignored, deprecated feature. */
+        uint64_t rnm_rst               : 1;  /**< [  2:  2](RAZ) Reserved. Writes are ignored for backward compatibility. */
+        uint64_t rng_rst               : 1;  /**< [  3:  3](RAZ) Ignored, deprecated feature. */
+        uint64_t exp_ent               : 1;  /**< [  4:  4](RAZ) Ignored, deprecated feature. */
+        uint64_t ent_sel               : 4;  /**< [  8:  5](RAZ) Ignored, deprecated feature. */
         uint64_t eer_val               : 1;  /**< [  9:  9](SRO/H) Dormant encryption key match. */
         uint64_t eer_lck               : 1;  /**< [ 10: 10](SRO/H) Encryption enable register locked. */
-        uint64_t zuc_en                : 1;  /**< [ 11: 11](SR/W) Enable output of all ZUC engines. Before setting this bit software must write to
-                                                                 all RNM_ZUC()_INIT_LFSR(), and all RNM_ZUC()_INIT_NLF() registers. */
+        uint64_t zuc_en                : 1;  /**< [ 11: 11](RAZ) Ignored, deprecated feature. */
         uint64_t force_clk             : 1;  /**< [ 12: 12](SR/W) When set, conditional clock is always on. For diagnostic use only. */
-        uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](SR/W) When set, entropy is increased 25 times. This puts the RNG unit in a mode
-                                                                 compatible with prior chip generations. However, because this XOR's the output
-                                                                 of multiple ring oscillators, this may not be compatible with FIPS 800-90B.
-
-                                                                 Internal:
-                                                                 When set, exporting raw entropy will result in ent_val being ignored and the
-                                                                 internal 5 bit XOR'd entropy being sent out (padded to 8 bits). */
-        uint64_t lower_bandwidth_higher_entropy : 1;/**< [ 14: 14](SR/W) When clear, a new 64-bit random word is produced every 81 cycles. When set a new
-                                                                 64-bit random word is produced every 8*81=648 cycles. The slower operation
-                                                                 allows 8 times the entropy to be accumulated in each output. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](RAZ) Ignored, deprecated feature. */
+        uint64_t lower_bandwidth_higher_entropy : 1;/**< [ 14: 14](RAZ) Ignored, deprecated feature. */
+        uint64_t ebg_ctl_lock          : 1;  /**< [ 15: 15](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
+                                                                 Locked until system is reset (0 writes ignored). */
+        uint64_t ebg_poll_delay        : 10; /**< [ 25: 16](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
+        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to put the DRBG into reset. Must be set before RNM_CTL_STATUS[DRBG_ENT_DISABLE].
+                                                                 Lower bit for DRBG0, upper for DRBG1. */
+        uint64_t drbg_ent_disable      : 2;  /**< [ 29: 28](SR/W/H) Before setting write 128 bits to RNM_DRBG(0..1)_ENT_FORCE(0..1), once set entropy bus will
+                                                                 be forced to specified value. Set corresponding bit of RNM_CTL_STATUS[DRBG_EN]
+                                                                 to 0 to disable the engine
+                                                                 before writing. */
+        uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_ctl_status_s cn; */
@@ -273,6 +219,437 @@ static inline uint64_t CAVM_RNM_CTL_STATUS_FUNC(void)
 #define device_bar_CAVM_RNM_CTL_STATUS 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RNM_CTL_STATUS 0
 #define arguments_CAVM_RNM_CTL_STATUS -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_drbg#_ent_force#
+ *
+ * RNM DRBG Entropy Force Register
+ * Write this register to force the Entropy source of the DRBG to a constant value
+ * for debugging purposes.
+ *
+ * Before writing to this register, RNM_CTL_STATUS[DRBG_DISABLE] must be zero to turn off the
+ * DRBG engine.
+ *
+ * To use this register in place of the entropy source write 1 to RNM_CTL_STATUS[DRBG_ENT_DISABLE].
+ */
+union cavm_rnm_drbgx_ent_forcex
+{
+    uint64_t u;
+    struct cavm_rnm_drbgx_ent_forcex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t bits                  : 64; /**< [ 63:  0](SWO) 64 upper/lower bits of the value to force onto the DRBG entropy bus. */
+#else /* Word 0 - Little Endian */
+        uint64_t bits                  : 64; /**< [ 63:  0](SWO) 64 upper/lower bits of the value to force onto the DRBG entropy bus. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbgx_ent_forcex_s cn; */
+};
+typedef union cavm_rnm_drbgx_ent_forcex cavm_rnm_drbgx_ent_forcex_t;
+
+static inline uint64_t CAVM_RNM_DRBGX_ENT_FORCEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBGX_ENT_FORCEX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e00f000300ll + 0x400ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("RNM_DRBGX_ENT_FORCEX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) cavm_rnm_drbgx_ent_forcex_t
+#define bustype_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) "RNM_DRBGX_ENT_FORCEX"
+#define device_bar_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) (a)
+#define arguments_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rnm_drbg_reseed
+ *
+ * RNM DRBG Reseed Register
+ */
+union cavm_rnm_drbg_reseed
+{
+    uint64_t u;
+    struct cavm_rnm_drbg_reseed_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t dat                   : 1;  /**< [  0:  0](WO/H) Set to immediately reseed the DRBG. Bit is automatically cleared when reseed completes.
+                                                                 All DRBG related CSR operations will be blocked until reseed completes. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 1;  /**< [  0:  0](WO/H) Set to immediately reseed the DRBG. Bit is automatically cleared when reseed completes.
+                                                                 All DRBG related CSR operations will be blocked until reseed completes. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbg_reseed_s cn; */
+};
+typedef union cavm_rnm_drbg_reseed cavm_rnm_drbg_reseed_t;
+
+#define CAVM_RNM_DRBG_RESEED CAVM_RNM_DRBG_RESEED_FUNC()
+static inline uint64_t CAVM_RNM_DRBG_RESEED_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_RESEED_FUNC(void)
+{
+    return 0x80f000800018ll;
+}
+
+#define typedef_CAVM_RNM_DRBG_RESEED cavm_rnm_drbg_reseed_t
+#define bustype_CAVM_RNM_DRBG_RESEED CSR_TYPE_NCB
+#define basename_CAVM_RNM_DRBG_RESEED "RNM_DRBG_RESEED"
+#define device_bar_CAVM_RNM_DRBG_RESEED 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_RESEED 0
+#define arguments_CAVM_RNM_DRBG_RESEED -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_drbg_rndr
+ *
+ * RNM DRBG Random Register
+ */
+union cavm_rnm_drbg_rndr
+{
+    uint64_t u;
+    struct cavm_rnm_drbg_rndr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
+                                                                 For immediate reseed see RNM_DRBG_RNDRRS. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
+                                                                 For immediate reseed see RNM_DRBG_RNDRRS. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbg_rndr_s cn; */
+};
+typedef union cavm_rnm_drbg_rndr cavm_rnm_drbg_rndr_t;
+
+#define CAVM_RNM_DRBG_RNDR CAVM_RNM_DRBG_RNDR_FUNC()
+static inline uint64_t CAVM_RNM_DRBG_RNDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_RNDR_FUNC(void)
+{
+    return 0x80f000800008ll;
+}
+
+#define typedef_CAVM_RNM_DRBG_RNDR cavm_rnm_drbg_rndr_t
+#define bustype_CAVM_RNM_DRBG_RNDR CSR_TYPE_NCB
+#define basename_CAVM_RNM_DRBG_RNDR "RNM_DRBG_RNDR"
+#define device_bar_CAVM_RNM_DRBG_RNDR 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_RNDR 0
+#define arguments_CAVM_RNM_DRBG_RNDR -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_drbg_rndrrs
+ *
+ * RNM DRBG Reseeded Random Register
+ */
+union cavm_rnm_drbg_rndrrs
+{
+    uint64_t u;
+    struct cavm_rnm_drbg_rndrrs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
+                                                                 DRBG is reseeded immediately on read, blocks until complete and new bits available.
+                                                                 All DRBG related CSR operations will be blocked until reseed completes. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
+                                                                 DRBG is reseeded immediately on read, blocks until complete and new bits available.
+                                                                 All DRBG related CSR operations will be blocked until reseed completes. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbg_rndrrs_s cn; */
+};
+typedef union cavm_rnm_drbg_rndrrs cavm_rnm_drbg_rndrrs_t;
+
+#define CAVM_RNM_DRBG_RNDRRS CAVM_RNM_DRBG_RNDRRS_FUNC()
+static inline uint64_t CAVM_RNM_DRBG_RNDRRS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_RNDRRS_FUNC(void)
+{
+    return 0x80f000800010ll;
+}
+
+#define typedef_CAVM_RNM_DRBG_RNDRRS cavm_rnm_drbg_rndrrs_t
+#define bustype_CAVM_RNM_DRBG_RNDRRS CSR_TYPE_NCB
+#define basename_CAVM_RNM_DRBG_RNDRRS "RNM_DRBG_RNDRRS"
+#define device_bar_CAVM_RNM_DRBG_RNDRRS 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_RNDRRS 0
+#define arguments_CAVM_RNM_DRBG_RNDRRS -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_ebg_ctl
+ *
+ * RNM EBG Control Register
+ * This register is used to control the EBG (Entropy Bit Generator), which
+ * serves as the true random entropy source for RNM.
+ */
+union cavm_rnm_ebg_ctl
+{
+    uint64_t u;
+    struct cavm_rnm_ebg_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ds_ratio              : 8;  /**< [ 31: 24](SR/W/H) Down sampling ratio in hex in the EBG downsampling circuit, which further
+                                                                 downsamples the RNG slow (Noisy) oscillator output. This downsampling is
+                                                                 done outside of the RNG macro.
+                                                                 Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] are zero.
+                                                                 0x0 = or 1: no downsampling.
+                                                                 0x2 = downsample by 2.
+                                                                 0x3 = downsample by 3.
+                                                                 0xFF = downsample by 255. */
+        uint64_t rng_slow_div_val      : 8;  /**< [ 23: 16](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input DIV_VAL[8:0]
+                                                                 Decimate value of noisy oscillator (slow OSC) before sampling the fast
+                                                                 OSC. Dividing ratio is 2X of the value in this field. Minimum Value is 2.
+                                                                 Recommend to leave it as default 0x21 to have sufficient noise (at least
+                                                                 0x1E).
+
+                                                                 Examples
+                                                                 0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
+                                                                 0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
+                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32. */
+        uint64_t entropy_mode          : 1;  /**< [ 15: 15](SR/W/H) Entropy mode. Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
+                                                                 0x0 = Internal entropy mode.
+                                                                 0x1 = External entropy mode. */
+        uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
+                                                                 Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
+
+                                                                 External mode:
+                                                                 0x0 = Analog data latched by analog clock.
+                                                                 0x1 = Analog clock ^ analog data latched by APB clock.
+                                                                 0x2 = Analog clock latched by APB clock.
+                                                                 0x3 = Analog data latched by APB clock.
+
+                                                                 Internal mode:
+                                                                 0x0 = RNG data latched by RNG clock.
+                                                                 0x1 = RNG data latched by APB clock.
+                                                                 0x2 = RNG clock latched by APB clock.
+                                                                 0x3 = Reserved. */
+        uint64_t entropy_req           : 1;  /**< [ 12: 12](SR/W/H) 0 = Stop.
+                                                                 1 = Request new entropy bits into shift register/FIFO. */
+        uint64_t rng_clk_sel           : 1;  /**< [ 11: 11](SR/W/H) Selects the source of the clean clock inside the ring oscillator block. The
+                                                                 clean clock is to be sampled by the noisy oscillator output.
+                                                                 0 = Clean clock is the Fast (free running) oscillator inside analog.
+                                                                 1 = Clean clock is the CPU register clock. */
+        uint64_t rng_rstn              : 1;  /**< [ 10: 10](SR/W/H) RNG analog reset.
+                                                                 Active low reset to the digital RNG structure.
+                                                                 0x0 = Reset.
+                                                                 0x1 = Normal. */
+        uint64_t rng_pu_bias           : 1;  /**< [  9:  9](SR/W/H) Enable signal of the analog bias circuit.
+                                                                 0x1 = Provide Power for slow oscillator and its bias circuit
+                                                                 0x0 = disable. */
+        uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input FAST_OSC_ENA.
+                                                                 Enable signal of the fast oscillator in the digital RNG structure. It is the
+                                                                 clean oscillator
+                                                                 0x1 = RNG Fast (Free Running) OSC Enable
+                                                                 0x0 = Disable. */
+        uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input SLOW_OSC_ENA.
+                                                                 Enable signal of the slow oscillator in the digital RNG structure. It is the
+                                                                 noisy oscillator
+                                                                 0x1 = RNG Slow OSC Enable
+                                                                 0x0 = Disable. */
+        uint64_t pp_ena                : 1;  /**< [  6:  6](SR/W/H) Enable signal of the post processor.
+                                                                 Disabling the post processor will allow raw entropy to be extracted from the
+                                                                 ana_rng macro. Note that it is still subject to downsamping, depending
+                                                                 upon the value programmed into the DS_RATIO [31:24] bits.
+                                                                 0x1 = Post Processor enable
+                                                                 0x0 = Disable
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0. */
+        uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input PU_BIAS2.
+                                                                 Enable signal of the analog bias circuit.
+                                                                 0 = Disable.
+                                                                 1 = Provide power for slow oscillator and its bias circuit. */
+        uint64_t reserved_0_4          : 5;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_4          : 5;
+        uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input PU_BIAS2.
+                                                                 Enable signal of the analog bias circuit.
+                                                                 0 = Disable.
+                                                                 1 = Provide power for slow oscillator and its bias circuit. */
+        uint64_t pp_ena                : 1;  /**< [  6:  6](SR/W/H) Enable signal of the post processor.
+                                                                 Disabling the post processor will allow raw entropy to be extracted from the
+                                                                 ana_rng macro. Note that it is still subject to downsamping, depending
+                                                                 upon the value programmed into the DS_RATIO [31:24] bits.
+                                                                 0x1 = Post Processor enable
+                                                                 0x0 = Disable
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0. */
+        uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input SLOW_OSC_ENA.
+                                                                 Enable signal of the slow oscillator in the digital RNG structure. It is the
+                                                                 noisy oscillator
+                                                                 0x1 = RNG Slow OSC Enable
+                                                                 0x0 = Disable. */
+        uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input FAST_OSC_ENA.
+                                                                 Enable signal of the fast oscillator in the digital RNG structure. It is the
+                                                                 clean oscillator
+                                                                 0x1 = RNG Fast (Free Running) OSC Enable
+                                                                 0x0 = Disable. */
+        uint64_t rng_pu_bias           : 1;  /**< [  9:  9](SR/W/H) Enable signal of the analog bias circuit.
+                                                                 0x1 = Provide Power for slow oscillator and its bias circuit
+                                                                 0x0 = disable. */
+        uint64_t rng_rstn              : 1;  /**< [ 10: 10](SR/W/H) RNG analog reset.
+                                                                 Active low reset to the digital RNG structure.
+                                                                 0x0 = Reset.
+                                                                 0x1 = Normal. */
+        uint64_t rng_clk_sel           : 1;  /**< [ 11: 11](SR/W/H) Selects the source of the clean clock inside the ring oscillator block. The
+                                                                 clean clock is to be sampled by the noisy oscillator output.
+                                                                 0 = Clean clock is the Fast (free running) oscillator inside analog.
+                                                                 1 = Clean clock is the CPU register clock. */
+        uint64_t entropy_req           : 1;  /**< [ 12: 12](SR/W/H) 0 = Stop.
+                                                                 1 = Request new entropy bits into shift register/FIFO. */
+        uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
+                                                                 Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
+
+                                                                 External mode:
+                                                                 0x0 = Analog data latched by analog clock.
+                                                                 0x1 = Analog clock ^ analog data latched by APB clock.
+                                                                 0x2 = Analog clock latched by APB clock.
+                                                                 0x3 = Analog data latched by APB clock.
+
+                                                                 Internal mode:
+                                                                 0x0 = RNG data latched by RNG clock.
+                                                                 0x1 = RNG data latched by APB clock.
+                                                                 0x2 = RNG clock latched by APB clock.
+                                                                 0x3 = Reserved. */
+        uint64_t entropy_mode          : 1;  /**< [ 15: 15](SR/W/H) Entropy mode. Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
+                                                                 0x0 = Internal entropy mode.
+                                                                 0x1 = External entropy mode. */
+        uint64_t rng_slow_div_val      : 8;  /**< [ 23: 16](SR/W/H) This register is directly connected to analog (analog random number
+                                                                 generator) input DIV_VAL[8:0]
+                                                                 Decimate value of noisy oscillator (slow OSC) before sampling the fast
+                                                                 OSC. Dividing ratio is 2X of the value in this field. Minimum Value is 2.
+                                                                 Recommend to leave it as default 0x21 to have sufficient noise (at least
+                                                                 0x1E).
+
+                                                                 Examples
+                                                                 0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
+                                                                 0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
+                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32. */
+        uint64_t ds_ratio              : 8;  /**< [ 31: 24](SR/W/H) Down sampling ratio in hex in the EBG downsampling circuit, which further
+                                                                 downsamples the RNG slow (Noisy) oscillator output. This downsampling is
+                                                                 done outside of the RNG macro.
+                                                                 Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] are zero.
+                                                                 0x0 = or 1: no downsampling.
+                                                                 0x2 = downsample by 2.
+                                                                 0x3 = downsample by 3.
+                                                                 0xFF = downsample by 255. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_ebg_ctl_s cn; */
+};
+typedef union cavm_rnm_ebg_ctl cavm_rnm_ebg_ctl_t;
+
+#define CAVM_RNM_EBG_CTL CAVM_RNM_EBG_CTL_FUNC()
+static inline uint64_t CAVM_RNM_EBG_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_EBG_CTL_FUNC(void)
+{
+    return 0x87e00f000040ll;
+}
+
+#define typedef_CAVM_RNM_EBG_CTL cavm_rnm_ebg_ctl_t
+#define bustype_CAVM_RNM_EBG_CTL CSR_TYPE_RSL
+#define basename_CAVM_RNM_EBG_CTL "RNM_EBG_CTL"
+#define device_bar_CAVM_RNM_EBG_CTL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_EBG_CTL 0
+#define arguments_CAVM_RNM_EBG_CTL -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_ebg_ent
+ *
+ * RNM EBG Entropy Value Register
+ * This register is used to read true random data from the EBG
+ * (entropy bit generator), which serves as the true random entropy source for RNM.
+ */
+union cavm_rnm_ebg_ent
+{
+    uint64_t u;
+    struct cavm_rnm_ebg_ent_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Entropy value is ready to read.
+                                                                 1 = Not ready. */
+        uint64_t err_rep               : 1;  /**< [ 30: 30](RO/H) Error flag for repetition count health test. */
+        uint64_t err_adp               : 1;  /**< [ 29: 29](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t st_done               : 1;  /**< [ 28: 28](RO/H) Done flag for EBG startup tests. */
+        uint64_t reserved_16_27        : 12;
+        uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
+#else /* Word 0 - Little Endian */
+        uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
+        uint64_t reserved_16_27        : 12;
+        uint64_t st_done               : 1;  /**< [ 28: 28](RO/H) Done flag for EBG startup tests. */
+        uint64_t err_adp               : 1;  /**< [ 29: 29](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t err_rep               : 1;  /**< [ 30: 30](RO/H) Error flag for repetition count health test. */
+        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Entropy value is ready to read.
+                                                                 1 = Not ready. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_ebg_ent_s cn; */
+};
+typedef union cavm_rnm_ebg_ent cavm_rnm_ebg_ent_t;
+
+#define CAVM_RNM_EBG_ENT CAVM_RNM_EBG_ENT_FUNC()
+static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void)
+{
+    return 0x87e00f000048ll;
+}
+
+#define typedef_CAVM_RNM_EBG_ENT cavm_rnm_ebg_ent_t
+#define bustype_CAVM_RNM_EBG_ENT CSR_TYPE_RSL
+#define basename_CAVM_RNM_EBG_ENT "RNM_EBG_ENT"
+#define device_bar_CAVM_RNM_EBG_ENT 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_EBG_ENT 0
+#define arguments_CAVM_RNM_EBG_ENT -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_ebg_health_cfg
+ *
+ * RNM EBG Entropy Value Register
+ * This register is used to configure the EBG Health tests.
+ */
+union cavm_rnm_ebg_health_cfg
+{
+    uint64_t u;
+    struct cavm_rnm_ebg_health_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
+                                                                 Only writable when RNG_RSTN is 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_ebg_health_cfg_s cn; */
+};
+typedef union cavm_rnm_ebg_health_cfg cavm_rnm_ebg_health_cfg_t;
+
+#define CAVM_RNM_EBG_HEALTH_CFG CAVM_RNM_EBG_HEALTH_CFG_FUNC()
+static inline uint64_t CAVM_RNM_EBG_HEALTH_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_EBG_HEALTH_CFG_FUNC(void)
+{
+    return 0x87e00f000050ll;
+}
+
+#define typedef_CAVM_RNM_EBG_HEALTH_CFG cavm_rnm_ebg_health_cfg_t
+#define bustype_CAVM_RNM_EBG_HEALTH_CFG CSR_TYPE_RSL
+#define basename_CAVM_RNM_EBG_HEALTH_CFG "RNM_EBG_HEALTH_CFG"
+#define device_bar_CAVM_RNM_EBG_HEALTH_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_EBG_HEALTH_CFG 0
+#define arguments_CAVM_RNM_EBG_HEALTH_CFG -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_eer_key
@@ -368,12 +745,10 @@ union cavm_rnm_random
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. This register is on a independent page, and may be mapped into guest operating
-                                                                 systems. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. This register is on a independent page, and may be mapped into guest operating
-                                                                 systems. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_random_s cn; */
@@ -435,11 +810,7 @@ static inline uint64_t CAVM_RNM_SERIAL_NUM_FUNC(void)
  * Register (RSL) rnm_zuc#_init_lfsr#
  *
  * RNM ZUC LFSR Initialization Register
- * This register is used to initialize the state of the 16 state elements in RNM's ZUC
- * LFSR. See RNM_CTL_STATUS[ZUC_EN].
- *
- * Before writing to this register, RNM_CTL_STATUS[ZUC_EN] must be zero to turn off the
- * ZUC engine.
+ * Ignored, deprecated feature.
  */
 union cavm_rnm_zucx_init_lfsrx
 {
@@ -447,11 +818,9 @@ union cavm_rnm_zucx_init_lfsrx
     struct cavm_rnm_zucx_init_lfsrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t lfsr                  : 31; /**< [ 30:  0](SWO) Write the state of one ZUC LFSR element. Writes are ignored if RNM_CONST[ZUCS] is 0xF. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t lfsr                  : 31; /**< [ 30:  0](SWO) Write the state of one ZUC LFSR element. Writes are ignored if RNM_CONST[ZUCS] is 0xF. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_zucx_init_lfsrx_s cn; */
@@ -477,11 +846,7 @@ static inline uint64_t CAVM_RNM_ZUCX_INIT_LFSRX(uint64_t a, uint64_t b)
  * Register (RSL) rnm_zuc#_init_nlf#
  *
  * RNM ZUC LFSR Initialization Register
- * This register is used to initialize the state of the two 32-bit memory cells in
- * ZUC's nonlinear function. See RNM_CTL_STATUS[ZUC_EN].
- *
- * Before writing to this register, RNM_CTL_STATUS[ZUC_EN] must be zero to turn off the
- * ZUC engine.
+ * Ignored, deprecated feature.
  */
 union cavm_rnm_zucx_init_nlfx
 {
@@ -489,13 +854,9 @@ union cavm_rnm_zucx_init_nlfx
     struct cavm_rnm_zucx_init_nlfx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t r_state               : 32; /**< [ 31:  0](SWO) Write the state of one ZUC nonlinear function element. Writes are ignored if
-                                                                 RNM_CONST[ZUCS] is 0xF. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t r_state               : 32; /**< [ 31:  0](SWO) Write the state of one ZUC nonlinear function element. Writes are ignored if
-                                                                 RNM_CONST[ZUCS] is 0xF. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_zucx_init_nlfx_s cn; */

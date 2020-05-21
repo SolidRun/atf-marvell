@@ -26,8 +26,8 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_CPT_AF_INT_VEC_E_FLTX(a) (0 + (a))
-#define CAVM_CPT_AF_INT_VEC_E_RAS (3)
-#define CAVM_CPT_AF_INT_VEC_E_RVU (2)
+#define CAVM_CPT_AF_INT_VEC_E_RAS (4)
+#define CAVM_CPT_AF_INT_VEC_E_RVU (3)
 
 /**
  * Enumeration cpt_comp_e
@@ -1296,8 +1296,8 @@ union cavm_cptx_af_constants1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t ae                    : 16; /**< [ 47: 32](RO/H) Number of AEs. In CNXXXX, for CPT returns 0x20, or less if there are fuse-disables. */
-        uint64_t ie                    : 16; /**< [ 31: 16](RO/H) Number of IEs. In CNXXXX, for CPT returns 0x20, or less if there are fuse-disables. */
+        uint64_t ae                    : 16; /**< [ 47: 32](RO/H) Number of AEs. In CNXXXX, for CPT returns 0x18, or less if there are fuse-disables. */
+        uint64_t ie                    : 16; /**< [ 31: 16](RO/H) Number of IEs. In CNXXXX, for CPT returns 0x38, or less if there are fuse-disables. */
         uint64_t se                    : 16; /**< [ 15:  0](RO/H) "Number of SEs. In CNXXXX, for CPT returns 0x40, or less if there are fuse-disables.
 
                                                                  _ #SE along with #IE and #AE specifies the supported engine indices for SE, IE and AE.
@@ -1315,8 +1315,8 @@ union cavm_cptx_af_constants1
                                                                    _    0    .. #SE-1         = the SEs.
                                                                    _   #SE   .. #SE+#IE-1     = the IEs.
                                                                    _ #SE+#IE .. #SE+#IE+#AE-1 = the AEs." */
-        uint64_t ie                    : 16; /**< [ 31: 16](RO/H) Number of IEs. In CNXXXX, for CPT returns 0x20, or less if there are fuse-disables. */
-        uint64_t ae                    : 16; /**< [ 47: 32](RO/H) Number of AEs. In CNXXXX, for CPT returns 0x20, or less if there are fuse-disables. */
+        uint64_t ie                    : 16; /**< [ 31: 16](RO/H) Number of IEs. In CNXXXX, for CPT returns 0x38, or less if there are fuse-disables. */
+        uint64_t ae                    : 16; /**< [ 47: 32](RO/H) Number of AEs. In CNXXXX, for CPT returns 0x18, or less if there are fuse-disables. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -1804,8 +1804,8 @@ typedef union cavm_cptx_af_exex_active cavm_cptx_af_exex_active_t;
 static inline uint64_t CAVM_CPTX_AF_EXEX_ACTIVE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_EXEX_ACTIVE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
-        return 0x8400a0016000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    if ((a<=1) && (b<=143))
+        return 0x8400a0016000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("CPTX_AF_EXEX_ACTIVE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1900,8 +1900,8 @@ typedef union cavm_cptx_af_exex_ctl cavm_cptx_af_exex_ctl_t;
 static inline uint64_t CAVM_CPTX_AF_EXEX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_EXEX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
-        return 0x8400a0020000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    if ((a<=1) && (b<=143))
+        return 0x8400a0020000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("CPTX_AF_EXEX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1957,8 +1957,8 @@ typedef union cavm_cptx_af_exex_ctl2 cavm_cptx_af_exex_ctl2_t;
 static inline uint64_t CAVM_CPTX_AF_EXEX_CTL2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_EXEX_CTL2(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
-        return 0x8400a0012000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    if ((a<=1) && (b<=143))
+        return 0x8400a0012000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("CPTX_AF_EXEX_CTL2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2020,8 +2020,8 @@ typedef union cavm_cptx_af_exex_sts cavm_cptx_af_exex_sts_t;
 static inline uint64_t CAVM_CPTX_AF_EXEX_STS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_EXEX_STS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
-        return 0x8400a0013000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    if ((a<=1) && (b<=143))
+        return 0x8400a0013000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("CPTX_AF_EXEX_STS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2067,8 +2067,8 @@ typedef union cavm_cptx_af_exex_ucode_base cavm_cptx_af_exex_ucode_base_t;
 static inline uint64_t CAVM_CPTX_AF_EXEX_UCODE_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_EXEX_UCODE_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
-        return 0x8400a0026000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    if ((a<=1) && (b<=143))
+        return 0x8400a0026000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("CPTX_AF_EXEX_UCODE_BASE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2498,6 +2498,7 @@ union cavm_cptx_af_fltx_int
 
                                                                  _ CPT_AF_FLT(0)_INT[EXE] - engine(63..0).
                                                                  _ CPT_AF_FLT(1)_INT[EXE] - engine(127..64).
+                                                                 _ CPT_AF_FLT(2)_INT[EXE] - engine(143..128).
 
                                                                  Only the following bit indices are supported:
                                                                  _    0    .. #SE-1         = the SEs.
@@ -2536,6 +2537,7 @@ union cavm_cptx_af_fltx_int
 
                                                                  _ CPT_AF_FLT(0)_INT[EXE] - engine(63..0).
                                                                  _ CPT_AF_FLT(1)_INT[EXE] - engine(127..64).
+                                                                 _ CPT_AF_FLT(2)_INT[EXE] - engine(143..128).
 
                                                                  Only the following bit indices are supported:
                                                                  _    0    .. #SE-1         = the SEs.
@@ -2571,8 +2573,8 @@ typedef union cavm_cptx_af_fltx_int cavm_cptx_af_fltx_int_t;
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x8400a000a000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=2))
+        return 0x8400a000a000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("CPTX_AF_FLTX_INT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2595,7 +2597,7 @@ union cavm_cptx_af_fltx_int_ena_w1c
     struct cavm_cptx_af_fltx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..1)_INT[EXE].
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..2)_INT[EXE].
                                                                  Internal:
                                                                  Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
                                                                  EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
@@ -2604,7 +2606,7 @@ union cavm_cptx_af_fltx_int_ena_w1c
                                                                  FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
                                                                  when CPT_AF_EXE()_STS[BUSY] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..1)_INT[EXE].
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..2)_INT[EXE].
                                                                  Internal:
                                                                  Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
                                                                  EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
@@ -2621,8 +2623,8 @@ typedef union cavm_cptx_af_fltx_int_ena_w1c cavm_cptx_af_fltx_int_ena_w1c_t;
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x8400a000c000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=2))
+        return 0x8400a000c000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("CPTX_AF_FLTX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2645,7 +2647,7 @@ union cavm_cptx_af_fltx_int_ena_w1s
     struct cavm_cptx_af_fltx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..1)_INT[EXE].
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..2)_INT[EXE].
                                                                  Internal:
                                                                  Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
                                                                  EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
@@ -2654,7 +2656,7 @@ union cavm_cptx_af_fltx_int_ena_w1s
                                                                  FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
                                                                  when CPT_AF_EXE()_STS[BUSY] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..1)_INT[EXE].
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..2)_INT[EXE].
                                                                  Internal:
                                                                  Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
                                                                  EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
@@ -2671,8 +2673,8 @@ typedef union cavm_cptx_af_fltx_int_ena_w1s cavm_cptx_af_fltx_int_ena_w1s_t;
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x8400a000d000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=2))
+        return 0x8400a000d000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("CPTX_AF_FLTX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2695,7 +2697,7 @@ union cavm_cptx_af_fltx_int_w1s
     struct cavm_cptx_af_fltx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..1)_INT[EXE].
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..2)_INT[EXE].
                                                                  Internal:
                                                                  Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
                                                                  EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
@@ -2704,7 +2706,7 @@ union cavm_cptx_af_fltx_int_w1s
                                                                  FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
                                                                  when CPT_AF_EXE()_STS[BUSY] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..1)_INT[EXE].
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..2)_INT[EXE].
                                                                  Internal:
                                                                  Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
                                                                  EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
@@ -2721,8 +2723,8 @@ typedef union cavm_cptx_af_fltx_int_w1s cavm_cptx_af_fltx_int_w1s_t;
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_FLTX_INT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x8400a000b000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=2))
+        return 0x8400a000b000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("CPTX_AF_FLTX_INT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3396,6 +3398,7 @@ union cavm_cptx_af_psnx_exe
 
                                                                  _ CPT_AF_PSN(0)_EXE[EXE] - engine(63..0).
                                                                  _ CPT_AF_PSN(1)_EXE[EXE] - engine(127..64).
+                                                                 _ CPT_AF_PSN(2)_EXE[EXE] - engine(143..128).
 
                                                                  Only the following bit indices are supported:
                                                                  _    0    .. #SE-1         = the SEs.
@@ -3431,6 +3434,7 @@ union cavm_cptx_af_psnx_exe
 
                                                                  _ CPT_AF_PSN(0)_EXE[EXE] - engine(63..0).
                                                                  _ CPT_AF_PSN(1)_EXE[EXE] - engine(127..64).
+                                                                 _ CPT_AF_PSN(2)_EXE[EXE] - engine(143..128).
 
                                                                  Only the following bit indices are supported:
                                                                  _    0    .. #SE-1         = the SEs.
@@ -3467,8 +3471,8 @@ typedef union cavm_cptx_af_psnx_exe cavm_cptx_af_psnx_exe_t;
 static inline uint64_t CAVM_CPTX_AF_PSNX_EXE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_PSNX_EXE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x8400a000e000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=2))
+        return 0x8400a000e000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("CPTX_AF_PSNX_EXE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3491,9 +3495,9 @@ union cavm_cptx_af_psnx_exe_w1s
     struct cavm_cptx_af_psnx_exe_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_PSN(0..1)_EXE[EXE]. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_PSN(0..2)_EXE[EXE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_PSN(0..1)_EXE[EXE]. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_PSN(0..2)_EXE[EXE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_psnx_exe_w1s_s cn; */
@@ -3503,8 +3507,8 @@ typedef union cavm_cptx_af_psnx_exe_w1s cavm_cptx_af_psnx_exe_w1s_t;
 static inline uint64_t CAVM_CPTX_AF_PSNX_EXE_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPTX_AF_PSNX_EXE_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x8400a000f000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=2))
+        return 0x8400a000f000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("CPTX_AF_PSNX_EXE_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -4431,7 +4435,7 @@ static inline uint64_t CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPTX_LF_CTX_DEC_BYTE_CNT(uint64_t a)
 {
     if (a<=1)
-        return 0x840200a00540ll + 0x100000ll * ((a) & 0x1);
+        return 0x840200a00550ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("CPTX_LF_CTX_DEC_BYTE_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4467,7 +4471,7 @@ static inline uint64_t CAVM_CPTX_LF_CTX_DEC_PKT_CNT(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_CPTX_LF_CTX_DEC_PKT_CNT(uint64_t a)
 {
     if (a<=1)
-        return 0x840200a00550ll + 0x100000ll * ((a) & 0x1);
+        return 0x840200a00560ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("CPTX_LF_CTX_DEC_PKT_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4508,7 +4512,7 @@ static inline uint64_t CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPTX_LF_CTX_ENC_BYTE_CNT(uint64_t a)
 {
     if (a<=1)
-        return 0x840200a00520ll + 0x100000ll * ((a) & 0x1);
+        return 0x840200a00530ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("CPTX_LF_CTX_ENC_BYTE_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4549,7 +4553,7 @@ static inline uint64_t CAVM_CPTX_LF_CTX_ENC_PKT_CNT(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_CPTX_LF_CTX_ENC_PKT_CNT(uint64_t a)
 {
     if (a<=1)
-        return 0x840200a00530ll + 0x100000ll * ((a) & 0x1);
+        return 0x840200a00540ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("CPTX_LF_CTX_ENC_PKT_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4559,6 +4563,45 @@ static inline uint64_t CAVM_CPTX_LF_CTX_ENC_PKT_CNT(uint64_t a)
 #define device_bar_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) (a)
 #define arguments_CAVM_CPTX_LF_CTX_ENC_PKT_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_err
+ *
+ * CPT LF CTX Error Registers
+ */
+union cavm_cptx_lf_ctx_err
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue while there are still entries on its ordered list. */
+        uint64_t flush_st_flt          : 1;  /**< [  0:  0](R/W/H) This bit is set when a software-initiated CTX flush (via CPT_LF_CTX_FLUSH) causes a store fault. */
+#else /* Word 0 - Little Endian */
+        uint64_t flush_st_flt          : 1;  /**< [  0:  0](R/W/H) This bit is set when a software-initiated CTX flush (via CPT_LF_CTX_FLUSH) causes a store fault. */
+        uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue while there are still entries on its ordered list. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_err_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_err cavm_cptx_lf_ctx_err_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_ERR(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00520ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_ERR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_ERR(a) cavm_cptx_lf_ctx_err_t
+#define bustype_CAVM_CPTX_LF_CTX_ERR(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_ERR(a) "CPTX_LF_CTX_ERR"
+#define device_bar_CAVM_CPTX_LF_CTX_ERR(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_ERR(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_ERR(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_flush

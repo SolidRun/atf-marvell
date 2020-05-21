@@ -142,13 +142,135 @@ union cavm_dssx_int_ena_w1c
     struct cavm_dssx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[RDNXM]. */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_63]. */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_62]. */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_61]. */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_60]. */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_59]. */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_58]. */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_57]. */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_56]. */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_55]. */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_54]. */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_53]. */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_52]. */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_51]. */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_50]. */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_49]. */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_48]. */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_47]. */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_46]. */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_45]. */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_44]. */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_43]. */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_42]. */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_41]. */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_40]. */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_39]. */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_38]. */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_37]. */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_36]. */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_35]. */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_34]. */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_33]. */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_32]. */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_31]. */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_30]. */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_29]. */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_28]. */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_27]. */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_26]. */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_25]. */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_24]. */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_23]. */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_22]. */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_21]. */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_20]. */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_19]. */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_18]. */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_17]. */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_16]. */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_15]. */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_14]. */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_13]. */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_12]. */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_11]. */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_10]. */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_09]. */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_08]. */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_07]. */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_06]. */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_05]. */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_04]. */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_03]. */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_02]. */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_01]. */
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_00]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[WRNXM]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_00]. */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_01]. */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_02]. */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_03]. */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_04]. */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_05]. */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_06]. */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_07]. */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_08]. */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_09]. */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_10]. */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_11]. */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_12]. */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_13]. */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_14]. */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_15]. */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_16]. */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_17]. */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_18]. */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_19]. */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_20]. */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_21]. */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_22]. */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_23]. */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_24]. */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_25]. */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_26]. */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_27]. */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_28]. */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_29]. */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_30]. */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_31]. */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_32]. */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_33]. */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_34]. */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_35]. */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_36]. */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_37]. */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_38]. */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_39]. */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_40]. */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_41]. */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_42]. */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_43]. */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_44]. */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_45]. */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_46]. */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_47]. */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_48]. */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_49]. */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_50]. */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_51]. */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_52]. */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_53]. */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_54]. */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_55]. */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_56]. */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_57]. */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_58]. */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_59]. */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_60]. */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_61]. */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_62]. */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[INT_63]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_ena_w1c_s cn; */
@@ -182,13 +304,135 @@ union cavm_dssx_int_ena_w1s
     struct cavm_dssx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[RDNXM]. */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_63]. */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_62]. */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_61]. */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_60]. */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_59]. */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_58]. */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_57]. */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_56]. */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_55]. */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_54]. */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_53]. */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_52]. */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_51]. */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_50]. */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_49]. */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_48]. */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_47]. */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_46]. */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_45]. */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_44]. */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_43]. */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_42]. */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_41]. */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_40]. */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_39]. */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_38]. */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_37]. */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_36]. */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_35]. */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_34]. */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_33]. */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_32]. */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_31]. */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_30]. */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_29]. */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_28]. */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_27]. */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_26]. */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_25]. */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_24]. */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_23]. */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_22]. */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_21]. */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_20]. */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_19]. */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_18]. */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_17]. */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_16]. */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_15]. */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_14]. */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_13]. */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_12]. */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_11]. */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_10]. */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_09]. */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_08]. */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_07]. */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_06]. */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_05]. */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_04]. */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_03]. */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_02]. */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_01]. */
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_00]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[WRNXM]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_00]. */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_01]. */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_02]. */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_03]. */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_04]. */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_05]. */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_06]. */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_07]. */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_08]. */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_09]. */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_10]. */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_11]. */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_12]. */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_13]. */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_14]. */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_15]. */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_16]. */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_17]. */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_18]. */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_19]. */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_20]. */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_21]. */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_22]. */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_23]. */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_24]. */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_25]. */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_26]. */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_27]. */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_28]. */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_29]. */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_30]. */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_31]. */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_32]. */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_33]. */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_34]. */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_35]. */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_36]. */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_37]. */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_38]. */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_39]. */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_40]. */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_41]. */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_42]. */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_43]. */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_44]. */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_45]. */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_46]. */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_47]. */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_48]. */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_49]. */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_50]. */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_51]. */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_52]. */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_53]. */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_54]. */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_55]. */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_56]. */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_57]. */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_58]. */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_59]. */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_60]. */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_61]. */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_62]. */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[INT_63]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_ena_w1s_s cn; */
@@ -222,13 +466,135 @@ union cavm_dssx_int_w1c
     struct cavm_dssx_int_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) TBD */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) TBD */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1C/H) TBD */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1C/H) TBD */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1C/H) TBD */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1C/H) TBD */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1C/H) TBD */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1C/H) TBD */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1C/H) TBD */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1C/H) TBD */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1C/H) TBD */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1C/H) TBD */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1C/H) TBD */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1C/H) TBD */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1C/H) TBD */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1C/H) TBD */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1C/H) TBD */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1C/H) TBD */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1C/H) TBD */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1C/H) TBD */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1C/H) TBD */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1C/H) TBD */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1C/H) TBD */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1C/H) TBD */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1C/H) TBD */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1C/H) TBD */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1C/H) TBD */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1C/H) TBD */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1C/H) TBD */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1C/H) TBD */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1C/H) TBD */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1C/H) TBD */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1C/H) TBD */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1C/H) TBD */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1C/H) TBD */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1C/H) TBD */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1C/H) TBD */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1C/H) TBD */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1C/H) TBD */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1C/H) TBD */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1C/H) TBD */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1C/H) TBD */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1C/H) TBD */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1C/H) TBD */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1C/H) TBD */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1C/H) TBD */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1C/H) TBD */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1C/H) TBD */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1C/H) TBD */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1C/H) TBD */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1C/H) TBD */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1C/H) TBD */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1C/H) TBD */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1C/H) TBD */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1C/H) TBD */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1C/H) TBD */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1C/H) TBD */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1C/H) TBD */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1C/H) TBD */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1C/H) TBD */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1C/H) TBD */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1C/H) TBD */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1C/H) TBD */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1C/H) TBD */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1C/H) TBD */
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1C/H) TBD */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) TBD */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) TBD */
-        uint64_t reserved_2_63         : 62;
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1C/H) TBD */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1C/H) TBD */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1C/H) TBD */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1C/H) TBD */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1C/H) TBD */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1C/H) TBD */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1C/H) TBD */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1C/H) TBD */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1C/H) TBD */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1C/H) TBD */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1C/H) TBD */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1C/H) TBD */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1C/H) TBD */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1C/H) TBD */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1C/H) TBD */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1C/H) TBD */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1C/H) TBD */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1C/H) TBD */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1C/H) TBD */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1C/H) TBD */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1C/H) TBD */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1C/H) TBD */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1C/H) TBD */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1C/H) TBD */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1C/H) TBD */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1C/H) TBD */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1C/H) TBD */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1C/H) TBD */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1C/H) TBD */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1C/H) TBD */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1C/H) TBD */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1C/H) TBD */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1C/H) TBD */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1C/H) TBD */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1C/H) TBD */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1C/H) TBD */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1C/H) TBD */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1C/H) TBD */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1C/H) TBD */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1C/H) TBD */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1C/H) TBD */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1C/H) TBD */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1C/H) TBD */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1C/H) TBD */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1C/H) TBD */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1C/H) TBD */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1C/H) TBD */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1C/H) TBD */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1C/H) TBD */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1C/H) TBD */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1C/H) TBD */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1C/H) TBD */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1C/H) TBD */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1C/H) TBD */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1C/H) TBD */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1C/H) TBD */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1C/H) TBD */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1C/H) TBD */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1C/H) TBD */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1C/H) TBD */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1C/H) TBD */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1C/H) TBD */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1C/H) TBD */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1C/H) TBD */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_w1c_s cn; */
@@ -262,13 +628,135 @@ union cavm_dssx_int_w1s
     struct cavm_dssx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[RDNXM]. */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_63]. */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_62]. */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_61]. */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_60]. */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_59]. */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_58]. */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_57]. */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_56]. */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_55]. */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_54]. */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_53]. */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_52]. */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_51]. */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_50]. */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_49]. */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_48]. */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_47]. */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_46]. */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_45]. */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_44]. */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_43]. */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_42]. */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_41]. */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_40]. */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_39]. */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_38]. */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_37]. */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_36]. */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_35]. */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_34]. */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_33]. */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_32]. */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_31]. */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_30]. */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_29]. */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_28]. */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_27]. */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_26]. */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_25]. */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_24]. */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_23]. */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_22]. */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_21]. */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_20]. */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_19]. */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_18]. */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_17]. */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_16]. */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_15]. */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_14]. */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_13]. */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_12]. */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_11]. */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_10]. */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_09]. */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_08]. */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_07]. */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_06]. */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_05]. */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_04]. */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_03]. */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_02]. */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_01]. */
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_00]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[WRNXM]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t int_00                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_00]. */
+        uint64_t int_01                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_01]. */
+        uint64_t int_02                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_02]. */
+        uint64_t int_03                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_03]. */
+        uint64_t int_04                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_04]. */
+        uint64_t int_05                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_05]. */
+        uint64_t int_06                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_06]. */
+        uint64_t int_07                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_07]. */
+        uint64_t int_08                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_08]. */
+        uint64_t int_09                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_09]. */
+        uint64_t int_10                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_10]. */
+        uint64_t int_11                : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_11]. */
+        uint64_t int_12                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_12]. */
+        uint64_t int_13                : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_13]. */
+        uint64_t int_14                : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_14]. */
+        uint64_t int_15                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_15]. */
+        uint64_t int_16                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_16]. */
+        uint64_t int_17                : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_17]. */
+        uint64_t int_18                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_18]. */
+        uint64_t int_19                : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_19]. */
+        uint64_t int_20                : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_20]. */
+        uint64_t int_21                : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_21]. */
+        uint64_t int_22                : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_22]. */
+        uint64_t int_23                : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_23]. */
+        uint64_t int_24                : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_24]. */
+        uint64_t int_25                : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_25]. */
+        uint64_t int_26                : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_26]. */
+        uint64_t int_27                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_27]. */
+        uint64_t int_28                : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_28]. */
+        uint64_t int_29                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_29]. */
+        uint64_t int_30                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_30]. */
+        uint64_t int_31                : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_31]. */
+        uint64_t int_32                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_32]. */
+        uint64_t int_33                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_33]. */
+        uint64_t int_34                : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_34]. */
+        uint64_t int_35                : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_35]. */
+        uint64_t int_36                : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_36]. */
+        uint64_t int_37                : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_37]. */
+        uint64_t int_38                : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_38]. */
+        uint64_t int_39                : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_39]. */
+        uint64_t int_40                : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_40]. */
+        uint64_t int_41                : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_41]. */
+        uint64_t int_42                : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_42]. */
+        uint64_t int_43                : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_43]. */
+        uint64_t int_44                : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_44]. */
+        uint64_t int_45                : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_45]. */
+        uint64_t int_46                : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_46]. */
+        uint64_t int_47                : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_47]. */
+        uint64_t int_48                : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_48]. */
+        uint64_t int_49                : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_49]. */
+        uint64_t int_50                : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_50]. */
+        uint64_t int_51                : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_51]. */
+        uint64_t int_52                : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_52]. */
+        uint64_t int_53                : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_53]. */
+        uint64_t int_54                : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_54]. */
+        uint64_t int_55                : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_55]. */
+        uint64_t int_56                : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_56]. */
+        uint64_t int_57                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_57]. */
+        uint64_t int_58                : 1;  /**< [ 58: 58](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_58]. */
+        uint64_t int_59                : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_59]. */
+        uint64_t int_60                : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_60]. */
+        uint64_t int_61                : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_61]. */
+        uint64_t int_62                : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_62]. */
+        uint64_t int_63                : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[INT_63]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_w1s_s cn; */
@@ -732,18 +1220,16 @@ union cavm_dss_mctx_cmn_ctrl
     struct cavm_dss_mctx_cmn_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t s_dfi_mct_freq_ratio  : 1;  /**< [  6:  6](SR/W) DFI to MCT clock frequency ratio:
+        uint64_t reserved_6_63         : 58;
+        uint64_t s_dfi_mct_freq_ratio  : 1;  /**< [  5:  5](SR/W) DFI to MCT clock frequency ratio:
                                                                  0x0 - 1:1.
                                                                  0x1 - 1:2. */
-        uint64_t s_dfi_memory_freq_ratio : 1;/**< [  5:  5](SR/W) DFI to memory clock frequency ratio:
+        uint64_t s_dfi_memory_freq_ratio : 1;/**< [  4:  4](SR/W) DFI to memory clock frequency ratio:
                                                                  0x0 - 1:2.
                                                                  0x1 - 1:4. */
-        uint64_t s_ecc_type            : 2;  /**< [  4:  3](SR/W) ECC type:
-                                                                 0x0- 32data-4ecc - multi beat x4.
-                                                                 0x1- 32data-7ecc - single beat.
-                                                                 0x2- 32data-8ecc - multi beat x8.
-                                                                 0x3- 16data-6ecc - single beat with half bus width. */
+        uint64_t s_ecc_type            : 1;  /**< [  3:  3](SR/W) ECC type:
+                                                                 0x0- Single Beat ECC.
+                                                                 0x1- Multi Beat ECC. */
         uint64_t s_data_width          : 2;  /**< [  2:  1](SR/W) Data width:
                                                                  0x0 - 64bits -- Not supported.
                                                                  0x1 - 32bits.
@@ -761,18 +1247,16 @@ union cavm_dss_mctx_cmn_ctrl
                                                                  0x1 - 32bits.
                                                                  0x2 - 16bits -- supported only in DDR5.
                                                                  0x3 - Reserved. */
-        uint64_t s_ecc_type            : 2;  /**< [  4:  3](SR/W) ECC type:
-                                                                 0x0- 32data-4ecc - multi beat x4.
-                                                                 0x1- 32data-7ecc - single beat.
-                                                                 0x2- 32data-8ecc - multi beat x8.
-                                                                 0x3- 16data-6ecc - single beat with half bus width. */
-        uint64_t s_dfi_memory_freq_ratio : 1;/**< [  5:  5](SR/W) DFI to memory clock frequency ratio:
+        uint64_t s_ecc_type            : 1;  /**< [  3:  3](SR/W) ECC type:
+                                                                 0x0- Single Beat ECC.
+                                                                 0x1- Multi Beat ECC. */
+        uint64_t s_dfi_memory_freq_ratio : 1;/**< [  4:  4](SR/W) DFI to memory clock frequency ratio:
                                                                  0x0 - 1:2.
                                                                  0x1 - 1:4. */
-        uint64_t s_dfi_mct_freq_ratio  : 1;  /**< [  6:  6](SR/W) DFI to MCT clock frequency ratio:
+        uint64_t s_dfi_mct_freq_ratio  : 1;  /**< [  5:  5](SR/W) DFI to MCT clock frequency ratio:
                                                                  0x0 - 1:1.
                                                                  0x1 - 1:2. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dss_mctx_cmn_ctrl_s cn; */
@@ -929,7 +1413,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_HIGH(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_HIGH(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011f0ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c001208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_DATA_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -968,7 +1452,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_LOW(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_LOW(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011e8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c001200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_DATA_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1007,7 +1491,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_HIGH(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_HIGH(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011e0ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_KEY_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1031,11 +1515,11 @@ union cavm_dss_mctx_dbg_sw_key_low
     struct cavm_dss_mctx_dbg_sw_key_low_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t s_dbg_sw_key_lo       : 64; /**< [ 63:  0](SR/W) "'bits[63:0] of encryption/decryption key.
-                                                                 Note: this field is valid only when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x1." */
+        uint64_t s_dbg_sw_key_lo       : 64; /**< [ 63:  0](SR/W) bits[63:0] of encryption/decryption key.
+                                                                 Note: this field is valid only when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x1. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_dbg_sw_key_lo       : 64; /**< [ 63:  0](SR/W) "'bits[63:0] of encryption/decryption key.
-                                                                 Note: this field is valid only when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x1." */
+        uint64_t s_dbg_sw_key_lo       : 64; /**< [ 63:  0](SR/W) bits[63:0] of encryption/decryption key.
+                                                                 Note: this field is valid only when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x1. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dss_mctx_dbg_sw_key_low_s cn; */
@@ -1046,7 +1530,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_LOW(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_LOW(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011d8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_KEY_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1111,7 +1595,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CMD_CTRL(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CMD_CTRL(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011d0ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_OP_CMD_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1160,7 +1644,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CTRL(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CTRL(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011c8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1174,7 +1658,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CTRL(uint64_t a)
 /**
  * Register (RSL) dss_mct#_dbg_sw_resp_high
  *
- * DSS MCT SW debug response Register
+ * DSS MCT Software Debug Response Register
  * Holds the higher bits of the debug response data for the
  * encryption/decryption operation of SW commands.
  */
@@ -1199,7 +1683,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_HIGH(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_HIGH(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c001200ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c001218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_RESP_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1238,7 +1722,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_LOW(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_LOW(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011f8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c001210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_RESP_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1337,18 +1821,116 @@ static inline uint64_t CAVM_DSS_MCTX_ENABLE(uint64_t a)
 #define arguments_CAVM_DSS_MCTX_ENABLE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dss_mct#_int_register
+ * Register (RSL) dss_mct#_int_ena_w1c
+ *
+ * DSS MCT Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_dss_mctx_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_dss_mctx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
+        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
+        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
+        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
+        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dss_mctx_int_ena_w1c_s cn; */
+};
+typedef union cavm_dss_mctx_int_ena_w1c cavm_dss_mctx_int_ena_w1c_t;
+
+static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1C(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c0011d0ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSS_MCTX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSS_MCTX_INT_ENA_W1C(a) cavm_dss_mctx_int_ena_w1c_t
+#define bustype_CAVM_DSS_MCTX_INT_ENA_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_DSS_MCTX_INT_ENA_W1C(a) "DSS_MCTX_INT_ENA_W1C"
+#define device_bar_CAVM_DSS_MCTX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSS_MCTX_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_DSS_MCTX_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dss_mct#_int_ena_w1s
+ *
+ * DSS MCT Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_dss_mctx_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_dss_mctx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
+        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
+        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
+        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
+        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dss_mctx_int_ena_w1s_s cn; */
+};
+typedef union cavm_dss_mctx_int_ena_w1s cavm_dss_mctx_int_ena_w1s_t;
+
+static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1S(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c0011d8ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSS_MCTX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSS_MCTX_INT_ENA_W1S(a) cavm_dss_mctx_int_ena_w1s_t
+#define bustype_CAVM_DSS_MCTX_INT_ENA_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_DSS_MCTX_INT_ENA_W1S(a) "DSS_MCTX_INT_ENA_W1S"
+#define device_bar_CAVM_DSS_MCTX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSS_MCTX_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_DSS_MCTX_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dss_mct#_int_w1c
  *
  * DSS MCT Interrupts Register
  * This register defines the crypto Interrupts.
  */
-union cavm_dss_mctx_int_register
+union cavm_dss_mctx_int_w1c
 {
     uint64_t u;
-    struct cavm_dss_mctx_int_register_s
+    struct cavm_dss_mctx_int_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_6_63         : 58;
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) When set, indicates there was overflow in write data FIFO. */
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) When set, indicates there was overflow in read FIFO. */
         uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) When set, indicates there was write access to an address
                                                                  that configured in two windows or more. */
         uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) When set, indicates there was read access to an address
@@ -1362,27 +1944,77 @@ union cavm_dss_mctx_int_register
                                                                  that configured in two windows or more. */
         uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) When set, indicates there was write access to an address
                                                                  that configured in two windows or more. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) When set, indicates there was overflow in read FIFO. */
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) When set, indicates there was overflow in write data FIFO. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dss_mctx_int_register_s cn; */
+    /* struct cavm_dss_mctx_int_w1c_s cn; */
 };
-typedef union cavm_dss_mctx_int_register cavm_dss_mctx_int_register_t;
+typedef union cavm_dss_mctx_int_w1c cavm_dss_mctx_int_w1c_t;
 
-static inline uint64_t CAVM_DSS_MCTX_INT_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSS_MCTX_INT_REGISTER(uint64_t a)
+static inline uint64_t CAVM_DSS_MCTX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSS_MCTX_INT_W1C(uint64_t a)
 {
     if (a<=3)
         return 0x87e03c0011c0ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("DSS_MCTX_INT_REGISTER", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("DSS_MCTX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DSS_MCTX_INT_REGISTER(a) cavm_dss_mctx_int_register_t
-#define bustype_CAVM_DSS_MCTX_INT_REGISTER(a) CSR_TYPE_RSL
-#define basename_CAVM_DSS_MCTX_INT_REGISTER(a) "DSS_MCTX_INT_REGISTER"
-#define device_bar_CAVM_DSS_MCTX_INT_REGISTER(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSS_MCTX_INT_REGISTER(a) (a)
-#define arguments_CAVM_DSS_MCTX_INT_REGISTER(a) (a),-1,-1,-1
+#define typedef_CAVM_DSS_MCTX_INT_W1C(a) cavm_dss_mctx_int_w1c_t
+#define bustype_CAVM_DSS_MCTX_INT_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_DSS_MCTX_INT_W1C(a) "DSS_MCTX_INT_W1C"
+#define device_bar_CAVM_DSS_MCTX_INT_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSS_MCTX_INT_W1C(a) (a)
+#define arguments_CAVM_DSS_MCTX_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dss_mct#_int_w1s
+ *
+ * DSS MCT Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+union cavm_dss_mctx_int_w1s
+{
+    uint64_t u;
+    struct cavm_dss_mctx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
+        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
+        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
+        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
+        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
+        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
+        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dss_mctx_int_w1s_s cn; */
+};
+typedef union cavm_dss_mctx_int_w1s cavm_dss_mctx_int_w1s_t;
+
+static inline uint64_t CAVM_DSS_MCTX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSS_MCTX_INT_W1S(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c0011c8ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSS_MCTX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSS_MCTX_INT_W1S(a) cavm_dss_mctx_int_w1s_t
+#define bustype_CAVM_DSS_MCTX_INT_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_DSS_MCTX_INT_W1S(a) "DSS_MCTX_INT_W1S"
+#define device_bar_CAVM_DSS_MCTX_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSS_MCTX_INT_W1S(a) (a)
+#define arguments_CAVM_DSS_MCTX_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dss_mct#_key_hi

@@ -17103,53 +17103,6 @@ static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_PROT(uint64_t a)
 #define arguments_CAVM_GSERPX_COMMON_PHY_CTRL_PROT(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) gserp#_common_phy_ctrl_stall
- *
- * GSERP PHY Common Control Stall Register
- */
-union cavm_gserpx_common_phy_ctrl_stall
-{
-    uint64_t u;
-    struct cavm_gserpx_common_phy_ctrl_stall_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t csr_force_stall       : 1;  /**< [  1:  1](R/W) CSR controlled stall for accesses to CPU program and data memory.
-                                                                   0x0 - does not assert stall to CPU program and data memory
-                                                                   0x1 - asserts stall stall to CPU program and data memory */
-        uint64_t csr_mask_stall        : 1;  /**< [  0:  0](R/W) Hardware stall mask control for accesses to CPU program and data memory.
-                                                                   0x0 - Hardware stall from RSL access is enabled
-                                                                   0x1 - Hardware stall from RSL access is disabled (masked) */
-#else /* Word 0 - Little Endian */
-        uint64_t csr_mask_stall        : 1;  /**< [  0:  0](R/W) Hardware stall mask control for accesses to CPU program and data memory.
-                                                                   0x0 - Hardware stall from RSL access is enabled
-                                                                   0x1 - Hardware stall from RSL access is disabled (masked) */
-        uint64_t csr_force_stall       : 1;  /**< [  1:  1](R/W) CSR controlled stall for accesses to CPU program and data memory.
-                                                                   0x0 - does not assert stall to CPU program and data memory
-                                                                   0x1 - asserts stall stall to CPU program and data memory */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_common_phy_ctrl_stall_s cn; */
-};
-typedef union cavm_gserpx_common_phy_ctrl_stall cavm_gserpx_common_phy_ctrl_stall_t;
-
-static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_STALL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_STALL(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e090020068ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_COMMON_PHY_CTRL_STALL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_COMMON_PHY_CTRL_STALL(a) cavm_gserpx_common_phy_ctrl_stall_t
-#define bustype_CAVM_GSERPX_COMMON_PHY_CTRL_STALL(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_COMMON_PHY_CTRL_STALL(a) "GSERPX_COMMON_PHY_CTRL_STALL"
-#define device_bar_CAVM_GSERPX_COMMON_PHY_CTRL_STALL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_COMMON_PHY_CTRL_STALL(a) (a)
-#define arguments_CAVM_GSERPX_COMMON_PHY_CTRL_STALL(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) gserp#_common_phy_status_bsts
  *
  * GSERP PHY Common Status Register
@@ -32829,9 +32782,17 @@ union cavm_gserpx_furcation_mode
     struct cavm_gserpx_furcation_mode_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pipe_strap_enable     : 1;  /**< [ 63: 63](R/W) Chip-dependent mux configuration information.  Usage TBD. */
+        uint64_t pipe_strap_enable     : 1;  /**< [ 63: 63](R/W) For debug purposes only. Should always be set to 1. */
         uint64_t reserved_7_62         : 56;
-        uint64_t mux_cfg               : 3;  /**< [  6:  4](R/W) Chip-dependent mux configuration information.  Usage TBD. */
+        uint64_t mux_cfg               : 3;  /**< [  6:  4](R/W) THIS IS FOR T106xx.
+                                                                 For GSERP0:
+                                                                   0   = Connect GSERP0 to PEM0 as a x4; PEM1 unused.
+                                                                   1   = Connect GSERP0 to PEM0 as a x2; connect GSERP0 to PEM1 as a x2.
+                                                                   2-7 = Reserved.
+                                                                 For GSERP1:
+                                                                   0   = Reserved.
+                                                                   1   = Connect GSERP1 to PEM2 as a x2; connect GSERP1 to PEM3 as a x2.
+                                                                   2-7 = Reserved. */
         uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
                                                                    0x0 - pipe0 (x4) to QLM lanes 3-0
                                                                    0x1 - pipe0 (x2) to QLM lanes 1-0, pipe1 (x2) to QLM lanes 3-2
@@ -32841,9 +32802,17 @@ union cavm_gserpx_furcation_mode
                                                                    0x0 - pipe0 (x4) to QLM lanes 3-0
                                                                    0x1 - pipe0 (x2) to QLM lanes 1-0, pipe1 (x2) to QLM lanes 3-2
                                                                    All other values reserved. */
-        uint64_t mux_cfg               : 3;  /**< [  6:  4](R/W) Chip-dependent mux configuration information.  Usage TBD. */
+        uint64_t mux_cfg               : 3;  /**< [  6:  4](R/W) THIS IS FOR T106xx.
+                                                                 For GSERP0:
+                                                                   0   = Connect GSERP0 to PEM0 as a x4; PEM1 unused.
+                                                                   1   = Connect GSERP0 to PEM0 as a x2; connect GSERP0 to PEM1 as a x2.
+                                                                   2-7 = Reserved.
+                                                                 For GSERP1:
+                                                                   0   = Reserved.
+                                                                   1   = Connect GSERP1 to PEM2 as a x2; connect GSERP1 to PEM3 as a x2.
+                                                                   2-7 = Reserved. */
         uint64_t reserved_7_62         : 56;
-        uint64_t pipe_strap_enable     : 1;  /**< [ 63: 63](R/W) Chip-dependent mux configuration information.  Usage TBD. */
+        uint64_t pipe_strap_enable     : 1;  /**< [ 63: 63](R/W) For debug purposes only. Should always be set to 1. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_furcation_mode_s cn; */
@@ -34903,7 +34872,7 @@ static inline uint64_t CAVM_GSERPX_INIT_CTL(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_GSERPX_INIT_CTL(uint64_t a)
 {
     if (a<=8)
-        return 0x87e090020088ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e090020080ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_INIT_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61610,18 +61579,18 @@ static inline uint64_t CAVM_GSERPX_PROCESSMON_REG1(uint64_t a)
 #define arguments_CAVM_GSERPX_PROCESSMON_REG1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) gserp#_refclk_ctr
+ * Register (RSL) gserp#_refclk1_ctr
  *
- * GSERP QLM Reference Clock Cycle Counter Register
- * A free-running counter of PLL reference clock cycles to enable rough
- * confirmation of reference clock frequency via software. Read the counter; wait some
- * time, e.g., 100ms; read the counter; calculate frequency based on the difference in
- * values during the known wait time.
+ * GSERP QLM Reference Clock1 Cycle Counter Register
+ * A free-running counter of reference clock group1 cycles to enable rough
+ * confirmation of reference clock frequency via software. Read the counter;
+ * wait some time, e.g., 100ms; read the counter; calculate frequency based
+ * on the difference in values during the known wait time.
  */
-union cavm_gserpx_refclk_ctr
+union cavm_gserpx_refclk1_ctr
 {
     uint64_t u;
-    struct cavm_gserpx_refclk_ctr_s
+    struct cavm_gserpx_refclk1_ctr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
@@ -61629,24 +61598,63 @@ union cavm_gserpx_refclk_ctr
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gserpx_refclk_ctr_s cn; */
+    /* struct cavm_gserpx_refclk1_ctr_s cn; */
 };
-typedef union cavm_gserpx_refclk_ctr cavm_gserpx_refclk_ctr_t;
+typedef union cavm_gserpx_refclk1_ctr cavm_gserpx_refclk1_ctr_t;
 
-static inline uint64_t CAVM_GSERPX_REFCLK_CTR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_REFCLK_CTR(uint64_t a)
+static inline uint64_t CAVM_GSERPX_REFCLK1_CTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_REFCLK1_CTR(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e090020090ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_REFCLK1_CTR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_REFCLK1_CTR(a) cavm_gserpx_refclk1_ctr_t
+#define bustype_CAVM_GSERPX_REFCLK1_CTR(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_REFCLK1_CTR(a) "GSERPX_REFCLK1_CTR"
+#define device_bar_CAVM_GSERPX_REFCLK1_CTR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_REFCLK1_CTR(a) (a)
+#define arguments_CAVM_GSERPX_REFCLK1_CTR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_refclk2_ctr
+ *
+ * GSERP QLM Reference Clock2 Cycle Counter Register
+ * A free-running counter of reference clock group1 cycles to enable rough
+ * confirmation of reference clock frequency via software. Read the counter;
+ * wait some time, e.g., 100ms; read the counter; calculate frequency based
+ * on the difference in values during the known wait time.
+ */
+union cavm_gserpx_refclk2_ctr
+{
+    uint64_t u;
+    struct cavm_gserpx_refclk2_ctr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_refclk2_ctr_s cn; */
+};
+typedef union cavm_gserpx_refclk2_ctr cavm_gserpx_refclk2_ctr_t;
+
+static inline uint64_t CAVM_GSERPX_REFCLK2_CTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_REFCLK2_CTR(uint64_t a)
 {
     if (a<=8)
         return 0x87e090020098ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_REFCLK_CTR", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("GSERPX_REFCLK2_CTR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_GSERPX_REFCLK_CTR(a) cavm_gserpx_refclk_ctr_t
-#define bustype_CAVM_GSERPX_REFCLK_CTR(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_REFCLK_CTR(a) "GSERPX_REFCLK_CTR"
-#define device_bar_CAVM_GSERPX_REFCLK_CTR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_REFCLK_CTR(a) (a)
-#define arguments_CAVM_GSERPX_REFCLK_CTR(a) (a),-1,-1,-1
+#define typedef_CAVM_GSERPX_REFCLK2_CTR(a) cavm_gserpx_refclk2_ctr_t
+#define bustype_CAVM_GSERPX_REFCLK2_CTR(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_REFCLK2_CTR(a) "GSERPX_REFCLK2_CTR"
+#define device_bar_CAVM_GSERPX_REFCLK2_CTR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_REFCLK2_CTR(a) (a)
+#define arguments_CAVM_GSERPX_REFCLK2_CTR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_reg_sft_rst_ctl0
@@ -62794,7 +62802,7 @@ static inline uint64_t CAVM_GSERPX_RX_CLK_OBS_CTL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_GSERPX_RX_CLK_OBS_CTL(uint64_t a)
 {
     if (a<=8)
-        return 0x87e090020090ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e090020088ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_RX_CLK_OBS_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 

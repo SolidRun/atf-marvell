@@ -39,20 +39,19 @@ union cavm_sam_asc_regionx_attr
     struct cavm_sam_asc_regionx_attr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_23_63        : 41;
-        uint64_t non_coherent          : 1;  /**< [ 22: 22](SR/W) When set, non-cache-coherent accesses to this region are allowed. */
+        uint64_t reserved_22_63        : 42;
         uint64_t s_en                  : 1;  /**< [ 21: 21](SR/W) Enables secure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
         uint64_t ns_en                 : 1;  /**< [ 20: 20](SR/W) Enables nonsecure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
         uint64_t f3                    : 1;  /**< [ 19: 19](SR/W) Specifies the number of factors of 3 in the striping group. */
         uint64_t f2                    : 3;  /**< [ 18: 16](SR/W) Specifies the number of factors of 2 in the striping group.  Values \> 4 are undefined. */
-        uint64_t dss_mask              : 16; /**< [ 15:  0](SR/W) Specifies which DSSs are used by this region. Each bit corresponds to one DSS,
-                                                                 with bit \<0\> for DSS0. The number of bits set must be 3^[F3]*2^[F2] or none. No
+        uint64_t dmc_mask              : 16; /**< [ 15:  0](SR/W) Specifies which DMCs are used by this region. Each bit corresponds to one DMC,
+                                                                 with bit \<0\> for DMC0. The number of bits set must be 3^[F3]*2^[F2] or none. No
                                                                  bits set indicates that this region is scratchpad memory. */
 #else /* Word 0 - Little Endian */
-        uint64_t dss_mask              : 16; /**< [ 15:  0](SR/W) Specifies which DSSs are used by this region. Each bit corresponds to one DSS,
-                                                                 with bit \<0\> for DSS0. The number of bits set must be 3^[F3]*2^[F2] or none. No
+        uint64_t dmc_mask              : 16; /**< [ 15:  0](SR/W) Specifies which DMCs are used by this region. Each bit corresponds to one DMC,
+                                                                 with bit \<0\> for DMC0. The number of bits set must be 3^[F3]*2^[F2] or none. No
                                                                  bits set indicates that this region is scratchpad memory. */
         uint64_t f2                    : 3;  /**< [ 18: 16](SR/W) Specifies the number of factors of 2 in the striping group.  Values \> 4 are undefined. */
         uint64_t f3                    : 1;  /**< [ 19: 19](SR/W) Specifies the number of factors of 3 in the striping group. */
@@ -60,8 +59,7 @@ union cavm_sam_asc_regionx_attr
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
         uint64_t s_en                  : 1;  /**< [ 21: 21](SR/W) Enables secure access to region.
                                                                  Undefined if both [S_EN] and [NS_EN] are set for the same region. */
-        uint64_t non_coherent          : 1;  /**< [ 22: 22](SR/W) When set, non-cache-coherent accesses to this region are allowed. */
-        uint64_t reserved_23_63        : 41;
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sam_asc_regionx_attr_s cn; */
@@ -99,7 +97,7 @@ union cavm_sam_asc_regionx_end
                                                                  corresponding ASC region, where bits \<23:0\> are implied to be all-ones. See
                                                                  SAM_ASC_REGION()_START[ADDR].
 
-                                                                 The ending address must be a multiple (less 1) of the number of DSS's
+                                                                 The ending address must be a multiple (less 1) of the number of DMC's
                                                                  participating in the striping group or abut another region in the same striping
                                                                  group. */
         uint64_t reserved_0_23         : 24;
@@ -109,7 +107,7 @@ union cavm_sam_asc_regionx_end
                                                                  corresponding ASC region, where bits \<23:0\> are implied to be all-ones. See
                                                                  SAM_ASC_REGION()_START[ADDR].
 
-                                                                 The ending address must be a multiple (less 1) of the number of DSS's
+                                                                 The ending address must be a multiple (less 1) of the number of DMC's
                                                                  participating in the striping group or abut another region in the same striping
                                                                  group. */
         uint64_t reserved_44_63        : 20;
@@ -146,13 +144,13 @@ union cavm_sam_asc_regionx_offset
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
-        uint64_t offset                : 18; /**< [ 34: 17](SR/W) For each region, the offset to add to the DRAM line address to get the final DSS
+        uint64_t offset                : 18; /**< [ 34: 17](SR/W) For each region, the offset to add to the DRAM line address to get the final DMC
                                                                  address.  As this is an DRAM offset, the units of {OFFSET] depends on
                                                                  SAM_ASC_REGION()_ATTR[F2,F3]. */
         uint64_t reserved_0_16         : 17;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_16         : 17;
-        uint64_t offset                : 18; /**< [ 34: 17](SR/W) For each region, the offset to add to the DRAM line address to get the final DSS
+        uint64_t offset                : 18; /**< [ 34: 17](SR/W) For each region, the offset to add to the DRAM line address to get the final DMC
                                                                  address.  As this is an DRAM offset, the units of {OFFSET] depends on
                                                                  SAM_ASC_REGION()_ATTR[F2,F3]. */
         uint64_t reserved_35_63        : 29;
@@ -193,10 +191,10 @@ union cavm_sam_asc_regionx_start
                                                                  region, before applying SAM_ASC_REGION()_OFFSET[OFFSET]. The region will match
                                                                  if:
 
-                                                                 _ SAM_ASC_REGION()_END[ADDR] \<= phys_addr\<42:24\> \<= SAM_ASC_REGION()_START[ADDR].
+                                                                 _ SAM_ASC_REGION()_START[ADDR] \<= phys_addr\<42:24\> \<= SAM_ASC_REGION()_END[ADDR].
 
                                                                  Software must ensure that regions do not overlap.  The start address must be a
-                                                                 multiple of the number of DSS's participating in the striping group or abut
+                                                                 multiple of the number of DMC's participating in the striping group or abut
                                                                  another region in the same striping group.
 
                                                                  To indicate an invalid region, clear both the corresponding SAM_ASC_REGION()_ATTR[S_EN] and
@@ -208,10 +206,10 @@ union cavm_sam_asc_regionx_start
                                                                  region, before applying SAM_ASC_REGION()_OFFSET[OFFSET]. The region will match
                                                                  if:
 
-                                                                 _ SAM_ASC_REGION()_END[ADDR] \<= phys_addr\<42:24\> \<= SAM_ASC_REGION()_START[ADDR].
+                                                                 _ SAM_ASC_REGION()_START[ADDR] \<= phys_addr\<42:24\> \<= SAM_ASC_REGION()_END[ADDR].
 
                                                                  Software must ensure that regions do not overlap.  The start address must be a
-                                                                 multiple of the number of DSS's participating in the striping group or abut
+                                                                 multiple of the number of DMC's participating in the striping group or abut
                                                                  another region in the same striping group.
 
                                                                  To indicate an invalid region, clear both the corresponding SAM_ASC_REGION()_ATTR[S_EN] and
@@ -239,16 +237,16 @@ static inline uint64_t CAVM_SAM_ASC_REGIONX_START(uint64_t a)
 #define arguments_CAVM_SAM_ASC_REGIONX_START(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) sam_dss_hash#
+ * Register (RSL) sam_dmc_hash#
  *
- * SAM DSS hash matrix coefficients Registers
- * This hash matrix is used to spread addresses among among DSS's.  The 4 row vectors
- * must be linearly independent.
+ * SAM DMC hash matrix coefficients Registers
+ * This hash matrix is used to spread addresses among among DMC's.
+ * HASH(0..3)[CO]\<10:7\> must form an invertible matrix.
  */
-union cavm_sam_dss_hashx
+union cavm_sam_dmc_hashx
 {
     uint64_t u;
-    struct cavm_sam_dss_hashx_s
+    struct cavm_sam_dmc_hashx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
@@ -260,24 +258,24 @@ union cavm_sam_dss_hashx
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sam_dss_hashx_s cn; */
+    /* struct cavm_sam_dmc_hashx_s cn; */
 };
-typedef union cavm_sam_dss_hashx cavm_sam_dss_hashx_t;
+typedef union cavm_sam_dmc_hashx cavm_sam_dmc_hashx_t;
 
-static inline uint64_t CAVM_SAM_DSS_HASHX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SAM_DSS_HASHX(uint64_t a)
+static inline uint64_t CAVM_SAM_DMC_HASHX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SAM_DMC_HASHX(uint64_t a)
 {
     if (a<=3)
         return 0x87e059000460ll + 8ll * ((a) & 0x3);
-    __cavm_csr_fatal("SAM_DSS_HASHX", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("SAM_DMC_HASHX", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SAM_DSS_HASHX(a) cavm_sam_dss_hashx_t
-#define bustype_CAVM_SAM_DSS_HASHX(a) CSR_TYPE_RSL
-#define basename_CAVM_SAM_DSS_HASHX(a) "SAM_DSS_HASHX"
-#define device_bar_CAVM_SAM_DSS_HASHX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SAM_DSS_HASHX(a) (a)
-#define arguments_CAVM_SAM_DSS_HASHX(a) (a),-1,-1,-1
+#define typedef_CAVM_SAM_DMC_HASHX(a) cavm_sam_dmc_hashx_t
+#define bustype_CAVM_SAM_DMC_HASHX(a) CSR_TYPE_RSL
+#define basename_CAVM_SAM_DMC_HASHX(a) "SAM_DMC_HASHX"
+#define device_bar_CAVM_SAM_DMC_HASHX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SAM_DMC_HASHX(a) (a)
+#define arguments_CAVM_SAM_DMC_HASHX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) sam_eco
@@ -422,15 +420,11 @@ static inline uint64_t CAVM_SAM_PN_MAPX(uint64_t a)
  * Register (RSL) sam_tile_hash#
  *
  * SAM TILE hash matrix coefficients Registers
- * This hash matrix is used to spread addresses among tiles/sets. This matrix must be
- * rank 16. The matrix should be customized to the topology.
- *
- * * SAM_TILE_HASH(15..13) - X location. SAM_TILE_HASH(15) is not stored but comes from
- * SAM_DSS_HASH(3).
- *
- * * SAM_TILE_HASH(12..10) - Y location.
- *
- * * SAM_TILE_HASH(9..0) - Set index.  [CO]\<16:7\> must form an invertible matrix.
+ * This hash matrix is used to spread addresses among tiles/sets. HASH(15..0)[CO]\<22:7\>
+ * must form an invertible matrix.
+ * * SAM_TILE_HASH(15..10) - virtual tad pair index.
+ * * SAM_TILE_HASH(9) - TAD number within a tile.
+ * * SAM_TILE_HASH(8..0) - Set index.  [CO]\<15:7\> must form an invertible matrix.
  */
 union cavm_sam_tile_hashx
 {
