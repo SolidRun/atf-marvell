@@ -43,74 +43,24 @@
 #define __OM_MINOR_MASK             0xf
 
 /* This define covers the fixed bits that never change across chips. Bits
-   [31:24] are the implemntor code (0x43), bits [23:16] are the architecture
+   [31:24] are the implemntor code (0x41), bits [23:16] are the architecture
    (0xf) */
-#define __OM_BASE                   0x430f0000
-#define __OM_OTX3_BASE              0x410f0000
+#define __OM_BASE                   0x410f0000
 
 /* Build a full MIDR_EL1 value from the part number, major, and minor pass
    numbers. Generally people refer to the first chip as pass 1.0, so major needs
    one subtracted */
 #define __OM_BUILD(partnum, major, minor)  (__OM_BASE | ((partnum) << __OM_PARTNUM_SHIFT) | ((major - 1) << __OM_PASS_SHIFT) | (minor))
-#define __OM_OTX3_BUILD(partnum, major, minor)  (__OM_OTX3_BASE | ((partnum) << __OM_PARTNUM_SHIFT) | ((major - 1) << __OM_PASS_SHIFT) | (minor))
 
 /* Per chip definitions */
-#define OCTEONTX_CN83XX_PASS1_0   __OM_BUILD(0xa3, 1, 0)
-#define OCTEONTX_CN83XX           (OCTEONTX_CN83XX_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_CN83XX_PASS1_X   (OCTEONTX_CN83XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-
-#define OCTEONTX_CN81XX_PASS1_0   __OM_BUILD(0xa2, 1, 0)
-#define OCTEONTX_CN81XX           (OCTEONTX_CN81XX_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_CN81XX_PASS1_X   (OCTEONTX_CN81XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-
-#define OCTEONTX_CN98XX_PASS1_0   __OM_BUILD(0xb1, 1, 0)
-#define OCTEONTX_CN98XX           (OCTEONTX_CN98XX_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_CN98XX_PASS1_X   (OCTEONTX_CN98XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-
-#define OCTEONTX_CN96XX_PASS1_0   __OM_BUILD(0xb2, 1, 0) /* Called A0 */
-#define OCTEONTX_CN96XX_PASS1_1   __OM_BUILD(0xb2, 1, 1) /* Called A1 and sometimes B0 by mistake */
-#define OCTEONTX_CN96XX_PASS3_0   __OM_BUILD(0xb2, 3, 0) /* Called C0 */
-#define OCTEONTX_CN96XX_PASS3_1   __OM_BUILD(0xb2, 3, 1) /* Called C1 */
-#define OCTEONTX_CN96XX           (OCTEONTX_CN96XX_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_CN96XX_PASS1_X   (OCTEONTX_CN96XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-#define OCTEONTX_CN96XX_PASS3_X   (OCTEONTX_CN96XX_PASS3_0 | __OM_IGNORE_MINOR_REVISION)
-
-#define OCTEONTX_CNF95XX_PASS1_0  __OM_BUILD(0xb3, 1, 0) /* Called A0 */
-#define OCTEONTX_CNF95XX_PASS2_0  __OM_BUILD(0xb3, 2, 0) /* Called B0 */
-#define OCTEONTX_CNF95XX          (OCTEONTX_CNF95XX_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_CNF95XX_PASS1_X  (OCTEONTX_CNF95XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-#define OCTEONTX_CNF95XX_PASS2_X  (OCTEONTX_CNF95XX_PASS2_0 | __OM_IGNORE_MINOR_REVISION)
-
-#define OCTEONTX_LOKI_PASS1_0     __OM_BUILD(0xb4, 1, 0) /* Called A0 */
-#define OCTEONTX_LOKI             (OCTEONTX_LOKI_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_LOKI_PASS1_X     (OCTEONTX_LOKI_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-
-#define OCTEONTX_F95MM_PASS1_0     __OM_BUILD(0xb5, 1, 0) /* Called A0 */
-#define OCTEONTX_F95MM             (OCTEONTX_F95MM_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_F95MM_PASS1_X     (OCTEONTX_F95MM_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-
-#define OCTEONTX_CN106XX_PASS1_0     __OM_OTX3_BUILD(0xd49, 1, 0) /* Called A0 */
-#define OCTEONTX_CN106XX             (OCTEONTX_CN106XX_PASS1_0 | __OM_IGNORE_REVISION)
-#define OCTEONTX_CN106XX_PASS1_X     (OCTEONTX_CN106XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
+#define CPU_PERSEUS_PASS1_0	__OM_BUILD(0xd49, 1, 0) /* Called A0 */
+#define CPU_CN106XX             (CPU_PERSEUS_PASS1_0 | __OM_IGNORE_REVISION)
+#define CPU_CN106XX_PASS1_X     (CPU_PERSEUS_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 
 /* These match entire families of chips */
-#define OCTEONTX_CN8XXX           (OCTEONTX_CN83XX_PASS1_0 | __OM_IGNORE_MODEL)
-#define OCTEONTX_CN9XXX           (OCTEONTX_CN96XX_PASS1_0 | __OM_IGNORE_MODEL)
-#define OCTEONTX_CN10XXX           (OCTEONTX_CN106XX_PASS1_0 | __OM_IGNORE_MODEL)
+#define OCTEONTX_CN106XX	0xB9
 
-/* CN96XX part number is reused in a number of different chips, which are
-   handled in the CAVM as alternate packages. These constants represent the
-   possible alternate package codes */
-/* These are for CN96XX pass Ax and Bx */
-#define OCTEONTX_ALT_CN96XX          0 /* (A) 50mm pkg, 3 DDR, default */
-#define OCTEONTX_ALT_CN93XX          1 /* (B) 42.5mm pkg, 2 DDR, 4 lanes ethernet */
-#define OCTEONTX_ALT_CN93XXC         2 /* (C) 42.5mm pkg, 2 DDR, 8 lanes ethernet */
-#define OCTEONTX_ALT_CN95XXE         3 /* (D) 45mm pkg, 2 DDR, CN95XXE */
-#define OCTEONTX_ALT_CN96XXH         7 /* (H) 50mm pkg, Cx compatible for pass A */
-/* These are for CN96XX pass Cx */
-#define OCTEONTX_ALT_CN93XXJ         (8+1) /* (J) 42.5mm pkg, 2 DDR, 4 lanes ethernet */
-#define OCTEONTX_ALT_CN96XXM         (8+4) /* (M) 50mm pkg, Ax compatible */
-#define OCTEONTX_ALT_CN96XXP         (8+7) /* (P) 50mm pkg, 3 DDR, TBD */
+#define FUS_CACHE0_ADDRESS 	0x87e003001000ll
 
 static inline uint64_t cavm_get_model() __attribute__ ((pure, always_inline));
 static inline uint64_t cavm_get_model()
@@ -135,17 +85,9 @@ static inline uint64_t cavm_get_model()
  *
  * @return Non-zero if match
  */
-static inline int cavm_is_model(uint32_t arg_model) __attribute__ ((pure, always_inline));
-static inline int cavm_is_model(uint32_t arg_model)
+static inline int cpu_is_model(uint32_t arg_model) __attribute__ ((pure, always_inline));
+static inline int cpu_is_model(uint32_t arg_model)
 {
-    /* Note that the model matching here is unaffected by
-       MIO_FUS_FUSE_NUM_E::CHIP_IDX bits 6-7, which are the alternate package
-       fuses. These bits don't affect MIDR_EL1, so:
-            CN80XX will match CN81XX (CHIP_IDX 6 is set for 676 ball package)
-            CN80XX will match CN81XX (CHIP_IDX 7 is set for 555 ball package)
-       Alternate package parts are detected using MIO_FUS_DAT2[chip_id],
-       specifically the upper two bits */
-
     uint32_t my_model = cavm_get_model();
     uint32_t mask;
 
@@ -159,6 +101,25 @@ static inline int cavm_is_model(uint32_t arg_model)
         mask = __OM_PARTNUM_MASK | __OM_PASS_MASK | __OM_MINOR_MASK; /* Matches chip model, major version, and minor version */
 
     return ((arg_model & mask) == (my_model & mask));
+}
+
+/**
+ * Return non-zero if the chip matech the passed model.
+ *
+ * @param arg_model One of the OCTEONTX_* constants for chip models and
+ *                  passes
+ *
+ * @return Non-zero if match
+ */
+static inline int cavm_is_model(uint32_t arg_model) __attribute__ ((pure, always_inline));
+static inline int cavm_is_model(uint32_t arg_model)
+{
+    uint64_t fuse_chip_type = *(volatile uint64_t *)FUS_CACHE0_ADDRESS;
+    uint8_t chip_model = 0xA0;
+
+    chip_model = fuse_chip_type & 0xFF; /* mask lower 8 bits for chip type */
+
+    return (cpu_is_model(CPU_CN106XX)) && (arg_model == chip_model);
 }
 
 /**

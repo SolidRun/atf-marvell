@@ -25,9 +25,9 @@
  */
 static inline void cavm_lmt_cancel(void)
 {
-    if (cavm_is_model(OCTEONTX_CN83XX))
-        *(volatile uint64_t *)(__CAVM_LMTLINE_CN83XX | (1 << 10)) = 0;
-    else
+ //   if (cavm_is_model(OCTEONTX_CN83XX))
+   //     *(volatile uint64_t *)(__CAVM_LMTLINE_CN83XX | (1 << 10)) = 0;
+   // else
         *(volatile uint64_t *)(__CAVM_LMTLINE_CN9XXX | (1 << 10)) = 0;
 }
 
@@ -40,9 +40,9 @@ static inline void cavm_lmt_cancel(void)
  */
 static inline volatile uint64_t *cavm_lmt_store_ptr(void)
 {
-    if (cavm_is_model(OCTEONTX_CN83XX))
-        return (volatile uint64_t *)__CAVM_LMTLINE_CN83XX;
-    else
+   // if (cavm_is_model(OCTEONTX_CN83XX))
+   //     return (volatile uint64_t *)__CAVM_LMTLINE_CN83XX;
+   // else
         return (volatile uint64_t *)__CAVM_LMTLINE_CN9XXX;
 }
 

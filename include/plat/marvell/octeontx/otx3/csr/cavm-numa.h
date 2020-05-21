@@ -122,8 +122,6 @@ static inline uint64_t cavm_numa_get_address(cavm_node_t node, uint64_t pa)
     {
         if (pa & (1ull << 47))
             pa |= (uint64_t)(node&3) << 44;
-        else if (cavm_is_model(OCTEONTX_CN8XXX))
-            pa |= (uint64_t)(node & 3) << 40; /* CN8XXX uses bits [41:40] for nodes */
         else
             pa |= (uint64_t)(node & 3) << 44; /* CN9XXX uses bits [45:44] for nodes */
     }
