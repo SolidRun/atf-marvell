@@ -21,7 +21,7 @@
 #include <rvu.h>
 #include <strtol.h>
 
-#include "cavm-csrs-cgx.h"
+//#include "cavm-csrs-cgx.h"
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-rst.h"

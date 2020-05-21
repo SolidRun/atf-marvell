@@ -57,7 +57,6 @@ BL31_SOURCES		+=	plat/marvell/octeontx/otx3/plat_topology.c		\
 				drivers/marvell/sh_fwdata.c		\
 				drivers/marvell/rvu.c		\
 				drivers/marvell/phy/phy_gen.c		\
-				drivers/marvell/phy/phy_vitesse.c	\
 				drivers/marvell/phy/phy_marvell.c	\
 				drivers/marvell/phy/phy_marvell_1514.c	\
 				drivers/marvell/phy/phy_marvell_5113.c	\

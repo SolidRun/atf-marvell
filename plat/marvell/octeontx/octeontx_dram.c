@@ -16,7 +16,9 @@
 #include <plat_board_cfg.h>
 #include <octeontx_dram.h>
 
+#if !defined(PLAT_t106)
 #include "cavm-csrs-lmc.h"
+#endif
 
 static inline uint32_t popcnt(uint64_t val)
 {

@@ -13,7 +13,9 @@
 #include <stdint.h>
 #include <octeontx_common.h>
 
+#if 0
 #include "cavm-csrs-gsern.h"
+#endif
 
 #define GSERN_COMMON_BIAS_BCFG_PWDN_BIT			BIT(0)
 

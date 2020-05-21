@@ -17,9 +17,7 @@
 #include <octeontx_utils.h>
 
 #include "cavm-csrs-ap.h"
-#include "cavm-csrs-ccs.h"
 #include "cavm-csrs-iobn.h"
-#include "cavm-csrs-mcc.h"
 #include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-pem.h"
 #include "cavm-csrs-smmu.h"
@@ -27,6 +25,7 @@
 /* Flush the L2 Cache */
 void l2c_flush(void)
 {
+#if 0
 	/* Select the L2 cache */
 	union cavm_ap_csselr_el1 csselr_el1;
 	union cavm_ap_ccsidr_el1 ccsidr_el1;
@@ -63,6 +62,7 @@ void l2c_flush(void)
 			}
 		}
 	}
+#endif
 }
 
 void octeontx_security_setup(void)
@@ -72,10 +72,10 @@ void octeontx_security_setup(void)
 	*/
 	VERBOSE("Flushing L1C\n");
 	dcsw_op_all(DCCISW);
-
+#if 0
 	VERBOSE("Flushing L2C\n");
 	l2c_flush();
-
+#endif
 	VERBOSE("Flushing IC\n");
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
