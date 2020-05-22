@@ -456,10 +456,6 @@ static int spi_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 		current_file.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
 		entity->info = (uintptr_t)&current_file;
 
-#if defined(PLAT_t106)
-		/* FIXME: add support for SPI operations for T106 */
-		//return 0;
-#endif
 		return spi_config(CONFIG_SPI_FREQUENCY, spi_mode, 0, 0,
 				  current_file.spi_con, current_file.cs);
 	} else {
@@ -511,10 +507,6 @@ static int spi_block_read(io_entity_t *entity, uintptr_t buffer,
 	file_state_t *fp;
 	ssize_t ret;
 	int addr_mode = SPI_ADDRESSING_24BIT;
-#if defined(PLAT_t106)
-	/* FIXME: add support for SPI operations for T106 */
-	return 0;
-#endif
 	assert(entity != NULL);
 	assert(buffer != (uintptr_t)NULL);
 	assert(length_read != NULL);
