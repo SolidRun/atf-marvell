@@ -45,5 +45,5 @@ uint64_t octeontx_dram_size()
 	/* FIXME : t106xx, this function needs to be defined to get the
 	* mem region info from SAM block
 	*/
-	return 100000000;
+	return 2ull << 30; /* from old LMC memsize code */
 }

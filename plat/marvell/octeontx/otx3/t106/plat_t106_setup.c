@@ -32,18 +32,11 @@ int plat_octeontx_get_ecams_count(void)
 
 int plat_octeontx_get_iobn_count(void)
 {
-	return 4;
+	return 3;
 }
 
 int plat_octeontx_is_lmc_enabled(unsigned lmc)
 {
-#if 0
-	union cavm_lmcx_dll_ctl2 lmcx_dll_ctl2;
-
-	lmcx_dll_ctl2.u = CSR_READ(CAVM_LMCX_DLL_CTL2(lmc));
-
-	return (lmcx_dll_ctl2.s.dreset ? 0 : 1);
-#endif
 	return 0;
 }
 
@@ -206,16 +199,9 @@ void plat_add_mmio()
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR2, CAVM_RST_BAR_E_RST_PF_BAR2_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR4, CAVM_RST_BAR_E_RST_PF_BAR4_SIZE, attr);
 
-#if 0
-	add_map_record(CAVM_CCS_BAR_E_CCS_PF_BAR0, CAVM_CCS_BAR_E_CCS_PF_BAR0_SIZE, attr);
-#endif
 
 	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4_SIZE, attr);
-#if 0
-	add_map_record(CAVM_FUSF_BAR_E_FUSF_PF_BAR0,
-		       CAVM_FUSF_BAR_E_FUSF_PF_BAR0_SIZE, attr);
-#endif
 #if ENABLE_ATTESTATION_SERVICE
 	add_map_record(CAVM_RNM_BAR_E_RNM_PF_BAR0_CN9,
 		       CAVM_RNM_BAR_E_RNM_PF_BAR0_CN9_SIZE, attr);
@@ -237,13 +223,6 @@ void plat_add_mmio()
 
 	add_map_record(CAVM_GTI_BAR_E_GTI_PF_BAR0, CAVM_GTI_BAR_E_GTI_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_GTI_BAR_E_GTI_PF_BAR4, CAVM_GTI_BAR_E_GTI_PF_BAR4_SIZE, attr);
-
-#if 0
-	for (i = 0; i < MAX_LMC; i++) {
-		add_map_record(CAVM_LMC_BAR_E_LMCX_PF_BAR0(i), CAVM_LMC_BAR_E_LMCX_PF_BAR0_SIZE, attr);
-		add_map_record(CAVM_LMC_BAR_E_LMCX_PF_BAR4(i), CAVM_LMC_BAR_E_LMCX_PF_BAR4_SIZE, attr);
-	}
-#endif
 
 	device_type_count = plat_octeontx_get_twsi_count();
 	for (i = 0; i < device_type_count; i++) {
@@ -282,9 +261,6 @@ void plat_add_mmio()
 		add_map_record(CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE, attr);
 		add_map_record(ECAM_PF_BAR2(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_SIZE, attr);
 	}
-#if 0
-	add_map_record(CAVM_ROM_BAR_E_ROM_PF_BAR0, CAVM_ROM_BAR_E_ROM_PF_BAR0_SIZE, attr);
-#endif
 	device_type_count = plat_octeontx_get_iobn_count();
 	for (i = 0; i < device_type_count; ++i) {
 		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE , attr);
@@ -330,26 +306,9 @@ void plat_add_mmio()
 
 	plat_map_cpc_mem();
 
-#if 0
-	device_type_count = plat_octeontx_get_mcc_count();
-	for (i = 0; i < device_type_count; ++i) {
-		add_map_record(CAVM_MCC_BAR_E_MCCX_PF_BAR0(i),
-			CAVM_MCC_BAR_E_MCCX_PF_BAR0_SIZE, attr);
-		add_map_record(CAVM_MCC_BAR_E_MCCX_PF_BAR4(i),
-			CAVM_MCC_BAR_E_MCCX_PF_BAR4_SIZE, attr);
-	}
-#endif
+
 	add_map_record(CAVM_MDC_BAR_E_MDC_PF_BAR4,
 		       CAVM_MDC_BAR_E_MDC_PF_BAR4_SIZE, attr);
-
-#if 0
-	for (i = 0; i < MAX_CCU; i++) {
-		add_map_record(CAVM_CCU_BAR_E_CCUX_PF_BAR0(i),
-			       CAVM_CCU_BAR_E_CCUX_PF_BAR0_SIZE, attr);
-		add_map_record(CAVM_CCU_BAR_E_CCUX_PF_BAR4(i),
-			       CAVM_CCU_BAR_E_CCUX_PF_BAR4_SIZE, attr);
-	}
-#endif
 	/*
 	 * Map temperature sensor used by qlm gsern code.
 	 */

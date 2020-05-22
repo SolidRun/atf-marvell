@@ -20,8 +20,8 @@
 #define STREAM_DEV_IDX(streamid) (((streamid) >> STREAM_DEV_SHIFT) & 0x1f)
 #define STREAM_RSL_IDX(streamid) (((streamid) & 0xff))
 
-//#define OCTEONTX_ECAM_MAX_BUS	256
-#define OCTEONTX_ECAM_MAX_BUS	1024
+#define OCTEONTX_ECAM_MAX_BUS	256
+//#define OCTEONTX_ECAM_MAX_BUS	1024
 #define OCTEONTX_ECAM_MAX_DEV	32
 #define OCTEONTX_ECAM_MAX_FUNC	256
 
