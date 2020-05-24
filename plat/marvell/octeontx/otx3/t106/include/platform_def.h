@@ -204,7 +204,8 @@
 /* Number of MBOX for AFPF and PFVF */
 #define RVU_MBOX_NUM		2
 
-#define MAX_RVU_PFS		16
+/* TODO for t106: update to correct value (32) when ASIM is updated */
+#define MAX_RVU_PFS		24
 
 /* Priority levels for OcteonTX platforms */
 #if SDEI_SUPPORT

@@ -754,6 +754,13 @@ void octeontx_rvu_init(void)
 	    IS_OCTEONTX_PN(read_midr(), F95MMPARTNUM))
 		rvu_errata_35948();
 
+	/* sanity-check platform definition */
+	if (octeontx_get_max_rvu_pfs() != MAX_RVU_PFS) {
+		ERROR("RVU: max PFs mismatch, platform def %u, actual %u\n",
+		      MAX_RVU_PFS, octeontx_get_max_rvu_pfs());
+		assert(octeontx_get_max_rvu_pfs() <= MAX_RVU_PFS);
+	}
+
 	rc = octeontx_init_rvu_from_fdt();
 	if (rc < 0)
 		return;

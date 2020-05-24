@@ -5,6 +5,8 @@
  * license agreement.
  */
 
+/* TODO for 106: rename all octeontx2_xxx to octeontx3_xxx */
+
 #include <platform_def.h>
 #include <platform_setup.h>
 #include <debug.h>
@@ -265,7 +267,6 @@ static long octeontx2_fdtbdk_get_num(const void *fdt_addr, const char *prop,
 	return ret;
 }
 
-#if 0
 /**
  * octeontx2_handle_num_rvu_vfs - handle errors and report user about
  * @req_vfs: requested (via FDT) number of VFs
@@ -513,7 +514,6 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	/* Here we can mark FDT RVU config as valid */
 	plat_octeontx_bcfg->rvu_config.valid = 1;
 }
-#endif
 
 static void octeontx2_boot_device_from_strapx()
 {
@@ -1762,7 +1762,10 @@ static void octeontx2_cgx_lmacs_check_linux(const void *fdt,
 	}
 }
 
-/* Main routine to parse the CGX information from the Linux DT file. */
+/* Main routine to parse the CGX information from the Linux DT file.
+ * TODO for 106: 'rvu_vfs' count is managed by caller; RVU init needs
+ * this count and is invoked by caller.
+ */
 static void octeontx2_cgx_check_linux(const void *fdt)
 {
 	int i;
@@ -1794,9 +1797,6 @@ static void octeontx2_cgx_check_linux(const void *fdt)
 		}
 		octeontx2_cgx_lmacs_check_linux(fdt, cgx, i, cgx_offset, &fdt_vfs);
 	}
-
-	/* Parse RVU configuration */
-	octeontx2_parse_rvu_config(fdt, &fdt_vfs);
 }
 
 /* Assign all the possible MAC addresses to the LMAC initialized.
@@ -2148,6 +2148,7 @@ int plat_octeontx_fill_board_details(void)
 {
 	const void *fdt = fdt_ptr;
 	int offset, rc;
+	int fdt_vfs = 0;
 
 	rc = fdt_check_header(fdt);
 	if (rc) {
@@ -2167,7 +2168,12 @@ int plat_octeontx_fill_board_details(void)
 		octeontx2_boot_device_from_strapx();
 	}
 
+	/* TODO for t106 (RPM vs CGX, also update 'fdt_vfs' per RPM alloc) */
 	//octeontx2_fill_cgx_details(fdt);
+
+	/* Parse RVU configuration */
+	octeontx2_parse_rvu_config(fdt, &fdt_vfs);
+
 	octeontx2_fill_qlm_details(fdt);
 	octeontx2_fill_ras_details(fdt);
 

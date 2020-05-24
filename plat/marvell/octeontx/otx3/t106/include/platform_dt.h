@@ -38,8 +38,11 @@
  */
 #define DEFAULT_MSIX_LMAC	210
 
-/* Default number of MSIX vectors for AF PF */
-#define DEFAULT_MSIX_AF		37
+/*
+ * Default number of MSIX vectors for AF PF
+ 5 RVU_AF + 7 RVU_PF + 5 NIX + 5 NPA + 3 SSO + 5 TIM + (3 * (1 NDC)) + 5 CPT
+ */
+#define DEFAULT_MSIX_AF		38
 
 /* RVU node names definitions */
 #define RVU_ADMIN_FDT_NODE	"rvu-admin@0"
