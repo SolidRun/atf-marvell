@@ -619,23 +619,69 @@ static void dump_rvu_devs(void)
 	debug_rvu("******************************************\n");
 }
 
+/* TODO for t106: integrate this cleanly */
+#if defined(PLAT_t106)
+/* Find next power of 2 and if argument is already power of 2 then
+ * returns the argument
+ */
+static uint64_t next_pow2(uint64_t x)
+{
+	if (x == 1)
+		return x;
+	if (!(x & (x - 1)))
+		return x;
+
+	return (1 << (64 - __builtin_clzl(x - 1)));
+}
+
+static void otx3_mailbox_enable(void)
+{
+	union cavm_rvu_af_pfx_bar4_addr pf_bar4_addr;
+	union cavm_rvu_af_pfx_bar4_cfg pf_bar4_cfg;
+	static uint64_t base = PF_MBOX_BASE;
+	uint64_t size, pow2;
+	int pf;
+
+	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
+		if (!rvu_dev[pf].enable)
+			continue;
+		if (base >= MSIX_TABLE_BASE) {
+			panic();
+			break;
+		}
+		pf_bar4_addr.u = base;
+		CSR_WRITE(CAVM_RVU_AF_PFX_BAR4_ADDR(pf), pf_bar4_addr.u);
+
+		/* For a PF mailbox memory should be arranged as mbox region to
+		 * communicate with AF followed by mbox region space
+		 * for its VFs
+		 */
+		pow2 = next_pow2(1 + rvu_dev[pf].num_vfs);
+		size = pow2 * 0x10000;
+
+		/* Write log2(size) in barbits */
+		pf_bar4_cfg.u = __builtin_ctzl(size);
+		CSR_WRITE(CAVM_RVU_AF_PFX_BAR4_CFG(pf), pf_bar4_cfg.u);
+		base += size;
+	}
+}
+#endif // defined(PLAT_t106)
+
 /* set mailbox memory*/
 static void mailbox_enable(void)
 {
+/* TODO for t106: integrate this cleanly */
+#if defined(PLAT_t106)
+	otx3_mailbox_enable();
+	return;
+#else
 	int pf;
 	static uint64_t vf_base = VF_MBOX_BASE;
-#if defined(PLAT_t106)
-	//cavm_rvu_af_pfx_bar4_addr_t pf_bar4_addr;
-	/* FIXME: Bar4 address is per PF.
-	* should each PF should have a own
-	* mailbox. which mailbox base address
-	* to be programmed in BAR4 addr?
-	*/		
-#else
 	union cavm_rvu_af_pf_bar4_addr pf_bar4_addr;
+
+
 	pf_bar4_addr.u = PF_MBOX_BASE;
 	CSR_WRITE(CAVM_RVU_AF_PF_BAR4_ADDR, pf_bar4_addr.u);
-#endif
 
 	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (rvu_dev[pf].enable && rvu_dev[pf].num_vfs) {
@@ -644,6 +690,7 @@ static void mailbox_enable(void)
 			vf_base = vf_base + (0x10000 * (rvu_dev[pf].num_vfs & 0x7f));
 		}
 	}
+#endif
 }
 
 /* Initialize PCI PF_DEVID and VF_DEVID */
