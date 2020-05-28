@@ -11,33 +11,47 @@
 #include <cassert.h>
 
 /*
- * Total 40MB of memory is reserved for mailbox, msix table,
- * firwmare data and s/w attestation info
- *   - 34MB is for mailbox(32 PFs + 512 VFs * 64KB mailbox size)
- *   - 2MB for MSI-X table (must be greater or equeals to hardware limit):
+ * Default memory allocations reserved for mailbox, msix table,
+ * firwmare data and s/w attestation info.
+ *   - 2MB for PF mailbox (32 PFs * 64KB mailbox size)
+ *   - 32MB is for mailbox((512 VFs * 64KB mailbox size)
+ *   - 2MB for MSI-X table (must be greater or equal to hardware limit):
  *     - 128KB for PFs msix (32 PFs * 256(MSIX entries) * entry * size).
  *     - 1MB for VFs msix  (512 VFs * 128 * MSIX entry size).
- *   - fwdata @ offset 38M
- *   - s/w attestation info at offset (40M - 4K)
+ *   - optional platform-defined LMT MAP TABLE
+ *   - 2MB [shared] fwdata
+ *   - 4K s/w attestation info (if present, taken from END of [shared] fwdata)
  * 96xx has 16 PFs and 256 VFs whereas 98xx has 32 PFs and 512 VFs.
  */
 #define PF_MBOX_BASE		RVU_MEM_BASE
 #define PF_MBOX_SIZE		0x000200000
+
 #define VF_MBOX_BASE		(PF_MBOX_BASE + PF_MBOX_SIZE)
 #define VF_MBOX_SIZE		0x002000000
+
 #define MSIX_TABLE_BASE		(VF_MBOX_BASE + VF_MBOX_SIZE)
 #define MSIX_TABLE_SIZE		0x200000
-#define SH_FWDATA_BASE		(MSIX_TABLE_BASE + MSIX_TABLE_SIZE)
+
+#ifdef PLAT_RVU_LMT_MAPTBL_SIZE
+# define RVU_LMT_MAPTBL_SIZE	PLAT_RVU_LMT_MAPTBL_SIZE
+# define RVU_LMT_MAPTBL_BASE	(MSIX_TABLE_BASE + MSIX_TABLE_SIZE)
+# define SH_FWDATA_BASE		(RVU_LMT_MAPTBL_BASE + RVU_LMT_MAPTBL_SIZE)
+#else
+# define SH_FWDATA_BASE		(MSIX_TABLE_BASE + MSIX_TABLE_SIZE)
+#endif
 #define SH_FWDATA_SIZE		(0x200000 - SW_ATTEST_INFO_SIZE)
 #define SH_FWDATA_LIMIT		(SH_FWDATA_BASE + SH_FWDATA_SIZE)
+
 #if ENABLE_ATTESTATION_SERVICE
-#define SW_ATTEST_INFO_BASE	SH_FWDATA_LIMIT
-#define SW_ATTEST_INFO_SIZE	0x1000
-#define SW_ATTEST_INFO_LIMIT	(SW_ATTEST_INFO_BASE + SW_ATTEST_INFO_SIZE)
+# define SW_ATTEST_INFO_BASE	SH_FWDATA_LIMIT
+# define SW_ATTEST_INFO_SIZE	0x1000
+# define SW_ATTEST_INFO_LIMIT	(SW_ATTEST_INFO_BASE + SW_ATTEST_INFO_SIZE)
+/* intent is to ensure that the last area ends exactly at the RVU mem limit */
 CASSERT(SW_ATTEST_INFO_LIMIT == (RVU_MEM_BASE + RVU_MEM_SIZE),
 	invalid_rvu_mem_layout);
 #else
-#define SW_ATTEST_INFO_SIZE	0
+# define SW_ATTEST_INFO_SIZE	0
+/* intent is to ensure that the last area ends exactly at the RVU mem limit */
 CASSERT(SH_FWDATA_LIMIT == (RVU_MEM_BASE + RVU_MEM_SIZE),
 	invalid_rvu_mem_layout);
 #endif

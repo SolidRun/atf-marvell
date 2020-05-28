@@ -303,6 +303,9 @@ void plat_add_mmio()
 
 	add_map_record(CAVM_SMI_BAR_E_SMI_PF_BAR0,
 				CAVM_SMI_BAR_E_SMI_PF_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+				CAVM_RVU_BLOCK_ADDR_E_APR * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 
 	plat_map_cpc_mem();
 

@@ -128,10 +128,20 @@
 
 /*
  * Memory used for mailbox and RVU MSI-X - placed
- * at non-secure memory region, with size of 38M
+ * at non-secure memory region, with size of 36M + PF/VF MAILBOX + LMT_MAPTBL
  */
 #define RVU_MEM_BASE			(TZDRAM_BASE + TZDRAM_SIZE)
-#define RVU_MEM_SIZE			0x02600000
+#define RVU_MEM_SIZE			(0x02600000 + PLAT_RVU_LMT_MAPTBL_SIZE)
+
+#define RVU_LMT_NUM_LINES 512
+#define RVU_LMT_LINE_LEN  128
+#define RVU_PF_LMT_LMTLINE_SIZE (RVU_LMT_NUM_LINES * RVU_LMT_LINE_LEN)
+
+#define RVU_LMT_MAPTBL_ENTRY_SIZE (sizeof(uint64_t) * 2)
+#define PLAT_RVU_LMT_MAPTBL_SIZE \
+	(MAX_RVU_PFS * MAX_RVU_VFS * RVU_LMT_MAPTBL_ENTRY_SIZE)
+
+#define RVU_PF_MAILBOX_SIZE   0x10000
 
 /*
  * Memory used for SFP slot config/status, EEPROM info
@@ -206,6 +216,7 @@
 
 /* TODO for t106: update to correct value (32) when ASIM is updated */
 #define MAX_RVU_PFS		24
+#define MAX_RVU_VFS		256
 
 #define SW_RVU_SDP_NUM_PF       2
 

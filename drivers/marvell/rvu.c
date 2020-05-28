@@ -20,6 +20,7 @@
 #include <plat_scfg.h>
 #if defined(PLAT_t106)
 #include <plat_otx3_configuration.h>
+#include "cavm-csrs-apr.h"
 #else
 #include <plat_otx2_configuration.h>
 #endif
@@ -621,6 +622,51 @@ static void dump_rvu_devs(void)
 
 /* TODO for t106: integrate this cleanly */
 #if defined(PLAT_t106)
+static uint64_t next_pow2(uint64_t x);
+void octeontx3_rvu_apr_init(void)
+{
+	union cavm_apr_af_lmt_cfg af_lmt_cfg;
+	union cavm_apr_af_lmt_map_base lmt_map_base;
+
+	/*Enable 32 PFs and 256 VFs per PF in map table */
+	af_lmt_cfg.u = 0;
+	/* ensure a power of two (ASIM config might not support all RVU PFs) */
+	af_lmt_cfg.s.pfs = __builtin_ctzl(next_pow2(MAX_RVU_PFS));
+	/* ensure a power of two (ASIM config might not support all RVU VFs) */
+	af_lmt_cfg.s.funcs = __builtin_ctzl(next_pow2(MAX_RVU_VFS));
+	CSR_WRITE(CAVM_APR_AF_LMT_CFG, af_lmt_cfg.u);
+
+	lmt_map_base.u = RVU_LMT_MAPTBL_BASE;
+	CSR_WRITE(CAVM_APR_AF_LMT_MAP_BASE, lmt_map_base.u);
+}
+
+static void config_lmt_map_table(void)
+{
+	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
+	uint64_t lmt_ent_addr;
+	uint64_t val = 0;
+	int vfs = MAX_RVU_VFS;
+	int pf;
+
+	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
+		if (!rvu_dev[pf].enable)
+			continue;
+
+		lmt_ent_addr = RVU_LMT_MAPTBL_BASE +
+				(pf * vfs) * RVU_LMT_MAPTBL_ENTRY_SIZE;
+		/* Enable 512 LMT Lines per PF */
+		/* TODO for t106: remove hard-coded values */
+		val |= 0x1 << 20 | 0x4 << 16;
+		pf_lmt_addr.u = CSR_READ(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf));
+		debug_rvu("RVU: PF%u LMT entry @ %p, LMTLINE_ADDR 0x%016llx\n",
+			  pf, (void *)lmt_ent_addr, (long long)pf_lmt_addr.u);
+		octeontx_write64(lmt_ent_addr, pf_lmt_addr.u);
+		debug_rvu("RVU: PF%u LMT entry @ %p, val 0x%016llx\n", pf,
+			  (void *)lmt_ent_addr + 0x8, (long long)val);
+		octeontx_write64((lmt_ent_addr + 0x8), val);
+	}
+}
+
 /* Find next power of 2 and if argument is already power of 2 then
  * returns the argument
  */
@@ -636,19 +682,24 @@ static uint64_t next_pow2(uint64_t x)
 
 static void otx3_mailbox_enable(void)
 {
+	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
 	union cavm_rvu_af_pfx_bar4_addr pf_bar4_addr;
 	union cavm_rvu_af_pfx_bar4_cfg pf_bar4_cfg;
 	static uint64_t base = PF_MBOX_BASE;
 	uint64_t size, pow2;
-	int pf;
+	int pf, num_funcs;
+
+/*
+ * OTX3 uses PF & VF MBs from common area (they're allocated separately,
+ * but threat them as a single contiguous block, ending at the MSIX block).
+ * Here we define the limit of the PF/VF mailbox common area.
+ */
+#define PF_VF_MAILBOX_LIMIT MSIX_TABLE_BASE
 
 	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (!rvu_dev[pf].enable)
 			continue;
-		if (base >= MSIX_TABLE_BASE) {
-			panic();
-			break;
-		}
+
 		pf_bar4_addr.u = base;
 		CSR_WRITE(CAVM_RVU_AF_PFX_BAR4_ADDR(pf), pf_bar4_addr.u);
 
@@ -656,14 +707,36 @@ static void otx3_mailbox_enable(void)
 		 * communicate with AF followed by mbox region space
 		 * for its VFs
 		 */
-		pow2 = next_pow2(1 + rvu_dev[pf].num_vfs);
-		size = pow2 * 0x10000;
+		num_funcs = (1 /* i.e. the PF */ + rvu_dev[pf].num_vfs);
+		/* alloc 1 extra for LMT rgn (assume it fits within mailbox) */
+		CASSERT(RVU_PF_LMT_LMTLINE_SIZE <= RVU_PF_MAILBOX_SIZE,
+			invalid_LMTLINE_SIZE_for_allocation);
+		pow2 = next_pow2(num_funcs + 1);
+		size = pow2 * RVU_PF_MAILBOX_SIZE;
+
+		debug_rvu("RVU: PF%u (%u VFs) MB at %p (0x%x B), limit %p\n",
+			  pf, rvu_dev[pf].num_vfs,
+			  (void *)(uintptr_t)base, (unsigned int)size,
+			  (void *)(uintptr_t)MSIX_TABLE_BASE);
+
+		if ((base + size) >= PF_VF_MAILBOX_LIMIT) {
+			ERROR("RVU: PF%u MB addr %p exceeds limit %p\n", pf,
+			      (void *)(uintptr_t)base,
+			      (void *)(uintptr_t)MSIX_TABLE_BASE);
+			panic();
+			break;
+		}
+		/* Configure PF LMTLINE  address (contiguous to mailboxes) */
+		pf_lmt_addr.u = base + (num_funcs * RVU_PF_MAILBOX_SIZE);
+		CSR_WRITE(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf), pf_lmt_addr.u);
 
 		/* Write log2(size) in barbits */
 		pf_bar4_cfg.u = __builtin_ctzl(size);
 		CSR_WRITE(CAVM_RVU_AF_PFX_BAR4_CFG(pf), pf_bar4_cfg.u);
 		base += size;
 	}
+
+	config_lmt_map_table();
 }
 #endif // defined(PLAT_t106)
 
@@ -1127,6 +1200,9 @@ void octeontx_rvu_init(void)
 
 	dump_rvu_devs();
 
+#if defined(PLAT_t106)
+	octeontx3_rvu_apr_init();
+#endif
 	for (pf = 0 ; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (rvu_dev[pf].enable) {
 			reset_rvu_pf(pf);
