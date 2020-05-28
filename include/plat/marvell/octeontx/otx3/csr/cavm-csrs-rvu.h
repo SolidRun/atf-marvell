@@ -3991,13 +3991,16 @@ union cavm_rvu_priv_pfx_cfg
                                                                  should be set when the PF is configured and associated PF and/or AF drivers
                                                                  that manage VF and/or PF ME/FLR are loaded.
 
-                                                                 When clear, PCCPF/PCCVF_XXX_CMD[ME] state changes are ignored, and
+                                                                 When clear,
                                                                  PCCPF/PCCVF_XXX_E_DEV_CTL[BCR_FLR] reset the PF/VF configuration space.
 
                                                                  When set, hardware updates to the following registers in response to ME/FLR
                                                                  events are additionally enabled:
                                                                  RVU_PF_VFTRPEND(), RVU_PF_VFFLR_INT(), RVU_PF_VFME_INT(),
-                                                                 RVU_AF_PFTRPEND, RVU_AF_PFFLR_INT, and RVU_AF_PFFLR_INT. */
+                                                                 RVU_AF_PFTRPEND, RVU_AF_PFFLR_INT, and RVU_AF_PFFLR_INT.
+
+                                                                 Internal:
+                                                                 Hardware should not clear this bit during the FLR flow. */
         uint64_t af_ena                : 1;  /**< [ 21: 21](R/W) Admin function enable. When set, the PF is allowed to access AF (RVU PF
                                                                  BAR0) registers in all RVU blocks. When clear, BAR0 is hidden in the PF's
                                                                  PCI configuration EA capability header, and accesses to the PF's BAR0 are
@@ -4053,13 +4056,16 @@ union cavm_rvu_priv_pfx_cfg
                                                                  should be set when the PF is configured and associated PF and/or AF drivers
                                                                  that manage VF and/or PF ME/FLR are loaded.
 
-                                                                 When clear, PCCPF/PCCVF_XXX_CMD[ME] state changes are ignored, and
+                                                                 When clear,
                                                                  PCCPF/PCCVF_XXX_E_DEV_CTL[BCR_FLR] reset the PF/VF configuration space.
 
                                                                  When set, hardware updates to the following registers in response to ME/FLR
                                                                  events are additionally enabled:
                                                                  RVU_PF_VFTRPEND(), RVU_PF_VFFLR_INT(), RVU_PF_VFME_INT(),
-                                                                 RVU_AF_PFTRPEND, RVU_AF_PFFLR_INT, and RVU_AF_PFFLR_INT. */
+                                                                 RVU_AF_PFTRPEND, RVU_AF_PFFLR_INT, and RVU_AF_PFFLR_INT.
+
+                                                                 Internal:
+                                                                 Hardware should not clear this bit during the FLR flow. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;

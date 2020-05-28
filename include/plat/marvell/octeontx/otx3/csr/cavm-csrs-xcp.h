@@ -77,6 +77,8 @@
 #define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE1 (3)
 #define CAVM_XCP_MBOX_DEV_E_AP_SECURE0 (0)
 #define CAVM_XCP_MBOX_DEV_E_AP_SECURE1 (1)
+#define CAVM_XCP_MBOX_DEV_E_ECP_LOCAL (8)
+#define CAVM_XCP_MBOX_DEV_E_ECP_REMOTE (9)
 #define CAVM_XCP_MBOX_DEV_E_MCP_LOCAL (5)
 #define CAVM_XCP_MBOX_DEV_E_MCP_REMOTE (7)
 #define CAVM_XCP_MBOX_DEV_E_SCP_LOCAL (4)
@@ -205,8 +207,8 @@ typedef union cavm_xcpx_accum_empty cavm_xcpx_accum_empty_t;
 static inline uint64_t CAVM_XCPX_ACCUM_EMPTY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_ACCUM_EMPTY(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000a00ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000a00ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_ACCUM_EMPTY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -245,8 +247,8 @@ typedef union cavm_xcpx_boot_jump cavm_xcpx_boot_jump_t;
 static inline uint64_t CAVM_XCPX_BOOT_JUMP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BOOT_JUMP(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000130ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000130ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BOOT_JUMP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -310,8 +312,8 @@ typedef union cavm_xcpx_bp_test0 cavm_xcpx_bp_test0_t;
 static inline uint64_t CAVM_XCPX_BP_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BP_TEST0(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c00000e000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c00000e000ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -368,8 +370,8 @@ typedef union cavm_xcpx_bus_err_lint cavm_xcpx_bus_err_lint_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000001c00ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000001c00ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -393,25 +395,25 @@ union cavm_xcpx_bus_err_lint_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[CORE_RST_INT]. */
+        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
         uint32_t reserved_8            : 1;
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[WR_PSN_INT]. */
+        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
+        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
+        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
         uint32_t reserved_3_4          : 2;
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
+        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
+        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[RD_PSN_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[RD_TO_INT]. */
+        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
+        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
         uint32_t reserved_3_4          : 2;
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[WR_TO_INT]. */
+        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
+        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
+        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
         uint32_t reserved_8            : 1;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for XCP(0..1)_BUS_ERR_LINT[CORE_RST_INT]. */
+        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -422,8 +424,8 @@ typedef union cavm_xcpx_bus_err_lint_ena_w1c cavm_xcpx_bus_err_lint_ena_w1c_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000001cc0ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000001cc0ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -447,25 +449,25 @@ union cavm_xcpx_bus_err_lint_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[CORE_RST_INT]. */
+        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
         uint32_t reserved_8            : 1;
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[WR_PSN_INT]. */
+        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
+        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
+        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
         uint32_t reserved_3_4          : 2;
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
+        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
+        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[RD_PSN_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[RD_TO_INT]. */
+        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
+        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
         uint32_t reserved_3_4          : 2;
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[WR_TO_INT]. */
+        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
+        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
+        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
         uint32_t reserved_8            : 1;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for XCP(0..1)_BUS_ERR_LINT[CORE_RST_INT]. */
+        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -476,8 +478,8 @@ typedef union cavm_xcpx_bus_err_lint_ena_w1s cavm_xcpx_bus_err_lint_ena_w1s_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000001ce0ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000001ce0ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -501,25 +503,25 @@ union cavm_xcpx_bus_err_lint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[CORE_RST_INT]. */
+        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
         uint32_t reserved_8            : 1;
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[WR_PSN_INT]. */
+        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
+        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
+        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
         uint32_t reserved_3_4          : 2;
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
+        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
+        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[RD_PSN_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[RD_TO_INT]. */
+        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
+        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
         uint32_t reserved_3_4          : 2;
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[WR_TO_INT]. */
+        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
+        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
+        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
         uint32_t reserved_8            : 1;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets XCP(0..1)_BUS_ERR_LINT[CORE_RST_INT]. */
+        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -530,8 +532,8 @@ typedef union cavm_xcpx_bus_err_lint_w1s cavm_xcpx_bus_err_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_W1S(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000001c80ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000001c80ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -620,8 +622,8 @@ typedef union cavm_xcpx_cfg cavm_xcpx_cfg_t;
 static inline uint64_t CAVM_XCPX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CFG(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000200ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000200ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -660,8 +662,8 @@ typedef union cavm_xcpx_clken cavm_xcpx_clken_t;
 static inline uint64_t CAVM_XCPX_CLKEN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CLKEN(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000010ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000010ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CLKEN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -711,8 +713,8 @@ typedef union cavm_xcpx_cold_data cavm_xcpx_cold_data_t;
 static inline uint64_t CAVM_XCPX_COLD_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_COLD_DATA(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c0000da000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c0000da000ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_COLD_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -777,8 +779,8 @@ typedef union cavm_xcpx_cold_sticky_w1s cavm_xcpx_cold_sticky_w1s_t;
 static inline uint64_t CAVM_XCPX_COLD_STICKY_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_COLD_STICKY_W1S(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c0000da040ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c0000da040ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_COLD_STICKY_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -815,8 +817,8 @@ typedef union cavm_xcpx_const cavm_xcpx_const_t;
 static inline uint64_t CAVM_XCPX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CONST(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000000ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -857,8 +859,8 @@ typedef union cavm_xcpx_cwd_lint cavm_xcpx_cwd_lint_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000040200ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000040200ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -882,9 +884,9 @@ union cavm_xcpx_cwd_lint_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -895,8 +897,8 @@ typedef union cavm_xcpx_cwd_lint_ena_w1c cavm_xcpx_cwd_lint_ena_w1c_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000040210ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000040210ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -920,9 +922,9 @@ union cavm_xcpx_cwd_lint_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -933,8 +935,8 @@ typedef union cavm_xcpx_cwd_lint_ena_w1s cavm_xcpx_cwd_lint_ena_w1s_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000040218ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000040218ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -958,9 +960,9 @@ union cavm_xcpx_cwd_lint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -971,8 +973,8 @@ typedef union cavm_xcpx_cwd_lint_w1s cavm_xcpx_cwd_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT_W1S(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000040208ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000040208ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1013,8 +1015,8 @@ typedef union cavm_xcpx_cwd_nm_lint cavm_xcpx_cwd_nm_lint_t;
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000041200ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000041200ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_NM_LINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1038,9 +1040,9 @@ union cavm_xcpx_cwd_nm_lint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_CWD_NM_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_NM_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_CWD_NM_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_NM_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1051,8 +1053,8 @@ typedef union cavm_xcpx_cwd_nm_lint_w1s cavm_xcpx_cwd_nm_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT_W1S(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000041208ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000041208ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_NM_LINT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1096,8 +1098,8 @@ typedef union cavm_xcpx_cwd_poke cavm_xcpx_cwd_poke_t;
 static inline uint64_t CAVM_XCPX_CWD_POKE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_POKE(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c00000ee00ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c00000ee00ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_POKE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1164,8 +1166,8 @@ typedef union cavm_xcpx_cwd_wdog cavm_xcpx_cwd_wdog_t;
 static inline uint64_t CAVM_XCPX_CWD_WDOG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_WDOG(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c00000ee80ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c00000ee80ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_WDOG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1207,8 +1209,8 @@ typedef union cavm_xcpx_devx_xcp_mbox cavm_xcpx_devx_xcp_mbox_t;
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x82c0000e1000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if ((a<=2) && (b<=9))
+        return 0x82c0000e1000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1249,8 +1251,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint cavm_xcpx_devx_xcp_mbox_lint_t;
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x82c0000e1c00ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if ((a<=2) && (b<=9))
+        return 0x82c0000e1c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1274,9 +1276,9 @@ union cavm_xcpx_devx_xcp_mbox_lint_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_DEV(0..7)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_DEV(0..7)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1287,8 +1289,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint_ena_w1c cavm_xcpx_devx_xcp_mbox_lint_
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x82c0000e1d80ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if ((a<=2) && (b<=9))
+        return 0x82c0000e1f00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1312,9 +1314,9 @@ union cavm_xcpx_devx_xcp_mbox_lint_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_DEV(0..7)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_DEV(0..7)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1325,8 +1327,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint_ena_w1s cavm_xcpx_devx_xcp_mbox_lint_
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x82c0000e1c80ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if ((a<=2) && (b<=9))
+        return 0x82c0000e1e00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1350,9 +1352,9 @@ union cavm_xcpx_devx_xcp_mbox_lint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_DEV(0..7)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_DEV(0..7)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1363,8 +1365,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint_w1s cavm_xcpx_devx_xcp_mbox_lint_w1s_
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x82c0000e1d00ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if ((a<=2) && (b<=9))
+        return 0x82c0000e1d00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1402,8 +1404,8 @@ typedef union cavm_xcpx_eco cavm_xcpx_eco_t;
 static inline uint64_t CAVM_XCPX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_ECO(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000100ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000100ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1449,8 +1451,8 @@ typedef union cavm_xcpx_gibx_lint cavm_xcpx_gibx_lint_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x82c000000c00ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=2))
+        return 0x82c000000c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1505,8 +1507,8 @@ typedef union cavm_xcpx_gibx_lint_devid cavm_xcpx_gibx_lint_devid_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_DEVID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_DEVID(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x82c000000dc0ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=2))
+        return 0x82c000000dc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_DEVID", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1529,9 +1531,9 @@ union cavm_xcpx_gibx_lint_ena_w1c
     struct cavm_xcpx_gibx_lint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_gibx_lint_ena_w1c_s cn; */
@@ -1541,8 +1543,8 @@ typedef union cavm_xcpx_gibx_lint_ena_w1c cavm_xcpx_gibx_lint_ena_w1c_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x82c000000cc0ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=2))
+        return 0x82c000000cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1565,9 +1567,9 @@ union cavm_xcpx_gibx_lint_ena_w1s
     struct cavm_xcpx_gibx_lint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_gibx_lint_ena_w1s_s cn; */
@@ -1577,8 +1579,8 @@ typedef union cavm_xcpx_gibx_lint_ena_w1s cavm_xcpx_gibx_lint_ena_w1s_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x82c000000c40ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=2))
+        return 0x82c000000c40ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1601,9 +1603,9 @@ union cavm_xcpx_gibx_lint_w1s
     struct cavm_xcpx_gibx_lint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..1)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..1)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_gibx_lint_w1s_s cn; */
@@ -1613,8 +1615,8 @@ typedef union cavm_xcpx_gibx_lint_w1s cavm_xcpx_gibx_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x82c000000c80ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=2))
+        return 0x82c000000c80ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1647,15 +1649,13 @@ union cavm_xcpx_lint_summary
         uint32_t reserved_16_17        : 2;
         uint32_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
         uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) PSBM wakeup interrupt (SCP only, otherwise reserved). */
-        uint32_t reserved_13           : 1;
-        uint32_t mbox                  : 8;  /**< [ 12:  5](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
-        uint32_t reserved_3_4          : 2;
+        uint32_t mbox                  : 10; /**< [ 13:  4](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
+        uint32_t reserved_3            : 1;
         uint32_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
 #else /* Word 0 - Little Endian */
         uint32_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t mbox                  : 8;  /**< [ 12:  5](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
-        uint32_t reserved_13           : 1;
+        uint32_t reserved_3            : 1;
+        uint32_t mbox                  : 10; /**< [ 13:  4](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
         uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) PSBM wakeup interrupt (SCP only, otherwise reserved). */
         uint32_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
         uint32_t reserved_16_17        : 2;
@@ -1671,8 +1671,8 @@ typedef union cavm_xcpx_lint_summary cavm_xcpx_lint_summary_t;
 static inline uint64_t CAVM_XCPX_LINT_SUMMARY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_LINT_SUMMARY(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c0000e0000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c0000e0000ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_LINT_SUMMARY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1713,8 +1713,8 @@ typedef union cavm_xcpx_mrml_64rd cavm_xcpx_mrml_64rd_t;
 static inline uint64_t CAVM_XCPX_MRML_64RD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MRML_64RD(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000110ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000110ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_MRML_64RD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1755,8 +1755,8 @@ typedef union cavm_xcpx_mrml_64wr cavm_xcpx_mrml_64wr_t;
 static inline uint64_t CAVM_XCPX_MRML_64WR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MRML_64WR(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000120ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000120ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_MRML_64WR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1795,8 +1795,8 @@ typedef union cavm_xcpx_msix_pbax cavm_xcpx_msix_pbax_t;
 static inline uint64_t CAVM_XCPX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b==0))
-        return 0x82c0001f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x82c0001f0000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("XCPX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1881,8 +1881,8 @@ typedef union cavm_xcpx_msix_vecx_addr cavm_xcpx_msix_vecx_addr_t;
 static inline uint64_t CAVM_XCPX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c000100000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c000100000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1923,8 +1923,8 @@ typedef union cavm_xcpx_msix_vecx_ctl cavm_xcpx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_XCPX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c000100008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c000100008ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1963,8 +1963,8 @@ typedef union cavm_xcpx_ncb_timeout cavm_xcpx_ncb_timeout_t;
 static inline uint64_t CAVM_XCPX_NCB_TIMEOUT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_NCB_TIMEOUT(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000220ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000220ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_NCB_TIMEOUT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2001,8 +2001,8 @@ typedef union cavm_xcpx_precise_bus_err_addr cavm_xcpx_precise_bus_err_addr_t;
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_ADDR(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000001d00ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000001d00ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_PRECISE_BUS_ERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2047,8 +2047,8 @@ typedef union cavm_xcpx_precise_bus_err_status cavm_xcpx_precise_bus_err_status_
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_STATUS(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000001d08ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000001d08ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_PRECISE_BUS_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2096,8 +2096,8 @@ typedef union cavm_xcpx_segx_map_reg cavm_xcpx_segx_map_reg_t;
 static inline uint64_t CAVM_XCPX_SEGX_MAP_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_SEGX_MAP_REG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c000000600ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c000000600ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_SEGX_MAP_REG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2142,8 +2142,8 @@ typedef union cavm_xcpx_winx_addr cavm_xcpx_winx_addr_t;
 static inline uint64_t CAVM_XCPX_WINX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_WINX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c000000400ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c000000400ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_WINX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2222,8 +2222,8 @@ typedef union cavm_xcpx_winx_cfg cavm_xcpx_winx_cfg_t;
 static inline uint64_t CAVM_XCPX_WINX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_WINX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c000000300ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c000000300ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_WINX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2265,8 +2265,8 @@ typedef union cavm_xcpx_winx_inv cavm_xcpx_winx_inv_t;
 static inline uint64_t CAVM_XCPX_WINX_INV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_WINX_INV(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c000000500ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c000000500ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_WINX_INV", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2307,8 +2307,8 @@ typedef union cavm_xcpx_wr_accum_flsh_cnt cavm_xcpx_wr_accum_flsh_cnt_t;
 static inline uint64_t CAVM_XCPX_WR_ACCUM_FLSH_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_WR_ACCUM_FLSH_CNT(uint64_t a)
 {
-    if (a<=1)
-        return 0x82c000000210ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x82c000000210ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_WR_ACCUM_FLSH_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2347,8 +2347,8 @@ typedef union cavm_xcpx_xcp_devx_mbox cavm_xcpx_xcp_devx_mbox_t;
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c0000d1000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c0000d1000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2390,8 +2390,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint cavm_xcpx_xcp_devx_mbox_rint_t;
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c0000d1c00ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c0000d1c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2415,9 +2415,9 @@ union cavm_xcpx_xcp_devx_mbox_rint_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..1)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2428,8 +2428,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint_ena_w1c cavm_xcpx_xcp_devx_mbox_rint_
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c0000d1cc0ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c0000d1cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2453,9 +2453,9 @@ union cavm_xcpx_xcp_devx_mbox_rint_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..1)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2466,8 +2466,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint_ena_w1s cavm_xcpx_xcp_devx_mbox_rint_
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c0000d1c40ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c0000d1c40ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2491,9 +2491,9 @@ union cavm_xcpx_xcp_devx_mbox_rint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..1)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2504,8 +2504,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint_w1s cavm_xcpx_xcp_devx_mbox_rint_w1s_
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x82c0000d1c80ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=2) && (b<=3))
+        return 0x82c0000d1c80ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 

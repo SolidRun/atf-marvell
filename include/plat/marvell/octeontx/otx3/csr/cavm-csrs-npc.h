@@ -90,7 +90,7 @@
 /**
  * Enumeration npc_ptype_e
  *
- * NPC Port-Kind Type Enumeration
+ * NPC Port Kind Type Enumeration
  * Enumerates the NPC pkind PTYPEs.
  */
 #define CAVM_NPC_PTYPE_E_PTYPEX(a) (0 + (a))
@@ -618,20 +618,40 @@ union cavm_npc_af_const
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t match_stats           : 16; /**< [ 63: 48](RO) Number of NPC_AF_MATCH_STAT() base counters. When NPC_AF_CONST2[MATCH_STATS_EXT]
-                                                                 is present and non-zero, the device supports the extended MCAM capabilities.
+                                                                 is present and non-zero, the device supports the extended MCAM capabilities.  If
+                                                                 MATCH_STATS is zero, NPC_AF_MATCH_STAT() is not available.  Use
+                                                                 NPC_AF_MATCH_STAT_EXT().
 
                                                                  Internal:
                                                                  Deprecated in CN98XX. */
         uint64_t mcam_banks            : 4;  /**< [ 47: 44](RO) Number of MCAM banks. */
         uint64_t mcam_bank_depth       : 16; /**< [ 43: 28](RO) MCAM bank base depth. When NPC_AF_CONST2[MCAM_BANK_DEPTH_EXT] is present and
-                                                                 non-zero, the device supports the extended MCAM capabilities.
+                                                                 non-zero, the device supports the extended MCAM capabilities.  If
+                                                                 MCAM_BANK_DEPTH is zero, the following registers are not available
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_INTF.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W0.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W1.
+                                                                 - NPC_AF_MCAME()_BANK()_CFG.
+                                                                 - NPC_AF_MCAME()_BANK()_ACTION.
+                                                                 - NPC_AF_MCAME()_BANK()_TAG_ACT.
+                                                                 - NPC_AF_MCAME()_BANK()_STAT_ACT.
+                                                                 - NPC_AF_MCAM_BANK()_HIT().
+                                                                 Use the following instead:
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W0_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W1_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_CFG_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_ACTION_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_TAG_ACT_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_STAT_ACT_EXT.
+                                                                 - NPC_AF_MCAM_BANK()_HIT()_EXT.
 
                                                                  Internal:
                                                                  Deprecated in CN98XX. */
         uint64_t reserved_26_27        : 2;
         uint64_t mcam_bank_width       : 10; /**< [ 25: 16](RO) MCAM bank width. Combined number of nonreserved bits in
-                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W0, NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W1 and
-                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_INTF. */
+                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W0_EXT, NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W1_EXT and
+                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_INTF_EXT. */
         uint64_t reserved_13_15        : 3;
         uint64_t kpus                  : 5;  /**< [ 12:  8](RO) Number of KPUs. */
         uint64_t lids                  : 4;  /**< [  7:  4](RO) Number of layer IDs enumerated by NPC_LID_E. This is the maximum number of
@@ -644,17 +664,37 @@ union cavm_npc_af_const
         uint64_t kpus                  : 5;  /**< [ 12:  8](RO) Number of KPUs. */
         uint64_t reserved_13_15        : 3;
         uint64_t mcam_bank_width       : 10; /**< [ 25: 16](RO) MCAM bank width. Combined number of nonreserved bits in
-                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W0, NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W1 and
-                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_INTF. */
+                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W0_EXT, NPC_AF_MCAME(0)_BANK(0)_CAM(0)_W1_EXT and
+                                                                 NPC_AF_MCAME(0)_BANK(0)_CAM(0)_INTF_EXT. */
         uint64_t reserved_26_27        : 2;
         uint64_t mcam_bank_depth       : 16; /**< [ 43: 28](RO) MCAM bank base depth. When NPC_AF_CONST2[MCAM_BANK_DEPTH_EXT] is present and
-                                                                 non-zero, the device supports the extended MCAM capabilities.
+                                                                 non-zero, the device supports the extended MCAM capabilities.  If
+                                                                 MCAM_BANK_DEPTH is zero, the following registers are not available
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_INTF.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W0.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W1.
+                                                                 - NPC_AF_MCAME()_BANK()_CFG.
+                                                                 - NPC_AF_MCAME()_BANK()_ACTION.
+                                                                 - NPC_AF_MCAME()_BANK()_TAG_ACT.
+                                                                 - NPC_AF_MCAME()_BANK()_STAT_ACT.
+                                                                 - NPC_AF_MCAM_BANK()_HIT().
+                                                                 Use the following instead:
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W0_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_W1_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_CFG_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_ACTION_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_TAG_ACT_EXT.
+                                                                 - NPC_AF_MCAME()_BANK()_STAT_ACT_EXT.
+                                                                 - NPC_AF_MCAM_BANK()_HIT()_EXT.
 
                                                                  Internal:
                                                                  Deprecated in CN98XX. */
         uint64_t mcam_banks            : 4;  /**< [ 47: 44](RO) Number of MCAM banks. */
         uint64_t match_stats           : 16; /**< [ 63: 48](RO) Number of NPC_AF_MATCH_STAT() base counters. When NPC_AF_CONST2[MATCH_STATS_EXT]
-                                                                 is present and non-zero, the device supports the extended MCAM capabilities.
+                                                                 is present and non-zero, the device supports the extended MCAM capabilities.  If
+                                                                 MATCH_STATS is zero, NPC_AF_MATCH_STAT() is not available.  Use
+                                                                 NPC_AF_MATCH_STAT_EXT().
 
                                                                  Internal:
                                                                  Deprecated in CN98XX. */
@@ -772,10 +812,26 @@ union cavm_npc_af_const2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t have_const3           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST3 is present. */
-        uint64_t reserved_32_62        : 31;
+        uint64_t have_ptype            : 1;  /**< [ 62: 62](RO) PTYPE functionality is present.  PTYPE will be visible in the following:
+                                                                 - NPC_RESULT_S[PTYPE].
+                                                                 - NPC_AF_PKIND()_TYPE.
+                                                                 - NPC_AF_KPU()_ENTRY()_CAM()[PTYPE]. */
+        uint64_t have_ctype            : 1;  /**< [ 61: 61](RO) CTYPE functionality is present.  CTYPE will be visible in the following:
+                                                                 - NPC_MCAM_KEY_X1_S[CTYPE].
+                                                                 - NPC_MCAM_KEY_X2_S[CTYPE].
+                                                                 - NPC_MCAM_KEY_X4_S[CTYPE].
+                                                                 - NPC_RESULT_S[CTYPE].
+                                                                 - NPC_AF_LKUP_CTL[CTYPE].
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT[CTYPE]. */
+        uint64_t reserved_32_60        : 29;
         uint64_t match_stats_ext       : 16; /**< [ 31: 16](RO) Number of MCAM extended NPC_AF_MATCH_STAT_EXT() counters.  Use extended MCAM
                                                                  register set (list below) when value is non-zero.
-                                                                 * NPC_AF_MATCH_STAT_EXT(). */
+                                                                 * NPC_AF_MATCH_STAT_EXT().
+
+                                                                 Internal:
+                                                                 max value 0x10000 which does not fit.  If support for full 64k stats, will not
+                                                                 require an indirect lookup.  Could control that with another CONST field or
+                                                                 encode 0 to mean full 64k. */
         uint64_t mcam_bank_depth_ext   : 16; /**< [ 15:  0](RO) MCAM extended bank depth.  Use extended MCAM register set (list below) when
                                                                  value is non-zero.
                                                                  * NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT.
@@ -785,7 +841,10 @@ union cavm_npc_af_const2
                                                                  * NPC_AF_MCAME()_BANK()_ACTION_EXT.
                                                                  * NPC_AF_MCAME()_BANK()_TAG_ACT_EXT.
                                                                  * NPC_AF_MCAME()_BANK()_STAT_ACT_EXT.
-                                                                 * NPC_AF_MCAM_BANK()_HIT()_EXT. */
+                                                                 * NPC_AF_MCAM_BANK()_HIT()_EXT.
+
+                                                                 Internal:
+                                                                 Maxium value 0x4000. */
 #else /* Word 0 - Little Endian */
         uint64_t mcam_bank_depth_ext   : 16; /**< [ 15:  0](RO) MCAM extended bank depth.  Use extended MCAM register set (list below) when
                                                                  value is non-zero.
@@ -796,11 +855,30 @@ union cavm_npc_af_const2
                                                                  * NPC_AF_MCAME()_BANK()_ACTION_EXT.
                                                                  * NPC_AF_MCAME()_BANK()_TAG_ACT_EXT.
                                                                  * NPC_AF_MCAME()_BANK()_STAT_ACT_EXT.
-                                                                 * NPC_AF_MCAM_BANK()_HIT()_EXT. */
+                                                                 * NPC_AF_MCAM_BANK()_HIT()_EXT.
+
+                                                                 Internal:
+                                                                 Maxium value 0x4000. */
         uint64_t match_stats_ext       : 16; /**< [ 31: 16](RO) Number of MCAM extended NPC_AF_MATCH_STAT_EXT() counters.  Use extended MCAM
                                                                  register set (list below) when value is non-zero.
-                                                                 * NPC_AF_MATCH_STAT_EXT(). */
-        uint64_t reserved_32_62        : 31;
+                                                                 * NPC_AF_MATCH_STAT_EXT().
+
+                                                                 Internal:
+                                                                 max value 0x10000 which does not fit.  If support for full 64k stats, will not
+                                                                 require an indirect lookup.  Could control that with another CONST field or
+                                                                 encode 0 to mean full 64k. */
+        uint64_t reserved_32_60        : 29;
+        uint64_t have_ctype            : 1;  /**< [ 61: 61](RO) CTYPE functionality is present.  CTYPE will be visible in the following:
+                                                                 - NPC_MCAM_KEY_X1_S[CTYPE].
+                                                                 - NPC_MCAM_KEY_X2_S[CTYPE].
+                                                                 - NPC_MCAM_KEY_X4_S[CTYPE].
+                                                                 - NPC_RESULT_S[CTYPE].
+                                                                 - NPC_AF_LKUP_CTL[CTYPE].
+                                                                 - NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT[CTYPE]. */
+        uint64_t have_ptype            : 1;  /**< [ 62: 62](RO) PTYPE functionality is present.  PTYPE will be visible in the following:
+                                                                 - NPC_RESULT_S[PTYPE].
+                                                                 - NPC_AF_PKIND()_TYPE.
+                                                                 - NPC_AF_KPU()_ENTRY()_CAM()[PTYPE]. */
         uint64_t have_const3           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST3 is present. */
 #endif /* Word 0 - End */
     } s;
@@ -1478,7 +1556,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_LIDX_LTX_LDX_CFG(uint64_t a, uint64_t b
  *
  * NPC AF Interface MCAM Miss Action Data Registers
  * When a combination of NPC_AF_MCAME()_BANK()_CAM()_* and
- * NPC_AF_MCAME()_BANK()_CFG[ENA] yields an MCAM miss for a packet, this
+ * NPC_AF_MCAME()_BANK()_CFG_EXT[ENA] yields an MCAM miss for a packet, this
  * register specifies the packet's match action captured in NPC_RESULT_S[ACTION].
  */
 union cavm_npc_af_intfx_miss_act
@@ -1517,7 +1595,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_MISS_ACT(uint64_t a)
  * Register (RVU_PF_BAR0) npc_af_intf#_miss_stat_act
  *
  * NPC AF Interface MCAM Miss Stat Action Data Registers
- * Used to optionally increment a NPC_AF_MATCH_STAT() counter when a packet
+ * Used to optionally increment a NPC_AF_MATCH_STAT()_EXT counter when a packet
  * misses an MCAM entry.
  */
 union cavm_npc_af_intfx_miss_stat_act
@@ -1526,21 +1604,15 @@ union cavm_npc_af_intfx_miss_stat_act
     struct cavm_npc_af_intfx_miss_stat_act_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t stat_sel_ext          : 3;  /**< [ 14: 12](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t ena                   : 1;  /**< [  9:  9](R/W) Enable. */
-        uint64_t stat_sel              : 9;  /**< [  8:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
+        uint64_t reserved_12_62        : 51;
+        uint64_t stat_sel              : 12; /**< [ 11:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
                                                                  increment on a match to this MCAM entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t stat_sel              : 9;  /**< [  8:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
+        uint64_t stat_sel              : 12; /**< [ 11:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
                                                                  increment on a match to this MCAM entry. */
-        uint64_t ena                   : 1;  /**< [  9:  9](R/W) Enable. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t stat_sel_ext          : 3;  /**< [ 14: 12](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_12_62        : 51;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_intfx_miss_stat_act_s cn; */
@@ -1567,7 +1639,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_MISS_STAT_ACT(uint64_t a)
  *
  * NPC AF Interface MCAM Miss VTag Action Data Registers
  * When a combination of NPC_AF_MCAME()_BANK()_CAM()_* and
- * NPC_AF_MCAME()_BANK()_CFG[ENA] yields an MCAM miss for a packet, this
+ * NPC_AF_MCAME()_BANK()_CFG_EXT[ENA] yields an MCAM miss for a packet, this
  * register specifies the packet's match Vtag action captured in
  * NPC_RESULT_S[VTAG_ACTION].
  */
@@ -2477,51 +2549,6 @@ static inline uint64_t CAVM_NPC_AF_LKUP_RESULTX(uint64_t a)
 #define arguments_CAVM_NPC_AF_LKUP_RESULTX(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_match_stat#
- *
- * NPC AF Match Statistics Registers
- */
-union cavm_npc_af_match_statx
-{
-    uint64_t u;
-    struct cavm_npc_af_match_statx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Number of packets that hit an MCAM entry whose
-                                                                 NPC_AF_MCAME()_BANK()_STAT_ACT selects this register, and/or that missed
-                                                                 MCAM when the corresponding NPC_AF_INTF()_MISS_STAT_ACT selects this
-                                                                 register. Excludes MCAM lookups initiated by software using NPC_AF_LKUP_CTL
-                                                                 and NPC_AF_LKUP_DATA(). */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Number of packets that hit an MCAM entry whose
-                                                                 NPC_AF_MCAME()_BANK()_STAT_ACT selects this register, and/or that missed
-                                                                 MCAM when the corresponding NPC_AF_INTF()_MISS_STAT_ACT selects this
-                                                                 register. Excludes MCAM lookups initiated by software using NPC_AF_LKUP_CTL
-                                                                 and NPC_AF_LKUP_DATA(). */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_match_statx_s cn; */
-};
-typedef union cavm_npc_af_match_statx cavm_npc_af_match_statx_t;
-
-static inline uint64_t CAVM_NPC_AF_MATCH_STATX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MATCH_STATX(uint64_t a)
-{
-    if (a<=511)
-        return 0x840061880008ll + 0x100ll * ((a) & 0x1ff);
-    __cavm_csr_fatal("NPC_AF_MATCH_STATX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MATCH_STATX(a) cavm_npc_af_match_statx_t
-#define bustype_CAVM_NPC_AF_MATCH_STATX(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MATCH_STATX(a) "NPC_AF_MATCH_STATX"
-#define device_bar_CAVM_NPC_AF_MATCH_STATX(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MATCH_STATX(a) (a)
-#define arguments_CAVM_NPC_AF_MATCH_STATX(a) (a),-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_match_stat#_ext
  *
  * NPC AF Match Statistics Registers
@@ -2534,13 +2561,13 @@ union cavm_npc_af_match_statx_ext
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Number of packets that hit an MCAM entry whose
-                                                                 NPC_AF_MCAME()_BANK()_STAT_ACT selects this register, and/or that missed
+                                                                 NPC_AF_MCAME()_BANK()_STAT_ACT_EXT selects this register, and/or that missed
                                                                  MCAM when the corresponding NPC_AF_INTF()_MISS_STAT_ACT selects this
                                                                  register. Excludes MCAM lookups initiated by software using NPC_AF_LKUP_CTL
                                                                  and NPC_AF_LKUP_DATA(). */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 48; /**< [ 47:  0](R/W/H) Number of packets that hit an MCAM entry whose
-                                                                 NPC_AF_MCAME()_BANK()_STAT_ACT selects this register, and/or that missed
+                                                                 NPC_AF_MCAME()_BANK()_STAT_ACT_EXT selects this register, and/or that missed
                                                                  MCAM when the corresponding NPC_AF_INTF()_MISS_STAT_ACT selects this
                                                                  register. Excludes MCAM lookups initiated by software using NPC_AF_LKUP_CTL
                                                                  and NPC_AF_LKUP_DATA(). */
@@ -2565,59 +2592,6 @@ static inline uint64_t CAVM_NPC_AF_MATCH_STATX_EXT(uint64_t a)
 #define device_bar_CAVM_NPC_AF_MATCH_STATX_EXT(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPC_AF_MATCH_STATX_EXT(a) (a)
 #define arguments_CAVM_NPC_AF_MATCH_STATX_EXT(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_mcam_bank#_hit#
- *
- * NPC AF MCAM Bank Hit Registers
- */
-union cavm_npc_af_mcam_bankx_hitx
-{
-    uint64_t u;
-    struct cavm_npc_af_mcam_bankx_hitx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hit                   : 64; /**< [ 63:  0](R/W1C/H) Entry hit.
-                                                                 One bit per MCAM bank entry; NPC_AF_MCAM_BANK()_HIT(0)[HIT]\<63:0\> for entries 63-0,
-                                                                 NPC_AF_MCAM_BANK()_HIT(1)[HIT]\<63:0\> for entries 127-64, etc. Hardware sets a bit
-                                                                 when a packet's MCAM lookup hits the corresponding bank entry, and clears a bit when
-                                                                 software writes a one. If a lookup uses a wide (X2 or X4) search key, a hit only
-                                                                 sets the bit for the first bank (bank 0 or 2 for the NPC_MCAM_KEY_X2_S search
-                                                                 key format, bank 0 for the NPC_MCAM_KEY_X4_S format).
-
-                                                                 Not affected by lookups initiated by software with NPC_AF_LKUP_CTL and
-                                                                 NPC_AF_LKUP_DATA(). */
-#else /* Word 0 - Little Endian */
-        uint64_t hit                   : 64; /**< [ 63:  0](R/W1C/H) Entry hit.
-                                                                 One bit per MCAM bank entry; NPC_AF_MCAM_BANK()_HIT(0)[HIT]\<63:0\> for entries 63-0,
-                                                                 NPC_AF_MCAM_BANK()_HIT(1)[HIT]\<63:0\> for entries 127-64, etc. Hardware sets a bit
-                                                                 when a packet's MCAM lookup hits the corresponding bank entry, and clears a bit when
-                                                                 software writes a one. If a lookup uses a wide (X2 or X4) search key, a hit only
-                                                                 sets the bit for the first bank (bank 0 or 2 for the NPC_MCAM_KEY_X2_S search
-                                                                 key format, bank 0 for the NPC_MCAM_KEY_X4_S format).
-
-                                                                 Not affected by lookups initiated by software with NPC_AF_LKUP_CTL and
-                                                                 NPC_AF_LKUP_DATA(). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcam_bankx_hitx_s cn; */
-};
-typedef union cavm_npc_af_mcam_bankx_hitx cavm_npc_af_mcam_bankx_hitx_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAM_BANKX_HITX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAM_BANKX_HITX(uint64_t a, uint64_t b)
-{
-    if ((a<=3) && (b<=15))
-        return 0x840061c80000ll + 0x100ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
-    __cavm_csr_fatal("NPC_AF_MCAM_BANKX_HITX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAM_BANKX_HITX(a,b) cavm_npc_af_mcam_bankx_hitx_t
-#define bustype_CAVM_NPC_AF_MCAM_BANKX_HITX(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAM_BANKX_HITX(a,b) "NPC_AF_MCAM_BANKX_HITX"
-#define device_bar_CAVM_NPC_AF_MCAM_BANKX_HITX(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAM_BANKX_HITX(a,b) (a)
-#define arguments_CAVM_NPC_AF_MCAM_BANKX_HITX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npc_af_mcam_bank#_hit#_ext
@@ -2848,61 +2822,24 @@ static inline uint64_t CAVM_NPC_AF_MCAM_SCRUB_CTL_FUNC(void)
 #define arguments_CAVM_NPC_AF_MCAM_SCRUB_CTL -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_action
+ * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_action_ext
  *
  * NPC AF MCAM Entry Bank Action Data Registers
  * Specifies a packet's match action captured in NPC_RESULT_S[ACTION].
  *
  * When an interface is configured to use the NPC_MCAM_KEY_X2_S search key
  * format (NPC_AF_INTF()_KEX_CFG[KEYW] = NPC_MCAMKEYW_E::X2),
- * * NPC_AF_MCAME()_BANK(0)_ACTION/_TAG_ACT/_STAT_ACT are used if the search key
- * matches NPC_AF_MCAME()_BANK(0..1)_CAM()_W*.
- * * NPC_AF_MCAME()_BANK(2)_ACTION/_TAG_ACT/_STAT_ACT are used if the search key
- * matches NPC_AF_MCAME()_BANK(2..3)_CAM()_W*.
- * * NPC_AF_MCAME()_BANK(1,3)_ACTION/_TAG_ACT/_STAT_ACT are not used.
+ * * NPC_AF_MCAME()_BANK(0)_ACTION_EXT/_TAG_ACT_EXT/_STAT_ACT_EXT are used if the search key
+ * matches NPC_AF_MCAME()_BANK(0..1)_CAM()_W*_EXT.
+ * * NPC_AF_MCAME()_BANK(2)_ACTION_EXT/_TAG_ACT_EXT/_STAT_ACT_EXT are used if the search key
+ * matches NPC_AF_MCAME()_BANK(2..3)_CAM()_W*_EXT.
+ * * NPC_AF_MCAME()_BANK(1,3)_ACTION_EXT/_TAG_ACT_EXT/_STAT_ACT_EXT are not used.
  *
  * When an interface is configured to use the NPC_MCAM_KEY_X4_S search key
  * format (NPC_AF_INTF()_KEX_CFG[KEYW] = NPC_MCAMKEYW_E::X4):
- * * NPC_AF_MCAME()_BANK(0)_ACTION/_TAG_ACT/_STAT_ACT are used if the search key
- * matches NPC_AF_MCAME()_BANK(0..3)_CAM()_W*.
- * * NPC_AF_MCAME()_BANK(1..3)_ACTION/_TAG_ACT/_STAT_ACT are not used.
- */
-union cavm_npc_af_mcamex_bankx_action
-{
-    uint64_t u;
-    struct cavm_npc_af_mcamex_bankx_action_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t action                : 64; /**< [ 63:  0](R/W) Match action. Format is NIX_RX_ACTION_S for RX packet, NIX_TX_ACTION_S for
-                                                                 TX packet. */
-#else /* Word 0 - Little Endian */
-        uint64_t action                : 64; /**< [ 63:  0](R/W) Match action. Format is NIX_RX_ACTION_S for RX packet, NIX_TX_ACTION_S for
-                                                                 TX packet. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcamex_bankx_action_s cn; */
-};
-typedef union cavm_npc_af_mcamex_bankx_action cavm_npc_af_mcamex_bankx_action_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION(uint64_t a, uint64_t b)
-{
-    if ((a<=1023) && (b<=3))
-        return 0x840061900000ll + 0x100ll * ((a) & 0x3ff) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_ACTION", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAMEX_BANKX_ACTION(a,b) cavm_npc_af_mcamex_bankx_action_t
-#define bustype_CAVM_NPC_AF_MCAMEX_BANKX_ACTION(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAMEX_BANKX_ACTION(a,b) "NPC_AF_MCAMEX_BANKX_ACTION"
-#define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_ACTION(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAMEX_BANKX_ACTION(a,b) (a)
-#define arguments_CAVM_NPC_AF_MCAMEX_BANKX_ACTION(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_action_ext
- *
- * NPC AF MCAM Entry Bank Action Data Registers
+ * * NPC_AF_MCAME()_BANK(0)_ACTION_EXT/_TAG_ACT_EXT/_STAT_ACT_EXT are used if the search key
+ * matches NPC_AF_MCAME()_BANK(0..3)_CAM()_W*_EXT.
+ * * NPC_AF_MCAME()_BANK(1..3)_ACTION_EXT/_TAG_ACT_EXT/_STAT_ACT_EXT are not used.
  */
 union cavm_npc_af_mcamex_bankx_action_ext
 {
@@ -2937,12 +2874,12 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t 
 #define arguments_CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cam#_intf
+ * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cam#_intf_ext
  *
  * NPC AF MCAM Entry Bank CAM Data Interface Registers
  * MCAM comparison ternary data interface word. The field values in
- * NPC_AF_MCAME()_BANK()_CAM()_INTF, NPC_AF_MCAME()_BANK()_CAM()_W0 and
- * NPC_AF_MCAME()_BANK()_CAM()_W1 are ternary, where  each data bit of the
+ * NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT, NPC_AF_MCAME()_BANK()_CAM()_W0_EXT and
+ * NPC_AF_MCAME()_BANK()_CAM()_W1_EXT are ternary, where  each data bit of the
  * search key matches as follows:
  * _ [CAM(1)]\<n\>=0, [CAM(0)]\<n\>=0: Always match; search key data\<n\> don't care.
  * _ [CAM(1)]\<n\>=0, [CAM(0)]\<n\>=1: Match when search key data\<n\> == 0.
@@ -2953,59 +2890,59 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t 
  * CAM(0) or CAM(1) that would result in the reserved combination for any CAM bit.
  *
  * The reset value for all non-reserved fields in
- * NPC_AF_MCAME()_BANK()_CAM()_INTF, NPC_AF_MCAME()_BANK()_CAM()_W0 and
- * NPC_AF_MCAME()_BANK()_CAM()_W1 is all zeros for CAM(1) and all ones for CAM(0),
+ * NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT, NPC_AF_MCAME()_BANK()_CAM()_W0_EXT and
+ * NPC_AF_MCAME()_BANK()_CAM()_W1_EXT is all zeros for CAM(1) and all ones for CAM(0),
  * matching a search key of all zeros.
  *
  * When an interface is configured to use the NPC_MCAM_KEY_X1_S search key
  * format (NPC_AF_INTF()_KEX_CFG[KEYW] = NPC_MCAMKEYW_E::X1), the four banks
  * of every MCAM entry are used as individual entries, each of which is
  * independently compared with the search key as follows:
- * _ NPC_AF_MCAME()_BANK()_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X1_S[INTF].
- * _ NPC_AF_MCAME()_BANK()_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X1_S[CTYPE].
- * _ NPC_AF_MCAME()_BANK()_CAM()_W0[MD] corresponds to NPC_MCAM_KEY_X1_S[KW0].
- * _ NPC_AF_MCAME()_BANK()_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X1_S[KW1].
+ * _ NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT[INTF] corresponds to NPC_MCAM_KEY_X1_S[INTF].
+ * _ NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT[CTYPE] corresponds to NPC_MCAM_KEY_X1_S[CTYPE].
+ * _ NPC_AF_MCAME()_BANK()_CAM()_W0_EXT[MD] corresponds to NPC_MCAM_KEY_X1_S[KW0].
+ * _ NPC_AF_MCAME()_BANK()_CAM()_W1_EXT[MD] corresponds to NPC_MCAM_KEY_X1_S[KW1].
  *
  * When an interface is configured to use the NPC_MCAM_KEY_X2_S search key
  * format (NPC_AF_INTF()_KEX_CFG[KEYW] = NPC_MCAMKEYW_E::X2), banks 0-1 of
  * every MCAM entry are used as one double-wide entry, banks 2-3 as a second
  * double-wide entry, and each double-wide entry is independently compared
  * with the search key as follows:
- * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X2_S[INTF].
- * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X2_S[CTYPE].
- * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_W0[MD] corresponds to NPC_MCAM_KEY_X2_S[KW0].
- * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X2_S[KW1]\<47:0\>.
- * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X2_S[INTF].
- * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X2_S[CTYPE].
- * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W0[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X2_S[KW1]\<63:48\>.
- * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W0[MD]\<63:16\> corresponds to NPC_MCAM_KEY_X2_S[KW2]\<47:0\>.
- * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W1[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X2_S[KW2]\<63:48\>.
- * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W1[MD]\<47:16\> corresponds to NPC_MCAM_KEY_X2_S[KW3]\<31:0\>.
+ * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_INTF_EXT[INTF] corresponds to NPC_MCAM_KEY_X2_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_INTF_EXT[CTYPE] corresponds to NPC_MCAM_KEY_X2_S[CTYPE].
+ * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_W0_EXT[MD] corresponds to NPC_MCAM_KEY_X2_S[KW0].
+ * _ NPC_AF_MCAME()_BANK(0,2)_CAM()_W1_EXT[MD] corresponds to NPC_MCAM_KEY_X2_S[KW1]\<47:0\>.
+ * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_INTF_EXT[INTF] corresponds to NPC_MCAM_KEY_X2_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_INTF_EXT[CTYPE] corresponds to NPC_MCAM_KEY_X2_S[CTYPE].
+ * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W0_EXT[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X2_S[KW1]\<63:48\>.
+ * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W0_EXT[MD]\<63:16\> corresponds to NPC_MCAM_KEY_X2_S[KW2]\<47:0\>.
+ * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W1_EXT[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X2_S[KW2]\<63:48\>.
+ * _ NPC_AF_MCAME()_BANK(1,3)_CAM()_W1_EXT[MD]\<47:16\> corresponds to NPC_MCAM_KEY_X2_S[KW3]\<31:0\>.
  *
  * When an interface is configured to use the NPC_MCAM_KEY_X4_S search key
  * format (NPC_AF_INTF()_KEX_CFG[KEYW] = NPC_MCAMKEYW_E::X4), the four banks of every MCAM entry
  * are used as a single quad-wide entry that is compared with the search key as follows:
- * _ NPC_AF_MCAME()_BANK(0)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
- * _ NPC_AF_MCAME()_BANK(0)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
- * _ NPC_AF_MCAME()_BANK(0)_CAM()_W0[MD] corresponds to NPC_MCAM_KEY_X4_S[KW0].
- * _ NPC_AF_MCAME()_BANK(0)_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X4_S[KW1]\<47:0\>.
- * _ NPC_AF_MCAME()_BANK(1)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
- * _ NPC_AF_MCAME()_BANK(1)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
- * _ NPC_AF_MCAME()_BANK(1)_CAM()_W0[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X4_S[KW1]\<63:48\>.
- * _ NPC_AF_MCAME()_BANK(1)_CAM()_W0[MD]\<63:16\> corresponds to NPC_MCAM_KEY_X4_S[KW2]\<47:0\>.
- * _ NPC_AF_MCAME()_BANK(1)_CAM()_W1[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X4_S[KW2]\<63:48\>.
- * _ NPC_AF_MCAME()_BANK(1)_CAM()_W1[MD]\<47:16\> corresponds to NPC_MCAM_KEY_X4_S[KW3]\<31:0\>.
- * _ NPC_AF_MCAME()_BANK(2)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
- * _ NPC_AF_MCAME()_BANK(2)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
- * _ NPC_AF_MCAME()_BANK(2)_CAM()_W0[MD]\<31:0\> corresponds to NPC_MCAM_KEY_X4_S[KW3]\<63:32\>.
- * _ NPC_AF_MCAME()_BANK(2)_CAM()_W0[MD]\<63:32\> corresponds to NPC_MCAM_KEY_X4_S[KW4]\<31:0\>.
- * _ NPC_AF_MCAME()_BANK(2)_CAM()_W1[MD]\<31:0\> corresponds to NPC_MCAM_KEY_X4_S[KW4]\<63:32\>.
- * _ NPC_AF_MCAME()_BANK(2)_CAM()_W1[MD]\<47:32\> corresponds to NPC_MCAM_KEY_X4_S[KW5]\<15:0\>.
- * _ NPC_AF_MCAME()_BANK(3)_CAM()_INTF[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
- * _ NPC_AF_MCAME()_BANK(3)_CAM()_INTF[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
- * _ NPC_AF_MCAME()_BANK(3)_CAM()_W0[MD]\<47:0\> corresponds to NPC_MCAM_KEY_X4_S[KW5]\<63:16\>.
- * _ NPC_AF_MCAME()_BANK(3)_CAM()_W0[MD]\<63:48\> corresponds to NPC_MCAM_KEY_X4_S[KW6]\<15:0\>.
- * _ NPC_AF_MCAME()_BANK(3)_CAM()_W1[MD] corresponds to NPC_MCAM_KEY_X4_S[KW6]\<63:16\>.
+ * _ NPC_AF_MCAME()_BANK(0)_CAM()_INTF_EXT[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(0)_CAM()_INTF_EXT[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
+ * _ NPC_AF_MCAME()_BANK(0)_CAM()_W0_EXT[MD] corresponds to NPC_MCAM_KEY_X4_S[KW0].
+ * _ NPC_AF_MCAME()_BANK(0)_CAM()_W1_EXT[MD] corresponds to NPC_MCAM_KEY_X4_S[KW1]\<47:0\>.
+ * _ NPC_AF_MCAME()_BANK(1)_CAM()_INTF_EXT[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(1)_CAM()_INTF_EXT[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
+ * _ NPC_AF_MCAME()_BANK(1)_CAM()_W0_EXT[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X4_S[KW1]\<63:48\>.
+ * _ NPC_AF_MCAME()_BANK(1)_CAM()_W0_EXT[MD]\<63:16\> corresponds to NPC_MCAM_KEY_X4_S[KW2]\<47:0\>.
+ * _ NPC_AF_MCAME()_BANK(1)_CAM()_W1_EXT[MD]\<15:0\> corresponds to NPC_MCAM_KEY_X4_S[KW2]\<63:48\>.
+ * _ NPC_AF_MCAME()_BANK(1)_CAM()_W1_EXT[MD]\<47:16\> corresponds to NPC_MCAM_KEY_X4_S[KW3]\<31:0\>.
+ * _ NPC_AF_MCAME()_BANK(2)_CAM()_INTF_EXT[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(2)_CAM()_INTF_EXT[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
+ * _ NPC_AF_MCAME()_BANK(2)_CAM()_W0_EXT[MD]\<31:0\> corresponds to NPC_MCAM_KEY_X4_S[KW3]\<63:32\>.
+ * _ NPC_AF_MCAME()_BANK(2)_CAM()_W0_EXT[MD]\<63:32\> corresponds to NPC_MCAM_KEY_X4_S[KW4]\<31:0\>.
+ * _ NPC_AF_MCAME()_BANK(2)_CAM()_W1_EXT[MD]\<31:0\> corresponds to NPC_MCAM_KEY_X4_S[KW4]\<63:32\>.
+ * _ NPC_AF_MCAME()_BANK(2)_CAM()_W1_EXT[MD]\<47:32\> corresponds to NPC_MCAM_KEY_X4_S[KW5]\<15:0\>.
+ * _ NPC_AF_MCAME()_BANK(3)_CAM()_INTF_EXT[INTF] corresponds to NPC_MCAM_KEY_X4_S[INTF].
+ * _ NPC_AF_MCAME()_BANK(3)_CAM()_INTF_EXT[CTYPE] corresponds to NPC_MCAM_KEY_X4_S[CTYPE].
+ * _ NPC_AF_MCAME()_BANK(3)_CAM()_W0_EXT[MD]\<47:0\> corresponds to NPC_MCAM_KEY_X4_S[KW5]\<63:16\>.
+ * _ NPC_AF_MCAME()_BANK(3)_CAM()_W0_EXT[MD]\<63:48\> corresponds to NPC_MCAM_KEY_X4_S[KW6]\<15:0\>.
+ * _ NPC_AF_MCAME()_BANK(3)_CAM()_W1_EXT[MD] corresponds to NPC_MCAM_KEY_X4_S[KW6]\<63:16\>.
  *
  * Note that for the X2 and X4 formats, a wide entry will not match unless
  * the INTF fields from the associated two or four banks match the INTF
@@ -3014,47 +2951,6 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t 
  * For the X1 and X2 formats, a match in a lower-numbered bank takes priority over
  * a match in any higher numbered banks. Within each bank, the lowest numbered
  * matching entry takes priority over any higher numbered entry.
- */
-union cavm_npc_af_mcamex_bankx_camx_intf
-{
-    uint64_t u;
-    struct cavm_npc_af_mcamex_bankx_camx_intf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t ctype                 : 2;  /**< [  5:  4](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t intf                  : 2;  /**< [  1:  0](R/W) NPC interface. Enumerated by NPC_INTF_E. */
-#else /* Word 0 - Little Endian */
-        uint64_t intf                  : 2;  /**< [  1:  0](R/W) NPC interface. Enumerated by NPC_INTF_E. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t ctype                 : 2;  /**< [  5:  4](R/W) NPC CTYPE enumerated by NPC_CTYPE_E. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcamex_bankx_camx_intf_s cn; */
-};
-typedef union cavm_npc_af_mcamex_bankx_camx_intf cavm_npc_af_mcamex_bankx_camx_intf_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=1023) && (b<=3) && (c<=1))
-        return 0x840061000000ll + 0x400ll * ((a) & 0x3ff) + 0x40ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CAMX_INTF", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(a,b,c) cavm_npc_af_mcamex_bankx_camx_intf_t
-#define bustype_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(a,b,c) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(a,b,c) "NPC_AF_MCAMEX_BANKX_CAMX_INTF"
-#define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(a,b,c) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(a,b,c) (a)
-#define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cam#_intf_ext
- *
- * NPC AF Extended MCAM Entry Bank CAM Data Interface Registers
  */
 union cavm_npc_af_mcamex_bankx_camx_intf_ext
 {
@@ -3093,45 +2989,10 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF_EXT(uint64_t a, uint64
 #define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF_EXT(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cam#_w0
- *
- * NPC AF MCAM Entry Bank CAM Data Word 0 Registers
- * MCAM comparison ternary data word 0. See NPC_AF_MCAME()_BANK()_CAM()_INTF.
- */
-union cavm_npc_af_mcamex_bankx_camx_w0
-{
-    uint64_t u;
-    struct cavm_npc_af_mcamex_bankx_camx_w0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t md                    : 64; /**< [ 63:  0](R/W) Match data. */
-#else /* Word 0 - Little Endian */
-        uint64_t md                    : 64; /**< [ 63:  0](R/W) Match data. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcamex_bankx_camx_w0_s cn; */
-};
-typedef union cavm_npc_af_mcamex_bankx_camx_w0 cavm_npc_af_mcamex_bankx_camx_w0_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=1023) && (b<=3) && (c<=1))
-        return 0x840061000010ll + 0x400ll * ((a) & 0x3ff) + 0x40ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CAMX_W0", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(a,b,c) cavm_npc_af_mcamex_bankx_camx_w0_t
-#define bustype_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(a,b,c) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(a,b,c) "NPC_AF_MCAMEX_BANKX_CAMX_W0"
-#define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(a,b,c) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(a,b,c) (a)
-#define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0(a,b,c) (a),(b),(c),-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cam#_w0_ext
  *
  * NPC AF MCAM Entry Bank CAM Data Word 0 Registers
+ * MCAM comparison ternary data word 0. See NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT.
  */
 union cavm_npc_af_mcamex_bankx_camx_w0_ext
 {
@@ -3164,47 +3025,10 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0_EXT(uint64_t a, uint64_t
 #define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0_EXT(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cam#_w1
- *
- * NPC AF MCAM Entry Bank Data Word 1 Registers
- * MCAM comparison ternary data word 1. See NPC_AF_MCAME()_BANK()_CAM()_INTF.
- */
-union cavm_npc_af_mcamex_bankx_camx_w1
-{
-    uint64_t u;
-    struct cavm_npc_af_mcamex_bankx_camx_w1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t md                    : 48; /**< [ 47:  0](R/W) Match data. */
-#else /* Word 0 - Little Endian */
-        uint64_t md                    : 48; /**< [ 47:  0](R/W) Match data. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcamex_bankx_camx_w1_s cn; */
-};
-typedef union cavm_npc_af_mcamex_bankx_camx_w1 cavm_npc_af_mcamex_bankx_camx_w1_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=1023) && (b<=3) && (c<=1))
-        return 0x840061000020ll + 0x400ll * ((a) & 0x3ff) + 0x40ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CAMX_W1", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(a,b,c) cavm_npc_af_mcamex_bankx_camx_w1_t
-#define bustype_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(a,b,c) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(a,b,c) "NPC_AF_MCAMEX_BANKX_CAMX_W1"
-#define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(a,b,c) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(a,b,c) (a)
-#define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1(a,b,c) (a),(b),(c),-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cam#_w1_ext
  *
  * NPC AF MCAM Entry Bank Data Word 1 Registers
+ * MCAM comparison ternary data word 1. See NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT.
  */
 union cavm_npc_af_mcamex_bankx_camx_w1_ext
 {
@@ -3237,45 +3061,6 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1_EXT(uint64_t a, uint64_t
 #define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1_EXT(a,b,c) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1_EXT(a,b,c) (a)
 #define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1_EXT(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cfg
- *
- * NPC AF MCAM Entry Bank Configuration Registers
- */
-union cavm_npc_af_mcamex_bankx_cfg
-{
-    uint64_t u;
-    struct cavm_npc_af_mcamex_bankx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable entry. When clear, the entry is disabled and may be safely modified
-                                                                 by software. */
-#else /* Word 0 - Little Endian */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable entry. When clear, the entry is disabled and may be safely modified
-                                                                 by software. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcamex_bankx_cfg_s cn; */
-};
-typedef union cavm_npc_af_mcamex_bankx_cfg cavm_npc_af_mcamex_bankx_cfg_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CFG(uint64_t a, uint64_t b)
-{
-    if ((a<=1023) && (b<=3))
-        return 0x840061800000ll + 0x100ll * ((a) & 0x3ff) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CFG", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAMEX_BANKX_CFG(a,b) cavm_npc_af_mcamex_bankx_cfg_t
-#define bustype_CAVM_NPC_AF_MCAMEX_BANKX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAMEX_BANKX_CFG(a,b) "NPC_AF_MCAMEX_BANKX_CFG"
-#define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_CFG(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAMEX_BANKX_CFG(a,b) (a)
-#define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CFG(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_cfg_ext
@@ -3317,58 +3102,11 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CFG_EXT(uint64_t a, uint64_t b)
 #define arguments_CAVM_NPC_AF_MCAMEX_BANKX_CFG_EXT(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_stat_act
- *
- * NPC AF MCAM Entry Bank Statistics Action Registers
- * Used to optionally increment a NPC_AF_MATCH_STAT() counter when a packet
- * matches an MCAM entry. See also NPC_AF_MCAME()_BANK()_ACTION.
- */
-union cavm_npc_af_mcamex_bankx_stat_act
-{
-    uint64_t u;
-    struct cavm_npc_af_mcamex_bankx_stat_act_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t stat_sel_ext          : 3;  /**< [ 14: 12](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t ena                   : 1;  /**< [  9:  9](R/W) Enable. */
-        uint64_t stat_sel              : 9;  /**< [  8:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-#else /* Word 0 - Little Endian */
-        uint64_t stat_sel              : 9;  /**< [  8:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-        uint64_t ena                   : 1;  /**< [  9:  9](R/W) Enable. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t stat_sel_ext          : 3;  /**< [ 14: 12](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-        uint64_t reserved_15_63        : 49;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcamex_bankx_stat_act_s cn; */
-};
-typedef union cavm_npc_af_mcamex_bankx_stat_act cavm_npc_af_mcamex_bankx_stat_act_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(uint64_t a, uint64_t b)
-{
-    if ((a<=1023) && (b<=3))
-        return 0x840061880000ll + 0x100ll * ((a) & 0x3ff) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_STAT_ACT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(a,b) cavm_npc_af_mcamex_bankx_stat_act_t
-#define bustype_CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(a,b) "NPC_AF_MCAMEX_BANKX_STAT_ACT"
-#define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(a,b) (a)
-#define arguments_CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_stat_act_ext
  *
  * NPC AF MCAM Entry Bank Statistics Action Registers
+ * Used to optionally increment a NPC_AF_MATCH_STAT()_EXT counter when a packet
+ * matches an MCAM entry. See also NPC_AF_MCAME()_BANK()_ACTION_EXT.
  */
 union cavm_npc_af_mcamex_bankx_stat_act_ext
 {
@@ -3376,21 +3114,15 @@ union cavm_npc_af_mcamex_bankx_stat_act_ext
     struct cavm_npc_af_mcamex_bankx_stat_act_ext_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t stat_sel_ext          : 3;  /**< [ 14: 12](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t ena                   : 1;  /**< [  9:  9](R/W) Enable. */
-        uint64_t stat_sel              : 9;  /**< [  8:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
+        uint64_t reserved_12_62        : 51;
+        uint64_t stat_sel              : 12; /**< [ 11:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
                                                                  increment on a match to this MCAM entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t stat_sel              : 9;  /**< [  8:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
+        uint64_t stat_sel              : 12; /**< [ 11:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
                                                                  increment on a match to this MCAM entry. */
-        uint64_t ena                   : 1;  /**< [  9:  9](R/W) Enable. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t stat_sel_ext          : 3;  /**< [ 14: 12](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT() to
-                                                                 increment on a match to this MCAM entry. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_12_62        : 51;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_mcamex_bankx_stat_act_ext_s cn; */
@@ -3413,48 +3145,11 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT_EXT(uint64_t a, uint64_
 #define arguments_CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT_EXT(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_tag_act
- *
- * NPC AF MCAM Entry Bank VTag Action Data Registers
- * Specifies a packet's match Vtag action captured in NPC_RESULT_S[VTAG_ACTION].
- * See also NPC_AF_MCAME()_BANK()_ACTION.
- */
-union cavm_npc_af_mcamex_bankx_tag_act
-{
-    uint64_t u;
-    struct cavm_npc_af_mcamex_bankx_tag_act_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vtag_action           : 64; /**< [ 63:  0](R/W) Match Vtag action. Format is NIX_RX_VTAG_ACTION_S for RX packet,
-                                                                 NIX_TX_VTAG_ACTION_S for TX packet. */
-#else /* Word 0 - Little Endian */
-        uint64_t vtag_action           : 64; /**< [ 63:  0](R/W) Match Vtag action. Format is NIX_RX_VTAG_ACTION_S for RX packet,
-                                                                 NIX_TX_VTAG_ACTION_S for TX packet. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_mcamex_bankx_tag_act_s cn; */
-};
-typedef union cavm_npc_af_mcamex_bankx_tag_act cavm_npc_af_mcamex_bankx_tag_act_t;
-
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(uint64_t a, uint64_t b)
-{
-    if ((a<=1023) && (b<=3))
-        return 0x840061900008ll + 0x100ll * ((a) & 0x3ff) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_TAG_ACT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(a,b) cavm_npc_af_mcamex_bankx_tag_act_t
-#define bustype_CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(a,b) "NPC_AF_MCAMEX_BANKX_TAG_ACT"
-#define device_bar_CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(a,b) (a)
-#define arguments_CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_mcame#_bank#_tag_act_ext
  *
  * NPC AF MCAM Entry Bank VTag Action Data Registers
+ * Specifies a packet's match Vtag action captured in NPC_RESULT_S[VTAG_ACTION].
+ * See also NPC_AF_MCAME()_BANK()_ACTION_EXT.
  */
 union cavm_npc_af_mcamex_bankx_tag_act_ext
 {

@@ -350,6 +350,16 @@
 #define CAVM_NIX_RX_PERRCODE_E_OL4_PORT (0x13)
 
 /**
+ * Enumeration nix_sa_alg_e
+ *
+ * NIX Inline IPSEC SA algorithm Enumeration
+ * Enumerates Inline IPSEC SA algorithm.
+ */
+#define CAVM_NIX_SA_ALG_E_MS_CISCO (1)
+#define CAVM_NIX_SA_ALG_E_MS_VIPTELA (2)
+#define CAVM_NIX_SA_ALG_E_NON_MS (0)
+
+/**
  * Enumeration nix_send_status_e
  *
  * NIX Send Completion Status Enumeration
@@ -805,7 +815,7 @@ union cavm_nix_aq_inst_s
         uint64_t cindex                : 20; /**< [ 43: 24] Context index. Index of context of type [CTYPE] within [LF]. For example,
                                                                  if [CTYPE] = NIX_AQ_CTYPE_E::RQ, this is the RQ index within the [LF].
                                                                  if [CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF, this is bandwidth profile ID:
-                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 16) | (bandwidrh profile index) */
+                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 12) | (bandwidth profile index) */
         uint64_t reserved_15_23        : 9;
         uint64_t lf                    : 7;  /**< [ 14:  8] Local function. Software must map the LF to a PF and function with
                                                                  NIX_PRIV_LF()_CFG[PF_FUNC] before issuing the AQ instruction.
@@ -834,7 +844,7 @@ union cavm_nix_aq_inst_s
         uint64_t cindex                : 20; /**< [ 43: 24] Context index. Index of context of type [CTYPE] within [LF]. For example,
                                                                  if [CTYPE] = NIX_AQ_CTYPE_E::RQ, this is the RQ index within the [LF].
                                                                  if [CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF, this is bandwidth profile ID:
-                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 16) | (bandwidrh profile index) */
+                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 12) | (bandwidth profile index) */
         uint64_t reserved_44_62        : 19;
         uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt.
                                                                  0 = No interrupts related to this instruction.
@@ -958,7 +968,7 @@ union cavm_nix_aq_res_s
  */
 union cavm_nix_band_prof_s
 {
-    uint64_t u[4];
+    uint64_t u[16];
     struct cavm_nix_band_prof_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1155,6 +1165,90 @@ union cavm_nix_band_prof_s
         uint64_t c_accum               : 32; /**< [255:224] Committed Token accumulator.
                                                                  The maximal positive value is Committed Burst Size while the minimal value is 0x80000000(negative). */
 #endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t reserved_304_319      : 16;
+        uint64_t green_pkt_pass        : 48; /**< [303:256] Statistic counter of non-drop green packets. */
+#else /* Word 4 - Little Endian */
+        uint64_t green_pkt_pass        : 48; /**< [303:256] Statistic counter of non-drop green packets. */
+        uint64_t reserved_304_319      : 16;
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t reserved_368_383      : 16;
+        uint64_t yellow_pkt_pass       : 48; /**< [367:320] Statistic counter of non-drop yellow packets. */
+#else /* Word 5 - Little Endian */
+        uint64_t yellow_pkt_pass       : 48; /**< [367:320] Statistic counter of non-drop yellow packets. */
+        uint64_t reserved_368_383      : 16;
+#endif /* Word 5 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
+        uint64_t reserved_432_447      : 16;
+        uint64_t red_pkt_pass          : 48; /**< [431:384] Statistic counter of non-drop red packets. */
+#else /* Word 6 - Little Endian */
+        uint64_t red_pkt_pass          : 48; /**< [431:384] Statistic counter of non-drop red packets. */
+        uint64_t reserved_432_447      : 16;
+#endif /* Word 6 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
+        uint64_t reserved_496_511      : 16;
+        uint64_t green_octs_pass       : 48; /**< [495:448] Statistic counter of non-drop green packets octs. */
+#else /* Word 7 - Little Endian */
+        uint64_t green_octs_pass       : 48; /**< [495:448] Statistic counter of non-drop green packets octs. */
+        uint64_t reserved_496_511      : 16;
+#endif /* Word 7 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
+        uint64_t reserved_560_575      : 16;
+        uint64_t yellow_octs_pass      : 48; /**< [559:512] Statistic counter for non-drop red packets octs. */
+#else /* Word 8 - Little Endian */
+        uint64_t yellow_octs_pass      : 48; /**< [559:512] Statistic counter for non-drop red packets octs. */
+        uint64_t reserved_560_575      : 16;
+#endif /* Word 8 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
+        uint64_t reserved_624_639      : 16;
+        uint64_t red_octs_pass         : 48; /**< [623:576] Statistic counter for non-drop red packets octs. */
+#else /* Word 9 - Little Endian */
+        uint64_t red_octs_pass         : 48; /**< [623:576] Statistic counter for non-drop red packets octs. */
+        uint64_t reserved_624_639      : 16;
+#endif /* Word 9 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
+        uint64_t reserved_688_703      : 16;
+        uint64_t green_pkt_drop        : 48; /**< [687:640] Statistic counter of drop green packets. */
+#else /* Word 10 - Little Endian */
+        uint64_t green_pkt_drop        : 48; /**< [687:640] Statistic counter of drop green packets. */
+        uint64_t reserved_688_703      : 16;
+#endif /* Word 10 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
+        uint64_t reserved_752_767      : 16;
+        uint64_t yellow_pkt_drop       : 48; /**< [751:704] Statistic counter of drop yellow packets. */
+#else /* Word 11 - Little Endian */
+        uint64_t yellow_pkt_drop       : 48; /**< [751:704] Statistic counter of drop yellow packets. */
+        uint64_t reserved_752_767      : 16;
+#endif /* Word 11 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
+        uint64_t reserved_816_831      : 16;
+        uint64_t red_pkt_drop          : 48; /**< [815:768] Statistic counter of drop red packets. */
+#else /* Word 12 - Little Endian */
+        uint64_t red_pkt_drop          : 48; /**< [815:768] Statistic counter of drop red packets. */
+        uint64_t reserved_816_831      : 16;
+#endif /* Word 12 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
+        uint64_t reserved_880_895      : 16;
+        uint64_t green_octs_drop       : 48; /**< [879:832] Statistic counter of drop green packets octets. */
+#else /* Word 13 - Little Endian */
+        uint64_t green_octs_drop       : 48; /**< [879:832] Statistic counter of drop green packets octets. */
+        uint64_t reserved_880_895      : 16;
+#endif /* Word 13 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
+        uint64_t reserved_944_959      : 16;
+        uint64_t yellow_octs_drop      : 48; /**< [943:896] Statistic counter for drop yellow packets octets. */
+#else /* Word 14 - Little Endian */
+        uint64_t yellow_octs_drop      : 48; /**< [943:896] Statistic counter for drop yellow packets octets. */
+        uint64_t reserved_944_959      : 16;
+#endif /* Word 14 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
+        uint64_t reserved_1008_1023    : 16;
+        uint64_t red_octs_drop         : 48; /**< [1007:960] Statistic counter for drop red packets octets. */
+#else /* Word 15 - Little Endian */
+        uint64_t red_octs_drop         : 48; /**< [1007:960] Statistic counter for drop red packets octets. */
+        uint64_t reserved_1008_1023    : 16;
+#endif /* Word 15 - End */
     } s;
     /* struct cavm_nix_band_prof_s_s cn; */
 };
@@ -1911,32 +2005,24 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t reserved_763_767      : 5;
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
-        uint64_t reserved_816_831      : 16;
-        uint64_t yc_octs               : 48; /**< [815:768] See NIX_RQ_CTX_S[YC_OCTS]. */
+        uint64_t reserved_768_831      : 64;
 #else /* Word 12 - Little Endian */
-        uint64_t yc_octs               : 48; /**< [815:768] See NIX_RQ_CTX_S[YC_OCTS]. */
-        uint64_t reserved_816_831      : 16;
+        uint64_t reserved_768_831      : 64;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-        uint64_t reserved_880_895      : 16;
-        uint64_t yc_pkts               : 48; /**< [879:832] See NIX_RQ_CTX_S[YC_PKTS]. */
+        uint64_t reserved_832_895      : 64;
 #else /* Word 13 - Little Endian */
-        uint64_t yc_pkts               : 48; /**< [879:832] See NIX_RQ_CTX_S[YC_PKTS]. */
-        uint64_t reserved_880_895      : 16;
+        uint64_t reserved_832_895      : 64;
 #endif /* Word 13 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
-        uint64_t reserved_944_959      : 16;
-        uint64_t rc_octs               : 48; /**< [943:896] See NIX_RQ_CTX_S[RC_OCTS]. */
+        uint64_t reserved_896_959      : 64;
 #else /* Word 14 - Little Endian */
-        uint64_t rc_octs               : 48; /**< [943:896] See NIX_RQ_CTX_S[RC_OCTS]. */
-        uint64_t reserved_944_959      : 16;
+        uint64_t reserved_896_959      : 64;
 #endif /* Word 14 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
-        uint64_t reserved_1008_1023    : 16;
-        uint64_t rc_pkts               : 48; /**< [1007:960] See NIX_RQ_CTX_S[RC_PKTS]. */
+        uint64_t reserved_960_1023     : 64;
 #else /* Word 15 - Little Endian */
-        uint64_t rc_pkts               : 48; /**< [1007:960] See NIX_RQ_CTX_S[RC_PKTS]. */
-        uint64_t reserved_1008_1023    : 16;
+        uint64_t reserved_960_1023     : 64;
 #endif /* Word 15 - End */
     } s;
     /* struct cavm_nix_rq_ctx_hw_s_s cn; */
@@ -2740,32 +2826,24 @@ union cavm_nix_rq_ctx_s
         uint64_t reserved_688_703      : 16;
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
-        uint64_t reserved_752_767      : 16;
-        uint64_t yc_octs               : 48; /**< [751:704] Number of yellow color packets octets. */
+        uint64_t reserved_704_767      : 64;
 #else /* Word 11 - Little Endian */
-        uint64_t yc_octs               : 48; /**< [751:704] Number of yellow color packets octets. */
-        uint64_t reserved_752_767      : 16;
+        uint64_t reserved_704_767      : 64;
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
-        uint64_t reserved_816_831      : 16;
-        uint64_t yc_pkts               : 48; /**< [815:768] Number of yellow color packets. */
+        uint64_t reserved_768_831      : 64;
 #else /* Word 12 - Little Endian */
-        uint64_t yc_pkts               : 48; /**< [815:768] Number of yellow color packets. */
-        uint64_t reserved_816_831      : 16;
+        uint64_t reserved_768_831      : 64;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-        uint64_t reserved_880_895      : 16;
-        uint64_t rc_octs               : 48; /**< [879:832] Number of red color packets octets. */
+        uint64_t reserved_832_895      : 64;
 #else /* Word 13 - Little Endian */
-        uint64_t rc_octs               : 48; /**< [879:832] Number of red color packets octets. */
-        uint64_t reserved_880_895      : 16;
+        uint64_t reserved_832_895      : 64;
 #endif /* Word 13 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
-        uint64_t reserved_944_959      : 16;
-        uint64_t rc_pkts               : 48; /**< [943:896] Number of red color packets. */
+        uint64_t reserved_896_959      : 64;
 #else /* Word 14 - Little Endian */
-        uint64_t rc_pkts               : 48; /**< [943:896] Number of red color packets. */
-        uint64_t reserved_944_959      : 16;
+        uint64_t reserved_896_959      : 64;
 #endif /* Word 14 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
         uint64_t reserved_960_1023     : 64;
@@ -9403,6 +9481,47 @@ static inline uint64_t CAVM_NIXX_AF_LF_RST(uint64_t a)
 #define arguments_CAVM_NIXX_AF_LF_RST(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) nix#_af_link#_cfg
+ *
+ * NIX AF LINK Channel Number Configuration Registers
+ */
+union cavm_nixx_af_linkx_cfg
+{
+    uint64_t u;
+    struct cavm_nixx_af_linkx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The range=2^LOG2_RANGE, where LOG2_RANGE==0 means the link is not valid. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Start channel number must be multiple of the range. */
+#else /* Word 0 - Little Endian */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Start channel number must be multiple of the range. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The range=2^LOG2_RANGE, where LOG2_RANGE==0 means the link is not valid. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_linkx_cfg_s cn; */
+};
+typedef union cavm_nixx_af_linkx_cfg cavm_nixx_af_linkx_cfg_t;
+
+static inline uint64_t CAVM_NIXX_AF_LINKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_LINKX_CFG(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=14))
+        return 0x840040004010ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0xf);
+    __cavm_csr_fatal("NIXX_AF_LINKX_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_LINKX_CFG(a,b) cavm_nixx_af_linkx_cfg_t
+#define bustype_CAVM_NIXX_AF_LINKX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_LINKX_CFG(a,b) "NIXX_AF_LINKX_CFG"
+#define device_bar_CAVM_NIXX_AF_LINKX_CFG(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_LINKX_CFG(a,b) (a)
+#define arguments_CAVM_NIXX_AF_LINKX_CFG(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) nix#_af_lso_cfg
  *
  * NIX AF Large Send Offload Configuration Register
@@ -13218,6 +13337,75 @@ static inline uint64_t CAVM_NIXX_AF_RX_DEF_CST_APAD_1(uint64_t a)
 #define arguments_CAVM_NIXX_AF_RX_DEF_CST_APAD_1(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) nix#_af_rx_def_et#
+ *
+ * NIX AF Receive Ehtertype Definition Registers
+ * Defines layer information in NPC_RESULT_S to identify the Ethertype location in L2 header.
+ * Used for Ethertype overwriting in inline IPsec flow.
+ */
+union cavm_nixx_af_rx_def_etx
+{
+    uint64_t u;
+    struct cavm_nixx_af_rx_def_etx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t offset                : 6;  /**< [ 17: 12](R/W) OFFSET to Ethertype.
+
+                                                                 ET_OFFSET value is calculated by adding the offset to the appropriate layer PTR
+                                                                 (from NIX_RX_PARSE_S).
+
+                                                                 The offset values are from -32 to 31. */
+        uint64_t valid                 : 1;  /**< [ 11: 11](R/W) Register is valid */
+        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
+        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when:
+
+                                                                 \<pre\>
+                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
+                                                                 \</pre\>
+
+                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
+        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
+        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when:
+
+                                                                 \<pre\>
+                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
+                                                                 \</pre\>
+
+                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
+        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
+        uint64_t valid                 : 1;  /**< [ 11: 11](R/W) Register is valid */
+        uint64_t offset                : 6;  /**< [ 17: 12](R/W) OFFSET to Ethertype.
+
+                                                                 ET_OFFSET value is calculated by adding the offset to the appropriate layer PTR
+                                                                 (from NIX_RX_PARSE_S).
+
+                                                                 The offset values are from -32 to 31. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rx_def_etx_s cn; */
+};
+typedef union cavm_nixx_af_rx_def_etx cavm_nixx_af_rx_def_etx_t;
+
+static inline uint64_t CAVM_NIXX_AF_RX_DEF_ETX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RX_DEF_ETX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x8400400001f0ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_RX_DEF_ETX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RX_DEF_ETX(a,b) cavm_nixx_af_rx_def_etx_t
+#define bustype_CAVM_NIXX_AF_RX_DEF_ETX(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RX_DEF_ETX(a,b) "NIXX_AF_RX_DEF_ETX"
+#define device_bar_CAVM_NIXX_AF_RX_DEF_ETX(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RX_DEF_ETX(a,b) (a)
+#define arguments_CAVM_NIXX_AF_RX_DEF_ETX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) nix#_af_rx_def_gen0_color
  *
  * NIX AF Receive Genric Color Definition Register
@@ -15467,23 +15655,35 @@ union cavm_nixx_af_sdp_link_cdt_adj
         uint64_t reserved_32_63        : 32;
         uint64_t cc_unit_cnt_adj       : 20; /**< [ 31: 12](R/W/H) This register contains the delta to be programmed into NIX_AF_SDP_LINK_CREDIT[CC_UNIT_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^19-1) and max -ve(2^19-1). While applying delta Unit credits could
-                                                                 saturate at max positive and max negative value. */
+                                                                 +ve(2^19-1) and max -ve(2^19-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could
+                                                                 saturate at max positive and max negative value. (i.e. max +ve(2^19-1) and max -ve(2^19-1)
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t cc_packet_cnt_adj     : 10; /**< [ 11:  2](R/W/H) This register contains the delta to be programmed into NIX_AF_SDP_LINK_CREDIT[CC_PACKET_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^9-1) and max -ve(2^9-1). While applying delta Unit credits could saturate
-                                                                 at max positive and max negative value. */
+                                                                 +ve(2^9-1) and max -ve(2^9-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
         uint64_t cc_packet_cnt_adj     : 10; /**< [ 11:  2](R/W/H) This register contains the delta to be programmed into NIX_AF_SDP_LINK_CREDIT[CC_PACKET_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^9-1) and max -ve(2^9-1). While applying delta Unit credits could saturate
-                                                                 at max positive and max negative value. */
+                                                                 +ve(2^9-1) and max -ve(2^9-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t cc_unit_cnt_adj       : 20; /**< [ 31: 12](R/W/H) This register contains the delta to be programmed into NIX_AF_SDP_LINK_CREDIT[CC_UNIT_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^19-1) and max -ve(2^19-1). While applying delta Unit credits could
-                                                                 saturate at max positive and max negative value. */
+                                                                 +ve(2^19-1) and max -ve(2^19-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could
+                                                                 saturate at max positive and max negative value. (i.e. max +ve(2^19-1) and max -ve(2^19-1)
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -16637,10 +16837,11 @@ union cavm_nixx_af_sqm_dbg_ctl_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
-        uint64_t tm16                  : 1;  /**< [ 28: 28](RAZ) Configuration bit to define SQE drop behavior during SMQ Flush.
+        uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit. */
+                                                                 packets sent prior to the flush to transmit.
+                                                                 Note - Change reset + typical to 0. */
         uint64_t tm15                  : 1;  /**< [ 27: 27](R/W) Sets conservative limits to number of SQEs prefetched by the FE in Sticky Mode. This
                                                                  feature has no effect on non-sticky mode behavior.
                                                                  Set [0] disables this feature.
@@ -16836,10 +17037,11 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  Set [1] initializes the allowable number of SQE reads to be equal to the SQE Data
                                                                  Latency minus the MDQ Level allowing up to 128 outstanding SQE reads.
                                                                  This has no effect on Non-Sticky mode behavior. */
-        uint64_t tm16                  : 1;  /**< [ 28: 28](RAZ) Configuration bit to define SQE drop behavior during SMQ Flush.
+        uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit. */
+                                                                 packets sent prior to the flush to transmit.
+                                                                 Note - Change reset + typical to 0. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
@@ -21824,23 +22026,35 @@ union cavm_nixx_af_tx_linkx_norm_cdt_adj
         uint64_t reserved_32_63        : 32;
         uint64_t cc_unit_cnt_adj       : 20; /**< [ 31: 12](R/W/H) This register contains the delta to be programmed into NIX_AF_TX_LINK()_NORM_CREDIT[CC_UNIT_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^19-1) and max -ve(2^19-1). While applying delta Unit credits could
-                                                                 saturate at max positive and max negative value. */
+                                                                 +ve(2^19-1) and max -ve(2^19-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could
+                                                                 saturate at max positive and max negative value. (i.e. max +ve(2^19-1) and max -ve(2^19-1)
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t cc_packet_cnt_adj     : 10; /**< [ 11:  2](R/W/H) This register contains the delta to be programmed into NIX_AF_TX_LINK()_NORM_CREDIT[CC_PACKET_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^9-1) and max -ve(2^9-1). While applying delta Unit credits could saturate
-                                                                 at max positive and max negative value. */
+                                                                 +ve(2^9-1) and max -ve(2^9-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
         uint64_t cc_packet_cnt_adj     : 10; /**< [ 11:  2](R/W/H) This register contains the delta to be programmed into NIX_AF_TX_LINK()_NORM_CREDIT[CC_PACKET_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^9-1) and max -ve(2^9-1). While applying delta Unit credits could saturate
-                                                                 at max positive and max negative value. */
+                                                                 +ve(2^9-1) and max -ve(2^9-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t cc_unit_cnt_adj       : 20; /**< [ 31: 12](R/W/H) This register contains the delta to be programmed into NIX_AF_TX_LINK()_NORM_CREDIT[CC_UNIT_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
-                                                                 +ve(2^19-1) and max -ve(2^19-1). While applying delta Unit credits could
-                                                                 saturate at max positive and max negative value. */
+                                                                 +ve(2^19-1) and max -ve(2^19-1).
+                                                                 Programmed value for adjust should be in 2's complement.
+                                                                 While applying delta Unit credits could
+                                                                 saturate at max positive and max negative value. (i.e. max +ve(2^19-1) and max -ve(2^19-1)
+                                                                 Only program adjust values to links that are enabled. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -23693,7 +23907,7 @@ static inline uint64_t CAVM_NIXX_LF_OP_VWQE_FLUSH(uint64_t a)
 #define arguments_CAVM_NIXX_LF_OP_VWQE_FLUSH(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PFVF_BAR2) nix#_lf_pl_op_band_prof_w0
+ * Register (RVU_PFVF_BAR2) nix#_lf_pl_op_band_prof
  *
  * NIX LF Policer Bandwidth Profiles Operation Register
  * A 64-bit atomic load-and-add to this register reads policer bandwidth profile.
@@ -23703,174 +23917,39 @@ static inline uint64_t CAVM_NIXX_LF_OP_VWQE_FLUSH(uint64_t a)
  *
  * RSL accesses to this register are RAZ/WI.
  */
-union cavm_nixx_lf_pl_op_band_prof_w0
+union cavm_nixx_lf_pl_op_band_prof
 {
     uint64_t u;
-    struct cavm_nixx_lf_pl_op_band_prof_w0_s
+    struct cavm_nixx_lf_pl_op_band_prof_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 0 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
+        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((NIX_AQ_INST_S[CINDEX] \<\< 4) |
+                                                                 (NIX_BAND_PROF_S word[3:0])).
+                                                                 Note that SW should read NIX_LF_PL_OP_BAND_PROF Word 0, before reading any other Word. */
 #else /* Word 0 - Little Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 0 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
+        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((NIX_AQ_INST_S[CINDEX] \<\< 4) |
+                                                                 (NIX_BAND_PROF_S word[3:0])).
+                                                                 Note that SW should read NIX_LF_PL_OP_BAND_PROF Word 0, before reading any other Word. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_lf_pl_op_band_prof_w0_s cn; */
+    /* struct cavm_nixx_lf_pl_op_band_prof_s cn; */
 };
-typedef union cavm_nixx_lf_pl_op_band_prof_w0 cavm_nixx_lf_pl_op_band_prof_w0_t;
+typedef union cavm_nixx_lf_pl_op_band_prof cavm_nixx_lf_pl_op_band_prof_t;
 
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(uint64_t a)
+static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF(uint64_t a)
 {
     if (a<=1)
         return 0x8402004009c0ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_PL_OP_BAND_PROF_W0", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("NIXX_LF_PL_OP_BAND_PROF", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(a) cavm_nixx_lf_pl_op_band_prof_w0_t
-#define bustype_CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(a) "NIXX_LF_PL_OP_BAND_PROF_W0"
-#define device_bar_CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(a) (a)
-#define arguments_CAVM_NIXX_LF_PL_OP_BAND_PROF_W0(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) nix#_lf_pl_op_band_prof_w1
- *
- * NIX LF Policer Bandwidth Profiles Operation Register
- * A 64-bit atomic load-and-add to this register reads policer bandwidth profile.
- * The atomic write data has format NIX_OP_Q_WDATA_S with the same encoding of Q as
- * specified by NIX_AQ_INST_S[CINDEX] for NIX_AQ_INST_S[CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF.
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
- */
-union cavm_nixx_lf_pl_op_band_prof_w1
-{
-    uint64_t u;
-    struct cavm_nixx_lf_pl_op_band_prof_w1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 1 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
-#else /* Word 0 - Little Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 1 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_lf_pl_op_band_prof_w1_s cn; */
-};
-typedef union cavm_nixx_lf_pl_op_band_prof_w1 cavm_nixx_lf_pl_op_band_prof_w1_t;
-
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(uint64_t a)
-{
-    if (a<=1)
-        return 0x8402004009c8ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_PL_OP_BAND_PROF_W1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(a) cavm_nixx_lf_pl_op_band_prof_w1_t
-#define bustype_CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(a) "NIXX_LF_PL_OP_BAND_PROF_W1"
-#define device_bar_CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(a) (a)
-#define arguments_CAVM_NIXX_LF_PL_OP_BAND_PROF_W1(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) nix#_lf_pl_op_band_prof_w2
- *
- * NIX LF Policer Bandwidth Profiles Operation Register
- * A 64-bit atomic load-and-add to this register reads policer bandwidth profile.
- * The atomic write data has format NIX_OP_Q_WDATA_S with the same encoding of Q as
- * specified by NIX_AQ_INST_S[CINDEX] for NIX_AQ_INST_S[CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF.
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
- */
-union cavm_nixx_lf_pl_op_band_prof_w2
-{
-    uint64_t u;
-    struct cavm_nixx_lf_pl_op_band_prof_w2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 2 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
-#else /* Word 0 - Little Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 2 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_lf_pl_op_band_prof_w2_s cn; */
-};
-typedef union cavm_nixx_lf_pl_op_band_prof_w2 cavm_nixx_lf_pl_op_band_prof_w2_t;
-
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(uint64_t a)
-{
-    if (a<=1)
-        return 0x8402004009d0ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_PL_OP_BAND_PROF_W2", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(a) cavm_nixx_lf_pl_op_band_prof_w2_t
-#define bustype_CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(a) "NIXX_LF_PL_OP_BAND_PROF_W2"
-#define device_bar_CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(a) (a)
-#define arguments_CAVM_NIXX_LF_PL_OP_BAND_PROF_W2(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) nix#_lf_pl_op_band_prof_w3
- *
- * NIX LF Policer Bandwidth Profiles Operation Register
- * A 64-bit atomic load-and-add to this register reads policer bandwidth profile.
- * The atomic write data has format NIX_OP_Q_WDATA_S with the same encoding of Q as
- * specified by NIX_AQ_INST_S[CINDEX] for NIX_AQ_INST_S[CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF.
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
- */
-union cavm_nixx_lf_pl_op_band_prof_w3
-{
-    uint64_t u;
-    struct cavm_nixx_lf_pl_op_band_prof_w3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 3 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
-#else /* Word 0 - Little Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Word 3 of NIX_BAND_PROF_S. SW should read NIX_LF_PL_OP_BAND_PROF_W0, before
-                                                                 reading
-                                                                 NIX_LF_PL_OP_BAND_PROF_W1/NIX_LF_PL_OP_BAND_PROF_W2/NIX_LF_PL_OP_BAND_PROF_W3. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_lf_pl_op_band_prof_w3_s cn; */
-};
-typedef union cavm_nixx_lf_pl_op_band_prof_w3 cavm_nixx_lf_pl_op_band_prof_w3_t;
-
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(uint64_t a)
-{
-    if (a<=1)
-        return 0x8402004009d8ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_PL_OP_BAND_PROF_W3", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(a) cavm_nixx_lf_pl_op_band_prof_w3_t
-#define bustype_CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(a) "NIXX_LF_PL_OP_BAND_PROF_W3"
-#define device_bar_CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(a) (a)
-#define arguments_CAVM_NIXX_LF_PL_OP_BAND_PROF_W3(a) (a),-1,-1,-1
+#define typedef_CAVM_NIXX_LF_PL_OP_BAND_PROF(a) cavm_nixx_lf_pl_op_band_prof_t
+#define bustype_CAVM_NIXX_LF_PL_OP_BAND_PROF(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_NIXX_LF_PL_OP_BAND_PROF(a) "NIXX_LF_PL_OP_BAND_PROF"
+#define device_bar_CAVM_NIXX_LF_PL_OP_BAND_PROF(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_NIXX_LF_PL_OP_BAND_PROF(a) (a)
+#define arguments_CAVM_NIXX_LF_PL_OP_BAND_PROF(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) nix#_lf_qint#_cnt
@@ -24567,96 +24646,6 @@ static inline uint64_t CAVM_NIXX_LF_RQ_OP_PKTS(uint64_t a)
 #define arguments_CAVM_NIXX_LF_RQ_OP_PKTS(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PFVF_BAR2) nix#_lf_rq_op_rc_octs
- *
- * NIX LF Receive Queue Red Color Octets Operation Register
- * A 64-bit atomic load-and-add to this register reads NIX_RQ_CTX_S[RC_OCTS].
- * The atomic write data has format NIX_OP_Q_WDATA_S and selects the RQ within LF.
- *
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
- */
-union cavm_nixx_lf_rq_op_rc_octs
-{
-    uint64_t u;
-    struct cavm_nixx_lf_rq_op_rc_octs_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_lf_rq_op_rc_octs_s cn; */
-};
-typedef union cavm_nixx_lf_rq_op_rc_octs cavm_nixx_lf_rq_op_rc_octs_t;
-
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_RC_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_RC_OCTS(uint64_t a)
-{
-    if (a<=1)
-        return 0x840200400970ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_RQ_OP_RC_OCTS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_LF_RQ_OP_RC_OCTS(a) cavm_nixx_lf_rq_op_rc_octs_t
-#define bustype_CAVM_NIXX_LF_RQ_OP_RC_OCTS(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_RQ_OP_RC_OCTS(a) "NIXX_LF_RQ_OP_RC_OCTS"
-#define device_bar_CAVM_NIXX_LF_RQ_OP_RC_OCTS(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_RQ_OP_RC_OCTS(a) (a)
-#define arguments_CAVM_NIXX_LF_RQ_OP_RC_OCTS(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) nix#_lf_rq_op_rc_pkts
- *
- * NIX LF Receive Queue Red Color Packets Operation Register
- * A 64-bit atomic load-and-add to this register reads NIX_RQ_CTX_S[RC_PKTS].
- * The atomic write data has format NIX_OP_Q_WDATA_S and selects the RQ within LF.
- *
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
- */
-union cavm_nixx_lf_rq_op_rc_pkts
-{
-    uint64_t u;
-    struct cavm_nixx_lf_rq_op_rc_pkts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_lf_rq_op_rc_pkts_s cn; */
-};
-typedef union cavm_nixx_lf_rq_op_rc_pkts cavm_nixx_lf_rq_op_rc_pkts_t;
-
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_RC_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_RC_PKTS(uint64_t a)
-{
-    if (a<=1)
-        return 0x840200400978ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_RQ_OP_RC_PKTS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_LF_RQ_OP_RC_PKTS(a) cavm_nixx_lf_rq_op_rc_pkts_t
-#define bustype_CAVM_NIXX_LF_RQ_OP_RC_PKTS(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_RQ_OP_RC_PKTS(a) "NIXX_LF_RQ_OP_RC_PKTS"
-#define device_bar_CAVM_NIXX_LF_RQ_OP_RC_PKTS(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_RQ_OP_RC_PKTS(a) (a)
-#define arguments_CAVM_NIXX_LF_RQ_OP_RC_PKTS(a) (a),-1,-1,-1
-
-/**
  * Register (RVU_PFVF_BAR2) nix#_lf_rq_op_re_pkts
  *
  * NIX LF Receive Queue Errored Packets Operation Register
@@ -24700,96 +24689,6 @@ static inline uint64_t CAVM_NIXX_LF_RQ_OP_RE_PKTS(uint64_t a)
 #define device_bar_CAVM_NIXX_LF_RQ_OP_RE_PKTS(a) 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_NIXX_LF_RQ_OP_RE_PKTS(a) (a)
 #define arguments_CAVM_NIXX_LF_RQ_OP_RE_PKTS(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) nix#_lf_rq_op_yc_octs
- *
- * NIX LF Receive Queue Yellow Color Octets Operation Register
- * A 64-bit atomic load-and-add to this register reads NIX_RQ_CTX_S[YC_OCTS].
- * The atomic write data has format NIX_OP_Q_WDATA_S and selects the RQ within LF.
- *
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
- */
-union cavm_nixx_lf_rq_op_yc_octs
-{
-    uint64_t u;
-    struct cavm_nixx_lf_rq_op_yc_octs_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_lf_rq_op_yc_octs_s cn; */
-};
-typedef union cavm_nixx_lf_rq_op_yc_octs cavm_nixx_lf_rq_op_yc_octs_t;
-
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_YC_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_YC_OCTS(uint64_t a)
-{
-    if (a<=1)
-        return 0x840200400960ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_RQ_OP_YC_OCTS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_LF_RQ_OP_YC_OCTS(a) cavm_nixx_lf_rq_op_yc_octs_t
-#define bustype_CAVM_NIXX_LF_RQ_OP_YC_OCTS(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_RQ_OP_YC_OCTS(a) "NIXX_LF_RQ_OP_YC_OCTS"
-#define device_bar_CAVM_NIXX_LF_RQ_OP_YC_OCTS(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_RQ_OP_YC_OCTS(a) (a)
-#define arguments_CAVM_NIXX_LF_RQ_OP_YC_OCTS(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) nix#_lf_rq_op_yc_pkts
- *
- * NIX LF Receive Queue Yellow Color Packets Operation Register
- * A 64-bit atomic load-and-add to this register reads NIX_RQ_CTX_S[YC_PKTS].
- * The atomic write data has format NIX_OP_Q_WDATA_S and selects the RQ within LF.
- *
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
- */
-union cavm_nixx_lf_rq_op_yc_pkts
-{
-    uint64_t u;
-    struct cavm_nixx_lf_rq_op_yc_pkts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](RO) Count. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_RQ_OP_INT[OP_ERR]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_lf_rq_op_yc_pkts_s cn; */
-};
-typedef union cavm_nixx_lf_rq_op_yc_pkts cavm_nixx_lf_rq_op_yc_pkts_t;
-
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_YC_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_LF_RQ_OP_YC_PKTS(uint64_t a)
-{
-    if (a<=1)
-        return 0x840200400968ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_LF_RQ_OP_YC_PKTS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_LF_RQ_OP_YC_PKTS(a) cavm_nixx_lf_rq_op_yc_pkts_t
-#define bustype_CAVM_NIXX_LF_RQ_OP_YC_PKTS(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NIXX_LF_RQ_OP_YC_PKTS(a) "NIXX_LF_RQ_OP_YC_PKTS"
-#define device_bar_CAVM_NIXX_LF_RQ_OP_YC_PKTS(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NIXX_LF_RQ_OP_YC_PKTS(a) (a)
-#define arguments_CAVM_NIXX_LF_RQ_OP_YC_PKTS(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_gen_color_conv#

@@ -28,24 +28,8 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_COMPLETE (0xa)
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_REQ (9)
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_WAIT (0xe)
-#define CAVM_GPIO_ASSIGNED_PIN_E_EJTAG_TCK (0x13)
-#define CAVM_GPIO_ASSIGNED_PIN_E_EJTAG_TDI (0x14)
-#define CAVM_GPIO_ASSIGNED_PIN_E_EJTAG_TDO (0x12)
-#define CAVM_GPIO_ASSIGNED_PIN_E_EJTAG_TMS (0x15)
 #define CAVM_GPIO_ASSIGNED_PIN_E_EMMC_POWER (8)
 #define CAVM_GPIO_ASSIGNED_PIN_E_FAIL_CODE (0xb)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_CRS_DV (0x1f)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_REF_CLK (0x1a)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_RXD0 (0x1c)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_RXD1 (0x1d)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_RX_ER (0x1e)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_TXD0 (0x18)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_TXD1 (0x19)
-#define CAVM_GPIO_ASSIGNED_PIN_E_NCSI_TX_EN (0x1b)
-#define CAVM_GPIO_ASSIGNED_PIN_E_PSPI_CLK (0x27)
-#define CAVM_GPIO_ASSIGNED_PIN_E_PSPI_CS (0x2a)
-#define CAVM_GPIO_ASSIGNED_PIN_E_PSPI_MISO (0x29)
-#define CAVM_GPIO_ASSIGNED_PIN_E_PSPI_MOSI (0x28)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CLK (0x24)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0 (0x25)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1 (0x26)
@@ -127,19 +111,11 @@
 #define CAVM_GPIO_PIN_SEL_E_BTS_RFP_IN (0x504)
 #define CAVM_GPIO_PIN_SEL_E_BTS_RFP_OUT (0x50f)
 #define CAVM_GPIO_PIN_SEL_E_BTS_TPX(a) (0x507 + (a))
-#define CAVM_GPIO_PIN_SEL_E_CER_CATERR (0x3fb)
-#define CAVM_GPIO_PIN_SEL_E_CER_ERR0 (0x3f8)
-#define CAVM_GPIO_PIN_SEL_E_CER_ERR1 (0x3f9)
-#define CAVM_GPIO_PIN_SEL_E_CER_ERR2 (0x3fa)
 #define CAVM_GPIO_PIN_SEL_E_CGXX_LMACX_RX(a,b) (0x4a0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_CGXX_LMACX_RXTX(a,b) (0x4e0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_CGXX_LMACX_TX(a,b) (0x4c0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_IN (0x480)
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_OUT (0x481)
-#define CAVM_GPIO_PIN_SEL_E_EJTAG_TCK (0x3f1)
-#define CAVM_GPIO_PIN_SEL_E_EJTAG_TDI (0x3f0)
-#define CAVM_GPIO_PIN_SEL_E_EJTAG_TDO (0x3f4)
-#define CAVM_GPIO_PIN_SEL_E_EJTAG_TMS (0x3f2)
 #define CAVM_GPIO_PIN_SEL_E_GPIO_CLKX(a) (0x260 + (a))
 #define CAVM_GPIO_PIN_SEL_E_GPIO_CLK_SYNCEX(a) (3 + (a))
 #define CAVM_GPIO_PIN_SEL_E_GPIO_PTP_CKOUT (1)
@@ -154,14 +130,6 @@
 #define CAVM_GPIO_PIN_SEL_E_LMCX_ECC(a) (0x3d0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_IN(a) (0x23f + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_OUT(a) (0x242 + (a))
-#define CAVM_GPIO_PIN_SEL_E_MCP_RESET_IN (0x482)
-#define CAVM_GPIO_PIN_SEL_E_MCP_RESET_OUT (0x483)
-#define CAVM_GPIO_PIN_SEL_E_NCSI_CRS_DV (0x258)
-#define CAVM_GPIO_PIN_SEL_E_NCSI_REF_CLK (0x25c)
-#define CAVM_GPIO_PIN_SEL_E_NCSI_RXDX(a) (0x25a + (a))
-#define CAVM_GPIO_PIN_SEL_E_NCSI_RX_ER (0x259)
-#define CAVM_GPIO_PIN_SEL_E_NCSI_TXDX(a) (0x25e + (a))
-#define CAVM_GPIO_PIN_SEL_E_NCSI_TX_EN (0x25d)
 #define CAVM_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER (0x231)
 #define CAVM_GPIO_PIN_SEL_E_PBUS_ADX(a) (0xfa + (a))
 #define CAVM_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a))
@@ -174,28 +142,14 @@
 #define CAVM_GPIO_PIN_SEL_E_PBUS_WAIT (0xe1)
 #define CAVM_GPIO_PIN_SEL_E_PBUS_WE (0xe2)
 #define CAVM_GPIO_PIN_SEL_E_PCS_DTESTX(a) (0x5f0 + (a))
-#define CAVM_GPIO_PIN_SEL_E_PSPI_CLK (0x28d)
-#define CAVM_GPIO_PIN_SEL_E_PSPI_CS (0x290)
-#define CAVM_GPIO_PIN_SEL_E_PSPI_MISO (0x28f)
-#define CAVM_GPIO_PIN_SEL_E_PSPI_MOSI (0x28e)
 #define CAVM_GPIO_PIN_SEL_E_PTP_EVTCNT (0x252)
 #define CAVM_GPIO_PIN_SEL_E_PTP_EXT_CLK (0x250)
 #define CAVM_GPIO_PIN_SEL_E_PTP_TSTMP (0x251)
-#define CAVM_GPIO_PIN_SEL_E_SATAX_ACT_LED(a) (0x420 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SATAX_CP_DET(a) (0x440 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SATAX_CP_POD(a) (0x400 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SATAX_MP_SWITCH(a) (0x460 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SATA_LAB_LB (0x18a)
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_IN (0x484)
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_OUT (0x485)
-#define CAVM_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX(a) (0x2c0 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX(a) (0x340 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX(a) (0x300 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SGPIO_SCLOCK (0x2a0)
-#define CAVM_GPIO_PIN_SEL_E_SGPIO_SDATAINX(a) (0x380 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX(a) (0x2b0 + (a))
-#define CAVM_GPIO_PIN_SEL_E_SGPIO_SLOAD (0x2a1)
-#define CAVM_GPIO_PIN_SEL_E_SPI0_CSX(a) (0x278 + (a))
+#define CAVM_GPIO_PIN_SEL_E_SPI0_CSX(a) (0x270 + (a))
+#define CAVM_GPIO_PIN_SEL_E_SPI0_IOX(a) (0x278 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SPI1_CLK (0x280)
 #define CAVM_GPIO_PIN_SEL_E_SPI1_CSX(a) (0x284 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SPI1_IOX(a) (0x288 + (a))
@@ -233,8 +187,6 @@
 #define CAVM_GPIO_STRAP_PIN_E_CCPI_NODE_ID (0xb)
 #define CAVM_GPIO_STRAP_PIN_E_GSER_CLK0_TERM_SEL0 (0x10)
 #define CAVM_GPIO_STRAP_PIN_E_GSER_CLK0_TERM_SEL1 (0x11)
-#define CAVM_GPIO_STRAP_PIN_E_MCP_DBG_ON_GPIO (4)
-#define CAVM_GPIO_STRAP_PIN_E_NCSI_ON_GPIO (5)
 #define CAVM_GPIO_STRAP_PIN_E_PCIE0_EP_MODE (0x18)
 #define CAVM_GPIO_STRAP_PIN_E_PCIE1_EP_MODE (0x1a)
 #define CAVM_GPIO_STRAP_PIN_E_PCIE2_EP_MODE (0x19)
@@ -395,21 +347,23 @@ union cavm_gpio_bit_permitx
     struct cavm_gpio_bit_permitx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t permitdis             : 4;  /**< [  3:  0](R/W) Each bit, if set, disables the given requestor from accessing the corresponding pin.
+        uint64_t reserved_5_63         : 59;
+        uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing the corresponding pin.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
                                                                    \<0\> = Disable APs (non MCP/SCP) secure world from accessing the pin.
                                                                    \<1\> = Disable APs (non MCP/SCP) nonsecure world from accessing the pin.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing the pin.
-                                                                   \<3\> = Disable XCP1 (MCP) from accessing the pin. */
+                                                                   \<3\> = Disable XCP1 (MCP) from accessing the pin.
+                                                                   \<4\> = Disable XCP2 (MCP) from accessing the pin. */
 #else /* Word 0 - Little Endian */
-        uint64_t permitdis             : 4;  /**< [  3:  0](R/W) Each bit, if set, disables the given requestor from accessing the corresponding pin.
+        uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing the corresponding pin.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
                                                                    \<0\> = Disable APs (non MCP/SCP) secure world from accessing the pin.
                                                                    \<1\> = Disable APs (non MCP/SCP) nonsecure world from accessing the pin.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing the pin.
-                                                                   \<3\> = Disable XCP1 (MCP) from accessing the pin. */
-        uint64_t reserved_4_63         : 60;
+                                                                   \<3\> = Disable XCP1 (MCP) from accessing the pin.
+                                                                   \<4\> = Disable XCP2 (MCP) from accessing the pin. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gpio_bit_permitx_s cn; */
@@ -552,98 +506,6 @@ static inline uint64_t CAVM_GPIO_BLINK_FREQ_FUNC(void)
 #define device_bar_CAVM_GPIO_BLINK_FREQ 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GPIO_BLINK_FREQ 0
 #define arguments_CAVM_GPIO_BLINK_FREQ -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_cer_err_w1c
- *
- * INTERNAL: GPIO Central Error Write-One-to-Clear Register
- */
-union cavm_gpio_cer_err_w1c
-{
-    uint64_t u;
-    struct cavm_gpio_cer_err_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t caterr                : 1;  /**< [  3:  3](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_CATERR output, to indicate a
-                                                                 catastrophic error to the BMC. */
-        uint64_t err2                  : 1;  /**< [  2:  2](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR2 output, to indicate an error to the BMC. */
-        uint64_t err1                  : 1;  /**< [  1:  1](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR1 output, to indicate an error to the BMC. */
-        uint64_t err0                  : 1;  /**< [  0:  0](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR0 GPIO output, to indicate an error to the BMC. */
-#else /* Word 0 - Little Endian */
-        uint64_t err0                  : 1;  /**< [  0:  0](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR0 GPIO output, to indicate an error to the BMC. */
-        uint64_t err1                  : 1;  /**< [  1:  1](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR1 output, to indicate an error to the BMC. */
-        uint64_t err2                  : 1;  /**< [  2:  2](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR2 output, to indicate an error to the BMC. */
-        uint64_t caterr                : 1;  /**< [  3:  3](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_CATERR output, to indicate a
-                                                                 catastrophic error to the BMC. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_cer_err_w1c_s cn; */
-};
-typedef union cavm_gpio_cer_err_w1c cavm_gpio_cer_err_w1c_t;
-
-#define CAVM_GPIO_CER_ERR_W1C CAVM_GPIO_CER_ERR_W1C_FUNC()
-static inline uint64_t CAVM_GPIO_CER_ERR_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GPIO_CER_ERR_W1C_FUNC(void)
-{
-    return 0x803000001608ll;
-}
-
-#define typedef_CAVM_GPIO_CER_ERR_W1C cavm_gpio_cer_err_w1c_t
-#define bustype_CAVM_GPIO_CER_ERR_W1C CSR_TYPE_NCB
-#define basename_CAVM_GPIO_CER_ERR_W1C "GPIO_CER_ERR_W1C"
-#define device_bar_CAVM_GPIO_CER_ERR_W1C 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GPIO_CER_ERR_W1C 0
-#define arguments_CAVM_GPIO_CER_ERR_W1C -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_cer_err_w1s
- *
- * INTERNAL: GPIO Central Error Write-One-to-Set Register
- *
- * Deprecated. This register report CER Errors to GPIO pins.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_gpio_cer_err_w1s
-{
-    uint64_t u;
-    struct cavm_gpio_cer_err_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t caterr                : 1;  /**< [  3:  3](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_CATERR output, to indicate a
-                                                                 catastrophic error to the BMC. */
-        uint64_t err2                  : 1;  /**< [  2:  2](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR2 output, to indicate an error to the BMC. */
-        uint64_t err1                  : 1;  /**< [  1:  1](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR1 output, to indicate an error to the BMC. */
-        uint64_t err0                  : 1;  /**< [  0:  0](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR0 GPIO output, to indicate an error to the BMC. */
-#else /* Word 0 - Little Endian */
-        uint64_t err0                  : 1;  /**< [  0:  0](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR0 GPIO output, to indicate an error to the BMC. */
-        uint64_t err1                  : 1;  /**< [  1:  1](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR1 output, to indicate an error to the BMC. */
-        uint64_t err2                  : 1;  /**< [  2:  2](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_ERR2 output, to indicate an error to the BMC. */
-        uint64_t caterr                : 1;  /**< [  3:  3](R/W1S) Set the selectable-GPIO GPIO_PIN_SEL_E::CER_CATERR output, to indicate a
-                                                                 catastrophic error to the BMC. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_cer_err_w1s_s cn; */
-};
-typedef union cavm_gpio_cer_err_w1s cavm_gpio_cer_err_w1s_t;
-
-#define CAVM_GPIO_CER_ERR_W1S CAVM_GPIO_CER_ERR_W1S_FUNC()
-static inline uint64_t CAVM_GPIO_CER_ERR_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GPIO_CER_ERR_W1S_FUNC(void)
-{
-    return 0x803000001600ll;
-}
-
-#define typedef_CAVM_GPIO_CER_ERR_W1S cavm_gpio_cer_err_w1s_t
-#define bustype_CAVM_GPIO_CER_ERR_W1S CSR_TYPE_NCB
-#define basename_CAVM_GPIO_CER_ERR_W1S "GPIO_CER_ERR_W1S"
-#define device_bar_CAVM_GPIO_CER_ERR_W1S 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GPIO_CER_ERR_W1S 0
-#define arguments_CAVM_GPIO_CER_ERR_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) gpio_clk_gen#
@@ -1639,21 +1501,23 @@ union cavm_gpio_permit
     struct cavm_gpio_permit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t permitdis             : 4;  /**< [  3:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
+        uint64_t reserved_5_63         : 59;
+        uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
                                                                    \<0\> = Disable AP/NCSI/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
                                                                    \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
-                                                                   \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers. */
+                                                                   \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
+                                                                   \<4\> = Disable XCP2 (MCP) from accessing GPIO global registers. */
 #else /* Word 0 - Little Endian */
-        uint64_t permitdis             : 4;  /**< [  3:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
+        uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
                                                                    \<0\> = Disable AP/NCSI/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
                                                                    \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
-                                                                   \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers. */
-        uint64_t reserved_4_63         : 60;
+                                                                   \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
+                                                                   \<4\> = Disable XCP2 (MCP) from accessing GPIO global registers. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gpio_permit_s cn; */
@@ -1718,55 +1582,6 @@ static inline uint64_t CAVM_GPIO_PKG_VER_FUNC(void)
 #define device_bar_CAVM_GPIO_PKG_VER 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GPIO_PKG_VER 0
 #define arguments_CAVM_GPIO_PKG_VER -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_pspi_ctl
- *
- * GPIO Expansion ROM SPI Control Register
- * This register is only accessible to the requestor(s) permitted with GPIO_PERMIT.
- *
- * When permitted, this register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_gpio_pspi_ctl
-{
-    uint64_t u;
-    struct cavm_gpio_pspi_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pspi_gpio             : 1;  /**< [  0:  0](R/W) PSPI GPIO reset override.
-                                                                 When set, this field causes the GPIO pins 39-42 to maintain their
-                                                                 values through a chip reset. This bit is typically set when PCIe Expansion RIM
-                                                                 is required and a PEM has been configured as an end point.
-                                                                 When cleared, the GPIOs are reset during a chip domain reset.
-                                                                 This register is reset only on a cold domain reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t pspi_gpio             : 1;  /**< [  0:  0](R/W) PSPI GPIO reset override.
-                                                                 When set, this field causes the GPIO pins 39-42 to maintain their
-                                                                 values through a chip reset. This bit is typically set when PCIe Expansion RIM
-                                                                 is required and a PEM has been configured as an end point.
-                                                                 When cleared, the GPIOs are reset during a chip domain reset.
-                                                                 This register is reset only on a cold domain reset. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_pspi_ctl_s cn; */
-};
-typedef union cavm_gpio_pspi_ctl cavm_gpio_pspi_ctl_t;
-
-#define CAVM_GPIO_PSPI_CTL CAVM_GPIO_PSPI_CTL_FUNC()
-static inline uint64_t CAVM_GPIO_PSPI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GPIO_PSPI_CTL_FUNC(void)
-{
-    return 0x803000000088ll;
-}
-
-#define typedef_CAVM_GPIO_PSPI_CTL cavm_gpio_pspi_ctl_t
-#define bustype_CAVM_GPIO_PSPI_CTL CSR_TYPE_NCB
-#define basename_CAVM_GPIO_PSPI_CTL "GPIO_PSPI_CTL"
-#define device_bar_CAVM_GPIO_PSPI_CTL 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GPIO_PSPI_CTL 0
-#define arguments_CAVM_GPIO_PSPI_CTL -1,-1,-1,-1
 
 /**
  * Register (NCB) gpio_rx1_dat

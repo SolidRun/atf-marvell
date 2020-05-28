@@ -20,6 +20,15 @@
  */
 
 /**
+ * Enumeration npa_af_batch_fail_e
+ *
+ * NPA Admin Function Batch Fail Code Enumeration
+ */
+#define CAVM_NPA_AF_BATCH_FAIL_E_BATCH_CNT_OOR (1)
+#define CAVM_NPA_AF_BATCH_FAIL_E_BATCH_PASS (0)
+#define CAVM_NPA_AF_BATCH_FAIL_E_BATCH_STORE_FAIL (2)
+
+/**
  * Enumeration npa_af_int_vec_e
  *
  * NPA Admin Function Interrupt Vector Enumeration
@@ -90,12 +99,12 @@
  * Enumeration npa_inpq_enas_e
  *
  * NPA Input Queue Enables Enumeration
- * Enumerates the bit index of enables for the various interface signals. Note, width
- * must be npa_defs::NPA_INTERFACES
+ * Enumerates the bit index of enables for the various interface signals.
+ * Note, width must be npa_defs::NPA_INTERFACES.
  */
-#define CAVM_NPA_INPQ_ENAS_E_NOTIF_DISABLE (0x1f5)
+#define CAVM_NPA_INPQ_ENAS_E_NOTIF_DISABLE (0x7cf)
 #define CAVM_NPA_INPQ_ENAS_E_REMOTE_PORT (0)
-#define CAVM_NPA_INPQ_ENAS_E_RESP_DISABLE (0x1c0)
+#define CAVM_NPA_INPQ_ENAS_E_RESP_DISABLE (0x702)
 
 /**
  * Enumeration npa_lf_int_vec_e
@@ -792,6 +801,216 @@ union cavm_npa_aura_s
 #endif /* Word 7 - End */
     } s;
     /* struct cavm_npa_aura_s_s cn; */
+};
+
+/**
+ * Structure npa_batch_alloc_compare_s
+ *
+ * NPA Batch Allocate COMPARE Hardware Structure
+ * This structure specifies the compare data format of a 64-bit atomic CAS
+ * operation to NPA_LF_AURA_BATCH_ALLOC.
+ */
+union cavm_npa_batch_alloc_compare_s
+{
+    uint64_t u;
+    struct cavm_npa_batch_alloc_compare_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t drop                  : 1;  /**< [ 63: 63] Perform DROP processing on Allocation, when set to 1. */
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the request,
+                                                                 the batch logic will respond immediately to the atomic request with a resources-busy /
+                                                                 request-not-serviced indication. If set to 0, and resources not available, the
+                                                                 request will remain pending until resources become available and the request is
+                                                                 serviced. */
+        uint64_t reserved_50_61        : 12;
+        uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfullment of the request.
+                                                                   0x0 = Store full cache line, allocate cache (STF).
+                                                                   0x1 = Store full cache line, no allocate (STT).
+                                                                   0x2 = Store partial cache line, allocate cache (STP).
+                                                                   0x3 = Store partial cache line stash, allocate cache (STSTP). */
+        uint64_t reserved_42_47        : 6;
+        uint64_t count                 : 10; /**< [ 41: 32] Count of the number of pointers to allocate. Maximum value of 512 and minimum value 1. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura from which to allocate IOVA's. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura from which to allocate IOVA's. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t count                 : 10; /**< [ 41: 32] Count of the number of pointers to allocate. Maximum value of 512 and minimum value 1. */
+        uint64_t reserved_42_47        : 6;
+        uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfullment of the request.
+                                                                   0x0 = Store full cache line, allocate cache (STF).
+                                                                   0x1 = Store full cache line, no allocate (STT).
+                                                                   0x2 = Store partial cache line, allocate cache (STP).
+                                                                   0x3 = Store partial cache line stash, allocate cache (STSTP). */
+        uint64_t reserved_50_61        : 12;
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the request,
+                                                                 the batch logic will respond immediately to the atomic request with a resources-busy /
+                                                                 request-not-serviced indication. If set to 0, and resources not available, the
+                                                                 request will remain pending until resources become available and the request is
+                                                                 serviced. */
+        uint64_t drop                  : 1;  /**< [ 63: 63] Perform DROP processing on Allocation, when set to 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_batch_alloc_compare_s_s cn; */
+};
+
+/**
+ * Structure npa_batch_alloc_swap_s
+ *
+ * NPA Batch Allocate SWAP Hardware Structure
+ * This structure specifies the swap data format of a 64-bit atomic CAS
+ * operation to NPA_LF_AURA_BATCH_ALLOC.
+ */
+union cavm_npa_batch_alloc_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_batch_alloc_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t address               : 64; /**< [ 63:  0] Address to write the allocated IOVA's. */
+#else /* Word 0 - Little Endian */
+        uint64_t address               : 64; /**< [ 63:  0] Address to write the allocated IOVA's. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_batch_alloc_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_lf_aura_op_free0_swap_s
+ *
+ * NPA LF AURA OP FREE0 SWAP Structure
+ * This structure specifies the swap data format of a 128-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_FREE0 register.
+ */
+union cavm_npa_lf_aura_op_free0_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_lf_aura_op_free0_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_lf_aura_op_free0_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_lf_aura_op_free1_swap_s
+ *
+ * NPA LF AURA OP FREE1 SWAP Structure
+ * This structure specifies the swap data format of a 128-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_FREE1 register.
+ */
+union cavm_npa_lf_aura_op_free1_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_lf_aura_op_free1_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t fabs                  : 1;  /**< [ 63: 63] Free absolute. If set, the pointer is absolute and is pushed to
+                                                                 the pool exactly as provided. If clear, the freed pointer is adjusted based
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
+        uint64_t reserved_20_62        : 43;
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF. */
+        uint64_t reserved_20_62        : 43;
+        uint64_t fabs                  : 1;  /**< [ 63: 63] Free absolute. If set, the pointer is absolute and is pushed to
+                                                                 the pool exactly as provided. If clear, the freed pointer is adjusted based
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_lf_aura_op_free1_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_end0_swap_s
+ *
+ * NPA LF POOL OP Pointer END0 SWAP Structure
+ * This structure specifies the swap data format of a 128-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_END0 register.
+ */
+union cavm_npa_pool_ptr_end0_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_end0_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ptr_end               : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_END]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ptr_end               : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_END]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_end0_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_end1_swap_s
+ *
+ * NPA LF POOL OP Pointer END1 SWAP Structure
+ * This structure specifies the swap data format of a 128-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_END1 register.
+ */
+union cavm_npa_pool_ptr_end1_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_end1_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_end1_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_start0_swap_s
+ *
+ * NPA LF POOL OP Pointer Start0 SWAP Structure
+ * This structure specifies the swap data format of a 128-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_START0 register.
+ */
+union cavm_npa_pool_ptr_start0_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_start0_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ptr_start             : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_START]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ptr_start             : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_START]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_start0_swap_s_s cn; */
+};
+
+/**
+ * Structure npa_pool_ptr_start1_swap_s
+ *
+ * NPA LF POOL OP Pointer START1 SWAP Structure
+ * This structure specifies the swap data format of a 128-bit atomic CAS
+ * operation to NPA_LF_POOL_OP_PTR_START1 register.
+ */
+union cavm_npa_pool_ptr_start1_swap_s
+{
+    uint64_t u;
+    struct cavm_npa_pool_ptr_start1_swap_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_pool_ptr_start1_swap_s_s cn; */
 };
 
 /**
@@ -2152,6 +2371,324 @@ static inline uint64_t CAVM_NPA_AF_BAR2_SEL_FUNC(void)
 #define device_bar_CAVM_NPA_AF_BAR2_SEL 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_BAR2_SEL 0
 #define arguments_CAVM_NPA_AF_BAR2_SEL -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npa_af_batch_accept_ctl
+ *
+ * NPA AF Batch Acceptance Control Register
+ * Specifies the Acceptance Control Parameters
+ */
+union cavm_npa_af_batch_accept_ctl
+{
+    uint64_t u;
+    struct cavm_npa_af_batch_accept_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for batch alloc pointer returns
+                                                                 and instead uses STP commands. Defaults to 0, enabling stashing if requested by
+                                                                 batch pointer alloc command. */
+        uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
+        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold. */
+        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold. */
+#else /* Word 0 - Little Endian */
+        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold. */
+        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold. */
+        uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
+        uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for batch alloc pointer returns
+                                                                 and instead uses STP commands. Defaults to 0, enabling stashing if requested by
+                                                                 batch pointer alloc command. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_batch_accept_ctl_s cn; */
+};
+typedef union cavm_npa_af_batch_accept_ctl cavm_npa_af_batch_accept_ctl_t;
+
+#define CAVM_NPA_AF_BATCH_ACCEPT_CTL CAVM_NPA_AF_BATCH_ACCEPT_CTL_FUNC()
+static inline uint64_t CAVM_NPA_AF_BATCH_ACCEPT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_BATCH_ACCEPT_CTL_FUNC(void)
+{
+    return 0x8400300006a8ll;
+}
+
+#define typedef_CAVM_NPA_AF_BATCH_ACCEPT_CTL cavm_npa_af_batch_accept_ctl_t
+#define bustype_CAVM_NPA_AF_BATCH_ACCEPT_CTL CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_BATCH_ACCEPT_CTL "NPA_AF_BATCH_ACCEPT_CTL"
+#define device_bar_CAVM_NPA_AF_BATCH_ACCEPT_CTL 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_BATCH_ACCEPT_CTL 0
+#define arguments_CAVM_NPA_AF_BATCH_ACCEPT_CTL -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npa_af_batch_bp_test
+ *
+ * INTERNAL: NPA AF BATCH Backpressure Test Register
+ */
+union cavm_npa_af_batch_bp_test
+{
+    uint64_t u;
+    struct cavm_npa_af_batch_bp_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Reserved.
+                                                                 \<62\> = Reserved.
+                                                                 \<61\> = Reserved.
+                                                                 \<60\> = Reserved.
+                                                                 \<59\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<23:22\>.
+                                                                 \<58\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<21:20\>.
+                                                                 \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
+                                                                 \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
+                                                                 \<55\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<15:14\>.
+                                                                 \<54\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<13:12\>.
+                                                                 \<53\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<11:10\>.
+                                                                 \<52\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<9:8\>.
+                                                                 \<51\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<7:6\>.
+                                                                 \<50\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<5:4\>.
+                                                                 \<49\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<3:2\>.
+                                                                 \<48\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<1:0\>. */
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   \<47:46\> = Config 15.
+                                                                   \<45:44\> = Config 14.
+                                                                   \<43:42\> = Config 13.
+                                                                   \<41:40\> = Config 12.
+                                                                   \<39:38\> = Config 11.
+                                                                   \<37:36\> = Config 10.
+                                                                   \<35:34\> = Config 9.
+                                                                   \<33:32\> = Config 8.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   \<47:46\> = Config 15.
+                                                                   \<45:44\> = Config 14.
+                                                                   \<43:42\> = Config 13.
+                                                                   \<41:40\> = Config 12.
+                                                                   \<39:38\> = Config 11.
+                                                                   \<37:36\> = Config 10.
+                                                                   \<35:34\> = Config 9.
+                                                                   \<33:32\> = Config 8.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Reserved.
+                                                                 \<62\> = Reserved.
+                                                                 \<61\> = Reserved.
+                                                                 \<60\> = Reserved.
+                                                                 \<59\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<23:22\>.
+                                                                 \<58\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<21:20\>.
+                                                                 \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
+                                                                 \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
+                                                                 \<55\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<15:14\>.
+                                                                 \<54\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<13:12\>.
+                                                                 \<53\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<11:10\>.
+                                                                 \<52\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<9:8\>.
+                                                                 \<51\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<7:6\>.
+                                                                 \<50\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<5:4\>.
+                                                                 \<49\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<3:2\>.
+                                                                 \<48\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<1:0\>. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_batch_bp_test_s cn; */
+};
+typedef union cavm_npa_af_batch_bp_test cavm_npa_af_batch_bp_test_t;
+
+#define CAVM_NPA_AF_BATCH_BP_TEST CAVM_NPA_AF_BATCH_BP_TEST_FUNC()
+static inline uint64_t CAVM_NPA_AF_BATCH_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_BATCH_BP_TEST_FUNC(void)
+{
+    return 0x8400300006b0ll;
+}
+
+#define typedef_CAVM_NPA_AF_BATCH_BP_TEST cavm_npa_af_batch_bp_test_t
+#define bustype_CAVM_NPA_AF_BATCH_BP_TEST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_BATCH_BP_TEST "NPA_AF_BATCH_BP_TEST"
+#define device_bar_CAVM_NPA_AF_BATCH_BP_TEST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_BATCH_BP_TEST 0
+#define arguments_CAVM_NPA_AF_BATCH_BP_TEST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npa_af_batch_ctl
+ *
+ * NPA AF Batch Control Register
+ * Specifies control parameters.
+ */
+union cavm_npa_af_batch_ctl
+{
+    uint64_t u;
+    struct cavm_npa_af_batch_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t num_cache_lines       : 6;  /**< [  6:  1](R/W) Number of cache lines to process per turn by the batch allocation engine. */
+        uint64_t force_cond_clk_en     : 1;  /**< [  0:  0](R/W) Force clock enables within block. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t force_cond_clk_en     : 1;  /**< [  0:  0](R/W) Force clock enables within block. For diagnostic use only. */
+        uint64_t num_cache_lines       : 6;  /**< [  6:  1](R/W) Number of cache lines to process per turn by the batch allocation engine. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_batch_ctl_s cn; */
+};
+typedef union cavm_npa_af_batch_ctl cavm_npa_af_batch_ctl_t;
+
+#define CAVM_NPA_AF_BATCH_CTL CAVM_NPA_AF_BATCH_CTL_FUNC()
+static inline uint64_t CAVM_NPA_AF_BATCH_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_BATCH_CTL_FUNC(void)
+{
+    return 0x8400300006a0ll;
+}
+
+#define typedef_CAVM_NPA_AF_BATCH_CTL cavm_npa_af_batch_ctl_t
+#define bustype_CAVM_NPA_AF_BATCH_CTL CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_BATCH_CTL "NPA_AF_BATCH_CTL"
+#define device_bar_CAVM_NPA_AF_BATCH_CTL 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_BATCH_CTL 0
+#define arguments_CAVM_NPA_AF_BATCH_CTL -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npa_af_batch_eco
+ *
+ * INTERNAL: NPA AF BATCH ECO Register
+ */
+union cavm_npa_af_batch_eco
+{
+    uint64_t u;
+    struct cavm_npa_af_batch_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_batch_eco_s cn; */
+};
+typedef union cavm_npa_af_batch_eco cavm_npa_af_batch_eco_t;
+
+#define CAVM_NPA_AF_BATCH_ECO CAVM_NPA_AF_BATCH_ECO_FUNC()
+static inline uint64_t CAVM_NPA_AF_BATCH_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_BATCH_ECO_FUNC(void)
+{
+    return 0x8400300006b8ll;
+}
+
+#define typedef_CAVM_NPA_AF_BATCH_ECO cavm_npa_af_batch_eco_t
+#define bustype_CAVM_NPA_AF_BATCH_ECO CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_BATCH_ECO "NPA_AF_BATCH_ECO"
+#define device_bar_CAVM_NPA_AF_BATCH_ECO 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_BATCH_ECO 0
+#define arguments_CAVM_NPA_AF_BATCH_ECO -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npa_af_batch_err_data0
+ *
+ * NPA AF BATCH ERROR DATA Register 0
+ */
+union cavm_npa_af_batch_err_data0
+{
+    uint64_t u;
+    struct cavm_npa_af_batch_err_data0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W1C/H) Indicates that the contents of NPA_AF_BATCH_ERR_DATA() are
+                                                                 valid and updates. Write this bit to 1 to clear status. */
+        uint64_t reserved_38_62        : 25;
+        uint64_t batch_fail_code       : 2;  /**< [ 37: 36](RO/H) Batch failure code, enumerated with NPA_AF_BATCH_FAIL_E. */
+        uint64_t pf_func               : 16; /**< [ 35: 20](RO/H) PF_FUNC used by operation that resulted in error. */
+        uint64_t aura                  : 20; /**< [ 19:  0](RO/H) Aura used by operation that resulted in error. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0](RO/H) Aura used by operation that resulted in error. */
+        uint64_t pf_func               : 16; /**< [ 35: 20](RO/H) PF_FUNC used by operation that resulted in error. */
+        uint64_t batch_fail_code       : 2;  /**< [ 37: 36](RO/H) Batch failure code, enumerated with NPA_AF_BATCH_FAIL_E. */
+        uint64_t reserved_38_62        : 25;
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W1C/H) Indicates that the contents of NPA_AF_BATCH_ERR_DATA() are
+                                                                 valid and updates. Write this bit to 1 to clear status. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_batch_err_data0_s cn; */
+};
+typedef union cavm_npa_af_batch_err_data0 cavm_npa_af_batch_err_data0_t;
+
+#define CAVM_NPA_AF_BATCH_ERR_DATA0 CAVM_NPA_AF_BATCH_ERR_DATA0_FUNC()
+static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA0_FUNC(void)
+{
+    return 0x8400300006c0ll;
+}
+
+#define typedef_CAVM_NPA_AF_BATCH_ERR_DATA0 cavm_npa_af_batch_err_data0_t
+#define bustype_CAVM_NPA_AF_BATCH_ERR_DATA0 CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_BATCH_ERR_DATA0 "NPA_AF_BATCH_ERR_DATA0"
+#define device_bar_CAVM_NPA_AF_BATCH_ERR_DATA0 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_BATCH_ERR_DATA0 0
+#define arguments_CAVM_NPA_AF_BATCH_ERR_DATA0 -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npa_af_batch_err_data1
+ *
+ * NPA AF BATCH ERROR DATA Register 1
+ */
+union cavm_npa_af_batch_err_data1
+{
+    uint64_t u;
+    struct cavm_npa_af_batch_err_data1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t address               : 64; /**< [ 63:  0](RO/H) Address used by operation that resulted in error. */
+#else /* Word 0 - Little Endian */
+        uint64_t address               : 64; /**< [ 63:  0](RO/H) Address used by operation that resulted in error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_batch_err_data1_s cn; */
+};
+typedef union cavm_npa_af_batch_err_data1 cavm_npa_af_batch_err_data1_t;
+
+#define CAVM_NPA_AF_BATCH_ERR_DATA1 CAVM_NPA_AF_BATCH_ERR_DATA1_FUNC()
+static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA1_FUNC(void)
+{
+    return 0x8400300006c8ll;
+}
+
+#define typedef_CAVM_NPA_AF_BATCH_ERR_DATA1 cavm_npa_af_batch_err_data1_t
+#define bustype_CAVM_NPA_AF_BATCH_ERR_DATA1 CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_BATCH_ERR_DATA1 "NPA_AF_BATCH_ERR_DATA1"
+#define device_bar_CAVM_NPA_AF_BATCH_ERR_DATA1 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_BATCH_ERR_DATA1 0
+#define arguments_CAVM_NPA_AF_BATCH_ERR_DATA1 -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_blk_rst
@@ -3919,6 +4456,205 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
 #define arguments_CAVM_NPA_AF_RVU_LF_CFG_DEBUG -1,-1,-1,-1
 
 /**
+ * Register (RVU_PFVF_BAR2) npa_lf_aura_batch_alloc
+ *
+ * NPA LF Batch Allocate Register
+ * This register is used to batch allocate pointers from a given aura's pool. A
+ * 64-bit atomic CAS operation to NPA_LF_AURA_BATCH_ALLOC allocates the pointers.
+ * The atomic SWAP data format is NPA_BATCH_ALLOC_SWAP_S. The atomic COMPARE data
+ * format is NPA_BATCH_ALLOC_COMPARE_S. The CAS operation will return 0 if the
+ * CAS operation was accepted, or non-zero value if not accepted. All other
+ * accesses to this register (e.g. reads and writes) are RAZ/WI.  RSL accesses
+ * to this register are RAZ/WI.
+ *
+ * NPA always assumes that the atomic operand data is little-endian.
+ */
+union cavm_npa_lf_aura_batch_alloc
+{
+    uint64_t u;
+    struct cavm_npa_lf_aura_batch_alloc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t result                : 64; /**< [ 63:  0](RO/H) The CAS operation will return a result of 0 if the CAS operation was accepted, or non-zero value
+                                                                 if not accepted. */
+#else /* Word 0 - Little Endian */
+        uint64_t result                : 64; /**< [ 63:  0](RO/H) The CAS operation will return a result of 0 if the CAS operation was accepted, or non-zero value
+                                                                 if not accepted. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_lf_aura_batch_alloc_s cn; */
+};
+typedef union cavm_npa_lf_aura_batch_alloc cavm_npa_lf_aura_batch_alloc_t;
+
+#define CAVM_NPA_LF_AURA_BATCH_ALLOC CAVM_NPA_LF_AURA_BATCH_ALLOC_FUNC()
+static inline uint64_t CAVM_NPA_LF_AURA_BATCH_ALLOC_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_LF_AURA_BATCH_ALLOC_FUNC(void)
+{
+    return 0x840200300340ll;
+}
+
+#define typedef_CAVM_NPA_LF_AURA_BATCH_ALLOC cavm_npa_lf_aura_batch_alloc_t
+#define bustype_CAVM_NPA_LF_AURA_BATCH_ALLOC CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_NPA_LF_AURA_BATCH_ALLOC "NPA_LF_AURA_BATCH_ALLOC"
+#define device_bar_CAVM_NPA_LF_AURA_BATCH_ALLOC 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_NPA_LF_AURA_BATCH_ALLOC 0
+#define arguments_CAVM_NPA_LF_AURA_BATCH_ALLOC -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) npa_lf_aura_batch_free#
+ *
+ * NPA LF Batch Free Registers
+ * These registers are used to free a batch of pointers to a given aura's pool. These
+ * registers are accessed only as part of a LMTST operation to NPA_LF_AURA_BATCH_FREE(0).
+ * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
+ * RSL accesses to this register are RAZ/WI.
+ */
+union cavm_npa_lf_aura_batch_freex
+{
+    uint64_t u;
+    struct cavm_npa_lf_aura_batch_freex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t address               : 64; /**< [ 63:  0](R/W/H) Pointer to be returned to the Aura specified in NPA_LF_AURA_BATCH_FREE0[AURA]. */
+#else /* Word 0 - Little Endian */
+        uint64_t address               : 64; /**< [ 63:  0](R/W/H) Pointer to be returned to the Aura specified in NPA_LF_AURA_BATCH_FREE0[AURA]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_lf_aura_batch_freex_s cn; */
+};
+typedef union cavm_npa_lf_aura_batch_freex cavm_npa_lf_aura_batch_freex_t;
+
+static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREEX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREEX(uint64_t a)
+{
+    if ((a>=1)&&(a<=15))
+        return 0x840200300400ll + 8ll * ((a) & 0xf);
+    __cavm_csr_fatal("NPA_LF_AURA_BATCH_FREEX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPA_LF_AURA_BATCH_FREEX(a) cavm_npa_lf_aura_batch_freex_t
+#define bustype_CAVM_NPA_LF_AURA_BATCH_FREEX(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_NPA_LF_AURA_BATCH_FREEX(a) "NPA_LF_AURA_BATCH_FREEX"
+#define device_bar_CAVM_NPA_LF_AURA_BATCH_FREEX(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_NPA_LF_AURA_BATCH_FREEX(a) (a)
+#define arguments_CAVM_NPA_LF_AURA_BATCH_FREEX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) npa_lf_aura_batch_free0
+ *
+ * NPA LF Batch Free Register 0
+ * This register is used to free a batch of pointers to a given aura's pool. This register is accessed
+ * only with a LMTST operation. All other accesses to this register (e.g. reads and
+ * writes) are RAZ/WI.
+ * RSL accesses to this register are RAZ/WI.
+ */
+union cavm_npa_lf_aura_batch_free0
+{
+    uint64_t u;
+    struct cavm_npa_lf_aura_batch_free0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
+                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 NPA_POOL_S[BUF_SIZE]. */
+        uint64_t reserved_33_62        : 30;
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
+                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
+                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
+                                                                 and word[127:64] have valid pointers.
+
+                                                                 Internal:
+                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
+                                                                 field which would range from 1 to 15.  If software provides feedback that the full
+                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
+                                                                 case we decide to revert to the original definition and add error reporting.
+                                                                 For reference, the original 4b COUNT field definition was - Count of number of
+                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
+                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
+                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
+                                                                 and word[127:64] have valid pointers.
+
+                                                                 Internal:
+                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
+                                                                 field which would range from 1 to 15.  If software provides feedback that the full
+                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
+                                                                 case we decide to revert to the original definition and add error reporting.
+                                                                 For reference, the original 4b COUNT field definition was - Count of number of
+                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+        uint64_t reserved_33_62        : 30;
+        uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
+                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 NPA_POOL_S[BUF_SIZE]. */
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_npa_lf_aura_batch_free0_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
+                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 NPA_POOL_S[BUF_SIZE]. */
+        uint64_t reserved_36_62        : 27;
+        uint64_t reserved_33_35        : 3;
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
+                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
+                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
+                                                                 and word[127:64] have valid pointers.
+
+                                                                 Internal:
+                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
+                                                                 field which would range from 1 to 15.  If software provides feedback that the full
+                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
+                                                                 case we decide to revert to the original definition and add error reporting.
+                                                                 For reference, the original 4b COUNT field definition was - Count of number of
+                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
+#else /* Word 0 - Little Endian */
+        uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
+                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
+                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
+                                                                 and word[127:64] have valid pointers.
+
+                                                                 Internal:
+                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
+                                                                 field which would range from 1 to 15.  If software provides feedback that the full
+                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
+                                                                 case we decide to revert to the original definition and add error reporting.
+                                                                 For reference, the original 4b COUNT field definition was - Count of number of
+                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t reserved_36_62        : 27;
+        uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
+                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 NPA_POOL_S[BUF_SIZE]. */
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_npa_lf_aura_batch_free0 cavm_npa_lf_aura_batch_free0_t;
+
+#define CAVM_NPA_LF_AURA_BATCH_FREE0 CAVM_NPA_LF_AURA_BATCH_FREE0_FUNC()
+static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREE0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREE0_FUNC(void)
+{
+    return 0x840200300400ll;
+}
+
+#define typedef_CAVM_NPA_LF_AURA_BATCH_FREE0 cavm_npa_lf_aura_batch_free0_t
+#define bustype_CAVM_NPA_LF_AURA_BATCH_FREE0 CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_NPA_LF_AURA_BATCH_FREE0 "NPA_LF_AURA_BATCH_FREE0"
+#define device_bar_CAVM_NPA_LF_AURA_BATCH_FREE0 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_NPA_LF_AURA_BATCH_FREE0 0
+#define arguments_CAVM_NPA_LF_AURA_BATCH_FREE0 -1,-1,-1,-1
+
+/**
  * Register (RVU_PFVF_BAR2) npa_lf_aura_op_alloc#
  *
  * NPA Aura Allocate Operation Registers
@@ -3929,8 +4665,9 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
  * For CASP, the first SWAP word in the write data contains NPA_AURA_OP_WDATA_S
  * and the remaining write data words are ignored.
  *
- * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
+ * NPA always assumes that the atomic operand data is little-endian.
  *
+ * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_aura_op_allocx
@@ -3939,13 +4676,13 @@ union cavm_npa_lf_aura_op_allocx
     struct cavm_npa_lf_aura_op_allocx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) LF IOVA newly allocated by hardware returned as atomic read data. Bits \<6:0\>
+        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) The return pointer newly allocated by hardware returned as atomic read data. Bits \<6:0\>
                                                                  are always zero. Bits \<63:53\> are a sign-extension of bit \<52\>.
 
                                                                  If 0x0, the selected pool is empty, aura limit has been hit, or drop
                                                                  (NPA_AURA_OP_WDATA_S[DROP]) was applied. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) LF IOVA newly allocated by hardware returned as atomic read data. Bits \<6:0\>
+        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) The return pointer newly allocated by hardware returned as atomic read data. Bits \<6:0\>
                                                                  are always zero. Bits \<63:53\> are a sign-extension of bit \<52\>.
 
                                                                  If 0x0, the selected pool is empty, aura limit has been hit, or drop
@@ -4045,12 +4782,15 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_CNT_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_aura_op_free0
  *
  * NPA LF Aura Free Operation Register 0
- * A 128-bit write (STP) to NPA_LF_AURA_OP_FREE0 and NPA_LF_AURA_OP_FREE1
- * frees a pointer into a given aura's pool.
- * All other accesses to these registers (e.g. reads and 64-bit writes) are
- * RAZ/WI.
- *
- * RSL accesses to this register are RAZ/WI.
+ * A 128-bit atomic CAS to NPA_LF_AURA_OP_FREE0 and NPA_LF_AURA_OP_FREE1 frees a pointer
+ * into a given aura's pool. All other accesses to these registers (e.g. reads and 64-bit
+ * writes) are RAZ/WI.  RSL accesses to this register are RAZ/WI.
+ * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_START0 and NPA_LF_POOL_OP_PTR_START1
+ * registers writes to a given pool's pointer start value. CAS data format is
+ * given by NPA_LF_AURA_OP_FREE0_SWAP_S and NPA_LF_AURA_OP_FREE1_SWAP_S. The swap
+ * data for the CAS is written to the registers, while the compare data is ignored.
+ * The CAS result value will always be zero.
+ * Note that the register field descriptions below are OBSOLETE.
  */
 union cavm_npa_lf_aura_op_free0
 {
@@ -4058,9 +4798,9 @@ union cavm_npa_lf_aura_op_free0
     struct cavm_npa_lf_aura_op_free0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](WO) LF IOVA to return to aura. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) OBSOLETE. Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](WO) LF IOVA to return to aura. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) OBSOLETE. Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_op_free0_s cn; */
@@ -4085,9 +4825,10 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_FREE0_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_aura_op_free1
  *
  * NPA LF Aura Free Operation Register 1
- * See NPA_LF_AURA_OP_FREE0.
- *
+ * See NPA_LF_AURA_OP_FREE0. Access only as part of a CAS operation to NPA_LF_AURA_OP_FREE0.
+ * All other accesses to these registers (e.g. reads and 64-bit writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
+ * Note that the register field descriptions below are OBSOLETE.
  */
 union cavm_npa_lf_aura_op_free1
 {
@@ -4095,17 +4836,17 @@ union cavm_npa_lf_aura_op_free1
     struct cavm_npa_lf_aura_op_free1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) Free absolute. If set, the pointer is absolute and is pushed to the pool exactly
-                                                                 as provided. If clear, the freed pointer is adjusted based on
-                                                                 NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
+        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) OBSOLETE. Free absolute. If set, the pointer is absolute and is pushed to
+                                                                 the pool exactly as provided. If clear, the freed pointer is adjusted based
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
         uint64_t reserved_20_62        : 43;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF. */
         uint64_t reserved_20_62        : 43;
-        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) Free absolute. If set, the pointer is absolute and is pushed to the pool exactly
-                                                                 as provided. If clear, the freed pointer is adjusted based on
-                                                                 NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
+        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) OBSOLETE. Free absolute. If set, the pointer is absolute and is pushed to
+                                                                 the pool exactly as provided. If clear, the freed pointer is adjusted based
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_op_free1_s cn; */
@@ -4312,7 +5053,8 @@ union cavm_npa_lf_err_int
     struct cavm_npa_lf_err_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_17_63        : 47;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Problem encountered with batch pointer request, such as invalid pointer count. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on NPA_QINT_HW_S read or write. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Memory fault on NPA_STACK_PAGE_S read or write. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on NPA_POOL_HW_S read or write, or on write to LF IOVA
@@ -4370,7 +5112,8 @@ union cavm_npa_lf_err_int
                                                                  specified by NPA_POOL_S[FC_ADDR]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Memory fault on NPA_STACK_PAGE_S read or write. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on NPA_QINT_HW_S read or write. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Problem encountered with batch pointer request, such as invalid pointer count. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_err_int_s cn; */
@@ -4403,7 +5146,8 @@ union cavm_npa_lf_err_int_ena_w1c
     struct cavm_npa_lf_err_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_17_63        : 47;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -4445,7 +5189,8 @@ union cavm_npa_lf_err_int_ena_w1c
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_err_int_ena_w1c_s cn; */
@@ -4478,7 +5223,8 @@ union cavm_npa_lf_err_int_ena_w1s
     struct cavm_npa_lf_err_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_17_63        : 47;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -4520,7 +5266,8 @@ union cavm_npa_lf_err_int_ena_w1s
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_err_int_ena_w1s_s cn; */
@@ -4553,7 +5300,8 @@ union cavm_npa_lf_err_int_w1s
     struct cavm_npa_lf_err_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_17_63        : 47;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -4595,7 +5343,8 @@ union cavm_npa_lf_err_int_w1s
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_err_int_w1s_s cn; */
@@ -4794,11 +5543,14 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PC_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_end0
  *
  * NPA LF Pool Pointer End Operation Register 0
- * A 128-bit write (STP) to the NPA_LF_POOL_OP_PTR_END0 and NPA_LF_POOL_OP_PTR_END1
- * registers writes to a given pool's pointer end value.
- * All other accesses to these registers (e.g. reads and 64-bit writes) are
- * RAZ/WI.
+ * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_END0 and NPA_LF_POOL_OP_PTR_END1
+ * registers writes to a given pool's pointer end value. CAS data format is
+ * given by NPA_POOL_PTR_END0_SWAP_S and NPA_POOL_PTR_END1_SWAP_S. The swap
+ * data for the CAS is written to the registers, while the compare data is ignored.
+ * The CAS result value will always be zero.
+ * Note that the register field descriptions below are OBSOLETE.
  *
+ * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_end0
@@ -4807,9 +5559,9 @@ union cavm_npa_lf_pool_op_ptr_end0
     struct cavm_npa_lf_pool_op_ptr_end0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END]. */
+        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_END]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END]. */
+        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_END]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_pool_op_ptr_end0_s cn; */
@@ -4834,8 +5586,10 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END0_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_end1
  *
  * NPA LF Pool Pointer End Operation Register 1
- * See NPA_LF_POOL_OP_PTR_END0.
+ * See NPA_LF_POOL_OP_PTR_END0. Access only with 128-bit CAS operation.
+ * Note that the register field descriptions below are OBSOLETE.
  *
+ * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_end1
@@ -4845,9 +5599,9 @@ union cavm_npa_lf_pool_op_ptr_end1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -4873,11 +5627,14 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END1_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_start0
  *
  * NPA LF Pool Pointer Start Operation Register 0
- * A 128-bit write (STP) to the NPA_LF_POOL_OP_PTR_START0 and NPA_LF_POOL_OP_PTR_START1
- * registers writes to a given pool's pointer start value.
- * All other accesses to these registers (e.g. reads and 64-bit writes) are
- * RAZ/WI.
+ * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_START0 and NPA_LF_POOL_OP_PTR_START1
+ * registers writes to a given pool's pointer start value. CAS data format is
+ * given by NPA_POOL_PTR_START0_SWAP_S and NPA_POOL_PTR_START1_SWAP_S. The swap
+ * data for the CAS is written to the registers, while the compare data is ignored.
+ * The CAS result value will always be zero.
+ * Note that the register field descriptions below are OBSOLETE.
  *
+ * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_start0
@@ -4886,9 +5643,9 @@ union cavm_npa_lf_pool_op_ptr_start0
     struct cavm_npa_lf_pool_op_ptr_start0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START]. */
+        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_START]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START]. */
+        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_START]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_pool_op_ptr_start0_s cn; */
@@ -4913,8 +5670,10 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_START0_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_start1
  *
  * NPA LF Pool Pointer Start Operation Register 1
- * See NPA_LF_POOL_OP_PTR_START0.
+ * See NPA_LF_POOL_OP_PTR_START0. Access only with 128-bit CAS operation.
+ * Note that the register field descriptions below are OBSOLETE.
  *
+ * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_start1
@@ -4924,9 +5683,9 @@ union cavm_npa_lf_pool_op_ptr_start1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

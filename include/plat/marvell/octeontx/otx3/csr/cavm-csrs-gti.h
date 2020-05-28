@@ -859,7 +859,10 @@ union cavm_gti_cc_cntcr
                                                                  0x0, has no effect on the counter.
 
                                                                  For CNXXXX, which implements a single frequency table entry, must be 0x0. */
-        uint32_t reserved_2_7          : 6;
+        uint32_t reserved_3_7          : 5;
+        uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
+                                                                 0 = counter is incremented by one for each counter tick.
+                                                                 1 = counter is incremented by CNTSR for each counter tick. */
         uint32_t hdbg                  : 1;  /**< [  1:  1](SR/W) System counter halt-on-debug enable.
                                                                  0 = System counter ignores halt-on-debug.
                                                                  1 = Asserted halt-on-debug signal halts system counter update. */
@@ -869,7 +872,10 @@ union cavm_gti_cc_cntcr
         uint32_t hdbg                  : 1;  /**< [  1:  1](SR/W) System counter halt-on-debug enable.
                                                                  0 = System counter ignores halt-on-debug.
                                                                  1 = Asserted halt-on-debug signal halts system counter update. */
-        uint32_t reserved_2_7          : 6;
+        uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
+                                                                 0 = counter is incremented by one for each counter tick.
+                                                                 1 = counter is incremented by CNTSR for each counter tick. */
+        uint32_t reserved_3_7          : 5;
         uint32_t fcreq                 : 1;  /**< [  8:  8](SR/W) Frequency change request. Indicates the number of the entry in the frequency
                                                                  table to select. Selecting an unimplemented entry, or an entry that contains
                                                                  0x0, has no effect on the counter.
@@ -1003,6 +1009,44 @@ static inline uint64_t CAVM_GTI_CC_CNTFID1_FUNC(void)
 #define device_bar_CAVM_GTI_CC_CNTFID1 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GTI_CC_CNTFID1 0
 #define arguments_CAVM_GTI_CC_CNTFID1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) gti_cc_cntid
+ *
+ * GTI Counter Control Counter Identification Register
+ */
+union cavm_gti_cc_cntid
+{
+    uint32_t u;
+    struct cavm_gti_cc_cntid_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t cntsc                 : 4;  /**< [  3:  0](SRO) Indicates counter scaling is implemented (0 means no, 1 means yes, remaining
+                                                                 values are reserved). */
+#else /* Word 0 - Little Endian */
+        uint32_t cntsc                 : 4;  /**< [  3:  0](SRO) Indicates counter scaling is implemented (0 means no, 1 means yes, remaining
+                                                                 values are reserved). */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gti_cc_cntid_s cn; */
+};
+typedef union cavm_gti_cc_cntid cavm_gti_cc_cntid_t;
+
+#define CAVM_GTI_CC_CNTID CAVM_GTI_CC_CNTID_FUNC()
+static inline uint64_t CAVM_GTI_CC_CNTID_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GTI_CC_CNTID_FUNC(void)
+{
+    return 0x80200000001cll;
+}
+
+#define typedef_CAVM_GTI_CC_CNTID cavm_gti_cc_cntid_t
+#define bustype_CAVM_GTI_CC_CNTID CSR_TYPE_NCB32b
+#define basename_CAVM_GTI_CC_CNTID "GTI_CC_CNTID"
+#define device_bar_CAVM_GTI_CC_CNTID 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GTI_CC_CNTID 0
+#define arguments_CAVM_GTI_CC_CNTID -1,-1,-1,-1
 
 /**
  * Register (NCB) gti_cc_cntmb
@@ -1301,6 +1345,42 @@ static inline uint64_t CAVM_GTI_CC_CNTRATE_FUNC(void)
 #define device_bar_CAVM_GTI_CC_CNTRATE 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GTI_CC_CNTRATE 0
 #define arguments_CAVM_GTI_CC_CNTRATE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) gti_cc_cntscr
+ *
+ * GTI Counter Control Counter Scale Register
+ */
+union cavm_gti_cc_cntscr
+{
+    uint32_t u;
+    struct cavm_gti_cc_cntscr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t scaleval              : 32; /**< [ 31:  0](SR/W) Indicates amount added to the counter value for every counter tick (1 clk
+                                                                 period). Consists of 8 bit integer value and 24 bit fractional value. */
+#else /* Word 0 - Little Endian */
+        uint32_t scaleval              : 32; /**< [ 31:  0](SR/W) Indicates amount added to the counter value for every counter tick (1 clk
+                                                                 period). Consists of 8 bit integer value and 24 bit fractional value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gti_cc_cntscr_s cn; */
+};
+typedef union cavm_gti_cc_cntscr cavm_gti_cc_cntscr_t;
+
+#define CAVM_GTI_CC_CNTSCR CAVM_GTI_CC_CNTSCR_FUNC()
+static inline uint64_t CAVM_GTI_CC_CNTSCR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GTI_CC_CNTSCR_FUNC(void)
+{
+    return 0x802000000010ll;
+}
+
+#define typedef_CAVM_GTI_CC_CNTSCR cavm_gti_cc_cntscr_t
+#define bustype_CAVM_GTI_CC_CNTSCR CSR_TYPE_NCB32b
+#define basename_CAVM_GTI_CC_CNTSCR "GTI_CC_CNTSCR"
+#define device_bar_CAVM_GTI_CC_CNTSCR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GTI_CC_CNTSCR 0
+#define arguments_CAVM_GTI_CC_CNTSCR -1,-1,-1,-1
 
 /**
  * Register (NCB32b) gti_cc_cntsr

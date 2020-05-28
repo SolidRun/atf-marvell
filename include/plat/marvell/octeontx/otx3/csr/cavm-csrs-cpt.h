@@ -1483,8 +1483,6 @@ static inline uint64_t CAVM_CPTX_AF_CTL(uint64_t a)
  * Register (RVU_PF_BAR0) cpt#_af_ctx_err
  *
  * CPT AF CTX Error Register
- * This register is set to 1 if the CTX processor recognizes that multiple
- * groups are using the same context.
  */
 union cavm_cptx_af_ctx_err
 {
@@ -1492,11 +1490,17 @@ union cavm_cptx_af_ctx_err
     struct cavm_cptx_af_ctx_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) Group error bit. */
+        uint64_t reserved_2_63         : 62;
+        uint64_t list_err              : 1;  /**< [  1:  1](R/W/H) This register is set to one when a context operation is sent to the context processor
+                                                                 from an engine not on any ordered list. */
+        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) This register is set to 1 if the CTX processor detects that multiple
+                                                                 groups are using the same context. */
 #else /* Word 0 - Little Endian */
-        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) Group error bit. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) This register is set to 1 if the CTX processor detects that multiple
+                                                                 groups are using the same context. */
+        uint64_t list_err              : 1;  /**< [  1:  1](R/W/H) This register is set to one when a context operation is sent to the context processor
+                                                                 from an engine not on any ordered list. */
+        uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_ctx_err_s cn; */

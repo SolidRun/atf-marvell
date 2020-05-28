@@ -927,7 +927,9 @@ union cavm_mdn_debug_defect
         uint32_t cam_multi_hit_fail    : 1;  /**< [ 17: 17](RAZ) Reserved. */
         uint32_t cam_hit_fail          : 1;  /**< [ 16: 16](RAZ) Reserved. */
         uint32_t multi_col_fail        : 1;  /**< [ 15: 15](RO/H) Asserted if BIST detects multiple failing columns in the same row
-                                                                 of a CAM or RAM. */
+                                                                 of a CAM or RAM. This is asserted if multiple faults are detected in same clock.
+                                                                 Wont set if multi-bits faults in same Row are of SA1 and SA0 simultaneously.
+                                                                 Only one would be detected in one cylce, due to March patterns here. */
         uint32_t valid                 : 1;  /**< [ 14: 14](RO/H) The [DEFECT] field is valid. */
         uint32_t defect                : 14; /**< [ 13:  0](RO/H) The maximum, minimum, first or last defect column is captured here
                                                                  according to the setting of MDN_BIST_CONFIG[DEBUG_KIND] and MDN_BIST_CONFIG[DEBUG_ALGO]. */
@@ -936,7 +938,9 @@ union cavm_mdn_debug_defect
                                                                  according to the setting of MDN_BIST_CONFIG[DEBUG_KIND] and MDN_BIST_CONFIG[DEBUG_ALGO]. */
         uint32_t valid                 : 1;  /**< [ 14: 14](RO/H) The [DEFECT] field is valid. */
         uint32_t multi_col_fail        : 1;  /**< [ 15: 15](RO/H) Asserted if BIST detects multiple failing columns in the same row
-                                                                 of a CAM or RAM. */
+                                                                 of a CAM or RAM. This is asserted if multiple faults are detected in same clock.
+                                                                 Wont set if multi-bits faults in same Row are of SA1 and SA0 simultaneously.
+                                                                 Only one would be detected in one cylce, due to March patterns here. */
         uint32_t cam_hit_fail          : 1;  /**< [ 16: 16](RAZ) Reserved. */
         uint32_t cam_multi_hit_fail    : 1;  /**< [ 17: 17](RAZ) Reserved. */
         uint32_t cam_hit_index_fail    : 1;  /**< [ 18: 18](RAZ) Reserved. */
