@@ -1844,7 +1844,7 @@ union cavm_pemx_ctl_status2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t trgt1_ecc_cor_dis     : 1;  /**< [ 32: 32](R/W) Disable correction of single bit ECC errors on TRGT1 data from PEMC to PEMM. */
+        uint64_t trgt1_ecc_cor_dis     : 1;  /**< [ 32: 32](R/W) Disable ECC error detection & correction on TRGT1 data from PEMC to PEMM. */
         uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 655,360 ns clocks to wait for a CPL to an
                                                                  outbound configuration read that does not carry a retry status. Until such time
                                                                  that the timeout occurs and retry status is received for a configuration read,
@@ -1884,7 +1884,7 @@ union cavm_pemx_ctl_status2
                                                                  less, although the PCI express base specification allows up to 900 ms for a
                                                                  device to send a successful completion.  When enabled, only one CFG RD may be
                                                                  issued until either successful completion or CPL UR. */
-        uint64_t trgt1_ecc_cor_dis     : 1;  /**< [ 32: 32](R/W) Disable correction of single bit ECC errors on TRGT1 data from PEMC to PEMM. */
+        uint64_t trgt1_ecc_cor_dis     : 1;  /**< [ 32: 32](R/W) Disable ECC error detection & correction on TRGT1 data from PEMC to PEMM. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
@@ -3026,9 +3026,7 @@ union cavm_pemx_erom_bar_addr
         uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
                                                                    0 = [RD_ADDR] is a physical addresses.
                                                                    1 = [RD_ADDR] is a virtual address. */
-        uint64_t pspi_en               : 1;  /**< [ 62: 62](R/W) If PEM()_EBUS_CTL[EROM_SEL] is clear, PEM is configured for EP mode, and
-                                                                 [PSPI_EN] is set, this bit directs EROM BAR hits to a private bus connected
-                                                                 to the PSPI interface in MIO rather than NCB. */
+        uint64_t pspi_en               : 1;  /**< [ 62: 62](R/W) Reserved. */
         uint64_t reserved_53_61        : 9;
         uint64_t rd_addr               : 37; /**< [ 52: 16](R/W) Base address for PEM EROM BAR transactions that is appended to the offset. This
                                                                  field is only used when PEM()_EBUS_CTL[EROM_SEL] is clear, and PEM is configured for EP mode. */
@@ -3038,9 +3036,7 @@ union cavm_pemx_erom_bar_addr
         uint64_t rd_addr               : 37; /**< [ 52: 16](R/W) Base address for PEM EROM BAR transactions that is appended to the offset. This
                                                                  field is only used when PEM()_EBUS_CTL[EROM_SEL] is clear, and PEM is configured for EP mode. */
         uint64_t reserved_53_61        : 9;
-        uint64_t pspi_en               : 1;  /**< [ 62: 62](R/W) If PEM()_EBUS_CTL[EROM_SEL] is clear, PEM is configured for EP mode, and
-                                                                 [PSPI_EN] is set, this bit directs EROM BAR hits to a private bus connected
-                                                                 to the PSPI interface in MIO rather than NCB. */
+        uint64_t pspi_en               : 1;  /**< [ 62: 62](R/W) Reserved. */
         uint64_t wvirt                 : 1;  /**< [ 63: 63](R/W) Virtual:
                                                                    0 = [RD_ADDR] is a physical addresses.
                                                                    1 = [RD_ADDR] is a virtual address. */
@@ -5065,13 +5061,15 @@ union cavm_pemx_perr_status
                                                                  Corresponds to app_parity_errs[0] output from MAC core. */
         uint64_t rasdp                 : 1;  /**< [  3:  3](R/W1C/H) Set when the MAC core has entered RASDP mode due to an uncorrectable error. */
         uint64_t dbe                   : 1;  /**< [  2:  2](R/W1C/H) Set when an uncorrectable (double-bit) error was detected in a RAM inside PEM. */
-        uint64_t rx_perr               : 1;  /**< [  1:  1](R/W1C/H) Set when a parity error was detected in the receive datapath. */
+        uint64_t rx_perr               : 1;  /**< [  1:  1](R/W1C/H) Set when a ECC error was detected on the receive (TRGT1) datapath
+                                                                 (PEM_CTL_STATUS2.TRGT1_ECC_COR_DIS needs to be clear). */
         uint64_t tx_perr               : 1;  /**< [  0:  0](R/W1C/H) Set when a parity error was detected in the transmit datapath (only applies to traffic
                                                                  originating on EBO). */
 #else /* Word 0 - Little Endian */
         uint64_t tx_perr               : 1;  /**< [  0:  0](R/W1C/H) Set when a parity error was detected in the transmit datapath (only applies to traffic
                                                                  originating on EBO). */
-        uint64_t rx_perr               : 1;  /**< [  1:  1](R/W1C/H) Set when a parity error was detected in the receive datapath. */
+        uint64_t rx_perr               : 1;  /**< [  1:  1](R/W1C/H) Set when a ECC error was detected on the receive (TRGT1) datapath
+                                                                 (PEM_CTL_STATUS2.TRGT1_ECC_COR_DIS needs to be clear). */
         uint64_t dbe                   : 1;  /**< [  2:  2](R/W1C/H) Set when an uncorrectable (double-bit) error was detected in a RAM inside PEM. */
         uint64_t rasdp                 : 1;  /**< [  3:  3](R/W1C/H) Set when the MAC core has entered RASDP mode due to an uncorrectable error. */
         uint64_t mac_txfe_perr         : 1;  /**< [  4:  4](R/W1C/H) Set when the MAC core has detected a parity error in the front end of the transmit

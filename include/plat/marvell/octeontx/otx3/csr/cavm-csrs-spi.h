@@ -1717,55 +1717,55 @@ union cavm_spix_ctrl_cmd_stat_intr_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
-        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
-        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W) This bit is set when correctable ECC error occured in DIRECT work mode. */
-        uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
-        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W) This bit is set when Minicontroller returns DQS error after the read or status checking command in
+        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W1C) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W1C) This bit is set when correctable ECC error occured in DIRECT work mode. */
+        uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W1C) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
+        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W1C) This bit is set when Minicontroller returns DQS error after the read or status checking command in
                                                                  DIRECT work mode. */
-        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W) This bit is set when Minicontroller returns CRC error after the read or status checking command in
+        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W1C) This bit is set when Minicontroller returns CRC error after the read or status checking command in
                                                                  DIRECT work mode. */
-        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W) This bit is set when last instruction in glued chain is completed. */
-        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W) This bit is set when not allowed access to the Slave DMA interface is detected. */
-        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W) This bit is set when trigger condition for the Slave DMA is meet. */
-        uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W) ACMD work mode: detected sending of command to busy thread and ignored it.
+        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W1C) This bit is set when last instruction in glued chain is completed. */
+        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W1C) This bit is set when not allowed access to the Slave DMA interface is detected. */
+        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W1C) This bit is set when trigger condition for the Slave DMA is meet. */
+        uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W1C) ACMD work mode: detected sending of command to busy thread and ignored it.
                                                                  STIG work mode: detected sending of command to busy STIG Engine module and ignored it. */
         uint32_t reserved_19           : 1;
-        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
+        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W1C) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
                                                                  bus error during reading or writing data. */
-        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
+        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W1C) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
                                                                  error during reading descriptor from system memory or during descriptor status field write
                                                                  operation. */
-        uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W) The xSPI controller has returned to the IDLE state. */
-        uint32_t gp_open_drain_3       : 1;  /**< [ 15: 15](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[3] input pin. */
-        uint32_t gp_open_drain_2       : 1;  /**< [ 14: 14](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[2] input pin. */
-        uint32_t gp_open_drain_1       : 1;  /**< [ 13: 13](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[1] input pin. */
-        uint32_t gp_open_drain_0       : 1;  /**< [ 12: 12](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[0] input pin. */
+        uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W1C) The xSPI controller has returned to the IDLE state. */
+        uint32_t gp_open_drain_3       : 1;  /**< [ 15: 15](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[3] input pin. */
+        uint32_t gp_open_drain_2       : 1;  /**< [ 14: 14](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[2] input pin. */
+        uint32_t gp_open_drain_1       : 1;  /**< [ 13: 13](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[1] input pin. */
+        uint32_t gp_open_drain_0       : 1;  /**< [ 12: 12](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[0] input pin. */
         uint32_t reserved_0_11         : 12;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_11         : 12;
-        uint32_t gp_open_drain_0       : 1;  /**< [ 12: 12](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[0] input pin. */
-        uint32_t gp_open_drain_1       : 1;  /**< [ 13: 13](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[1] input pin. */
-        uint32_t gp_open_drain_2       : 1;  /**< [ 14: 14](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[2] input pin. */
-        uint32_t gp_open_drain_3       : 1;  /**< [ 15: 15](R/W) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[3] input pin. */
-        uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W) The xSPI controller has returned to the IDLE state. */
-        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
+        uint32_t gp_open_drain_0       : 1;  /**< [ 12: 12](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[0] input pin. */
+        uint32_t gp_open_drain_1       : 1;  /**< [ 13: 13](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[1] input pin. */
+        uint32_t gp_open_drain_2       : 1;  /**< [ 14: 14](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[2] input pin. */
+        uint32_t gp_open_drain_3       : 1;  /**< [ 15: 15](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[3] input pin. */
+        uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W1C) The xSPI controller has returned to the IDLE state. */
+        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W1C) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
                                                                  error during reading descriptor from system memory or during descriptor status field write
                                                                  operation. */
-        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
+        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W1C) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
                                                                  bus error during reading or writing data. */
         uint32_t reserved_19           : 1;
-        uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W) ACMD work mode: detected sending of command to busy thread and ignored it.
+        uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W1C) ACMD work mode: detected sending of command to busy thread and ignored it.
                                                                  STIG work mode: detected sending of command to busy STIG Engine module and ignored it. */
-        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W) This bit is set when trigger condition for the Slave DMA is meet. */
-        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W) This bit is set when not allowed access to the Slave DMA interface is detected. */
-        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W) This bit is set when last instruction in glued chain is completed. */
-        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W) This bit is set when Minicontroller returns CRC error after the read or status checking command in
+        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W1C) This bit is set when trigger condition for the Slave DMA is meet. */
+        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W1C) This bit is set when not allowed access to the Slave DMA interface is detected. */
+        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W1C) This bit is set when last instruction in glued chain is completed. */
+        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W1C) This bit is set when Minicontroller returns CRC error after the read or status checking command in
                                                                  DIRECT work mode. */
-        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W) This bit is set when Minicontroller returns DQS error after the read or status checking command in
+        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W1C) This bit is set when Minicontroller returns DQS error after the read or status checking command in
                                                                  DIRECT work mode. */
-        uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
-        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W) This bit is set when correctable ECC error occured in DIRECT work mode. */
-        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
+        uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W1C) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W1C) This bit is set when correctable ECC error occured in DIRECT work mode. */
+        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W1C) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
@@ -1803,23 +1803,23 @@ union cavm_spix_ctrl_cmd_stat_trd_comp_intr_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t trd7_comp             : 1;  /**< [  7:  7](R/W) Thread 7 operation complete flag. */
-        uint32_t trd6_comp             : 1;  /**< [  6:  6](R/W) Thread 6 operation complete flag. */
-        uint32_t trd5_comp             : 1;  /**< [  5:  5](R/W) Thread 5 operation complete flag. */
-        uint32_t trd4_comp             : 1;  /**< [  4:  4](R/W) Thread 4 operation complete flag. */
-        uint32_t trd3_comp             : 1;  /**< [  3:  3](R/W) Thread 3 operation complete flag. */
-        uint32_t trd2_comp             : 1;  /**< [  2:  2](R/W) Thread 2 operation complete flag. */
-        uint32_t trd1_comp             : 1;  /**< [  1:  1](R/W) Thread 1 operation complete flag. */
-        uint32_t trd0_comp             : 1;  /**< [  0:  0](R/W) Thread 0 operation complete flag. */
+        uint32_t trd7_comp             : 1;  /**< [  7:  7](R/W1C) Thread 7 operation complete flag. */
+        uint32_t trd6_comp             : 1;  /**< [  6:  6](R/W1C) Thread 6 operation complete flag. */
+        uint32_t trd5_comp             : 1;  /**< [  5:  5](R/W1C) Thread 5 operation complete flag. */
+        uint32_t trd4_comp             : 1;  /**< [  4:  4](R/W1C) Thread 4 operation complete flag. */
+        uint32_t trd3_comp             : 1;  /**< [  3:  3](R/W1C) Thread 3 operation complete flag. */
+        uint32_t trd2_comp             : 1;  /**< [  2:  2](R/W1C) Thread 2 operation complete flag. */
+        uint32_t trd1_comp             : 1;  /**< [  1:  1](R/W1C) Thread 1 operation complete flag. */
+        uint32_t trd0_comp             : 1;  /**< [  0:  0](R/W1C) Thread 0 operation complete flag. */
 #else /* Word 0 - Little Endian */
-        uint32_t trd0_comp             : 1;  /**< [  0:  0](R/W) Thread 0 operation complete flag. */
-        uint32_t trd1_comp             : 1;  /**< [  1:  1](R/W) Thread 1 operation complete flag. */
-        uint32_t trd2_comp             : 1;  /**< [  2:  2](R/W) Thread 2 operation complete flag. */
-        uint32_t trd3_comp             : 1;  /**< [  3:  3](R/W) Thread 3 operation complete flag. */
-        uint32_t trd4_comp             : 1;  /**< [  4:  4](R/W) Thread 4 operation complete flag. */
-        uint32_t trd5_comp             : 1;  /**< [  5:  5](R/W) Thread 5 operation complete flag. */
-        uint32_t trd6_comp             : 1;  /**< [  6:  6](R/W) Thread 6 operation complete flag. */
-        uint32_t trd7_comp             : 1;  /**< [  7:  7](R/W) Thread 7 operation complete flag. */
+        uint32_t trd0_comp             : 1;  /**< [  0:  0](R/W1C) Thread 0 operation complete flag. */
+        uint32_t trd1_comp             : 1;  /**< [  1:  1](R/W1C) Thread 1 operation complete flag. */
+        uint32_t trd2_comp             : 1;  /**< [  2:  2](R/W1C) Thread 2 operation complete flag. */
+        uint32_t trd3_comp             : 1;  /**< [  3:  3](R/W1C) Thread 3 operation complete flag. */
+        uint32_t trd4_comp             : 1;  /**< [  4:  4](R/W1C) Thread 4 operation complete flag. */
+        uint32_t trd5_comp             : 1;  /**< [  5:  5](R/W1C) Thread 5 operation complete flag. */
+        uint32_t trd6_comp             : 1;  /**< [  6:  6](R/W1C) Thread 6 operation complete flag. */
+        uint32_t trd7_comp             : 1;  /**< [  7:  7](R/W1C) Thread 7 operation complete flag. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1898,23 +1898,23 @@ union cavm_spix_ctrl_cmd_stat_trd_error_intr_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t trd7_error_stat       : 1;  /**< [  7:  7](R/W) Thread 7 error. */
-        uint32_t trd6_error_stat       : 1;  /**< [  6:  6](R/W) Thread 6 error. */
-        uint32_t trd5_error_stat       : 1;  /**< [  5:  5](R/W) Thread 5 error. */
-        uint32_t trd4_error_stat       : 1;  /**< [  4:  4](R/W) Thread 4 error. */
-        uint32_t trd3_error_stat       : 1;  /**< [  3:  3](R/W) Thread 3 error. */
-        uint32_t trd2_error_stat       : 1;  /**< [  2:  2](R/W) Thread 2 error. */
-        uint32_t trd1_error_stat       : 1;  /**< [  1:  1](R/W) Thread 1 error. */
-        uint32_t trd0_error_stat       : 1;  /**< [  0:  0](R/W) Thread 0 error. */
+        uint32_t trd7_error_stat       : 1;  /**< [  7:  7](R/W1C) Thread 7 error. */
+        uint32_t trd6_error_stat       : 1;  /**< [  6:  6](R/W1C) Thread 6 error. */
+        uint32_t trd5_error_stat       : 1;  /**< [  5:  5](R/W1C) Thread 5 error. */
+        uint32_t trd4_error_stat       : 1;  /**< [  4:  4](R/W1C) Thread 4 error. */
+        uint32_t trd3_error_stat       : 1;  /**< [  3:  3](R/W1C) Thread 3 error. */
+        uint32_t trd2_error_stat       : 1;  /**< [  2:  2](R/W1C) Thread 2 error. */
+        uint32_t trd1_error_stat       : 1;  /**< [  1:  1](R/W1C) Thread 1 error. */
+        uint32_t trd0_error_stat       : 1;  /**< [  0:  0](R/W1C) Thread 0 error. */
 #else /* Word 0 - Little Endian */
-        uint32_t trd0_error_stat       : 1;  /**< [  0:  0](R/W) Thread 0 error. */
-        uint32_t trd1_error_stat       : 1;  /**< [  1:  1](R/W) Thread 1 error. */
-        uint32_t trd2_error_stat       : 1;  /**< [  2:  2](R/W) Thread 2 error. */
-        uint32_t trd3_error_stat       : 1;  /**< [  3:  3](R/W) Thread 3 error. */
-        uint32_t trd4_error_stat       : 1;  /**< [  4:  4](R/W) Thread 4 error. */
-        uint32_t trd5_error_stat       : 1;  /**< [  5:  5](R/W) Thread 5 error. */
-        uint32_t trd6_error_stat       : 1;  /**< [  6:  6](R/W) Thread 6 error. */
-        uint32_t trd7_error_stat       : 1;  /**< [  7:  7](R/W) Thread 7 error. */
+        uint32_t trd0_error_stat       : 1;  /**< [  0:  0](R/W1C) Thread 0 error. */
+        uint32_t trd1_error_stat       : 1;  /**< [  1:  1](R/W1C) Thread 1 error. */
+        uint32_t trd2_error_stat       : 1;  /**< [  2:  2](R/W1C) Thread 2 error. */
+        uint32_t trd3_error_stat       : 1;  /**< [  3:  3](R/W1C) Thread 3 error. */
+        uint32_t trd4_error_stat       : 1;  /**< [  4:  4](R/W1C) Thread 4 error. */
+        uint32_t trd5_error_stat       : 1;  /**< [  5:  5](R/W1C) Thread 5 error. */
+        uint32_t trd6_error_stat       : 1;  /**< [  6:  6](R/W1C) Thread 6 error. */
+        uint32_t trd7_error_stat       : 1;  /**< [  7:  7](R/W1C) Thread 7 error. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;

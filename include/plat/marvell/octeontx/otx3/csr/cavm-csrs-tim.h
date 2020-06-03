@@ -215,6 +215,246 @@ static inline uint64_t CAVM_TIM_AF_ACTIVE_PC_FUNC(void)
 #define arguments_CAVM_TIM_AF_ACTIVE_PC -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) tim_af_adjust_bts
+ *
+ * TIM AF ADJUST BTS Timer Adjust Register
+ */
+union cavm_tim_af_adjust_bts
+{
+    uint64_t u;
+    struct cavm_tim_af_adjust_bts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the BTS timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the BTS timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_adjust_bts_s cn; */
+};
+typedef union cavm_tim_af_adjust_bts cavm_tim_af_adjust_bts_t;
+
+#define CAVM_TIM_AF_ADJUST_BTS CAVM_TIM_AF_ADJUST_BTS_FUNC()
+static inline uint64_t CAVM_TIM_AF_ADJUST_BTS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_ADJUST_BTS_FUNC(void)
+{
+    return 0x8400900001b0ll;
+}
+
+#define typedef_CAVM_TIM_AF_ADJUST_BTS cavm_tim_af_adjust_bts_t
+#define bustype_CAVM_TIM_AF_ADJUST_BTS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_ADJUST_BTS "TIM_AF_ADJUST_BTS"
+#define device_bar_CAVM_TIM_AF_ADJUST_BTS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_ADJUST_BTS 0
+#define arguments_CAVM_TIM_AF_ADJUST_BTS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_adjust_gpios
+ *
+ * TIM AF ADJUST GPIOS Timer Adjust Register
+ */
+union cavm_tim_af_adjust_gpios
+{
+    uint64_t u;
+    struct cavm_tim_af_adjust_gpios_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the GPIO timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the GPIO timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_adjust_gpios_s cn; */
+};
+typedef union cavm_tim_af_adjust_gpios cavm_tim_af_adjust_gpios_t;
+
+#define CAVM_TIM_AF_ADJUST_GPIOS CAVM_TIM_AF_ADJUST_GPIOS_FUNC()
+static inline uint64_t CAVM_TIM_AF_ADJUST_GPIOS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_ADJUST_GPIOS_FUNC(void)
+{
+    return 0x840090000170ll;
+}
+
+#define typedef_CAVM_TIM_AF_ADJUST_GPIOS cavm_tim_af_adjust_gpios_t
+#define bustype_CAVM_TIM_AF_ADJUST_GPIOS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_ADJUST_GPIOS "TIM_AF_ADJUST_GPIOS"
+#define device_bar_CAVM_TIM_AF_ADJUST_GPIOS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_ADJUST_GPIOS 0
+#define arguments_CAVM_TIM_AF_ADJUST_GPIOS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_adjust_gti
+ *
+ * TIM AF ADJUST GTI Timer Adjust Register
+ */
+union cavm_tim_af_adjust_gti
+{
+    uint64_t u;
+    struct cavm_tim_af_adjust_gti_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the GTI timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the GTI timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_adjust_gti_s cn; */
+};
+typedef union cavm_tim_af_adjust_gti cavm_tim_af_adjust_gti_t;
+
+#define CAVM_TIM_AF_ADJUST_GTI CAVM_TIM_AF_ADJUST_GTI_FUNC()
+static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void)
+{
+    return 0x840090000180ll;
+}
+
+#define typedef_CAVM_TIM_AF_ADJUST_GTI cavm_tim_af_adjust_gti_t
+#define bustype_CAVM_TIM_AF_ADJUST_GTI CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_ADJUST_GTI "TIM_AF_ADJUST_GTI"
+#define device_bar_CAVM_TIM_AF_ADJUST_GTI 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_ADJUST_GTI 0
+#define arguments_CAVM_TIM_AF_ADJUST_GTI -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_adjust_ptp
+ *
+ * TIM AF ADJUST PTP Timer Adjust Register
+ */
+union cavm_tim_af_adjust_ptp
+{
+    uint64_t u;
+    struct cavm_tim_af_adjust_ptp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the PTP timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the PTP timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_adjust_ptp_s cn; */
+};
+typedef union cavm_tim_af_adjust_ptp cavm_tim_af_adjust_ptp_t;
+
+#define CAVM_TIM_AF_ADJUST_PTP CAVM_TIM_AF_ADJUST_PTP_FUNC()
+static inline uint64_t CAVM_TIM_AF_ADJUST_PTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_ADJUST_PTP_FUNC(void)
+{
+    return 0x840090000190ll;
+}
+
+#define typedef_CAVM_TIM_AF_ADJUST_PTP cavm_tim_af_adjust_ptp_t
+#define bustype_CAVM_TIM_AF_ADJUST_PTP CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_ADJUST_PTP "TIM_AF_ADJUST_PTP"
+#define device_bar_CAVM_TIM_AF_ADJUST_PTP 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_ADJUST_PTP 0
+#define arguments_CAVM_TIM_AF_ADJUST_PTP -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_adjust_synce
+ *
+ * TIM AF ADJUST SYNCE Timer Adjust Register
+ */
+union cavm_tim_af_adjust_synce
+{
+    uint64_t u;
+    struct cavm_tim_af_adjust_synce_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the SYNCE timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the SYNCE timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_adjust_synce_s cn; */
+};
+typedef union cavm_tim_af_adjust_synce cavm_tim_af_adjust_synce_t;
+
+#define CAVM_TIM_AF_ADJUST_SYNCE CAVM_TIM_AF_ADJUST_SYNCE_FUNC()
+static inline uint64_t CAVM_TIM_AF_ADJUST_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_ADJUST_SYNCE_FUNC(void)
+{
+    return 0x8400900001a0ll;
+}
+
+#define typedef_CAVM_TIM_AF_ADJUST_SYNCE cavm_tim_af_adjust_synce_t
+#define bustype_CAVM_TIM_AF_ADJUST_SYNCE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_ADJUST_SYNCE "TIM_AF_ADJUST_SYNCE"
+#define device_bar_CAVM_TIM_AF_ADJUST_SYNCE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_ADJUST_SYNCE 0
+#define arguments_CAVM_TIM_AF_ADJUST_SYNCE -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_adjust_tenns
+ *
+ * TIM AF TENNS Timer Adjust Register
+ */
+union cavm_tim_af_adjust_tenns
+{
+    uint64_t u;
+    struct cavm_tim_af_adjust_tenns_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the TENNS timer to be updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the TENNS timer to be updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_adjust_tenns_s cn; */
+};
+typedef union cavm_tim_af_adjust_tenns cavm_tim_af_adjust_tenns_t;
+
+#define CAVM_TIM_AF_ADJUST_TENNS CAVM_TIM_AF_ADJUST_TENNS_FUNC()
+static inline uint64_t CAVM_TIM_AF_ADJUST_TENNS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_ADJUST_TENNS_FUNC(void)
+{
+    return 0x840090000160ll;
+}
+
+#define typedef_CAVM_TIM_AF_ADJUST_TENNS cavm_tim_af_adjust_tenns_t
+#define bustype_CAVM_TIM_AF_ADJUST_TENNS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_ADJUST_TENNS "TIM_AF_ADJUST_TENNS"
+#define device_bar_CAVM_TIM_AF_ADJUST_TENNS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_ADJUST_TENNS 0
+#define arguments_CAVM_TIM_AF_ADJUST_TENNS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_adjust_timers
+ *
+ * TIM AF adjust all timers Register
+ */
+union cavm_tim_af_adjust_timers
+{
+    uint64_t u;
+    struct cavm_tim_af_adjust_timers_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t adjust_timers         : 1;  /**< [  0:  0](R/W1S/H) When set, all values in registers TIM_AF_ADJUST_* will be updated into their coresponding timers. */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust_timers         : 1;  /**< [  0:  0](R/W1S/H) When set, all values in registers TIM_AF_ADJUST_* will be updated into their coresponding timers. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_adjust_timers_s cn; */
+};
+typedef union cavm_tim_af_adjust_timers cavm_tim_af_adjust_timers_t;
+
+#define CAVM_TIM_AF_ADJUST_TIMERS CAVM_TIM_AF_ADJUST_TIMERS_FUNC()
+static inline uint64_t CAVM_TIM_AF_ADJUST_TIMERS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_ADJUST_TIMERS_FUNC(void)
+{
+    return 0x8400900001c0ll;
+}
+
+#define typedef_CAVM_TIM_AF_ADJUST_TIMERS cavm_tim_af_adjust_timers_t
+#define bustype_CAVM_TIM_AF_ADJUST_TIMERS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_ADJUST_TIMERS "TIM_AF_ADJUST_TIMERS"
+#define device_bar_CAVM_TIM_AF_ADJUST_TIMERS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_ADJUST_TIMERS 0
+#define arguments_CAVM_TIM_AF_ADJUST_TIMERS -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) tim_af_bar2_alias#
  *
  * TIM Admin Function  BAR2 Alias Registers
@@ -603,43 +843,329 @@ static inline uint64_t CAVM_TIM_AF_BP_TESTX(uint64_t a)
 #define arguments_CAVM_TIM_AF_BP_TESTX(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) tim_af_bts_adjust
+ * Register (RVU_PF_BAR0) tim_af_capture_bts
  *
- * TIM AF BTS Timer Adjust Register
+ * TIM AF CAPTURE BTS Timer Capture Register
  */
-union cavm_tim_af_bts_adjust
+union cavm_tim_af_capture_bts
 {
     uint64_t u;
-    struct cavm_tim_af_bts_adjust_s
+    struct cavm_tim_af_capture_bts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the BTS timer to be updated. */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_BTS timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_BTS timer captured value. */
 #else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the BTS timer to be updated. */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_BTS timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_BTS timer captured value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tim_af_bts_adjust_s cn; */
+    /* struct cavm_tim_af_capture_bts_s cn; */
 };
-typedef union cavm_tim_af_bts_adjust cavm_tim_af_bts_adjust_t;
+typedef union cavm_tim_af_capture_bts cavm_tim_af_capture_bts_t;
 
-#define CAVM_TIM_AF_BTS_ADJUST CAVM_TIM_AF_BTS_ADJUST_FUNC()
-static inline uint64_t CAVM_TIM_AF_BTS_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_BTS_ADJUST_FUNC(void)
+#define CAVM_TIM_AF_CAPTURE_BTS CAVM_TIM_AF_CAPTURE_BTS_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_BTS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_BTS_FUNC(void)
+{
+    return 0x840090000220ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_BTS cavm_tim_af_capture_bts_t
+#define bustype_CAVM_TIM_AF_CAPTURE_BTS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_BTS "TIM_AF_CAPTURE_BTS"
+#define device_bar_CAVM_TIM_AF_CAPTURE_BTS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_BTS 0
+#define arguments_CAVM_TIM_AF_CAPTURE_BTS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_ext_gti
+ *
+ * TIM AF CAPTURE EXT_GTI External GTI timer Capture Register
+ */
+union cavm_tim_af_capture_ext_gti
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_ext_gti_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the external GTI timer captured value. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the external GTI timer captured value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_ext_gti_s cn; */
+};
+typedef union cavm_tim_af_capture_ext_gti cavm_tim_af_capture_ext_gti_t;
+
+#define CAVM_TIM_AF_CAPTURE_EXT_GTI CAVM_TIM_AF_CAPTURE_EXT_GTI_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_GTI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_GTI_FUNC(void)
+{
+    return 0x840090000240ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_EXT_GTI cavm_tim_af_capture_ext_gti_t
+#define bustype_CAVM_TIM_AF_CAPTURE_EXT_GTI CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_EXT_GTI "TIM_AF_CAPTURE_EXT_GTI"
+#define device_bar_CAVM_TIM_AF_CAPTURE_EXT_GTI 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_EXT_GTI 0
+#define arguments_CAVM_TIM_AF_CAPTURE_EXT_GTI -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_ext_mio
+ *
+ * TIM AF CAPTURE_EXT External MIO timer Capture Register
+ */
+union cavm_tim_af_capture_ext_mio
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_ext_mio_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external MIO timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the external MIO timer captured value. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external MIO timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the external MIO timer captured value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_ext_mio_s cn; */
+};
+typedef union cavm_tim_af_capture_ext_mio cavm_tim_af_capture_ext_mio_t;
+
+#define CAVM_TIM_AF_CAPTURE_EXT_MIO CAVM_TIM_AF_CAPTURE_EXT_MIO_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_MIO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_MIO_FUNC(void)
 {
     return 0x840090000230ll;
 }
 
-#define typedef_CAVM_TIM_AF_BTS_ADJUST cavm_tim_af_bts_adjust_t
-#define bustype_CAVM_TIM_AF_BTS_ADJUST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_BTS_ADJUST "TIM_AF_BTS_ADJUST"
-#define device_bar_CAVM_TIM_AF_BTS_ADJUST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_BTS_ADJUST 0
-#define arguments_CAVM_TIM_AF_BTS_ADJUST -1,-1,-1,-1
+#define typedef_CAVM_TIM_AF_CAPTURE_EXT_MIO cavm_tim_af_capture_ext_mio_t
+#define bustype_CAVM_TIM_AF_CAPTURE_EXT_MIO CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_EXT_MIO "TIM_AF_CAPTURE_EXT_MIO"
+#define device_bar_CAVM_TIM_AF_CAPTURE_EXT_MIO 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_EXT_MIO 0
+#define arguments_CAVM_TIM_AF_CAPTURE_EXT_MIO -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_gpios
+ *
+ * TIM AF CAPTURE GPIOS Timer Capture Register
+ */
+union cavm_tim_af_capture_gpios
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_gpios_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_GPIOS timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GPIOS timer captured value. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_GPIOS timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GPIOS timer captured value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_gpios_s cn; */
+};
+typedef union cavm_tim_af_capture_gpios cavm_tim_af_capture_gpios_t;
+
+#define CAVM_TIM_AF_CAPTURE_GPIOS CAVM_TIM_AF_CAPTURE_GPIOS_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_GPIOS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_GPIOS_FUNC(void)
+{
+    return 0x8400900001e0ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_GPIOS cavm_tim_af_capture_gpios_t
+#define bustype_CAVM_TIM_AF_CAPTURE_GPIOS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_GPIOS "TIM_AF_CAPTURE_GPIOS"
+#define device_bar_CAVM_TIM_AF_CAPTURE_GPIOS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_GPIOS 0
+#define arguments_CAVM_TIM_AF_CAPTURE_GPIOS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_gti
+ *
+ * TIM AF CAPTURE GTI Timer Capture Register
+ */
+union cavm_tim_af_capture_gti
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_gti_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer captured value. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer captured value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_gti_s cn; */
+};
+typedef union cavm_tim_af_capture_gti cavm_tim_af_capture_gti_t;
+
+#define CAVM_TIM_AF_CAPTURE_GTI CAVM_TIM_AF_CAPTURE_GTI_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_GTI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_GTI_FUNC(void)
+{
+    return 0x8400900001f0ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_GTI cavm_tim_af_capture_gti_t
+#define bustype_CAVM_TIM_AF_CAPTURE_GTI CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_GTI "TIM_AF_CAPTURE_GTI"
+#define device_bar_CAVM_TIM_AF_CAPTURE_GTI 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_GTI 0
+#define arguments_CAVM_TIM_AF_CAPTURE_GTI -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_ptp
+ *
+ * TIM AF CAPTURE PTP Timer Capture Register
+ */
+union cavm_tim_af_capture_ptp
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_ptp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_PTP timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_PTP timer captured value. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_PTP timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_PTP timer captured value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_ptp_s cn; */
+};
+typedef union cavm_tim_af_capture_ptp cavm_tim_af_capture_ptp_t;
+
+#define CAVM_TIM_AF_CAPTURE_PTP CAVM_TIM_AF_CAPTURE_PTP_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_PTP_FUNC(void)
+{
+    return 0x840090000200ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_PTP cavm_tim_af_capture_ptp_t
+#define bustype_CAVM_TIM_AF_CAPTURE_PTP CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_PTP "TIM_AF_CAPTURE_PTP"
+#define device_bar_CAVM_TIM_AF_CAPTURE_PTP 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_PTP 0
+#define arguments_CAVM_TIM_AF_CAPTURE_PTP -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_synce
+ *
+ * TIM AF CAPTURE SYNCE Timer Capture Register
+ */
+union cavm_tim_af_capture_synce
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_synce_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_SYNCE timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_SYNCE timer captured value. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_SYNCE timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_SYNCE timer captured value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_synce_s cn; */
+};
+typedef union cavm_tim_af_capture_synce cavm_tim_af_capture_synce_t;
+
+#define CAVM_TIM_AF_CAPTURE_SYNCE CAVM_TIM_AF_CAPTURE_SYNCE_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_SYNCE_FUNC(void)
+{
+    return 0x840090000210ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_SYNCE cavm_tim_af_capture_synce_t
+#define bustype_CAVM_TIM_AF_CAPTURE_SYNCE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_SYNCE "TIM_AF_CAPTURE_SYNCE"
+#define device_bar_CAVM_TIM_AF_CAPTURE_SYNCE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_SYNCE 0
+#define arguments_CAVM_TIM_AF_CAPTURE_SYNCE -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_capture_tenns
+ *
+ * TIM AF CAPTURE TENNS Timer Capture Register
+ */
+union cavm_tim_af_capture_tenns
+{
+    uint64_t u;
+    struct cavm_tim_af_capture_tenns_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_TENNS timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_TENNS timer captured value. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the TIM_AF_FR_RN_TENNS timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_TENNS timer captured value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_capture_tenns_s cn; */
+};
+typedef union cavm_tim_af_capture_tenns cavm_tim_af_capture_tenns_t;
+
+#define CAVM_TIM_AF_CAPTURE_TENNS CAVM_TIM_AF_CAPTURE_TENNS_FUNC()
+static inline uint64_t CAVM_TIM_AF_CAPTURE_TENNS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_CAPTURE_TENNS_FUNC(void)
+{
+    return 0x8400900001d0ll;
+}
+
+#define typedef_CAVM_TIM_AF_CAPTURE_TENNS cavm_tim_af_capture_tenns_t
+#define bustype_CAVM_TIM_AF_CAPTURE_TENNS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_CAPTURE_TENNS "TIM_AF_CAPTURE_TENNS"
+#define device_bar_CAVM_TIM_AF_CAPTURE_TENNS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_CAPTURE_TENNS 0
+#define arguments_CAVM_TIM_AF_CAPTURE_TENNS -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_capture_timers
  *
- * TIM AF capture or lock all (External & internal) timers Register
+ * TIM AF CAPTURE_TIMERS capture or lock all (External & internal) timers Register
  */
 union cavm_tim_af_capture_timers
 {
@@ -648,9 +1174,15 @@ union cavm_tim_af_capture_timers
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t lock_timers           : 1;  /**< [  0:  0](R/W) When set it lock all timers including two external timers. */
+        uint64_t capture_timers        : 1;  /**< [  0:  0](R/W) When set, all respective TIM_AF_FR_RN_* values are capture
+                                                                 into TIM_AF_CAPTURE_* register including 2 external timers.
+                                                                 When cleared, all TIM_AF_CAPTURE_* contains the free
+                                                                 running values of coresponding timers. */
 #else /* Word 0 - Little Endian */
-        uint64_t lock_timers           : 1;  /**< [  0:  0](R/W) When set it lock all timers including two external timers. */
+        uint64_t capture_timers        : 1;  /**< [  0:  0](R/W) When set, all respective TIM_AF_FR_RN_* values are capture
+                                                                 into TIM_AF_CAPTURE_* register including 2 external timers.
+                                                                 When cleared, all TIM_AF_CAPTURE_* contains the free
+                                                                 running values of coresponding timers. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -662,7 +1194,7 @@ typedef union cavm_tim_af_capture_timers cavm_tim_af_capture_timers_t;
 static inline uint64_t CAVM_TIM_AF_CAPTURE_TIMERS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TIM_AF_CAPTURE_TIMERS_FUNC(void)
 {
-    return 0x840090000240ll;
+    return 0x840090000250ll;
 }
 
 #define typedef_CAVM_TIM_AF_CAPTURE_TIMERS cavm_tim_af_capture_timers_t
@@ -846,9 +1378,15 @@ union cavm_tim_af_fr_rn_bts
     struct cavm_tim_af_fr_rn_bts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of BTS cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of BTS cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of BTS cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of BTS cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_fr_rn_bts_s cn; */
@@ -906,74 +1444,6 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_CYCLES_FUNC(void)
 #define arguments_CAVM_TIM_AF_FR_RN_CYCLES -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) tim_af_fr_rn_ext_gti
- *
- * TIM External Free Running GTI Count Register
- */
-union cavm_tim_af_fr_rn_ext_gti
-{
-    uint64_t u;
-    struct cavm_tim_af_fr_rn_ext_gti_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external GTI cycles. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external GTI cycles. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_fr_rn_ext_gti_s cn; */
-};
-typedef union cavm_tim_af_fr_rn_ext_gti cavm_tim_af_fr_rn_ext_gti_t;
-
-#define CAVM_TIM_AF_FR_RN_EXT_GTI CAVM_TIM_AF_FR_RN_EXT_GTI_FUNC()
-static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_GTI_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_GTI_FUNC(void)
-{
-    return 0x840090000170ll;
-}
-
-#define typedef_CAVM_TIM_AF_FR_RN_EXT_GTI cavm_tim_af_fr_rn_ext_gti_t
-#define bustype_CAVM_TIM_AF_FR_RN_EXT_GTI CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_FR_RN_EXT_GTI "TIM_AF_FR_RN_EXT_GTI"
-#define device_bar_CAVM_TIM_AF_FR_RN_EXT_GTI 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_FR_RN_EXT_GTI 0
-#define arguments_CAVM_TIM_AF_FR_RN_EXT_GTI -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_fr_rn_ext_mio
- *
- * TIM External Free Running MIO Count Register
- */
-union cavm_tim_af_fr_rn_ext_mio
-{
-    uint64_t u;
-    struct cavm_tim_af_fr_rn_ext_mio_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external MIO cycles. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Count of external MIO cycles. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_fr_rn_ext_mio_s cn; */
-};
-typedef union cavm_tim_af_fr_rn_ext_mio cavm_tim_af_fr_rn_ext_mio_t;
-
-#define CAVM_TIM_AF_FR_RN_EXT_MIO CAVM_TIM_AF_FR_RN_EXT_MIO_FUNC()
-static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_MIO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_FR_RN_EXT_MIO_FUNC(void)
-{
-    return 0x840090000160ll;
-}
-
-#define typedef_CAVM_TIM_AF_FR_RN_EXT_MIO cavm_tim_af_fr_rn_ext_mio_t
-#define bustype_CAVM_TIM_AF_FR_RN_EXT_MIO CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_FR_RN_EXT_MIO "TIM_AF_FR_RN_EXT_MIO"
-#define device_bar_CAVM_TIM_AF_FR_RN_EXT_MIO 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_FR_RN_EXT_MIO 0
-#define arguments_CAVM_TIM_AF_FR_RN_EXT_MIO -1,-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) tim_af_fr_rn_gpios
  *
  * TIM AF Free Running GPIO Clock Count Register
@@ -985,10 +1455,16 @@ union cavm_tim_af_fr_rn_gpios
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
-                                                                 GPIO edge selection must be program (value other than 0x0) before writing this register. */
+                                                                 GPIO edge selection must be program (value other than 0x0) before writing this register.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
-                                                                 GPIO edge selection must be program (value other than 0x0) before writing this register. */
+                                                                 GPIO edge selection must be program (value other than 0x0) before writing this register.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_fr_rn_gpios_s cn; */
@@ -1021,10 +1497,16 @@ union cavm_tim_af_fr_rn_gti
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GTI system timer cycles. This register is only writable when
-                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GTI system timer cycles. This register is only writable when
-                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_fr_rn_gti_s cn; */
@@ -1056,9 +1538,15 @@ union cavm_tim_af_fr_rn_ptp
     struct cavm_tim_af_fr_rn_ptp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_fr_rn_ptp_s cn; */
@@ -1090,9 +1578,15 @@ union cavm_tim_af_fr_rn_synce
     struct cavm_tim_af_fr_rn_synce_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_fr_rn_synce_s cn; */
@@ -1125,10 +1619,16 @@ union cavm_tim_af_fr_rn_tenns
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of 10ns clock cycles. This register is only writable when
-                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of 10ns clock cycles. This register is only writable when
-                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0. */
+                                                                 TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_fr_rn_tenns_s cn; */
@@ -1148,74 +1648,6 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_TENNS_FUNC(void)
 #define device_bar_CAVM_TIM_AF_FR_RN_TENNS 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_FR_RN_TENNS 0
 #define arguments_CAVM_TIM_AF_FR_RN_TENNS -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_gpio_adjust
- *
- * TIM AF GPIO Timer Adjust Register
- */
-union cavm_tim_af_gpio_adjust
-{
-    uint64_t u;
-    struct cavm_tim_af_gpio_adjust_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GPIO timer to be updated. */
-#else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GPIO timer to be updated. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_gpio_adjust_s cn; */
-};
-typedef union cavm_tim_af_gpio_adjust cavm_tim_af_gpio_adjust_t;
-
-#define CAVM_TIM_AF_GPIO_ADJUST CAVM_TIM_AF_GPIO_ADJUST_FUNC()
-static inline uint64_t CAVM_TIM_AF_GPIO_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_GPIO_ADJUST_FUNC(void)
-{
-    return 0x840090000190ll;
-}
-
-#define typedef_CAVM_TIM_AF_GPIO_ADJUST cavm_tim_af_gpio_adjust_t
-#define bustype_CAVM_TIM_AF_GPIO_ADJUST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_GPIO_ADJUST "TIM_AF_GPIO_ADJUST"
-#define device_bar_CAVM_TIM_AF_GPIO_ADJUST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_GPIO_ADJUST 0
-#define arguments_CAVM_TIM_AF_GPIO_ADJUST -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_gti_adjust
- *
- * TIM AF GTI Timer Adjust Register
- */
-union cavm_tim_af_gti_adjust
-{
-    uint64_t u;
-    struct cavm_tim_af_gti_adjust_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GTI timer to be updated. */
-#else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the GTI timer to be updated. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_gti_adjust_s cn; */
-};
-typedef union cavm_tim_af_gti_adjust cavm_tim_af_gti_adjust_t;
-
-#define CAVM_TIM_AF_GTI_ADJUST CAVM_TIM_AF_GTI_ADJUST_FUNC()
-static inline uint64_t CAVM_TIM_AF_GTI_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_GTI_ADJUST_FUNC(void)
-{
-    return 0x840090000200ll;
-}
-
-#define typedef_CAVM_TIM_AF_GTI_ADJUST cavm_tim_af_gti_adjust_t
-#define bustype_CAVM_TIM_AF_GTI_ADJUST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_GTI_ADJUST "TIM_AF_GTI_ADJUST"
-#define device_bar_CAVM_TIM_AF_GTI_ADJUST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_GTI_ADJUST 0
-#define arguments_CAVM_TIM_AF_GTI_ADJUST -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_lf_rst
@@ -1419,40 +1851,6 @@ static inline uint64_t CAVM_TIM_AF_NXT_MIN_TENNS_EXPIRE_FUNC(void)
 #define arguments_CAVM_TIM_AF_NXT_MIN_TENNS_EXPIRE -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) tim_af_ptp_adjust
- *
- * TIM AF PTP Timer Adjust Register
- */
-union cavm_tim_af_ptp_adjust
-{
-    uint64_t u;
-    struct cavm_tim_af_ptp_adjust_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the PTP timer to be updated. */
-#else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the PTP timer to be updated. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_ptp_adjust_s cn; */
-};
-typedef union cavm_tim_af_ptp_adjust cavm_tim_af_ptp_adjust_t;
-
-#define CAVM_TIM_AF_PTP_ADJUST CAVM_TIM_AF_PTP_ADJUST_FUNC()
-static inline uint64_t CAVM_TIM_AF_PTP_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_PTP_ADJUST_FUNC(void)
-{
-    return 0x840090000210ll;
-}
-
-#define typedef_CAVM_TIM_AF_PTP_ADJUST cavm_tim_af_ptp_adjust_t
-#define bustype_CAVM_TIM_AF_PTP_ADJUST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_PTP_ADJUST "TIM_AF_PTP_ADJUST"
-#define device_bar_CAVM_TIM_AF_PTP_ADJUST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_PTP_ADJUST 0
-#define arguments_CAVM_TIM_AF_PTP_ADJUST -1,-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) tim_af_reg_flags
  *
  * TIM AF Flags Register
@@ -1465,7 +1863,7 @@ union cavm_tim_af_reg_flags
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t dbg_ring_id           : 8;  /**< [ 15:  8](RAZ) Number of a ring, which his SM and controls will be send to OCLA. For diagnostic use only. */
+        uint64_t dbg_ring_id           : 8;  /**< [ 15:  8](R/W) Number of a ring, which his SM and controls will be send to OCLA. For diagnostic use only. */
         uint64_t reserved_7            : 1;
         uint64_t gpio_edge             : 2;  /**< [  6:  5](R/W) Edge used for GPIO timing.
                                                                  This field must be configured before writing TIM_AF_FR_RN_GPIOS.
@@ -1505,7 +1903,7 @@ union cavm_tim_af_reg_flags
                                                                  0x2 = TIM counts high-to-low transitions.
                                                                  0x3 = TIM counts both low-to-high and high-to-low transitions. */
         uint64_t reserved_7            : 1;
-        uint64_t dbg_ring_id           : 8;  /**< [ 15:  8](RAZ) Number of a ring, which his SM and controls will be send to OCLA. For diagnostic use only. */
+        uint64_t dbg_ring_id           : 8;  /**< [ 15:  8](R/W) Number of a ring, which his SM and controls will be send to OCLA. For diagnostic use only. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -2167,74 +2565,6 @@ static inline uint64_t CAVM_TIM_AF_RVU_LF_CFG_DEBUG_FUNC(void)
 #define device_bar_CAVM_TIM_AF_RVU_LF_CFG_DEBUG 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_RVU_LF_CFG_DEBUG 0
 #define arguments_CAVM_TIM_AF_RVU_LF_CFG_DEBUG -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_synce_adjust
- *
- * TIM AF SYNCE Timer Adjust Register
- */
-union cavm_tim_af_synce_adjust
-{
-    uint64_t u;
-    struct cavm_tim_af_synce_adjust_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the SYNCE timer to be updated. */
-#else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the SYNCE timer to be updated. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_synce_adjust_s cn; */
-};
-typedef union cavm_tim_af_synce_adjust cavm_tim_af_synce_adjust_t;
-
-#define CAVM_TIM_AF_SYNCE_ADJUST CAVM_TIM_AF_SYNCE_ADJUST_FUNC()
-static inline uint64_t CAVM_TIM_AF_SYNCE_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_SYNCE_ADJUST_FUNC(void)
-{
-    return 0x840090000220ll;
-}
-
-#define typedef_CAVM_TIM_AF_SYNCE_ADJUST cavm_tim_af_synce_adjust_t
-#define bustype_CAVM_TIM_AF_SYNCE_ADJUST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_SYNCE_ADJUST "TIM_AF_SYNCE_ADJUST"
-#define device_bar_CAVM_TIM_AF_SYNCE_ADJUST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_SYNCE_ADJUST 0
-#define arguments_CAVM_TIM_AF_SYNCE_ADJUST -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_tenns_adjust
- *
- * TIM AF TENNS Timer Adjust Register
- */
-union cavm_tim_af_tenns_adjust
-{
-    uint64_t u;
-    struct cavm_tim_af_tenns_adjust_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the TENNS timer to be updated. */
-#else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W/H) Indicates the sign delta value for the TENNS timer to be updated. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_tenns_adjust_s cn; */
-};
-typedef union cavm_tim_af_tenns_adjust cavm_tim_af_tenns_adjust_t;
-
-#define CAVM_TIM_AF_TENNS_ADJUST CAVM_TIM_AF_TENNS_ADJUST_FUNC()
-static inline uint64_t CAVM_TIM_AF_TENNS_ADJUST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_TENNS_ADJUST_FUNC(void)
-{
-    return 0x840090000180ll;
-}
-
-#define typedef_CAVM_TIM_AF_TENNS_ADJUST cavm_tim_af_tenns_adjust_t
-#define bustype_CAVM_TIM_AF_TENNS_ADJUST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_TENNS_ADJUST "TIM_AF_TENNS_ADJUST"
-#define device_bar_CAVM_TIM_AF_TENNS_ADJUST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_TENNS_ADJUST 0
-#define arguments_CAVM_TIM_AF_TENNS_ADJUST -1,-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_bts
@@ -3057,8 +3387,8 @@ union cavm_tim_lf_ring_rel
                                                                  inserting an entry. */
         uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
                                                                  expiration, calculated as TIM_AF_RING()_CTL0[EXPIRE_OFFSET] minus current time
-                                                                 (TIM_FR_RN_TENNS, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, TIM_FR_RN_PTP,
-                                                                 TIM_FR_RN_SYNCE or TIM_FR_RN_BTS).
+                                                                 (TIM_LF_FR_RN_TENNS, TIM_LF_FR_RN_GPIOS, TIM_LF_FR_RN_GTI, TIM_LF_FR_RN_PTP,
+                                                                 TIM_LF_FR_RN_SYNCE or TIM_LF_FR_RN_BTS).
 
                                                                  Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
                                                                  ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the
@@ -3071,8 +3401,8 @@ union cavm_tim_lf_ring_rel
 #else /* Word 0 - Little Endian */
         uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
                                                                  expiration, calculated as TIM_AF_RING()_CTL0[EXPIRE_OFFSET] minus current time
-                                                                 (TIM_FR_RN_TENNS, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, TIM_FR_RN_PTP,
-                                                                 TIM_FR_RN_SYNCE or TIM_FR_RN_BTS).
+                                                                 (TIM_LF_FR_RN_TENNS, TIM_LF_FR_RN_GPIOS, TIM_LF_FR_RN_GTI, TIM_LF_FR_RN_PTP,
+                                                                 TIM_LF_FR_RN_SYNCE or TIM_LF_FR_RN_BTS).
 
                                                                  Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
                                                                  ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the

@@ -345,7 +345,7 @@ typedef union cavm_rvu_af_afpfx_mboxx cavm_rvu_af_afpfx_mboxx_t;
 static inline uint64_t CAVM_RVU_AF_AFPFX_MBOXX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_AFPFX_MBOXX(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=1))
+    if ((a<=31) && (b<=1))
         return 0x840000002000ll + 0x10ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_AF_AFPFX_MBOXX", 2, a, b, 0, 0, 0, 0);
 }
@@ -363,9 +363,6 @@ static inline uint64_t CAVM_RVU_AF_AFPFX_MBOXX(uint64_t a, uint64_t b)
  * RVU Admin Function  BAR2 Alias Registers
  * These registers alias to the RVU BAR2 registers for the PF and function
  * selected by RVU_AF_BAR2_SEL[PF_FUNC].
- *
- * Internal:
- * Not implemented in RTL; placeholder for bug33464.
  */
 union cavm_rvu_af_bar2_aliasx
 {
@@ -402,8 +399,6 @@ static inline uint64_t CAVM_RVU_AF_BAR2_ALIASX(uint64_t a)
  *
  * RVU Admin Function BAR2 Select Register
  * This register configures BAR2 accesses from the RVU_AF_BAR2_ALIAS() registers in BAR0.
- * Internal:
- * Not implemented in RTL; placeholder for bug33464.
  */
 union cavm_rvu_af_bar2_sel
 {
@@ -884,12 +879,12 @@ union cavm_rvu_af_pfx_bar4_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t addr                  : 48; /**< [ 63: 16](R/W) Programmable base address of PF region in DRAM, used as PF/AF mailbox memory address in addition to
-                                                                 RVU_AF_AFPF()_MBOX()/RVU_PF_PFAF_MBOX(). */
+                                                                 RVU_AF_AFPF()_MBOX()/RVU_PF_PFAF_MBOX(). Address reset value equals to 64KB*(PFn). */
         uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
         uint64_t addr                  : 48; /**< [ 63: 16](R/W) Programmable base address of PF region in DRAM, used as PF/AF mailbox memory address in addition to
-                                                                 RVU_AF_AFPF()_MBOX()/RVU_PF_PFAF_MBOX(). */
+                                                                 RVU_AF_AFPF()_MBOX()/RVU_PF_PFAF_MBOX(). Address reset value equals to 64KB*(PFn). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfx_bar4_addr_s cn; */
@@ -899,7 +894,7 @@ typedef union cavm_rvu_af_pfx_bar4_addr cavm_rvu_af_pfx_bar4_addr_t;
 static inline uint64_t CAVM_RVU_AF_PFX_BAR4_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFX_BAR4_ADDR(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840000005000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_BAR4_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -924,12 +919,12 @@ union cavm_rvu_af_pfx_bar4_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t barbits               : 6;  /**< [  5:  0](R/W/H) Programmable size of PF region in DRAM, should be a equal to ((1 +
-                                                                 num_of_VFs)*64KB + PF_LMTLINE) region size.
-                                                                 Any size which is smaller than 64KB will be chnaged to 64KB by HW. */
+                                                                 num_of_VFs)*64KB + PF_LMTLINE) region size. Any size which is smaller than 64KB
+                                                                 will be chnaged to 64KB by HW. */
 #else /* Word 0 - Little Endian */
         uint64_t barbits               : 6;  /**< [  5:  0](R/W/H) Programmable size of PF region in DRAM, should be a equal to ((1 +
-                                                                 num_of_VFs)*64KB + PF_LMTLINE) region size.
-                                                                 Any size which is smaller than 64KB will be chnaged to 64KB by HW. */
+                                                                 num_of_VFs)*64KB + PF_LMTLINE) region size. Any size which is smaller than 64KB
+                                                                 will be chnaged to 64KB by HW. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -940,8 +935,8 @@ typedef union cavm_rvu_af_pfx_bar4_cfg cavm_rvu_af_pfx_bar4_cfg_t;
 static inline uint64_t CAVM_RVU_AF_PFX_BAR4_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFX_BAR4_CFG(uint64_t a)
 {
-    if (a<=23)
-        return 0x840000006000ll + 0x10ll * ((a) & 0x1f);
+    if (a<=31)
+        return 0x840000005200ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_BAR4_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -979,8 +974,8 @@ typedef union cavm_rvu_af_pfx_lmtline_addr cavm_rvu_af_pfx_lmtline_addr_t;
 static inline uint64_t CAVM_RVU_AF_PFX_LMTLINE_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFX_LMTLINE_ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x840000007000ll + 0x10ll * ((a) & 0x1f);
+    if (a<=31)
+        return 0x840000005800ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_LMTLINE_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1018,8 +1013,8 @@ typedef union cavm_rvu_af_pfx_vf_bar4_addr cavm_rvu_af_pfx_vf_bar4_addr_t;
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_ADDR(uint64_t a)
 {
-    if (a<=23)
-        return 0x840000001000ll + 0x10ll * ((a) & 0x1f);
+    if (a<=31)
+        return 0x840000005400ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_VF_BAR4_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1055,8 +1050,8 @@ typedef union cavm_rvu_af_pfx_vf_bar4_cfg cavm_rvu_af_pfx_vf_bar4_cfg_t;
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_CFG(uint64_t a)
 {
-    if (a<=23)
-        return 0x840000008000ll + 0x10ll * ((a) & 0x1f);
+    if (a<=31)
+        return 0x840000005600ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_VF_BAR4_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1128,15 +1123,15 @@ union cavm_rvu_af_pfaf_mbox_int
     struct cavm_rvu_af_pfaf_mbox_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1C/H) Mailbox interrupt bit per PF.
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Mailbox interrupt bit per PF.
                                                                  Each bit is set when the PF writes to the corresponding
                                                                  RVU_PF_PFAF_MBOX(1) register. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1C/H) Mailbox interrupt bit per PF.
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Mailbox interrupt bit per PF.
                                                                  Each bit is set when the PF writes to the corresponding
                                                                  RVU_PF_PFAF_MBOX(1) register. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfaf_mbox_int_s cn; */
@@ -1169,11 +1164,11 @@ union cavm_rvu_af_pfaf_mbox_int_ena_w1c
     struct cavm_rvu_af_pfaf_mbox_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfaf_mbox_int_ena_w1c_s cn; */
@@ -1206,11 +1201,11 @@ union cavm_rvu_af_pfaf_mbox_int_ena_w1s
     struct cavm_rvu_af_pfaf_mbox_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFAF_MBOX_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfaf_mbox_int_ena_w1s_s cn; */
@@ -1243,11 +1238,11 @@ union cavm_rvu_af_pfaf_mbox_int_w1s
     struct cavm_rvu_af_pfaf_mbox_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFAF_MBOX_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFAF_MBOX_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFAF_MBOX_INT[MBOX]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFAF_MBOX_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfaf_mbox_int_w1s_s cn; */
@@ -1279,21 +1274,21 @@ union cavm_rvu_af_pfflr_int
     struct cavm_rvu_af_pfflr_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1C/H) FLR interrupt bit per PF.
+        uint64_t reserved_32_63        : 32;
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1C/H) FLR interrupt bit per PF.
 
                                                                  If RVU_PRIV_PF()_CFG[ME_FLR_ENA] is set, each bit is set along with
                                                                  the corresponding bit in RVU_AF_PFTRPEND when function level reset is
                                                                  initiated for the associated PF, i.e. a one is written to
                                                                  PCCPF_XXX_E_DEV_CTL[BCR_FLR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1C/H) FLR interrupt bit per PF.
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1C/H) FLR interrupt bit per PF.
 
                                                                  If RVU_PRIV_PF()_CFG[ME_FLR_ENA] is set, each bit is set along with
                                                                  the corresponding bit in RVU_AF_PFTRPEND when function level reset is
                                                                  initiated for the associated PF, i.e. a one is written to
                                                                  PCCPF_XXX_E_DEV_CTL[BCR_FLR]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfflr_int_s cn; */
@@ -1326,11 +1321,11 @@ union cavm_rvu_af_pfflr_int_ena_w1c
     struct cavm_rvu_af_pfflr_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFFLR_INT[FLR]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFFLR_INT[FLR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFFLR_INT[FLR]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFFLR_INT[FLR]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfflr_int_ena_w1c_s cn; */
@@ -1363,11 +1358,11 @@ union cavm_rvu_af_pfflr_int_ena_w1s
     struct cavm_rvu_af_pfflr_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFFLR_INT[FLR]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFFLR_INT[FLR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFFLR_INT[FLR]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFFLR_INT[FLR]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfflr_int_ena_w1s_s cn; */
@@ -1400,11 +1395,11 @@ union cavm_rvu_af_pfflr_int_w1s
     struct cavm_rvu_af_pfflr_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFFLR_INT[FLR]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFFLR_INT[FLR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t flr                   : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFFLR_INT[FLR]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t flr                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFFLR_INT[FLR]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfflr_int_w1s_s cn; */
@@ -1436,8 +1431,8 @@ union cavm_rvu_af_pfme_int
     struct cavm_rvu_af_pfme_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1C/H) Master enable interrupt bit per PF.
+        uint64_t reserved_32_63        : 32;
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1C/H) Master enable interrupt bit per PF.
                                                                  A device-dependent AF driver typically uses these bits to handle state
                                                                  changes to PCCPF_XXX_CMD[ME], which are typically modified by
                                                                  non-device-dependent software only.
@@ -1451,7 +1446,7 @@ union cavm_rvu_af_pfme_int
                                                                  bit in RVU_AF_PFTRPEND is also set when PCCPF_XXX_CMD[ME] is set, but not
                                                                  when PCCPF_XXX_CMD[ME] is cleared. */
 #else /* Word 0 - Little Endian */
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1C/H) Master enable interrupt bit per PF.
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1C/H) Master enable interrupt bit per PF.
                                                                  A device-dependent AF driver typically uses these bits to handle state
                                                                  changes to PCCPF_XXX_CMD[ME], which are typically modified by
                                                                  non-device-dependent software only.
@@ -1464,7 +1459,7 @@ union cavm_rvu_af_pfme_int
                                                                  Note that if RVU_PRIV_PF()_CFG[ME_FLR_ENA] is set, the corresponding
                                                                  bit in RVU_AF_PFTRPEND is also set when PCCPF_XXX_CMD[ME] is set, but not
                                                                  when PCCPF_XXX_CMD[ME] is cleared. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfme_int_s cn; */
@@ -1497,11 +1492,11 @@ union cavm_rvu_af_pfme_int_ena_w1c
     struct cavm_rvu_af_pfme_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFME_INT[ME]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFME_INT[ME]. */
 #else /* Word 0 - Little Endian */
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFME_INT[ME]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for RVU_AF_PFME_INT[ME]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfme_int_ena_w1c_s cn; */
@@ -1534,11 +1529,11 @@ union cavm_rvu_af_pfme_int_ena_w1s
     struct cavm_rvu_af_pfme_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFME_INT[ME]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFME_INT[ME]. */
 #else /* Word 0 - Little Endian */
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFME_INT[ME]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for RVU_AF_PFME_INT[ME]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfme_int_ena_w1s_s cn; */
@@ -1571,11 +1566,11 @@ union cavm_rvu_af_pfme_int_w1s
     struct cavm_rvu_af_pfme_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFME_INT[ME]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFME_INT[ME]. */
 #else /* Word 0 - Little Endian */
-        uint64_t me                    : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFME_INT[ME]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t me                    : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFME_INT[ME]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfme_int_w1s_s cn; */
@@ -1607,13 +1602,13 @@ union cavm_rvu_af_pfme_status
     struct cavm_rvu_af_pfme_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t me                    : 24; /**< [ 23:  0](RO/H) Bus master enable bit per PF. Each bit returns the PF's
+        uint64_t reserved_32_63        : 32;
+        uint64_t me                    : 32; /**< [ 31:  0](RO/H) Bus master enable bit per PF. Each bit returns the PF's
                                                                  PCCPF_XXX_CMD[ME] value. */
 #else /* Word 0 - Little Endian */
-        uint64_t me                    : 24; /**< [ 23:  0](RO/H) Bus master enable bit per PF. Each bit returns the PF's
+        uint64_t me                    : 32; /**< [ 31:  0](RO/H) Bus master enable bit per PF. Each bit returns the PF's
                                                                  PCCPF_XXX_CMD[ME] value. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfme_status_s cn; */
@@ -1645,8 +1640,8 @@ union cavm_rvu_af_pftrpend
     struct cavm_rvu_af_pftrpend_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t trpend                : 24; /**< [ 23:  0](R/W1C/H) Transaction pending bit per PF.
+        uint64_t reserved_32_63        : 32;
+        uint64_t trpend                : 32; /**< [ 31:  0](R/W1C/H) Transaction pending bit per PF.
 
                                                                  A PF's bit is set when RVU_PRIV_PF()_CFG[ME_FLR_ENA] is set and:
                                                                  * A one is written to the corresponding PCCPF_XXX_E_DEV_CTL[BCR_FLR], or
@@ -1658,7 +1653,7 @@ union cavm_rvu_af_pftrpend
                                                                  Software (typically a device-dependent AF driver) can clear the bit by
                                                                  writing a 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t trpend                : 24; /**< [ 23:  0](R/W1C/H) Transaction pending bit per PF.
+        uint64_t trpend                : 32; /**< [ 31:  0](R/W1C/H) Transaction pending bit per PF.
 
                                                                  A PF's bit is set when RVU_PRIV_PF()_CFG[ME_FLR_ENA] is set and:
                                                                  * A one is written to the corresponding PCCPF_XXX_E_DEV_CTL[BCR_FLR], or
@@ -1669,7 +1664,7 @@ union cavm_rvu_af_pftrpend
 
                                                                  Software (typically a device-dependent AF driver) can clear the bit by
                                                                  writing a 1. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pftrpend_s cn; */
@@ -1702,11 +1697,11 @@ union cavm_rvu_af_pftrpend_w1s
     struct cavm_rvu_af_pftrpend_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t trpend                : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFTRPEND[TRPEND]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t trpend                : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFTRPEND[TRPEND]. */
 #else /* Word 0 - Little Endian */
-        uint64_t trpend                : 24; /**< [ 23:  0](R/W1S/H) Reads or sets RVU_AF_PFTRPEND[TRPEND]. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t trpend                : 32; /**< [ 31:  0](R/W1S/H) Reads or sets RVU_AF_PFTRPEND[TRPEND]. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pftrpend_w1s_s cn; */
@@ -1914,7 +1909,7 @@ typedef union cavm_rvu_af_smmu_addr_req cavm_rvu_af_smmu_addr_req_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_REQ_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_REQ_FUNC(void)
 {
-    return 0x840000009000ll;
+    return 0x840000006000ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_REQ cavm_rvu_af_smmu_addr_req_t
@@ -1960,7 +1955,7 @@ typedef union cavm_rvu_af_smmu_addr_rsp_sts cavm_rvu_af_smmu_addr_rsp_sts_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void)
 {
-    return 0x840000009010ll;
+    return 0x840000006010ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_RSP_STS cavm_rvu_af_smmu_addr_rsp_sts_t
@@ -1996,7 +1991,7 @@ typedef union cavm_rvu_af_smmu_addr_tln cavm_rvu_af_smmu_addr_tln_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void)
 {
-    return 0x840000009018ll;
+    return 0x840000006018ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_TLN cavm_rvu_af_smmu_addr_tln_t
@@ -2017,9 +2012,9 @@ union cavm_rvu_af_smmu_tln_flit0
     struct cavm_rvu_af_smmu_tln_flit0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_tln_flit0_s cn; */
@@ -2030,7 +2025,7 @@ typedef union cavm_rvu_af_smmu_tln_flit0 cavm_rvu_af_smmu_tln_flit0_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void)
 {
-    return 0x840000009020ll;
+    return 0x840000006020ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT0 cavm_rvu_af_smmu_tln_flit0_t
@@ -2052,9 +2047,9 @@ union cavm_rvu_af_smmu_tln_flit0_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT0[78:64] from SMMU. For diagnostic use only. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
@@ -2066,7 +2061,7 @@ typedef union cavm_rvu_af_smmu_tln_flit0_1 cavm_rvu_af_smmu_tln_flit0_1_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_1_FUNC(void)
 {
-    return 0x840000009028ll;
+    return 0x840000006028ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT0_1 cavm_rvu_af_smmu_tln_flit0_1_t
@@ -2087,9 +2082,9 @@ union cavm_rvu_af_smmu_tln_flit1
     struct cavm_rvu_af_smmu_tln_flit1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_tln_flit1_s cn; */
@@ -2100,7 +2095,7 @@ typedef union cavm_rvu_af_smmu_tln_flit1 cavm_rvu_af_smmu_tln_flit1_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_FUNC(void)
 {
-    return 0x840000009030ll;
+    return 0x840000006030ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT1 cavm_rvu_af_smmu_tln_flit1_t
@@ -2122,9 +2117,9 @@ union cavm_rvu_af_smmu_tln_flit1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 15; /**< [ 14:  0](R/W) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 15; /**< [ 14:  0](RO/H) Translation returned FLIT1[78:64] from SMMU. For diagnostic use only. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
@@ -2136,7 +2131,7 @@ typedef union cavm_rvu_af_smmu_tln_flit1_1 cavm_rvu_af_smmu_tln_flit1_1_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_1_FUNC(void)
 {
-    return 0x840000009038ll;
+    return 0x840000006038ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT1_1 cavm_rvu_af_smmu_tln_flit1_1_t
@@ -2157,7 +2152,7 @@ union cavm_rvu_af_smmu_txn_req
     struct cavm_rvu_af_smmu_txn_req_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t trg                   : 1;  /**< [ 63: 63](R/W) Set to trigger address translation towards SMMU. */
+        uint64_t trg                   : 1;  /**< [ 63: 63](R/W/H) Set to trigger address translation towards SMMU. HW zeros when translation is done. */
         uint64_t reserved_15_62        : 48;
         uint64_t rd_perm               : 1;  /**< [ 14: 14](R/W) SMMU request with read permission. */
         uint64_t wr_perm               : 1;  /**< [ 13: 13](R/W) SMMU request with write permission */
@@ -2169,7 +2164,7 @@ union cavm_rvu_af_smmu_txn_req
         uint64_t wr_perm               : 1;  /**< [ 13: 13](R/W) SMMU request with write permission */
         uint64_t rd_perm               : 1;  /**< [ 14: 14](R/W) SMMU request with read permission. */
         uint64_t reserved_15_62        : 48;
-        uint64_t trg                   : 1;  /**< [ 63: 63](R/W) Set to trigger address translation towards SMMU. */
+        uint64_t trg                   : 1;  /**< [ 63: 63](R/W/H) Set to trigger address translation towards SMMU. HW zeros when translation is done. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_txn_req_s cn; */
@@ -2180,7 +2175,7 @@ typedef union cavm_rvu_af_smmu_txn_req cavm_rvu_af_smmu_txn_req_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TXN_REQ_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TXN_REQ_FUNC(void)
 {
-    return 0x840000009008ll;
+    return 0x840000006008ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TXN_REQ cavm_rvu_af_smmu_txn_req_t
@@ -4076,7 +4071,7 @@ typedef union cavm_rvu_priv_pfx_cfg cavm_rvu_priv_pfx_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000100ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4116,7 +4111,7 @@ typedef union cavm_rvu_priv_pfx_cptx_cfg cavm_rvu_priv_pfx_cptx_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_CPTX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_CPTX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=1))
+    if ((a<=31) && (b<=1))
         return 0x840008000350ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_CPTX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4167,7 +4162,7 @@ typedef union cavm_rvu_priv_pfx_id_cfg cavm_rvu_priv_pfx_id_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_ID_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_ID_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000120ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_ID_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4224,7 +4219,7 @@ typedef union cavm_rvu_priv_pfx_int_cfg cavm_rvu_priv_pfx_int_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_INT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_INT_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000200ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4300,7 +4295,7 @@ typedef union cavm_rvu_priv_pfx_msix_cfg cavm_rvu_priv_pfx_msix_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_MSIX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_MSIX_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000110ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_MSIX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4341,7 +4336,7 @@ typedef union cavm_rvu_priv_pfx_nixx_cfg cavm_rvu_priv_pfx_nixx_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_NIXX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_NIXX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=1))
+    if ((a<=31) && (b<=1))
         return 0x840008000300ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_NIXX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4379,7 +4374,7 @@ typedef union cavm_rvu_priv_pfx_npa_cfg cavm_rvu_priv_pfx_npa_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_NPA_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_NPA_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000310ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_NPA_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4419,7 +4414,7 @@ typedef union cavm_rvu_priv_pfx_reex_cfg cavm_rvu_priv_pfx_reex_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_REEX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_REEX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=23) && (b<=1))
+    if ((a<=31) && (b<=1))
         return 0x840008000360ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_REEX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4459,7 +4454,7 @@ typedef union cavm_rvu_priv_pfx_sso_cfg cavm_rvu_priv_pfx_sso_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_SSO_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_SSO_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000320ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_SSO_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4499,7 +4494,7 @@ typedef union cavm_rvu_priv_pfx_ssow_cfg cavm_rvu_priv_pfx_ssow_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_SSOW_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_SSOW_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000330ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_SSOW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4539,7 +4534,7 @@ typedef union cavm_rvu_priv_pfx_tim_cfg cavm_rvu_priv_pfx_tim_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_TIM_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_TIM_CFG(uint64_t a)
 {
-    if (a<=23)
+    if (a<=31)
         return 0x840008000340ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_TIM_CFG", 1, a, 0, 0, 0, 0, 0);
 }

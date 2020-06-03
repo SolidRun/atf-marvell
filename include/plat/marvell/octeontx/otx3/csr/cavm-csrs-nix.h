@@ -118,9 +118,10 @@
  * NIX Interface Number Enumeration
  * Enumerates the bit index of NIX_AF_STATUS[CALIBRATE_STATUS].
  */
-#define CAVM_NIX_INTF_E_LBKX(a) (0xc + (a))
+#define CAVM_NIX_INTF_E_CPTX(a) (5 + 0 * (a))
+#define CAVM_NIX_INTF_E_LBKX(a) (3 + (a))
 #define CAVM_NIX_INTF_E_RPMX(a) (0 + (a))
-#define CAVM_NIX_INTF_E_SDP (0xd)
+#define CAVM_NIX_INTF_E_SDP (4)
 
 /**
  * Enumeration nix_lf_int_vec_e
@@ -144,7 +145,7 @@
  * NIX_AF_TX_LINK()_NORM_CREDIT,
  * NIX_AF_TX_LINK()_HW_XOFF,
  * NIX_AF_TL3_TL2()_LINK()_CFG and
- * NIX_AF_TX_LINK()_CFG.
+ * NIX_AF_LINK()_CFG.
  */
 #define CAVM_NIX_LINK_E_CPT (0xe)
 #define CAVM_NIX_LINK_E_LBKX(a) (0xc + (a))
@@ -6588,7 +6589,8 @@ union cavm_nixx_af_const1
     struct cavm_nixx_af_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
+        uint64_t reserved_61_63        : 3;
+        uint64_t max_dwrr_mtu          : 5;  /**< [ 60: 56](RO) Maximum MTU supported for DWRR purposes for both SDP and RPM. */
         uint64_t lso_formats           : 8;  /**< [ 55: 48](RO) Number of LSO formats, each selected by FORMAT index of
                                                                  NIX_AF_LSO_FORMAT()_FIELD() registers. */
         uint64_t lso_format_fields     : 8;  /**< [ 47: 40](RO) Number of packets fields per LSO format, each selected by FIELD index of
@@ -6606,7 +6608,8 @@ union cavm_nixx_af_const1
                                                                  NIX_AF_LSO_FORMAT()_FIELD() registers. */
         uint64_t lso_formats           : 8;  /**< [ 55: 48](RO) Number of LSO formats, each selected by FORMAT index of
                                                                  NIX_AF_LSO_FORMAT()_FIELD() registers. */
-        uint64_t reserved_56_63        : 8;
+        uint64_t max_dwrr_mtu          : 5;  /**< [ 60: 56](RO) Maximum MTU supported for DWRR purposes for both SDP and RPM. */
+        uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const1_s cn; */
@@ -9492,13 +9495,23 @@ union cavm_nixx_af_linkx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The range=2^LOG2_RANGE, where LOG2_RANGE==0 means the link is not valid. */
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The range=2^LOG2_RANGE, where LOG2_RANGE==0 means the link is not valid.
+                                                                 For example, if [LOG2_RANGE]=3, number of channels for the link is 8.
+                                                                 2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST. */
         uint64_t reserved_12_15        : 4;
-        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Start channel number must be multiple of the range. */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
+                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
+                                                                 the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
+                                                                 0x15C, 0x15D, 0x15E, 0x15F. */
 #else /* Word 0 - Little Endian */
-        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Start channel number must be multiple of the range. */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
+                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
+                                                                 the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
+                                                                 0x15C, 0x15D, 0x15E, 0x15F. */
         uint64_t reserved_12_15        : 4;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The range=2^LOG2_RANGE, where LOG2_RANGE==0 means the link is not valid. */
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The range=2^LOG2_RANGE, where LOG2_RANGE==0 means the link is not valid.
+                                                                 For example, if [LOG2_RANGE]=3, number of channels for the link is 8.
+                                                                 2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -9927,7 +9940,7 @@ union cavm_nixx_af_mdqx_md_debug
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
         uint64_t reserved_45_60        : 16;
         uint64_t sqm_pkt_id            : 13; /**< [ 44: 32](R/W/H) SQM Packet Index. */
-        uint64_t reserved_31           : 1;
+        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or CGX */
         uint64_t color                 : 2;  /**< [ 30: 29](R/W/H) Incoming Pkt color. */
         uint64_t shp_chg               : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is not 0x100, it is the NIX_SEND_EXT_S[SHP_CHG] for the
                                                                  packet. */
@@ -9959,7 +9972,7 @@ union cavm_nixx_af_mdqx_md_debug
         uint64_t shp_chg               : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is not 0x100, it is the NIX_SEND_EXT_S[SHP_CHG] for the
                                                                  packet. */
         uint64_t color                 : 2;  /**< [ 30: 29](R/W/H) Incoming Pkt color. */
-        uint64_t reserved_31           : 1;
+        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or CGX */
         uint64_t sqm_pkt_id            : 13; /**< [ 44: 32](R/W/H) SQM Packet Index. */
         uint64_t reserved_45_60        : 16;
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
@@ -10257,13 +10270,13 @@ union cavm_nixx_af_mdqx_sched_state
     struct cavm_nixx_af_mdqx_sched_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t reserved_32_63        : 32;
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_mdqx_sched_state_s cn; */
@@ -10305,27 +10318,29 @@ union cavm_nixx_af_mdqx_schedule
                                                                  whether the shaping queue is a static queue or not: If [PRIO] equals the
                                                                  parent's NIX_AF_TL*()_TOPOLOGY[RR_PRIO], then this is a round-robin child
                                                                  queue into the shaper at the next level. */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t reserved_14_23        : 10;
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+        uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
                                                                  recommend setting [PRIO] to zero. The legal [PRIO] values are zero to nine
@@ -17715,7 +17730,7 @@ union cavm_nixx_af_tl1x_md_debug1
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
@@ -17751,7 +17766,7 @@ union cavm_nixx_af_tl1x_md_debug1
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
@@ -17912,12 +17927,12 @@ union cavm_nixx_af_tl1x_schedule
     struct cavm_nixx_af_tl1x_schedule_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t reserved_14_63        : 50;
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer).
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count).
+                                                                 This is the actual weight and in combination with NIX_AF_DWRR_SDP/RPM_MTU makes
+                                                                 up QUANTUM value for this queue.
 
                                                                  Transmit limiter 1 packet meta descriptor are active in the scheduler when the rate limiter
                                                                  has not been exceeded. The position of the child in the TL1 array is always the position in
@@ -17925,13 +17940,19 @@ union cavm_nixx_af_tl1x_schedule
                                                                  of the circle on quantum expiration or when the head cannot follow with an active packet.
 
                                                                  Packet queue arbiter takes a snap shot of TL1 active packet meta descriptor and performs
-                                                                 round robin arbitration. */
+                                                                 round robin arbitration.
+
+                                                                 Quantum value to ADD back when the current deficit goes negative would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+
+                                                                 Note selected MTU depends on MD whether it is SDP or RPM related.
+                                                                 If the value programmed is greater than 16384 then hardware will clip it to 16384. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer).
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count).
+                                                                 This is the actual weight and in combination with NIX_AF_DWRR_SDP/RPM_MTU makes
+                                                                 up QUANTUM value for this queue.
 
                                                                  Transmit limiter 1 packet meta descriptor are active in the scheduler when the rate limiter
                                                                  has not been exceeded. The position of the child in the TL1 array is always the position in
@@ -17939,8 +17960,14 @@ union cavm_nixx_af_tl1x_schedule
                                                                  of the circle on quantum expiration or when the head cannot follow with an active packet.
 
                                                                  Packet queue arbiter takes a snap shot of TL1 active packet meta descriptor and performs
-                                                                 round robin arbitration. */
-        uint64_t reserved_24_63        : 40;
+                                                                 round robin arbitration.
+
+                                                                 Quantum value to ADD back when the current deficit goes negative would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+
+                                                                 Note selected MTU depends on MD whether it is SDP or RPM related.
+                                                                 If the value programmed is greater than 16384 then hardware will clip it to 16384. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl1x_schedule_s cn; */
@@ -18732,7 +18759,7 @@ union cavm_nixx_af_tl2x_md_debug1
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
@@ -18768,7 +18795,7 @@ union cavm_nixx_af_tl2x_md_debug1
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
@@ -19045,13 +19072,13 @@ union cavm_nixx_af_tl2x_sched_state
     struct cavm_nixx_af_tl2x_sched_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t reserved_32_63        : 32;
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl2x_sched_state_s cn; */
@@ -19092,27 +19119,29 @@ union cavm_nixx_af_tl2x_schedule
                                                                  whether the shaping queue is a static queue or not: If [PRIO] equals the
                                                                  parent's NIX_AF_TL*()_TOPOLOGY[RR_PRIO], then this is a round-robin child
                                                                  queue into the shaper at the next level. */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t reserved_14_23        : 10;
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+        uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
                                                                  recommend setting [PRIO] to zero. The legal [PRIO] values are zero to nine
@@ -19194,13 +19223,19 @@ union cavm_nixx_af_tl2x_shape
                                                                  complement signed value allows -255 .. 255 bytes to be added to the packet
                                                                  length for rate limiting and scheduling calculations. Constraints:
                                                                  * Must be positive when [LENGTH_DISABLE] is set
-                                                                 * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0 */
+                                                                 * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
+                                                                 In case of scheduling(DWRR) adjustment value programmed should be such that
+                                                                 (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
+                                                                 NIX_AF_DWRR_SDP_MTU/NIX_AF_DWRR_RPM_MTU */
 #else /* Word 0 - Little Endian */
         uint64_t adjust                : 9;  /**< [  8:  0](R/W) Shaping and scheduling calculation adjustment. This nine-bit two's
                                                                  complement signed value allows -255 .. 255 bytes to be added to the packet
                                                                  length for rate limiting and scheduling calculations. Constraints:
                                                                  * Must be positive when [LENGTH_DISABLE] is set
-                                                                 * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0 */
+                                                                 * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
+                                                                 In case of scheduling(DWRR) adjustment value programmed should be such that
+                                                                 (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
+                                                                 NIX_AF_DWRR_SDP_MTU/NIX_AF_DWRR_RPM_MTU */
         uint64_t red_algo              : 2;  /**< [ 10:  9](R/W) Shaper red state algorithm when not specified by the NIX SEND. Used by hardware
                                                                  only when the shaper is in RED state. (A shaper is in RED state when
                                                                  NIX_AF_TL*()_SHAPE_STATE[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
@@ -19858,7 +19893,7 @@ union cavm_nixx_af_tl3x_md_debug1
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
@@ -19894,7 +19929,7 @@ union cavm_nixx_af_tl3x_md_debug1
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
@@ -20162,13 +20197,13 @@ union cavm_nixx_af_tl3x_sched_state
     struct cavm_nixx_af_tl3x_sched_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t reserved_32_63        : 32;
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl3x_sched_state_s cn; */
@@ -20210,27 +20245,29 @@ union cavm_nixx_af_tl3x_schedule
                                                                  whether the shaping queue is a static queue or not: If [PRIO] equals the
                                                                  parent's NIX_AF_TL*()_TOPOLOGY[RR_PRIO], then this is a round-robin child
                                                                  queue into the shaper at the next level. */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t reserved_14_23        : 10;
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+        uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
                                                                  recommend setting [PRIO] to zero. The legal [PRIO] values are zero to nine
@@ -21063,7 +21100,7 @@ union cavm_nixx_af_tl4x_md_debug1
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
@@ -21099,7 +21136,7 @@ union cavm_nixx_af_tl4x_md_debug1
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t reserved_36           : 1;
+        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
@@ -21367,13 +21404,13 @@ union cavm_nixx_af_tl4x_sched_state
     struct cavm_nixx_af_tl4x_sched_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t reserved_32_63        : 32;
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_count              : 25; /**< [ 24:  0](R/W/H) Round-robin (DWRR) deficit counter. A 25-bit two's complement signed
+        uint64_t rr_count              : 32; /**< [ 31:  0](R/W/H) Round-robin (DWRR) deficit counter. A 32-bit two's complement signed
                                                                  integer count. For diagnostic use. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_sched_state_s cn; */
@@ -21415,27 +21452,29 @@ union cavm_nixx_af_tl4x_schedule
                                                                  whether the shaping queue is a static queue or not: If [PRIO] equals the
                                                                  parent's NIX_AF_TL*()_TOPOLOGY[RR_PRIO], then this is a round-robin child
                                                                  queue into the shaper at the next level. */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t reserved_14_23        : 10;
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
 #else /* Word 0 - Little Endian */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+        uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
 
                                                                  _  (NIX_nm_SHAPE[LENGTH_DISABLE] ? 0 : (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST]))
                                                                     + NIX_nm_SHAPE[ADJUST]
 
-                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR.
+                                                                 where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
+                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
 
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of the deficit count). */
+                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+        uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
                                                                  recommend setting [PRIO] to zero. The legal [PRIO] values are zero to nine
@@ -21916,63 +21955,6 @@ static inline uint64_t CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(uint64_t a)
 #define arguments_CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_tx_link#_cfg
- *
- * NIX AF Transmit Link Channel Configuration Registers
- * These registers specifies the base channel (start channel)  number and the range of
- * channels associated with the
- * RPM,LBK,SDP,CPT and MC links.
- * Link index enumerated by NIX_LINK_E.
- */
-union cavm_nixx_af_tx_linkx_cfg
-{
-    uint64_t u;
-    struct cavm_nixx_af_tx_linkx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this link is 2^[LOG2_RANGE].
-                                                                 2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST.
-                                                                 When LOG2_RANGE==0, link is considered invalid.
-                                                                 For example, if [LOG2_RANGE]=3, number of channels for the link is 8. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel for the link. This channel number must be multiple of the range.
-                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
-                                                                 the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
-                                                                 0x15C, 0x15D, 0x15E, 0x15F */
-#else /* Word 0 - Little Endian */
-        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel for the link. This channel number must be multiple of the range.
-                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
-                                                                 the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
-                                                                 0x15C, 0x15D, 0x15E, 0x15F */
-        uint64_t reserved_12_15        : 4;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Number of channels associated with this link is 2^[LOG2_RANGE].
-                                                                 2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST.
-                                                                 When LOG2_RANGE==0, link is considered invalid.
-                                                                 For example, if [LOG2_RANGE]=3, number of channels for the link is 8. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_tx_linkx_cfg_s cn; */
-};
-typedef union cavm_nixx_af_tx_linkx_cfg cavm_nixx_af_tx_linkx_cfg_t;
-
-static inline uint64_t CAVM_NIXX_AF_TX_LINKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TX_LINKX_CFG(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=15))
-        return 0x840040004900ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
-    __cavm_csr_fatal("NIXX_AF_TX_LINKX_CFG", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) cavm_nixx_af_tx_linkx_cfg_t
-#define bustype_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) "NIXX_AF_TX_LINKX_CFG"
-#define device_bar_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TX_LINKX_CFG(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) nix#_af_tx_link#_hw_xoff
  *
  * NIX AF Transmit Link Hardware Controlled XOFF Registers
@@ -22424,16 +22406,27 @@ union cavm_nixx_af_tx_tstmp_cfg
     struct cavm_nixx_af_tx_tstmp_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t express               : 16; /**< [ 23:  8](R/W) Reserved. Must be zero.
-                                                                 Internal:
-                                                                 802.3br frame preemption/express path is defeatured.
-                                                                 Old definition:
+        uint64_t reserved_4_63         : 60;
+        uint64_t tstmp_wd_period       : 4;  /**< [  3:  0](R/W) Watchdog timeout count for send timestamp capture. See
+                                                                 NIX_SEND_EXT_S[TSTMP] and NIX_SENDMEMALG_E::SETTSTMP.
 
-                                                                 One bit per RPM LMAC, enumerated by NIX_LINK_E::RPM()_LMAC(). When a bit is
-                                                                 set, only express packets to the LMAC are allowed to request PTP
-                                                                 timestamps. When a bit is clear, only normal packets to the LMAC are
-                                                                 allowed to request PTP timestamps. See NIX_SENDMEMALG_E::SETTSTMP. */
+                                                                 The timeout period is 4*(2^[TSTMP_WD_PERIOD]) timer ticks, where each tick
+                                                                 is 128 cycles of the 100 MHz reference clock: 0 = 4 ticks, 1 = 8 ticks, ...
+                                                                 15 = 131072 ticks. */
+#else /* Word 0 - Little Endian */
+        uint64_t tstmp_wd_period       : 4;  /**< [  3:  0](R/W) Watchdog timeout count for send timestamp capture. See
+                                                                 NIX_SEND_EXT_S[TSTMP] and NIX_SENDMEMALG_E::SETTSTMP.
+
+                                                                 The timeout period is 4*(2^[TSTMP_WD_PERIOD]) timer ticks, where each tick
+                                                                 is 128 cycles of the 100 MHz reference clock: 0 = 4 ticks, 1 = 8 ticks, ...
+                                                                 15 = 131072 ticks. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_nixx_af_tx_tstmp_cfg_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
         uint64_t reserved_4_7          : 4;
         uint64_t tstmp_wd_period       : 4;  /**< [  3:  0](R/W) Watchdog timeout count for send timestamp capture. See
                                                                  NIX_SEND_EXT_S[TSTMP] and NIX_SENDMEMALG_E::SETTSTMP.
@@ -22449,19 +22442,9 @@ union cavm_nixx_af_tx_tstmp_cfg
                                                                  is 128 cycles of the 100 MHz reference clock: 0 = 4 ticks, 1 = 8 ticks, ...
                                                                  15 = 131072 ticks. */
         uint64_t reserved_4_7          : 4;
-        uint64_t express               : 16; /**< [ 23:  8](R/W) Reserved. Must be zero.
-                                                                 Internal:
-                                                                 802.3br frame preemption/express path is defeatured.
-                                                                 Old definition:
-
-                                                                 One bit per RPM LMAC, enumerated by NIX_LINK_E::RPM()_LMAC(). When a bit is
-                                                                 set, only express packets to the LMAC are allowed to request PTP
-                                                                 timestamps. When a bit is clear, only normal packets to the LMAC are
-                                                                 allowed to request PTP timestamps. See NIX_SENDMEMALG_E::SETTSTMP. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_tx_tstmp_cfg_s cn; */
+    } cn;
 };
 typedef union cavm_nixx_af_tx_tstmp_cfg cavm_nixx_af_tx_tstmp_cfg_t;
 

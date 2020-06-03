@@ -3061,8 +3061,8 @@ typedef union cavm_sso_af_hwsx_arb cavm_sso_af_hwsx_arb_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_ARB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_ARB(uint64_t a)
 {
-    if (a<=23)
-        return 0x840070400100ll + 0x1000ll * ((a) & 0x1f);
+    if (a<=51)
+        return 0x840070400100ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_ARB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3096,8 +3096,8 @@ typedef union cavm_sso_af_hwsx_gmctl cavm_sso_af_hwsx_gmctl_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_GMCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_GMCTL(uint64_t a)
 {
-    if (a<=23)
-        return 0x840070400200ll + 0x1000ll * ((a) & 0x1f);
+    if (a<=51)
+        return 0x840070400200ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_GMCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3135,8 +3135,8 @@ typedef union cavm_sso_af_hwsx_inv cavm_sso_af_hwsx_inv_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_INV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_INV(uint64_t a)
 {
-    if (a<=23)
-        return 0x840070400180ll + 0x1000ll * ((a) & 0x1f);
+    if (a<=51)
+        return 0x840070400180ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_INV", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3182,8 +3182,8 @@ typedef union cavm_sso_af_hwsx_lsw_cfg cavm_sso_af_hwsx_lsw_cfg_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_LSW_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_LSW_CFG(uint64_t a)
 {
-    if (a<=23)
-        return 0x840070400300ll + 0x1000ll * ((a) & 0x1f);
+    if (a<=51)
+        return 0x840070400300ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_LSW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3249,8 +3249,8 @@ typedef union cavm_sso_af_hwsx_sx_grpmskx cavm_sso_af_hwsx_sx_grpmskx_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_SX_GRPMSKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_SX_GRPMSKX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=23) && (b<=1) && (c<=3))
-        return 0x840070400400ll + 0x1000ll * ((a) & 0x1f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
+    if ((a<=51) && (b<=1) && (c<=3))
+        return 0x840070400400ll + 0x1000ll * ((a) & 0x3f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("SSO_AF_HWSX_SX_GRPMSKX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -4985,13 +4985,13 @@ union cavm_sso_af_unmap_info3
                                                                  and held until SSO_AF_ERR2[WS_MULTI] and SSO_AF_ERR2[WS_UNMAP] are cleared. */
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR2[WS_UNMAP] is set and held
                                                                  until SSO_AF_ERR2[WS_UNMAP] and SSO_AF_ERR2[WS_MULTI] are cleared. */
-        uint64_t reserved_21_27        : 7;
-        uint64_t gws                   : 5;  /**< [ 20: 16](RO/H) This field indicates the failing GWS. This field is updated when any
+        uint64_t reserved_22_27        : 6;
+        uint64_t gws                   : 6;  /**< [ 21: 16](RO/H) This field indicates the failing GWS. This field is updated when any
                                                                  of he following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
                                                                  and is held until all both errors are cleared in SSO_AF_ERR2.
 
                                                                  Internal:
-                                                                 (16..`SSO_NUM_WS-1+16) */
+                                                                 (16..`SSO_NUM_WS_WIDTH-1+16) */
         uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when any of the following errors occur:
                                                                  SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both errors
                                                                  are cleared from SSO_AF_ERR2. */
@@ -4999,13 +4999,13 @@ union cavm_sso_af_unmap_info3
         uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when any of the following errors occur:
                                                                  SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both errors
                                                                  are cleared from SSO_AF_ERR2. */
-        uint64_t gws                   : 5;  /**< [ 20: 16](RO/H) This field indicates the failing GWS. This field is updated when any
+        uint64_t gws                   : 6;  /**< [ 21: 16](RO/H) This field indicates the failing GWS. This field is updated when any
                                                                  of he following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
                                                                  and is held until all both errors are cleared in SSO_AF_ERR2.
 
                                                                  Internal:
-                                                                 (16..`SSO_NUM_WS-1+16) */
-        uint64_t reserved_21_27        : 7;
+                                                                 (16..`SSO_NUM_WS_WIDTH-1+16) */
+        uint64_t reserved_22_27        : 6;
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR2[WS_UNMAP] is set and held
                                                                  until SSO_AF_ERR2[WS_UNMAP] and SSO_AF_ERR2[WS_MULTI] are cleared. */
         uint64_t ws_multi              : 1;  /**< [ 29: 29](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR2[WS_MULTI] is set

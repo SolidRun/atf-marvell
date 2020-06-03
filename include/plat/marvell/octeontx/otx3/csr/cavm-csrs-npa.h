@@ -4784,9 +4784,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_CNT_FUNC(void)
  * NPA LF Aura Free Operation Register 0
  * A 128-bit atomic CAS to NPA_LF_AURA_OP_FREE0 and NPA_LF_AURA_OP_FREE1 frees a pointer
  * into a given aura's pool. All other accesses to these registers (e.g. reads and 64-bit
- * writes) are RAZ/WI.  RSL accesses to this register are RAZ/WI.
- * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_START0 and NPA_LF_POOL_OP_PTR_START1
- * registers writes to a given pool's pointer start value. CAS data format is
+ * writes) are RAZ/WI.  RSL accesses to this register are RAZ/WI. The CAS data format is
  * given by NPA_LF_AURA_OP_FREE0_SWAP_S and NPA_LF_AURA_OP_FREE1_SWAP_S. The swap
  * data for the CAS is written to the registers, while the compare data is ignored.
  * The CAS result value will always be zero.

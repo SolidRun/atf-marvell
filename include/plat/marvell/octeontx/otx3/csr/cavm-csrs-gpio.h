@@ -1483,6 +1483,45 @@ static inline uint64_t CAVM_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
 #define arguments_CAVM_GPIO_OCLA_EXTEN_TRIG -1,-1,-1,-1
 
 /**
+ * Register (NCB) gpio_pd_en_ctl
+ *
+ * GPIO Pull-down enable control Register
+ * Pull-down enable control for GPIO each bit corresponds to respective GPIO pull-down enable control
+ */
+union cavm_gpio_pd_en_ctl
+{
+    uint64_t u;
+    struct cavm_gpio_pd_en_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pd_en                 : 64; /**< [ 63:  0](R/W) GPIO\<63:0\> pin pull-down enable control.
+                                                                 0 = Pull-down disable.
+                                                                 1 = Pull-down enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t pd_en                 : 64; /**< [ 63:  0](R/W) GPIO\<63:0\> pin pull-down enable control.
+                                                                 0 = Pull-down disable.
+                                                                 1 = Pull-down enable. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_pd_en_ctl_s cn; */
+};
+typedef union cavm_gpio_pd_en_ctl cavm_gpio_pd_en_ctl_t;
+
+#define CAVM_GPIO_PD_EN_CTL CAVM_GPIO_PD_EN_CTL_FUNC()
+static inline uint64_t CAVM_GPIO_PD_EN_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_PD_EN_CTL_FUNC(void)
+{
+    return 0x803000003008ll;
+}
+
+#define typedef_CAVM_GPIO_PD_EN_CTL cavm_gpio_pd_en_ctl_t
+#define bustype_CAVM_GPIO_PD_EN_CTL CSR_TYPE_NCB
+#define basename_CAVM_GPIO_PD_EN_CTL "GPIO_PD_EN_CTL"
+#define device_bar_CAVM_GPIO_PD_EN_CTL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_PD_EN_CTL 0
+#define arguments_CAVM_GPIO_PD_EN_CTL -1,-1,-1,-1
+
+/**
  * Register (NCB) gpio_permit
  *
  * GPIO Permit Register
@@ -1552,13 +1591,15 @@ union cavm_gpio_pkg_ver
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
         uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A = TBD x TBD package, up to 6 DDR channels, for CN106XX.
+                                                                 0x0 = SKU package A = 45 x 45 package, up to 6 DDR5 channels, for CN106XXS.
+                                                                 0x1 = SKU package B = 42.5 x 42.5 package, up to 6 DDR5 channels, for CN106XX.
 
                                                                  Internal:
                                                                  Architecturally defined, same encoding across same die. */
 #else /* Word 0 - Little Endian */
         uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A = TBD x TBD package, up to 6 DDR channels, for CN106XX.
+                                                                 0x0 = SKU package A = 45 x 45 package, up to 6 DDR5 channels, for CN106XXS.
+                                                                 0x1 = SKU package B = 42.5 x 42.5 package, up to 6 DDR5 channels, for CN106XX.
 
                                                                  Internal:
                                                                  Architecturally defined, same encoding across same die. */
@@ -1582,6 +1623,45 @@ static inline uint64_t CAVM_GPIO_PKG_VER_FUNC(void)
 #define device_bar_CAVM_GPIO_PKG_VER 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GPIO_PKG_VER 0
 #define arguments_CAVM_GPIO_PKG_VER -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_pu_en_ctl
+ *
+ * GPIO Pull-up enable Control Register
+ * Pull-up enable control for GPIO each bit corresponds to respective GPIO pull-up enable control
+ */
+union cavm_gpio_pu_en_ctl
+{
+    uint64_t u;
+    struct cavm_gpio_pu_en_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pu_en                 : 64; /**< [ 63:  0](R/W) GPIO\<63:0\> pin pull-up enable control.
+                                                                 0 = Pull-up disable.
+                                                                 1 = Pull-up enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t pu_en                 : 64; /**< [ 63:  0](R/W) GPIO\<63:0\> pin pull-up enable control.
+                                                                 0 = Pull-up disable.
+                                                                 1 = Pull-up enable. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_pu_en_ctl_s cn; */
+};
+typedef union cavm_gpio_pu_en_ctl cavm_gpio_pu_en_ctl_t;
+
+#define CAVM_GPIO_PU_EN_CTL CAVM_GPIO_PU_EN_CTL_FUNC()
+static inline uint64_t CAVM_GPIO_PU_EN_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_PU_EN_CTL_FUNC(void)
+{
+    return 0x803000003000ll;
+}
+
+#define typedef_CAVM_GPIO_PU_EN_CTL cavm_gpio_pu_en_ctl_t
+#define bustype_CAVM_GPIO_PU_EN_CTL CSR_TYPE_NCB
+#define basename_CAVM_GPIO_PU_EN_CTL "GPIO_PU_EN_CTL"
+#define device_bar_CAVM_GPIO_PU_EN_CTL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_PU_EN_CTL 0
+#define arguments_CAVM_GPIO_PU_EN_CTL -1,-1,-1,-1
 
 /**
  * Register (NCB) gpio_rx1_dat

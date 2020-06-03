@@ -382,15 +382,16 @@ union cavm_mdn_bist_config
         uint32_t drf_rdwr_disable      : 1;  /**< [ 17: 17](R/W) BIST DRF_SIM_RD_WR march disable. This March is only valid for DRFs
                                                                  When this bit is cleared to zero, the simultaneous read-write march is enabled.
                                                                  When this bit is set to one the simultaneous read write march is disabled.
-                                                                 If enabled, simultaneous read write march runs before marches 8 through 0
+                                                                 If enabled, simultaneous read write march runs before marches 7 through 0
                                                                  (controlled by [MARCH_DISABLE] vector). */
         uint32_t march_broadcast_disable : 1;/**< [ 16: 16](R/W) March broadcast disable. When set, disables writing to
                                                                  MDN_PROG_MARCH0 and MDN_PROG_MARCH1 through broadcast writes. */
         uint32_t prog_march_disable    : 1;  /**< [ 15: 15](R/W) BIST programmable march disable.
                                                                  When this bit is cleared to zero, the programmable march is enabled.
                                                                  When this bit is set to one the programmable march is disabled.
-                                                                 If enabled, programmable march runs before marches 7 through 0
-                                                                 (controlled by [MARCH_DISABLE] vector). */
+                                                                 If enabled, programmable march runs before all other marches, i.e.,
+                                                                 BIST DRF_SIM_RD_WR march (controlled by [DRF_RDWR_DISABLE]) and marches
+                                                                 7 through 0 (controlled by [MARCH_DISABLE] vector). */
         uint32_t debug_kind            : 2;  /**< [ 14: 13](R/W) Selects row or column defect capture for debug according to the
                                                                  MDN_DEBUG_KIND_E enumeration. */
         uint32_t debug_algo            : 2;  /**< [ 12: 11](R/W) Selects the algorithm used to capture defects for debug according to the
@@ -459,14 +460,15 @@ union cavm_mdn_bist_config
         uint32_t prog_march_disable    : 1;  /**< [ 15: 15](R/W) BIST programmable march disable.
                                                                  When this bit is cleared to zero, the programmable march is enabled.
                                                                  When this bit is set to one the programmable march is disabled.
-                                                                 If enabled, programmable march runs before marches 7 through 0
-                                                                 (controlled by [MARCH_DISABLE] vector). */
+                                                                 If enabled, programmable march runs before all other marches, i.e.,
+                                                                 BIST DRF_SIM_RD_WR march (controlled by [DRF_RDWR_DISABLE]) and marches
+                                                                 7 through 0 (controlled by [MARCH_DISABLE] vector). */
         uint32_t march_broadcast_disable : 1;/**< [ 16: 16](R/W) March broadcast disable. When set, disables writing to
                                                                  MDN_PROG_MARCH0 and MDN_PROG_MARCH1 through broadcast writes. */
         uint32_t drf_rdwr_disable      : 1;  /**< [ 17: 17](R/W) BIST DRF_SIM_RD_WR march disable. This March is only valid for DRFs
                                                                  When this bit is cleared to zero, the simultaneous read-write march is enabled.
                                                                  When this bit is set to one the simultaneous read write march is disabled.
-                                                                 If enabled, simultaneous read write march runs before marches 8 through 0
+                                                                 If enabled, simultaneous read write march runs before marches 7 through 0
                                                                  (controlled by [MARCH_DISABLE] vector). */
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */

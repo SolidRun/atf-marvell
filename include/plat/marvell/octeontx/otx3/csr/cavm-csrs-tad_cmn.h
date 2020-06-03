@@ -226,10 +226,11 @@ union cavm_tad_cmn_ctl
         uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
-        uint64_t reserved_7_48         : 42;
-        uint64_t discor                : 1;  /**< [  6:  6](R/W) Disable correction in the mesh ECC checkers/generators. */
-        uint64_t dispsn                : 1;  /**< [  5:  5](R/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
-        uint64_t disstash              : 1;  /**< [  4:  4](R/W) When set, disable stash behavior. */
+        uint64_t reserved_8_48         : 41;
+        uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
+        uint64_t disstashonce          : 1;  /**< [  6:  6](R/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
+        uint64_t discor                : 1;  /**< [  5:  5](R/W) Disable correction in the mesh ECC checkers/generators. */
+        uint64_t dispsn                : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
         uint64_t disdmt                : 1;  /**< [  3:  3](R/W) When set, disable direct memory transfer. */
         uint64_t disdct                : 1;  /**< [  2:  2](R/W) When set, disable direct cache transfer. */
         uint64_t disdwt                : 1;  /**< [  1:  1](R/W) When set, disable direct write transfer. */
@@ -239,10 +240,11 @@ union cavm_tad_cmn_ctl
         uint64_t disdwt                : 1;  /**< [  1:  1](R/W) When set, disable direct write transfer. */
         uint64_t disdct                : 1;  /**< [  2:  2](R/W) When set, disable direct cache transfer. */
         uint64_t disdmt                : 1;  /**< [  3:  3](R/W) When set, disable direct memory transfer. */
-        uint64_t disstash              : 1;  /**< [  4:  4](R/W) When set, disable stash behavior. */
-        uint64_t dispsn                : 1;  /**< [  5:  5](R/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
-        uint64_t discor                : 1;  /**< [  6:  6](R/W) Disable correction in the mesh ECC checkers/generators. */
-        uint64_t reserved_7_48         : 42;
+        uint64_t dispsn                : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
+        uint64_t discor                : 1;  /**< [  5:  5](R/W) Disable correction in the mesh ECC checkers/generators. */
+        uint64_t disstashonce          : 1;  /**< [  6:  6](R/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
+        uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
+        uint64_t reserved_8_48         : 41;
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */

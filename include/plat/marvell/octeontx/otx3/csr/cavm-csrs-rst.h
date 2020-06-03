@@ -79,13 +79,15 @@
  */
 #define CAVM_RST_DEV_E_AVS (1)
 #define CAVM_RST_DEV_E_EMMC (0x19)
+#define CAVM_RST_DEV_E_I3C (0x10)
 #define CAVM_RST_DEV_E_MPIX(a) (2 + (a))
 #define CAVM_RST_DEV_E_NCSI (0)
+#define CAVM_RST_DEV_E_RFIFX(a) (0x28 + (a))
 #define CAVM_RST_DEV_E_ROC_OCLA (0x18)
 #define CAVM_RST_DEV_E_SGPIO (0x17)
 #define CAVM_RST_DEV_E_SMI (0x16)
 #define CAVM_RST_DEV_E_TWSX(a) (4 + (a))
-#define CAVM_RST_DEV_E_UAAX(a) (0xa + (a))
+#define CAVM_RST_DEV_E_UAAX(a) (0x1a + (a))
 
 /**
  * Enumeration rst_domain_e
@@ -114,11 +116,12 @@
  * RST PLL Enumeration
  * Enumerates the values of RST_PLL() and RST_MAN_PLL().
  */
-#define CAVM_RST_PLL_E_CPTCLK (2)
+#define CAVM_RST_PLL_E_CPTCLK (6)
 #define CAVM_RST_PLL_E_DTSCLK (5)
 #define CAVM_RST_PLL_E_IOCLK (3)
 #define CAVM_RST_PLL_E_MESHCLK (1)
 #define CAVM_RST_PLL_E_MLCLK (4)
+#define CAVM_RST_PLL_E_NETCLK (2)
 #define CAVM_RST_PLL_E_SCLK (0)
 
 /**
@@ -352,44 +355,17 @@ union cavm_rst_boot
                                                                  The length of the CHIPKILL timer is specified by RST_CKILL[TIMER].
                                                                  This feature is effectively a delayed reset.
                                                                  This field is reinitialized with a chip domain reset. */
-        uint64_t jtagdis               : 1;  /**< [ 62: 62](R/W/H) JTAG access disable. When set, the debug access port of the
-                                                                 JTAG TAP controller will be disabled, i.e. DAP_IMP_DAR will be zero.
-                                                                 This field resets to one in trusted mode otherwise it is cleared.
-                                                                 This field is reinitialized with a cold domain reset. */
-        uint64_t scp_jtagdis           : 1;  /**< [ 61: 61](R/W/H) SCP JTAG debugger disable. When set, the SCP debug interface of
-                                                                 the EJTAG TAP controller will be disabled. This field does not
-                                                                 control the MCP EJTAG interface (See [MCP_JTAGDIS]).
-                                                                 This field resets to one in trusted mode otherwise it is cleared.
-                                                                 This field is reinitialized with a cold domain reset. */
-        uint64_t trusted_mode          : 1;  /**< [ 60: 60](RO/H) When set, chip is operating as a trusted device. This bit is asserted when
-                                                                 either FUSF_CTL[TZ_FORCE2], or the trusted mode strap on GPIO number
-                                                                 GPIO_STRAP_PIN_E::TRUSTED_MODE is set. */
-        uint64_t reserved_57_59        : 3;
-        uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set, FUSF_SSK(),
-                                                                 FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to one if FUSF_CTL[FJ_DIS_HUK] is set and not in trusted mode.
-                                                                 It is also set anytime scan mode is activated while FUSF_CTL[FJ_DIS_HUK] is set.
-                                                                 Software must set this bit when the chain of trust is broken.
-                                                                 This field is reinitialized with either a cold or chip domain reset. */
-        uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S/H) Disable scan.  When set and FUSF_CTL[ROT_LCK] = 1, scan is not
-                                                                 allowed in the part. Read requests return current disable scan status.
+        uint64_t reserved_56_62        : 7;
+        uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S/H) Disable scan.
+                                                                    0 = Scan operations allowed.
+                                                                    1 = Scan operations disabled.
+
+                                                                 This bit is typically set during secure boot operations.
 
                                                                  Internal:
                                                                  The field is actually reset only after DCOK has been left
                                                                  deasserted for an extended period of time. */
-        uint64_t mcp_jtagdis           : 1;  /**< [ 54: 54](R/W/H) MCP JTAG debugger disable. When set, the MCP Debug interface of
-                                                                 the EJTAG TAP controller will be disabled. This field does not
-                                                                 control the SCP EJTAG interface.
-                                                                 This field resets to one in trusted mode otherwise it is cleared.
-                                                                 This field is reinitialized with a cold domain reset. */
-        uint64_t gpio_ejtag            : 1;  /**< [ 53: 53](R/W/H) Use GPIO pins for EJTAG.  When set, the EJTAG chain consisting
-                                                                 of MCP and SCP devices is routed directly to GPIO pins.  When
-                                                                 cleared these devices are included in the standard JTAG chain.
-                                                                 The specific GPIO pins are selected with GPIO_BIT_CFG()[PIN_SEL].
-                                                                 This field is reinitialized with a cold domain reset.
-                                                                 Reset value is determined by GPIO strap pin number
-                                                                 GPIO_STRAP_PIN_E::MCP_DBG_ON_GPIO. */
-        uint64_t reserved_2_52         : 51;
+        uint64_t reserved_2_54         : 53;
         uint64_t rboot                 : 1;  /**< [  1:  1](R/W/H) Remote boot. If set, indicates that SCP will require a write to
                                                                  RST_SCP_DOMAIN_W1C to bring it out of reset.  Otherwise it
                                                                  will automatically come out of reset once the reset source has
@@ -415,44 +391,17 @@ union cavm_rst_boot
 
                                                                  Internal:
                                                                  This field is cleared when jtg__rst_disable_remote is active. */
-        uint64_t reserved_2_52         : 51;
-        uint64_t gpio_ejtag            : 1;  /**< [ 53: 53](R/W/H) Use GPIO pins for EJTAG.  When set, the EJTAG chain consisting
-                                                                 of MCP and SCP devices is routed directly to GPIO pins.  When
-                                                                 cleared these devices are included in the standard JTAG chain.
-                                                                 The specific GPIO pins are selected with GPIO_BIT_CFG()[PIN_SEL].
-                                                                 This field is reinitialized with a cold domain reset.
-                                                                 Reset value is determined by GPIO strap pin number
-                                                                 GPIO_STRAP_PIN_E::MCP_DBG_ON_GPIO. */
-        uint64_t mcp_jtagdis           : 1;  /**< [ 54: 54](R/W/H) MCP JTAG debugger disable. When set, the MCP Debug interface of
-                                                                 the EJTAG TAP controller will be disabled. This field does not
-                                                                 control the SCP EJTAG interface.
-                                                                 This field resets to one in trusted mode otherwise it is cleared.
-                                                                 This field is reinitialized with a cold domain reset. */
-        uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S/H) Disable scan.  When set and FUSF_CTL[ROT_LCK] = 1, scan is not
-                                                                 allowed in the part. Read requests return current disable scan status.
+        uint64_t reserved_2_54         : 53;
+        uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S/H) Disable scan.
+                                                                    0 = Scan operations allowed.
+                                                                    1 = Scan operations disabled.
+
+                                                                 This bit is typically set during secure boot operations.
 
                                                                  Internal:
                                                                  The field is actually reset only after DCOK has been left
                                                                  deasserted for an extended period of time. */
-        uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set, FUSF_SSK(),
-                                                                 FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to one if FUSF_CTL[FJ_DIS_HUK] is set and not in trusted mode.
-                                                                 It is also set anytime scan mode is activated while FUSF_CTL[FJ_DIS_HUK] is set.
-                                                                 Software must set this bit when the chain of trust is broken.
-                                                                 This field is reinitialized with either a cold or chip domain reset. */
-        uint64_t reserved_57_59        : 3;
-        uint64_t trusted_mode          : 1;  /**< [ 60: 60](RO/H) When set, chip is operating as a trusted device. This bit is asserted when
-                                                                 either FUSF_CTL[TZ_FORCE2], or the trusted mode strap on GPIO number
-                                                                 GPIO_STRAP_PIN_E::TRUSTED_MODE is set. */
-        uint64_t scp_jtagdis           : 1;  /**< [ 61: 61](R/W/H) SCP JTAG debugger disable. When set, the SCP debug interface of
-                                                                 the EJTAG TAP controller will be disabled. This field does not
-                                                                 control the MCP EJTAG interface (See [MCP_JTAGDIS]).
-                                                                 This field resets to one in trusted mode otherwise it is cleared.
-                                                                 This field is reinitialized with a cold domain reset. */
-        uint64_t jtagdis               : 1;  /**< [ 62: 62](R/W/H) JTAG access disable. When set, the debug access port of the
-                                                                 JTAG TAP controller will be disabled, i.e. DAP_IMP_DAR will be zero.
-                                                                 This field resets to one in trusted mode otherwise it is cleared.
-                                                                 This field is reinitialized with a cold domain reset. */
+        uint64_t reserved_56_62        : 7;
         uint64_t chipkill              : 1;  /**< [ 63: 63](R/W1S) A zero-to-one transition of CHIPKILL starts the CHIPKILL timer. When set and the timer
                                                                  expires, chip domain reset is asserted.
                                                                  The length of the CHIPKILL timer is specified by RST_CKILL[TIMER].

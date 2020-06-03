@@ -3038,15 +3038,13 @@ union cavm_smmux_imp_const0
     struct cavm_smmux_imp_const0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cxtc                  : 16; /**< [ 63: 48](RO) Number of CXTC entries. */
-        uint64_t rstr                  : 16; /**< [ 47: 32](RO) Number of RSTR entries. */
-        uint64_t wcu                   : 16; /**< [ 31: 16](RO) Number of walker cache (WCU) entries. */
+        uint64_t cfc                   : 16; /**< [ 63: 48](RO) Number of CFC entries. */
+        uint64_t reserved_16_47        : 32;
         uint64_t tlb                   : 16; /**< [ 15:  0](RO) Number of IO-TLB entries. */
 #else /* Word 0 - Little Endian */
         uint64_t tlb                   : 16; /**< [ 15:  0](RO) Number of IO-TLB entries. */
-        uint64_t wcu                   : 16; /**< [ 31: 16](RO) Number of walker cache (WCU) entries. */
-        uint64_t rstr                  : 16; /**< [ 47: 32](RO) Number of RSTR entries. */
-        uint64_t cxtc                  : 16; /**< [ 63: 48](RO) Number of CXTC entries. */
+        uint64_t reserved_16_47        : 32;
+        uint64_t cfc                   : 16; /**< [ 63: 48](RO) Number of CFC entries. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_imp_const0_s cn; */
@@ -7062,9 +7060,9 @@ union cavm_smmux_s_imp_bp_test1
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = CSR - When high CSR arbiter doesn't grant access to RSL.
+                                                                 \<63\> = CSR - When high MSIX arbiter doesn't grant access to any MSIX.
                                                                  \<62\> = CSR - When high CSR arbiter doesn't grant access to RXREQ.
-                                                                 \<61\> = CSR - When high MSIX arbiter doesn't grant access to any MSIX.
+                                                                 \<61\> = CSR - When high CSR arbiter doesn't grant access to RSL.
                                                                  \<60\> = FXL - When high: TLB doesn't grant.
                                                                  \<59\> = FXL - When high: OUT doesn't grant.
                                                                  \<58\> = FXL - When high: Pending FIFO act as full
@@ -7103,9 +7101,9 @@ union cavm_smmux_s_imp_bp_test1
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = CSR - When high CSR arbiter doesn't grant access to RSL.
+                                                                 \<63\> = CSR - When high MSIX arbiter doesn't grant access to any MSIX.
                                                                  \<62\> = CSR - When high CSR arbiter doesn't grant access to RXREQ.
-                                                                 \<61\> = CSR - When high MSIX arbiter doesn't grant access to any MSIX.
+                                                                 \<61\> = CSR - When high CSR arbiter doesn't grant access to RSL.
                                                                  \<60\> = FXL - When high: TLB doesn't grant.
                                                                  \<59\> = FXL - When high: OUT doesn't grant.
                                                                  \<58\> = FXL - When high: Pending FIFO act as full
@@ -7432,87 +7430,43 @@ union cavm_smmux_s_imp_diag_ctl
     struct cavm_smmux_s_imp_diag_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_21_31        : 11;
-        uint32_t tlb_banks             : 5;  /**< [ 20: 16](SR/W) The number of TLB banks enabled for fills and lookups, minus 1. Each TLB bank is
-                                                                 64 entries per physical SMMU. The fewer banks are enabled, the more power is
-                                                                 potentially saved per lookup, but the higher the potential miss rate. Disabled
-                                                                 banks will not be accessed. Hardware automatically clears excess cache entries
-                                                                 when [TLB_BANKS] is reduced. */
-        uint32_t ctxc_banks            : 3;  /**< [ 15: 13](SR/W) The number of context cache banks enabled for fills and lookups, minus 1. Each
-                                                                 context bank is 32 contexts per physical SMMU. The fewer banks are enabled, the
-                                                                 more power is potentially saved per lookup, but the higher the potential miss
-                                                                 rate. Disabled banks will not be accessed.
-
-                                                                 Software to change [CTXC_BANKS] must:
-                                                                   1. Set or ensure SMMU()_CR0[SMMUEN]=0 and SMMU()_S_CR0[SMMUEN]=0.
-                                                                   2. Wait for SMMU()_IMP_STATUS[CFGWALKER]==0.
-                                                                   3. Write SMMU()_S_IMP_DIAG_CTL[CRSP_ID]=1.
-                                                                   4. Wait for SMMU()_IMP_STATUS[CFGWALKER]==0.
-                                                                   5. Write SMMU()_S_IMP_DIAG_CTL[CRSP_ID]=0.
-                                                                   6. Write SMMU()_S_INIT[INV_ALL]=1 (if the SMMU was ever enabled).
-                                                                   7. Wait for  SMMU()_S_INIT[INV_ALL]==0.
-                                                                   3. Change [CTXC_BANKS].
-                                                                   4. Reenable the SMMU. */
-        uint32_t crsp_id               : 2;  /**< [ 12: 11](SR/W) Which SMMU slave responds to CSR request. Values greater than the number of slaves are
-                                                                 reserved and are treated as zero.  For diagnostic use only. */
-        uint32_t force_clks_active     : 1;  /**< [ 10: 10](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
-        uint32_t dis_ctx               : 1;  /**< [  9:  9](SR/W) Disables hitting in the CTXC. For diagnostic use only. */
-        uint32_t dis_tlb               : 1;  /**< [  8:  8](SR/W) Disables hitting in the TLB. For diagnostic use only. */
-        uint32_t dis_wcs1              : 2;  /**< [  7:  6](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
+        uint32_t reserved_13_31        : 19;
+        uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
+        uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
                                                                  0x0 = Normal operation. Allow hits at all levels.
                                                                  0x1 = Never hit.
                                                                  0x2 = Allow hits on table levels 0 and 1.
                                                                  0x3 = Reserved. */
-        uint32_t dis_wcs2              : 2;  /**< [  5:  4](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
                                                                  0x0 = Normal operation. Allow hits at all levels.
                                                                  0x1 = Never hit.
                                                                  0x2 = Allow hits on table levels 0 and 1.
                                                                  0x3 = Reserved. */
-        uint32_t walkers               : 4;  /**< [  3:  0](SR/W) Number of walkers. The number of page table walkers that may
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Number of walkers. The number of page table walkers that may
                                                                  simultaneously be executing, minus one.
                                                                  SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint32_t walkers               : 4;  /**< [  3:  0](SR/W) Number of walkers. The number of page table walkers that may
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Number of walkers. The number of page table walkers that may
                                                                  simultaneously be executing, minus one.
                                                                  SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
                                                                  For diagnostic use only. */
-        uint32_t dis_wcs2              : 2;  /**< [  5:  4](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
                                                                  0x0 = Normal operation. Allow hits at all levels.
                                                                  0x1 = Never hit.
                                                                  0x2 = Allow hits on table levels 0 and 1.
                                                                  0x3 = Reserved. */
-        uint32_t dis_wcs1              : 2;  /**< [  7:  6](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
                                                                  0x0 = Normal operation. Allow hits at all levels.
                                                                  0x1 = Never hit.
                                                                  0x2 = Allow hits on table levels 0 and 1.
                                                                  0x3 = Reserved. */
-        uint32_t dis_tlb               : 1;  /**< [  8:  8](SR/W) Disables hitting in the TLB. For diagnostic use only. */
-        uint32_t dis_ctx               : 1;  /**< [  9:  9](SR/W) Disables hitting in the CTXC. For diagnostic use only. */
-        uint32_t force_clks_active     : 1;  /**< [ 10: 10](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
-        uint32_t crsp_id               : 2;  /**< [ 12: 11](SR/W) Which SMMU slave responds to CSR request. Values greater than the number of slaves are
-                                                                 reserved and are treated as zero.  For diagnostic use only. */
-        uint32_t ctxc_banks            : 3;  /**< [ 15: 13](SR/W) The number of context cache banks enabled for fills and lookups, minus 1. Each
-                                                                 context bank is 32 contexts per physical SMMU. The fewer banks are enabled, the
-                                                                 more power is potentially saved per lookup, but the higher the potential miss
-                                                                 rate. Disabled banks will not be accessed.
-
-                                                                 Software to change [CTXC_BANKS] must:
-                                                                   1. Set or ensure SMMU()_CR0[SMMUEN]=0 and SMMU()_S_CR0[SMMUEN]=0.
-                                                                   2. Wait for SMMU()_IMP_STATUS[CFGWALKER]==0.
-                                                                   3. Write SMMU()_S_IMP_DIAG_CTL[CRSP_ID]=1.
-                                                                   4. Wait for SMMU()_IMP_STATUS[CFGWALKER]==0.
-                                                                   5. Write SMMU()_S_IMP_DIAG_CTL[CRSP_ID]=0.
-                                                                   6. Write SMMU()_S_INIT[INV_ALL]=1 (if the SMMU was ever enabled).
-                                                                   7. Wait for  SMMU()_S_INIT[INV_ALL]==0.
-                                                                   3. Change [CTXC_BANKS].
-                                                                   4. Reenable the SMMU. */
-        uint32_t tlb_banks             : 5;  /**< [ 20: 16](SR/W) The number of TLB banks enabled for fills and lookups, minus 1. Each TLB bank is
-                                                                 64 entries per physical SMMU. The fewer banks are enabled, the more power is
-                                                                 potentially saved per lookup, but the higher the potential miss rate. Disabled
-                                                                 banks will not be accessed. Hardware automatically clears excess cache entries
-                                                                 when [TLB_BANKS] is reduced. */
-        uint32_t reserved_21_31        : 11;
+        uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+        uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
+        uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_diag_ctl_s cn; */
@@ -7629,7 +7583,10 @@ union cavm_smmux_s_imp_ras_int
     struct cavm_smmux_s_imp_ras_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_6_31         : 26;
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) ECC double error of translation replay buffer RAM. */
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) ECC double error of Configuration RAM. */
+        uint32_t reserved_3            : 1;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) A fetch for TTD or configuration data received poisoned data from CCU/DRAM.
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) A DMA read of the secure CMDQ from memory received poisoned data from CCU/DRAM.
@@ -7643,7 +7600,10 @@ union cavm_smmux_s_imp_ras_int
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) A fetch for TTD or configuration data received poisoned data from CCU/DRAM.
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_3            : 1;
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) ECC double error of Configuration RAM. */
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) ECC double error of translation replay buffer RAM. */
+        uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_s cn; */
@@ -7677,7 +7637,10 @@ union cavm_smmux_s_imp_ras_int_ena_w1c
     struct cavm_smmux_s_imp_ras_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_6_31         : 26;
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
+        uint32_t reserved_3            : 1;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7685,7 +7648,10 @@ union cavm_smmux_s_imp_ras_int_ena_w1c
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_3            : 1;
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
+        uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_ena_w1c_s cn; */
@@ -7719,7 +7685,10 @@ union cavm_smmux_s_imp_ras_int_ena_w1s
     struct cavm_smmux_s_imp_ras_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_6_31         : 26;
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
+        uint32_t reserved_3            : 1;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7727,7 +7696,10 @@ union cavm_smmux_s_imp_ras_int_ena_w1s
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_3            : 1;
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
+        uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_ena_w1s_s cn; */
@@ -7761,7 +7733,10 @@ union cavm_smmux_s_imp_ras_int_w1s
     struct cavm_smmux_s_imp_ras_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_6_31         : 26;
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
+        uint32_t reserved_3            : 1;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7769,7 +7744,10 @@ union cavm_smmux_s_imp_ras_int_w1s
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_3            : 1;
+        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
+        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
+        uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_w1s_s cn; */
@@ -7880,41 +7858,6 @@ static inline uint64_t CAVM_SMMUX_S_IMP_RAS_IRQ_CFG1(uint64_t a)
 #define device_bar_CAVM_SMMUX_S_IMP_RAS_IRQ_CFG1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_S_IMP_RAS_IRQ_CFG1(a) (a)
 #define arguments_CAVM_SMMUX_S_IMP_RAS_IRQ_CFG1(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) smmu#_s_imp_rpb#_dat
- *
- * SMMU Secure Walker Cache Diagnostic Data Register
- */
-union cavm_smmux_s_imp_rpbx_dat
-{
-    uint64_t u;
-    struct cavm_smmux_s_imp_rpbx_dat_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal Replay Buffer state, for diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal Replay Buffer state, for diagnostic use only. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_s_imp_rpbx_dat_s cn; */
-};
-typedef union cavm_smmux_s_imp_rpbx_dat cavm_smmux_s_imp_rpbx_dat_t;
-
-static inline uint64_t CAVM_SMMUX_S_IMP_RPBX_DAT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_S_IMP_RPBX_DAT(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=4095))
-        return 0x830000030000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0xfff);
-    __cavm_csr_fatal("SMMUX_S_IMP_RPBX_DAT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_S_IMP_RPBX_DAT(a,b) cavm_smmux_s_imp_rpbx_dat_t
-#define bustype_CAVM_SMMUX_S_IMP_RPBX_DAT(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_S_IMP_RPBX_DAT(a,b) "SMMUX_S_IMP_RPBX_DAT"
-#define device_bar_CAVM_SMMUX_S_IMP_RPBX_DAT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_S_IMP_RPBX_DAT(a,b) (a)
-#define arguments_CAVM_SMMUX_S_IMP_RPBX_DAT(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) smmu#_s_imp_tlb#_dat

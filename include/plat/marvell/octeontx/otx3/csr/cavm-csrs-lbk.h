@@ -53,8 +53,7 @@ union cavm_lbkx_bp_test
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  \<63\> = Reserved.
                                                                  \<62\> = Reserved.
-                                                                 \<61\> = Backpressure express FIFO controller from sending out X2P request that is
-                                                                 asking for X2P grant.
+                                                                 \<61\> = Reserved.
                                                                  \<60\> = Backpressure normal FIFO controller from sending out X2P request that is
                                                                  asking for X2P grant. */
         uint64_t reserved_24_59        : 36;
@@ -65,7 +64,6 @@ union cavm_lbkx_bp_test
                                                                  0x3=25% of the time.
                                                                    \<23:22\> = Reserved.
                                                                    \<21:20\> = Reserved.
-                                                                   \<19:18\> = Config 1 for bit 61.
                                                                    \<17:16\> = Config 0 for bit 60. */
         uint64_t reserved_12_15        : 4;
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one.
@@ -85,7 +83,6 @@ union cavm_lbkx_bp_test
                                                                  0x3=25% of the time.
                                                                    \<23:22\> = Reserved.
                                                                    \<21:20\> = Reserved.
-                                                                   \<19:18\> = Config 1 for bit 61.
                                                                    \<17:16\> = Config 0 for bit 60. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
@@ -94,8 +91,7 @@ union cavm_lbkx_bp_test
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  \<63\> = Reserved.
                                                                  \<62\> = Reserved.
-                                                                 \<61\> = Backpressure express FIFO controller from sending out X2P request that is
-                                                                 asking for X2P grant.
+                                                                 \<61\> = Reserved.
                                                                  \<60\> = Backpressure normal FIFO controller from sending out X2P request that is
                                                                  asking for X2P grant. */
 #endif /* Word 0 - End */
@@ -211,32 +207,24 @@ union cavm_lbkx_const
         uint64_t reserved_48_63        : 16;
         uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
         uint64_t dest                  : 4;  /**< [ 31: 28](RO) What block this LBK transmits traffic to. Enumerated by LBK_CONNECT_E.
-                                                                 For LBK(0), indicates LBK_CONNECT_E::NIX(0).
-
                                                                  Internal:
-                                                                 lbk.v takes this from input straps set by the instantiation. */
+                                                                 LBK.v takes this from input straps set by the instantiation. */
         uint64_t src                   : 4;  /**< [ 27: 24](RO) What block this LBK receives traffic from. Enumerated by LBK_CONNECT_E.
-                                                                 For LBK(0), indicates LBK_CONNECT_E::NIX(0).
-
                                                                  Internal:
-                                                                 lbk.v takes this from input straps set by the instantiation. */
-        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in each loopback data FIFO (express/non-express).
+                                                                 LBK.v takes this from input straps set by the instantiation. */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in each loopback data FIFO.
                                                                  Internal:
-                                                                 lbk.v takes this from input straps set by the instantiation. */
+                                                                 LBK.v takes this from input straps set by the instantiation. */
 #else /* Word 0 - Little Endian */
-        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in each loopback data FIFO (express/non-express).
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in each loopback data FIFO.
                                                                  Internal:
-                                                                 lbk.v takes this from input straps set by the instantiation. */
+                                                                 LBK.v takes this from input straps set by the instantiation. */
         uint64_t src                   : 4;  /**< [ 27: 24](RO) What block this LBK receives traffic from. Enumerated by LBK_CONNECT_E.
-                                                                 For LBK(0), indicates LBK_CONNECT_E::NIX(0).
-
                                                                  Internal:
-                                                                 lbk.v takes this from input straps set by the instantiation. */
+                                                                 LBK.v takes this from input straps set by the instantiation. */
         uint64_t dest                  : 4;  /**< [ 31: 28](RO) What block this LBK transmits traffic to. Enumerated by LBK_CONNECT_E.
-                                                                 For LBK(0), indicates LBK_CONNECT_E::NIX(0).
-
                                                                  Internal:
-                                                                 lbk.v takes this from input straps set by the instantiation. */
+                                                                 LBK.v takes this from input straps set by the instantiation. */
         uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -297,6 +285,46 @@ static inline uint64_t CAVM_LBKX_CONST1(uint64_t a)
 #define arguments_CAVM_LBKX_CONST1(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) lbk#_credits_cfg
+ *
+ * Credits Configuration Register
+ * Credits configurations for X2P2 interface.
+ */
+union cavm_lbkx_credits_cfg
+{
+    uint64_t u;
+    struct cavm_lbkx_credits_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t os_chan_credit        : 5;  /**< [ 12:  8](R/W) Outstanding channel return messages credits. */
+        uint64_t os_x2p_req            : 8;  /**< [  7:  0](R/W) Max outstanding X2P request credits. */
+#else /* Word 0 - Little Endian */
+        uint64_t os_x2p_req            : 8;  /**< [  7:  0](R/W) Max outstanding X2P request credits. */
+        uint64_t os_chan_credit        : 5;  /**< [ 12:  8](R/W) Outstanding channel return messages credits. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_lbkx_credits_cfg_s cn; */
+};
+typedef union cavm_lbkx_credits_cfg cavm_lbkx_credits_cfg_t;
+
+static inline uint64_t CAVM_LBKX_CREDITS_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_LBKX_CREDITS_CFG(uint64_t a)
+{
+    if (a==0)
+        return 0x87e018000410ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("LBKX_CREDITS_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_LBKX_CREDITS_CFG(a) cavm_lbkx_credits_cfg_t
+#define bustype_CAVM_LBKX_CREDITS_CFG(a) CSR_TYPE_RSL
+#define basename_CAVM_LBKX_CREDITS_CFG(a) "LBKX_CREDITS_CFG"
+#define device_bar_CAVM_LBKX_CREDITS_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_LBKX_CREDITS_CFG(a) (a)
+#define arguments_CAVM_LBKX_CREDITS_CFG(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) lbk#_csclk_active_pc
  *
  * LBK Conditional Clock Counter Register
@@ -331,6 +359,206 @@ static inline uint64_t CAVM_LBKX_CSCLK_ACTIVE_PC(uint64_t a)
 #define device_bar_CAVM_LBKX_CSCLK_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_LBKX_CSCLK_ACTIVE_PC(a) (a)
 #define arguments_CAVM_LBKX_CSCLK_ACTIVE_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_idle_status
+ *
+ * LBK Idle Status Register
+ * Tracks internal indicators.
+ */
+union cavm_lbkx_idle_status
+{
+    uint64_t u;
+    struct cavm_lbkx_idle_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t skid_fifo_lvl         : 7;  /**< [ 63: 57](RO/H) P2X SKID FIFO level. */
+        uint64_t skid_fifo_full        : 1;  /**< [ 56: 56](RO/H) P2X SKID FIFO full. */
+        uint64_t mem_fifo_lvl          : 10; /**< [ 55: 46](RO/H) Data memory FIFO level. */
+        uint64_t mem_fifo_full         : 1;  /**< [ 45: 45](RO/H) Data memory FIFO full. */
+        uint64_t mem_pend_x2p_req      : 10; /**< [ 44: 35](RO/H) RAM memory entries pending to send X2P requests. */
+        uint64_t tot_pend_x2p_req      : 10; /**< [ 34: 25](RO/H) SKID & RAM entries pending to send X2P requests. */
+        uint64_t x2p_os_req_lvl        : 8;  /**< [ 24: 17](RO/H) X2P outstanding requests transmitted pending to receive grants. */
+        uint64_t credit_msg_lvl        : 9;  /**< [ 16:  8](RO/H) P2X credits return messages FIFO level. */
+        uint64_t credit_msg_os_lvl     : 5;  /**< [  7:  3](RO/H) P2X credits return messages transmitted without receiving ack. */
+        uint64_t credit_return_sm      : 2;  /**< [  2:  1](RO/H) P2X credits return messages transmitting FSM. */
+        uint64_t lbk_empty             : 1;  /**< [  0:  0](RO/H) No data is in LBK SKID FIFO, memory & buffers. No SKID read/memory
+                                                                 write/reads are taking place. This ignore BP & channel credits messages fifo. */
+#else /* Word 0 - Little Endian */
+        uint64_t lbk_empty             : 1;  /**< [  0:  0](RO/H) No data is in LBK SKID FIFO, memory & buffers. No SKID read/memory
+                                                                 write/reads are taking place. This ignore BP & channel credits messages fifo. */
+        uint64_t credit_return_sm      : 2;  /**< [  2:  1](RO/H) P2X credits return messages transmitting FSM. */
+        uint64_t credit_msg_os_lvl     : 5;  /**< [  7:  3](RO/H) P2X credits return messages transmitted without receiving ack. */
+        uint64_t credit_msg_lvl        : 9;  /**< [ 16:  8](RO/H) P2X credits return messages FIFO level. */
+        uint64_t x2p_os_req_lvl        : 8;  /**< [ 24: 17](RO/H) X2P outstanding requests transmitted pending to receive grants. */
+        uint64_t tot_pend_x2p_req      : 10; /**< [ 34: 25](RO/H) SKID & RAM entries pending to send X2P requests. */
+        uint64_t mem_pend_x2p_req      : 10; /**< [ 44: 35](RO/H) RAM memory entries pending to send X2P requests. */
+        uint64_t mem_fifo_full         : 1;  /**< [ 45: 45](RO/H) Data memory FIFO full. */
+        uint64_t mem_fifo_lvl          : 10; /**< [ 55: 46](RO/H) Data memory FIFO level. */
+        uint64_t skid_fifo_full        : 1;  /**< [ 56: 56](RO/H) P2X SKID FIFO full. */
+        uint64_t skid_fifo_lvl         : 7;  /**< [ 63: 57](RO/H) P2X SKID FIFO level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_lbkx_idle_status_s cn; */
+};
+typedef union cavm_lbkx_idle_status cavm_lbkx_idle_status_t;
+
+static inline uint64_t CAVM_LBKX_IDLE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_LBKX_IDLE_STATUS(uint64_t a)
+{
+    if (a==0)
+        return 0x87e018000418ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("LBKX_IDLE_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_LBKX_IDLE_STATUS(a) cavm_lbkx_idle_status_t
+#define bustype_CAVM_LBKX_IDLE_STATUS(a) CSR_TYPE_RSL
+#define basename_CAVM_LBKX_IDLE_STATUS(a) "LBKX_IDLE_STATUS"
+#define device_bar_CAVM_LBKX_IDLE_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_LBKX_IDLE_STATUS(a) (a)
+#define arguments_CAVM_LBKX_IDLE_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_idle_status_2
+ *
+ * LBK Idle Status Register
+ * Tracks internal indicators.
+ */
+union cavm_lbkx_idle_status_2
+{
+    uint64_t u;
+    struct cavm_lbkx_idle_status_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t x2p_bp_sm             : 2;  /**< [  2:  1](RO/H) X2P backpressure receive FSM. */
+        uint64_t p2x_bp_sm             : 1;  /**< [  0:  0](RO/H) P2X backpressure transmit FSM. */
+#else /* Word 0 - Little Endian */
+        uint64_t p2x_bp_sm             : 1;  /**< [  0:  0](RO/H) P2X backpressure transmit FSM. */
+        uint64_t x2p_bp_sm             : 2;  /**< [  2:  1](RO/H) X2P backpressure receive FSM. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_lbkx_idle_status_2_s cn; */
+};
+typedef union cavm_lbkx_idle_status_2 cavm_lbkx_idle_status_2_t;
+
+static inline uint64_t CAVM_LBKX_IDLE_STATUS_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_LBKX_IDLE_STATUS_2(uint64_t a)
+{
+    if (a==0)
+        return 0x87e018000420ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("LBKX_IDLE_STATUS_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_LBKX_IDLE_STATUS_2(a) cavm_lbkx_idle_status_2_t
+#define bustype_CAVM_LBKX_IDLE_STATUS_2(a) CSR_TYPE_RSL
+#define basename_CAVM_LBKX_IDLE_STATUS_2(a) "LBKX_IDLE_STATUS_2"
+#define device_bar_CAVM_LBKX_IDLE_STATUS_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_LBKX_IDLE_STATUS_2(a) (a)
+#define arguments_CAVM_LBKX_IDLE_STATUS_2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_link_cfg_p2x
+ *
+ * Programmable LBK ID Register
+ * Each register specifies the base channel (start channel) number and the range of
+ * channels associated with the link.
+ */
+union cavm_lbkx_link_cfg_p2x
+{
+    uint64_t u;
+    struct cavm_lbkx_link_cfg_p2x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The channels range = 2LOG2_RANGE. The LBK supports only value=0x6, which means only 64 channels. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) 6 MSB for LBK ID, 6 LSB for channel id. For LBK targets connecting NIX to itself
+                                                                 both registers LBK_LINK_CFG_X2P & LBK_LINK_CFG_P2X should be configured to the
+                                                                 same value. For connecting different NIXs, LBK_LINK_CFG_X2P register in the LBK
+                                                                 that is connected to NIX (NIXRX) and LBK_LINK_CFG_P2X register in the LBK that
+                                                                 is connected to the same NIX (NIXTX) should be configured to the same value. */
+#else /* Word 0 - Little Endian */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) 6 MSB for LBK ID, 6 LSB for channel id. For LBK targets connecting NIX to itself
+                                                                 both registers LBK_LINK_CFG_X2P & LBK_LINK_CFG_P2X should be configured to the
+                                                                 same value. For connecting different NIXs, LBK_LINK_CFG_X2P register in the LBK
+                                                                 that is connected to NIX (NIXRX) and LBK_LINK_CFG_P2X register in the LBK that
+                                                                 is connected to the same NIX (NIXTX) should be configured to the same value. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The channels range = 2LOG2_RANGE. The LBK supports only value=0x6, which means only 64 channels. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_lbkx_link_cfg_p2x_s cn; */
+};
+typedef union cavm_lbkx_link_cfg_p2x cavm_lbkx_link_cfg_p2x_t;
+
+static inline uint64_t CAVM_LBKX_LINK_CFG_P2X(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_LBKX_LINK_CFG_P2X(uint64_t a)
+{
+    if (a==0)
+        return 0x87e018000400ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("LBKX_LINK_CFG_P2X", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_LBKX_LINK_CFG_P2X(a) cavm_lbkx_link_cfg_p2x_t
+#define bustype_CAVM_LBKX_LINK_CFG_P2X(a) CSR_TYPE_RSL
+#define basename_CAVM_LBKX_LINK_CFG_P2X(a) "LBKX_LINK_CFG_P2X"
+#define device_bar_CAVM_LBKX_LINK_CFG_P2X(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_LBKX_LINK_CFG_P2X(a) (a)
+#define arguments_CAVM_LBKX_LINK_CFG_P2X(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_link_cfg_x2p
+ *
+ * Programmable LBK ID Register
+ * Each register specifies the base channel (start channel) number and the range of
+ * channels associated with the link.
+ */
+union cavm_lbkx_link_cfg_x2p
+{
+    uint64_t u;
+    struct cavm_lbkx_link_cfg_x2p_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The channels range = 2LOG2_RANGE. The LBK supports only value=0x6, which means only 64 channels. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) 6 MSB for LBK ID, 6 LSB for channel id. For LBK targets connecting NIX to itself
+                                                                 both registers LBK_LINK_CFG_X2P & LBK_LINK_CFG_P2X should be configured to the
+                                                                 same value. For connecting different NIXs, LBK_LINK_CFG_X2P register in the LBK
+                                                                 that is connected to NIX (NIXRX) and LBK_LINK_CFG_P2X register in the LBK that
+                                                                 is connected to the same NIX (NIXTX) should be configured to the same value. */
+#else /* Word 0 - Little Endian */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) 6 MSB for LBK ID, 6 LSB for channel id. For LBK targets connecting NIX to itself
+                                                                 both registers LBK_LINK_CFG_X2P & LBK_LINK_CFG_P2X should be configured to the
+                                                                 same value. For connecting different NIXs, LBK_LINK_CFG_X2P register in the LBK
+                                                                 that is connected to NIX (NIXRX) and LBK_LINK_CFG_P2X register in the LBK that
+                                                                 is connected to the same NIX (NIXTX) should be configured to the same value. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The channels range = 2LOG2_RANGE. The LBK supports only value=0x6, which means only 64 channels. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_lbkx_link_cfg_x2p_s cn; */
+};
+typedef union cavm_lbkx_link_cfg_x2p cavm_lbkx_link_cfg_x2p_t;
+
+static inline uint64_t CAVM_LBKX_LINK_CFG_X2P(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_LBKX_LINK_CFG_X2P(uint64_t a)
+{
+    if (a==0)
+        return 0x87e018000408ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("LBKX_LINK_CFG_X2P", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_LBKX_LINK_CFG_X2P(a) cavm_lbkx_link_cfg_x2p_t
+#define bustype_CAVM_LBKX_LINK_CFG_X2P(a) CSR_TYPE_RSL
+#define basename_CAVM_LBKX_LINK_CFG_X2P(a) "LBKX_LINK_CFG_X2P"
+#define device_bar_CAVM_LBKX_LINK_CFG_X2P(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_LBKX_LINK_CFG_X2P(a) (a)
+#define arguments_CAVM_LBKX_LINK_CFG_X2P(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) lbk#_sft_rst

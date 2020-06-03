@@ -308,7 +308,7 @@ union cavm_emmcx_host_cqrs_cqrs03
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
-        uint32_t cqcat                 : 1;  /**< [  8:  8](R/W) Clear All Tasks. Clears (1) all active tasks in the host controller. Software has to poll this
+        uint32_t cqcat                 : 1;  /**< [  8:  8](R/W1S) Clear All Tasks. Clears (1) all active tasks in the host controller. Software has to poll this
                                                                  register until operation is completed (bit is automatically cleared). Software can set this bit
                                                                  only when the CQ Engine is halted. Software has to clear all requested tasks in the eMMC device.
                                                                  Writing (0) has no effect. */
@@ -325,7 +325,7 @@ union cavm_emmcx_host_cqrs_cqrs03
                                                                  registers to issue any command directly bypassing CQE. CQ Engine starts operation after being
                                                                  halted by writing 0 to this register. Writing 0 is ignored when CQ Engine is not halted. */
         uint32_t reserved_1_7          : 7;
-        uint32_t cqcat                 : 1;  /**< [  8:  8](R/W) Clear All Tasks. Clears (1) all active tasks in the host controller. Software has to poll this
+        uint32_t cqcat                 : 1;  /**< [  8:  8](R/W1S) Clear All Tasks. Clears (1) all active tasks in the host controller. Software has to poll this
                                                                  register until operation is completed (bit is automatically cleared). Software can set this bit
                                                                  only when the CQ Engine is halted. Software has to clear all requested tasks in the eMMC device.
                                                                  Writing (0) has no effect. */
@@ -370,22 +370,22 @@ union cavm_emmcx_host_cqrs_cqrs04
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t cqtcl                 : 1;  /**< [  3:  3](R/W) Task Cleared (TCL). When task clear operation or clear individual task is completed, the CQE sets
+        uint32_t cqtcl                 : 1;  /**< [  3:  3](R/W1C) Task Cleared (TCL). When task clear operation or clear individual task is completed, the CQE sets
                                                                  this bit to 1. */
-        uint32_t cqredi                : 1;  /**< [  2:  2](R/W) Response Error Detected Interrupt (RED). When an error is detected in the response received from
+        uint32_t cqredi                : 1;  /**< [  2:  2](R/W1C) Response Error Detected Interrupt (RED). When an error is detected in the response received from
                                                                  eMMC device, the CQE sets this bit to 1. S/W can select which bits are analyzed by selecting
                                                                  CQRMEM. */
-        uint32_t cqtcc                 : 1;  /**< [  1:  1](R/W) Task Complete Interrupt (TCC). CQE sets this bit when either a task with INT=1 is completed or
+        uint32_t cqtcc                 : 1;  /**< [  1:  1](R/W1C) Task Complete Interrupt (TCC). CQE sets this bit when either a task with INT=1 is completed or
                                                                  Interrupt Coalescing reports interrupt. */
-        uint32_t cqhac                 : 1;  /**< [  0:  0](R/W) Halt Complete Interrupt (HAC). CQE sets this bit when value of CQHLT changed from 0 to 1. */
+        uint32_t cqhac                 : 1;  /**< [  0:  0](R/W1C) Halt Complete Interrupt (HAC). CQE sets this bit when value of CQHLT changed from 0 to 1. */
 #else /* Word 0 - Little Endian */
-        uint32_t cqhac                 : 1;  /**< [  0:  0](R/W) Halt Complete Interrupt (HAC). CQE sets this bit when value of CQHLT changed from 0 to 1. */
-        uint32_t cqtcc                 : 1;  /**< [  1:  1](R/W) Task Complete Interrupt (TCC). CQE sets this bit when either a task with INT=1 is completed or
+        uint32_t cqhac                 : 1;  /**< [  0:  0](R/W1C) Halt Complete Interrupt (HAC). CQE sets this bit when value of CQHLT changed from 0 to 1. */
+        uint32_t cqtcc                 : 1;  /**< [  1:  1](R/W1C) Task Complete Interrupt (TCC). CQE sets this bit when either a task with INT=1 is completed or
                                                                  Interrupt Coalescing reports interrupt. */
-        uint32_t cqredi                : 1;  /**< [  2:  2](R/W) Response Error Detected Interrupt (RED). When an error is detected in the response received from
+        uint32_t cqredi                : 1;  /**< [  2:  2](R/W1C) Response Error Detected Interrupt (RED). When an error is detected in the response received from
                                                                  eMMC device, the CQE sets this bit to 1. S/W can select which bits are analyzed by selecting
                                                                  CQRMEM. */
-        uint32_t cqtcl                 : 1;  /**< [  3:  3](R/W) Task Cleared (TCL). When task clear operation or clear individual task is completed, the CQE sets
+        uint32_t cqtcl                 : 1;  /**< [  3:  3](R/W1C) Task Cleared (TCL). When task clear operation or clear individual task is completed, the CQE sets
                                                                  this bit to 1. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
@@ -681,71 +681,71 @@ union cavm_emmcx_host_cqrs_cqrs10
     struct cavm_emmcx_host_cqrs_cqrs10_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cqtd31                : 1;  /**< [ 31: 31](R/W) Command Queuing Task Doorbell 31. */
-        uint32_t cqtd30                : 1;  /**< [ 30: 30](R/W) Command Queuing Task Doorbell 30. */
-        uint32_t cqtd29                : 1;  /**< [ 29: 29](R/W) Command Queuing Task Doorbell 29. */
-        uint32_t cqtd28                : 1;  /**< [ 28: 28](R/W) Command Queuing Task Doorbell 28. */
-        uint32_t cqtd27                : 1;  /**< [ 27: 27](R/W) Command Queuing Task Doorbell 27. */
-        uint32_t cqtd26                : 1;  /**< [ 26: 26](R/W) Command Queuing Task Doorbell 26. */
-        uint32_t cqtd25                : 1;  /**< [ 25: 25](R/W) Command Queuing Task Doorbell 25. */
-        uint32_t cqtd24                : 1;  /**< [ 24: 24](R/W) Command Queuing Task Doorbell 24. */
-        uint32_t cqtd23                : 1;  /**< [ 23: 23](R/W) Command Queuing Task Doorbell 23. */
-        uint32_t cqtd22                : 1;  /**< [ 22: 22](R/W) Command Queuing Task Doorbell 22. */
-        uint32_t cqtd21                : 1;  /**< [ 21: 21](R/W) Command Queuing Task Doorbell 21. */
-        uint32_t cqtd20                : 1;  /**< [ 20: 20](R/W) Command Queuing Task Doorbell 20. */
-        uint32_t cqtd19                : 1;  /**< [ 19: 19](R/W) Command Queuing Task Doorbell 19. */
-        uint32_t cqtd18                : 1;  /**< [ 18: 18](R/W) Command Queuing Task Doorbell 18. */
-        uint32_t cqtd17                : 1;  /**< [ 17: 17](R/W) Command Queuing Task Doorbell 17. */
-        uint32_t cqtd16                : 1;  /**< [ 16: 16](R/W) Command Queuing Task Doorbell 16. */
-        uint32_t cqtd15                : 1;  /**< [ 15: 15](R/W) Command Queuing Task Doorbell 15. */
-        uint32_t cqtd14                : 1;  /**< [ 14: 14](R/W) Command Queuing Task Doorbell 14. */
-        uint32_t cqtd13                : 1;  /**< [ 13: 13](R/W) Command Queuing Task Doorbell 13. */
-        uint32_t cqtd12                : 1;  /**< [ 12: 12](R/W) Command Queuing Task Doorbell 12. */
-        uint32_t cqtd11                : 1;  /**< [ 11: 11](R/W) Command Queuing Task Doorbell 11. */
-        uint32_t cqtd10                : 1;  /**< [ 10: 10](R/W) Command Queuing Task Doorbell 10. */
-        uint32_t cqtd09                : 1;  /**< [  9:  9](R/W) Command Queuing Task Doorbell 9. */
-        uint32_t cqtd08                : 1;  /**< [  8:  8](R/W) Command Queuing Task Doorbell 8. */
-        uint32_t cqtd07                : 1;  /**< [  7:  7](R/W) Command Queuing Task Doorbell 7. */
-        uint32_t cqtd06                : 1;  /**< [  6:  6](R/W) Command Queuing Task Doorbell 6. */
-        uint32_t cqtd05                : 1;  /**< [  5:  5](R/W) Command Queuing Task Doorbell 5. */
-        uint32_t cqtd04                : 1;  /**< [  4:  4](R/W) Command Queuing Task Doorbell 4. */
-        uint32_t cqtd03                : 1;  /**< [  3:  3](R/W) Command Queuing Task Doorbell 3. */
-        uint32_t cqtd02                : 1;  /**< [  2:  2](R/W) Command Queuing Task Doorbell 2. */
-        uint32_t cqtd01                : 1;  /**< [  1:  1](R/W) Command Queuing Task Doorbell 1. */
-        uint32_t cqtd00                : 1;  /**< [  0:  0](R/W) Command Queuing Task Doorbell 0. */
+        uint32_t cqtd31                : 1;  /**< [ 31: 31](R/W1S) Command Queuing Task Doorbell 31. */
+        uint32_t cqtd30                : 1;  /**< [ 30: 30](R/W1S) Command Queuing Task Doorbell 30. */
+        uint32_t cqtd29                : 1;  /**< [ 29: 29](R/W1S) Command Queuing Task Doorbell 29. */
+        uint32_t cqtd28                : 1;  /**< [ 28: 28](R/W1S) Command Queuing Task Doorbell 28. */
+        uint32_t cqtd27                : 1;  /**< [ 27: 27](R/W1S) Command Queuing Task Doorbell 27. */
+        uint32_t cqtd26                : 1;  /**< [ 26: 26](R/W1S) Command Queuing Task Doorbell 26. */
+        uint32_t cqtd25                : 1;  /**< [ 25: 25](R/W1S) Command Queuing Task Doorbell 25. */
+        uint32_t cqtd24                : 1;  /**< [ 24: 24](R/W1S) Command Queuing Task Doorbell 24. */
+        uint32_t cqtd23                : 1;  /**< [ 23: 23](R/W1S) Command Queuing Task Doorbell 23. */
+        uint32_t cqtd22                : 1;  /**< [ 22: 22](R/W1S) Command Queuing Task Doorbell 22. */
+        uint32_t cqtd21                : 1;  /**< [ 21: 21](R/W1S) Command Queuing Task Doorbell 21. */
+        uint32_t cqtd20                : 1;  /**< [ 20: 20](R/W1S) Command Queuing Task Doorbell 20. */
+        uint32_t cqtd19                : 1;  /**< [ 19: 19](R/W1S) Command Queuing Task Doorbell 19. */
+        uint32_t cqtd18                : 1;  /**< [ 18: 18](R/W1S) Command Queuing Task Doorbell 18. */
+        uint32_t cqtd17                : 1;  /**< [ 17: 17](R/W1S) Command Queuing Task Doorbell 17. */
+        uint32_t cqtd16                : 1;  /**< [ 16: 16](R/W1S) Command Queuing Task Doorbell 16. */
+        uint32_t cqtd15                : 1;  /**< [ 15: 15](R/W1S) Command Queuing Task Doorbell 15. */
+        uint32_t cqtd14                : 1;  /**< [ 14: 14](R/W1S) Command Queuing Task Doorbell 14. */
+        uint32_t cqtd13                : 1;  /**< [ 13: 13](R/W1S) Command Queuing Task Doorbell 13. */
+        uint32_t cqtd12                : 1;  /**< [ 12: 12](R/W1S) Command Queuing Task Doorbell 12. */
+        uint32_t cqtd11                : 1;  /**< [ 11: 11](R/W1S) Command Queuing Task Doorbell 11. */
+        uint32_t cqtd10                : 1;  /**< [ 10: 10](R/W1S) Command Queuing Task Doorbell 10. */
+        uint32_t cqtd09                : 1;  /**< [  9:  9](R/W1S) Command Queuing Task Doorbell 9. */
+        uint32_t cqtd08                : 1;  /**< [  8:  8](R/W1S) Command Queuing Task Doorbell 8. */
+        uint32_t cqtd07                : 1;  /**< [  7:  7](R/W1S) Command Queuing Task Doorbell 7. */
+        uint32_t cqtd06                : 1;  /**< [  6:  6](R/W1S) Command Queuing Task Doorbell 6. */
+        uint32_t cqtd05                : 1;  /**< [  5:  5](R/W1S) Command Queuing Task Doorbell 5. */
+        uint32_t cqtd04                : 1;  /**< [  4:  4](R/W1S) Command Queuing Task Doorbell 4. */
+        uint32_t cqtd03                : 1;  /**< [  3:  3](R/W1S) Command Queuing Task Doorbell 3. */
+        uint32_t cqtd02                : 1;  /**< [  2:  2](R/W1S) Command Queuing Task Doorbell 2. */
+        uint32_t cqtd01                : 1;  /**< [  1:  1](R/W1S) Command Queuing Task Doorbell 1. */
+        uint32_t cqtd00                : 1;  /**< [  0:  0](R/W1S) Command Queuing Task Doorbell 0. */
 #else /* Word 0 - Little Endian */
-        uint32_t cqtd00                : 1;  /**< [  0:  0](R/W) Command Queuing Task Doorbell 0. */
-        uint32_t cqtd01                : 1;  /**< [  1:  1](R/W) Command Queuing Task Doorbell 1. */
-        uint32_t cqtd02                : 1;  /**< [  2:  2](R/W) Command Queuing Task Doorbell 2. */
-        uint32_t cqtd03                : 1;  /**< [  3:  3](R/W) Command Queuing Task Doorbell 3. */
-        uint32_t cqtd04                : 1;  /**< [  4:  4](R/W) Command Queuing Task Doorbell 4. */
-        uint32_t cqtd05                : 1;  /**< [  5:  5](R/W) Command Queuing Task Doorbell 5. */
-        uint32_t cqtd06                : 1;  /**< [  6:  6](R/W) Command Queuing Task Doorbell 6. */
-        uint32_t cqtd07                : 1;  /**< [  7:  7](R/W) Command Queuing Task Doorbell 7. */
-        uint32_t cqtd08                : 1;  /**< [  8:  8](R/W) Command Queuing Task Doorbell 8. */
-        uint32_t cqtd09                : 1;  /**< [  9:  9](R/W) Command Queuing Task Doorbell 9. */
-        uint32_t cqtd10                : 1;  /**< [ 10: 10](R/W) Command Queuing Task Doorbell 10. */
-        uint32_t cqtd11                : 1;  /**< [ 11: 11](R/W) Command Queuing Task Doorbell 11. */
-        uint32_t cqtd12                : 1;  /**< [ 12: 12](R/W) Command Queuing Task Doorbell 12. */
-        uint32_t cqtd13                : 1;  /**< [ 13: 13](R/W) Command Queuing Task Doorbell 13. */
-        uint32_t cqtd14                : 1;  /**< [ 14: 14](R/W) Command Queuing Task Doorbell 14. */
-        uint32_t cqtd15                : 1;  /**< [ 15: 15](R/W) Command Queuing Task Doorbell 15. */
-        uint32_t cqtd16                : 1;  /**< [ 16: 16](R/W) Command Queuing Task Doorbell 16. */
-        uint32_t cqtd17                : 1;  /**< [ 17: 17](R/W) Command Queuing Task Doorbell 17. */
-        uint32_t cqtd18                : 1;  /**< [ 18: 18](R/W) Command Queuing Task Doorbell 18. */
-        uint32_t cqtd19                : 1;  /**< [ 19: 19](R/W) Command Queuing Task Doorbell 19. */
-        uint32_t cqtd20                : 1;  /**< [ 20: 20](R/W) Command Queuing Task Doorbell 20. */
-        uint32_t cqtd21                : 1;  /**< [ 21: 21](R/W) Command Queuing Task Doorbell 21. */
-        uint32_t cqtd22                : 1;  /**< [ 22: 22](R/W) Command Queuing Task Doorbell 22. */
-        uint32_t cqtd23                : 1;  /**< [ 23: 23](R/W) Command Queuing Task Doorbell 23. */
-        uint32_t cqtd24                : 1;  /**< [ 24: 24](R/W) Command Queuing Task Doorbell 24. */
-        uint32_t cqtd25                : 1;  /**< [ 25: 25](R/W) Command Queuing Task Doorbell 25. */
-        uint32_t cqtd26                : 1;  /**< [ 26: 26](R/W) Command Queuing Task Doorbell 26. */
-        uint32_t cqtd27                : 1;  /**< [ 27: 27](R/W) Command Queuing Task Doorbell 27. */
-        uint32_t cqtd28                : 1;  /**< [ 28: 28](R/W) Command Queuing Task Doorbell 28. */
-        uint32_t cqtd29                : 1;  /**< [ 29: 29](R/W) Command Queuing Task Doorbell 29. */
-        uint32_t cqtd30                : 1;  /**< [ 30: 30](R/W) Command Queuing Task Doorbell 30. */
-        uint32_t cqtd31                : 1;  /**< [ 31: 31](R/W) Command Queuing Task Doorbell 31. */
+        uint32_t cqtd00                : 1;  /**< [  0:  0](R/W1S) Command Queuing Task Doorbell 0. */
+        uint32_t cqtd01                : 1;  /**< [  1:  1](R/W1S) Command Queuing Task Doorbell 1. */
+        uint32_t cqtd02                : 1;  /**< [  2:  2](R/W1S) Command Queuing Task Doorbell 2. */
+        uint32_t cqtd03                : 1;  /**< [  3:  3](R/W1S) Command Queuing Task Doorbell 3. */
+        uint32_t cqtd04                : 1;  /**< [  4:  4](R/W1S) Command Queuing Task Doorbell 4. */
+        uint32_t cqtd05                : 1;  /**< [  5:  5](R/W1S) Command Queuing Task Doorbell 5. */
+        uint32_t cqtd06                : 1;  /**< [  6:  6](R/W1S) Command Queuing Task Doorbell 6. */
+        uint32_t cqtd07                : 1;  /**< [  7:  7](R/W1S) Command Queuing Task Doorbell 7. */
+        uint32_t cqtd08                : 1;  /**< [  8:  8](R/W1S) Command Queuing Task Doorbell 8. */
+        uint32_t cqtd09                : 1;  /**< [  9:  9](R/W1S) Command Queuing Task Doorbell 9. */
+        uint32_t cqtd10                : 1;  /**< [ 10: 10](R/W1S) Command Queuing Task Doorbell 10. */
+        uint32_t cqtd11                : 1;  /**< [ 11: 11](R/W1S) Command Queuing Task Doorbell 11. */
+        uint32_t cqtd12                : 1;  /**< [ 12: 12](R/W1S) Command Queuing Task Doorbell 12. */
+        uint32_t cqtd13                : 1;  /**< [ 13: 13](R/W1S) Command Queuing Task Doorbell 13. */
+        uint32_t cqtd14                : 1;  /**< [ 14: 14](R/W1S) Command Queuing Task Doorbell 14. */
+        uint32_t cqtd15                : 1;  /**< [ 15: 15](R/W1S) Command Queuing Task Doorbell 15. */
+        uint32_t cqtd16                : 1;  /**< [ 16: 16](R/W1S) Command Queuing Task Doorbell 16. */
+        uint32_t cqtd17                : 1;  /**< [ 17: 17](R/W1S) Command Queuing Task Doorbell 17. */
+        uint32_t cqtd18                : 1;  /**< [ 18: 18](R/W1S) Command Queuing Task Doorbell 18. */
+        uint32_t cqtd19                : 1;  /**< [ 19: 19](R/W1S) Command Queuing Task Doorbell 19. */
+        uint32_t cqtd20                : 1;  /**< [ 20: 20](R/W1S) Command Queuing Task Doorbell 20. */
+        uint32_t cqtd21                : 1;  /**< [ 21: 21](R/W1S) Command Queuing Task Doorbell 21. */
+        uint32_t cqtd22                : 1;  /**< [ 22: 22](R/W1S) Command Queuing Task Doorbell 22. */
+        uint32_t cqtd23                : 1;  /**< [ 23: 23](R/W1S) Command Queuing Task Doorbell 23. */
+        uint32_t cqtd24                : 1;  /**< [ 24: 24](R/W1S) Command Queuing Task Doorbell 24. */
+        uint32_t cqtd25                : 1;  /**< [ 25: 25](R/W1S) Command Queuing Task Doorbell 25. */
+        uint32_t cqtd26                : 1;  /**< [ 26: 26](R/W1S) Command Queuing Task Doorbell 26. */
+        uint32_t cqtd27                : 1;  /**< [ 27: 27](R/W1S) Command Queuing Task Doorbell 27. */
+        uint32_t cqtd28                : 1;  /**< [ 28: 28](R/W1S) Command Queuing Task Doorbell 28. */
+        uint32_t cqtd29                : 1;  /**< [ 29: 29](R/W1S) Command Queuing Task Doorbell 29. */
+        uint32_t cqtd30                : 1;  /**< [ 30: 30](R/W1S) Command Queuing Task Doorbell 30. */
+        uint32_t cqtd31                : 1;  /**< [ 31: 31](R/W1S) Command Queuing Task Doorbell 31. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_emmcx_host_cqrs_cqrs10_s cn; */
@@ -780,71 +780,71 @@ union cavm_emmcx_host_cqrs_cqrs11
     struct cavm_emmcx_host_cqrs_cqrs11_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cqtcn31               : 1;  /**< [ 31: 31](R/W) Task Completion Notification 31. */
-        uint32_t cqtcn30               : 1;  /**< [ 30: 30](R/W) Task Completion Notification 30. */
-        uint32_t cqtcn29               : 1;  /**< [ 29: 29](R/W) Task Completion Notification 29. */
-        uint32_t cqtcn28               : 1;  /**< [ 28: 28](R/W) Task Completion Notification 28. */
-        uint32_t cqtcn27               : 1;  /**< [ 27: 27](R/W) Task Completion Notification 27. */
-        uint32_t cqtcn26               : 1;  /**< [ 26: 26](R/W) Task Completion Notification 26. */
-        uint32_t cqtcn25               : 1;  /**< [ 25: 25](R/W) Task Completion Notification 25. */
-        uint32_t cqtcn24               : 1;  /**< [ 24: 24](R/W) Task Completion Notification 24. */
-        uint32_t cqtcn23               : 1;  /**< [ 23: 23](R/W) Task Completion Notification 23. */
-        uint32_t cqtcn22               : 1;  /**< [ 22: 22](R/W) Task Completion Notification 22. */
-        uint32_t cqtcn21               : 1;  /**< [ 21: 21](R/W) Task Completion Notification 21. */
-        uint32_t cqtcn20               : 1;  /**< [ 20: 20](R/W) Task Completion Notification 20. */
-        uint32_t cqtcn19               : 1;  /**< [ 19: 19](R/W) Task Completion Notification 19. */
-        uint32_t cqtcn18               : 1;  /**< [ 18: 18](R/W) Task Completion Notification 18. */
-        uint32_t cqtcn17               : 1;  /**< [ 17: 17](R/W) Task Completion Notification 17. */
-        uint32_t cqtcn16               : 1;  /**< [ 16: 16](R/W) Task Completion Notification 16. */
-        uint32_t cqtcn15               : 1;  /**< [ 15: 15](R/W) Task Completion Notification 15. */
-        uint32_t cqtcn14               : 1;  /**< [ 14: 14](R/W) Task Completion Notification 14. */
-        uint32_t cqtcn13               : 1;  /**< [ 13: 13](R/W) Task Completion Notification 13. */
-        uint32_t cqtcn12               : 1;  /**< [ 12: 12](R/W) Task Completion Notification 12. */
-        uint32_t cqtcn11               : 1;  /**< [ 11: 11](R/W) Task Completion Notification 11. */
-        uint32_t cqtcn10               : 1;  /**< [ 10: 10](R/W) Task Completion Notification 10. */
-        uint32_t cqtcn09               : 1;  /**< [  9:  9](R/W) Task Completion Notification 9. */
-        uint32_t cqtcn08               : 1;  /**< [  8:  8](R/W) Task Completion Notification 8. */
-        uint32_t cqtcn07               : 1;  /**< [  7:  7](R/W) Task Completion Notification 7. */
-        uint32_t cqtcn06               : 1;  /**< [  6:  6](R/W) Task Completion Notification 6. */
-        uint32_t cqtcn05               : 1;  /**< [  5:  5](R/W) Task Completion Notification 5. */
-        uint32_t cqtcn04               : 1;  /**< [  4:  4](R/W) Task Completion Notification 4. */
-        uint32_t cqtcn03               : 1;  /**< [  3:  3](R/W) Task Completion Notification 3. */
-        uint32_t cqtcn02               : 1;  /**< [  2:  2](R/W) Task Completion Notification 2. */
-        uint32_t cqtcn01               : 1;  /**< [  1:  1](R/W) Task Completion Notification 1. */
-        uint32_t cqtcn00               : 1;  /**< [  0:  0](R/W) Task Completion Notification 0. */
+        uint32_t cqtcn31               : 1;  /**< [ 31: 31](R/W1C) Task Completion Notification 31. */
+        uint32_t cqtcn30               : 1;  /**< [ 30: 30](R/W1C) Task Completion Notification 30. */
+        uint32_t cqtcn29               : 1;  /**< [ 29: 29](R/W1C) Task Completion Notification 29. */
+        uint32_t cqtcn28               : 1;  /**< [ 28: 28](R/W1C) Task Completion Notification 28. */
+        uint32_t cqtcn27               : 1;  /**< [ 27: 27](R/W1C) Task Completion Notification 27. */
+        uint32_t cqtcn26               : 1;  /**< [ 26: 26](R/W1C) Task Completion Notification 26. */
+        uint32_t cqtcn25               : 1;  /**< [ 25: 25](R/W1C) Task Completion Notification 25. */
+        uint32_t cqtcn24               : 1;  /**< [ 24: 24](R/W1C) Task Completion Notification 24. */
+        uint32_t cqtcn23               : 1;  /**< [ 23: 23](R/W1C) Task Completion Notification 23. */
+        uint32_t cqtcn22               : 1;  /**< [ 22: 22](R/W1C) Task Completion Notification 22. */
+        uint32_t cqtcn21               : 1;  /**< [ 21: 21](R/W1C) Task Completion Notification 21. */
+        uint32_t cqtcn20               : 1;  /**< [ 20: 20](R/W1C) Task Completion Notification 20. */
+        uint32_t cqtcn19               : 1;  /**< [ 19: 19](R/W1C) Task Completion Notification 19. */
+        uint32_t cqtcn18               : 1;  /**< [ 18: 18](R/W1C) Task Completion Notification 18. */
+        uint32_t cqtcn17               : 1;  /**< [ 17: 17](R/W1C) Task Completion Notification 17. */
+        uint32_t cqtcn16               : 1;  /**< [ 16: 16](R/W1C) Task Completion Notification 16. */
+        uint32_t cqtcn15               : 1;  /**< [ 15: 15](R/W1C) Task Completion Notification 15. */
+        uint32_t cqtcn14               : 1;  /**< [ 14: 14](R/W1C) Task Completion Notification 14. */
+        uint32_t cqtcn13               : 1;  /**< [ 13: 13](R/W1C) Task Completion Notification 13. */
+        uint32_t cqtcn12               : 1;  /**< [ 12: 12](R/W1C) Task Completion Notification 12. */
+        uint32_t cqtcn11               : 1;  /**< [ 11: 11](R/W1C) Task Completion Notification 11. */
+        uint32_t cqtcn10               : 1;  /**< [ 10: 10](R/W1C) Task Completion Notification 10. */
+        uint32_t cqtcn09               : 1;  /**< [  9:  9](R/W1C) Task Completion Notification 9. */
+        uint32_t cqtcn08               : 1;  /**< [  8:  8](R/W1C) Task Completion Notification 8. */
+        uint32_t cqtcn07               : 1;  /**< [  7:  7](R/W1C) Task Completion Notification 7. */
+        uint32_t cqtcn06               : 1;  /**< [  6:  6](R/W1C) Task Completion Notification 6. */
+        uint32_t cqtcn05               : 1;  /**< [  5:  5](R/W1C) Task Completion Notification 5. */
+        uint32_t cqtcn04               : 1;  /**< [  4:  4](R/W1C) Task Completion Notification 4. */
+        uint32_t cqtcn03               : 1;  /**< [  3:  3](R/W1C) Task Completion Notification 3. */
+        uint32_t cqtcn02               : 1;  /**< [  2:  2](R/W1C) Task Completion Notification 2. */
+        uint32_t cqtcn01               : 1;  /**< [  1:  1](R/W1C) Task Completion Notification 1. */
+        uint32_t cqtcn00               : 1;  /**< [  0:  0](R/W1C) Task Completion Notification 0. */
 #else /* Word 0 - Little Endian */
-        uint32_t cqtcn00               : 1;  /**< [  0:  0](R/W) Task Completion Notification 0. */
-        uint32_t cqtcn01               : 1;  /**< [  1:  1](R/W) Task Completion Notification 1. */
-        uint32_t cqtcn02               : 1;  /**< [  2:  2](R/W) Task Completion Notification 2. */
-        uint32_t cqtcn03               : 1;  /**< [  3:  3](R/W) Task Completion Notification 3. */
-        uint32_t cqtcn04               : 1;  /**< [  4:  4](R/W) Task Completion Notification 4. */
-        uint32_t cqtcn05               : 1;  /**< [  5:  5](R/W) Task Completion Notification 5. */
-        uint32_t cqtcn06               : 1;  /**< [  6:  6](R/W) Task Completion Notification 6. */
-        uint32_t cqtcn07               : 1;  /**< [  7:  7](R/W) Task Completion Notification 7. */
-        uint32_t cqtcn08               : 1;  /**< [  8:  8](R/W) Task Completion Notification 8. */
-        uint32_t cqtcn09               : 1;  /**< [  9:  9](R/W) Task Completion Notification 9. */
-        uint32_t cqtcn10               : 1;  /**< [ 10: 10](R/W) Task Completion Notification 10. */
-        uint32_t cqtcn11               : 1;  /**< [ 11: 11](R/W) Task Completion Notification 11. */
-        uint32_t cqtcn12               : 1;  /**< [ 12: 12](R/W) Task Completion Notification 12. */
-        uint32_t cqtcn13               : 1;  /**< [ 13: 13](R/W) Task Completion Notification 13. */
-        uint32_t cqtcn14               : 1;  /**< [ 14: 14](R/W) Task Completion Notification 14. */
-        uint32_t cqtcn15               : 1;  /**< [ 15: 15](R/W) Task Completion Notification 15. */
-        uint32_t cqtcn16               : 1;  /**< [ 16: 16](R/W) Task Completion Notification 16. */
-        uint32_t cqtcn17               : 1;  /**< [ 17: 17](R/W) Task Completion Notification 17. */
-        uint32_t cqtcn18               : 1;  /**< [ 18: 18](R/W) Task Completion Notification 18. */
-        uint32_t cqtcn19               : 1;  /**< [ 19: 19](R/W) Task Completion Notification 19. */
-        uint32_t cqtcn20               : 1;  /**< [ 20: 20](R/W) Task Completion Notification 20. */
-        uint32_t cqtcn21               : 1;  /**< [ 21: 21](R/W) Task Completion Notification 21. */
-        uint32_t cqtcn22               : 1;  /**< [ 22: 22](R/W) Task Completion Notification 22. */
-        uint32_t cqtcn23               : 1;  /**< [ 23: 23](R/W) Task Completion Notification 23. */
-        uint32_t cqtcn24               : 1;  /**< [ 24: 24](R/W) Task Completion Notification 24. */
-        uint32_t cqtcn25               : 1;  /**< [ 25: 25](R/W) Task Completion Notification 25. */
-        uint32_t cqtcn26               : 1;  /**< [ 26: 26](R/W) Task Completion Notification 26. */
-        uint32_t cqtcn27               : 1;  /**< [ 27: 27](R/W) Task Completion Notification 27. */
-        uint32_t cqtcn28               : 1;  /**< [ 28: 28](R/W) Task Completion Notification 28. */
-        uint32_t cqtcn29               : 1;  /**< [ 29: 29](R/W) Task Completion Notification 29. */
-        uint32_t cqtcn30               : 1;  /**< [ 30: 30](R/W) Task Completion Notification 30. */
-        uint32_t cqtcn31               : 1;  /**< [ 31: 31](R/W) Task Completion Notification 31. */
+        uint32_t cqtcn00               : 1;  /**< [  0:  0](R/W1C) Task Completion Notification 0. */
+        uint32_t cqtcn01               : 1;  /**< [  1:  1](R/W1C) Task Completion Notification 1. */
+        uint32_t cqtcn02               : 1;  /**< [  2:  2](R/W1C) Task Completion Notification 2. */
+        uint32_t cqtcn03               : 1;  /**< [  3:  3](R/W1C) Task Completion Notification 3. */
+        uint32_t cqtcn04               : 1;  /**< [  4:  4](R/W1C) Task Completion Notification 4. */
+        uint32_t cqtcn05               : 1;  /**< [  5:  5](R/W1C) Task Completion Notification 5. */
+        uint32_t cqtcn06               : 1;  /**< [  6:  6](R/W1C) Task Completion Notification 6. */
+        uint32_t cqtcn07               : 1;  /**< [  7:  7](R/W1C) Task Completion Notification 7. */
+        uint32_t cqtcn08               : 1;  /**< [  8:  8](R/W1C) Task Completion Notification 8. */
+        uint32_t cqtcn09               : 1;  /**< [  9:  9](R/W1C) Task Completion Notification 9. */
+        uint32_t cqtcn10               : 1;  /**< [ 10: 10](R/W1C) Task Completion Notification 10. */
+        uint32_t cqtcn11               : 1;  /**< [ 11: 11](R/W1C) Task Completion Notification 11. */
+        uint32_t cqtcn12               : 1;  /**< [ 12: 12](R/W1C) Task Completion Notification 12. */
+        uint32_t cqtcn13               : 1;  /**< [ 13: 13](R/W1C) Task Completion Notification 13. */
+        uint32_t cqtcn14               : 1;  /**< [ 14: 14](R/W1C) Task Completion Notification 14. */
+        uint32_t cqtcn15               : 1;  /**< [ 15: 15](R/W1C) Task Completion Notification 15. */
+        uint32_t cqtcn16               : 1;  /**< [ 16: 16](R/W1C) Task Completion Notification 16. */
+        uint32_t cqtcn17               : 1;  /**< [ 17: 17](R/W1C) Task Completion Notification 17. */
+        uint32_t cqtcn18               : 1;  /**< [ 18: 18](R/W1C) Task Completion Notification 18. */
+        uint32_t cqtcn19               : 1;  /**< [ 19: 19](R/W1C) Task Completion Notification 19. */
+        uint32_t cqtcn20               : 1;  /**< [ 20: 20](R/W1C) Task Completion Notification 20. */
+        uint32_t cqtcn21               : 1;  /**< [ 21: 21](R/W1C) Task Completion Notification 21. */
+        uint32_t cqtcn22               : 1;  /**< [ 22: 22](R/W1C) Task Completion Notification 22. */
+        uint32_t cqtcn23               : 1;  /**< [ 23: 23](R/W1C) Task Completion Notification 23. */
+        uint32_t cqtcn24               : 1;  /**< [ 24: 24](R/W1C) Task Completion Notification 24. */
+        uint32_t cqtcn25               : 1;  /**< [ 25: 25](R/W1C) Task Completion Notification 25. */
+        uint32_t cqtcn26               : 1;  /**< [ 26: 26](R/W1C) Task Completion Notification 26. */
+        uint32_t cqtcn27               : 1;  /**< [ 27: 27](R/W1C) Task Completion Notification 27. */
+        uint32_t cqtcn28               : 1;  /**< [ 28: 28](R/W1C) Task Completion Notification 28. */
+        uint32_t cqtcn29               : 1;  /**< [ 29: 29](R/W1C) Task Completion Notification 29. */
+        uint32_t cqtcn30               : 1;  /**< [ 30: 30](R/W1C) Task Completion Notification 30. */
+        uint32_t cqtcn31               : 1;  /**< [ 31: 31](R/W1C) Task Completion Notification 31. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_emmcx_host_cqrs_cqrs11_s cn; */
@@ -1023,71 +1023,71 @@ union cavm_emmcx_host_cqrs_cqrs14
     struct cavm_emmcx_host_cqrs_cqrs14_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cqtc31                : 1;  /**< [ 31: 31](R/W) Command Queuing Task Clear 31. */
-        uint32_t cqtc30                : 1;  /**< [ 30: 30](R/W) Command Queuing Task Clear 30. */
-        uint32_t cqtc29                : 1;  /**< [ 29: 29](R/W) Command Queuing Task Clear 29. */
-        uint32_t cqtc28                : 1;  /**< [ 28: 28](R/W) Command Queuing Task Clear 28. */
-        uint32_t cqtc27                : 1;  /**< [ 27: 27](R/W) Command Queuing Task Clear 27. */
-        uint32_t cqtc26                : 1;  /**< [ 26: 26](R/W) Command Queuing Task Clear 26. */
-        uint32_t cqtc25                : 1;  /**< [ 25: 25](R/W) Command Queuing Task Clear 25. */
-        uint32_t cqtc24                : 1;  /**< [ 24: 24](R/W) Command Queuing Task Clear 24. */
-        uint32_t cqtc23                : 1;  /**< [ 23: 23](R/W) Command Queuing Task Clear 23. */
-        uint32_t cqtc22                : 1;  /**< [ 22: 22](R/W) Command Queuing Task Clear 22. */
-        uint32_t cqtc21                : 1;  /**< [ 21: 21](R/W) Command Queuing Task Clear 21. */
-        uint32_t cqtc20                : 1;  /**< [ 20: 20](R/W) Command Queuing Task Clear 20. */
-        uint32_t cqtc19                : 1;  /**< [ 19: 19](R/W) Command Queuing Task Clear 19. */
-        uint32_t cqtc18                : 1;  /**< [ 18: 18](R/W) Command Queuing Task Clear 18. */
-        uint32_t cqtc17                : 1;  /**< [ 17: 17](R/W) Command Queuing Task Clear 17. */
-        uint32_t cqtc16                : 1;  /**< [ 16: 16](R/W) Command Queuing Task Clear 16. */
-        uint32_t cqtc15                : 1;  /**< [ 15: 15](R/W) Command Queuing Task Clear 15. */
-        uint32_t cqtc14                : 1;  /**< [ 14: 14](R/W) Command Queuing Task Clear 14. */
-        uint32_t cqtc13                : 1;  /**< [ 13: 13](R/W) Command Queuing Task Clear 13. */
-        uint32_t cqtc12                : 1;  /**< [ 12: 12](R/W) Command Queuing Task Clear 12. */
-        uint32_t cqtc11                : 1;  /**< [ 11: 11](R/W) Command Queuing Task Clear 11. */
-        uint32_t cqtc10                : 1;  /**< [ 10: 10](R/W) Command Queuing Task Clear 10. */
-        uint32_t cqtc09                : 1;  /**< [  9:  9](R/W) Command Queuing Task Clear 9. */
-        uint32_t cqtc08                : 1;  /**< [  8:  8](R/W) Command Queuing Task Clear 8. */
-        uint32_t cqtc07                : 1;  /**< [  7:  7](R/W) Command Queuing Task Clear 7. */
-        uint32_t cqtc06                : 1;  /**< [  6:  6](R/W) Command Queuing Task Clear 6. */
-        uint32_t cqtc05                : 1;  /**< [  5:  5](R/W) Command Queuing Task Clear 5. */
-        uint32_t cqtc04                : 1;  /**< [  4:  4](R/W) Command Queuing Task Clear 4. */
-        uint32_t cqtc03                : 1;  /**< [  3:  3](R/W) Command Queuing Task Clear 3. */
-        uint32_t cqtc02                : 1;  /**< [  2:  2](R/W) Command Queuing Task Clear 2. */
-        uint32_t cqtc01                : 1;  /**< [  1:  1](R/W) Command Queuing Task Clear 1. */
-        uint32_t cqtc00                : 1;  /**< [  0:  0](R/W) Command Queuing Task Clear 0. */
+        uint32_t cqtc31                : 1;  /**< [ 31: 31](R/W1S) Command Queuing Task Clear 31. */
+        uint32_t cqtc30                : 1;  /**< [ 30: 30](R/W1S) Command Queuing Task Clear 30. */
+        uint32_t cqtc29                : 1;  /**< [ 29: 29](R/W1S) Command Queuing Task Clear 29. */
+        uint32_t cqtc28                : 1;  /**< [ 28: 28](R/W1S) Command Queuing Task Clear 28. */
+        uint32_t cqtc27                : 1;  /**< [ 27: 27](R/W1S) Command Queuing Task Clear 27. */
+        uint32_t cqtc26                : 1;  /**< [ 26: 26](R/W1S) Command Queuing Task Clear 26. */
+        uint32_t cqtc25                : 1;  /**< [ 25: 25](R/W1S) Command Queuing Task Clear 25. */
+        uint32_t cqtc24                : 1;  /**< [ 24: 24](R/W1S) Command Queuing Task Clear 24. */
+        uint32_t cqtc23                : 1;  /**< [ 23: 23](R/W1S) Command Queuing Task Clear 23. */
+        uint32_t cqtc22                : 1;  /**< [ 22: 22](R/W1S) Command Queuing Task Clear 22. */
+        uint32_t cqtc21                : 1;  /**< [ 21: 21](R/W1S) Command Queuing Task Clear 21. */
+        uint32_t cqtc20                : 1;  /**< [ 20: 20](R/W1S) Command Queuing Task Clear 20. */
+        uint32_t cqtc19                : 1;  /**< [ 19: 19](R/W1S) Command Queuing Task Clear 19. */
+        uint32_t cqtc18                : 1;  /**< [ 18: 18](R/W1S) Command Queuing Task Clear 18. */
+        uint32_t cqtc17                : 1;  /**< [ 17: 17](R/W1S) Command Queuing Task Clear 17. */
+        uint32_t cqtc16                : 1;  /**< [ 16: 16](R/W1S) Command Queuing Task Clear 16. */
+        uint32_t cqtc15                : 1;  /**< [ 15: 15](R/W1S) Command Queuing Task Clear 15. */
+        uint32_t cqtc14                : 1;  /**< [ 14: 14](R/W1S) Command Queuing Task Clear 14. */
+        uint32_t cqtc13                : 1;  /**< [ 13: 13](R/W1S) Command Queuing Task Clear 13. */
+        uint32_t cqtc12                : 1;  /**< [ 12: 12](R/W1S) Command Queuing Task Clear 12. */
+        uint32_t cqtc11                : 1;  /**< [ 11: 11](R/W1S) Command Queuing Task Clear 11. */
+        uint32_t cqtc10                : 1;  /**< [ 10: 10](R/W1S) Command Queuing Task Clear 10. */
+        uint32_t cqtc09                : 1;  /**< [  9:  9](R/W1S) Command Queuing Task Clear 9. */
+        uint32_t cqtc08                : 1;  /**< [  8:  8](R/W1S) Command Queuing Task Clear 8. */
+        uint32_t cqtc07                : 1;  /**< [  7:  7](R/W1S) Command Queuing Task Clear 7. */
+        uint32_t cqtc06                : 1;  /**< [  6:  6](R/W1S) Command Queuing Task Clear 6. */
+        uint32_t cqtc05                : 1;  /**< [  5:  5](R/W1S) Command Queuing Task Clear 5. */
+        uint32_t cqtc04                : 1;  /**< [  4:  4](R/W1S) Command Queuing Task Clear 4. */
+        uint32_t cqtc03                : 1;  /**< [  3:  3](R/W1S) Command Queuing Task Clear 3. */
+        uint32_t cqtc02                : 1;  /**< [  2:  2](R/W1S) Command Queuing Task Clear 2. */
+        uint32_t cqtc01                : 1;  /**< [  1:  1](R/W1S) Command Queuing Task Clear 1. */
+        uint32_t cqtc00                : 1;  /**< [  0:  0](R/W1S) Command Queuing Task Clear 0. */
 #else /* Word 0 - Little Endian */
-        uint32_t cqtc00                : 1;  /**< [  0:  0](R/W) Command Queuing Task Clear 0. */
-        uint32_t cqtc01                : 1;  /**< [  1:  1](R/W) Command Queuing Task Clear 1. */
-        uint32_t cqtc02                : 1;  /**< [  2:  2](R/W) Command Queuing Task Clear 2. */
-        uint32_t cqtc03                : 1;  /**< [  3:  3](R/W) Command Queuing Task Clear 3. */
-        uint32_t cqtc04                : 1;  /**< [  4:  4](R/W) Command Queuing Task Clear 4. */
-        uint32_t cqtc05                : 1;  /**< [  5:  5](R/W) Command Queuing Task Clear 5. */
-        uint32_t cqtc06                : 1;  /**< [  6:  6](R/W) Command Queuing Task Clear 6. */
-        uint32_t cqtc07                : 1;  /**< [  7:  7](R/W) Command Queuing Task Clear 7. */
-        uint32_t cqtc08                : 1;  /**< [  8:  8](R/W) Command Queuing Task Clear 8. */
-        uint32_t cqtc09                : 1;  /**< [  9:  9](R/W) Command Queuing Task Clear 9. */
-        uint32_t cqtc10                : 1;  /**< [ 10: 10](R/W) Command Queuing Task Clear 10. */
-        uint32_t cqtc11                : 1;  /**< [ 11: 11](R/W) Command Queuing Task Clear 11. */
-        uint32_t cqtc12                : 1;  /**< [ 12: 12](R/W) Command Queuing Task Clear 12. */
-        uint32_t cqtc13                : 1;  /**< [ 13: 13](R/W) Command Queuing Task Clear 13. */
-        uint32_t cqtc14                : 1;  /**< [ 14: 14](R/W) Command Queuing Task Clear 14. */
-        uint32_t cqtc15                : 1;  /**< [ 15: 15](R/W) Command Queuing Task Clear 15. */
-        uint32_t cqtc16                : 1;  /**< [ 16: 16](R/W) Command Queuing Task Clear 16. */
-        uint32_t cqtc17                : 1;  /**< [ 17: 17](R/W) Command Queuing Task Clear 17. */
-        uint32_t cqtc18                : 1;  /**< [ 18: 18](R/W) Command Queuing Task Clear 18. */
-        uint32_t cqtc19                : 1;  /**< [ 19: 19](R/W) Command Queuing Task Clear 19. */
-        uint32_t cqtc20                : 1;  /**< [ 20: 20](R/W) Command Queuing Task Clear 20. */
-        uint32_t cqtc21                : 1;  /**< [ 21: 21](R/W) Command Queuing Task Clear 21. */
-        uint32_t cqtc22                : 1;  /**< [ 22: 22](R/W) Command Queuing Task Clear 22. */
-        uint32_t cqtc23                : 1;  /**< [ 23: 23](R/W) Command Queuing Task Clear 23. */
-        uint32_t cqtc24                : 1;  /**< [ 24: 24](R/W) Command Queuing Task Clear 24. */
-        uint32_t cqtc25                : 1;  /**< [ 25: 25](R/W) Command Queuing Task Clear 25. */
-        uint32_t cqtc26                : 1;  /**< [ 26: 26](R/W) Command Queuing Task Clear 26. */
-        uint32_t cqtc27                : 1;  /**< [ 27: 27](R/W) Command Queuing Task Clear 27. */
-        uint32_t cqtc28                : 1;  /**< [ 28: 28](R/W) Command Queuing Task Clear 28. */
-        uint32_t cqtc29                : 1;  /**< [ 29: 29](R/W) Command Queuing Task Clear 29. */
-        uint32_t cqtc30                : 1;  /**< [ 30: 30](R/W) Command Queuing Task Clear 30. */
-        uint32_t cqtc31                : 1;  /**< [ 31: 31](R/W) Command Queuing Task Clear 31. */
+        uint32_t cqtc00                : 1;  /**< [  0:  0](R/W1S) Command Queuing Task Clear 0. */
+        uint32_t cqtc01                : 1;  /**< [  1:  1](R/W1S) Command Queuing Task Clear 1. */
+        uint32_t cqtc02                : 1;  /**< [  2:  2](R/W1S) Command Queuing Task Clear 2. */
+        uint32_t cqtc03                : 1;  /**< [  3:  3](R/W1S) Command Queuing Task Clear 3. */
+        uint32_t cqtc04                : 1;  /**< [  4:  4](R/W1S) Command Queuing Task Clear 4. */
+        uint32_t cqtc05                : 1;  /**< [  5:  5](R/W1S) Command Queuing Task Clear 5. */
+        uint32_t cqtc06                : 1;  /**< [  6:  6](R/W1S) Command Queuing Task Clear 6. */
+        uint32_t cqtc07                : 1;  /**< [  7:  7](R/W1S) Command Queuing Task Clear 7. */
+        uint32_t cqtc08                : 1;  /**< [  8:  8](R/W1S) Command Queuing Task Clear 8. */
+        uint32_t cqtc09                : 1;  /**< [  9:  9](R/W1S) Command Queuing Task Clear 9. */
+        uint32_t cqtc10                : 1;  /**< [ 10: 10](R/W1S) Command Queuing Task Clear 10. */
+        uint32_t cqtc11                : 1;  /**< [ 11: 11](R/W1S) Command Queuing Task Clear 11. */
+        uint32_t cqtc12                : 1;  /**< [ 12: 12](R/W1S) Command Queuing Task Clear 12. */
+        uint32_t cqtc13                : 1;  /**< [ 13: 13](R/W1S) Command Queuing Task Clear 13. */
+        uint32_t cqtc14                : 1;  /**< [ 14: 14](R/W1S) Command Queuing Task Clear 14. */
+        uint32_t cqtc15                : 1;  /**< [ 15: 15](R/W1S) Command Queuing Task Clear 15. */
+        uint32_t cqtc16                : 1;  /**< [ 16: 16](R/W1S) Command Queuing Task Clear 16. */
+        uint32_t cqtc17                : 1;  /**< [ 17: 17](R/W1S) Command Queuing Task Clear 17. */
+        uint32_t cqtc18                : 1;  /**< [ 18: 18](R/W1S) Command Queuing Task Clear 18. */
+        uint32_t cqtc19                : 1;  /**< [ 19: 19](R/W1S) Command Queuing Task Clear 19. */
+        uint32_t cqtc20                : 1;  /**< [ 20: 20](R/W1S) Command Queuing Task Clear 20. */
+        uint32_t cqtc21                : 1;  /**< [ 21: 21](R/W1S) Command Queuing Task Clear 21. */
+        uint32_t cqtc22                : 1;  /**< [ 22: 22](R/W1S) Command Queuing Task Clear 22. */
+        uint32_t cqtc23                : 1;  /**< [ 23: 23](R/W1S) Command Queuing Task Clear 23. */
+        uint32_t cqtc24                : 1;  /**< [ 24: 24](R/W1S) Command Queuing Task Clear 24. */
+        uint32_t cqtc25                : 1;  /**< [ 25: 25](R/W1S) Command Queuing Task Clear 25. */
+        uint32_t cqtc26                : 1;  /**< [ 26: 26](R/W1S) Command Queuing Task Clear 26. */
+        uint32_t cqtc27                : 1;  /**< [ 27: 27](R/W1S) Command Queuing Task Clear 27. */
+        uint32_t cqtc28                : 1;  /**< [ 28: 28](R/W1S) Command Queuing Task Clear 28. */
+        uint32_t cqtc29                : 1;  /**< [ 29: 29](R/W1S) Command Queuing Task Clear 29. */
+        uint32_t cqtc30                : 1;  /**< [ 30: 30](R/W1S) Command Queuing Task Clear 30. */
+        uint32_t cqtc31                : 1;  /**< [ 31: 31](R/W1S) Command Queuing Task Clear 31. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_emmcx_host_cqrs_cqrs14_s cn; */
@@ -1486,13 +1486,13 @@ union cavm_emmcx_host_hrs_hrs00
         uint32_t reserved_24_31        : 8;
         uint32_t sav                   : 8;  /**< [ 23: 16](RO) Slot Available. Informs that the Host Controller supports one slot. */
         uint32_t reserved_1_15         : 15;
-        uint32_t swr                   : 1;  /**< [  0:  0](R/W) Software Reset. When set to 1, the entire core is reset. After reset operation complete, SWR bit
+        uint32_t swr                   : 1;  /**< [  0:  0](R/W1S) Software Reset. When set to 1, the entire core is reset. After reset operation complete, SWR bit
                                                                  is automatically cleared. It takes some time to complete the requested reset operation, so the
                                                                  software should always poll SWR bit status, and continue the other operations only when SWR is
                                                                  cleared to 0. There is no difference between SWR and EMMC_HOST_SRS11[SRFA] software resets. Both
                                                                  resets the same flip-flops. */
 #else /* Word 0 - Little Endian */
-        uint32_t swr                   : 1;  /**< [  0:  0](R/W) Software Reset. When set to 1, the entire core is reset. After reset operation complete, SWR bit
+        uint32_t swr                   : 1;  /**< [  0:  0](R/W1S) Software Reset. When set to 1, the entire core is reset. After reset operation complete, SWR bit
                                                                  is automatically cleared. It takes some time to complete the requested reset operation, so the
                                                                  software should always poll SWR bit status, and continue the other operations only when SWR is
                                                                  cleared to 0. There is no difference between SWR and EMMC_HOST_SRS11[SRFA] software resets. Both
@@ -1671,22 +1671,22 @@ union cavm_emmcx_host_hrs_hrs03
                                                                  0 = status disable.
                                                                  1 = status enable. */
         uint32_t reserved_4_7          : 4;
-        uint32_t aer_bs                : 1;  /**< [  3:  3](R/W) AXI ERROR Response B channel: SLVERR
+        uint32_t aer_bs                : 1;  /**< [  3:  3](R/W1C) AXI ERROR Response B channel: SLVERR
                                                                  This bit is set when a SLVERR is detected on AXI Master bus in B channel (Write Response Channel). */
-        uint32_t aer_bd                : 1;  /**< [  2:  2](R/W) AXI ERROR Response B channel: DECERR
+        uint32_t aer_bd                : 1;  /**< [  2:  2](R/W1C) AXI ERROR Response B channel: DECERR
                                                                  This bit is set when a DECERR is detected on AXI Master bus in B channel (Write Response Channel). */
-        uint32_t aer_rs                : 1;  /**< [  1:  1](R/W) AXI ERROR Response R channel: SLVERR
+        uint32_t aer_rs                : 1;  /**< [  1:  1](R/W1C) AXI ERROR Response R channel: SLVERR
                                                                  This bit is set when a SLVERR is detected on AXI Master bus in R channel (READ Response Channel). */
-        uint32_t aer_rd                : 1;  /**< [  0:  0](R/W) AXI ERROR Response R channel: DECERR
+        uint32_t aer_rd                : 1;  /**< [  0:  0](R/W1C) AXI ERROR Response R channel: DECERR
                                                                  This bit is set when a DECERR is detected on AXI Master bus in R channel (READ Response Channel). */
 #else /* Word 0 - Little Endian */
-        uint32_t aer_rd                : 1;  /**< [  0:  0](R/W) AXI ERROR Response R channel: DECERR
+        uint32_t aer_rd                : 1;  /**< [  0:  0](R/W1C) AXI ERROR Response R channel: DECERR
                                                                  This bit is set when a DECERR is detected on AXI Master bus in R channel (READ Response Channel). */
-        uint32_t aer_rs                : 1;  /**< [  1:  1](R/W) AXI ERROR Response R channel: SLVERR
+        uint32_t aer_rs                : 1;  /**< [  1:  1](R/W1C) AXI ERROR Response R channel: SLVERR
                                                                  This bit is set when a SLVERR is detected on AXI Master bus in R channel (READ Response Channel). */
-        uint32_t aer_bd                : 1;  /**< [  2:  2](R/W) AXI ERROR Response B channel: DECERR
+        uint32_t aer_bd                : 1;  /**< [  2:  2](R/W1C) AXI ERROR Response B channel: DECERR
                                                                  This bit is set when a DECERR is detected on AXI Master bus in B channel (Write Response Channel). */
-        uint32_t aer_bs                : 1;  /**< [  3:  3](R/W) AXI ERROR Response B channel: SLVERR
+        uint32_t aer_bs                : 1;  /**< [  3:  3](R/W1C) AXI ERROR Response B channel: SLVERR
                                                                  This bit is set when a SLVERR is detected on AXI Master bus in B channel (Write Response Channel). */
         uint32_t reserved_4_7          : 4;
         uint32_t aer_senrd             : 1;  /**< [  8:  8](R/W) Status Enable for AXI ERROR Response R channel: DECERR
@@ -2138,15 +2138,15 @@ union cavm_emmcx_host_hrs_hrs12
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t phydatof              : 1;  /**< [  3:  3](R/W) PHY DAT Overflow. Status received from Combo PHY informing about DAT FIFO status. */
-        uint32_t phydatur              : 1;  /**< [  2:  2](R/W) PHY DAT Underrun. Status received from Combo PHY informing about DAT FIFO status. */
-        uint32_t phycmdof              : 1;  /**< [  1:  1](R/W) PHY CMD Overflow. Status received from Combo PHY informing about CMD FIFO status. */
-        uint32_t phycmdur              : 1;  /**< [  0:  0](R/W) PHY CMD Underrun. Status received from Combo PHY informing about CMD FIFO status. */
+        uint32_t phydatof              : 1;  /**< [  3:  3](R/W1C) PHY DAT Overflow. Status received from Combo PHY informing about DAT FIFO status. */
+        uint32_t phydatur              : 1;  /**< [  2:  2](R/W1C) PHY DAT Underrun. Status received from Combo PHY informing about DAT FIFO status. */
+        uint32_t phycmdof              : 1;  /**< [  1:  1](R/W1C) PHY CMD Overflow. Status received from Combo PHY informing about CMD FIFO status. */
+        uint32_t phycmdur              : 1;  /**< [  0:  0](R/W1C) PHY CMD Underrun. Status received from Combo PHY informing about CMD FIFO status. */
 #else /* Word 0 - Little Endian */
-        uint32_t phycmdur              : 1;  /**< [  0:  0](R/W) PHY CMD Underrun. Status received from Combo PHY informing about CMD FIFO status. */
-        uint32_t phycmdof              : 1;  /**< [  1:  1](R/W) PHY CMD Overflow. Status received from Combo PHY informing about CMD FIFO status. */
-        uint32_t phydatur              : 1;  /**< [  2:  2](R/W) PHY DAT Underrun. Status received from Combo PHY informing about DAT FIFO status. */
-        uint32_t phydatof              : 1;  /**< [  3:  3](R/W) PHY DAT Overflow. Status received from Combo PHY informing about DAT FIFO status. */
+        uint32_t phycmdur              : 1;  /**< [  0:  0](R/W1C) PHY CMD Underrun. Status received from Combo PHY informing about CMD FIFO status. */
+        uint32_t phycmdof              : 1;  /**< [  1:  1](R/W1C) PHY CMD Overflow. Status received from Combo PHY informing about CMD FIFO status. */
+        uint32_t phydatur              : 1;  /**< [  2:  2](R/W1C) PHY DAT Underrun. Status received from Combo PHY informing about DAT FIFO status. */
+        uint32_t phydatof              : 1;  /**< [  3:  3](R/W1C) PHY DAT Overflow. Status received from Combo PHY informing about DAT FIFO status. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
@@ -3884,7 +3884,7 @@ union cavm_emmcx_host_srs_srs10
         uint32_t rwc                   : 1;  /**< [ 18: 18](R/W) Read-Wait Control. When set to 1, enables Read Wait control. The Read Wait function is optional
                                                                  for SDIO cards. If the card does not support read wait, this bit would never be set to 1;
                                                                  otherwise, DAT line conflict may occur. */
-        uint32_t creq                  : 1;  /**< [ 17: 17](R/W) Continue Request. When set to 1, restarts the transfer previously stopped using the Stop At Block
+        uint32_t creq                  : 1;  /**< [ 17: 17](R/W1S) Continue Request. When set to 1, restarts the transfer previously stopped using the Stop At Block
                                                                  Gap. The software will set EMMC_HOST_SRS_SRS10[SBGR] (Stop At Block Gap) bit to 0 before setting
                                                                  the (CR) Continue Request. When EMMC_HOST_SRS_SRS10[SBGR]=1, then all write operations to Continue
                                                                  Request are ignored. Clearing EMMC_HOST_SRS_SRS10[SBGR] can be done before or simultaneously with
@@ -4010,7 +4010,7 @@ union cavm_emmcx_host_srs_srs10
                                                                  after the last block written to the data buffer. The host sends all data already written to the
                                                                  internal data buffer before stopping the transfer. In case of stopping non-DMA write transfer,
                                                                  the software will set this bit only at block gap (block unit (SD mode)). */
-        uint32_t creq                  : 1;  /**< [ 17: 17](R/W) Continue Request. When set to 1, restarts the transfer previously stopped using the Stop At Block
+        uint32_t creq                  : 1;  /**< [ 17: 17](R/W1S) Continue Request. When set to 1, restarts the transfer previously stopped using the Stop At Block
                                                                  Gap. The software will set EMMC_HOST_SRS_SRS10[SBGR] (Stop At Block Gap) bit to 0 before setting
                                                                  the (CR) Continue Request. When EMMC_HOST_SRS_SRS10[SBGR]=1, then all write operations to Continue
                                                                  Request are ignored. Clearing EMMC_HOST_SRS_SRS10[SBGR] can be done before or simultaneously with
@@ -4064,7 +4064,7 @@ union cavm_emmcx_host_srs_srs11
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_27_31        : 5;
-        uint32_t srdat                 : 1;  /**< [ 26: 26](R/W) Software Reset For DAT Line. When set to 1, resets the logic related to the data path, including
+        uint32_t srdat                 : 1;  /**< [ 26: 26](R/W1S) Software Reset For DAT Line. When set to 1, resets the logic related to the data path, including
                                                                  data buffers and the DMA logic. The following registers and bits are cleared:
                                                                  EMMC_HOST_SRS_SRS08 register:
                                                                        Buffer
@@ -4088,14 +4088,14 @@ union cavm_emmcx_host_srs_srs11
                                                                  takes some time to complete the reset operation, so the software will wait until
                                                                  EMMC_HOST_SRS_SRS11[SRDAT]=0, and continue the other operations only when
                                                                  EMMC_HOST_SRS_SRS11[SRDAT]=0. */
-        uint32_t srcmd                 : 1;  /**< [ 25: 25](R/W) Software Reset For CMD Line. When set to 1, resets the logic related to the command generation
+        uint32_t srcmd                 : 1;  /**< [ 25: 25](R/W1S) Software Reset For CMD Line. When set to 1, resets the logic related to the command generation
                                                                  and response checking. The following registers and bits are cleared:
                                                                  EMMC_HOST_SRS_SRS09 register: Command Inhibit CMD
                                                                  EMMC_HOST_SRS_SRS12 register: Command Complete
                                                                  After completing the reset operation, EMMC_HOST_SRS_SRS11[SRCMD] bit is automatically cleared. It
                                                                  takes some time to complete the reset operation, so the software will wait until SRCMD=0, and
                                                                  continue the other operations only when EMMC_HOST_SRS_SRS11[SRCMD]=0. */
-        uint32_t srfa                  : 1;  /**< [ 24: 24](R/W) Software Reset For All. When set to 1, the entire slot is reset.After completing the reset
+        uint32_t srfa                  : 1;  /**< [ 24: 24](R/W1S) Software Reset For All. When set to 1, the entire slot is reset.After completing the reset
                                                                  operation, SRFA bit is automatically cleared. It takes some time to complete the reset operation,
                                                                  so the software will wait until SRFA=0, and continue the other operations only when SRFA=0.
                                                                  Additionally, after SRFA, software should reset and reinitialize card inserted to the slot. SD
@@ -4179,19 +4179,19 @@ union cavm_emmcx_host_srs_srs11
                                                                  Where t_sdmclk is the sdmclk clock periodRefer to the Data Timeout. Error
                                                                  (EMMC_HOST_SRS_SRS12[EDT]) register for information on factors which generate data timeouts. */
         uint32_t reserved_20_23        : 4;
-        uint32_t srfa                  : 1;  /**< [ 24: 24](R/W) Software Reset For All. When set to 1, the entire slot is reset.After completing the reset
+        uint32_t srfa                  : 1;  /**< [ 24: 24](R/W1S) Software Reset For All. When set to 1, the entire slot is reset.After completing the reset
                                                                  operation, SRFA bit is automatically cleared. It takes some time to complete the reset operation,
                                                                  so the software will wait until SRFA=0, and continue the other operations only when SRFA=0.
                                                                  Additionally, after SRFA, software should reset and reinitialize card inserted to the slot. SD
                                                                  Card Power may be enabled 1 ms after this bit is cleared to ensure SD Card has been reset properly. */
-        uint32_t srcmd                 : 1;  /**< [ 25: 25](R/W) Software Reset For CMD Line. When set to 1, resets the logic related to the command generation
+        uint32_t srcmd                 : 1;  /**< [ 25: 25](R/W1S) Software Reset For CMD Line. When set to 1, resets the logic related to the command generation
                                                                  and response checking. The following registers and bits are cleared:
                                                                  EMMC_HOST_SRS_SRS09 register: Command Inhibit CMD
                                                                  EMMC_HOST_SRS_SRS12 register: Command Complete
                                                                  After completing the reset operation, EMMC_HOST_SRS_SRS11[SRCMD] bit is automatically cleared. It
                                                                  takes some time to complete the reset operation, so the software will wait until SRCMD=0, and
                                                                  continue the other operations only when EMMC_HOST_SRS_SRS11[SRCMD]=0. */
-        uint32_t srdat                 : 1;  /**< [ 26: 26](R/W) Software Reset For DAT Line. When set to 1, resets the logic related to the data path, including
+        uint32_t srdat                 : 1;  /**< [ 26: 26](R/W1S) Software Reset For DAT Line. When set to 1, resets the logic related to the data path, including
                                                                  data buffers and the DMA logic. The following registers and bits are cleared:
                                                                  EMMC_HOST_SRS_SRS08 register:
                                                                        Buffer
@@ -4249,41 +4249,41 @@ union cavm_emmcx_host_srs_srs12
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t ersp                  : 1;  /**< [ 27: 27](R/W) Response Error. Generated on error detection inside R1 or R5 response. Errors will be checked
+        uint32_t ersp                  : 1;  /**< [ 27: 27](R/W1C) Response Error. Generated on error detection inside R1 or R5 response. Errors will be checked
                                                                  only if RECE is set 1. */
         uint32_t reserved_26           : 1;
-        uint32_t eadma                 : 1;  /**< [ 25: 25](R/W) ADMA Error. Generated when an error occurs during ADMA read or write transfer. To resolve the
+        uint32_t eadma                 : 1;  /**< [ 25: 25](R/W1C) ADMA Error. Generated when an error occurs during ADMA read or write transfer. To resolve the
                                                                  cause of the error, the state of the ADMA engine at error occurrence is saved in ADMA Error Status
                                                                  register, and the address of the descriptor processed at error occurrence is provided in ADMA
                                                                  System Address register. */
-        uint32_t eac                   : 1;  /**< [ 24: 24](R/W) Auto CMD Error (SD mode only). Generated when an error occurs during Auto CMD12/Auto CMD23 command
+        uint32_t eac                   : 1;  /**< [ 24: 24](R/W1C) Auto CMD Error (SD mode only). Generated when an error occurs during Auto CMD12/Auto CMD23 command
                                                                  transmission. It indicates one of the following conditions:
                                                                  - one of the bits in EMMC_HOST_SRS_SRS15 register has changed from 0 to 1,
                                                                  - Auto CMD12 is not executed due to the previous command error. */
-        uint32_t ecl                   : 1;  /**< [ 23: 23](R/W) Current Limit Error. This fields carries an error/failure reported on the \textit{pad_cle} input
+        uint32_t ecl                   : 1;  /**< [ 23: 23](R/W1C) Current Limit Error. This fields carries an error/failure reported on the \textit{pad_cle} input
                                                                  pad of the Host Controller. The error/failure generation is located outside of this soft IP.
                                                                  Note: If the external power supply for SD/eMMC device does not monitor and report this type of
                                                                  error, connect the Current Limit Error (\textit{sdphy_dfi_cle} input of the Host Controller core)
                                                                  to 0. */
-        uint32_t edeb                  : 1;  /**< [ 22: 22](R/W) Data End Bit Error (SD mode only). When set to 1, indicates detecting 0 at the end bit position of
+        uint32_t edeb                  : 1;  /**< [ 22: 22](R/W1C) Data End Bit Error (SD mode only). When set to 1, indicates detecting 0 at the end bit position of
                                                                  read data transfer which uses the DAT line, or at the end bit position of the Write CRC Status. */
-        uint32_t edcrc                 : 1;  /**< [ 21: 21](R/W) Data CRC Error (SD mode only). When set to 1, indicates detecting CRC error when transferring
+        uint32_t edcrc                 : 1;  /**< [ 21: 21](R/W1C) Data CRC Error (SD mode only). When set to 1, indicates detecting CRC error when transferring
                                                                  read data which uses the DAT line, or when detecting the Write CRC status having a value of other
                                                                  than 010. This bit will be set to 1 immediately when conflict on CMD line detected. The conflict
                                                                  is signalized by setting this bit and EMMC_HOST_SRS_SRS12[EDT] to 1. */
-        uint32_t edt                   : 1;  /**< [ 20: 20](R/W) Data Timeout Error (SD mode only). When set to 1, indicates detecting one of the following timeout
+        uint32_t edt                   : 1;  /**< [ 20: 20](R/W1C) Data Timeout Error (SD mode only). When set to 1, indicates detecting one of the following timeout
                                                                  conditions:
                                                                  1. Busy timeout for the response with busy.
                                                                  2. Busy timeout after Write CRC status.
                                                                  3. Write CRC Status timeout.
                                                                  4. Read data timeout.
                                                                  This bit will be set to 1 immediately when conflict on CMD line conflict detected. */
-        uint32_t eci                   : 1;  /**< [ 19: 19](R/W) Command Index Error (SD mode only). When set to 1, indicates that Index error occurs in the
+        uint32_t eci                   : 1;  /**< [ 19: 19](R/W1C) Command Index Error (SD mode only). When set to 1, indicates that Index error occurs in the
                                                                  command response. */
-        uint32_t eceb                  : 1;  /**< [ 18: 18](R/W) Command End Bit Error (SD mode only). When set to 1, indicates detecting that the end bit of a
+        uint32_t eceb                  : 1;  /**< [ 18: 18](R/W1C) Command End Bit Error (SD mode only). When set to 1, indicates detecting that the end bit of a
                                                                  command response is 0. */
-        uint32_t eccrc                 : 1;  /**< [ 17: 17](R/W) Command CRC Error (SD mode only). When set to 1, indicates that command CRC error has occurred. */
-        uint32_t ect                   : 1;  /**< [ 16: 16](R/W) Command Timeout Error. When set to 1, indicates that no response was returned within 64 SDCLK
+        uint32_t eccrc                 : 1;  /**< [ 17: 17](R/W1C) Command CRC Error (SD mode only). When set to 1, indicates that command CRC error has occurred. */
+        uint32_t ect                   : 1;  /**< [ 16: 16](R/W1C) Command Timeout Error. When set to 1, indicates that no response was returned within 64 SDCLK
                                                                  cycles from the end bit of the command. */
         uint32_t eint                  : 1;  /**< [ 15: 15](RO) Error Interrupt. This bit is set if any of bits in range EMMC_HOST_SRS_SRS12[31:16] is set; The
                                                                  software can check for an error by reading this single bit first. */
@@ -4307,27 +4307,27 @@ union cavm_emmcx_host_srs_srs12
                                                                  Specification. After clearing the interrupt source, the card will stop to drive the interrupt
                                                                  signal to the host. Finally, when the interrupt service routine is finished, the interrupt
                                                                  detection can be enabled by setting EMMC_HOST_SRS_SRS13[CINT_SE] back to 1. */
-        uint32_t cr                    : 1;  /**< [  7:  7](R/W) Card Removal. Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 1 to 0, indicating card
+        uint32_t cr                    : 1;  /**< [  7:  7](R/W1C) Card Removal. Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 1 to 0, indicating card
                                                                  removal event. When read as 1, indicates that the card was removed from the slot. When read as 0,
                                                                  indicates that the card state is stable (still inserted or removed) or that the debouncing is in
                                                                  progress. */
-        uint32_t cin                   : 1;  /**< [  6:  6](R/W) Card Insertion.Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 0 to 1, indicating card
+        uint32_t cin                   : 1;  /**< [  6:  6](R/W1C) Card Insertion.Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 0 to 1, indicating card
                                                                  insertion. When read as 1, indicates that the card was inserted to the slot. When read as 0,
                                                                  indicates that the card state is stable (still inserted or removed) or that the debouncing is in
                                                                  progress. */
-        uint32_t brr                   : 1;  /**< [  5:  5](R/W) Buffer Read Ready. Generated when the BRE changes from 0 to 1, indicating that the data buffer can
+        uint32_t brr                   : 1;  /**< [  5:  5](R/W1C) Buffer Read Ready. Generated when the BRE changes from 0 to 1, indicating that the data buffer can
                                                                  be read by the software. This field works differently in the SD Tuning Sequence, i.e. when Sampling
                                                                  Clock Select (EMMC_HOST_SRS_SRS15[SCS]) equals 1. It is set to 1 on the tune step completion
                                                                  despite of the step's result. As per the Standard, during the SD tuning, none of the interrupts is
                                                                  notified except Buffer Read Ready. */
-        uint32_t bwr                   : 1;  /**< [  4:  4](R/W) Buffer Write Ready. Generated when the BWE changes from 0 to 1, indicating that the data buffer
+        uint32_t bwr                   : 1;  /**< [  4:  4](R/W1C) Buffer Write Ready. Generated when the BWE changes from 0 to 1, indicating that the data buffer
                                                                  can be written by the software. */
-        uint32_t dmaint                : 1;  /**< [  3:  3](R/W) DMA Interrupt. In SDMA mode, DMA interrupt is generated when the host controller detects the Host
+        uint32_t dmaint                : 1;  /**< [  3:  3](R/W1C) DMA Interrupt. In SDMA mode, DMA interrupt is generated when the host controller detects the Host
                                                                  SDMA Buffer boundary. In ADMA mode, DMA interrupt is generated when the INT flag is set in a
                                                                  currently serviced ADMA descriptor. */
-        uint32_t bge                   : 1;  /**< [  2:  2](R/W) Block Gap Event. Generated when the read/write transaction is stopped at a block gap as the
+        uint32_t bge                   : 1;  /**< [  2:  2](R/W1C) Block Gap Event. Generated when the read/write transaction is stopped at a block gap as the
                                                                  result of setting EMMC_HOST_SRS_SRS10[SBGR] to 1. */
-        uint32_t tc                    : 1;  /**< [  1:  1](R/W) Transfer Complete. SD Mode: Generated when the transfer which uses the DAT line is complete.
+        uint32_t tc                    : 1;  /**< [  1:  1](R/W1C) Transfer Complete. SD Mode: Generated when the transfer which uses the DAT line is complete.
                                                                  Transfers which use the DAT line include the read/write transfers and commands with a busy
                                                                  response. In case of the read transfer, TC indicates that the entire data was transferred from
                                                                  the card to the host system (i.e. the host FIFO is empty after reading the last data block).
@@ -4335,12 +4335,12 @@ union cavm_emmcx_host_srs_srs12
                                                                  to the card (i.e. the host FIFO is empty after writing the last data block), and the card accepted
                                                                  the data (busy signal released after the last block). In the case of the command with a busy
                                                                  response, TC indicates that the busy signal is released after the response. */
-        uint32_t cc                    : 1;  /**< [  0:  0](R/W) Command Complete. Generated when the end bit of the response is received, except the response for
+        uint32_t cc                    : 1;  /**< [  0:  0](R/W1C) Command Complete. Generated when the end bit of the response is received, except the response for
                                                                  Auto-CMD12 command. Auto-CMD12 command does not generate CC. */
 #else /* Word 0 - Little Endian */
-        uint32_t cc                    : 1;  /**< [  0:  0](R/W) Command Complete. Generated when the end bit of the response is received, except the response for
+        uint32_t cc                    : 1;  /**< [  0:  0](R/W1C) Command Complete. Generated when the end bit of the response is received, except the response for
                                                                  Auto-CMD12 command. Auto-CMD12 command does not generate CC. */
-        uint32_t tc                    : 1;  /**< [  1:  1](R/W) Transfer Complete. SD Mode: Generated when the transfer which uses the DAT line is complete.
+        uint32_t tc                    : 1;  /**< [  1:  1](R/W1C) Transfer Complete. SD Mode: Generated when the transfer which uses the DAT line is complete.
                                                                  Transfers which use the DAT line include the read/write transfers and commands with a busy
                                                                  response. In case of the read transfer, TC indicates that the entire data was transferred from
                                                                  the card to the host system (i.e. the host FIFO is empty after reading the last data block).
@@ -4348,23 +4348,23 @@ union cavm_emmcx_host_srs_srs12
                                                                  to the card (i.e. the host FIFO is empty after writing the last data block), and the card accepted
                                                                  the data (busy signal released after the last block). In the case of the command with a busy
                                                                  response, TC indicates that the busy signal is released after the response. */
-        uint32_t bge                   : 1;  /**< [  2:  2](R/W) Block Gap Event. Generated when the read/write transaction is stopped at a block gap as the
+        uint32_t bge                   : 1;  /**< [  2:  2](R/W1C) Block Gap Event. Generated when the read/write transaction is stopped at a block gap as the
                                                                  result of setting EMMC_HOST_SRS_SRS10[SBGR] to 1. */
-        uint32_t dmaint                : 1;  /**< [  3:  3](R/W) DMA Interrupt. In SDMA mode, DMA interrupt is generated when the host controller detects the Host
+        uint32_t dmaint                : 1;  /**< [  3:  3](R/W1C) DMA Interrupt. In SDMA mode, DMA interrupt is generated when the host controller detects the Host
                                                                  SDMA Buffer boundary. In ADMA mode, DMA interrupt is generated when the INT flag is set in a
                                                                  currently serviced ADMA descriptor. */
-        uint32_t bwr                   : 1;  /**< [  4:  4](R/W) Buffer Write Ready. Generated when the BWE changes from 0 to 1, indicating that the data buffer
+        uint32_t bwr                   : 1;  /**< [  4:  4](R/W1C) Buffer Write Ready. Generated when the BWE changes from 0 to 1, indicating that the data buffer
                                                                  can be written by the software. */
-        uint32_t brr                   : 1;  /**< [  5:  5](R/W) Buffer Read Ready. Generated when the BRE changes from 0 to 1, indicating that the data buffer can
+        uint32_t brr                   : 1;  /**< [  5:  5](R/W1C) Buffer Read Ready. Generated when the BRE changes from 0 to 1, indicating that the data buffer can
                                                                  be read by the software. This field works differently in the SD Tuning Sequence, i.e. when Sampling
                                                                  Clock Select (EMMC_HOST_SRS_SRS15[SCS]) equals 1. It is set to 1 on the tune step completion
                                                                  despite of the step's result. As per the Standard, during the SD tuning, none of the interrupts is
                                                                  notified except Buffer Read Ready. */
-        uint32_t cin                   : 1;  /**< [  6:  6](R/W) Card Insertion.Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 0 to 1, indicating card
+        uint32_t cin                   : 1;  /**< [  6:  6](R/W1C) Card Insertion.Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 0 to 1, indicating card
                                                                  insertion. When read as 1, indicates that the card was inserted to the slot. When read as 0,
                                                                  indicates that the card state is stable (still inserted or removed) or that the debouncing is in
                                                                  progress. */
-        uint32_t cr                    : 1;  /**< [  7:  7](R/W) Card Removal. Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 1 to 0, indicating card
+        uint32_t cr                    : 1;  /**< [  7:  7](R/W1C) Card Removal. Generated when the EMMC_HOST_SRS_SRS09[CI] bit changes from 1 to 0, indicating card
                                                                  removal event. When read as 1, indicates that the card was removed from the slot. When read as 0,
                                                                  indicates that the card state is stable (still inserted or removed) or that the debouncing is in
                                                                  progress. */
@@ -4390,41 +4390,41 @@ union cavm_emmcx_host_srs_srs12
                                                                  register is set. This interrupt is cleared only by clearing the source interrupt in CQIS register. */
         uint32_t eint                  : 1;  /**< [ 15: 15](RO) Error Interrupt. This bit is set if any of bits in range EMMC_HOST_SRS_SRS12[31:16] is set; The
                                                                  software can check for an error by reading this single bit first. */
-        uint32_t ect                   : 1;  /**< [ 16: 16](R/W) Command Timeout Error. When set to 1, indicates that no response was returned within 64 SDCLK
+        uint32_t ect                   : 1;  /**< [ 16: 16](R/W1C) Command Timeout Error. When set to 1, indicates that no response was returned within 64 SDCLK
                                                                  cycles from the end bit of the command. */
-        uint32_t eccrc                 : 1;  /**< [ 17: 17](R/W) Command CRC Error (SD mode only). When set to 1, indicates that command CRC error has occurred. */
-        uint32_t eceb                  : 1;  /**< [ 18: 18](R/W) Command End Bit Error (SD mode only). When set to 1, indicates detecting that the end bit of a
+        uint32_t eccrc                 : 1;  /**< [ 17: 17](R/W1C) Command CRC Error (SD mode only). When set to 1, indicates that command CRC error has occurred. */
+        uint32_t eceb                  : 1;  /**< [ 18: 18](R/W1C) Command End Bit Error (SD mode only). When set to 1, indicates detecting that the end bit of a
                                                                  command response is 0. */
-        uint32_t eci                   : 1;  /**< [ 19: 19](R/W) Command Index Error (SD mode only). When set to 1, indicates that Index error occurs in the
+        uint32_t eci                   : 1;  /**< [ 19: 19](R/W1C) Command Index Error (SD mode only). When set to 1, indicates that Index error occurs in the
                                                                  command response. */
-        uint32_t edt                   : 1;  /**< [ 20: 20](R/W) Data Timeout Error (SD mode only). When set to 1, indicates detecting one of the following timeout
+        uint32_t edt                   : 1;  /**< [ 20: 20](R/W1C) Data Timeout Error (SD mode only). When set to 1, indicates detecting one of the following timeout
                                                                  conditions:
                                                                  1. Busy timeout for the response with busy.
                                                                  2. Busy timeout after Write CRC status.
                                                                  3. Write CRC Status timeout.
                                                                  4. Read data timeout.
                                                                  This bit will be set to 1 immediately when conflict on CMD line conflict detected. */
-        uint32_t edcrc                 : 1;  /**< [ 21: 21](R/W) Data CRC Error (SD mode only). When set to 1, indicates detecting CRC error when transferring
+        uint32_t edcrc                 : 1;  /**< [ 21: 21](R/W1C) Data CRC Error (SD mode only). When set to 1, indicates detecting CRC error when transferring
                                                                  read data which uses the DAT line, or when detecting the Write CRC status having a value of other
                                                                  than 010. This bit will be set to 1 immediately when conflict on CMD line detected. The conflict
                                                                  is signalized by setting this bit and EMMC_HOST_SRS_SRS12[EDT] to 1. */
-        uint32_t edeb                  : 1;  /**< [ 22: 22](R/W) Data End Bit Error (SD mode only). When set to 1, indicates detecting 0 at the end bit position of
+        uint32_t edeb                  : 1;  /**< [ 22: 22](R/W1C) Data End Bit Error (SD mode only). When set to 1, indicates detecting 0 at the end bit position of
                                                                  read data transfer which uses the DAT line, or at the end bit position of the Write CRC Status. */
-        uint32_t ecl                   : 1;  /**< [ 23: 23](R/W) Current Limit Error. This fields carries an error/failure reported on the \textit{pad_cle} input
+        uint32_t ecl                   : 1;  /**< [ 23: 23](R/W1C) Current Limit Error. This fields carries an error/failure reported on the \textit{pad_cle} input
                                                                  pad of the Host Controller. The error/failure generation is located outside of this soft IP.
                                                                  Note: If the external power supply for SD/eMMC device does not monitor and report this type of
                                                                  error, connect the Current Limit Error (\textit{sdphy_dfi_cle} input of the Host Controller core)
                                                                  to 0. */
-        uint32_t eac                   : 1;  /**< [ 24: 24](R/W) Auto CMD Error (SD mode only). Generated when an error occurs during Auto CMD12/Auto CMD23 command
+        uint32_t eac                   : 1;  /**< [ 24: 24](R/W1C) Auto CMD Error (SD mode only). Generated when an error occurs during Auto CMD12/Auto CMD23 command
                                                                  transmission. It indicates one of the following conditions:
                                                                  - one of the bits in EMMC_HOST_SRS_SRS15 register has changed from 0 to 1,
                                                                  - Auto CMD12 is not executed due to the previous command error. */
-        uint32_t eadma                 : 1;  /**< [ 25: 25](R/W) ADMA Error. Generated when an error occurs during ADMA read or write transfer. To resolve the
+        uint32_t eadma                 : 1;  /**< [ 25: 25](R/W1C) ADMA Error. Generated when an error occurs during ADMA read or write transfer. To resolve the
                                                                  cause of the error, the state of the ADMA engine at error occurrence is saved in ADMA Error Status
                                                                  register, and the address of the descriptor processed at error occurrence is provided in ADMA
                                                                  System Address register. */
         uint32_t reserved_26           : 1;
-        uint32_t ersp                  : 1;  /**< [ 27: 27](R/W) Response Error. Generated on error detection inside R1 or R5 response. Errors will be checked
+        uint32_t ersp                  : 1;  /**< [ 27: 27](R/W1C) Response Error. Generated on error detection inside R1 or R5 response. Errors will be checked
                                                                  only if RECE is set 1. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */

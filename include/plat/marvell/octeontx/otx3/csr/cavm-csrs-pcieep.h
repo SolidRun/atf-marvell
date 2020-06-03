@@ -2364,13 +2364,13 @@ union cavm_pcieepx_ebar
     struct cavm_pcieepx_ebar_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eraddr                : 20; /**< [ 31: 12](RO) Expansion ROM address. */
+        uint32_t eraddr                : 20; /**< [ 31: 12](R/W) Expansion ROM address. */
         uint32_t reserved_1_11         : 11;
-        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not Supported). */
+        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable (Not Supported). */
 #else /* Word 0 - Little Endian */
-        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not Supported). */
+        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable (Not Supported). */
         uint32_t reserved_1_11         : 11;
-        uint32_t eraddr                : 20; /**< [ 31: 12](RO) Expansion ROM address. */
+        uint32_t eraddr                : 20; /**< [ 31: 12](R/W) Expansion ROM address. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_ebar_s cn; */

@@ -2091,8 +2091,8 @@ typedef union cavm_ssow_priv_lfx_hws_cfg cavm_ssow_priv_lfx_hws_cfg_t;
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_CFG(uint64_t a)
 {
-    if (a<=23)
-        return 0x840080001000ll + 8ll * ((a) & 0x1f);
+    if (a<=51)
+        return 0x840080001000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSOW_PRIV_LFX_HWS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2142,8 +2142,8 @@ typedef union cavm_ssow_priv_lfx_hws_int_cfg cavm_ssow_priv_lfx_hws_int_cfg_t;
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_INT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_INT_CFG(uint64_t a)
 {
-    if (a<=23)
-        return 0x840080002000ll + 8ll * ((a) & 0x1f);
+    if (a<=51)
+        return 0x840080002000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSOW_PRIV_LFX_HWS_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 

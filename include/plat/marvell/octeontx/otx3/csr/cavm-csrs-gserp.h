@@ -48244,7 +48244,7 @@ static inline uint64_t CAVM_GSERPX_MON_TOP(uint64_t a)
 /**
  * Register (RSL) gserp#_msix_pba#
  *
- * PEM MSI-X Pending Bit Array Registers
+ * GSERP MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the GSERP_INT_VEC_E enumeration.
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -69297,6 +69297,47 @@ static inline uint64_t CAVM_GSERPX_SCRATCHX(uint64_t a, uint64_t b)
 #define device_bar_CAVM_GSERPX_SCRATCHX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_SCRATCHX(a,b) (a)
 #define arguments_CAVM_GSERPX_SCRATCHX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) gserp#_silicon
+ *
+ * GSERP Process Indicator Register
+ */
+union cavm_gserpx_silicon
+{
+    uint64_t u;
+    struct cavm_gserpx_silicon_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t process_info          : 16; /**< [ 15:  0](RO/H) Initialized from fuses during cold reset and then read-only afterward.
+                                                                 Provisions for future software to potentially speed up calibration time by
+                                                                 understanding something about the process corner of this chip. */
+#else /* Word 0 - Little Endian */
+        uint64_t process_info          : 16; /**< [ 15:  0](RO/H) Initialized from fuses during cold reset and then read-only afterward.
+                                                                 Provisions for future software to potentially speed up calibration time by
+                                                                 understanding something about the process corner of this chip. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_silicon_s cn; */
+};
+typedef union cavm_gserpx_silicon cavm_gserpx_silicon_t;
+
+static inline uint64_t CAVM_GSERPX_SILICON(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_SILICON(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e090020048ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_SILICON", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_SILICON(a) cavm_gserpx_silicon_t
+#define bustype_CAVM_GSERPX_SILICON(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_SILICON(a) "GSERPX_SILICON"
+#define device_bar_CAVM_GSERPX_SILICON(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_SILICON(a) (a)
+#define arguments_CAVM_GSERPX_SILICON(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_smplr_d_bot_e_cal_0
