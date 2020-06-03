@@ -29,8 +29,8 @@ func plat_my_core_pos
 endfunc plat_my_core_pos
 
 func octeontx_calc_core_pos
-	and	x1, x0, x0, LSR #MPIDR_AFF2_SHIFT
-	and	x0, x1, #0xFF
+	ldr 	x1, =0xff
+	and     x0, x1, x0, LSR #MPIDR_AFF2_SHIFT
 	ret
 endfunc octeontx_calc_core_pos
 

@@ -43,23 +43,10 @@ int plat_octeontx_is_lmc_enabled(unsigned lmc)
 /*******************************************************************************
  * Setup secondary CPU JUMP address from RESET
  ******************************************************************************/
-void plat_octeontx_set_secondary_cpu_jump_addr(uint64_t entrypoint_addr)
+void plat_octeontx3_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr)
 {
-	/*
-	 * Assembly for ROM memory:
-	 *  d508711f        ic      ialluis
-	 *  d503201f        nop
-	 *  58000040        ldr     x0, 328 <branch_addr>
-	 *  d61f0000        br      x0
-	 *              branch_addr:
-	 * Memory is little endain, so 64 bit constants have the first
-	 * instruction in the low word
-	 */
-#if 0
-	CSR_WRITE(CAVM_ROM_MEMX(0), 0xd503201fd508711full);
-	CSR_WRITE(CAVM_ROM_MEMX(1), 0xd61f000058000040ull);
-	CSR_WRITE(CAVM_ROM_MEMX(2), entrypoint_addr);
-#endif
+
+	CSR_WRITE(CAVM_APAX_RVBARADDR(core_id), entrypoint_addr);
 }
 
 int plat_octeontx_get_mpi_count(void)
@@ -307,6 +294,11 @@ void plat_add_mmio()
 				CAVM_RVU_BLOCK_ADDR_E_APR * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
 				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 
+	for (int i = 0; i < 24; i++) {
+		add_map_record(CAVM_APA_BAR_E_APAX_PF_BAR0(i),
+				CAVM_APA_BAR_E_APAX_PF_BAR0_SIZE, attr);
+	}
+	
 	plat_map_cpc_mem();
 
 

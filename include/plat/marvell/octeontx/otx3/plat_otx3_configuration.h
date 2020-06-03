@@ -30,5 +30,6 @@ int plat_get_ooo_status(void);
 unsigned int plat_configure_rid(void);
 unsigned int plat_configure_cpt_rid(void);
 struct otx2_stream_security_setting *plat_get_otx3_stream_security(int *count);
+void plat_octeontx3_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr);
 
 #endif /* __PLAT_OTX3_CONFIGURATION_H__ */

@@ -119,11 +119,13 @@ void bl31_early_platform_setup(void *from_bl2,
 	console_set_scope((console_t *)&console, CONSOLE_FLAG_RUNTIME);
 	console_switch_state(CONSOLE_FLAG_RUNTIME);
 
+#if !defined(PLAT_t106)
 	/* Set secondary CPU entrypoint to somewhere in BL31 code, because
 	 * we should not relay on address that is inside of BL1 code.
 	 */
 	plat_octeontx_set_secondary_cpu_jump_addr(
 				(uint64_t)plat_secondary_cold_boot_setup);
+#endif
 
 #ifdef NT_FW_CONFIG
 	plat_octeontx_set_nt_fw_config_size(nt_fw_config_size);

@@ -539,8 +539,6 @@ void bl2_el3_plat_arch_setup(void)
 	init_xlat_tables();
 
 	enable_mmu_el3(0);
-	plat_octeontx_set_secondary_cpu_jump_addr(
-				(uint64_t)plat_secondary_cold_boot_setup);
 }
 
 /*******************************************************************************
