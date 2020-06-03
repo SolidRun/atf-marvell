@@ -214,8 +214,7 @@
 /* Number of MBOX for AFPF and PFVF */
 #define RVU_MBOX_NUM		2
 
-/* TODO for t106: update to correct value (32) when ASIM is updated */
-#define MAX_RVU_PFS		24
+#define MAX_RVU_PFS		32
 #define MAX_RVU_VFS		256
 
 #define SW_RVU_SDP_NUM_PF       2
