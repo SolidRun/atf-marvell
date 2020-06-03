@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016-2018 Marvell International Ltd.
+ * Copyright (C) 2016-2020 Marvell International Ltd.
  * This program is provided "as is" without any warranty of any kind,
  * and is distributed under the applicable Marvell proprietary limited use
  * license agreement.
  */
 
-/* RVU driver for OcteonTX2 */
+/* RVU driver for OcteonTX2/TX3 */
 
 #include <stdio.h>
 #include <arch.h>
@@ -620,10 +620,9 @@ static void dump_rvu_devs(void)
 	debug_rvu("******************************************\n");
 }
 
-/* TODO for t106: integrate this cleanly */
 #if defined(PLAT_t106)
 static uint64_t next_pow2(uint64_t x);
-void octeontx3_rvu_apr_init(void)
+static void octeontx3_rvu_apr_init(void)
 {
 	union cavm_apr_af_lmt_cfg af_lmt_cfg;
 	union cavm_apr_af_lmt_map_base lmt_map_base;
@@ -738,16 +737,9 @@ static void otx3_mailbox_enable(void)
 
 	config_lmt_map_table();
 }
-#endif // defined(PLAT_t106)
-
-/* set mailbox memory*/
-static void mailbox_enable(void)
-{
-/* TODO for t106: integrate this cleanly */
-#if defined(PLAT_t106)
-	otx3_mailbox_enable();
-	return;
 #else
+static void otx2_mailbox_enable(void)
+{
 	int pf;
 	static uint64_t vf_base = VF_MBOX_BASE;
 	union cavm_rvu_af_pf_bar4_addr pf_bar4_addr;
@@ -763,7 +755,18 @@ static void mailbox_enable(void)
 			vf_base = vf_base + (0x10000 * (rvu_dev[pf].num_vfs & 0x7f));
 		}
 	}
+}
+#endif // defined(PLAT_t106)
+
+/* set mailbox memory*/
+static void mailbox_enable(void)
+{
+#if defined(PLAT_t106)
+	otx3_mailbox_enable();
+#else
+	otx2_mailbox_enable;
 #endif
+	return;
 }
 
 /* Initialize PCI PF_DEVID and VF_DEVID */
