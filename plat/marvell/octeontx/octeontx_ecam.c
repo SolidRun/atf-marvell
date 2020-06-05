@@ -263,12 +263,10 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	assert(vsec_ctl.s.inst_num < UAA_SPI_IRQ_DEVS);
 	uaa_irq = UAA_SPI_IRQ(vsec_ctl.s.inst_num);
 
-	if ((octeontx_read32(config_base + CAVM_PCCPF_XXX_SUBID)>>24) == 0xb2) {
-		/* enable bus master for uaa, not like 8xxx always en */
-		cmd.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_CMD);
-		cmd.s.me = 1;
-		octeontx_write32(config_base + CAVM_PCCPF_XXX_CMD, cmd.u);
-	}
+	/* enable bus master for uaa, not like 8xxx always en */
+	cmd.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_CMD);
+	cmd.s.me = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_CMD, cmd.u);
 
 	debug_io("UAA(%d) init called config_base:%llx size:%llx\n",
 		 vsec_ctl.s.inst_num, config_base, config_size);
