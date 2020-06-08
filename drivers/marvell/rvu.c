@@ -684,6 +684,8 @@ static void otx3_mailbox_enable(void)
 	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
 	union cavm_rvu_af_pfx_bar4_addr pf_bar4_addr;
 	union cavm_rvu_af_pfx_bar4_cfg pf_bar4_cfg;
+	union cavm_rvu_af_pfx_vf_bar4_addr vf_bar4_addr;
+	union cavm_rvu_af_pfx_vf_bar4_cfg vf_bar4_cfg;
 	static uint64_t base = PF_MBOX_BASE;
 	uint64_t size, pow2;
 	int pf, num_funcs;
@@ -721,7 +723,7 @@ static void otx3_mailbox_enable(void)
 		if ((base + size) >= PF_VF_MAILBOX_LIMIT) {
 			ERROR("RVU: PF%u MB addr %p exceeds limit %p\n", pf,
 			      (void *)(uintptr_t)base,
-			      (void *)(uintptr_t)MSIX_TABLE_BASE);
+			      (void *)(uintptr_t)PF_VF_MAILBOX_LIMIT);
 			panic();
 			break;
 		}
@@ -733,6 +735,27 @@ static void otx3_mailbox_enable(void)
 		pf_bar4_cfg.u = __builtin_ctzl(size);
 		CSR_WRITE(CAVM_RVU_AF_PFX_BAR4_CFG(pf), pf_bar4_cfg.u);
 		base += size;
+
+		if (rvu_dev[pf].num_vfs) {
+			/*configure VF LMTLINE address */
+			vf_bar4_addr.u = base;
+			CSR_WRITE(CAVM_RVU_AF_PFX_VF_BAR4_ADDR(pf),
+				  vf_bar4_addr.u);
+			pow2 = next_pow2(rvu_dev[pf].num_vfs);
+			size = pow2 * RVU_PF_LMT_LMTLINE_SIZE;
+			if ((base + size) >= PF_VF_MAILBOX_LIMIT) {
+				ERROR("RVU: PF%u's VF LMTLINE addr %p exceeds "
+				      "limit %p\n", pf,
+				      (void *)(uintptr_t)base,
+				      (void *)(uintptr_t)PF_VF_MAILBOX_LIMIT);
+				panic();
+				break;
+			}
+			vf_bar4_cfg.u =  __builtin_ctzl(size);
+			CSR_WRITE(CAVM_RVU_AF_PFX_VF_BAR4_CFG(pf),
+				  vf_bar4_cfg.u);
+			base += size;
+		}
 	}
 
 	config_lmt_map_table();
