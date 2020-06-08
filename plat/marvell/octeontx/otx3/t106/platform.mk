@@ -34,6 +34,7 @@ PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx3/csr 		\
 				-Ilib/libphy/marvell_88x5113/serdes/src/include		\
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/otx3/t106/plat_t106_setup.c		\
+				plat/marvell/octeontx/otx3/plat_non_fip_image.c		\
 				plat/marvell/octeontx/otx3/plat_security.c		\
 				plat/marvell/octeontx/otx3/plat_bcfg_init.c		\
 				drivers/marvell/cgx_flash_ops.c		\

@@ -231,6 +231,7 @@ typedef struct {
 	int	in_use;
 	size_t	file_pos;
 	size_t	offset_address;
+	size_t	length;
 } file_state_t;
 
 typedef struct mio_emm_driver {

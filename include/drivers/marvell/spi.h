@@ -62,6 +62,7 @@ typedef struct {
 	unsigned int	cs;
 	size_t		file_pos;
 	size_t		offset_address;
+	size_t		length;
 } file_state_t;
 
 #endif /* __SPI_H__ */

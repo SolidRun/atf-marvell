@@ -58,6 +58,7 @@ BL2_SOURCES		+=	drivers/marvell/spi.c		\
 				drivers/io/io_fip.c				\
 				drivers/io/io_memmap.c				\
 				drivers/io/io_storage.c				\
+				drivers/io/io_dummy.c				\
 				plat/marvell/octeontx/octeontx_bl2_setup.c		\
 				plat/marvell/octeontx/octeontx_ecam.c			\
 				plat/marvell/octeontx/octeontx_board_cfg_setup.c	\

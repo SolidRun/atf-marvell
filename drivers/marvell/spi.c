@@ -452,6 +452,7 @@ static int spi_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 		/* File cursor offset for seek and incremental reads etc. */
 		current_file.file_pos = 0;
 		current_file.offset_address = block_spec->offset;
+		current_file.length = block_spec->length;
 		current_file.spi_con = plat_octeontx_bcfg->bcfg.boot_dev.controller;
 		current_file.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
 		entity->info = (uintptr_t)&current_file;
@@ -538,6 +539,12 @@ static int spi_block_close(io_entity_t *entity)
 	return 0;
 }
 
+static int spi_block_size(io_entity_t *entity, size_t *length)
+{
+	*length = current_file.length;
+	return 0;
+}
+
 static int spi_dev_init(io_dev_info_t *dev_info, const uintptr_t init_params)
 {
 	if (init_params != (uintptr_t)NULL)
@@ -557,7 +564,7 @@ static const io_dev_funcs_t spi_dev_funcs = {
 	.type = device_type_spi,
 	.open = spi_block_open,
 	.seek = spi_block_seek,
-	.size = NULL,
+	.size = spi_block_size,
 	.read = spi_block_read,
 	.write = NULL,
 	.close = spi_block_close,
