@@ -270,7 +270,7 @@ static int cn106xx_is_bus_disabled(struct ecam_device *dev)
 	 */
 	if (((dev->domain == 0) && (dev->bus > 12)) ||
 	    ((dev->domain == 1) && ((dev->bus > 1) && (dev->bus != 4)))  ||
-	    ((dev->domain == 2) && (dev->bus > 16)))
+	    ((dev->domain == 2) && (dev->bus > 32)))
 		rc = 1;
 
 	return rc;
