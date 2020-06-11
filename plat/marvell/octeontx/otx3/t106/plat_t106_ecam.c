@@ -32,57 +32,7 @@
 #define debug_plat_ecam(...) ((void) (0))
 #endif
 
-#if 0
-/* Probe GSERX_LANE_SCRATCHX[] for CGX config */
-static int ecam_probe_cgx(unsigned long long arg)
-{
-	cgx_config_t *cgx;
-	int gserx, cgx_idx;
-	qlm_state_lane_t qlm_state;
-	int lnum = 0, qlm = 0;
-
-	debug_plat_ecam("%s arg %lld\n", __func__, arg);
-
-	cgx_idx = arg;
-
-	switch (cgx_idx) {
-	case 0:
-		qlm = 7;
-		break;
-	case 1:
-		qlm = 5;
-		break;
-	case 2:
-		qlm = 6;
-		break;
-	}
-
-	lnum = plat_octeontx_scfg->qlm_max_lane_num[qlm];
-
-	cgx = &(plat_octeontx_bcfg->cgx_cfg[cgx_idx]);
-
-	if (cgx->qlm_ops == NULL) {
-		debug_plat_ecam("%s:CGX%d: has no qlm_ops\n",  __func__, cgx_idx);
-		return 0;
-	}
-
-	gserx = plat_otx2_get_gserx(qlm, NULL);
-
-	for (int lane = 0; lane < lnum; lane++) {
-		qlm_state = cgx->qlm_ops->qlm_get_state(gserx, lane);
-		if (qlm_state.s.cgx) {
-			debug_plat_ecam("%s: CGX detected on qlm %d lane %d\n",
-					__func__, qlm, lane);
-			return 1;
-		}
-	};
-
-	return 0;
-}
-#endif
-
 struct ecam_probe_callback probe_callbacks[] = {
-	//{0xa059, 0x177d, ecam_probe_cgx, 0},
 	{ECAM_INVALID_DEV_ID, 0, 0, 0}
 };
 
@@ -144,18 +94,6 @@ static void init_rvu(uint64_t config_base, uint64_t config_size)
 
 static void init_rpm(uint64_t config_base, uint64_t config_size)
 {
-#if 0
-	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
-	int rpm_id;
-
-	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
-	rpm_id = vsec_ctl.s.inst_num;
-
-	debug_plat_ecam("RPM(%d): init config_base:%llx size:%llx\n",
-		vsec_ctl.s.inst_num, config_base, config_size);
-
-	cgx_hw_init(cgx_id);
-#endif
 }
 
 struct ecam_init_callback plat_init_callbacks[] = {
@@ -186,7 +124,6 @@ struct ecam_init_callback plat_init_callbacks[] = {
 
 struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_GIC5, ECAM_ALL_INSTANCES},
-/*	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_GTI, ECAM_ALL_INSTANCES},*/
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_UAA, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_MIO_TWS, ECAM_CUSTOM_INSTANCE},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_LMC, ECAM_ALL_INSTANCES},

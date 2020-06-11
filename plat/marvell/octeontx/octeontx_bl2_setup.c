@@ -451,6 +451,10 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 
 static void bl2_platform_print_chip_id(void)
 {
+#if defined(PLAT_t106)
+	/* For T106, just return as chip ID is not relevant */
+	return;
+#endif
 	const void *fdt = fdt_ptr;
 	const char *uid;
 	char uid_prop[21];

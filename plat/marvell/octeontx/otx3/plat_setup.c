@@ -17,7 +17,6 @@
 #include <octeontx_legacy_pwrc.h>
 #include <gpio_octeontx.h>
 #include <plat_board_cfg.h>
-#include <plat_flr.h>
 #include <plat_octeontx.h>
 #include <octeontx_utils.h>
 #include <octeontx_security.h>
@@ -28,8 +27,6 @@
 #endif
 
 #include "cavm-csrs-gpio.h"
-
-static int disable_ooo;
 
 #if defined(ARM_TRACE_SECURE_BUFFER)
 extern void plat_armtrace_init(void);
@@ -43,22 +40,8 @@ extern void plat_armtrace_init(void);
  */
 void plat_octeontx_setup(void)
 {
-#if 0
-	sh_fwdata_init();
-
-	/* Initialize CGX framework */
-	cgx_fw_intf_init();
-
-	/* Workaround for FLR handling on CN9xxx */
-	plat_flr_init();
-#endif
 	/* setup gpio interrupt handling */
 	plat_gpio_irq_setup();
-
-#if RAS_EXTENSION
-	otx2_ras_init();
-	plat_dram_ras_init();
-#endif /* RAS_EXTENSION */
 
 
 	/* Configure PEM0 (EP) streams to use secure world access.
@@ -69,10 +52,6 @@ void plat_octeontx_setup(void)
 	 */
 	octeontx_configure_pem_ep_security(0 /* PEM0 */, 1 /* secure */);
 
-#if defined(ARM_TRACE_SECURE_BUFFER)
-	/* otx2 trace init */
-	plat_armtrace_init();
-#endif
 }
 
 /*
@@ -90,52 +69,14 @@ unsigned int plat_configure_cpt_rid(void)
  * Program REVID for PCIe devices.
  * Bits 0..1: minor pass
  * Bits 3..2: major pass
- * Bits 7..4: midr id, 0:96, 1:95, 2:loki, 3:98, 4:f95mm f:unknown
+ * Bits 7..4: midr id: t106 : 0x5
  */
 unsigned int plat_configure_rid(void)
 {
-	unsigned int val;
-	uint8_t midr_id;
-	uint64_t midr;
-
-	val = 0;
-	midr = read_midr();
-
-	switch (MIDR_PARTNUM(midr)) {
-	case T96PARTNUM:
-		midr_id = 0;
-		break;
-
-	case F95PARTNUM:
-		midr_id = 1;
-		break;
-
-	case LOKIPARTNUM:
-		midr_id = 2;
-		break;
-
-	case T98PARTNUM:
-		midr_id = 3;
-		break;
-
-	case F95MMPARTNUM:
-		midr_id = 4;
-		break;
-
-	default:
-		midr_id = 0xf;
-		WARN("Unknown partnum 0x%llx, set midr id in REVID to 0xf\n",
-			MIDR_PARTNUM(midr));
-	}
-
-	val = midr_id << 4;
-	/* program minor pass */
-	val |= MIDR_REVISION(midr) & 0x3;
-
-	/* program major pass */
-	val |= (MIDR_VARIANT(midr) & 0x3) << 2;
-
-	return val;
+	/* FIXME. For now return default value of 0x50 indicating
+	 * major and minor pass version as 0
+	 */
+	return 0x50;
 }
 
 extern void *scmi_handle;
@@ -151,7 +92,7 @@ void plat_pwrc_setup(void)
 	 */
 	rc = octeontx_pwrc_setup();
 	if (rc)
-		WARN("SCMI initialize falied with %d\n", rc);
+		VERBOSE("SCMI initialize failed with %d\n", rc);
 	octeontx_legacy_pwrc_setup();
 #else
 	/*
@@ -208,114 +149,7 @@ int plat_get_altpkg(void)
 	return pkg_ver.s.pkg_ver;
 }
 
-/*
- * Return to enable/disable OOO
- *
- * @return non-zero to diable OOO
- */
-int plat_get_ooo_status(void)
-{
-	if (disable_ooo)
-		return 1;
-	else
-		return 0;
-}
-
 void plat_octeontx_cpu_setup(void)
 {
-#if 0
-	/* All CVM_ SYS registers are removed for 10xxx */
-	uint64_t cvmctl_el1, cvmmemctl0_el1, cvmmemctl1_el1, cvmmemctl2_el1;
-	uint64_t cvmctl2_el1;
-
-	cvmctl_el1 = read_cvmctl_el1();
-	cvmctl2_el1 = read_cvmctl2_el1();
-	cvmmemctl0_el1 = read_cvmmemctl0_el1();
-	cvmmemctl1_el1 = read_cvmmemctl1_el1();
-	cvmmemctl2_el1 = read_cvmmemctl2_el1();
-
-	/* Enable CAS/CASP and v8.1 support */
-	unset_bit(cvmctl_el1, 36);  /* Enable CAS */
-	unset_bit(cvmctl_el1, 37);  /* Enable CASP */
-
-	/* Enable prefetcher */
-	set_bit(cvmctl_el1, 43);   /* Ignore the bp for next line prefetcher. */
-	set_bit(cvmctl_el1, 42);   /* Use stride of 2. */
-	set_bit(cvmctl_el1, 41);   /* Enable next line prefetcher. */
-	set_bit(cvmctl_el1, 40);   /* Enable delta prefetcher. */
-
-	/* Errata AP-36933, cvmctl_el1[54] = DISABLE_LDP_STP_FISS */
-	set_bit(cvmctl_el1, 54);
-
-	/*
-	 * Disable v8.5 store barrier for better performance on all models.
-	 * cvmctl_el1[61] = DISABLE_STORE_BARRIER_FUNC
-	 */
-	set_bit(cvmctl_el1, 61);
-
-	/* Errata AP-38511 : Disable WFE */
-	set_bit(cvmctl_el1, 34);
-
-	set_bit(cvmmemctl1_el1, 3); /* Enable LMTST */
-	set_bit(cvmmemctl1_el1, 4); /* Enable SSO/PKO addr region */
-	set_bit(cvmmemctl1_el1, 5); /* Trap any accesses to nonzero node id */
-	set_bit(cvmmemctl1_el1, 6); /* Enable SSO switch tag */
-
-	/*
-	 * To improve performance memory-unit for EL1 should be configured in
-	 * different way than default.
-	 */
-	cvmmemctl2_el1 = octeontx_bit_insert(
-			cvmmemctl2_el1, MTLB0_BLOCK_VALUE,
-			MTLB0_BLOCK_SHIFT, MTLB0_BLOCK_WIDTH);
-	cvmmemctl2_el1 = octeontx_bit_insert(
-			cvmmemctl2_el1, TLBI_BLOCK_VALUE,
-			TLBI_BLOCK_SHIFT, TLBI_BLOCK_WIDTH);
-
-	/*
-	 * Fix up defaults from the BDK which is broken and
-	 * violates the ARM ARM.
-	 */
-
-	/* Don't reset timer on merge as that violates the ARM ARM. */
-	unset_bit(cvmmemctl0_el1, 17);
-	/* Set Write-buffer timeout for NSH entries to 218 cycles. */
-	unset_bit(cvmmemctl0_el1, 18);
-
-	/* Disable/enable OOO */
-	if (plat_get_ooo_status())
-		set_bit(cvmctl_el1, 44);
-	else
-		unset_bit(cvmctl_el1, 44);
-
-	write_cvmctl_el1(cvmctl_el1);
-	write_cvmctl2_el1(cvmctl2_el1);
-	write_cvmmemctl0_el1(cvmmemctl0_el1);
-	write_cvmmemctl1_el1(cvmmemctl1_el1);
-	write_cvmmemctl2_el1(cvmmemctl2_el1);
-
-	/* Allow CVM CACHE instructions from EL1/EL2 */
-	write_cvm_access_el1(read_cvm_access_el1() & ~(1 << 8));
-	write_cvm_access_el2(read_cvm_access_el2() & ~(1 << 8));
-	write_cvm_access_el3(read_cvm_access_el3() & ~(1 << 8));
-#endif
 }
 
-int octeontx3_configure_ooo(int x1)
-{
-#if 0
-	/* All CVM_ SYS registers are removed for 10xxx */
-	uint64_t cvmctl_el1;
-
-	disable_ooo = x1 ? 1 : 0;
-
-	cvmctl_el1 = read_cvmctl_el1();
-	if (disable_ooo)
-		set_bit(cvmctl_el1, 44);
-	else
-		unset_bit(cvmctl_el1, 44);
-
-	write_cvmctl_el1(cvmctl_el1);
-#endif
-	return 0;
-}

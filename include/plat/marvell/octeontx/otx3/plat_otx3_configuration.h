@@ -26,7 +26,6 @@ int plat_octeontx_get_gserr_count(void);
 int plat_octeontx_get_mcc_count(void);
 int plat_octeontx_get_pem_count(void);
 int plat_get_altpkg(void);
-int plat_get_ooo_status(void);
 unsigned int plat_configure_rid(void);
 unsigned int plat_configure_cpt_rid(void);
 struct otx2_stream_security_setting *plat_get_otx3_stream_security(int *count);

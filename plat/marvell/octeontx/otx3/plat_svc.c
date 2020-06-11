@@ -48,51 +48,6 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		ret = octeontx_clear_lf_to_pf_mapping();
 		SMC_RET1(handle, ret);
 		break;
-
-	case PLAT_OCTEONTX_FLSF_FW_BOOTED:
-		ret = scmi_octeontx_flsf_fw_booted(scmi_handle);
-		SMC_RET1(handle, ret);
-		break;
-
-	case PLAT_OCTEONTX_FLSF_CLEAR_FORCE_2NDRY:
-		ret = scmi_octeontx_flsf_clear_force_2ndry(scmi_handle);
-		SMC_RET1(handle, ret);
-		break;
-
-	case PLAT_OCTEONTX_OOO_CONFIG:
-		INFO("SVC OOO CONFIG: x1 = 0x%lx\n", x1);
-		ret = octeontx3_configure_ooo(x1);
-		SMC_RET1(handle, ret);
-		break;
-
-#ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
-	case PLAT_OCTEONTX_SERDES_DBG_GET_EYE:
-		ret = cgx_display_eye(x1, x2, x3);
-		if (ret == CGX_DISPLAY_OK)
-			ret = SMC_OK;
-		else if (ret == CGX_DISPLAY_PENDING)
-			ret = OCTEONTX_SMC_PENDING;
-		else
-			ret = OCTEONTX_SMC_FAIL;
-
-		SMC_RET1(handle, ret);
-		break;
-
-	case PLAT_OCTEONTX_SERDES_DBG_GET_CONF:
-		ret = cgx_display_serdes_settings(x1, x2, x3);
-		ret = ret == CGX_DISPLAY_OK ? SMC_OK : OCTEONTX_SMC_FAIL;
-
-		SMC_RET1(handle, ret);
-		break;
-
-	case PLAT_OCTEONTX_SERDES_DBG_PRBS:
-		ret = cgx_smc_do_prbs(x1, x2, x3);
-		ret = ret == CGX_DISPLAY_OK ? SMC_OK : OCTEONTX_SMC_FAIL;
-
-		SMC_RET1(handle, ret);
-		break;
-#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
-
 	default:
 		return otx3_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

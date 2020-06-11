@@ -93,7 +93,7 @@ void scmi_send_sync_command(scmi_channel_t *ch)
 	if (tries_left <= 0) {
 		/* In case of SCP timeout, set return value to SCMI_E_GENERIC_ERROR */
 		mbx_mem->payload[0] = SCMI_E_GENERIC_ERROR;
-		WARN("Timeout waiting for SCP response, SCMI header: 0x%x\n",
+		VERBOSE("Timeout waiting for SCP response, SCMI header: 0x%x\n",
 		     mbx_mem->msg_header);
 	}
 }
@@ -500,7 +500,7 @@ void *scmi_init(scmi_channel_t *ch)
 #ifdef SCMI_WITH_LEGACY_PM
 	ret = scmi_proto_version(ch, SCMI_PWR_DMN_PROTO_ID, &version);
 	if (ret != SCMI_E_SUCCESS) {
-		WARN("SCMI power domain protocol version message failed");
+		VERBOSE("SCMI power domain protocol version message failed");
 		goto error;
 	}
 
@@ -554,21 +554,6 @@ void *scmi_init(scmi_channel_t *ch)
 	ret = scmi_octeontx_shutdown_config(ch, board_type.u, shutdown_data.u);
 	if (ret != SCMI_E_SUCCESS) {
 		WARN("SCMI Cavium config protocol - unable to send shutdown config - returned %d\n",
-			ret);
-		goto error;
-	}
-
-	/* This SFP configuration message (shared memory location
-	 * which is initialized with the SFP/QSFP slot info  parsed from linux
-	 * DT specific per board) is sent over SecureAP-SCP SCMI channel to SCP,
-	 * which is then handled by SCP and communicated to MCP. Dedicated
-	 * shared memory is used to communicate between SecureAP (ATF) and MCP.
-	 */
-	sfp_init_shmem();
-
-	ret = scmi_octeontx_sfp_config(ch, (void *)SFP_SHMEM_BASE);
-	if (ret != SCMI_E_SUCCESS) {
-		WARN("SCMI Cavium config protocol - unable to send SFP config - returned %d\n",
 			ret);
 		goto error;
 	}
