@@ -102,7 +102,7 @@ struct cper_sec_mem_err {
 
 #define OTX2_GHES_ERR_REC_FRU_TEXT_LEN 32
 /* This is shared with Linux sdei-ghes driver */
-struct otx2_ghes_err_record {
+struct cn10k_ghes_err_record {
 	union {
 		struct cper_sec_mem_err_old  mcc;
 		struct cper_sec_mem_err_old  mdc;
@@ -114,20 +114,20 @@ struct otx2_ghes_err_record {
 };
 
 /* This is shared with Linux sdei-ghes driver */
-struct otx2_ghes_err_ring {
+struct cn10k_ghes_err_ring {
 	uint32_t volatile head;
 	uint32_t volatile tail;
 	uint32_t size;       /* ring size */
 	/* ring of records */
-	struct otx2_ghes_err_record records[1] __aligned(8);
+	struct cn10k_ghes_err_record records[1] __aligned(8);
 };
 
-struct otx2_ghes_err_record *otx2_begin_ghes(const char *name,
-		    struct otx2_ghes_err_ring **ringp);
-void otx2_send_ghes(struct otx2_ghes_err_record *rec,
-		    struct otx2_ghes_err_ring *err_ring,
+struct cn10k_ghes_err_record *cn10k_begin_ghes(const char *name,
+		    struct cn10k_ghes_err_ring **ringp);
+void cn10k_send_ghes(struct cn10k_ghes_err_record *rec,
+		    struct cn10k_ghes_err_ring *err_ring,
 		    int event);
-struct fdt_ghes *otx2_find_ghes(const char *name);
-void otx2_map_ghes(void);
+struct fdt_ghes *cn10k_find_ghes(const char *name);
+void cn10k_map_ghes(void);
 
 #endif // __PLAT_GHES_H__

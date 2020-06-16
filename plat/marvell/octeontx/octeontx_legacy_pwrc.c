@@ -8,7 +8,7 @@
 #include <bakery_lock.h>
 #include <mmio.h>
 #include <plat/common/platform.h>
-#include <plat_otx3_configuration.h>
+#include <plat_cn10k_configuration.h>
 #include <octeontx_legacy_pwrc.h>
 #include <octeontx_common.h>
 #include <arch_helpers.h>
@@ -126,7 +126,7 @@ corepch_state:
 		goto corepch_state;
 
 	/* Set RVBARADDR with entry point */
-	plat_octeontx3_set_secondary_cpu_jump_addr(octeontx_core_id, 
+	plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id, 
 				(uint64_t)plat_secondary_cold_boot_setup);
 	/* FIXME: Write APA()_PLL, .  Recommended settings are 
 	* (this assumes we want to use the ARO in calibration mode)

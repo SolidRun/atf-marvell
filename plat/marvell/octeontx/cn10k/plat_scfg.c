@@ -10,7 +10,7 @@
 #include <platform_dt.h>
 #include <plat_scfg.h>
 #include <octeontx_scfg_setup.h>
-#include <plat_otx3_configuration.h>
+#include <plat_cn10k_configuration.h>
 #include <assert.h>
 
 static void fill_qlm_max_lane_num(void)

@@ -15,7 +15,7 @@
 #include <octeontx_common.h>
 #include <octeontx_board_cfg_setup.h>
 #include <plat_scfg.h>
-#include <plat_otx3_configuration.h>
+#include <plat_cn10k_configuration.h>
 #include <octeontx_utils.h>
 #include <qlm/qlm.h>
 #include <rvu.h>
@@ -36,7 +36,7 @@
 
 
 /**
- * octeontx2_handle_num_rvu_vfs - handle errors and report user about
+ * cn10k_handle_num_rvu_vfs - handle errors and report user about
  * @req_vfs: requested (via FDT) number of VFs
  * @default_vfs: default number of VFs
  * @sum_vfs: already allocated HWVFs
@@ -45,7 +45,7 @@
  * returns:
  * 	Valid number (req_vfs/default_vfs/0) of VFs that can be configured
  */
-static int octeontx2_handle_num_rvu_vfs(int req_vfs, int default_vfs,
+static int cn10k_handle_num_rvu_vfs(int req_vfs, int default_vfs,
 					int *sum_vfs, const char *name)
 {
 	int hwvfs_left, ret = 0;
@@ -80,7 +80,7 @@ static int octeontx2_handle_num_rvu_vfs(int req_vfs, int default_vfs,
 }
 
 /**
- * octeontx2_parse_rvu_admin - fill rvu_admin_pf_t structure of rvu_config
+ * cn10k_parse_rvu_admin - fill rvu_admin_pf_t structure of rvu_config
  * @fdt: pointer to the device tree blob
  * @parentoffset: offset to parent node (ecam2)
  * @node: node name
@@ -89,7 +89,7 @@ static int octeontx2_handle_num_rvu_vfs(int req_vfs, int default_vfs,
  * returns:
  * 	0 on success, -1 otherwise
  */
-static int octeontx2_parse_rvu_admin(const void *fdt, int parentoffset,
+static int cn10k_parse_rvu_admin(const void *fdt, int parentoffset,
 				    const char *name, int *sum_vfs)
 {
 	int offset, len, req_vfs;
@@ -120,12 +120,12 @@ static int octeontx2_parse_rvu_admin(const void *fdt, int parentoffset,
 		/* If there's no such property in FDT
 		 * try to assign default VFS */
 		VERBOSE("RVU: No num-rvu-vfs property for node %s\n", name);
-		sw_pf->num_rvu_vfs = octeontx2_handle_num_rvu_vfs(DEFAULT_AF_PF0_VFS,
+		sw_pf->num_rvu_vfs = cn10k_handle_num_rvu_vfs(DEFAULT_AF_PF0_VFS,
 					DEFAULT_AF_PF0_VFS, sum_vfs, name);
 	} else {
 		/* We've got that property, handle any errors with config */
 		req_vfs = fdt32_to_cpu(*val);
-		sw_pf->num_rvu_vfs = octeontx2_handle_num_rvu_vfs(req_vfs,
+		sw_pf->num_rvu_vfs = cn10k_handle_num_rvu_vfs(req_vfs,
 					DEFAULT_AF_PF0_VFS, sum_vfs, name);
 	}
 
@@ -143,7 +143,7 @@ static int octeontx2_parse_rvu_admin(const void *fdt, int parentoffset,
 }
 
 /**
- * octeontx2_parse_sw_rvu - fill rvu_sw_pf_t structure of rvu_config
+ * cn10k_parse_sw_rvu - fill rvu_sw_pf_t structure of rvu_config
  * @fdt: pointer to the device tree blob
  * @parentoffset: offset to parent node (ecam2)
  * @node: node name
@@ -153,7 +153,7 @@ static int octeontx2_parse_rvu_admin(const void *fdt, int parentoffset,
  * returns:
  * 	0 on success, -1 otherwise
  */
-static int octeontx2_parse_sw_rvu(const void *fdt, int parentoffset,
+static int cn10k_parse_sw_rvu(const void *fdt, int parentoffset,
 				 const char *name, int sw_rvu_pf, int *sum_vfs)
 {
 	int offset, len, req_vfs;
@@ -188,12 +188,12 @@ static int octeontx2_parse_sw_rvu(const void *fdt, int parentoffset,
 		/* If there's no such property in FDT
 		 * try to assign default VFS */
 		VERBOSE("RVU: No num-rvu-vfs property for node %s\n", name);
-		sw_pf->num_rvu_vfs = octeontx2_handle_num_rvu_vfs(DEFAULT_VFS,
+		sw_pf->num_rvu_vfs = cn10k_handle_num_rvu_vfs(DEFAULT_VFS,
 					DEFAULT_VFS, sum_vfs, name);
 	} else {
 		/* We've got that property, handle any errors with config */
 		req_vfs = fdt32_to_cpu(*val);
-		sw_pf->num_rvu_vfs = octeontx2_handle_num_rvu_vfs(req_vfs,
+		sw_pf->num_rvu_vfs = cn10k_handle_num_rvu_vfs(req_vfs,
 					DEFAULT_VFS, sum_vfs, name);
 	}
 
@@ -230,7 +230,7 @@ static int octeontx2_parse_sw_rvu(const void *fdt, int parentoffset,
 	return 0;
 }
 
-static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
+static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 {
 	int offset, rc, soc_offset, cpt, i;
 	char node_name[32];
@@ -259,14 +259,14 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	}
 
 	/* Fill rvu_admin_pf_t structure */
-	rc = octeontx2_parse_rvu_admin(fdt, offset, RVU_ADMIN_FDT_NODE, fdt_vfs);
+	rc = cn10k_parse_rvu_admin(fdt, offset, RVU_ADMIN_FDT_NODE, fdt_vfs);
 	if (rc < 0) {
 		WARN("RVU: Unable to fill PF%d-ADMIN structure\n", RVU_AF);
 		return;
 	}
 
 	/* Fill rvu_sw_rvu_pf_t structure, start with SSO_TIM */
-	rc = octeontx2_parse_sw_rvu(fdt, offset, RVU_SSO_TIM_FDT_NODE,
+	rc = cn10k_parse_sw_rvu(fdt, offset, RVU_SSO_TIM_FDT_NODE,
 				    SW_RVU_SSO_TIM_PF(0), fdt_vfs);
 	if (rc < 0) {
 		WARN("RVU: Unable to fill PF%d-SSO_TIM structure\n",
@@ -278,7 +278,7 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	}
 
 	/* Now parse NPA */
-	rc = octeontx2_parse_sw_rvu(fdt, offset, RVU_NPA_FDT_NODE,
+	rc = cn10k_parse_sw_rvu(fdt, offset, RVU_NPA_FDT_NODE,
 				    SW_RVU_NPA_PF(0), fdt_vfs);
 	if (rc < 0) {
 		WARN("RVU: Unable to fill PF%d-NPA structure\n", FIXED_RVU_NPA);
@@ -295,7 +295,7 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	 * this loop needs to change to specify the instance-specific node name.
 	 */
 	for (i = 0; i < SW_RVU_SDP_NUM_PF; i++) {
-		rc = octeontx2_parse_sw_rvu(fdt, offset, RVU_SDP_FDT_NODE,
+		rc = cn10k_parse_sw_rvu(fdt, offset, RVU_SDP_FDT_NODE,
 					    SW_RVU_SDP_PF(i), fdt_vfs);
 		/* Not an error if SDP is absent from FDT. */
 		(void)rc;
@@ -309,7 +309,7 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	 * this loop needs to change to specify the instance-specific node name.
 	 */
 	for (i = 0; i < SW_RVU_REE_NUM_PF; i++) {
-		rc = octeontx2_parse_sw_rvu(fdt, offset, RVU_REE_FDT_NODE,
+		rc = cn10k_parse_sw_rvu(fdt, offset, RVU_REE_FDT_NODE,
 					    SW_RVU_REE_PF(i), fdt_vfs);
 		/* Not an error if REE is absent from FDT. */
 		(void)rc;
@@ -327,7 +327,7 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 			WARN("RVU: CPT node is not available\n");
 			return;
 		}
-		rc = octeontx2_parse_sw_rvu(fdt, offset, RVU_CPT_FDT_NODE,
+		rc = cn10k_parse_sw_rvu(fdt, offset, RVU_CPT_FDT_NODE,
 					    SW_RVU_CPT_PF(0), fdt_vfs);
 		if (rc < 0) {
 			WARN("RVU: Unable to fill PF%d structure\n", RVU_LAST);
@@ -342,7 +342,7 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	plat_octeontx_bcfg->rvu_config.valid = 1;
 }
 
-static void octeontx2_boot_device_from_strapx()
+static void cn10k_boot_device_from_strapx()
 {
 	cavm_gpio_strap_t gpio_strap;
 	int boot_medium;
@@ -390,7 +390,7 @@ static void octeontx2_boot_device_from_strapx()
 	}
 }
 
-static int octeontx2_parse_boot_device(const void *fdt, const int offset)
+static int cn10k_parse_boot_device(const void *fdt, const int offset)
 {
 	char boot_device[16], *cs;
 	const char *name;
@@ -474,14 +474,14 @@ int plat_octeontx_fill_board_details(void)
 		return offset;
 	}
 
-	rc = octeontx2_parse_boot_device(fdt, offset);
+	rc = cn10k_parse_boot_device(fdt, offset);
 	if (rc) {
 		debug_dts("Using GPIO_STRAPX register for boot device\n");
-		octeontx2_boot_device_from_strapx();
+		cn10k_boot_device_from_strapx();
 	}
 
 	/* Parse RVU configuration */
-	octeontx2_parse_rvu_config(fdt, &fdt_vfs);
+	cn10k_parse_rvu_config(fdt, &fdt_vfs);
 
 	return 0;
 }

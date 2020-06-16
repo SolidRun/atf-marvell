@@ -11,35 +11,34 @@
 #include <cpu_macros.S>
 #include <plat_macros.S>
 
-
-#define OCTEONTX3_T106XX_MIDR		0x430F0B50
+#define CN10K_T106XX_MIDR		0x410FD490
 
 #define EC_CAVIUM_IO_TRAP		U(0x1f)
 
-func octeontx3_reset_func
+func cn10k_reset_func
 	ret
-endfunc octeontx3_reset_func
+endfunc cn10k_reset_func
 
-func octeontx3_core_pwr_dwn
+func cn10k_core_pwr_dwn
 	ret
-endfunc octeontx3_core_pwr_dwn
+endfunc cn10k_core_pwr_dwn
 
-func octeontx3_cluster_pwr_dwn
+func cn10k_cluster_pwr_dwn
 	ret
-endfunc octeontx3_cluster_pwr_dwn
+endfunc cn10k_cluster_pwr_dwn
 
-func octeontx3_cpu_reg_dump
+func cn10k_cpu_reg_dump
 	ret
-endfunc octeontx3_cpu_reg_dump
+endfunc cn10k_cpu_reg_dump
 
 	/* ----------------------------------------------
-	 * void octeontx3_exception_handler(int)
+	 * void cn10k_exception_handler(int)
 	 * Function for handling sync exceptions specific
 	 * for this platform. x1 argument contains EC
 	 * from el3_esr.
 	 * ----------------------------------------------
 	 */
-func octeontx3_exception_handler
+func cn10k_exception_handler
 /* These errors are handled only in runtime (in BL31) */
 #if defined(IMAGE_BL31)
 	/* -----------------------------------------------------
@@ -65,20 +64,20 @@ func octeontx3_exception_handler
 	 * ---------------------------------------------------
 	 */
 	ret
-endfunc octeontx3_exception_handler
+endfunc cn10k_exception_handler
 
 #if REPORT_ERRATA
 /*
  * Errata printing function for octeontx2. Must follow AAPCS.
  */
-func octeontx3_errata_report
+func cn10k_errata_report
 	ret
-endfunc octeontx3_errata_report
+endfunc cn10k_errata_report
 #endif
 
-declare_cpu_ops_eh octeontx3, OCTEONTX3_T106XX_MIDR, \
-	octeontx3_reset_func, \
-	octeontx3_exception_handler, \
-	octeontx3_core_pwr_dwn, \
-	octeontx3_cluster_pwr_dwn
+declare_cpu_ops_eh cn10k, CN10K_T106XX_MIDR, \
+	cn10k_reset_func, \
+	cn10k_exception_handler, \
+	cn10k_core_pwr_dwn, \
+	cn10k_cluster_pwr_dwn
 

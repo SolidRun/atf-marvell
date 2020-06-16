@@ -83,7 +83,7 @@
 #define OTX3_NUM_SMC_CALLS			11
 
 /* API that allows to define platform specific SMC CALLS */
-uintptr_t otx3_svc_smc_handler(uint32_t smc_fid,
+uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 			       u_register_t x1,
 			       u_register_t x2,
 			       u_register_t x3,

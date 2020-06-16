@@ -17,7 +17,7 @@
 #include <plat_scfg.h>
 #include <cgx.h>
 #include <octeontx_utils.h>
-#include <plat_otx3_configuration.h>
+#include <plat_cn10k_configuration.h>
 #include <rvu.h>
 #include <qlm/qlm.h>
 

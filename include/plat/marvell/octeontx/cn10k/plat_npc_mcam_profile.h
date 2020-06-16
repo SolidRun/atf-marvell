@@ -15,8 +15,8 @@
 #define __CAVM_NPC_MCAM_PROFILE_H__
 
 #ifdef NT_FW_CONFIG
-uint64_t otx2_get_npc_profile_addr(uint64_t profile_id);
-uint64_t otx2_get_npc_profile_size(uint64_t profile_id);
+uint64_t cn10k_get_npc_profile_addr(uint64_t profile_id);
+uint64_t cn10k_get_npc_profile_size(uint64_t profile_id);
 #endif
 
 #endif /* __CAVM_NPC_MCAM_PROFILE_H__ */

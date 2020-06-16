@@ -19,7 +19,7 @@
 
 extern void *scmi_handle;
 
-WEAK uintptr_t otx3_svc_smc_handler(uint32_t smc_fid,
+WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
 				    u_register_t x2,
 				    u_register_t x3,
@@ -49,7 +49,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 		break;
 	default:
-		return otx3_svc_smc_handler(smc_fid, x1, x2, x3, x4,
+		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);
 	}
 }

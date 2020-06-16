@@ -19,7 +19,7 @@
 #include <octeontx_utils.h>
 #include <plat_scfg.h>
 #if defined(PLAT_t106)
-#include <plat_otx3_configuration.h>
+#include <plat_cn10k_configuration.h>
 #include "cavm-csrs-apr.h"
 #else
 #include <plat_otx2_configuration.h>
@@ -646,7 +646,7 @@ static void dump_rvu_devs(void)
 
 #if defined(PLAT_t106)
 static uint64_t next_pow2(uint64_t x);
-static void octeontx3_rvu_apr_init(void)
+static void cn10k_rvu_apr_init(void)
 {
 	union cavm_apr_af_lmt_cfg af_lmt_cfg;
 	union cavm_apr_af_lmt_map_base lmt_map_base;
@@ -703,7 +703,7 @@ static uint64_t next_pow2(uint64_t x)
 	return (1 << (64 - __builtin_clzl(x - 1)));
 }
 
-static void otx3_mailbox_enable(void)
+static void cn10k_mailbox_enable(void)
 {
 	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
 	union cavm_rvu_af_pfx_bar4_addr pf_bar4_addr;
@@ -809,7 +809,7 @@ static void otx2_mailbox_enable(void)
 static void mailbox_enable(void)
 {
 #if defined(PLAT_t106)
-	otx3_mailbox_enable();
+	cn10k_mailbox_enable();
 #else
 	otx2_mailbox_enable;
 #endif
@@ -1251,7 +1251,7 @@ void octeontx_rvu_init(void)
 	dump_rvu_devs();
 
 #if defined(PLAT_t106)
-	octeontx3_rvu_apr_init();
+	cn10k_rvu_apr_init();
 #endif
 	for (pf = 0 ; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (rvu_dev[pf].enable) {

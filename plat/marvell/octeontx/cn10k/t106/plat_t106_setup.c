@@ -14,7 +14,7 @@
 #include <gpio_octeontx.h>
 #include <octeontx_utils.h>
 #include <octeontx_plat_configuration.h>
-#include <plat_otx3_configuration.h>
+#include <plat_cn10k_configuration.h>
 #include <plat_octeontx.h>
 #include <octeontx_irqs_def.h>
 #include <plat_scfg.h>
@@ -43,7 +43,7 @@ int plat_octeontx_is_lmc_enabled(unsigned lmc)
 /*******************************************************************************
  * Setup secondary CPU JUMP address from RESET
  ******************************************************************************/
-void plat_octeontx3_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr)
+void plat_cn10k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr)
 {
 
 	CSR_WRITE(CAVM_APAX_RVBARADDR(core_id), entrypoint_addr);
@@ -90,7 +90,7 @@ int plat_octeontx_get_gserp_count(void)
 	return 0;
 }
 
-int plat_otx3_get_gserx(int qlm, int *shift_from_first)
+int plat_cn10k_get_gserx(int qlm, int *shift_from_first)
 {
 	int gserx;
 	int gserp_count;
@@ -113,7 +113,7 @@ int plat_otx3_get_gserx(int qlm, int *shift_from_first)
 	return gserx;
 }
 
-const qlm_ops_t *plat_otx3_get_qlm_ops(int rpm_idx)
+const qlm_ops_t *plat_cn10k_get_qlm_ops(int rpm_idx)
 {
 	if (rpm_idx < 0 || rpm_idx >= plat_octeontx_get_rpm_count())
 		return NULL;
@@ -454,7 +454,7 @@ void plat_gti_irq_setup(int core)
 }
 
 /*
- * This API should be provided by each [otx3] platform that requires
+ * This API should be provided by each [cn10k] platform that requires
  * individual IOBN security settings.
  *
  * During IOBN initialization, this API is invoked to retrieve any
@@ -469,12 +469,12 @@ void plat_gti_irq_setup(int core)
  *   void
  *
  * Returns,
- *   array of 'struct otx3_stream_security_setting'
+ *   array of 'struct cn10k_stream_security_setting'
  *   size of array (via ptr)
  */
-struct otx2_stream_security_setting *plat_get_otx3_stream_security(int *count)
+struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count)
 {
-	static struct otx2_stream_security_setting stream_settings[] = {
+	static struct cn10k_stream_security_setting stream_settings[] = {
 		/* no platform-specific stream security settings */
 	};
 

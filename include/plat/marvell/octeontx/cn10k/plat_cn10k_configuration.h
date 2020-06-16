@@ -9,7 +9,7 @@
 #define __PLAT_OTX3_CONFIGURATION_H__
 
 /* Used to initialize individual device IOBN security settings */
-struct otx2_stream_security_setting {
+struct cn10k_stream_security_setting {
 	uint32_t streamid;    /* id of instance 0, see CAVM_PCC_DEV_CON_E_xxx */
 	int      instances;   /* # of stream instances */
 	/* following are applied to BOTH BUSX_STREAMS & DEVX/RSLX_STREAMS */
@@ -28,7 +28,7 @@ int plat_octeontx_get_pem_count(void);
 int plat_get_altpkg(void);
 unsigned int plat_configure_rid(void);
 unsigned int plat_configure_cpt_rid(void);
-struct otx2_stream_security_setting *plat_get_otx3_stream_security(int *count);
-void plat_octeontx3_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr);
+struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count);
+void plat_cn10k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr);
 
 #endif /* __PLAT_OTX3_CONFIGURATION_H__ */
