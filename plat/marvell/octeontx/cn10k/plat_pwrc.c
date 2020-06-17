@@ -335,7 +335,7 @@ int octeontx_pwrc_setup(void)
 	scmi_handle = scmi_init(&scmi_channel);
 
 	if (scmi_handle == NULL) {
-		NOTICE("SCMI Initialization failed, fallback to legacy PM\n");
+		VERBOSE("SCMI Initialization failed, fallback to legacy PM\n");
 		return -1;
 	}
 
