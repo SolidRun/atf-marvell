@@ -256,22 +256,11 @@ typedef struct {
  */
 const qlm_ops_t *plat_otx2_get_qlm_ops(int cgx_idx);
 /*
- * Return struct qlm_ops_t with pointer to functions for specific rpm.
- */
-const qlm_ops_t *plat_otx3_get_qlm_ops(int cgx_idx);
-/*
  * Return gserx idx from qlm idx. If shift_from_first != NULL it returns
  * shift value to get first gserx (useful for DLM).
  * first_qlm = qlm_idx + *shift_from_first
  * first_gserx = gserx_idx + *shift_from_first
  */
 int plat_otx2_get_gserx(int qlm, int *shift_from_first);
-/*
- * Return gserx idx from qlm idx. If shift_from_first != NULL it returns
- * shift value to get first gserx (useful for DLM).
- * first_qlm = qlm_idx + *shift_from_first
- * first_gserx = gserx_idx + *shift_from_first
- */
-int plat_otx3_get_gserx(int qlm, int *shift_from_first);
 
 #endif /* _QLM_H_ */
