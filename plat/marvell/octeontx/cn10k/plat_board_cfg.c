@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (C) 2020 Marvell International Ltd.
  * This program is provided "as is" without any warranty of any kind,
  * and is distributed under the applicable Marvell proprietary limited use
  * license agreement.
