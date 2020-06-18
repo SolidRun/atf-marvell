@@ -765,8 +765,7 @@ static void cn10k_mailbox_enable(void)
 			vf_bar4_addr.u = base;
 			CSR_WRITE(CAVM_RVU_AF_PFX_VF_BAR4_ADDR(pf),
 				  vf_bar4_addr.u);
-			pow2 = next_pow2(rvu_dev[pf].num_vfs);
-			size = pow2 * RVU_PF_LMT_LMTLINE_SIZE;
+			size = rvu_dev[pf].num_vfs * RVU_PF_LMT_LMTLINE_SIZE;
 			if ((base + size) >= PF_VF_MAILBOX_LIMIT) {
 				ERROR("RVU: PF%u's VF LMTLINE addr %p exceeds "
 				      "limit %p\n", pf,
@@ -775,7 +774,7 @@ static void cn10k_mailbox_enable(void)
 				panic();
 				break;
 			}
-			vf_bar4_cfg.u =  __builtin_ctzl(size);
+			vf_bar4_cfg.u =  __builtin_ctzl(RVU_PF_LMT_LMTLINE_SIZE);
 			CSR_WRITE(CAVM_RVU_AF_PFX_VF_BAR4_CFG(pf),
 				  vf_bar4_cfg.u);
 			base += size;
