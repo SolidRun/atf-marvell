@@ -39,11 +39,7 @@ static inline uint32_t popcnt(uint64_t val)
 
 uint64_t octeontx_dram_size()
 {
-	//uint64_t addr = 0;
+	uint64_t addr = 0;
 
-	//return memory_region_get_info(NSECURE_NONPRESERVE, &addr);
-	/* FIXME : t106xx, this function needs to be defined to get the
-	* mem region info from SAM block
-	*/
-	return 8ull << 30; /* from old LMC memsize code */
+	return memory_region_get_info(NSECURE_NONPRESERVE, &addr);
 }

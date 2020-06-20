@@ -299,6 +299,8 @@ void plat_add_mmio()
 				CAVM_APA_BAR_E_APAX_PF_BAR0_SIZE, attr);
 	}
 	
+	add_map_record(CAVM_SAM_BAR_E_SAM_PF_BAR0,
+				CAVM_SAM_BAR_E_SAM_PF_BAR0_SIZE, attr);
 	plat_map_cpc_mem();
 
 
