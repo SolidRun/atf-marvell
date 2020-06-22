@@ -349,7 +349,10 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #ifdef NT_FW_CONFIG
 	uint64_t nt_fw_config_size;
 #endif
-	assert(bl_mem_params);
+	if (bl_mem_params == NULL) {
+		assert(bl_mem_params);
+		return -1;
+	}
 
 	switch (image_id) {
 	case BL31_IMAGE_ID:

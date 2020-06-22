@@ -31,6 +31,10 @@ bl_params_t *plat_get_next_bl_params(void)
 {
 	bl_params_t *next_bl_params = get_next_bl_params_from_mem_params_desc();
 
+	if (next_bl_params == NULL)
+		return NULL;
+
 	populate_next_bl_params_config(next_bl_params);
+
 	return next_bl_params;
 }
