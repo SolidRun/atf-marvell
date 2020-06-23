@@ -424,7 +424,12 @@ struct ecam_init_callback init_callbacks[] = {
 
 static inline int octeontx_bus_is_rsl(struct ecam_device *device)
 {
+#if defined(PLAT_t106)
+	return (device->ecam == 0 && device->domain == 0 &&
+		(device->bus > 0 && device->bus < 5));
+#else
 	return (device->ecam == 0 && device->domain == 0 && device->bus == 1);
+#endif
 }
 
 /*

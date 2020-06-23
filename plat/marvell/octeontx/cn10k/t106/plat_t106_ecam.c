@@ -146,6 +146,8 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_SATA5, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BCH, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_APA, ECAM_ALL_INSTANCES},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_TAD, ECAM_ALL_INSTANCES},
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES}
 };
 
@@ -289,14 +291,15 @@ static inline void cn106xx_enable_func(struct ecam_device *dev)
 
 	/* enable func */
 	rsl_permit.u = CSR_READ(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam,
-				   dev->domain, dev->func));
+				   dev->domain, dev->func + ((dev->bus - 1) * 256)));
 	rsl_permit.s.sec_dis = 0;
 	rsl_permit.s.nsec_dis = 0;
 	rsl_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
 	rsl_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 	CSR_WRITE(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam, dev->domain,
-		     dev->func), rsl_permit.u);
-	debug_plat_ecam("enable_func E%d:DOM%d:F%d\n", dev->ecam, dev->domain, dev->func);
+		     dev->func + ((dev->bus - 1) * 256)), rsl_permit.u);
+	debug_plat_ecam("enable_func E%d:DOM%d:F%d:B%d\n", dev->ecam, dev->domain,
+			((dev->bus - 1) * 256) + dev->func, dev->bus);
 }
 
 static inline void cn106xx_disable_func(struct ecam_device *dev)
@@ -305,14 +308,15 @@ static inline void cn106xx_disable_func(struct ecam_device *dev)
 
 	/* disable func */
 	rsl_permit.u = CSR_READ(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam,
-				   dev->domain, dev->func));
+				   dev->domain, dev->func + ((dev->bus - 1) * 256)));
 	rsl_permit.s.sec_dis = 0;
 	rsl_permit.s.nsec_dis = 1;
 	rsl_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
 	rsl_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 	CSR_WRITE(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam, dev->domain,
-		     dev->func), rsl_permit.u);
-	debug_plat_ecam("disable_func E%d:DOM%d:F%d\n", dev->ecam, dev->domain, dev->func);
+		     dev->func + ((dev->bus - 1) * 256)), rsl_permit.u);
+	debug_plat_ecam("disable_func E%d:DOM%d:F%d:B%d\n", dev->ecam, dev->domain,
+			((dev->bus - 1) * 256) + dev->func, dev->bus);
 }
 
 static int cn106xx_get_ecam_count()
