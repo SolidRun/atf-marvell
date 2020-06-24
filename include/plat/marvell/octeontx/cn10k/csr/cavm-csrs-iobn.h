@@ -836,8 +836,8 @@ union cavm_iobnx_bp_testx
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
-                                                                 \<63\> = TBD.
-                                                                 \<62\> = TBD.
+                                                                 \<63\> = LSW1 Request.
+                                                                 \<62\> = LSW0 Request.
                                                                  \<61\> = NCBO1-RET.
                                                                  \<60\> = NCBO0-PRET.
                                                                  \<59\> = NCBO0-RET.
@@ -939,8 +939,8 @@ union cavm_iobnx_bp_testx
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
-                                                                 \<63\> = TBD.
-                                                                 \<62\> = TBD.
+                                                                 \<63\> = LSW1 Request.
+                                                                 \<62\> = LSW0 Request.
                                                                  \<61\> = NCBO1-RET.
                                                                  \<60\> = NCBO0-PRET.
                                                                  \<59\> = NCBO0-RET.
@@ -1028,7 +1028,7 @@ union cavm_iobnx_cfg0
         uint64_t clken                 : 4;  /**< [ 11:  8](R/W) Force the NCBO clock enable to be always on. For diagnostic use only.
                                                                  Each bit is control for a given NCB bus, where bit 8 is for NCB bus 0 and bit 11 is for NCB bus 3. */
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
-                                                                 [5] == NCB1, [5] == NCB1, [7] == NCB1 */
+                                                                 [5] == NCB1, [6] == NCB2, [7] == NCB3. */
         uint64_t force_immx_sclk_cond_clk_en : 1;/**< [  3:  3](R/W) Force on IMMX clocks. For diagnostic use only. */
         uint64_t force_inrm_sclk_cond_clk_en : 1;/**< [  2:  2](R/W) Force on INRM clocks. For diagnostic use only. */
         uint64_t force_inrf_sclk_cond_clk_en : 1;/**< [  1:  1](R/W) Force on INRF clocks. For diagnostic use only. */
@@ -1039,7 +1039,7 @@ union cavm_iobnx_cfg0
         uint64_t force_inrm_sclk_cond_clk_en : 1;/**< [  2:  2](R/W) Force on INRM clocks. For diagnostic use only. */
         uint64_t force_immx_sclk_cond_clk_en : 1;/**< [  3:  3](R/W) Force on IMMX clocks. For diagnostic use only. */
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
-                                                                 [5] == NCB1, [5] == NCB1, [7] == NCB1 */
+                                                                 [5] == NCB1, [6] == NCB2, [7] == NCB3. */
         uint64_t clken                 : 4;  /**< [ 11:  8](R/W) Force the NCBO clock enable to be always on. For diagnostic use only.
                                                                  Each bit is control for a given NCB bus, where bit 8 is for NCB bus 0 and bit 11 is for NCB bus 3. */
         uint64_t reserved_12_63        : 52;

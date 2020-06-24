@@ -201,9 +201,12 @@ void plat_add_mmio()
 		add_map_record(CAVM_MPI_BAR_E_MPIX_PF_BAR0(i), CAVM_MPI_BAR_E_MPIX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_MPI_BAR_E_MPIX_PF_BAR4(i), CAVM_MPI_BAR_E_MPIX_PF_BAR4_SIZE, attr);
 	}
+
+	add_map_record(CAVM_GIC_BAR_E_GIC_PF_BAR0, CAVM_GIC_BAR_E_GIC_PF_BAR0_SIZE, attr);
+#if 0
 	add_map_record(CAVM_GIC_BAR_E_GIC_PF_BAR2, CAVM_GIC_BAR_E_GIC_PF_BAR2_SIZE, attr);
 	add_map_record(GIC_PF_BAR4, GIC_PF_BAR4_SIZE, attr);
-
+#endif
 	device_type_count = plat_octeontx_get_smmu_count();
 	for (i = 0; i < device_type_count; i++)
 		add_map_record(CAVM_SMMU_BAR_E_SMMUX_PF_BAR0(i), CAVM_SMMU_BAR_E_SMMUX_PF_BAR0_SIZE, attr);

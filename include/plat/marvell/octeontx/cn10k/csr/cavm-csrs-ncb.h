@@ -270,7 +270,7 @@ static inline uint64_t CAVM_NCBX_ARBX_RWX_REQ_PC(uint64_t a, uint64_t b, uint64_
 /**
  * Register (RSL) ncb#_arb_iut_dis
  *
- * NCBO Credit Register
+ * NCBO ARBID IUT Disable Register
  * This register enables the uTLB for transactions through each ARBID.
  */
 union cavm_ncbx_arb_iut_dis

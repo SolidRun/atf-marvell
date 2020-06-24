@@ -2947,7 +2947,7 @@ union cavm_cimx_icc_sre_el2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1.
+        uint64_t en                    : 1;  /**< [  3:  3](RO/H) Enables lower exception level access to CIM()_ICC_SRE_EL1.
                                                                  0 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
                                                                  1 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
                                                                  CIM()_ICC_SRE_EL3[EN] is one, otherwise nonsecure EL1 accesses
@@ -2965,7 +2965,7 @@ union cavm_cimx_icc_sre_el2
                                                                  In CNXXXX, this bit is always one as FIQ bypass is always disabled. */
         uint64_t dib                   : 1;  /**< [  2:  2](RO/H) Disable IRQ bypass.
                                                                  In CNXXXX, this bit is always one as IRQ bypass is always disabled. */
-        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1.
+        uint64_t en                    : 1;  /**< [  3:  3](RO/H) Enables lower exception level access to CIM()_ICC_SRE_EL1.
                                                                  0 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
                                                                  1 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
                                                                  CIM()_ICC_SRE_EL3[EN] is one, otherwise nonsecure EL1 accesses
@@ -3005,7 +3005,7 @@ union cavm_cimx_icc_sre_el3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1/2.
+        uint64_t en                    : 1;  /**< [  3:  3](RO/H) Enables lower exception level access to CIM()_ICC_SRE_EL1/2.
                                                                  0 = EL1/2 accesses to CIM()_ICC_SRE_EL1/2 trap to EL3.
                                                                  1 = EL2 accesses to CIM()_ICC_SRE_EL2 are permitted. */
         uint64_t dib                   : 1;  /**< [  2:  2](RO/H) Disable IRQ bypass.
@@ -3021,7 +3021,7 @@ union cavm_cimx_icc_sre_el3
                                                                  In CNXXXX, this bit is always one as FIQ bypass is always disabled. */
         uint64_t dib                   : 1;  /**< [  2:  2](RO/H) Disable IRQ bypass.
                                                                  In CNXXXX, this bit is always one as IRQ bypass is always disabled. */
-        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1/2.
+        uint64_t en                    : 1;  /**< [  3:  3](RO/H) Enables lower exception level access to CIM()_ICC_SRE_EL1/2.
                                                                  0 = EL1/2 accesses to CIM()_ICC_SRE_EL1/2 trap to EL3.
                                                                  1 = EL2 accesses to CIM()_ICC_SRE_EL2 are permitted. */
         uint64_t reserved_4_63         : 60;
@@ -3922,7 +3922,6 @@ union cavm_cimx_ich_vtr_el2
                                                                  0x0 = 16 bits.
                                                                  0x1 = 24 bits.
                                                                  else = Reserved.
-
                                                                  TEMP -AVS currently built for 16 bit ids
                                                                  In CNXXXX, this field is always 0x1 as 24-bit interrupt IDs are implemented. */
         uint64_t seis                  : 1;  /**< [ 22: 22](RO/H) Read-only and writes are ignored.
@@ -3980,7 +3979,6 @@ union cavm_cimx_ich_vtr_el2
                                                                  0x0 = 16 bits.
                                                                  0x1 = 24 bits.
                                                                  else = Reserved.
-
                                                                  TEMP -AVS currently built for 16 bit ids
                                                                  In CNXXXX, this field is always 0x1 as 24-bit interrupt IDs are implemented. */
         uint64_t prebits               : 3;  /**< [ 28: 26](RO/H) The number of preemption bits implemented, minus one.

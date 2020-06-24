@@ -533,7 +533,7 @@ union cavm_apax_bp_test0
     struct cavm_apax_bp_test0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+        uint64_t enable                : 16; /**< [ 63: 48](SR/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
@@ -553,7 +553,7 @@ union cavm_apax_bp_test0
                                                                  \<50\> C2  = Pretend XTX DAT has no credits.
                                                                  \<49\> C1  = Pretend XTX RSP has no credits.
                                                                  \<48\> C0  = Pretend XTX REQ has no credits. */
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](SR/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
@@ -575,11 +575,11 @@ union cavm_apax_bp_test0
                                                                    \<19:18\> = Config 1.
                                                                    \<17:16\> = Config 0. */
         uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update period - clock cycles minus one. */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update period - clock cycles minus one. */
 #else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update period - clock cycles minus one. */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update period - clock cycles minus one. */
         uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](SR/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
@@ -600,7 +600,7 @@ union cavm_apax_bp_test0
                                                                    \<21:20\> = Config 2.
                                                                    \<19:18\> = Config 1.
                                                                    \<17:16\> = Config 0. */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+        uint64_t enable                : 16; /**< [ 63: 48](SR/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
@@ -1354,7 +1354,7 @@ union cavm_apax_man_pll
     struct cavm_apax_man_pll_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ref_div               : 4;  /**< [ 63: 60](R/W) Reference clock divider.
+        uint64_t ref_div               : 4;  /**< [ 63: 60](SR/W) Reference clock divider.
                                                                    0 = Reserved.
                                                                    1 = Divide reference clock by 1.
                                                                    2 = Divide reference clock by 2 (typical).
@@ -1363,59 +1363,59 @@ union cavm_apax_man_pll
                                                                  See PLL Specification for effect on other fields.
                                                                  ARO ignores this field and uses reference clock divided by 2. */
         uint64_t reserved_58_59        : 2;
-        uint64_t post_div              : 10; /**< [ 57: 48](R/W) Post scalar divider.
+        uint64_t post_div              : 10; /**< [ 57: 48](SR/W) Post scalar divider.
                                                                    0, 1 = Reserved.
                                                                    2-1023 = Divide VCO output by [POST_DIV]. */
         uint64_t reserved_42_47        : 6;
-        uint64_t vco_mul               : 10; /**< [ 41: 32](R/W) VCO multiplier integer.
+        uint64_t vco_mul               : 10; /**< [ 41: 32](SR/W) VCO multiplier integer.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
-        uint64_t vco_fract             : 10; /**< [ 31: 22](R/W) VCO multiplier fraction.
+        uint64_t vco_fract             : 10; /**< [ 31: 22](SR/W) VCO multiplier fraction.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t reserved_18_21        : 4;
-        uint64_t bw                    : 2;  /**< [ 17: 16](R/W) VCO bandwidth.
+        uint64_t bw                    : 2;  /**< [ 17: 16](SR/W) VCO bandwidth.
 
                                                                  See PLL specifications for details.
                                                                  Not used by ARO. */
-        uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP setting.
+        uint64_t icp                   : 4;  /**< [ 15: 12](SR/W) PLL ICP setting.
 
                                                                  See PLL specification for details.
                                                                  ARO ignores this field. */
         uint64_t reserved_10_11        : 2;
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.
+        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.
 
                                                                  See PLL and ARO specifications for details. */
 #else /* Word 0 - Little Endian */
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.
+        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.
 
                                                                  See PLL and ARO specifications for details. */
         uint64_t reserved_10_11        : 2;
-        uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP setting.
+        uint64_t icp                   : 4;  /**< [ 15: 12](SR/W) PLL ICP setting.
 
                                                                  See PLL specification for details.
                                                                  ARO ignores this field. */
-        uint64_t bw                    : 2;  /**< [ 17: 16](R/W) VCO bandwidth.
+        uint64_t bw                    : 2;  /**< [ 17: 16](SR/W) VCO bandwidth.
 
                                                                  See PLL specifications for details.
                                                                  Not used by ARO. */
         uint64_t reserved_18_21        : 4;
-        uint64_t vco_fract             : 10; /**< [ 31: 22](R/W) VCO multiplier fraction.
+        uint64_t vco_fract             : 10; /**< [ 31: 22](SR/W) VCO multiplier fraction.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
-        uint64_t vco_mul               : 10; /**< [ 41: 32](R/W) VCO multiplier integer.
+        uint64_t vco_mul               : 10; /**< [ 41: 32](SR/W) VCO multiplier integer.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t reserved_42_47        : 6;
-        uint64_t post_div              : 10; /**< [ 57: 48](R/W) Post scalar divider.
+        uint64_t post_div              : 10; /**< [ 57: 48](SR/W) Post scalar divider.
                                                                    0, 1 = Reserved.
                                                                    2-1023 = Divide VCO output by [POST_DIV]. */
         uint64_t reserved_58_59        : 2;
-        uint64_t ref_div               : 4;  /**< [ 63: 60](R/W) Reference clock divider.
+        uint64_t ref_div               : 4;  /**< [ 63: 60](SR/W) Reference clock divider.
                                                                    0 = Reserved.
                                                                    1 = Divide reference clock by 1.
                                                                    2 = Divide reference clock by 2 (typical).
@@ -1591,9 +1591,9 @@ union cavm_apax_pfcx
     struct cavm_apax_pfcx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
+        uint64_t count                 : 64; /**< [ 63:  0](SR/W/H) Current counter value. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
+        uint64_t count                 : 64; /**< [ 63:  0](SR/W/H) Current counter value. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_pfcx_s cn; */
@@ -1633,32 +1633,32 @@ union cavm_apax_pll
     struct cavm_apax_pll_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](SRO/H) ARO present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
                                                                      switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
-        uint64_t pll1_present          : 1;  /**< [ 62: 62](RO/H) PLL1 present.
+        uint64_t pll1_present          : 1;  /**< [ 62: 62](SRO/H) PLL1 present.
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
                                                                      switching to PLL1 will result in the clock being stopped.
                                                                  1 = PLL1 is available. */
-        uint64_t alt_ref               : 1;  /**< [ 61: 61](R/W/H) Alternate reference clock.
+        uint64_t alt_ref               : 1;  /**< [ 61: 61](SR/W/H) Alternate reference clock.
                                                                  0 = Use 100 MHz reference.  [CUR_MUL] and [NEXT_MUL] values are based on 50 MHz increments
                                                                  1 = Use alternate reference clock typically 156.25 MHz or 122.88 MHz.  [CUR_MUL] and
                                                                      [NEXT_MUL] values are based on alternate reference clock divided by two increments.
 
                                                                  Setting this register has an immediate effect.  The PLL will typically require some time
                                                                  to adjust to the new frequency. */
-        uint64_t msc_enable            : 1;  /**< [ 60: 60](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+        uint64_t msc_enable            : 1;  /**< [ 60: 60](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.  It is possible that MESHCLK and DTSCLK
                                                                  have independent outputs.
 
                                                                  Setting this register has an immediate effect on the outputs.
                                                                  This field is reinitilized on a cold domain reset. */
-        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](RO/H) Current PLL selection.
+        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](SRO/H) Current PLL selection.
                                                                  Enumerated by APA_PLL_SEL_E. */
         uint64_t reserved_55_56        : 2;
-        uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
+        uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
                                                                  See [ALT_REF] for details.  The value is limited by [MAX_MUL].
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
@@ -1670,38 +1670,38 @@ union cavm_apax_pll
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
         uint64_t reserved_47           : 1;
-        uint64_t max_mul               : 7;  /**< [ 46: 40](R/W/H) Maximum PLL multiplier.
+        uint64_t max_mul               : 7;  /**< [ 46: 40](SR/W/H) Maximum PLL multiplier.
                                                                  This field is used to limit the [CUR_MUL] value.
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
                                                                  since the minimum PLL frequency at least 300 MHz. */
         uint64_t reserved_39           : 1;
-        uint64_t init_mul              : 7;  /**< [ 38: 32](R/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
+        uint64_t init_mul              : 7;  /**< [ 38: 32](SR/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
                                                                  reset.  Value is based on 50 MHz.
 
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_31           : 1;
-        uint64_t next_mul              : 7;  /**< [ 30: 24](R/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
+        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
                                                                  Value is based on reference clock divided by two.  Typically 50 MHz.
                                                                  See [ALT_REF] for additional details.  Program cycle is initiated by setting [NEXT_PGM].
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
-        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
+        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](SR/W) Next PLL Selection.  This register is used to select which PLL and register values
                                                                  are being addressed.  It affects both the APA_PLL() and APA_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by APA_PLL_SEL_E. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of APA_MAN_PLL() to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of APA_MAN_PLL() to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
                                                                  1 = Use APA_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
-        uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
+        uint64_t next_pgm              : 1;  /**< [ 16: 16](SR/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
                                                                  using APA_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
         uint64_t reserved_12_15        : 4;
-        uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t next_switch           : 12; /**< [ 11:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
@@ -1709,7 +1709,7 @@ union cavm_apax_pll
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t next_switch           : 12; /**< [ 11:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
@@ -1717,38 +1717,38 @@ union cavm_apax_pll
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
         uint64_t reserved_12_15        : 4;
-        uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
+        uint64_t next_pgm              : 1;  /**< [ 16: 16](SR/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
                                                                  using APA_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of APA_MAN_PLL() to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of APA_MAN_PLL() to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
                                                                  1 = Use APA_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
+        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](SR/W) Next PLL Selection.  This register is used to select which PLL and register values
                                                                  are being addressed.  It affects both the APA_PLL() and APA_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by APA_PLL_SEL_E. */
-        uint64_t next_mul              : 7;  /**< [ 30: 24](R/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
+        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
                                                                  Value is based on reference clock divided by two.  Typically 50 MHz.
                                                                  See [ALT_REF] for additional details.  Program cycle is initiated by setting [NEXT_PGM].
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
         uint64_t reserved_31           : 1;
-        uint64_t init_mul              : 7;  /**< [ 38: 32](R/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
+        uint64_t init_mul              : 7;  /**< [ 38: 32](SR/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
                                                                  reset.  Value is based on 50 MHz.
 
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_39           : 1;
-        uint64_t max_mul               : 7;  /**< [ 46: 40](R/W/H) Maximum PLL multiplier.
+        uint64_t max_mul               : 7;  /**< [ 46: 40](SR/W/H) Maximum PLL multiplier.
                                                                  This field is used to limit the [CUR_MUL] value.
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
                                                                  since the minimum PLL frequency at least 300 MHz. */
         uint64_t reserved_47           : 1;
-        uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
+        uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
                                                                  See [ALT_REF] for details.  The value is limited by [MAX_MUL].
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
@@ -1760,27 +1760,27 @@ union cavm_apax_pll
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
         uint64_t reserved_55_56        : 2;
-        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](RO/H) Current PLL selection.
+        uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](SRO/H) Current PLL selection.
                                                                  Enumerated by APA_PLL_SEL_E. */
-        uint64_t msc_enable            : 1;  /**< [ 60: 60](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+        uint64_t msc_enable            : 1;  /**< [ 60: 60](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.  It is possible that MESHCLK and DTSCLK
                                                                  have independent outputs.
 
                                                                  Setting this register has an immediate effect on the outputs.
                                                                  This field is reinitilized on a cold domain reset. */
-        uint64_t alt_ref               : 1;  /**< [ 61: 61](R/W/H) Alternate reference clock.
+        uint64_t alt_ref               : 1;  /**< [ 61: 61](SR/W/H) Alternate reference clock.
                                                                  0 = Use 100 MHz reference.  [CUR_MUL] and [NEXT_MUL] values are based on 50 MHz increments
                                                                  1 = Use alternate reference clock typically 156.25 MHz or 122.88 MHz.  [CUR_MUL] and
                                                                      [NEXT_MUL] values are based on alternate reference clock divided by two increments.
 
                                                                  Setting this register has an immediate effect.  The PLL will typically require some time
                                                                  to adjust to the new frequency. */
-        uint64_t pll1_present          : 1;  /**< [ 62: 62](RO/H) PLL1 present.
+        uint64_t pll1_present          : 1;  /**< [ 62: 62](SRO/H) PLL1 present.
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
                                                                      switching to PLL1 will result in the clock being stopped.
                                                                  1 = PLL1 is available. */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](SRO/H) ARO present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
                                                                      switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
@@ -1819,24 +1819,24 @@ union cavm_apax_prf
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t rx_dat_en             : 1;  /**< [  5:  5](R/W) Enable counting the number received flits into APA from the mesh on the DAT
+        uint64_t rx_dat_en             : 1;  /**< [  5:  5](SR/W) Enable counting the number received flits into APA from the mesh on the DAT
                                                                  channel in APA()_PFC(5). */
-        uint64_t rx_snp_en             : 1;  /**< [  4:  4](R/W) Enable counting the number received flits into APA from the mesh on the SNP
+        uint64_t rx_snp_en             : 1;  /**< [  4:  4](SR/W) Enable counting the number received flits into APA from the mesh on the SNP
                                                                  channel in APA()_PFC(4). */
-        uint64_t rx_rsp_en             : 1;  /**< [  3:  3](R/W) Enable counting the number received flits into APA from the mesh on the RSP
+        uint64_t rx_rsp_en             : 1;  /**< [  3:  3](SR/W) Enable counting the number received flits into APA from the mesh on the RSP
                                                                  channel in APA()_PFC(3). */
-        uint64_t tx_dat_en             : 1;  /**< [  2:  2](R/W) Enable counting the number sent flits out of APA to the mesh on the DAT channel in APA()_PFC(2). */
-        uint64_t tx_rsp_en             : 1;  /**< [  1:  1](R/W) Enable counting the number sent flits out of APA to the mesh on the RSP channel in APA()_PFC(1). */
-        uint64_t tx_req_en             : 1;  /**< [  0:  0](R/W) Enable counting the number sent flits out of APA to the mesh on the REQ channel in APA()_PFC(0). */
+        uint64_t tx_dat_en             : 1;  /**< [  2:  2](SR/W) Enable counting the number sent flits out of APA to the mesh on the DAT channel in APA()_PFC(2). */
+        uint64_t tx_rsp_en             : 1;  /**< [  1:  1](SR/W) Enable counting the number sent flits out of APA to the mesh on the RSP channel in APA()_PFC(1). */
+        uint64_t tx_req_en             : 1;  /**< [  0:  0](SR/W) Enable counting the number sent flits out of APA to the mesh on the REQ channel in APA()_PFC(0). */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_req_en             : 1;  /**< [  0:  0](R/W) Enable counting the number sent flits out of APA to the mesh on the REQ channel in APA()_PFC(0). */
-        uint64_t tx_rsp_en             : 1;  /**< [  1:  1](R/W) Enable counting the number sent flits out of APA to the mesh on the RSP channel in APA()_PFC(1). */
-        uint64_t tx_dat_en             : 1;  /**< [  2:  2](R/W) Enable counting the number sent flits out of APA to the mesh on the DAT channel in APA()_PFC(2). */
-        uint64_t rx_rsp_en             : 1;  /**< [  3:  3](R/W) Enable counting the number received flits into APA from the mesh on the RSP
+        uint64_t tx_req_en             : 1;  /**< [  0:  0](SR/W) Enable counting the number sent flits out of APA to the mesh on the REQ channel in APA()_PFC(0). */
+        uint64_t tx_rsp_en             : 1;  /**< [  1:  1](SR/W) Enable counting the number sent flits out of APA to the mesh on the RSP channel in APA()_PFC(1). */
+        uint64_t tx_dat_en             : 1;  /**< [  2:  2](SR/W) Enable counting the number sent flits out of APA to the mesh on the DAT channel in APA()_PFC(2). */
+        uint64_t rx_rsp_en             : 1;  /**< [  3:  3](SR/W) Enable counting the number received flits into APA from the mesh on the RSP
                                                                  channel in APA()_PFC(3). */
-        uint64_t rx_snp_en             : 1;  /**< [  4:  4](R/W) Enable counting the number received flits into APA from the mesh on the SNP
+        uint64_t rx_snp_en             : 1;  /**< [  4:  4](SR/W) Enable counting the number received flits into APA from the mesh on the SNP
                                                                  channel in APA()_PFC(4). */
-        uint64_t rx_dat_en             : 1;  /**< [  5:  5](R/W) Enable counting the number received flits into APA from the mesh on the DAT
+        uint64_t rx_dat_en             : 1;  /**< [  5:  5](SR/W) Enable counting the number received flits into APA from the mesh on the DAT
                                                                  channel in APA()_PFC(5). */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */

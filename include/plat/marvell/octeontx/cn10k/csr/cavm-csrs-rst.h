@@ -81,7 +81,6 @@
 #define CAVM_RST_DEV_E_EMMC (0x19)
 #define CAVM_RST_DEV_E_I3C (0x10)
 #define CAVM_RST_DEV_E_MPIX(a) (2 + (a))
-#define CAVM_RST_DEV_E_NCSI (0)
 #define CAVM_RST_DEV_E_RFIFX(a) (0x28 + (a))
 #define CAVM_RST_DEV_E_ROC_OCLA (0x18)
 #define CAVM_RST_DEV_E_SGPIO (0x17)
@@ -95,6 +94,7 @@
  * RST Domain Enumeration
  * This enumerates the values of RST_DEV_MAP()[DMN].
  */
+#define CAVM_RST_DOMAIN_E_BPHY (5)
 #define CAVM_RST_DOMAIN_E_CHIP (0)
 #define CAVM_RST_DOMAIN_E_COLD (6)
 #define CAVM_RST_DOMAIN_E_CORE (1)
@@ -115,6 +115,8 @@
  *
  * RST PLL Enumeration
  * Enumerates the values of RST_PLL() and RST_MAN_PLL().
+ * Internal:
+ * and RST_TEST_PLL().
  */
 #define CAVM_RST_PLL_E_CPTCLK (6)
 #define CAVM_RST_PLL_E_DTSCLK (5)
@@ -146,6 +148,8 @@
  * Enumerates the reset sources for both reset domain mapping and cause of last reset,
  * corresponding to the bit numbers of RST_LBOOT.
  */
+#define CAVM_RST_SOURCE_E_BPHY_RESET_PIN (0x20)
+#define CAVM_RST_SOURCE_E_BPHY_SOFT (0x21)
 #define CAVM_RST_SOURCE_E_CHIPKILL (4)
 #define CAVM_RST_SOURCE_E_CHIP_RESET_PIN (2)
 #define CAVM_RST_SOURCE_E_CHIP_SOFT (3)
@@ -209,7 +213,12 @@ union cavm_rst_bist_active
     struct cavm_rst_bist_active_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_7_63         : 57;
+        uint64_t bphy                  : 1;  /**< [  6:  6](RO/H) Reserved.
+                                                                 Internal:
+                                                                 BPHY domain BIST in progress.  When set, memories accociated with
+                                                                 the BPHY domain are being tested. */
+        uint64_t reserved_5            : 1;
         uint64_t csr                   : 1;  /**< [  4:  4](RO/H) BIST in progress due to access to RST_DEV_MAP().  When set, memories
                                                                  associated with this access are being tested.
 
@@ -269,7 +278,12 @@ union cavm_rst_bist_active
 
                                                                  Internal:
                                                                  This field is reinitialized on the falling edge of dcok. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5            : 1;
+        uint64_t bphy                  : 1;  /**< [  6:  6](RO/H) Reserved.
+                                                                 Internal:
+                                                                 BPHY domain BIST in progress.  When set, memories accociated with
+                                                                 the BPHY domain are being tested. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_bist_active_s cn; */
@@ -491,6 +505,104 @@ static inline uint64_t CAVM_RST_BOOT_STATUS_FUNC(void)
 #define device_bar_CAVM_RST_BOOT_STATUS 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RST_BOOT_STATUS 0
 #define arguments_CAVM_RST_BOOT_STATUS -1,-1,-1,-1
+
+/**
+ * Register (RSL) rst_bphy_domain_w1c
+ *
+ * INTERNAL: RST BPHY Domain Soft Reset Clear Register
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_rst_bphy_domain_w1c
+{
+    uint64_t u;
+    struct cavm_rst_bphy_domain_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t soft_rst              : 1;  /**< [  0:  0](R/W1C/H) Clear software-initiated reset of the BPHY processor and associated logic.
+                                                                 When set to one, the soft reset of the BPHY is removed.
+                                                                 Reads of this register show the soft reset state.  Not the actual BPHY domain reset.
+                                                                 Other factors may keep the reset active, reading RST_RESET_ACTIVE[BPHY] shows
+                                                                 the actual reset state.  To compensate for delays in reset, this field should only
+                                                                 be set if RST_RESET_ACTIVE[BPHY] is set.
+                                                                 This field is always reinitialized on a core domain reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t soft_rst              : 1;  /**< [  0:  0](R/W1C/H) Clear software-initiated reset of the BPHY processor and associated logic.
+                                                                 When set to one, the soft reset of the BPHY is removed.
+                                                                 Reads of this register show the soft reset state.  Not the actual BPHY domain reset.
+                                                                 Other factors may keep the reset active, reading RST_RESET_ACTIVE[BPHY] shows
+                                                                 the actual reset state.  To compensate for delays in reset, this field should only
+                                                                 be set if RST_RESET_ACTIVE[BPHY] is set.
+                                                                 This field is always reinitialized on a core domain reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_bphy_domain_w1c_s cn; */
+};
+typedef union cavm_rst_bphy_domain_w1c cavm_rst_bphy_domain_w1c_t;
+
+#define CAVM_RST_BPHY_DOMAIN_W1C CAVM_RST_BPHY_DOMAIN_W1C_FUNC()
+static inline uint64_t CAVM_RST_BPHY_DOMAIN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RST_BPHY_DOMAIN_W1C_FUNC(void)
+{
+    return 0x87e006001858ll;
+}
+
+#define typedef_CAVM_RST_BPHY_DOMAIN_W1C cavm_rst_bphy_domain_w1c_t
+#define bustype_CAVM_RST_BPHY_DOMAIN_W1C CSR_TYPE_RSL
+#define basename_CAVM_RST_BPHY_DOMAIN_W1C "RST_BPHY_DOMAIN_W1C"
+#define device_bar_CAVM_RST_BPHY_DOMAIN_W1C 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RST_BPHY_DOMAIN_W1C 0
+#define arguments_CAVM_RST_BPHY_DOMAIN_W1C -1,-1,-1,-1
+
+/**
+ * Register (RSL) rst_bphy_domain_w1s
+ *
+ * INTERNAL: RST BPHY Domain Soft Reset Set Register
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_rst_bphy_domain_w1s
+{
+    uint64_t u;
+    struct cavm_rst_bphy_domain_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t soft_rst              : 1;  /**< [  0:  0](R/W1S/H) Set software-initiated reset of BPHY associated logic.
+                                                                 When set to one, all logic associated with the BPHY domain is placed in reset.
+                                                                 Reads of this register show the soft reset state.  Not the actual BPHY domain reset.
+                                                                 Other factors may keep the reset active, reading RST_RESET_ACTIVE[BPHY] shows
+                                                                 the actual reset state.
+                                                                 This field is always reinitialized on a core domain reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t soft_rst              : 1;  /**< [  0:  0](R/W1S/H) Set software-initiated reset of BPHY associated logic.
+                                                                 When set to one, all logic associated with the BPHY domain is placed in reset.
+                                                                 Reads of this register show the soft reset state.  Not the actual BPHY domain reset.
+                                                                 Other factors may keep the reset active, reading RST_RESET_ACTIVE[BPHY] shows
+                                                                 the actual reset state.
+                                                                 This field is always reinitialized on a core domain reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_bphy_domain_w1s_s cn; */
+};
+typedef union cavm_rst_bphy_domain_w1s cavm_rst_bphy_domain_w1s_t;
+
+#define CAVM_RST_BPHY_DOMAIN_W1S CAVM_RST_BPHY_DOMAIN_W1S_FUNC()
+static inline uint64_t CAVM_RST_BPHY_DOMAIN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RST_BPHY_DOMAIN_W1S_FUNC(void)
+{
+    return 0x87e006001850ll;
+}
+
+#define typedef_CAVM_RST_BPHY_DOMAIN_W1S cavm_rst_bphy_domain_w1s_t
+#define bustype_CAVM_RST_BPHY_DOMAIN_W1S CSR_TYPE_RSL
+#define basename_CAVM_RST_BPHY_DOMAIN_W1S "RST_BPHY_DOMAIN_W1S"
+#define device_bar_CAVM_RST_BPHY_DOMAIN_W1S 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RST_BPHY_DOMAIN_W1S 0
+#define arguments_CAVM_RST_BPHY_DOMAIN_W1S -1,-1,-1,-1
 
 /**
  * Register (RSL) rst_cfg
@@ -1472,7 +1584,11 @@ union cavm_rst_int
     struct cavm_rst_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_52_63        : 12;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) SCP domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1C/H) MCP domain entered reset.
@@ -1488,7 +1604,11 @@ union cavm_rst_int
                                                                  This field is reinitialized with a chip domain reset. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) SCP domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_int_s cn; */
@@ -1521,7 +1641,11 @@ union cavm_rst_int_ena_w1c
     struct cavm_rst_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_52_63        : 12;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for RST_INT[BPHY_RESET].
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for RST_INT[SCP_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for RST_INT[MCP_RESET]. */
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for RST_INT[CORE_RESET]. */
@@ -1531,7 +1655,11 @@ union cavm_rst_int_ena_w1c
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for RST_INT[CORE_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for RST_INT[MCP_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for RST_INT[SCP_RESET]. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for RST_INT[BPHY_RESET].
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_int_ena_w1c_s cn; */
@@ -1564,7 +1692,11 @@ union cavm_rst_int_ena_w1s
     struct cavm_rst_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_52_63        : 12;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for RST_INT[BPHY_RESET].
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for RST_INT[SCP_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for RST_INT[MCP_RESET]. */
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for RST_INT[CORE_RESET]. */
@@ -1574,7 +1706,11 @@ union cavm_rst_int_ena_w1s
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for RST_INT[CORE_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for RST_INT[MCP_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for RST_INT[SCP_RESET]. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for RST_INT[BPHY_RESET].
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_int_ena_w1s_s cn; */
@@ -1607,7 +1743,11 @@ union cavm_rst_int_w1s
     struct cavm_rst_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_52_63        : 12;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets RST_INT[BPHY_RESET].
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets RST_INT[SCP_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets RST_INT[MCP_RESET]. */
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets RST_INT[CORE_RESET]. */
@@ -1617,7 +1757,11 @@ union cavm_rst_int_w1s
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets RST_INT[CORE_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets RST_INT[MCP_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets RST_INT[SCP_RESET]. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets RST_INT[BPHY_RESET].
+                                                                 Internal:
+                                                                 BPHY domain entered reset.
+                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_int_w1s_s cn; */
@@ -1728,7 +1872,7 @@ union cavm_rst_man_pllx
         uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP setting.
 
                                                                  See PLL specification for details.
-                                                                 ARO ignores this field. */
+                                                                 Not used by ARO. */
         uint64_t reserved_10_11        : 2;
         uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.
 
@@ -1741,7 +1885,7 @@ union cavm_rst_man_pllx
         uint64_t icp                   : 4;  /**< [ 15: 12](R/W) PLL ICP setting.
 
                                                                  See PLL specification for details.
-                                                                 ARO ignores this field. */
+                                                                 Not used by ARO. */
         uint64_t bw                    : 2;  /**< [ 17: 16](R/W) VCO bandwidth.
 
                                                                  See PLL specifications for details.
@@ -2071,7 +2215,8 @@ static inline uint64_t CAVM_RST_MSIX_VECX_CTL(uint64_t a)
 /**
  * Register (RSL) rst_out_ctl
  *
- * RST External Reset Control Register
+ * INTERNAL: RST External Reset Control Register
+ *
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  */
 union cavm_rst_out_ctl
@@ -2080,7 +2225,13 @@ union cavm_rst_out_ctl
     struct cavm_rst_out_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t bphy_rst              : 1;  /**< [  4:  4](R/W) BPHY reset output. When set by software, this field drives the GPIO_PIN_SEL_E::BPHY_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a BPHY
+                                                                 domain reset.
+                                                                 This field is always reinitialized on a BPHY domain reset. */
         uint64_t scp_rst               : 1;  /**< [  3:  3](R/W) SCP reset output. When set by software, this field drives the GPIO_PIN_SEL_E::SCP_RESET_OUT
                                                                  selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
                                                                  field is set by software then it must also be cleared to deassert the pin.
@@ -2128,7 +2279,13 @@ union cavm_rst_out_ctl
                                                                  The pin is also automatically asserted and deasserted by hardware during a SCP
                                                                  domain reset.
                                                                  This field is always reinitialized on an SCP domain reset. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t bphy_rst              : 1;  /**< [  4:  4](R/W) BPHY reset output. When set by software, this field drives the GPIO_PIN_SEL_E::BPHY_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a BPHY
+                                                                 domain reset.
+                                                                 This field is always reinitialized on a BPHY domain reset. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_out_ctl_s cn; */
@@ -2167,7 +2324,7 @@ union cavm_rst_pllx
     struct cavm_rst_pllx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) Adaptive Ring Oscillator present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
                                                                      switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
@@ -2314,7 +2471,7 @@ union cavm_rst_pllx
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
                                                                      switching to PLL1 will result in the clock being stopped.
                                                                  1 = PLL1 is available. */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) ARO present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](RO/H) Adaptive Ring Oscillator present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
                                                                      switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
@@ -2671,7 +2828,11 @@ union cavm_rst_reset_active
     struct cavm_rst_reset_active_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
+                                                                 Internal:
+                                                                 BPHY domain reset status.  When set, BPHY domain is in reset.
+                                                                 Default reset value is one after a chip or core reset. */
         uint64_t scp                   : 1;  /**< [  3:  3](RO/H) SCP domain reset status.  When set, SCP domain is in reset.
                                                                  Default reset value is zero after a chip reset. */
         uint64_t mcp                   : 1;  /**< [  2:  2](RO/H) MCP domain reset status.  When set, MCP domain is in reset.
@@ -2687,7 +2848,11 @@ union cavm_rst_reset_active
                                                                  Default reset value is one after a chip reset. */
         uint64_t scp                   : 1;  /**< [  3:  3](RO/H) SCP domain reset status.  When set, SCP domain is in reset.
                                                                  Default reset value is zero after a chip reset. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
+                                                                 Internal:
+                                                                 BPHY domain reset status.  When set, BPHY domain is in reset.
+                                                                 Default reset value is one after a chip or core reset. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_reset_active_s cn; */
@@ -2993,6 +3158,58 @@ static inline uint64_t CAVM_RST_SW_W1S_FUNC(void)
 #define device_bar_CAVM_RST_SW_W1S 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RST_SW_W1S 0
 #define arguments_CAVM_RST_SW_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) rst_test_pll#
+ *
+ * RST Manual PLL Control Register
+ * Internal:
+ * These registers are used to test the PLL operation and allow the pll output
+ * clock to be stopped or restarted during testing.  Writes to this register
+ * cause an update cycle to be sent thru the pll_intf.  Indexed by RST_PLL_E.
+ * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is always reset on a chip domain reset.
+ */
+union cavm_rst_test_pllx
+{
+    uint64_t u;
+    struct cavm_rst_test_pllx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t stop_clk              : 1;  /**< [ 19: 19](R/W) Stop PLL output.
+                                                                   0 = Clock running normally.
+                                                                   1 = PLL output is stopped after STOP_CNT counts down to 0. */
+        uint64_t test_rsvd             : 3;  /**< [ 18: 16](R/W) Reserved test bits sent to PLLs for diagnostics. */
+        uint64_t stop_cnt              : 16; /**< [ 15:  0](R/W/H) Counter Delay to stop PLL output.  Counter decrements every PLL output clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t stop_cnt              : 16; /**< [ 15:  0](R/W/H) Counter Delay to stop PLL output.  Counter decrements every PLL output clock. */
+        uint64_t test_rsvd             : 3;  /**< [ 18: 16](R/W) Reserved test bits sent to PLLs for diagnostics. */
+        uint64_t stop_clk              : 1;  /**< [ 19: 19](R/W) Stop PLL output.
+                                                                   0 = Clock running normally.
+                                                                   1 = PLL output is stopped after STOP_CNT counts down to 0. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_test_pllx_s cn; */
+};
+typedef union cavm_rst_test_pllx cavm_rst_test_pllx_t;
+
+static inline uint64_t CAVM_RST_TEST_PLLX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RST_TEST_PLLX(uint64_t a)
+{
+    if (a<=15)
+        return 0x87e00a001200ll + 8ll * ((a) & 0xf);
+    __cavm_csr_fatal("RST_TEST_PLLX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RST_TEST_PLLX(a) cavm_rst_test_pllx_t
+#define bustype_CAVM_RST_TEST_PLLX(a) CSR_TYPE_RSL
+#define basename_CAVM_RST_TEST_PLLX(a) "RST_TEST_PLLX"
+#define device_bar_CAVM_RST_TEST_PLLX(a) 0x2 /* PF_BAR2 */
+#define busnum_CAVM_RST_TEST_PLLX(a) (a)
+#define arguments_CAVM_RST_TEST_PLLX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rst_thermal_alert

@@ -20,6 +20,47 @@
  */
 
 /**
+ * Structure apr_lmt_arg_s
+ *
+ * APR LMTST Data Operand Structure
+ */
+union cavm_apr_lmt_arg_s
+{
+    uint64_t u;
+    struct cavm_apr_lmt_arg_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t size_vec              : 45; /**< [ 63: 19] Vector of sizes for each LMTST in the burst, except the first. Every 3 bits
+                                                                 represents the size-1 of one LMTST, in units of 128 bits. The size of the first
+                                                                 LMTST is excluded, so there are 15 LMTSTs x 3 bits each = 45 bits in total in
+                                                                 the vector. LSB ordering is used, the second LMTST uses SIZE_VEC[21:19], the
+                                                                 third uses SIZE_VEC[24:22] and the sixteenth uses SIZE_VEC[63:61]. The size of
+                                                                 the first LMTST in the burst is specified in bits [6:4] of the physical
+                                                                 address of the atomic instruction triggering the LMTST. */
+        uint64_t reserved_16_18        : 3;
+        uint64_t cntm1                 : 4;  /**< [ 15: 12] Count minus one of LMTSTs in the burst. Maximum legal burst size is 16 LMTLINEs. */
+        uint64_t reserved_11           : 1;
+        uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST
+                                                                 in the burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE]+(128xLMT_ID). */
+#else /* Word 0 - Little Endian */
+        uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST
+                                                                 in the burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE]+(128xLMT_ID). */
+        uint64_t reserved_11           : 1;
+        uint64_t cntm1                 : 4;  /**< [ 15: 12] Count minus one of LMTSTs in the burst. Maximum legal burst size is 16 LMTLINEs. */
+        uint64_t reserved_16_18        : 3;
+        uint64_t size_vec              : 45; /**< [ 63: 19] Vector of sizes for each LMTST in the burst, except the first. Every 3 bits
+                                                                 represents the size-1 of one LMTST, in units of 128 bits. The size of the first
+                                                                 LMTST is excluded, so there are 15 LMTSTs x 3 bits each = 45 bits in total in
+                                                                 the vector. LSB ordering is used, the second LMTST uses SIZE_VEC[21:19], the
+                                                                 third uses SIZE_VEC[24:22] and the sixteenth uses SIZE_VEC[63:61]. The size of
+                                                                 the first LMTST in the burst is specified in bits [6:4] of the physical
+                                                                 address of the atomic instruction triggering the LMTST. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apr_lmt_arg_s_s cn; */
+};
+
+/**
  * Structure apr_lmt_map_entry_s
  *
  * APR PF_FUNC LMTLINE Region Configuration Structure
@@ -130,10 +171,10 @@ union cavm_apr_af_corex_diag1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t num_lmtst             : 48; /**< [ 47:  0](R/W1C/H) Number of LMTST processed since field was last cleared.
+        uint64_t num_lmtst             : 48; /**< [ 47:  0](R/W/H) Number of LMTST processed since field was last cleared.
                                                                  Counter wraps if max value hit. */
 #else /* Word 0 - Little Endian */
-        uint64_t num_lmtst             : 48; /**< [ 47:  0](R/W1C/H) Number of LMTST processed since field was last cleared.
+        uint64_t num_lmtst             : 48; /**< [ 47:  0](R/W/H) Number of LMTST processed since field was last cleared.
                                                                  Counter wraps if max value hit. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -170,10 +211,10 @@ union cavm_apr_af_corex_diag2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t num_lmtlines          : 48; /**< [ 47:  0](R/W1C/H) Number of LMTLINES fetched since field was last cleared.
+        uint64_t num_lmtlines          : 48; /**< [ 47:  0](R/W/H) Number of LMTLINES fetched since field was last cleared.
                                                                  Counter wraps if max value hit. */
 #else /* Word 0 - Little Endian */
-        uint64_t num_lmtlines          : 48; /**< [ 47:  0](R/W1C/H) Number of LMTLINES fetched since field was last cleared.
+        uint64_t num_lmtlines          : 48; /**< [ 47:  0](R/W/H) Number of LMTLINES fetched since field was last cleared.
                                                                  Counter wraps if max value hit. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -210,10 +251,10 @@ union cavm_apr_af_corex_diag3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t num_lmtlines_from_ap  : 48; /**< [ 47:  0](R/W1C/H) Number of LMTLINES fetched from AP ince field was last cleared.
+        uint64_t num_lmtlines_from_ap  : 48; /**< [ 47:  0](R/W/H) Number of LMTLINES fetched from AP ince field was last cleared.
                                                                  Counter wraps if max value hit. */
 #else /* Word 0 - Little Endian */
-        uint64_t num_lmtlines_from_ap  : 48; /**< [ 47:  0](R/W1C/H) Number of LMTLINES fetched from AP ince field was last cleared.
+        uint64_t num_lmtlines_from_ap  : 48; /**< [ 47:  0](R/W/H) Number of LMTLINES fetched from AP ince field was last cleared.
                                                                  Counter wraps if max value hit. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -462,7 +503,7 @@ union cavm_apr_af_lmt_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_39_63        : 25;
-        uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](SR/W) Limit the number of outstanding WriteNoSnoop transactions issued
+        uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](R/W) Limit the number of outstanding WriteNoSnoop transactions issued
                                                                  by APA as part of an LMTST, to LMTST_THROTTLE-1. */
         uint64_t dis_eng               : 2;  /**< [ 34: 33](R/W) When set, disables use of LMTST Engines. Bit 33 set=disable engine 0. Bit 34 set=
                                                                  disable engine 1. Debug only. At most one bit must be set at any time. */
@@ -545,7 +586,7 @@ union cavm_apr_af_lmt_cfg
         uint64_t shrink_lpc            : 1;  /**< [ 32: 32](R/W) When set decreases the size of the physical address cache to two entries. Debug only. */
         uint64_t dis_eng               : 2;  /**< [ 34: 33](R/W) When set, disables use of LMTST Engines. Bit 33 set=disable engine 0. Bit 34 set=
                                                                  disable engine 1. Debug only. At most one bit must be set at any time. */
-        uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](SR/W) Limit the number of outstanding WriteNoSnoop transactions issued
+        uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](R/W) Limit the number of outstanding WriteNoSnoop transactions issued
                                                                  by APA as part of an LMTST, to LMTST_THROTTLE-1. */
         uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */

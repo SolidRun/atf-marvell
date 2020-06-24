@@ -88,6 +88,24 @@
 #define CAVM_NPA_AURA_ERR_INT_E_RX(a) (0 + (a))
 
 /**
+ * Enumeration npa_batch_alloc_ccode_e
+ *
+ * NPA Batch Alloc Condition Code Enumeration
+ */
+#define CAVM_NPA_BATCH_ALLOC_CCODE_E_ALLOC_CCODE_INVAL (0)
+#define CAVM_NPA_BATCH_ALLOC_CCODE_E_ALLOC_CCODE_VAL (1)
+#define CAVM_NPA_BATCH_ALLOC_CCODE_E_ALLOC_CCODE_VAL_NULL (2)
+
+/**
+ * Enumeration npa_batch_alloc_result_e
+ *
+ * NPA Batch Alloc Result Enumeration
+ */
+#define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_ACCEPTED (0)
+#define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_ERR (2)
+#define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_WAIT (1)
+
+/**
  * Enumeration npa_bpintf_e
  *
  * NPA Backpressure Interface Enumeration
@@ -852,6 +870,30 @@ union cavm_npa_batch_alloc_compare_s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_batch_alloc_compare_s_s cn; */
+};
+
+/**
+ * Structure npa_batch_alloc_status_s
+ *
+ * NPA Batch Alloc DMA Write Status Structure
+ * This structure contains the status fields for the Batch Alloc cacheline DMA write.
+ */
+union cavm_npa_batch_alloc_status_s
+{
+    uint32_t u;
+    struct cavm_npa_batch_alloc_status_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t ccode                 : 2;  /**< [  6:  5] Condition code as enumerated by NPA_BATCH_ALLOC_CCODE_E. */
+        uint32_t count                 : 5;  /**< [  4:  0] Number of valid pointers returned by NPA in this cacheline. */
+#else /* Word 0 - Little Endian */
+        uint32_t count                 : 5;  /**< [  4:  0] Number of valid pointers returned by NPA in this cacheline. */
+        uint32_t ccode                 : 2;  /**< [  6:  5] Condition code as enumerated by NPA_BATCH_ALLOC_CCODE_E. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_batch_alloc_status_s_s cn; */
 };
 
 /**
@@ -4468,6 +4510,11 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
  * to this register are RAZ/WI.
  *
  * NPA always assumes that the atomic operand data is little-endian.
+ *
+ * If processed, the batch alloc request will DMA write one or more cachelines to
+ * address begining at NPA_BATCH_ALLOC_SWAP_S[ADDRESS].  A Status field as described by
+ * NPA_BATCH_ALLOC_STATUS_S will be updated by HW upon DMA write completion for each
+ * cacheline.
  */
 union cavm_npa_lf_aura_batch_alloc
 {
@@ -4475,11 +4522,9 @@ union cavm_npa_lf_aura_batch_alloc
     struct cavm_npa_lf_aura_batch_alloc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t result                : 64; /**< [ 63:  0](RO/H) The CAS operation will return a result of 0 if the CAS operation was accepted, or non-zero value
-                                                                 if not accepted. */
+        uint64_t result                : 64; /**< [ 63:  0](RO/H) Return result of the atomic CAS operation as enumerated by NPA_BATCH_ALLOC_RESULT_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t result                : 64; /**< [ 63:  0](RO/H) The CAS operation will return a result of 0 if the CAS operation was accepted, or non-zero value
-                                                                 if not accepted. */
+        uint64_t result                : 64; /**< [ 63:  0](RO/H) Return result of the atomic CAS operation as enumerated by NPA_BATCH_ALLOC_RESULT_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_batch_alloc_s cn; */
@@ -5052,7 +5097,12 @@ union cavm_npa_lf_err_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Problem encountered with batch pointer request, such as invalid pointer count. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Exception in batch pointer request operation.  Interrupt conditions are
+                                                                 enumerated by NPA_AF_BATCH_FAIL_E.  Additional exception state may be captured
+                                                                 in NPA_AF_BATCH_ERR_DATA0/1.
+
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on NPA_QINT_HW_S read or write. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Memory fault on NPA_STACK_PAGE_S read or write. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on NPA_POOL_HW_S read or write, or on write to LF IOVA
@@ -5110,7 +5160,12 @@ union cavm_npa_lf_err_int
                                                                  specified by NPA_POOL_S[FC_ADDR]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Memory fault on NPA_STACK_PAGE_S read or write. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on NPA_QINT_HW_S read or write. */
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Problem encountered with batch pointer request, such as invalid pointer count. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Exception in batch pointer request operation.  Interrupt conditions are
+                                                                 enumerated by NPA_AF_BATCH_FAIL_E.  Additional exception state may be captured
+                                                                 in NPA_AF_BATCH_ERR_DATA0/1.
+
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5145,7 +5200,9 @@ union cavm_npa_lf_err_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT].
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -5187,7 +5244,9 @@ union cavm_npa_lf_err_int_ena_w1c
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT].
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5222,7 +5281,9 @@ union cavm_npa_lf_err_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT].
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -5264,7 +5325,9 @@ union cavm_npa_lf_err_int_ena_w1s
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT].
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5299,7 +5362,9 @@ union cavm_npa_lf_err_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT].
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -5341,7 +5406,9 @@ union cavm_npa_lf_err_int_w1s
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT]. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT].
+                                                                 Internal:
+                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;

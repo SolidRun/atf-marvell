@@ -529,7 +529,11 @@ union cavm_mdn_bist_control
                                                                  the debug write has completed. */
         uint32_t tcam_dsel             : 1;  /**< [ 26: 26](R/W1) DSEL value. To Read/write Data or Mask into the TCAM. When '1' Data is
                                                                  presented, when '0' MASK value is presented. */
-        uint32_t reserved_23_25        : 3;
+        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W1) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
+                                                                 0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
+                                                                 0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
+                                                                 0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
+                                                                 0x8 = 3072 - 4095 data bits are stored in MDN_DEBUG_DATA(). */
         uint32_t one_rep               : 1;  /**< [ 22: 22](R/W1) When set to one, the BIST state machine performs BIST only upon the REP
                                                                  specified below.  When cleared to zero, the BIST state machine performs
                                                                  BIST starting at the [REP] specified which may include multiple REPs. */
@@ -539,11 +543,9 @@ union cavm_mdn_bist_control
                                                                  of REP can be used while halted; however, it must be set back to the
                                                                  value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
                                                                  march. */
-        uint32_t address               : 14; /**< [ 13:  0](R/W1) The address used for a debug read when [READ] is asserted.  This
-                                                                 field must be written as zeros when starting or re-starting BIST. */
+        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now depricated. use the BIST_CONTROL_DBG_ADDR register instead now. */
 #else /* Word 0 - Little Endian */
-        uint32_t address               : 14; /**< [ 13:  0](R/W1) The address used for a debug read when [READ] is asserted.  This
-                                                                 field must be written as zeros when starting or re-starting BIST. */
+        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now depricated. use the BIST_CONTROL_DBG_ADDR register instead now. */
         uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
                                                                  used for a debug read.  When the [START] field is asserted this
                                                                  specifies repetition that BIST will start with.  Note that any value
@@ -553,7 +555,11 @@ union cavm_mdn_bist_control
         uint32_t one_rep               : 1;  /**< [ 22: 22](R/W1) When set to one, the BIST state machine performs BIST only upon the REP
                                                                  specified below.  When cleared to zero, the BIST state machine performs
                                                                  BIST starting at the [REP] specified which may include multiple REPs. */
-        uint32_t reserved_23_25        : 3;
+        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W1) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
+                                                                 0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
+                                                                 0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
+                                                                 0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
+                                                                 0x8 = 3072 - 4095 data bits are stored in MDN_DEBUG_DATA(). */
         uint32_t tcam_dsel             : 1;  /**< [ 26: 26](R/W1) DSEL value. To Read/write Data or Mask into the TCAM. When '1' Data is
                                                                  presented, when '0' MASK value is presented. */
         uint32_t write                 : 1;  /**< [ 27: 27](R/W1) The BIST state machine will perform a debug write using the specified [REP] and
@@ -619,11 +625,11 @@ union cavm_mdn_bist_control_dbg_addr
         uint32_t wr_dat                : 2;  /**< [ 21: 20](RO/H) Debug write data. used the two bits to expand to the data width. */
         uint32_t debug_addr            : 20; /**< [ 19:  0](RO/H) Read address/ write address in case we support debug write. Write this register 1st
                                                                  followed by the MDN_BIST_CONTROL to enable hardware to use the same START bit to get the
-                                                                 address to the FSM. */
+                                                                 address to the FSM. This field must be written as zeros when starting or re-starting BIST. */
 #else /* Word 0 - Little Endian */
         uint32_t debug_addr            : 20; /**< [ 19:  0](RO/H) Read address/ write address in case we support debug write. Write this register 1st
                                                                  followed by the MDN_BIST_CONTROL to enable hardware to use the same START bit to get the
-                                                                 address to the FSM. */
+                                                                 address to the FSM. This field must be written as zeros when starting or re-starting BIST. */
         uint32_t wr_dat                : 2;  /**< [ 21: 20](RO/H) Debug write data. used the two bits to expand to the data width. */
         uint32_t wr_mask               : 2;  /**< [ 23: 22](RO/H) Debug write data mask (in case of TCAMs). used the two bits to expand to the
                                                                  data width. */

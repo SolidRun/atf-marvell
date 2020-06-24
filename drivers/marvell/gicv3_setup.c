@@ -158,6 +158,7 @@ void octeontx_gic_driver_init(void)
 	 * not need GIC interface base addresses to be configured.
 	 */
 #if IMAGE_BL31
+#if !defined(PLAT_t106)
 	/* ERRATUM GIC-28835 */
 	if (IS_OCTEONTX_PASS(read_midr(), T83PARTNUM, 1, 0)) {
 	        union cavm_gic_cfg_ctlr cfg_ctlr;
@@ -165,7 +166,7 @@ void octeontx_gic_driver_init(void)
 	        cfg_ctlr.s.dis_cpu_if_load_balancer = 1;
 	        CSR_WRITE(CAVM_GIC_CFG_CTLR, cfg_ctlr.u);
 	}
-
+#endif
 	/* Initialize array of interrupts to be configured by GIC driver */
 	initialize_interrupt_array(interrupt_array);
 	octeontx_gic_data.interrupt_props = interrupt_array;
