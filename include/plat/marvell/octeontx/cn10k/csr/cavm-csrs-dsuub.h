@@ -10190,9 +10190,12 @@ static inline uint64_t CAVM_DSUUBX_MPAMF_IDRS(uint64_t a)
 /**
  * Register (RSL32b) dsuub#_mpamf_saidr
  *
- * DSUUB MPAM (Secure) Implementation Identification Register
- * Uniquely identifies the MSC implementation by the combination of implementer, product ID,
- * variant and revision.
+ * DSUUB MPAM (Secure) Architecure Identification Register
+ * Identifies the version of the MPAM architecture that this MSC implements.
+ * Note: The following values are defined for bits [7:0]:
+ * * 0x01 == MPAM architecture v0.1.
+ * * 0x10 == MPAM architecture v1.0.
+ * * 0x11 == MPAM architecture v1.1.
  */
 union cavm_dsuubx_mpamf_saidr
 {
@@ -10238,8 +10241,8 @@ static inline uint64_t CAVM_DSUUBX_MPAMF_SAIDR(uint64_t a)
  * DSUUB MPAM Features (Secure) Cache Portion Partitioning ID Register
  * Indicates the number of bits in DSUUB_MPAMCFG_CPBM for this MSC. MPAMF_CPOR_IDR_s
  * indicates the number of bits in the Secure instance of DSUUB_MPAMCFG_CPBM.
- * MPAMF_CPOR_IDR_ns indicates the number of bits in the Non-secure instance of DSUUB_
- * MPAMCFG_CPBM.
+ * MPAMF_CPOR_IDR_ns indicates the number of bits in the Non-secure instance of
+ * DSUUB_MPAMCFG_CPBM.
  */
 union cavm_dsuubx_mpamf_scpor_idr
 {

@@ -226,8 +226,8 @@ union cavm_mdc_bist_config
                                                                    0xA = Every 1024th MDN participates - 1024 node loops. */
         uint64_t bisr_soft_disable_xor : 1;  /**< [ 17: 17](R/W) For diagnostic use only.
                                                                  Internal:
-                                                                 This value is XORed with the FUS_FUSE_NUM_E::BISR_FUSED_ONLY fuse bit to
-                                                                 override its setting. When the FUS_FUSE_NUM_E::BISR_FUSED_ONLY fuse is blown,
+                                                                 This value is XORed with the FUSE_NUM_E::BISR_FUSED_ONLY fuse bit to
+                                                                 override its setting. When the FUSE_NUM_E::BISR_FUSED_ONLY fuse is blown,
                                                                  only repairs that are blown into fuses are used and soft repairs are
                                                                  disallowed. Overriding the fuse allows soft repairs to be used again. */
         uint64_t stagger_disable       : 1;  /**< [ 16: 16](R/W) BIST stagger disable. Disables the BIST stagger period and starts BIST
@@ -271,8 +271,8 @@ union cavm_mdc_bist_config
                                                                  via a broadcast write to all BIST state machines. For diagnostic use only. */
         uint64_t bisr_soft_disable_xor : 1;  /**< [ 17: 17](R/W) For diagnostic use only.
                                                                  Internal:
-                                                                 This value is XORed with the FUS_FUSE_NUM_E::BISR_FUSED_ONLY fuse bit to
-                                                                 override its setting. When the FUS_FUSE_NUM_E::BISR_FUSED_ONLY fuse is blown,
+                                                                 This value is XORed with the FUSE_NUM_E::BISR_FUSED_ONLY fuse bit to
+                                                                 override its setting. When the FUSE_NUM_E::BISR_FUSED_ONLY fuse is blown,
                                                                  only repairs that are blown into fuses are used and soft repairs are
                                                                  disallowed. Overriding the fuse allows soft repairs to be used again. */
         uint64_t mdn_start_ratio       : 4;  /**< [ 21: 18](R/W) This field is used in conjuction with [MDC_BROADCAST], [MDH_START_RATIO],

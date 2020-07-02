@@ -36,11 +36,11 @@
  * RPM MSI-X Vector Enumeration
  * Enumeration the MSI-X interrupt vectors.
  */
-#define CAVM_RPM_INT_VEC_E_CMRX_INT(a) (0 + 9 * (a))
-#define CAVM_RPM_INT_VEC_E_CMRX_SW(a) (0x26 + (a))
-#define CAVM_RPM_INT_VEC_E_CMR_MEM_INT (0x24)
-#define CAVM_RPM_INT_VEC_E_SPUX_INT(a) (1 + 9 * (a))
-#define CAVM_RPM_INT_VEC_E_SW (0x25)
+#define CAVM_RPM_INT_VEC_E_CMRX_INT(a) (0 + 2 * (a))
+#define CAVM_RPM_INT_VEC_E_CMRX_SW(a) (0xa + (a))
+#define CAVM_RPM_INT_VEC_E_CMR_MEM_INT (8)
+#define CAVM_RPM_INT_VEC_E_SPUX_INT(a) (1 + 2 * (a))
+#define CAVM_RPM_INT_VEC_E_SW (9)
 
 /**
  * Enumeration rpm_lmac_types_e
@@ -3150,6 +3150,6632 @@ static inline uint64_t CAVM_RPMX_AN_X_REG_802_3AP_NEXT_PAGE_TRANSMIT_REGISTER_EX
 #define device_bar_CAVM_RPMX_AN_X_REG_802_3AP_NEXT_PAGE_TRANSMIT_REGISTER_EXTENDED_NEXT_PAGE_TRANSMIT_REGISTER(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_AN_X_REG_802_3AP_NEXT_PAGE_TRANSMIT_REGISTER_EXTENDED_NEXT_PAGE_TRANSMIT_REGISTER(a,b) (a)
 #define arguments_CAVM_RPMX_AN_X_REG_802_3AP_NEXT_PAGE_TRANSMIT_REGISTER_EXTENDED_NEXT_PAGE_TRANSMIT_REGISTER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_an_abilities
+ *
+ * RPM Anp Global An Abilities Register
+ * Set default values of internal PACKAGE registers.
+ */
+union cavm_rpmx_anp_global_an_abilities
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_an_abilities_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t runi_cfg_ability2_a   : 16; /**< [ 31: 16](R/W) Set value for DEVICES_IN_PACKAGE_2 internal register. */
+        uint64_t runi_cfg_ability1_a   : 16; /**< [ 15:  0](R/W) Set value for DEVICES_IN_PACKAGE_1 internal register. */
+#else /* Word 0 - Little Endian */
+        uint64_t runi_cfg_ability1_a   : 16; /**< [ 15:  0](R/W) Set value for DEVICES_IN_PACKAGE_1 internal register. */
+        uint64_t runi_cfg_ability2_a   : 16; /**< [ 31: 16](R/W) Set value for DEVICES_IN_PACKAGE_2 internal register. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_an_abilities_s cn; */
+};
+typedef union cavm_rpmx_anp_global_an_abilities cavm_rpmx_anp_global_an_abilities_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580e0ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_AN_ABILITIES", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(a) cavm_rpmx_anp_global_an_abilities_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(a) "RPMX_ANP_GLOBAL_AN_ABILITIES"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_an_revision
+ *
+ * RPM Anp Global An Revision Register
+ * Set default value for internal IDENTIFIER registers.
+ */
+union cavm_rpmx_anp_global_an_revision
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_an_revision_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t runi_oui_num_19_24_a  : 6;  /**< [ 31: 26](R/W) Set value for DEVICE_IDENTIFIER_2[15:10] internal register */
+        uint64_t runi_cfg_model_num_a  : 6;  /**< [ 25: 20](R/W) Set value for DEVICE_IDENTIFIER_2[9:4] internal register */
+        uint64_t runi_cfg_rev_id_a     : 4;  /**< [ 19: 16](R/W) Set value for DEVICE_IDENTIFIER_2[3:0] internal register */
+        uint64_t runi_oui_num_3_18_a   : 16; /**< [ 15:  0](R/W) Set value for DEVICE_IDENTIFIER_1 internal register */
+#else /* Word 0 - Little Endian */
+        uint64_t runi_oui_num_3_18_a   : 16; /**< [ 15:  0](R/W) Set value for DEVICE_IDENTIFIER_1 internal register */
+        uint64_t runi_cfg_rev_id_a     : 4;  /**< [ 19: 16](R/W) Set value for DEVICE_IDENTIFIER_2[3:0] internal register */
+        uint64_t runi_cfg_model_num_a  : 6;  /**< [ 25: 20](R/W) Set value for DEVICE_IDENTIFIER_2[9:4] internal register */
+        uint64_t runi_oui_num_19_24_a  : 6;  /**< [ 31: 26](R/W) Set value for DEVICE_IDENTIFIER_2[15:10] internal register */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_an_revision_s cn; */
+};
+typedef union cavm_rpmx_anp_global_an_revision cavm_rpmx_anp_global_an_revision_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_REVISION(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_REVISION(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580e8ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_AN_REVISION", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_AN_REVISION(a) cavm_rpmx_anp_global_an_revision_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_AN_REVISION(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_AN_REVISION(a) "RPMX_ANP_GLOBAL_AN_REVISION"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_AN_REVISION(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_AN_REVISION(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_AN_REVISION(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_an_train_type
+ *
+ * RPM Anp Global An Train Type Register
+ * Set in advance the train type for any possible resolved speed.
+ * train_type can be: TX train (KR/TRX) , RX train and no train.
+ */
+union cavm_rpmx_anp_global_an_train_type
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_an_train_type_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t an_train_type_mode_200gr8 : 2;/**< [ 27: 26](R/W) Train type for AN resolution of MODE_200GR8.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_400gr8 : 2;/**< [ 25: 24](R/W) Train type for AN resolution of MODE_400GR8.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_200gr4 : 2;/**< [ 23: 22](R/W) Train type for AN resolution of MODE_200GR4.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_100gr2 : 2;/**< [ 21: 20](R/W) Train type for AN resolution of MODE_100GR2.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_100gr4 : 2;/**< [ 19: 18](R/W) Train type for AN resolution of MODE_100GR4.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_50g : 2; /**< [ 17: 16](R/W) Train type for AN resolution of MODE_50G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_50gr2 : 2;/**< [ 15: 14](R/W) Train type for AN resolution of MODE_50GR2.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_40gr2 : 2;/**< [ 13: 12](R/W) Train type for AN resolution of MODE_40GR2.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_40gr4 : 2;/**< [ 11: 10](R/W) Train type for AN resolution of MODE_40GR4.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_25g : 2; /**< [  9:  8](R/W) Train type for AN resolution of MODE_25G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_10g : 2; /**< [  7:  6](R/W) Train type for AN resolution of MODE_10G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_5g : 2;  /**< [  5:  4](R/W) Train type for AN resolution of MODE_5G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_2p5g : 2;/**< [  3:  2](R/W) Train type for AN resolution of MODE_2p5G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_1g : 2;  /**< [  1:  0](R/W) Train type for AN resolution of MODE_1G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+#else /* Word 0 - Little Endian */
+        uint64_t an_train_type_mode_1g : 2;  /**< [  1:  0](R/W) Train type for AN resolution of MODE_1G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_2p5g : 2;/**< [  3:  2](R/W) Train type for AN resolution of MODE_2p5G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_5g : 2;  /**< [  5:  4](R/W) Train type for AN resolution of MODE_5G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_10g : 2; /**< [  7:  6](R/W) Train type for AN resolution of MODE_10G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_25g : 2; /**< [  9:  8](R/W) Train type for AN resolution of MODE_25G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_40gr4 : 2;/**< [ 11: 10](R/W) Train type for AN resolution of MODE_40GR4.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_40gr2 : 2;/**< [ 13: 12](R/W) Train type for AN resolution of MODE_40GR2.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_50gr2 : 2;/**< [ 15: 14](R/W) Train type for AN resolution of MODE_50GR2.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_50g : 2; /**< [ 17: 16](R/W) Train type for AN resolution of MODE_50G.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_100gr4 : 2;/**< [ 19: 18](R/W) Train type for AN resolution of MODE_100GR4.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_100gr2 : 2;/**< [ 21: 20](R/W) Train type for AN resolution of MODE_100GR2.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_200gr4 : 2;/**< [ 23: 22](R/W) Train type for AN resolution of MODE_200GR4.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_400gr8 : 2;/**< [ 25: 24](R/W) Train type for AN resolution of MODE_400GR8.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t an_train_type_mode_200gr8 : 2;/**< [ 27: 26](R/W) Train type for AN resolution of MODE_200GR8.
+                                                                 0x0 = KR_TRAINING
+                                                                 0x1 = RX_TRAINING
+                                                                 0x2 = NO_TRAINING */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_an_train_type_s cn; */
+};
+typedef union cavm_rpmx_anp_global_an_train_type cavm_rpmx_anp_global_an_train_type_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580f0ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_AN_TRAIN_TYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(a) cavm_rpmx_anp_global_an_train_type_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(a) "RPMX_ANP_GLOBAL_AN_TRAIN_TYPE"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_clock_and_reset
+ *
+ * RPM Anp Global Clock And Reset Register
+ * Global clock and reset control.
+ * Controls PWM clock & reset.
+ * Controls HW/SW reset for each AN in the ANP.
+ */
+union cavm_rpmx_anp_global_clock_and_reset
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_clock_and_reset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t p7_an_sw_soft_reset_n : 1;  /**< [ 17: 17](R/W) AN sw reset control for port 7.
+                                                                 Active low */
+        uint64_t p7_an_hw_soft_reset_n : 1;  /**< [ 16: 16](R/W) AN hw reset control for port 7.
+                                                                 Active low */
+        uint64_t p6_an_sw_soft_reset_n : 1;  /**< [ 15: 15](R/W) AN sw reset control for port 6.
+                                                                 Active low */
+        uint64_t p6_an_hw_soft_reset_n : 1;  /**< [ 14: 14](R/W) AN hw reset control for port 6.
+                                                                 Active low */
+        uint64_t p5_an_sw_soft_reset_n : 1;  /**< [ 13: 13](R/W) AN sw reset control for port 5.
+                                                                 Active low */
+        uint64_t p5_an_hw_soft_reset_n : 1;  /**< [ 12: 12](R/W) AN hw reset control for port 5.
+                                                                 Active low */
+        uint64_t p4_an_sw_soft_reset_n : 1;  /**< [ 11: 11](R/W) AN sw reset control for port 4.
+                                                                 Active low */
+        uint64_t p4_an_hw_soft_reset_n : 1;  /**< [ 10: 10](R/W) AN hw reset control for port 4.
+                                                                 Active low */
+        uint64_t p3_an_sw_soft_reset_n : 1;  /**< [  9:  9](R/W) AN sw reset control for port 3.
+                                                                 Active low */
+        uint64_t p3_an_hw_soft_reset_n : 1;  /**< [  8:  8](R/W) AN hw reset control for port 3.
+                                                                 Active low */
+        uint64_t p2_an_sw_soft_reset_n : 1;  /**< [  7:  7](R/W) AN sw reset control for port 2.
+                                                                 Active low */
+        uint64_t p2_an_hw_soft_reset_n : 1;  /**< [  6:  6](R/W) AN hw reset control for port 2.
+                                                                 Active low */
+        uint64_t p1_an_sw_soft_reset_n : 1;  /**< [  5:  5](R/W) AN sw reset control for port 1.
+                                                                 Active low */
+        uint64_t p1_an_hw_soft_reset_n : 1;  /**< [  4:  4](R/W) AN hw reset control for port 1.
+                                                                 Active low */
+        uint64_t an_sw_soft_reset_n    : 1;  /**< [  3:  3](R/W) AN sw reset control for port 0.
+                                                                 Active low */
+        uint64_t an_hw_soft_reset_n    : 1;  /**< [  2:  2](R/W) AN hw reset control for port 0.
+                                                                 Active low */
+        uint64_t pwm_clk_en            : 1;  /**< [  1:  1](R/W) Clock enable for PWM.
+                                                                 Clock should be gated only if the ANP is not in use. */
+        uint64_t pwm_soft_reset_n      : 1;  /**< [  0:  0](R/W) Soft reset for PWM. Active low.
+                                                                 This reset is intended for use in the following cases:
+                                                                 1) if PWM is not used at all, this reset can be asserted.
+                                                                 2) If there is a need to reset the PWM, can use this reset for assertion and de-
+                                                                 assertion (do not hold the reset). */
+#else /* Word 0 - Little Endian */
+        uint64_t pwm_soft_reset_n      : 1;  /**< [  0:  0](R/W) Soft reset for PWM. Active low.
+                                                                 This reset is intended for use in the following cases:
+                                                                 1) if PWM is not used at all, this reset can be asserted.
+                                                                 2) If there is a need to reset the PWM, can use this reset for assertion and de-
+                                                                 assertion (do not hold the reset). */
+        uint64_t pwm_clk_en            : 1;  /**< [  1:  1](R/W) Clock enable for PWM.
+                                                                 Clock should be gated only if the ANP is not in use. */
+        uint64_t an_hw_soft_reset_n    : 1;  /**< [  2:  2](R/W) AN hw reset control for port 0.
+                                                                 Active low */
+        uint64_t an_sw_soft_reset_n    : 1;  /**< [  3:  3](R/W) AN sw reset control for port 0.
+                                                                 Active low */
+        uint64_t p1_an_hw_soft_reset_n : 1;  /**< [  4:  4](R/W) AN hw reset control for port 1.
+                                                                 Active low */
+        uint64_t p1_an_sw_soft_reset_n : 1;  /**< [  5:  5](R/W) AN sw reset control for port 1.
+                                                                 Active low */
+        uint64_t p2_an_hw_soft_reset_n : 1;  /**< [  6:  6](R/W) AN hw reset control for port 2.
+                                                                 Active low */
+        uint64_t p2_an_sw_soft_reset_n : 1;  /**< [  7:  7](R/W) AN sw reset control for port 2.
+                                                                 Active low */
+        uint64_t p3_an_hw_soft_reset_n : 1;  /**< [  8:  8](R/W) AN hw reset control for port 3.
+                                                                 Active low */
+        uint64_t p3_an_sw_soft_reset_n : 1;  /**< [  9:  9](R/W) AN sw reset control for port 3.
+                                                                 Active low */
+        uint64_t p4_an_hw_soft_reset_n : 1;  /**< [ 10: 10](R/W) AN hw reset control for port 4.
+                                                                 Active low */
+        uint64_t p4_an_sw_soft_reset_n : 1;  /**< [ 11: 11](R/W) AN sw reset control for port 4.
+                                                                 Active low */
+        uint64_t p5_an_hw_soft_reset_n : 1;  /**< [ 12: 12](R/W) AN hw reset control for port 5.
+                                                                 Active low */
+        uint64_t p5_an_sw_soft_reset_n : 1;  /**< [ 13: 13](R/W) AN sw reset control for port 5.
+                                                                 Active low */
+        uint64_t p6_an_hw_soft_reset_n : 1;  /**< [ 14: 14](R/W) AN hw reset control for port 6.
+                                                                 Active low */
+        uint64_t p6_an_sw_soft_reset_n : 1;  /**< [ 15: 15](R/W) AN sw reset control for port 6.
+                                                                 Active low */
+        uint64_t p7_an_hw_soft_reset_n : 1;  /**< [ 16: 16](R/W) AN hw reset control for port 7.
+                                                                 Active low */
+        uint64_t p7_an_sw_soft_reset_n : 1;  /**< [ 17: 17](R/W) AN sw reset control for port 7.
+                                                                 Active low */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_clock_and_reset_s cn; */
+};
+typedef union cavm_rpmx_anp_global_clock_and_reset cavm_rpmx_anp_global_clock_and_reset_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058008ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_CLOCK_AND_RESET", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(a) cavm_rpmx_anp_global_clock_and_reset_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(a) "RPMX_ANP_GLOBAL_CLOCK_AND_RESET"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_control
+ *
+ * RPM Anp Global Control Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_control
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
+        uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
+        uint64_t reg_rx_sm_cnt_saturate : 1; /**< [ 27: 27](R/W) When set, SD RX SM counters will saturate and not wraparound. */
+        uint64_t reg_tx_sm_cnt_saturate : 1; /**< [ 26: 26](R/W) When set, SD TX SM counters will saturate and not wraparound. */
+        uint64_t reg_txstr_rxsd_clear_cnt : 1;/**< [ 25: 25](R/W) When CH SM moves from TXSTR_RXSD back to RX_SD,
+                                                                 if configuration is set, SM counter is cleared, else it is not cleared. */
+        uint64_t reg_ch_sm_cnt_saturate : 1; /**< [ 24: 24](R/W) When set, CH SM counters will saturate and not wraparound. */
+        uint64_t reg_reset_pulse_conf_delay : 10;/**< [ 23: 14](R/W) Number of cycles since client (AN/PCS) TX reset released, until a reset pulse
+                                                                 will be generated towards SDW TX phase fifo. */
+        uint64_t reg_train_type_mx_samp : 2; /**< [ 13: 12](R/W) Sets the number of additional samples on train_type_mx before going to logic. */
+        uint64_t reg_train_type_samp   : 2;  /**< [ 11: 10](R/W) Sets the number of additional samples on train_type before going to logic. */
+        uint64_t reg_txclk_sync_en_width_s : 8;/**< [  9:  2](R/W) Time to wait before starting TX clk synchronization. */
+        uint64_t an_ap_train_type      : 2;  /**< [  1:  0](R/W) Set training type to perform prior to AN.
+                                                                 0x0 = KR TRAINING.
+                                                                 0x1 = RX TRAINING.
+                                                                 0x2 = NO TRAINING.
+                                                                 0x3 = RESERVED. */
+#else /* Word 0 - Little Endian */
+        uint64_t an_ap_train_type      : 2;  /**< [  1:  0](R/W) Set training type to perform prior to AN.
+                                                                 0x0 = KR TRAINING.
+                                                                 0x1 = RX TRAINING.
+                                                                 0x2 = NO TRAINING.
+                                                                 0x3 = RESERVED. */
+        uint64_t reg_txclk_sync_en_width_s : 8;/**< [  9:  2](R/W) Time to wait before starting TX clk synchronization. */
+        uint64_t reg_train_type_samp   : 2;  /**< [ 11: 10](R/W) Sets the number of additional samples on train_type before going to logic. */
+        uint64_t reg_train_type_mx_samp : 2; /**< [ 13: 12](R/W) Sets the number of additional samples on train_type_mx before going to logic. */
+        uint64_t reg_reset_pulse_conf_delay : 10;/**< [ 23: 14](R/W) Number of cycles since client (AN/PCS) TX reset released, until a reset pulse
+                                                                 will be generated towards SDW TX phase fifo. */
+        uint64_t reg_ch_sm_cnt_saturate : 1; /**< [ 24: 24](R/W) When set, CH SM counters will saturate and not wraparound. */
+        uint64_t reg_txstr_rxsd_clear_cnt : 1;/**< [ 25: 25](R/W) When CH SM moves from TXSTR_RXSD back to RX_SD,
+                                                                 if configuration is set, SM counter is cleared, else it is not cleared. */
+        uint64_t reg_tx_sm_cnt_saturate : 1; /**< [ 26: 26](R/W) When set, SD TX SM counters will saturate and not wraparound. */
+        uint64_t reg_rx_sm_cnt_saturate : 1; /**< [ 27: 27](R/W) When set, SD RX SM counters will saturate and not wraparound. */
+        uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_control_s cn; */
+};
+typedef union cavm_rpmx_anp_global_control cavm_rpmx_anp_global_control_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058000ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_CONTROL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_CONTROL(a) cavm_rpmx_anp_global_control_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_CONTROL(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_CONTROL(a) "RPMX_ANP_GLOBAL_CONTROL"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_CONTROL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_CONTROL(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_CONTROL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_control2
+ *
+ * RPM Anp Global Control2 Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_control2
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_control2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_pcs_rx_on_conf_delay : 5;/**< [ 31: 27](R/W) Number of cycles since CH SM sets RX ON (clock & reset release) until it gets to MAP. */
+        uint64_t reg_pcs_tx_on_conf_delay : 5;/**< [ 26: 22](R/W) Number of cycles since CH SM sets TX ON (clock & reset release) until it gets to MAP. */
+        uint64_t reg_tx_idle_conf_dly  : 9;  /**< [ 21: 13](R/W) Number of cycles since CH SM sets tx_idle until it gets to MAP. */
+        uint64_t reg_dsp_on_conf_delay : 5;  /**< [ 12:  8](R/W) Number of cycles since CH SM sets sd_softrst until it gets to MAP. */
+        uint64_t reg_pu_rx_conf_delay  : 4;  /**< [  7:  4](R/W) Number of cycles since CH SM sets pu_rx_req until it gets to MAP (which adds
+                                                                 additional sample towards SD SMs). */
+        uint64_t reg_pu_tx_conf_delay  : 4;  /**< [  3:  0](R/W) Number of cycles since CH SM sets pu_tx_req until it gets to MAP (which adds
+                                                                 additional sample towards SD SMs). */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_pu_tx_conf_delay  : 4;  /**< [  3:  0](R/W) Number of cycles since CH SM sets pu_tx_req until it gets to MAP (which adds
+                                                                 additional sample towards SD SMs). */
+        uint64_t reg_pu_rx_conf_delay  : 4;  /**< [  7:  4](R/W) Number of cycles since CH SM sets pu_rx_req until it gets to MAP (which adds
+                                                                 additional sample towards SD SMs). */
+        uint64_t reg_dsp_on_conf_delay : 5;  /**< [ 12:  8](R/W) Number of cycles since CH SM sets sd_softrst until it gets to MAP. */
+        uint64_t reg_tx_idle_conf_dly  : 9;  /**< [ 21: 13](R/W) Number of cycles since CH SM sets tx_idle until it gets to MAP. */
+        uint64_t reg_pcs_tx_on_conf_delay : 5;/**< [ 26: 22](R/W) Number of cycles since CH SM sets TX ON (clock & reset release) until it gets to MAP. */
+        uint64_t reg_pcs_rx_on_conf_delay : 5;/**< [ 31: 27](R/W) Number of cycles since CH SM sets RX ON (clock & reset release) until it gets to MAP. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_control2_s cn; */
+};
+typedef union cavm_rpmx_anp_global_control2 cavm_rpmx_anp_global_control2_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL2(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058140ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_CONTROL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_CONTROL2(a) cavm_rpmx_anp_global_control2_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_CONTROL2(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_CONTROL2(a) "RPMX_ANP_GLOBAL_CONTROL2"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_CONTROL2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_CONTROL2(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_CONTROL2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_control3
+ *
+ * RPM Anp Global Control3 Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_control3
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_control3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_start_ungate_cnt  : 6;  /**< [ 31: 26](R/W) Number of cycles since clients selector actually change, until the sd_txclk_out is un-gated. */
+        uint64_t reg_start_selector_cnt : 6; /**< [ 25: 20](R/W) Number of cycles since sd_txclk_out is gated until selector changes. */
+        uint64_t reg_start_ap_mode_cnt : 6;  /**< [ 19: 14](R/W) Number of cycles since clients selector can change, until the sd_txclk_out is gated. */
+        uint64_t reg_clock_to_reset_cnt : 6; /**< [ 13:  8](R/W) When reset for a client is de-asserted, this sets the number of cycles between
+                                                                 clock un-gating to reset de-assertion. */
+        uint64_t reg_reset_to_clock_cnt : 6; /**< [  7:  2](R/W) When reset for a client is asserted, this sets the number of cycles between the
+                                                                 reset assertion, to clock gating. */
+        uint64_t reg_hcd_resolved_clean : 1; /**< [  1:  1](R/W) When set, any change in hcd_resolved will be a "clean" change, which doesn't
+                                                                 cause MODE_UNKNOWN in pcs_mode. */
+        uint64_t reg_no_pre_selector   : 1;  /**< [  0:  0](R/W) When set, AN/PCS selector is driven from z_ap_mode[0] and not from new selector logic. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_no_pre_selector   : 1;  /**< [  0:  0](R/W) When set, AN/PCS selector is driven from z_ap_mode[0] and not from new selector logic. */
+        uint64_t reg_hcd_resolved_clean : 1; /**< [  1:  1](R/W) When set, any change in hcd_resolved will be a "clean" change, which doesn't
+                                                                 cause MODE_UNKNOWN in pcs_mode. */
+        uint64_t reg_reset_to_clock_cnt : 6; /**< [  7:  2](R/W) When reset for a client is asserted, this sets the number of cycles between the
+                                                                 reset assertion, to clock gating. */
+        uint64_t reg_clock_to_reset_cnt : 6; /**< [ 13:  8](R/W) When reset for a client is de-asserted, this sets the number of cycles between
+                                                                 clock un-gating to reset de-assertion. */
+        uint64_t reg_start_ap_mode_cnt : 6;  /**< [ 19: 14](R/W) Number of cycles since clients selector can change, until the sd_txclk_out is gated. */
+        uint64_t reg_start_selector_cnt : 6; /**< [ 25: 20](R/W) Number of cycles since sd_txclk_out is gated until selector changes. */
+        uint64_t reg_start_ungate_cnt  : 6;  /**< [ 31: 26](R/W) Number of cycles since clients selector actually change, until the sd_txclk_out is un-gated. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_control3_s cn; */
+};
+typedef union cavm_rpmx_anp_global_control3 cavm_rpmx_anp_global_control3_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL3(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058148ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_CONTROL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_CONTROL3(a) cavm_rpmx_anp_global_control3_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_CONTROL3(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_CONTROL3(a) "RPMX_ANP_GLOBAL_CONTROL3"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_CONTROL3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_CONTROL3(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_CONTROL3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_control4
+ *
+ * RPM Anp Global Control4 Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_control4
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_control4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rxstr_regret_enable : 1;/**< [ 30: 30](R/W) When set, RXSTR request can regret if didn't take affect yet. */
+        uint64_t reg_txstr_regret_enable : 1;/**< [ 29: 29](R/W) When set, TXSTR request can regret if didn't take affect yet. */
+        uint64_t reg_phy_gen_dn_frc    : 1;  /**< [ 28: 28](R/W) When set, phy_gen is driven by new mechanism with timers. */
+        uint64_t phy_gen_rx_start_cnt_done_ow_val : 1;/**< [ 27: 27](R/W) Phy_gen_rx_start_cnt_done overwrite value. */
+        uint64_t phy_gen_rx_start_cnt_done_ow : 1;/**< [ 26: 26](R/W) Phy_gen_rx_start_cnt_done overwrite. */
+        uint64_t phy_gen_rx_load_ow_val : 1; /**< [ 25: 25](R/W) Phy_gen_rx_load overwrite value. */
+        uint64_t phy_gen_rx_load_ow    : 1;  /**< [ 24: 24](R/W) Phy_gen_rx_load overwrite. */
+        uint64_t phy_gen_rx_done_ow_val : 1; /**< [ 23: 23](R/W) Phy_gen_rx_done overwrite value. */
+        uint64_t phy_gen_rx_done_ow    : 1;  /**< [ 22: 22](R/W) Phy_gen_rx_done overwrite. */
+        uint64_t phy_gen_tx_start_cnt_done_ow_val : 1;/**< [ 21: 21](R/W) Phy_gen_tx_start_cnt_done overwrite value. */
+        uint64_t phy_gen_tx_start_cnt_done_ow : 1;/**< [ 20: 20](R/W) Phy_gen_tx_start_cnt_done overwrite. */
+        uint64_t phy_gen_tx_load_ow_val : 1; /**< [ 19: 19](R/W) Phy_gen_tx_load overwrite value. */
+        uint64_t phy_gen_tx_load_ow    : 1;  /**< [ 18: 18](R/W) Phy_gen_tx_load overwrite. */
+        uint64_t phy_gen_tx_done_ow_val : 1; /**< [ 17: 17](R/W) Phy_gen_tx_done overwrite value. */
+        uint64_t phy_gen_tx_done_ow    : 1;  /**< [ 16: 16](R/W) Phy_gen_tx_done overwrite. */
+        uint64_t reg_tx_idle_count     : 1;  /**< [ 15: 15](R/W) When set, SD TX SM will count in idle state even when in reset. */
+        uint64_t reg_rx_idle_count     : 1;  /**< [ 14: 14](R/W) When set, SD RX SM will count in idle state even when in reset. */
+        uint64_t reg_rx_init_samp      : 2;  /**< [ 13: 12](R/W) Number of samples for rx_init. */
+        uint64_t reg_rx_train_enable_samp : 2;/**< [ 11: 10](R/W) Number of samples for rx_train_enable. */
+        uint64_t reg_tx_train_enable_samp : 2;/**< [  9:  8](R/W) Number of samples for tx_train_enable. */
+        uint64_t reg_sd_tx_idle_samp   : 2;  /**< [  7:  6](R/W) Number of samples for sd_tx_idle. */
+        uint64_t reg_sd_dfe_en_samp    : 2;  /**< [  5:  4](R/W) Number of samples for sd_dfe_en. */
+        uint64_t reg_sd_dfe_pat_dis_samp : 2;/**< [  3:  2](R/W) Number of samples for sd_dfe_pat_dis. */
+        uint64_t reg_sd_dfe_update_dis_samp : 2;/**< [  1:  0](R/W) Number of samples for sd_dfe_update_dis. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_sd_dfe_update_dis_samp : 2;/**< [  1:  0](R/W) Number of samples for sd_dfe_update_dis. */
+        uint64_t reg_sd_dfe_pat_dis_samp : 2;/**< [  3:  2](R/W) Number of samples for sd_dfe_pat_dis. */
+        uint64_t reg_sd_dfe_en_samp    : 2;  /**< [  5:  4](R/W) Number of samples for sd_dfe_en. */
+        uint64_t reg_sd_tx_idle_samp   : 2;  /**< [  7:  6](R/W) Number of samples for sd_tx_idle. */
+        uint64_t reg_tx_train_enable_samp : 2;/**< [  9:  8](R/W) Number of samples for tx_train_enable. */
+        uint64_t reg_rx_train_enable_samp : 2;/**< [ 11: 10](R/W) Number of samples for rx_train_enable. */
+        uint64_t reg_rx_init_samp      : 2;  /**< [ 13: 12](R/W) Number of samples for rx_init. */
+        uint64_t reg_rx_idle_count     : 1;  /**< [ 14: 14](R/W) When set, SD RX SM will count in idle state even when in reset. */
+        uint64_t reg_tx_idle_count     : 1;  /**< [ 15: 15](R/W) When set, SD TX SM will count in idle state even when in reset. */
+        uint64_t phy_gen_tx_done_ow    : 1;  /**< [ 16: 16](R/W) Phy_gen_tx_done overwrite. */
+        uint64_t phy_gen_tx_done_ow_val : 1; /**< [ 17: 17](R/W) Phy_gen_tx_done overwrite value. */
+        uint64_t phy_gen_tx_load_ow    : 1;  /**< [ 18: 18](R/W) Phy_gen_tx_load overwrite. */
+        uint64_t phy_gen_tx_load_ow_val : 1; /**< [ 19: 19](R/W) Phy_gen_tx_load overwrite value. */
+        uint64_t phy_gen_tx_start_cnt_done_ow : 1;/**< [ 20: 20](R/W) Phy_gen_tx_start_cnt_done overwrite. */
+        uint64_t phy_gen_tx_start_cnt_done_ow_val : 1;/**< [ 21: 21](R/W) Phy_gen_tx_start_cnt_done overwrite value. */
+        uint64_t phy_gen_rx_done_ow    : 1;  /**< [ 22: 22](R/W) Phy_gen_rx_done overwrite. */
+        uint64_t phy_gen_rx_done_ow_val : 1; /**< [ 23: 23](R/W) Phy_gen_rx_done overwrite value. */
+        uint64_t phy_gen_rx_load_ow    : 1;  /**< [ 24: 24](R/W) Phy_gen_rx_load overwrite. */
+        uint64_t phy_gen_rx_load_ow_val : 1; /**< [ 25: 25](R/W) Phy_gen_rx_load overwrite value. */
+        uint64_t phy_gen_rx_start_cnt_done_ow : 1;/**< [ 26: 26](R/W) Phy_gen_rx_start_cnt_done overwrite. */
+        uint64_t phy_gen_rx_start_cnt_done_ow_val : 1;/**< [ 27: 27](R/W) Phy_gen_rx_start_cnt_done overwrite value. */
+        uint64_t reg_phy_gen_dn_frc    : 1;  /**< [ 28: 28](R/W) When set, phy_gen is driven by new mechanism with timers. */
+        uint64_t reg_txstr_regret_enable : 1;/**< [ 29: 29](R/W) When set, TXSTR request can regret if didn't take affect yet. */
+        uint64_t reg_rxstr_regret_enable : 1;/**< [ 30: 30](R/W) When set, RXSTR request can regret if didn't take affect yet. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_control4_s cn; */
+};
+typedef union cavm_rpmx_anp_global_control4 cavm_rpmx_anp_global_control4_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL4(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058150ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_CONTROL4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_CONTROL4(a) cavm_rpmx_anp_global_control4_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_CONTROL4(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_CONTROL4(a) "RPMX_ANP_GLOBAL_CONTROL4"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_CONTROL4(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_CONTROL4(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_CONTROL4(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_interrupt_cause
+ *
+ * RPM Anp Global Interrupt Cause Register
+ * Global Interrupts register.
+ */
+union cavm_rpmx_anp_global_interrupt_cause
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_interrupt_cause_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t illegal_address_access : 1; /**< [  1:  1](R/W) Interrupt for access to illegal address.
+                                                                 When occurs, value of the last illegal address can be found in Last Violation register. */
+        uint64_t global_int_sum        : 1;  /**< [  0:  0](RO/H) Global interrupt register - summary bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t global_int_sum        : 1;  /**< [  0:  0](RO/H) Global interrupt register - summary bit. */
+        uint64_t illegal_address_access : 1; /**< [  1:  1](R/W) Interrupt for access to illegal address.
+                                                                 When occurs, value of the last illegal address can be found in Last Violation register. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_interrupt_cause_s cn; */
+};
+typedef union cavm_rpmx_anp_global_interrupt_cause cavm_rpmx_anp_global_interrupt_cause_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058110ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_INTERRUPT_CAUSE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) cavm_rpmx_anp_global_interrupt_cause_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) "RPMX_ANP_GLOBAL_INTERRUPT_CAUSE"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_interrupt_mask
+ *
+ * RPM Anp Global Interrupt Mask Register
+ * Mask for Global interrupts register.
+ */
+union cavm_rpmx_anp_global_interrupt_mask
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_interrupt_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t global_int_mask       : 1;  /**< [  1:  1](R/W) Mask for global interrupts register. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t global_int_mask       : 1;  /**< [  1:  1](R/W) Mask for global interrupts register. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_interrupt_mask_s cn; */
+};
+typedef union cavm_rpmx_anp_global_interrupt_mask cavm_rpmx_anp_global_interrupt_mask_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058118ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_INTERRUPT_MASK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) cavm_rpmx_anp_global_interrupt_mask_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) "RPMX_ANP_GLOBAL_INTERRUPT_MASK"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_lane_delay
+ *
+ * RPM Anp Global Lane Delay Register
+ * Provides delay between the power up of the different COMPHYs in a single QUAD.
+ */
+union cavm_rpmx_anp_global_lane_delay
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_lane_delay_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t lane_delay            : 25; /**< [ 24:  0](R/W) When several COMPHYs powered up at once,
+                                                                 this provides the power up delay between one comphy to another, to avoid power peak.
+                                                                 default is ~998ns according to sys clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_delay            : 25; /**< [ 24:  0](R/W) When several COMPHYs powered up at once,
+                                                                 this provides the power up delay between one comphy to another, to avoid power peak.
+                                                                 default is ~998ns according to sys clock. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_lane_delay_s cn; */
+};
+typedef union cavm_rpmx_anp_global_lane_delay cavm_rpmx_anp_global_lane_delay_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058020ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_LANE_DELAY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(a) cavm_rpmx_anp_global_lane_delay_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(a) "RPMX_ANP_GLOBAL_LANE_DELAY"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_phy_gen_load_to_pup_timer
+ *
+ * RPM Anp Global Phy Gen Load To Pup Timer Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_phy_gen_load_to_pup_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_phy_gen_load_to_pup_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t reg_phy_gen_load_to_pup_timer : 24;/**< [ 23:  0](R/W) Number of cycles since phy_gen is loaded, until power up. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_phy_gen_load_to_pup_timer : 24;/**< [ 23:  0](R/W) Number of cycles since phy_gen is loaded, until power up. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_phy_gen_load_to_pup_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_global_phy_gen_load_to_pup_timer cavm_rpmx_anp_global_phy_gen_load_to_pup_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058170ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(a) cavm_rpmx_anp_global_phy_gen_load_to_pup_timer_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(a) "RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_phy_gen_pdn_to_load_timer
+ *
+ * RPM Anp Global Phy Gen Pdn To Load Timer Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_phy_gen_pdn_to_load_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_phy_gen_pdn_to_load_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t reg_phy_gen_pdn_to_load_timer : 24;/**< [ 23:  0](R/W) Number of cycles since power down AND down ack, till phy_gen is loaded. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_phy_gen_pdn_to_load_timer : 24;/**< [ 23:  0](R/W) Number of cycles since power down AND down ack, till phy_gen is loaded. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_phy_gen_pdn_to_load_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_global_phy_gen_pdn_to_load_timer cavm_rpmx_anp_global_phy_gen_pdn_to_load_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058168ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) cavm_rpmx_anp_global_phy_gen_pdn_to_load_timer_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) "RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_sd_mux_control
+ *
+ * RPM Anp Global Sd Mux Control Register
+ * When SD_MUX is present,
+ * this register provides the control for the port-sd muxing.
+ */
+union cavm_rpmx_anp_global_sd_mux_control
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_sd_mux_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sd_mux_control3       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
+                                                                 Port 3 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control2       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
+                                                                 Port 2 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control1       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
+                                                                 Port 1 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control0       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
+                                                                 Port 0 is connected to SD\<Value of this register\>. */
+#else /* Word 0 - Little Endian */
+        uint64_t sd_mux_control0       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
+                                                                 Port 0 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control1       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
+                                                                 Port 1 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control2       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
+                                                                 Port 2 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control3       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
+                                                                 Port 3 is connected to SD\<Value of this register\>. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_sd_mux_control_s cn; */
+};
+typedef union cavm_rpmx_anp_global_sd_mux_control cavm_rpmx_anp_global_sd_mux_control_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058010ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SD_MUX_CONTROL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) cavm_rpmx_anp_global_sd_mux_control_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) "RPMX_ANP_GLOBAL_SD_MUX_CONTROL"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_sd_mux_control1
+ *
+ * RPM Anp Global Sd Mux Control1 Register
+ * When SD_MUX is present,
+ * this register provides the control for the port-sd muxing.
+ */
+union cavm_rpmx_anp_global_sd_mux_control1
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_sd_mux_control1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sd_mux_control7       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
+                                                                 Port 7 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control6       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
+                                                                 Port 6 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control5       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
+                                                                 Port 5 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control4       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
+                                                                 Port 4 is connected to SD\<Value of this register\>. */
+#else /* Word 0 - Little Endian */
+        uint64_t sd_mux_control4       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
+                                                                 Port 4 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control5       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
+                                                                 Port 5 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control6       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
+                                                                 Port 6 is connected to SD\<Value of this register\>. */
+        uint64_t sd_mux_control7       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
+                                                                 Port 7 is connected to SD\<Value of this register\>. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_sd_mux_control1_s cn; */
+};
+typedef union cavm_rpmx_anp_global_sd_mux_control1 cavm_rpmx_anp_global_sd_mux_control1_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058018ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SD_MUX_CONTROL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) cavm_rpmx_anp_global_sd_mux_control1_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) "RPMX_ANP_GLOBAL_SD_MUX_CONTROL1"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_sd_rx_idle_min_wait
+ *
+ * RPM Anp Global Sd Rx Idle Min Wait Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_sd_rx_idle_min_wait
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_sd_rx_idle_min_wait_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_idle_min_wait_s : 31;/**< [ 30:  0](R/W) Minimal wait for state ST_rx_idle of SD RX SM. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_idle_min_wait_s : 31;/**< [ 30:  0](R/W) Minimal wait for state ST_rx_idle of SD RX SM. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_sd_rx_idle_min_wait_s cn; */
+};
+typedef union cavm_rpmx_anp_global_sd_rx_idle_min_wait cavm_rpmx_anp_global_sd_rx_idle_min_wait_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058160ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(a) cavm_rpmx_anp_global_sd_rx_idle_min_wait_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(a) "RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_sd_tx_idle_min_wait
+ *
+ * RPM Anp Global Sd Tx Idle Min Wait Register
+ * Global configurations which are common to all ports in single ANP.
+ */
+union cavm_rpmx_anp_global_sd_tx_idle_min_wait
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_sd_tx_idle_min_wait_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_tx_idle_min_wait_s : 31;/**< [ 30:  0](R/W) Minimal wait for state ST_tx_idle of SD TX SM. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_idle_min_wait_s : 31;/**< [ 30:  0](R/W) Minimal wait for state ST_tx_idle of SD TX SM. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_sd_tx_idle_min_wait_s cn; */
+};
+typedef union cavm_rpmx_anp_global_sd_tx_idle_min_wait cavm_rpmx_anp_global_sd_tx_idle_min_wait_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058158ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(a) cavm_rpmx_anp_global_sd_tx_idle_min_wait_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(a) "RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_speed_table
+ *
+ * RPM Anp Global Speed Table Register
+ * Speed table values per frequency.
+ */
+union cavm_rpmx_anp_global_speed_table
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_speed_table_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t pm_speed_table_10g    : 5;  /**< [ 29: 25](R/W) Phy_gen value for frequency of 10Gbps */
+        uint64_t pm_speed_table_5p15625g : 5;/**< [ 24: 20](R/W) Phy_gen value for frequency of 5.15625Gbps */
+        uint64_t pm_speed_table_5g     : 5;  /**< [ 19: 15](R/W) Phy_gen value for frequency of 5Gbps */
+        uint64_t pm_speed_table_3p125g : 5;  /**< [ 14: 10](R/W) Phy_gen value for frequency of 3.125Gbps */
+        uint64_t pm_speed_table_2p578125g : 5;/**< [  9:  5](R/W) Phy_gen value for frequency of 2.578125Gbps */
+        uint64_t pm_speed_table_1p25g  : 5;  /**< [  4:  0](R/W) Phy_gen value for frequency of 1.25Gbps */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_speed_table_1p25g  : 5;  /**< [  4:  0](R/W) Phy_gen value for frequency of 1.25Gbps */
+        uint64_t pm_speed_table_2p578125g : 5;/**< [  9:  5](R/W) Phy_gen value for frequency of 2.578125Gbps */
+        uint64_t pm_speed_table_3p125g : 5;  /**< [ 14: 10](R/W) Phy_gen value for frequency of 3.125Gbps */
+        uint64_t pm_speed_table_5g     : 5;  /**< [ 19: 15](R/W) Phy_gen value for frequency of 5Gbps */
+        uint64_t pm_speed_table_5p15625g : 5;/**< [ 24: 20](R/W) Phy_gen value for frequency of 5.15625Gbps */
+        uint64_t pm_speed_table_10g    : 5;  /**< [ 29: 25](R/W) Phy_gen value for frequency of 10Gbps */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_speed_table_s cn; */
+};
+typedef union cavm_rpmx_anp_global_speed_table cavm_rpmx_anp_global_speed_table_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580f8ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SPEED_TABLE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(a) cavm_rpmx_anp_global_speed_table_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(a) "RPMX_ANP_GLOBAL_SPEED_TABLE"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_speed_table1
+ *
+ * RPM Anp Global Speed Table1 Register
+ * Speed table values per frequency.
+ */
+union cavm_rpmx_anp_global_speed_table1
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_speed_table1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t pm_speed_table_53p125g : 5; /**< [ 29: 25](R/W) Phy_gen value for frequency of 53.125Gbps */
+        uint64_t pm_speed_table_27p5g  : 5;  /**< [ 24: 20](R/W) Phy_gen value for frequency of 27.5Gbps */
+        uint64_t pm_speed_table_26p5625g : 5;/**< [ 19: 15](R/W) Phy_gen value for frequency of 26.5625Gbps */
+        uint64_t pm_speed_table_25p78125g : 5;/**< [ 14: 10](R/W) Phy_gen value for frequency of 25.78125Gbps */
+        uint64_t pm_speed_table_20p625g : 5; /**< [  9:  5](R/W) Phy_gen value for frequency of 20.625Gbps */
+        uint64_t pm_speed_table_10p3125g : 5;/**< [  4:  0](R/W) Phy_gen value for frequency of 10.3125Gbps */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_speed_table_10p3125g : 5;/**< [  4:  0](R/W) Phy_gen value for frequency of 10.3125Gbps */
+        uint64_t pm_speed_table_20p625g : 5; /**< [  9:  5](R/W) Phy_gen value for frequency of 20.625Gbps */
+        uint64_t pm_speed_table_25p78125g : 5;/**< [ 14: 10](R/W) Phy_gen value for frequency of 25.78125Gbps */
+        uint64_t pm_speed_table_26p5625g : 5;/**< [ 19: 15](R/W) Phy_gen value for frequency of 26.5625Gbps */
+        uint64_t pm_speed_table_27p5g  : 5;  /**< [ 24: 20](R/W) Phy_gen value for frequency of 27.5Gbps */
+        uint64_t pm_speed_table_53p125g : 5; /**< [ 29: 25](R/W) Phy_gen value for frequency of 53.125Gbps */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_speed_table1_s cn; */
+};
+typedef union cavm_rpmx_anp_global_speed_table1 cavm_rpmx_anp_global_speed_table1_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058100ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SPEED_TABLE1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(a) cavm_rpmx_anp_global_speed_table1_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(a) "RPMX_ANP_GLOBAL_SPEED_TABLE1"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_speed_table2
+ *
+ * RPM Anp Global Speed Table2 Register
+ * Speed table values per frequency.
+ */
+union cavm_rpmx_anp_global_speed_table2
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_speed_table2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t pm_speed_table_56g    : 5;  /**< [  4:  0](R/W) Phy_gen value for frequency of 56Gbps */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_speed_table_56g    : 5;  /**< [  4:  0](R/W) Phy_gen value for frequency of 56Gbps */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_speed_table2_s cn; */
+};
+typedef union cavm_rpmx_anp_global_speed_table2 cavm_rpmx_anp_global_speed_table2_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058108ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SPEED_TABLE2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(a) cavm_rpmx_anp_global_speed_table2_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(a) "RPMX_ANP_GLOBAL_SPEED_TABLE2"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_100ms
+ *
+ * RPM Anp Global Timer 100ms Register
+ * Value for 100ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_100ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_100ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_100ms    : 32; /**< [ 31:  0](R/W) Value for 100ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_100ms    : 32; /**< [ 31:  0](R/W) Value for 100ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_100ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_100ms cavm_rpmx_anp_global_timer_100ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058050ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_100MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(a) cavm_rpmx_anp_global_timer_100ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(a) "RPMX_ANP_GLOBAL_TIMER_100MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_10ms
+ *
+ * RPM Anp Global Timer 10ms Register
+ * Value for 10ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_10ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_10ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_10ms     : 32; /**< [ 31:  0](R/W) Value for 10ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_10ms     : 32; /**< [ 31:  0](R/W) Value for 10ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_10ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_10ms cavm_rpmx_anp_global_timer_10ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058028ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_10MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(a) cavm_rpmx_anp_global_timer_10ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(a) "RPMX_ANP_GLOBAL_TIMER_10MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_12600ms_20s_high
+ *
+ * RPM Anp Global Timer 12600ms 20s High Register
+ * Values for 12600ms/20s timers according to system clock (allowed range 100-300Mhz).
+ * *16 high bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_12600ms_20s_high
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_12600ms_20s_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_20s_high : 16; /**< [ 31: 16](R/W) Value for 20s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t rg_an_timers_12600ms_high : 16;/**< [ 15:  0](R/W) Value for 12600ms timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_12600ms_high : 16;/**< [ 15:  0](R/W) Value for 12600ms timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t rg_an_timers_20s_high : 16; /**< [ 31: 16](R/W) Value for 20s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_12600ms_20s_high_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_12600ms_20s_high cavm_rpmx_anp_global_timer_12600ms_20s_high_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580d0ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(a) cavm_rpmx_anp_global_timer_12600ms_20s_high_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(a) "RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_12600ms_low
+ *
+ * RPM Anp Global Timer 12600ms Low Register
+ * Value for 12600ms timer according to system clock (allowed range 100-300Mhz).
+ * *32 low bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_12600ms_low
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_12600ms_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_12600ms_low : 32;/**< [ 31:  0](R/W) Value for 12600ms timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_12600ms_low : 32;/**< [ 31:  0](R/W) Value for 12600ms timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_12600ms_low_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_12600ms_low cavm_rpmx_anp_global_timer_12600ms_low_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580a8ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_12600MS_LOW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(a) cavm_rpmx_anp_global_timer_12600ms_low_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(a) "RPMX_ANP_GLOBAL_TIMER_12600MS_LOW"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_12s_low
+ *
+ * RPM Anp Global Timer 12s Low Register
+ * Value for 12s timer according to system clock (allowed range 100-300Mhz).
+ * *32 low bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_12s_low
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_12s_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_12s_low  : 32; /**< [ 31:  0](R/W) Value for 12s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_12s_low  : 32; /**< [ 31:  0](R/W) Value for 12s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_12s_low_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_12s_low cavm_rpmx_anp_global_timer_12s_low_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580a0ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_12S_LOW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(a) cavm_rpmx_anp_global_timer_12s_low_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(a) "RPMX_ANP_GLOBAL_TIMER_12S_LOW"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_1s
+ *
+ * RPM Anp Global Timer 1s Register
+ * Value for 1s timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_1s
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_1s       : 32; /**< [ 31:  0](R/W) Value for 1s timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_1s       : 32; /**< [ 31:  0](R/W) Value for 1s timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_1s_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_1s cavm_rpmx_anp_global_timer_1s_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_1S(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058070ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_1S(a) cavm_rpmx_anp_global_timer_1s_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_1S(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_1S(a) "RPMX_ANP_GLOBAL_TIMER_1S"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_1S(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_200ms
+ *
+ * RPM Anp Global Timer 200ms Register
+ * Value for 200ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_200ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_200ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_200ms    : 32; /**< [ 31:  0](R/W) Value for 200ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_200ms    : 32; /**< [ 31:  0](R/W) Value for 200ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_200ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_200ms cavm_rpmx_anp_global_timer_200ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058058ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_200MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(a) cavm_rpmx_anp_global_timer_200ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(a) "RPMX_ANP_GLOBAL_TIMER_200MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_20s_low
+ *
+ * RPM Anp Global Timer 20s Low Register
+ * Value for 20s timer according to system clock (allowed range 100-300Mhz).
+ * *32 low bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_20s_low
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_20s_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_20s_low  : 32; /**< [ 31:  0](R/W) Value for 20s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_20s_low  : 32; /**< [ 31:  0](R/W) Value for 20s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_20s_low_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_20s_low cavm_rpmx_anp_global_timer_20s_low_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580b0ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_20S_LOW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(a) cavm_rpmx_anp_global_timer_20s_low_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(a) "RPMX_ANP_GLOBAL_TIMER_20S_LOW"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_2s
+ *
+ * RPM Anp Global Timer 2s Register
+ * Value for 2s timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_2s
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_2s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_2s       : 32; /**< [ 31:  0](R/W) Value for 2s timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_2s       : 32; /**< [ 31:  0](R/W) Value for 2s timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_2s_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_2s cavm_rpmx_anp_global_timer_2s_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_2S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_2S(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058078ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_2S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_2S(a) cavm_rpmx_anp_global_timer_2s_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_2S(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_2S(a) "RPMX_ANP_GLOBAL_TIMER_2S"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_2S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_2S(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_2S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_300ms
+ *
+ * RPM Anp Global Timer 300ms Register
+ * Value for 300ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_300ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_300ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_300ms    : 32; /**< [ 31:  0](R/W) Value for 300ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_300ms    : 32; /**< [ 31:  0](R/W) Value for 300ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_300ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_300ms cavm_rpmx_anp_global_timer_300ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058060ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_300MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(a) cavm_rpmx_anp_global_timer_300ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(a) "RPMX_ANP_GLOBAL_TIMER_300MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_30s_40s_high
+ *
+ * RPM Anp Global Timer 30s 40s High Register
+ * Values for 30s/40s timers according to system clock (allowed range 100-300Mhz).
+ * *16 high bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_30s_40s_high
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_30s_40s_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_40s_high : 16; /**< [ 31: 16](R/W) Value for 40s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t rg_an_timers_30s_high : 16; /**< [ 15:  0](R/W) Value for 30s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_30s_high : 16; /**< [ 15:  0](R/W) Value for 30s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t rg_an_timers_40s_high : 16; /**< [ 31: 16](R/W) Value for 40s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_30s_40s_high_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_30s_40s_high cavm_rpmx_anp_global_timer_30s_40s_high_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580d8ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(a) cavm_rpmx_anp_global_timer_30s_40s_high_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(a) "RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_30s_low
+ *
+ * RPM Anp Global Timer 30s Low Register
+ * Value for 30s timer according to system clock (allowed range 100-300Mhz).
+ * *32 low bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_30s_low
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_30s_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_30s_low  : 32; /**< [ 31:  0](R/W) Value for 30s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_30s_low  : 32; /**< [ 31:  0](R/W) Value for 30s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_30s_low_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_30s_low cavm_rpmx_anp_global_timer_30s_low_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580b8ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_30S_LOW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(a) cavm_rpmx_anp_global_timer_30s_low_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(a) "RPMX_ANP_GLOBAL_TIMER_30S_LOW"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_3150ms
+ *
+ * RPM Anp Global Timer 3150ms Register
+ * Value for 3150ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_3150ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_3150ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_3150ms   : 32; /**< [ 31:  0](R/W) Value for 3150ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_3150ms   : 32; /**< [ 31:  0](R/W) Value for 3150ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_3150ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_3150ms cavm_rpmx_anp_global_timer_3150ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058080ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_3150MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(a) cavm_rpmx_anp_global_timer_3150ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(a) "RPMX_ANP_GLOBAL_TIMER_3150MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_35ms
+ *
+ * RPM Anp Global Timer 35ms Register
+ * Value for 35ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_35ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_35ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_35ms     : 32; /**< [ 31:  0](R/W) Value for 35ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_35ms     : 32; /**< [ 31:  0](R/W) Value for 35ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_35ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_35ms cavm_rpmx_anp_global_timer_35ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058030ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_35MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(a) cavm_rpmx_anp_global_timer_35ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(a) "RPMX_ANP_GLOBAL_TIMER_35MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_40ms
+ *
+ * RPM Anp Global Timer 40ms Register
+ * Value for 40ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_40ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_40ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_40ms     : 32; /**< [ 31:  0](R/W) Value for 40ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_40ms     : 32; /**< [ 31:  0](R/W) Value for 40ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_40ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_40ms cavm_rpmx_anp_global_timer_40ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058038ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_40MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(a) cavm_rpmx_anp_global_timer_40ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(a) "RPMX_ANP_GLOBAL_TIMER_40MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_40s_low
+ *
+ * RPM Anp Global Timer 40s Low Register
+ * Value for 40s timer according to system clock (allowed range 100-300Mhz).
+ * *32 low bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_40s_low
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_40s_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_40s_low  : 32; /**< [ 31:  0](R/W) Value for 40s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_40s_low  : 32; /**< [ 31:  0](R/W) Value for 40s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_40s_low_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_40s_low cavm_rpmx_anp_global_timer_40s_low_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580c0ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_40S_LOW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(a) cavm_rpmx_anp_global_timer_40s_low_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(a) "RPMX_ANP_GLOBAL_TIMER_40S_LOW"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_500ms
+ *
+ * RPM Anp Global Timer 500ms Register
+ * Value for 500ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_500ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_500ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_500ms    : 32; /**< [ 31:  0](R/W) Value for 500ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_500ms    : 32; /**< [ 31:  0](R/W) Value for 500ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_500ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_500ms cavm_rpmx_anp_global_timer_500ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058068ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_500MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(a) cavm_rpmx_anp_global_timer_500ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(a) "RPMX_ANP_GLOBAL_TIMER_500MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_50ms
+ *
+ * RPM Anp Global Timer 50ms Register
+ * Value for 50ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_50ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_50ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_50ms     : 32; /**< [ 31:  0](R/W) Value for 50ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_50ms     : 32; /**< [ 31:  0](R/W) Value for 50ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_50ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_50ms cavm_rpmx_anp_global_timer_50ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058040ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_50MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(a) cavm_rpmx_anp_global_timer_50ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(a) "RPMX_ANP_GLOBAL_TIMER_50MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_5s
+ *
+ * RPM Anp Global Timer 5s Register
+ * Value for 5s timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_5s
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_5s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_5s       : 32; /**< [ 31:  0](R/W) Value for 5s timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_5s       : 32; /**< [ 31:  0](R/W) Value for 5s timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_5s_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_5s cavm_rpmx_anp_global_timer_5s_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_5S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_5S(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058088ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_5S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_5S(a) cavm_rpmx_anp_global_timer_5s_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_5S(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_5S(a) "RPMX_ANP_GLOBAL_TIMER_5S"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_5S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_5S(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_5S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_6s
+ *
+ * RPM Anp Global Timer 6s Register
+ * Value for 6s timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_6s
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_6s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_6s       : 32; /**< [ 31:  0](R/W) Value for 6s timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_6s       : 32; /**< [ 31:  0](R/W) Value for 6s timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_6s_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_6s cavm_rpmx_anp_global_timer_6s_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_6S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_6S(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058090ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_6S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_6S(a) cavm_rpmx_anp_global_timer_6s_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_6S(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_6S(a) "RPMX_ANP_GLOBAL_TIMER_6S"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_6S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_6S(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_6S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_70ms
+ *
+ * RPM Anp Global Timer 70ms Register
+ * Value for 70ms timer according to system clock (allowed range 100-300Mhz).
+ */
+union cavm_rpmx_anp_global_timer_70ms
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_70ms_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_70ms     : 32; /**< [ 31:  0](R/W) Value for 70ms timer according to system clock (allowed range 100-300Mhz). */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_70ms     : 32; /**< [ 31:  0](R/W) Value for 70ms timer according to system clock (allowed range 100-300Mhz). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_70ms_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_70ms cavm_rpmx_anp_global_timer_70ms_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058048ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_70MS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(a) cavm_rpmx_anp_global_timer_70ms_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(a) "RPMX_ANP_GLOBAL_TIMER_70MS"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_9s_12s_high
+ *
+ * RPM Anp Global Timer 9s 12s High Register
+ * Values for 9s/12s timers according to system clock (allowed range 100-300Mhz).
+ * *16 high bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_9s_12s_high
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_9s_12s_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_12s_high : 16; /**< [ 31: 16](R/W) Value for 12s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t rg_an_timers_9s_high  : 16; /**< [ 15:  0](R/W) Value for 9s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_9s_high  : 16; /**< [ 15:  0](R/W) Value for 9s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t rg_an_timers_12s_high : 16; /**< [ 31: 16](R/W) Value for 12s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *16 high bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_9s_12s_high_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_9s_12s_high cavm_rpmx_anp_global_timer_9s_12s_high_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e80580c8ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(a) cavm_rpmx_anp_global_timer_9s_12s_high_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(a) "RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_global_timer_9s_low
+ *
+ * RPM Anp Global Timer 9s Low Register
+ * Value for 9s timer according to system clock (allowed range 100-300Mhz).
+ * *32 low bits of the value*
+ */
+union cavm_rpmx_anp_global_timer_9s_low
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_global_timer_9s_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_an_timers_9s_low   : 32; /**< [ 31:  0](R/W) Value for 9s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_an_timers_9s_low   : 32; /**< [ 31:  0](R/W) Value for 9s timer according to system clock (allowed range 100-300Mhz).
+                                                                 *32 low bits of the value* */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_timer_9s_low_s cn; */
+};
+typedef union cavm_rpmx_anp_global_timer_9s_low cavm_rpmx_anp_global_timer_9s_low_t;
+
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058098ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_GLOBAL_TIMER_9S_LOW", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(a) cavm_rpmx_anp_global_timer_9s_low_t
+#define bustype_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(a) "RPMX_ANP_GLOBAL_TIMER_9S_LOW"
+#define device_bar_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(a) (a)
+#define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_interrupt_summary_cause
+ *
+ * RPM Anp Interrupt Summary Cause Register
+ * Final interrupts register (top of the tree) - summary goes out.
+ */
+union cavm_rpmx_anp_interrupt_summary_cause
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_interrupt_summary_cause_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t p7_int2_sum           : 1;  /**< [ 17: 17](RO/H) Port 7 interrupt2 summary. */
+        uint64_t p7_int_sum            : 1;  /**< [ 16: 16](RO/H) Port 7 interrupt summary. */
+        uint64_t p6_int2_sum           : 1;  /**< [ 15: 15](RO/H) Port 6 interrupt2 summary. */
+        uint64_t p6_int_sum            : 1;  /**< [ 14: 14](RO/H) Port 6 interrupt summary. */
+        uint64_t p5_int2_sum           : 1;  /**< [ 13: 13](RO/H) Port 5 interrupt2 summary. */
+        uint64_t p5_int_sum            : 1;  /**< [ 12: 12](RO/H) Port 5 interrupt summary. */
+        uint64_t p4_int2_sum           : 1;  /**< [ 11: 11](RO/H) Port 4 interrupt2 summary. */
+        uint64_t p4_int_sum            : 1;  /**< [ 10: 10](RO/H) Port 4 interrupt summary. */
+        uint64_t p3_int2_sum           : 1;  /**< [  9:  9](RO/H) Port 3 interrupt2 summary. */
+        uint64_t p3_int_sum            : 1;  /**< [  8:  8](RO/H) Port 3 interrupt summary. */
+        uint64_t p2_int2_sum           : 1;  /**< [  7:  7](RO/H) Port 2 interrupt2 summary. */
+        uint64_t p2_int_sum            : 1;  /**< [  6:  6](RO/H) Port 2 interrupt summary. */
+        uint64_t p1_int2_sum           : 1;  /**< [  5:  5](RO/H) Port 1 interrupt2 summary. */
+        uint64_t p1_int_sum            : 1;  /**< [  4:  4](RO/H) Port 1 interrupt summary. */
+        uint64_t int2_sum              : 1;  /**< [  3:  3](RO/H) Port 0 interrupt2 summary. */
+        uint64_t int_sum               : 1;  /**< [  2:  2](RO/H) Port 0 interrupt summary. */
+        uint64_t global_int            : 1;  /**< [  1:  1](RO/H) Global interrupts summary. */
+        uint64_t interrupt_cause_int_sum : 1;/**< [  0:  0](RO/H) Summary of this register. */
+#else /* Word 0 - Little Endian */
+        uint64_t interrupt_cause_int_sum : 1;/**< [  0:  0](RO/H) Summary of this register. */
+        uint64_t global_int            : 1;  /**< [  1:  1](RO/H) Global interrupts summary. */
+        uint64_t int_sum               : 1;  /**< [  2:  2](RO/H) Port 0 interrupt summary. */
+        uint64_t int2_sum              : 1;  /**< [  3:  3](RO/H) Port 0 interrupt2 summary. */
+        uint64_t p1_int_sum            : 1;  /**< [  4:  4](RO/H) Port 1 interrupt summary. */
+        uint64_t p1_int2_sum           : 1;  /**< [  5:  5](RO/H) Port 1 interrupt2 summary. */
+        uint64_t p2_int_sum            : 1;  /**< [  6:  6](RO/H) Port 2 interrupt summary. */
+        uint64_t p2_int2_sum           : 1;  /**< [  7:  7](RO/H) Port 2 interrupt2 summary. */
+        uint64_t p3_int_sum            : 1;  /**< [  8:  8](RO/H) Port 3 interrupt summary. */
+        uint64_t p3_int2_sum           : 1;  /**< [  9:  9](RO/H) Port 3 interrupt2 summary. */
+        uint64_t p4_int_sum            : 1;  /**< [ 10: 10](RO/H) Port 4 interrupt summary. */
+        uint64_t p4_int2_sum           : 1;  /**< [ 11: 11](RO/H) Port 4 interrupt2 summary. */
+        uint64_t p5_int_sum            : 1;  /**< [ 12: 12](RO/H) Port 5 interrupt summary. */
+        uint64_t p5_int2_sum           : 1;  /**< [ 13: 13](RO/H) Port 5 interrupt2 summary. */
+        uint64_t p6_int_sum            : 1;  /**< [ 14: 14](RO/H) Port 6 interrupt summary. */
+        uint64_t p6_int2_sum           : 1;  /**< [ 15: 15](RO/H) Port 6 interrupt2 summary. */
+        uint64_t p7_int_sum            : 1;  /**< [ 16: 16](RO/H) Port 7 interrupt summary. */
+        uint64_t p7_int2_sum           : 1;  /**< [ 17: 17](RO/H) Port 7 interrupt2 summary. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_interrupt_summary_cause_s cn; */
+};
+typedef union cavm_rpmx_anp_interrupt_summary_cause cavm_rpmx_anp_interrupt_summary_cause_t;
+
+static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058128ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_INTERRUPT_SUMMARY_CAUSE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) cavm_rpmx_anp_interrupt_summary_cause_t
+#define bustype_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) "RPMX_ANP_INTERRUPT_SUMMARY_CAUSE"
+#define device_bar_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) (a)
+#define arguments_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_interrupt_summary_mask
+ *
+ * RPM Anp Interrupt Summary Mask Register
+ * Mask for Final interrupts register.
+ */
+union cavm_rpmx_anp_interrupt_summary_mask
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_interrupt_summary_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t p7_interrupt2_mask    : 1;  /**< [ 17: 17](R/W) Mask for port 7 interrupt2. */
+        uint64_t p7_interrupt1_mask    : 1;  /**< [ 16: 16](R/W) Mask for port 7 interrupt1. */
+        uint64_t p6_interrupt2_mask    : 1;  /**< [ 15: 15](R/W) Mask for port 6 interrupt2. */
+        uint64_t p6_interrupt1_mask    : 1;  /**< [ 14: 14](R/W) Mask for port 6 interrupt1. */
+        uint64_t p5_interrupt2_mask    : 1;  /**< [ 13: 13](R/W) Mask for port 5 interrupt2. */
+        uint64_t p5_interrupt1_mask    : 1;  /**< [ 12: 12](R/W) Mask for port 5 interrupt1. */
+        uint64_t p4_interrupt2_mask    : 1;  /**< [ 11: 11](R/W) Mask for port 4 interrupt2. */
+        uint64_t p4_interrupt1_mask    : 1;  /**< [ 10: 10](R/W) Mask for port 4 interrupt1. */
+        uint64_t p3_interrupt2_mask    : 1;  /**< [  9:  9](R/W) Mask for port 3 interrupt2. */
+        uint64_t p3_interrupt1_mask    : 1;  /**< [  8:  8](R/W) Mask for port 3 interrupt1. */
+        uint64_t p2_interrupt2_mask    : 1;  /**< [  7:  7](R/W) Mask for port 2 interrupt2. */
+        uint64_t p2_interrupt1_mask    : 1;  /**< [  6:  6](R/W) Mask for port 2 interrupt1. */
+        uint64_t p1_interrupt2_mask    : 1;  /**< [  5:  5](R/W) Mask for port 1 interrupt2. */
+        uint64_t p1_interrupt1_mask    : 1;  /**< [  4:  4](R/W) Mask for port 1 interrupt1. */
+        uint64_t interrupt2_mask       : 1;  /**< [  3:  3](R/W) Mask for port 0 interrupt2. */
+        uint64_t interrupt1_mask       : 1;  /**< [  2:  2](R/W) Mask for port 0 interrupt1. */
+        uint64_t interrupt_mask        : 1;  /**< [  1:  1](R/W) Mask for global interrupts. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t interrupt_mask        : 1;  /**< [  1:  1](R/W) Mask for global interrupts. */
+        uint64_t interrupt1_mask       : 1;  /**< [  2:  2](R/W) Mask for port 0 interrupt1. */
+        uint64_t interrupt2_mask       : 1;  /**< [  3:  3](R/W) Mask for port 0 interrupt2. */
+        uint64_t p1_interrupt1_mask    : 1;  /**< [  4:  4](R/W) Mask for port 1 interrupt1. */
+        uint64_t p1_interrupt2_mask    : 1;  /**< [  5:  5](R/W) Mask for port 1 interrupt2. */
+        uint64_t p2_interrupt1_mask    : 1;  /**< [  6:  6](R/W) Mask for port 2 interrupt1. */
+        uint64_t p2_interrupt2_mask    : 1;  /**< [  7:  7](R/W) Mask for port 2 interrupt2. */
+        uint64_t p3_interrupt1_mask    : 1;  /**< [  8:  8](R/W) Mask for port 3 interrupt1. */
+        uint64_t p3_interrupt2_mask    : 1;  /**< [  9:  9](R/W) Mask for port 3 interrupt2. */
+        uint64_t p4_interrupt1_mask    : 1;  /**< [ 10: 10](R/W) Mask for port 4 interrupt1. */
+        uint64_t p4_interrupt2_mask    : 1;  /**< [ 11: 11](R/W) Mask for port 4 interrupt2. */
+        uint64_t p5_interrupt1_mask    : 1;  /**< [ 12: 12](R/W) Mask for port 5 interrupt1. */
+        uint64_t p5_interrupt2_mask    : 1;  /**< [ 13: 13](R/W) Mask for port 5 interrupt2. */
+        uint64_t p6_interrupt1_mask    : 1;  /**< [ 14: 14](R/W) Mask for port 6 interrupt1. */
+        uint64_t p6_interrupt2_mask    : 1;  /**< [ 15: 15](R/W) Mask for port 6 interrupt2. */
+        uint64_t p7_interrupt1_mask    : 1;  /**< [ 16: 16](R/W) Mask for port 7 interrupt1. */
+        uint64_t p7_interrupt2_mask    : 1;  /**< [ 17: 17](R/W) Mask for port 7 interrupt2. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_interrupt_summary_mask_s cn; */
+};
+typedef union cavm_rpmx_anp_interrupt_summary_mask cavm_rpmx_anp_interrupt_summary_mask_t;
+
+static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058130ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_INTERRUPT_SUMMARY_MASK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) cavm_rpmx_anp_interrupt_summary_mask_t
+#define bustype_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) "RPMX_ANP_INTERRUPT_SUMMARY_MASK"
+#define device_bar_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) (a)
+#define arguments_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_last_violation
+ *
+ * RPM Anp Last Violation Register
+ * In case of access violation, contains the address of the last violating transaction.
+ */
+union cavm_rpmx_anp_last_violation
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_last_violation_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t last_violation        : 32; /**< [ 31:  0](R/W) Last violation address */
+#else /* Word 0 - Little Endian */
+        uint64_t last_violation        : 32; /**< [ 31:  0](R/W) Last violation address */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_last_violation_s cn; */
+};
+typedef union cavm_rpmx_anp_last_violation cavm_rpmx_anp_last_violation_t;
+
+static inline uint64_t CAVM_RPMX_ANP_LAST_VIOLATION(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_LAST_VIOLATION(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058138ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_LAST_VIOLATION", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_LAST_VIOLATION(a) cavm_rpmx_anp_last_violation_t
+#define bustype_CAVM_RPMX_ANP_LAST_VIOLATION(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_LAST_VIOLATION(a) "RPMX_ANP_LAST_VIOLATION"
+#define device_bar_CAVM_RPMX_ANP_LAST_VIOLATION(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_LAST_VIOLATION(a) (a)
+#define arguments_CAVM_RPMX_ANP_LAST_VIOLATION(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_metal_fix
+ *
+ * RPM Anp Metal Fix Register
+ * Reserved register for metal fix.
+ */
+union cavm_rpmx_anp_metal_fix
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_metal_fix_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t metal_fix             : 32; /**< [ 31:  0](R/W) Reserved for metal fix. */
+#else /* Word 0 - Little Endian */
+        uint64_t metal_fix             : 32; /**< [ 31:  0](R/W) Reserved for metal fix. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_metal_fix_s cn; */
+};
+typedef union cavm_rpmx_anp_metal_fix cavm_rpmx_anp_metal_fix_t;
+
+static inline uint64_t CAVM_RPMX_ANP_METAL_FIX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_METAL_FIX(uint64_t a)
+{
+    if (a<=4)
+        return 0x87e0e8058120ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RPMX_ANP_METAL_FIX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_METAL_FIX(a) cavm_rpmx_anp_metal_fix_t
+#define bustype_CAVM_RPMX_ANP_METAL_FIX(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_METAL_FIX(a) "RPMX_ANP_METAL_FIX"
+#define device_bar_CAVM_RPMX_ANP_METAL_FIX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_METAL_FIX(a) (a)
+#define arguments_CAVM_RPMX_ANP_METAL_FIX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_control
+ *
+ * RPM Anp Port An Control Register
+ * Control and overrides for AN related.
+ */
+union cavm_rpmx_anp_portx_an_control
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t rg_timer2_fast        : 1;  /**< [ 27: 27](R/W) When set to 0x1, timer2 value is taken from timer2_fast_val (AN timers registers).
+                                                                 *This timer is minimal wait before starting to check link_status when SM is in AN_GOOD_CHECK. */
+        uint64_t rg_link_fail_inhibit_timer_fast : 1;/**< [ 26: 26](R/W) When set to 0x1, link_fail_inhibit_timer value is taken from
+                                                                 link_fail_inhibit_timer_fast_val (AN timers registers) */
+        uint64_t rg_autoneg_wait_timer_fast : 1;/**< [ 25: 25](R/W) When set to 0x1, autoneg_wait_timer value is taken from
+                                                                 autoneg_wait_timer_fast_val (AN timers registers) */
+        uint64_t rg_break_link_timer_fast : 1;/**< [ 24: 24](R/W) When set to 0x1, break_link_timer value is taken from break_link_timer_fast_val
+                                                                 (AN timers registers) */
+        uint64_t reg_ap_force_mode_s   : 1;  /**< [ 23: 23](R/W) Force mode after AN resolution (takes MODE set in PWM instead of MODE according to AN resolution). */
+        uint64_t rg_st_pcslink_max_time_ap_inf_s : 1;/**< [ 22: 22](R/W) Disable PCS link max timer for AN operation.
+                                                                 NOTE: affects PWM and not AN. */
+        uint64_t an_pcs_sel_ow_val     : 1;  /**< [ 21: 21](R/W) Set override value for an_pcs_sel. */
+        uint64_t an_pcs_sel_ow         : 1;  /**< [ 20: 20](R/W) Set override for an_pcs_sel - PMA MUX between AN and PCS.
+                                                                 (an_pcs_sel = 0 -\> PCS ; an_pcs_sel = 1 -\> AN). */
+        uint64_t pm_enclk_ap_ft_ow_val : 1;  /**< [ 19: 19](R/W) Set override value for enclk_ap_ft. */
+        uint64_t pm_enclk_ap_ft_ow     : 1;  /**< [ 18: 18](R/W) Set override for AN TX domain clock enable. */
+        uint64_t pm_ap_reset_tx_ow_val : 1;  /**< [ 17: 17](R/W) Set override value for ap_reset_tx. */
+        uint64_t pm_ap_reset_tx_ow     : 1;  /**< [ 16: 16](R/W) Set override for AN TX domain reset. */
+        uint64_t pm_enclk_ap_sys_ow_val : 1; /**< [ 15: 15](R/W) Set override value for enclk_ap_sys. */
+        uint64_t pm_enclk_ap_sys_ow    : 1;  /**< [ 14: 14](R/W) Set override for AN Sys (main) domain clock enable. */
+        uint64_t pm_norm_x_state_ow_val : 1; /**< [ 13: 13](R/W) Set override value for norm_x_state. */
+        uint64_t pm_norm_x_state_ow    : 1;  /**< [ 12: 12](R/W) Set override for norm_x_state (for Channel SM). */
+        uint64_t pm_enclk_ap_fr_ow_val : 1;  /**< [ 11: 11](R/W) Set override value for enclk_ap_fr. */
+        uint64_t pm_enclk_ap_fr_ow     : 1;  /**< [ 10: 10](R/W) Set override for AN RX domain clock enable. */
+        uint64_t pm_ap_reset_rx_ow_val : 1;  /**< [  9:  9](R/W) Set override value for ap_reset_rx. */
+        uint64_t pm_ap_reset_rx_ow     : 1;  /**< [  8:  8](R/W) Set override for AN RX domain reset. */
+        uint64_t pm_ap_mode_ow_val     : 1;  /**< [  7:  7](R/W) Set override value for ap_mode. */
+        uint64_t pm_ap_mode_ow         : 1;  /**< [  6:  6](R/W) Set override for ap_mode (PWM is set to MODE_AP). */
+        uint64_t phy_gen_ap_ow_val     : 5;  /**< [  5:  1](R/W) Set override value for phy_gen_ap. */
+        uint64_t phy_gen_ap_ow         : 1;  /**< [  0:  0](R/W) Set override for phy_gen (SerDes speed) when operating AN (only for the AN
+                                                                 process, not relevant after resolution). */
+#else /* Word 0 - Little Endian */
+        uint64_t phy_gen_ap_ow         : 1;  /**< [  0:  0](R/W) Set override for phy_gen (SerDes speed) when operating AN (only for the AN
+                                                                 process, not relevant after resolution). */
+        uint64_t phy_gen_ap_ow_val     : 5;  /**< [  5:  1](R/W) Set override value for phy_gen_ap. */
+        uint64_t pm_ap_mode_ow         : 1;  /**< [  6:  6](R/W) Set override for ap_mode (PWM is set to MODE_AP). */
+        uint64_t pm_ap_mode_ow_val     : 1;  /**< [  7:  7](R/W) Set override value for ap_mode. */
+        uint64_t pm_ap_reset_rx_ow     : 1;  /**< [  8:  8](R/W) Set override for AN RX domain reset. */
+        uint64_t pm_ap_reset_rx_ow_val : 1;  /**< [  9:  9](R/W) Set override value for ap_reset_rx. */
+        uint64_t pm_enclk_ap_fr_ow     : 1;  /**< [ 10: 10](R/W) Set override for AN RX domain clock enable. */
+        uint64_t pm_enclk_ap_fr_ow_val : 1;  /**< [ 11: 11](R/W) Set override value for enclk_ap_fr. */
+        uint64_t pm_norm_x_state_ow    : 1;  /**< [ 12: 12](R/W) Set override for norm_x_state (for Channel SM). */
+        uint64_t pm_norm_x_state_ow_val : 1; /**< [ 13: 13](R/W) Set override value for norm_x_state. */
+        uint64_t pm_enclk_ap_sys_ow    : 1;  /**< [ 14: 14](R/W) Set override for AN Sys (main) domain clock enable. */
+        uint64_t pm_enclk_ap_sys_ow_val : 1; /**< [ 15: 15](R/W) Set override value for enclk_ap_sys. */
+        uint64_t pm_ap_reset_tx_ow     : 1;  /**< [ 16: 16](R/W) Set override for AN TX domain reset. */
+        uint64_t pm_ap_reset_tx_ow_val : 1;  /**< [ 17: 17](R/W) Set override value for ap_reset_tx. */
+        uint64_t pm_enclk_ap_ft_ow     : 1;  /**< [ 18: 18](R/W) Set override for AN TX domain clock enable. */
+        uint64_t pm_enclk_ap_ft_ow_val : 1;  /**< [ 19: 19](R/W) Set override value for enclk_ap_ft. */
+        uint64_t an_pcs_sel_ow         : 1;  /**< [ 20: 20](R/W) Set override for an_pcs_sel - PMA MUX between AN and PCS.
+                                                                 (an_pcs_sel = 0 -\> PCS ; an_pcs_sel = 1 -\> AN). */
+        uint64_t an_pcs_sel_ow_val     : 1;  /**< [ 21: 21](R/W) Set override value for an_pcs_sel. */
+        uint64_t rg_st_pcslink_max_time_ap_inf_s : 1;/**< [ 22: 22](R/W) Disable PCS link max timer for AN operation.
+                                                                 NOTE: affects PWM and not AN. */
+        uint64_t reg_ap_force_mode_s   : 1;  /**< [ 23: 23](R/W) Force mode after AN resolution (takes MODE set in PWM instead of MODE according to AN resolution). */
+        uint64_t rg_break_link_timer_fast : 1;/**< [ 24: 24](R/W) When set to 0x1, break_link_timer value is taken from break_link_timer_fast_val
+                                                                 (AN timers registers) */
+        uint64_t rg_autoneg_wait_timer_fast : 1;/**< [ 25: 25](R/W) When set to 0x1, autoneg_wait_timer value is taken from
+                                                                 autoneg_wait_timer_fast_val (AN timers registers) */
+        uint64_t rg_link_fail_inhibit_timer_fast : 1;/**< [ 26: 26](R/W) When set to 0x1, link_fail_inhibit_timer value is taken from
+                                                                 link_fail_inhibit_timer_fast_val (AN timers registers) */
+        uint64_t rg_timer2_fast        : 1;  /**< [ 27: 27](R/W) When set to 0x1, timer2 value is taken from timer2_fast_val (AN timers registers).
+                                                                 *This timer is minimal wait before starting to check link_status when SM is in AN_GOOD_CHECK. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_control_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_control cavm_rpmx_anp_portx_an_control_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_CONTROL(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c038ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_CONTROL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_CONTROL(a,b) cavm_rpmx_anp_portx_an_control_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_CONTROL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_CONTROL(a,b) "RPMX_ANP_PORTX_AN_CONTROL"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_CONTROL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_CONTROL(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_CONTROL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_hang_out
+ *
+ * RPM Anp Port An Hang Out Register
+ * AN unused outputs as status.
+ */
+union cavm_rpmx_anp_portx_an_hang_out
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_hang_out_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t ieee_ag_aneg_enable_pls_s : 1;/**< [ 10: 10](RO/H) Not functional */
+        uint64_t ap_ag_link_down_pls_s : 1;  /**< [  9:  9](RO/H) Not functional. */
+        uint64_t ag_reg_1_6_s          : 1;  /**< [  8:  8](RO/H) Not functional. */
+        uint64_t aneg_int_s            : 1;  /**< [  7:  7](RO/H) AP interrupt.
+                                                                 not functional. */
+        uint64_t ag_mode_s             : 5;  /**< [  6:  2](RO/H) AN mode.
+                                                                 not functional. */
+        uint64_t ap_rg_3_0_wr_s        : 1;  /**< [  1:  1](RO/H) Request pcs reset.
+                                                                 not functional. */
+        uint64_t ap_irq_s              : 1;  /**< [  0:  0](RO/H) AP interrupt request.
+                                                                 not functional. */
+#else /* Word 0 - Little Endian */
+        uint64_t ap_irq_s              : 1;  /**< [  0:  0](RO/H) AP interrupt request.
+                                                                 not functional. */
+        uint64_t ap_rg_3_0_wr_s        : 1;  /**< [  1:  1](RO/H) Request pcs reset.
+                                                                 not functional. */
+        uint64_t ag_mode_s             : 5;  /**< [  6:  2](RO/H) AN mode.
+                                                                 not functional. */
+        uint64_t aneg_int_s            : 1;  /**< [  7:  7](RO/H) AP interrupt.
+                                                                 not functional. */
+        uint64_t ag_reg_1_6_s          : 1;  /**< [  8:  8](RO/H) Not functional. */
+        uint64_t ap_ag_link_down_pls_s : 1;  /**< [  9:  9](RO/H) Not functional. */
+        uint64_t ieee_ag_aneg_enable_pls_s : 1;/**< [ 10: 10](RO/H) Not functional */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_hang_out_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_hang_out cavm_rpmx_anp_portx_an_hang_out_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c058ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_HANG_OUT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(a,b) cavm_rpmx_anp_portx_an_hang_out_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(a,b) "RPMX_ANP_PORTX_AN_HANG_OUT"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_restart_counter
+ *
+ * RPM Anp Port An Restart Counter Register
+ * AN restart counter.
+ */
+union cavm_rpmx_anp_portx_an_restart_counter
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_restart_counter_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t an_restart_counter    : 16; /**< [ 15:  0](RO/H) Counts the number of times the AN has restarted without SW trigger (i.e. timer
+                                                                 expired without link_OK, or link_OK change to 0 when in AN_GOOD state) */
+#else /* Word 0 - Little Endian */
+        uint64_t an_restart_counter    : 16; /**< [ 15:  0](RO/H) Counts the number of times the AN has restarted without SW trigger (i.e. timer
+                                                                 expired without link_OK, or link_OK change to 0 when in AN_GOOD state) */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_restart_counter_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_restart_counter cavm_rpmx_anp_portx_an_restart_counter_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c070ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_RESTART_COUNTER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(a,b) cavm_rpmx_anp_portx_an_restart_counter_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(a,b) "RPMX_ANP_PORTX_AN_RESTART_COUNTER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_status1
+ *
+ * RPM Anp Port An Status1 Register
+ * AN resolved speed.
+ */
+union cavm_rpmx_anp_portx_an_status1
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_status1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t ap_pwrup_con400grcr8_s : 1; /**< [ 28: 28](RO/H) 400GBASE-KR8/CR8  speed resolved. */
+        uint64_t ap_pwrup_800grcr8_s   : 1;  /**< [ 27: 27](RO/H) 800GBASE-KR8/CR8  speed resolved. */
+        uint64_t ap_pwrup_400grcr4_s   : 1;  /**< [ 26: 26](RO/H) 400GBASE-KR4/CR4  speed resolved. */
+        uint64_t ap_pwrup_200grcr2_s   : 1;  /**< [ 25: 25](RO/H) 200GBASE-KR2/CR2  speed resolved. */
+        uint64_t ap_pwrup_100grcr_s    : 1;  /**< [ 24: 24](RO/H) 100GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_200grcr4_s   : 1;  /**< [ 23: 23](RO/H) 200GBASE-KR4/CR4  speed resolved. */
+        uint64_t ap_pwrup_100grcr2_s   : 1;  /**< [ 22: 22](RO/H) 100GBASE-KR2/CR2  speed resolved. */
+        uint64_t ap_pwrup_50grcr_s     : 1;  /**< [ 21: 21](RO/H) 50GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_50gkr4_s     : 1;  /**< [ 20: 20](RO/H) 50GBASE-KR4  speed resolved. */
+        uint64_t ap_pwrup_con40gr2_s   : 1;  /**< [ 19: 19](RO/H) 40GBASE-KR2/CR2  speed resolved. */
+        uint64_t ap_pwrup_25gkr2_s     : 1;  /**< [ 18: 18](RO/H) 25GBASE-KR2  speed resolved. */
+        uint64_t ap_pwrup_200gkr8_s    : 1;  /**< [ 17: 17](RO/H) 200GBASE-KR8/CR8  speed resolved. */
+        uint64_t ap_pwrup_100gkp4_s    : 1;  /**< [ 16: 16](RO/H) 100GBASE-KP4  speed resolved. */
+        uint64_t ap_pwrup_100gkr4_s    : 1;  /**< [ 15: 15](RO/H) 100GBASE-KR4  speed resolved. */
+        uint64_t ap_pwrup_100gcr10_s   : 1;  /**< [ 14: 14](RO/H) 100GBASE-CR10  speed resolved. */
+        uint64_t ap_pwrup_100gcr4_s    : 1;  /**< [ 13: 13](RO/H) 100GBASE-CR4  speed resolved. */
+        uint64_t ap_pwrup_50gcr2_s     : 1;  /**< [ 12: 12](RO/H) 50GBASE-CR2  speed resolved. */
+        uint64_t ap_pwrup_50gkr2_s     : 1;  /**< [ 11: 11](RO/H) 50GBASE-KR2  speed resolved. */
+        uint64_t ap_pwrup_40gcr4_s     : 1;  /**< [ 10: 10](RO/H) 40GBASE-CR4  speed resolved. */
+        uint64_t ap_pwrup_40gkr4_s     : 1;  /**< [  9:  9](RO/H) 40GBASE-KR4  speed resolved. */
+        uint64_t ap_pwrup_con25gcr_s   : 1;  /**< [  8:  8](RO/H) Consortium 25GBASE-CR  speed resolved. */
+        uint64_t ap_pwrup_con25gkr_s   : 1;  /**< [  7:  7](RO/H) Consortium 25GBASE-KR  speed resolved. */
+        uint64_t ap_pwrup_ieee25gr_s   : 1;  /**< [  6:  6](RO/H) IEEE 25GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_ieee25gs_s   : 1;  /**< [  5:  5](RO/H) IEEE 25GBASE-KRS/CRS  speed resolved. */
+        uint64_t ap_pwrup_10gkr_s      : 1;  /**< [  4:  4](RO/H) 10GBASE-KR  speed resolved. */
+        uint64_t ap_pwrup_5gr_s        : 1;  /**< [  3:  3](RO/H) 5GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_2p5g_s       : 1;  /**< [  2:  2](RO/H) 2500BASE-KX  speed resolved. */
+        uint64_t ap_pwrup_g_s          : 1;  /**< [  1:  1](RO/H) 1000BASE-KX speed resolved. */
+        uint64_t ap_pwrup_4x_s         : 1;  /**< [  0:  0](RO/H) 10G-KX4 speed resolved. */
+#else /* Word 0 - Little Endian */
+        uint64_t ap_pwrup_4x_s         : 1;  /**< [  0:  0](RO/H) 10G-KX4 speed resolved. */
+        uint64_t ap_pwrup_g_s          : 1;  /**< [  1:  1](RO/H) 1000BASE-KX speed resolved. */
+        uint64_t ap_pwrup_2p5g_s       : 1;  /**< [  2:  2](RO/H) 2500BASE-KX  speed resolved. */
+        uint64_t ap_pwrup_5gr_s        : 1;  /**< [  3:  3](RO/H) 5GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_10gkr_s      : 1;  /**< [  4:  4](RO/H) 10GBASE-KR  speed resolved. */
+        uint64_t ap_pwrup_ieee25gs_s   : 1;  /**< [  5:  5](RO/H) IEEE 25GBASE-KRS/CRS  speed resolved. */
+        uint64_t ap_pwrup_ieee25gr_s   : 1;  /**< [  6:  6](RO/H) IEEE 25GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_con25gkr_s   : 1;  /**< [  7:  7](RO/H) Consortium 25GBASE-KR  speed resolved. */
+        uint64_t ap_pwrup_con25gcr_s   : 1;  /**< [  8:  8](RO/H) Consortium 25GBASE-CR  speed resolved. */
+        uint64_t ap_pwrup_40gkr4_s     : 1;  /**< [  9:  9](RO/H) 40GBASE-KR4  speed resolved. */
+        uint64_t ap_pwrup_40gcr4_s     : 1;  /**< [ 10: 10](RO/H) 40GBASE-CR4  speed resolved. */
+        uint64_t ap_pwrup_50gkr2_s     : 1;  /**< [ 11: 11](RO/H) 50GBASE-KR2  speed resolved. */
+        uint64_t ap_pwrup_50gcr2_s     : 1;  /**< [ 12: 12](RO/H) 50GBASE-CR2  speed resolved. */
+        uint64_t ap_pwrup_100gcr4_s    : 1;  /**< [ 13: 13](RO/H) 100GBASE-CR4  speed resolved. */
+        uint64_t ap_pwrup_100gcr10_s   : 1;  /**< [ 14: 14](RO/H) 100GBASE-CR10  speed resolved. */
+        uint64_t ap_pwrup_100gkr4_s    : 1;  /**< [ 15: 15](RO/H) 100GBASE-KR4  speed resolved. */
+        uint64_t ap_pwrup_100gkp4_s    : 1;  /**< [ 16: 16](RO/H) 100GBASE-KP4  speed resolved. */
+        uint64_t ap_pwrup_200gkr8_s    : 1;  /**< [ 17: 17](RO/H) 200GBASE-KR8/CR8  speed resolved. */
+        uint64_t ap_pwrup_25gkr2_s     : 1;  /**< [ 18: 18](RO/H) 25GBASE-KR2  speed resolved. */
+        uint64_t ap_pwrup_con40gr2_s   : 1;  /**< [ 19: 19](RO/H) 40GBASE-KR2/CR2  speed resolved. */
+        uint64_t ap_pwrup_50gkr4_s     : 1;  /**< [ 20: 20](RO/H) 50GBASE-KR4  speed resolved. */
+        uint64_t ap_pwrup_50grcr_s     : 1;  /**< [ 21: 21](RO/H) 50GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_100grcr2_s   : 1;  /**< [ 22: 22](RO/H) 100GBASE-KR2/CR2  speed resolved. */
+        uint64_t ap_pwrup_200grcr4_s   : 1;  /**< [ 23: 23](RO/H) 200GBASE-KR4/CR4  speed resolved. */
+        uint64_t ap_pwrup_100grcr_s    : 1;  /**< [ 24: 24](RO/H) 100GBASE-KR/CR  speed resolved. */
+        uint64_t ap_pwrup_200grcr2_s   : 1;  /**< [ 25: 25](RO/H) 200GBASE-KR2/CR2  speed resolved. */
+        uint64_t ap_pwrup_400grcr4_s   : 1;  /**< [ 26: 26](RO/H) 400GBASE-KR4/CR4  speed resolved. */
+        uint64_t ap_pwrup_800grcr8_s   : 1;  /**< [ 27: 27](RO/H) 800GBASE-KR8/CR8  speed resolved. */
+        uint64_t ap_pwrup_con400grcr8_s : 1; /**< [ 28: 28](RO/H) 400GBASE-KR8/CR8  speed resolved. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_status1_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_status1 cavm_rpmx_anp_portx_an_status1_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_STATUS1(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c060ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_STATUS1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_STATUS1(a,b) cavm_rpmx_anp_portx_an_status1_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_STATUS1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_STATUS1(a,b) "RPMX_ANP_PORTX_AN_STATUS1"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_STATUS1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_STATUS1(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_STATUS1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_status2
+ *
+ * RPM Anp Port An Status2 Register
+ * AN resolved fec/pause + indications.
+ */
+union cavm_rpmx_anp_portx_an_status2
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_status2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t ag_llfec_enable_s     : 1;  /**< [ 10: 10](RO/H) Ag_llfec_enable_s */
+        uint64_t ap_rsfec_enable_s     : 1;  /**< [  9:  9](RO/H) AN FEC resolution -
+                                                                 Resolved RS-FEC. */
+        uint64_t ap_fec_enable_s       : 1;  /**< [  8:  8](RO/H) AN FEC resolution -
+                                                                 Resolved BASE-R FEC. */
+        uint64_t ap_ag_tx_pause_enable_s : 1;/**< [  7:  7](RO/H) AN pause resolution - TX enabled. */
+        uint64_t ap_ag_rx_pause_enable_s : 1;/**< [  6:  6](RO/H) AN pause resolution - RX enabled. */
+        uint64_t aa_link_good_s        : 1;  /**< [  5:  5](RO/H) Aa_link_good_s */
+        uint64_t ap_ag_hcd_resolved_s  : 1;  /**< [  4:  4](RO/H) AN HCD resolved. */
+        uint64_t ap_ag_link_s          : 1;  /**< [  3:  3](RO/H) Ap_ag_link_s */
+        uint64_t ap_ag_restart_aneg_s  : 1;  /**< [  2:  2](RO/H) AN restart. */
+        uint64_t ieee_ag_aneg_enable_s : 1;  /**< [  1:  1](RO/H) AN enabled. */
+        uint64_t ap_aa_clear_hcd_s     : 1;  /**< [  0:  0](RO/H) AN HCD clear. */
+#else /* Word 0 - Little Endian */
+        uint64_t ap_aa_clear_hcd_s     : 1;  /**< [  0:  0](RO/H) AN HCD clear. */
+        uint64_t ieee_ag_aneg_enable_s : 1;  /**< [  1:  1](RO/H) AN enabled. */
+        uint64_t ap_ag_restart_aneg_s  : 1;  /**< [  2:  2](RO/H) AN restart. */
+        uint64_t ap_ag_link_s          : 1;  /**< [  3:  3](RO/H) Ap_ag_link_s */
+        uint64_t ap_ag_hcd_resolved_s  : 1;  /**< [  4:  4](RO/H) AN HCD resolved. */
+        uint64_t aa_link_good_s        : 1;  /**< [  5:  5](RO/H) Aa_link_good_s */
+        uint64_t ap_ag_rx_pause_enable_s : 1;/**< [  6:  6](RO/H) AN pause resolution - RX enabled. */
+        uint64_t ap_ag_tx_pause_enable_s : 1;/**< [  7:  7](RO/H) AN pause resolution - TX enabled. */
+        uint64_t ap_fec_enable_s       : 1;  /**< [  8:  8](RO/H) AN FEC resolution -
+                                                                 Resolved BASE-R FEC. */
+        uint64_t ap_rsfec_enable_s     : 1;  /**< [  9:  9](RO/H) AN FEC resolution -
+                                                                 Resolved RS-FEC. */
+        uint64_t ag_llfec_enable_s     : 1;  /**< [ 10: 10](RO/H) Ag_llfec_enable_s */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_status2_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_status2 cavm_rpmx_anp_portx_an_status2_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_STATUS2(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c068ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_STATUS2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_STATUS2(a,b) cavm_rpmx_anp_portx_an_status2_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_STATUS2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_STATUS2(a,b) "RPMX_ANP_PORTX_AN_STATUS2"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_STATUS2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_STATUS2(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_STATUS2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_tied_in
+ *
+ * RPM Anp Port An Tied In Register
+ * General inputs towards AN.
+ * should keep defaults in functional mode.
+ */
+union cavm_rpmx_anp_portx_an_tied_in
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_tied_in_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t z80_rsfec_enable_s    : 1;  /**< [ 23: 23](R/W) External resolution override - rs fec.
+                                                                 always set to 0x0. */
+        uint64_t z80_resolved_s        : 1;  /**< [ 22: 22](R/W) External resolution override - resolved.
+                                                                 always set to 0x0. */
+        uint64_t z80_llfec_enable_s    : 1;  /**< [ 21: 21](R/W) External resolution override - ll fec.
+                                                                 always set to 0x0. */
+        uint64_t z80_fec_enable_s      : 1;  /**< [ 20: 20](R/W) External resolution override - fec.
+                                                                 always set to 0x0. */
+        uint64_t z80_ag_mode_s         : 5;  /**< [ 19: 15](R/W) External resolution override - speed.
+                                                                 always set to 0x0. */
+        uint64_t ring_osc_a            : 1;  /**< [ 14: 14](R/W) Ring oscillator.
+                                                                 always set to 0x0. */
+        uint64_t por_fec_adv_s         : 1;  /**< [ 13: 13](R/W) Set default fec abilities value.
+                                                                 always set to 0x0. */
+        uint64_t pm_loopback_s         : 1;  /**< [ 12: 12](R/W) Loopback.
+                                                                 always set to 0x0. */
+        uint64_t pm_kr_enable_s        : 1;  /**< [ 11: 11](R/W) KR enable.
+                                                                 always set to 0x0. */
+        uint64_t far_set_restart_all_s : 1;  /**< [ 10: 10](R/W) Far clear restart.
+                                                                 always set to 0x0. */
+        uint64_t far_clear_reset_all_s : 1;  /**< [  9:  9](R/W) Far clear reset.
+                                                                 always set to 0x0. */
+        uint64_t n_aa_link_good_s      : 1;  /**< [  8:  8](R/W) Override link good.
+                                                                 always set to 0x0. */
+        uint64_t n_ag_mode_s           : 5;  /**< [  7:  3](R/W) Override AN mode.
+                                                                 always set to 0x0. */
+        uint64_t grg_3_0_15_s          : 1;  /**< [  2:  2](R/W) PCS CONTROL1[15] - PCS reset.
+                                                                 always set to 0x0. */
+        uint64_t pm_prbs_mode_s        : 1;  /**< [  1:  1](R/W) PRBS mode - always set to 0x0. */
+        uint64_t pm_ap_aneg_remote_ready_s : 1;/**< [  0:  0](R/W) Remote ready - always set to 0x1. */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_ap_aneg_remote_ready_s : 1;/**< [  0:  0](R/W) Remote ready - always set to 0x1. */
+        uint64_t pm_prbs_mode_s        : 1;  /**< [  1:  1](R/W) PRBS mode - always set to 0x0. */
+        uint64_t grg_3_0_15_s          : 1;  /**< [  2:  2](R/W) PCS CONTROL1[15] - PCS reset.
+                                                                 always set to 0x0. */
+        uint64_t n_ag_mode_s           : 5;  /**< [  7:  3](R/W) Override AN mode.
+                                                                 always set to 0x0. */
+        uint64_t n_aa_link_good_s      : 1;  /**< [  8:  8](R/W) Override link good.
+                                                                 always set to 0x0. */
+        uint64_t far_clear_reset_all_s : 1;  /**< [  9:  9](R/W) Far clear reset.
+                                                                 always set to 0x0. */
+        uint64_t far_set_restart_all_s : 1;  /**< [ 10: 10](R/W) Far clear restart.
+                                                                 always set to 0x0. */
+        uint64_t pm_kr_enable_s        : 1;  /**< [ 11: 11](R/W) KR enable.
+                                                                 always set to 0x0. */
+        uint64_t pm_loopback_s         : 1;  /**< [ 12: 12](R/W) Loopback.
+                                                                 always set to 0x0. */
+        uint64_t por_fec_adv_s         : 1;  /**< [ 13: 13](R/W) Set default fec abilities value.
+                                                                 always set to 0x0. */
+        uint64_t ring_osc_a            : 1;  /**< [ 14: 14](R/W) Ring oscillator.
+                                                                 always set to 0x0. */
+        uint64_t z80_ag_mode_s         : 5;  /**< [ 19: 15](R/W) External resolution override - speed.
+                                                                 always set to 0x0. */
+        uint64_t z80_fec_enable_s      : 1;  /**< [ 20: 20](R/W) External resolution override - fec.
+                                                                 always set to 0x0. */
+        uint64_t z80_llfec_enable_s    : 1;  /**< [ 21: 21](R/W) External resolution override - ll fec.
+                                                                 always set to 0x0. */
+        uint64_t z80_resolved_s        : 1;  /**< [ 22: 22](R/W) External resolution override - resolved.
+                                                                 always set to 0x0. */
+        uint64_t z80_rsfec_enable_s    : 1;  /**< [ 23: 23](R/W) External resolution override - rs fec.
+                                                                 always set to 0x0. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_tied_in_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_tied_in cavm_rpmx_anp_portx_an_tied_in_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIED_IN(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIED_IN(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c050ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_TIED_IN", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_TIED_IN(a,b) cavm_rpmx_anp_portx_an_tied_in_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_TIED_IN(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_TIED_IN(a,b) "RPMX_ANP_PORTX_AN_TIED_IN"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_TIED_IN(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_TIED_IN(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_TIED_IN(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_timers
+ *
+ * RPM Anp Port An Timers Register
+ * Short AN timers for simulation purpose.
+ */
+union cavm_rpmx_anp_portx_an_timers
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_timers_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_autoneg_wait_timer_fast_val : 16;/**< [ 31: 16](R/W) When autoneg_wait_timer_fast is set, this value is used for autoneg_wait_timer. */
+        uint64_t rg_break_link_timer_fast_val : 16;/**< [ 15:  0](R/W) When break_link_timer_fast is set, this value is used for break_link_timer. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_break_link_timer_fast_val : 16;/**< [ 15:  0](R/W) When break_link_timer_fast is set, this value is used for break_link_timer. */
+        uint64_t rg_autoneg_wait_timer_fast_val : 16;/**< [ 31: 16](R/W) When autoneg_wait_timer_fast is set, this value is used for autoneg_wait_timer. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_timers_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_timers cavm_rpmx_anp_portx_an_timers_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c040ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_TIMERS", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_TIMERS(a,b) cavm_rpmx_anp_portx_an_timers_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_TIMERS(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_TIMERS(a,b) "RPMX_ANP_PORTX_AN_TIMERS"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_TIMERS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_TIMERS(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_TIMERS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_an_timers1
+ *
+ * RPM Anp Port An Timers1 Register
+ * Short AN timers for simulation purpose.
+ */
+union cavm_rpmx_anp_portx_an_timers1
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_an_timers1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_timer2_fast_val    : 16; /**< [ 31: 16](R/W) When timer2_fast is set, this value is taken for timer2.
+                                                                 *Minimal wait time before checking link_status in AN_GOOD_CHECK state. */
+        uint64_t rg_link_fail_inhibit_timer_fast_val : 16;/**< [ 15:  0](R/W) When link_fail_inhibit_timer_fast is set, this value is taken for link_fail_inhibit_timer. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_link_fail_inhibit_timer_fast_val : 16;/**< [ 15:  0](R/W) When link_fail_inhibit_timer_fast is set, this value is taken for link_fail_inhibit_timer. */
+        uint64_t rg_timer2_fast_val    : 16; /**< [ 31: 16](R/W) When timer2_fast is set, this value is taken for timer2.
+                                                                 *Minimal wait time before checking link_status in AN_GOOD_CHECK state. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_an_timers1_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_an_timers1 cavm_rpmx_anp_portx_an_timers1_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS1(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c048ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_AN_TIMERS1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_AN_TIMERS1(a,b) cavm_rpmx_anp_portx_an_timers1_t
+#define bustype_CAVM_RPMX_ANP_PORTX_AN_TIMERS1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_AN_TIMERS1(a,b) "RPMX_ANP_PORTX_AN_TIMERS1"
+#define device_bar_CAVM_RPMX_ANP_PORTX_AN_TIMERS1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_AN_TIMERS1(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_AN_TIMERS1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_dsp_rxup_max_timer
+ *
+ * RPM Anp Port Ch Dsp Rxup Max Timer Register
+ * CH SM Max timer for states RX_SD and TXRX_SD.
+ */
+union cavm_rpmx_anp_portx_ch_dsp_rxup_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_dsp_rxup_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t rg_dsp_rxup_max_timer_inf : 1;/**< [ 15: 15](R/W) Disable dsp_rxup max timer. */
+        uint64_t rg_dsp_rxup_max_timer : 15; /**< [ 14:  0](R/W) CH SM Max timer for states RX_SD and TXRX_SD.
+                                                                 can be disabled by rg_dsp_rxup_max_timer_inf.
+                                                                 default value is ~6400ns.
+                                                                 value is multiplied by 2^19. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_dsp_rxup_max_timer : 15; /**< [ 14:  0](R/W) CH SM Max timer for states RX_SD and TXRX_SD.
+                                                                 can be disabled by rg_dsp_rxup_max_timer_inf.
+                                                                 default value is ~6400ns.
+                                                                 value is multiplied by 2^19. */
+        uint64_t rg_dsp_rxup_max_timer_inf : 1;/**< [ 15: 15](R/W) Disable dsp_rxup max timer. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_dsp_rxup_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_dsp_rxup_max_timer cavm_rpmx_anp_portx_ch_dsp_rxup_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0d8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(a,b) cavm_rpmx_anp_portx_ch_dsp_rxup_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(a,b) "RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_pcs_lost_min_timer
+ *
+ * RPM Anp Port Ch Pcs Lost Min Timer Register
+ * CH SM Min timer to be in NORM state.
+ */
+union cavm_rpmx_anp_portx_ch_pcs_lost_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_pcs_lost_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_pcs_lost_min_timer : 32; /**< [ 31:  0](R/W) This is the minimal time CH SM will be in NORM state, before it start polling
+                                                                 for loss of link/dsp_lock/tx_ready.
+                                                                 default value is ~4998400ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_pcs_lost_min_timer : 32; /**< [ 31:  0](R/W) This is the minimal time CH SM will be in NORM state, before it start polling
+                                                                 for loss of link/dsp_lock/tx_ready.
+                                                                 default value is ~4998400ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_pcs_lost_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_pcs_lost_min_timer cavm_rpmx_anp_portx_ch_pcs_lost_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0a0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(a,b) cavm_rpmx_anp_portx_ch_pcs_lost_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(a,b) "RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_prog_max_timer
+ *
+ * RPM Anp Port Ch Prog Max Timer Register
+ * CH SM Max time to be in any PROG state.
+ */
+union cavm_rpmx_anp_portx_ch_prog_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_prog_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_prog_max_time_s   : 32; /**< [ 31:  0](R/W) CH SM Max time to be in any PROG state.
+                                                                 can be disabled by 'reg_prog_max_time_s_inf' (Control3).
+                                                                 default value is ~5ms. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_prog_max_time_s   : 32; /**< [ 31:  0](R/W) CH SM Max time to be in any PROG state.
+                                                                 can be disabled by 'reg_prog_max_time_s_inf' (Control3).
+                                                                 default value is ~5ms. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_prog_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_prog_max_timer cavm_rpmx_anp_portx_ch_prog_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0e0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_PROG_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(a,b) cavm_rpmx_anp_portx_ch_prog_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(a,b) "RPMX_ANP_PORTX_CH_PROG_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_pwrdn_min_timer
+ *
+ * RPM Anp Port Ch Pwrdn Min Timer Register
+ * Minimal timer for CH SM PWRDN state.
+ */
+union cavm_rpmx_anp_portx_ch_pwrdn_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_pwrdn_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_pwrdn_min_time_s  : 32; /**< [ 31:  0](R/W) In order for CH SM to transient from PWRDN state to PWRUP state,
+                                                                 pll_tx_ready & pll_rx_ready must be down for this duration (value of this
+                                                                 register * system clock T).
+                                                                 default value is ~9997ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_pwrdn_min_time_s  : 32; /**< [ 31:  0](R/W) In order for CH SM to transient from PWRDN state to PWRUP state,
+                                                                 pll_tx_ready & pll_rx_ready must be down for this duration (value of this
+                                                                 register * system clock T).
+                                                                 default value is ~9997ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_pwrdn_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_pwrdn_min_timer cavm_rpmx_anp_portx_ch_pwrdn_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c078ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(a,b) cavm_rpmx_anp_portx_ch_pwrdn_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(a,b) "RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_rxon_max_timer
+ *
+ * RPM Anp Port Ch Rxon Max Timer Register
+ * CH SM Max time in RXON state.
+ */
+union cavm_rpmx_anp_portx_ch_rxon_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_rxon_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_rxon_max_timer     : 32; /**< [ 31:  0](R/W) Max timer to move from RX_ON. else CH SM go to power down.
+                                                                 can be disabled by rg_rxon_max_timer_inf (Control8).
+                                                                 default value is ~9997ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_rxon_max_timer     : 32; /**< [ 31:  0](R/W) Max timer to move from RX_ON. else CH SM go to power down.
+                                                                 can be disabled by rg_rxon_max_timer_inf (Control8).
+                                                                 default value is ~9997ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_rxon_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_rxon_max_timer cavm_rpmx_anp_portx_ch_rxon_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0b8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_RXON_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(a,b) cavm_rpmx_anp_portx_ch_rxon_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(a,b) "RPMX_ANP_PORTX_CH_RXON_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_st_min_timer
+ *
+ * RPM Anp Port Ch St Min Timer Register
+ * CH SM Min timer for all states the dont have dedicated timer.
+ */
+union cavm_rpmx_anp_portx_ch_st_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_st_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_st_wait_min_s      : 32; /**< [ 31:  0](R/W) CH SM Min timer for all states the don't have dedicated timer.
+                                                                 default value is ~192ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_st_wait_min_s      : 32; /**< [ 31:  0](R/W) CH SM Min timer for all states the don't have dedicated timer.
+                                                                 default value is ~192ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_st_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_st_min_timer cavm_rpmx_anp_portx_ch_st_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0b0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_ST_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(a,b) cavm_rpmx_anp_portx_ch_st_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(a,b) "RPMX_ANP_PORTX_CH_ST_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_st_reset_min_timer
+ *
+ * RPM Anp Port Ch St Reset Min Timer Register
+ * CH SM Min timer in RESET state.
+ */
+union cavm_rpmx_anp_portx_ch_st_reset_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_st_reset_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_st_reset_min_time  : 32; /**< [ 31:  0](R/W) CH SM min time to be in state RESET when SM is enabled.
+                                                                 when expires SM moves UC to PWRDN state.
+                                                                 default value is ~998ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_st_reset_min_time  : 32; /**< [ 31:  0](R/W) CH SM min time to be in state RESET when SM is enabled.
+                                                                 when expires SM moves UC to PWRDN state.
+                                                                 default value is ~998ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_st_reset_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_st_reset_min_timer cavm_rpmx_anp_portx_ch_st_reset_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0a8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(a,b) cavm_rpmx_anp_portx_ch_st_reset_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(a,b) "RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_txon_max_timer
+ *
+ * RPM Anp Port Ch Txon Max Timer Register
+ * CH SM Max time in TXON state.
+ */
+union cavm_rpmx_anp_portx_ch_txon_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_txon_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_txon_max_timer     : 32; /**< [ 31:  0](R/W) Max timer to move from TX_ON. else CH SM go to power down.
+                                                                 can be disabled by rg_txon_max_timer_inf (Control8).
+                                                                 default value is ~9997ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_txon_max_timer     : 32; /**< [ 31:  0](R/W) Max timer to move from TX_ON. else CH SM go to power down.
+                                                                 can be disabled by rg_txon_max_timer_inf (Control8).
+                                                                 default value is ~9997ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_txon_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_txon_max_timer cavm_rpmx_anp_portx_ch_txon_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0c0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_TXON_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(a,b) cavm_rpmx_anp_portx_ch_txon_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(a,b) "RPMX_ANP_PORTX_CH_TXON_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_txrx_max_timer
+ *
+ * RPM Anp Port Ch Txrx Max Timer Register
+ * CH SM Max timer to be in PWRUP state.
+ */
+union cavm_rpmx_anp_portx_ch_txrx_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_txrx_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_txrx_max_timer     : 32; /**< [ 31:  0](R/W) When CH SM is in PWRUP state, if this timer expires prior to getting tx_ready / dsp_sigdet,
+                                                                 it is timeout and CH SM will move to PWRDN state.
+                                                                 this timer can be disabled by setting 'rg_txrx_max_timer_inf' in Control5 register.
+                                                                 default value is ~50ms. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_txrx_max_timer     : 32; /**< [ 31:  0](R/W) When CH SM is in PWRUP state, if this timer expires prior to getting tx_ready / dsp_sigdet,
+                                                                 it is timeout and CH SM will move to PWRDN state.
+                                                                 this timer can be disabled by setting 'rg_txrx_max_timer_inf' in Control5 register.
+                                                                 default value is ~50ms. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_txrx_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_txrx_max_timer cavm_rpmx_anp_portx_ch_txrx_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c098ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(a,b) cavm_rpmx_anp_portx_ch_txrx_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(a,b) "RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_txrx_min_timer
+ *
+ * RPM Anp Port Ch Txrx Min Timer Register
+ * CH SM Min timer in state PWRUP.
+ */
+union cavm_rpmx_anp_portx_ch_txrx_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_txrx_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_txrx_min_timer     : 32; /**< [ 31:  0](R/W) Till this timer expires, CH SM will state in PWRUP state and won't poll tx_ready / dsp_sigdet.
+                                                                 default value is ~9997ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_txrx_min_timer     : 32; /**< [ 31:  0](R/W) Till this timer expires, CH SM will state in PWRUP state and won't poll tx_ready / dsp_sigdet.
+                                                                 default value is ~9997ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_txrx_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_txrx_min_timer cavm_rpmx_anp_portx_ch_txrx_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c090ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(a,b) cavm_rpmx_anp_portx_ch_txrx_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(a,b) "RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_wait_pwrdn_max_timer
+ *
+ * RPM Anp Port Ch Wait Pwrdn Max Timer Register
+ * CH SM Max timer to be in WAIT_PWRDN state.
+ */
+union cavm_rpmx_anp_portx_ch_wait_pwrdn_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_wait_pwrdn_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_wait_pwrdn_max_timer : 32;/**< [ 31:  0](R/W) If CH SM is in WAIT_PWRDN state and this timer expires, it will go to PWRDN
+                                                                 state even if pwrdn_ready is not set.
+                                                                 default value is ~1ms. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_wait_pwrdn_max_timer : 32;/**< [ 31:  0](R/W) If CH SM is in WAIT_PWRDN state and this timer expires, it will go to PWRDN
+                                                                 state even if pwrdn_ready is not set.
+                                                                 default value is ~1ms. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_wait_pwrdn_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_wait_pwrdn_max_timer cavm_rpmx_anp_portx_ch_wait_pwrdn_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c080ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(a,b) cavm_rpmx_anp_portx_ch_wait_pwrdn_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(a,b) "RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_ch_wait_pwrdn_min_timer
+ *
+ * RPM Anp Port Ch Wait Pwrdn Min Timer Register
+ * CH SM Min timer to be in WAIT_PWRDN state.
+ */
+union cavm_rpmx_anp_portx_ch_wait_pwrdn_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_ch_wait_pwrdn_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_wait_pwrdn_min_timer : 32;/**< [ 31:  0](R/W) This is the minimal time CH SM will be in WAIT_PWRDN state, before it starts polling pwrdn_ready.
+                                                                 default value is ~4998ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_wait_pwrdn_min_timer : 32;/**< [ 31:  0](R/W) This is the minimal time CH SM will be in WAIT_PWRDN state, before it starts polling pwrdn_ready.
+                                                                 default value is ~4998ns. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_ch_wait_pwrdn_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_ch_wait_pwrdn_min_timer cavm_rpmx_anp_portx_ch_wait_pwrdn_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c088ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(a,b) cavm_rpmx_anp_portx_ch_wait_pwrdn_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(a,b) "RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_channel_sm_control
+ *
+ * RPM Anp Port Channel Sm Control Register
+ * Control Register for CH SM.
+ * provides - state status, ability to override state, ability to trap state.
+ */
+union cavm_rpmx_anp_portx_channel_sm_control
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_channel_sm_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t ch_sm_state           : 5;  /**< [  8:  4](R/W) Channel sm state;if ch_sm_override_ctrl[0] = 0, this field gives the status of
+                                                                 the internal channel sm state machine,;else, the last written value */
+        uint64_t ch_sm_bp_reached      : 1;  /**< [  3:  3](RO/H) Break point reached.;If ch_sm_override_ctrl[1] = 1 and internal state reaches
+                                                                 the value of bit [8:4], this bit is set. */
+        uint64_t ch_sm_amdisam         : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t ch_sm_override_ctrl   : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+#else /* Word 0 - Little Endian */
+        uint64_t ch_sm_override_ctrl   : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+        uint64_t ch_sm_amdisam         : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t ch_sm_bp_reached      : 1;  /**< [  3:  3](RO/H) Break point reached.;If ch_sm_override_ctrl[1] = 1 and internal state reaches
+                                                                 the value of bit [8:4], this bit is set. */
+        uint64_t ch_sm_state           : 5;  /**< [  8:  4](R/W) Channel sm state;if ch_sm_override_ctrl[0] = 0, this field gives the status of
+                                                                 the internal channel sm state machine,;else, the last written value */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_channel_sm_control_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_channel_sm_control cavm_rpmx_anp_portx_channel_sm_control_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c020ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CHANNEL_SM_CONTROL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(a,b) cavm_rpmx_anp_portx_channel_sm_control_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(a,b) "RPMX_ANP_PORTX_CHANNEL_SM_CONTROL"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_cmd_line#_hi
+ *
+ * RPM Anp Port Cmd Line Hi Register
+ * 16MSB of command interface cmem in line 2*b and 2*b+1
+ */
+union cavm_rpmx_anp_portx_cmd_linex_hi
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_cmd_linex_hi_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cmd_line2_hi          : 16; /**< [ 31: 16](R/W) 16MSB of command interface cmem in line 2*b+1
+                                                                 interrupt_data[21:6] */
+        uint64_t cmd_line_hi           : 16; /**< [ 15:  0](R/W) 16MSB of command interface cmem in line 2*b
+                                                                 interrupt_data[21:6] */
+#else /* Word 0 - Little Endian */
+        uint64_t cmd_line_hi           : 16; /**< [ 15:  0](R/W) 16MSB of command interface cmem in line 2*b
+                                                                 interrupt_data[21:6] */
+        uint64_t cmd_line2_hi          : 16; /**< [ 31: 16](R/W) 16MSB of command interface cmem in line 2*b+1
+                                                                 interrupt_data[21:6] */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_cmd_linex_hi_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_cmd_linex_hi cavm_rpmx_anp_portx_cmd_linex_hi_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(uint64_t a, uint64_t b, uint64_t c)
+{
+    if ((a<=4) && (b<=3) && (c<=31))
+        return 0x87e0e805c600ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CMD_LINEX_HI", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(a,b,c) cavm_rpmx_anp_portx_cmd_linex_hi_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(a,b,c) "RPMX_ANP_PORTX_CMD_LINEX_HI"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(a,b,c) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_cmd_line#_lo
+ *
+ * RPM Anp Port Cmd Line Lo Register
+ * 32LSB of command interface cmem in line b
+ */
+union cavm_rpmx_anp_portx_cmd_linex_lo
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_cmd_linex_lo_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cmd_line_lo           : 32; /**< [ 31:  0](R/W) 32LSB of command interface cmem in line b
+                                                                 [0] = pg_en_s
+                                                                 [8:4] = pg_opmode_s
+                                                                 [11:9] = pg_couple_s
+                                                                 [15:12] = pg_fsm_field_s
+                                                                 [17:16] = pg_ap_s
+                                                                 [25:18] = interrupt code
+                                                                 [31:26] = interrupt data[5:0] */
+#else /* Word 0 - Little Endian */
+        uint64_t cmd_line_lo           : 32; /**< [ 31:  0](R/W) 32LSB of command interface cmem in line b
+                                                                 [0] = pg_en_s
+                                                                 [8:4] = pg_opmode_s
+                                                                 [11:9] = pg_couple_s
+                                                                 [15:12] = pg_fsm_field_s
+                                                                 [17:16] = pg_ap_s
+                                                                 [25:18] = interrupt code
+                                                                 [31:26] = interrupt data[5:0] */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_cmd_linex_lo_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_cmd_linex_lo cavm_rpmx_anp_portx_cmd_linex_lo_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(uint64_t a, uint64_t b, uint64_t c)
+{
+    if ((a<=4) && (b<=3) && (c<=63))
+        return 0x87e0e805c400ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x3f);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CMD_LINEX_LO", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(a,b,c) cavm_rpmx_anp_portx_cmd_linex_lo_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(a,b,c) "RPMX_ANP_PORTX_CMD_LINEX_LO"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(a,b,c) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control
+ *
+ * RPM Anp Port Control Register
+ * Set operating MODE + enable, when not operating AN.
+ * +Overrides.
+ */
+union cavm_rpmx_anp_portx_control
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_mode_50gr2_ow_val  : 1;  /**< [ 31: 31](R/W) Set override value for rg_mode_50gr2. */
+        uint64_t rg_mode_50gr2_ow      : 1;  /**< [ 30: 30](R/W) Set override for mode_50gr2. */
+        uint64_t rg_mode_40gr2_ow_val  : 1;  /**< [ 29: 29](R/W) Set override value for rg_mode_40gr2. */
+        uint64_t rg_mode_40gr2_ow      : 1;  /**< [ 28: 28](R/W) Set override for mode_40gr2. */
+        uint64_t rg_mode_40gr4_ow_val  : 1;  /**< [ 27: 27](R/W) Set override value for rg_mode_40gr4. */
+        uint64_t rg_mode_40gr4_ow      : 1;  /**< [ 26: 26](R/W) Set override for mode_40gr4. */
+        uint64_t rg_mode_25g_ow_val    : 1;  /**< [ 25: 25](R/W) Set override value for rg_mode_25g. */
+        uint64_t rg_mode_25g_ow        : 1;  /**< [ 24: 24](R/W) Set override for mode_25g. */
+        uint64_t rg_mode_10g_ow_val    : 1;  /**< [ 23: 23](R/W) Set override value for rg_mode_10g. */
+        uint64_t rg_mode_10g_ow        : 1;  /**< [ 22: 22](R/W) Set override for mode_10g. */
+        uint64_t rg_mode_5g_ow_val     : 1;  /**< [ 21: 21](R/W) Set override value for rg_mode_5g. */
+        uint64_t rg_mode_5g_ow         : 1;  /**< [ 20: 20](R/W) Set override for mode_5g. */
+        uint64_t rg_mode_2p5g_ow_val   : 1;  /**< [ 19: 19](R/W) Set override value for rg_mode_2p5g. */
+        uint64_t rg_mode_2p5g_ow       : 1;  /**< [ 18: 18](R/W) Set override for mode_2p5g. */
+        uint64_t rg_mode_1g_ow_val     : 1;  /**< [ 17: 17](R/W) Set override value for rg_mode_1g. */
+        uint64_t rg_mode_1g_ow         : 1;  /**< [ 16: 16](R/W) Set override for mode_1g. */
+        uint64_t rg_st_pcslink_max_time_norm_inf_s : 1;/**< [ 15: 15](R/W) Disable PCS link max timer when not operating AN. */
+        uint64_t reg_pwrup_cnt_clear_s : 1;  /**< [ 14: 14](R/W) Clears CH SM PWRUP counter. */
+        uint64_t custom_num_of_lanes   : 2;  /**< [ 13: 12](R/W) Choose number of physical lane when operating MODE_CUSTOM. */
+        uint64_t custom_phy_gen        : 5;  /**< [ 11:  7](R/W) Set phy_gen (SerDes speed select) when operating MODE_CUSTOM.
+                                                                 detailed speeds can be found in relevant SerDes spec. */
+        uint64_t power_down            : 1;  /**< [  6:  6](R/W) Request for power-down (main use for EEE energy efficiency). */
+        uint64_t pcs_en                : 1;  /**< [  5:  5](R/W) When not operating AN, must set in order to enable the PWM. */
+        uint64_t port_mode             : 5;  /**< [  4:  0](R/W) Select Port mode to operate. */
+#else /* Word 0 - Little Endian */
+        uint64_t port_mode             : 5;  /**< [  4:  0](R/W) Select Port mode to operate. */
+        uint64_t pcs_en                : 1;  /**< [  5:  5](R/W) When not operating AN, must set in order to enable the PWM. */
+        uint64_t power_down            : 1;  /**< [  6:  6](R/W) Request for power-down (main use for EEE energy efficiency). */
+        uint64_t custom_phy_gen        : 5;  /**< [ 11:  7](R/W) Set phy_gen (SerDes speed select) when operating MODE_CUSTOM.
+                                                                 detailed speeds can be found in relevant SerDes spec. */
+        uint64_t custom_num_of_lanes   : 2;  /**< [ 13: 12](R/W) Choose number of physical lane when operating MODE_CUSTOM. */
+        uint64_t reg_pwrup_cnt_clear_s : 1;  /**< [ 14: 14](R/W) Clears CH SM PWRUP counter. */
+        uint64_t rg_st_pcslink_max_time_norm_inf_s : 1;/**< [ 15: 15](R/W) Disable PCS link max timer when not operating AN. */
+        uint64_t rg_mode_1g_ow         : 1;  /**< [ 16: 16](R/W) Set override for mode_1g. */
+        uint64_t rg_mode_1g_ow_val     : 1;  /**< [ 17: 17](R/W) Set override value for rg_mode_1g. */
+        uint64_t rg_mode_2p5g_ow       : 1;  /**< [ 18: 18](R/W) Set override for mode_2p5g. */
+        uint64_t rg_mode_2p5g_ow_val   : 1;  /**< [ 19: 19](R/W) Set override value for rg_mode_2p5g. */
+        uint64_t rg_mode_5g_ow         : 1;  /**< [ 20: 20](R/W) Set override for mode_5g. */
+        uint64_t rg_mode_5g_ow_val     : 1;  /**< [ 21: 21](R/W) Set override value for rg_mode_5g. */
+        uint64_t rg_mode_10g_ow        : 1;  /**< [ 22: 22](R/W) Set override for mode_10g. */
+        uint64_t rg_mode_10g_ow_val    : 1;  /**< [ 23: 23](R/W) Set override value for rg_mode_10g. */
+        uint64_t rg_mode_25g_ow        : 1;  /**< [ 24: 24](R/W) Set override for mode_25g. */
+        uint64_t rg_mode_25g_ow_val    : 1;  /**< [ 25: 25](R/W) Set override value for rg_mode_25g. */
+        uint64_t rg_mode_40gr4_ow      : 1;  /**< [ 26: 26](R/W) Set override for mode_40gr4. */
+        uint64_t rg_mode_40gr4_ow_val  : 1;  /**< [ 27: 27](R/W) Set override value for rg_mode_40gr4. */
+        uint64_t rg_mode_40gr2_ow      : 1;  /**< [ 28: 28](R/W) Set override for mode_40gr2. */
+        uint64_t rg_mode_40gr2_ow_val  : 1;  /**< [ 29: 29](R/W) Set override value for rg_mode_40gr2. */
+        uint64_t rg_mode_50gr2_ow      : 1;  /**< [ 30: 30](R/W) Set override for mode_50gr2. */
+        uint64_t rg_mode_50gr2_ow_val  : 1;  /**< [ 31: 31](R/W) Set override value for rg_mode_50gr2. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control cavm_rpmx_anp_portx_control_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c178ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL(a,b) cavm_rpmx_anp_portx_control_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL(a,b) "RPMX_ANP_PORTX_CONTROL"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control1
+ *
+ * RPM Anp Port Control1 Register
+ * Overrides.
+ */
+union cavm_rpmx_anp_portx_control1
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rg_mode_custom_ow_val : 1;  /**< [ 31: 31](R/W) Set override value for rg_mode_custom. */
+        uint64_t rg_mode_custom_ow     : 1;  /**< [ 30: 30](R/W) Set override for mode_custom. */
+        uint64_t rg_mode_usx20g_ow_val : 1;  /**< [ 29: 29](R/W) Set override value for rg_mode_usx20g. */
+        uint64_t rg_mode_usx20g_ow     : 1;  /**< [ 28: 28](R/W) Set override for mode_usx20g. */
+        uint64_t rg_mode_usx10g_ow_val : 1;  /**< [ 27: 27](R/W) Set override value for rg_mode_usx10g. */
+        uint64_t rg_mode_usx10g_ow     : 1;  /**< [ 26: 26](R/W) Set override for mode_usx10g. */
+        uint64_t rg_mode_usx5g_ow_val  : 1;  /**< [ 25: 25](R/W) Set override value for rg_mode_usx5g. */
+        uint64_t rg_mode_usx5g_ow      : 1;  /**< [ 24: 24](R/W) Set override for mode_usx5g. */
+        uint64_t rg_mode_usx2p5g_ow_val : 1; /**< [ 23: 23](R/W) Set override value for rg_mode_usx2p5g. */
+        uint64_t rg_mode_usx2p5g_ow    : 1;  /**< [ 22: 22](R/W) Set override for mode_usx2p5g. */
+        uint64_t rg_mode_usgmii_ow_val : 1;  /**< [ 21: 21](R/W) Set override value for rg_mode_usgmii. */
+        uint64_t rg_mode_usgmii_ow     : 1;  /**< [ 20: 20](R/W) Set override for mode_usgmii. */
+        uint64_t rg_mode_qsgmii_ow_val : 1;  /**< [ 19: 19](R/W) Set override value for rg_mode_qsgmii. */
+        uint64_t rg_mode_qsgmii_ow     : 1;  /**< [ 18: 18](R/W) Set override for mode_qsgmii. */
+        uint64_t rg_mode_428gr8_ow_val : 1;  /**< [ 17: 17](R/W) Set override value for rg_mode_428gr8. */
+        uint64_t rg_mode_428gr8_ow     : 1;  /**< [ 16: 16](R/W) Set override for mode_428gr8. */
+        uint64_t rg_mode_400gr8_ow_val : 1;  /**< [ 15: 15](R/W) Set override value for rg_mode_400gr8. */
+        uint64_t rg_mode_400gr8_ow     : 1;  /**< [ 14: 14](R/W) Set override for mode_400gr8. */
+        uint64_t rg_mode_200gr4_ow_val : 1;  /**< [ 13: 13](R/W) Set override value for rg_mode_200gr4. */
+        uint64_t rg_mode_200gr4_ow     : 1;  /**< [ 12: 12](R/W) Set override for mode_200gr4. */
+        uint64_t rg_mode_200gr8_ow_val : 1;  /**< [ 11: 11](R/W) Set override value for rg_mode_200gr8. */
+        uint64_t rg_mode_200gr8_ow     : 1;  /**< [ 10: 10](R/W) Set override for mode_200gr8. */
+        uint64_t rg_mode_107gr2_ow_val : 1;  /**< [  9:  9](R/W) Set override value for rg_mode_107gr2. */
+        uint64_t rg_mode_107gr2_ow     : 1;  /**< [  8:  8](R/W) Set override for mode_107gr2. */
+        uint64_t rg_mode_100gr2_ow_val : 1;  /**< [  7:  7](R/W) Set override value for rg_mode_100gr2. */
+        uint64_t rg_mode_100gr2_ow     : 1;  /**< [  6:  6](R/W) Set override for mode_100gr2. */
+        uint64_t rg_mode_110gr4_ow_val : 1;  /**< [  5:  5](R/W) Set override value for rg_mode_110gr4. */
+        uint64_t rg_mode_110gr4_ow     : 1;  /**< [  4:  4](R/W) Set override for mode_110gr4. */
+        uint64_t rg_mode_100gr4_ow_val : 1;  /**< [  3:  3](R/W) Set override value for rg_mode_100gr4. */
+        uint64_t rg_mode_100gr4_ow     : 1;  /**< [  2:  2](R/W) Set override for mode_100gr4. */
+        uint64_t rg_mode_50gr_ow_val   : 1;  /**< [  1:  1](R/W) Set override value for rg_mode_50gr. */
+        uint64_t rg_mode_50gr_ow       : 1;  /**< [  0:  0](R/W) Set override for mode_50gr. */
+#else /* Word 0 - Little Endian */
+        uint64_t rg_mode_50gr_ow       : 1;  /**< [  0:  0](R/W) Set override for mode_50gr. */
+        uint64_t rg_mode_50gr_ow_val   : 1;  /**< [  1:  1](R/W) Set override value for rg_mode_50gr. */
+        uint64_t rg_mode_100gr4_ow     : 1;  /**< [  2:  2](R/W) Set override for mode_100gr4. */
+        uint64_t rg_mode_100gr4_ow_val : 1;  /**< [  3:  3](R/W) Set override value for rg_mode_100gr4. */
+        uint64_t rg_mode_110gr4_ow     : 1;  /**< [  4:  4](R/W) Set override for mode_110gr4. */
+        uint64_t rg_mode_110gr4_ow_val : 1;  /**< [  5:  5](R/W) Set override value for rg_mode_110gr4. */
+        uint64_t rg_mode_100gr2_ow     : 1;  /**< [  6:  6](R/W) Set override for mode_100gr2. */
+        uint64_t rg_mode_100gr2_ow_val : 1;  /**< [  7:  7](R/W) Set override value for rg_mode_100gr2. */
+        uint64_t rg_mode_107gr2_ow     : 1;  /**< [  8:  8](R/W) Set override for mode_107gr2. */
+        uint64_t rg_mode_107gr2_ow_val : 1;  /**< [  9:  9](R/W) Set override value for rg_mode_107gr2. */
+        uint64_t rg_mode_200gr8_ow     : 1;  /**< [ 10: 10](R/W) Set override for mode_200gr8. */
+        uint64_t rg_mode_200gr8_ow_val : 1;  /**< [ 11: 11](R/W) Set override value for rg_mode_200gr8. */
+        uint64_t rg_mode_200gr4_ow     : 1;  /**< [ 12: 12](R/W) Set override for mode_200gr4. */
+        uint64_t rg_mode_200gr4_ow_val : 1;  /**< [ 13: 13](R/W) Set override value for rg_mode_200gr4. */
+        uint64_t rg_mode_400gr8_ow     : 1;  /**< [ 14: 14](R/W) Set override for mode_400gr8. */
+        uint64_t rg_mode_400gr8_ow_val : 1;  /**< [ 15: 15](R/W) Set override value for rg_mode_400gr8. */
+        uint64_t rg_mode_428gr8_ow     : 1;  /**< [ 16: 16](R/W) Set override for mode_428gr8. */
+        uint64_t rg_mode_428gr8_ow_val : 1;  /**< [ 17: 17](R/W) Set override value for rg_mode_428gr8. */
+        uint64_t rg_mode_qsgmii_ow     : 1;  /**< [ 18: 18](R/W) Set override for mode_qsgmii. */
+        uint64_t rg_mode_qsgmii_ow_val : 1;  /**< [ 19: 19](R/W) Set override value for rg_mode_qsgmii. */
+        uint64_t rg_mode_usgmii_ow     : 1;  /**< [ 20: 20](R/W) Set override for mode_usgmii. */
+        uint64_t rg_mode_usgmii_ow_val : 1;  /**< [ 21: 21](R/W) Set override value for rg_mode_usgmii. */
+        uint64_t rg_mode_usx2p5g_ow    : 1;  /**< [ 22: 22](R/W) Set override for mode_usx2p5g. */
+        uint64_t rg_mode_usx2p5g_ow_val : 1; /**< [ 23: 23](R/W) Set override value for rg_mode_usx2p5g. */
+        uint64_t rg_mode_usx5g_ow      : 1;  /**< [ 24: 24](R/W) Set override for mode_usx5g. */
+        uint64_t rg_mode_usx5g_ow_val  : 1;  /**< [ 25: 25](R/W) Set override value for rg_mode_usx5g. */
+        uint64_t rg_mode_usx10g_ow     : 1;  /**< [ 26: 26](R/W) Set override for mode_usx10g. */
+        uint64_t rg_mode_usx10g_ow_val : 1;  /**< [ 27: 27](R/W) Set override value for rg_mode_usx10g. */
+        uint64_t rg_mode_usx20g_ow     : 1;  /**< [ 28: 28](R/W) Set override for mode_usx20g. */
+        uint64_t rg_mode_usx20g_ow_val : 1;  /**< [ 29: 29](R/W) Set override value for rg_mode_usx20g. */
+        uint64_t rg_mode_custom_ow     : 1;  /**< [ 30: 30](R/W) Set override for mode_custom. */
+        uint64_t rg_mode_custom_ow_val : 1;  /**< [ 31: 31](R/W) Set override value for rg_mode_custom. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control1_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control1 cavm_rpmx_anp_portx_control1_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL1(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c180ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL1(a,b) cavm_rpmx_anp_portx_control1_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL1(a,b) "RPMX_ANP_PORTX_CONTROL1"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL1(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control10
+ *
+ * RPM Anp Port Control10 Register
+ * Overrides + configurations + CH SM options.
+ */
+union cavm_rpmx_anp_portx_control10
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_reset_en_pu_pll_s : 1;  /**< [ 31: 31](R/W) When set, soft reset to COMPHY SMs during rx_pll_up / tx_pll_up will take SM to
+                                                                 idle and abort init.
+                                                                 when not set and COMPHY SMs are in rx_pll_up / tx_pll_up, it will set rx_busy / tx_busy. */
+        uint64_t reg_reset_en_rx_init_s : 1; /**< [ 30: 30](R/W) When set, soft reset to COMPHY SM during rx_init will take SM to idle and abort init.
+                                                                 when not set and rx_init is on going, it will set rx_busy. */
+        uint64_t reg_reset_en_rx_train_s : 1;/**< [ 29: 29](R/W) When set, soft reset to COMPHY SM during rx_train will take SM to idle and abort training.
+                                                                 when not set and rx_train is on going, it will set rx_busy. */
+        uint64_t reg_reset_en_tx_train_s : 1;/**< [ 28: 28](R/W) When set, soft reset to COMPHY SM during tx_train will take SM to idle and abort training.
+                                                                 additionally it will make soft reset raise tx_idle.
+                                                                 when not set and tx_train is on going, it will set tx_busy. */
+        uint64_t reg_tx_train_dsp_sigdet_sel_s : 2;/**< [ 27: 26](R/W) Defines the driver for dsp_sigdet when train_type is tx_train.
+                                                                 0x0: pll_ready_rx_s
+                                                                 0x1: pll_ready_rx_s & pll_ready_tx_s & tx_done_ok
+                                                                 0x2 / 0x3: pll_ready_rx_s & pll_ready_tx_s */
+        uint64_t txt_txstr_pu_pll_tx_value : 1;/**< [ 25: 25](R/W) Value of pu_pll_tx for TXSTR states.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_txrx_sd_timeout_pwrdn_instead_rxstr : 1;/**< [ 24: 24](R/W) When set and TXRX_SD gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_txrx_on_timeout_pwrdn_instead_rxstr : 1;/**< [ 23: 23](R/W) When set and PWRUP gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_tx_ready_loss_pwrdn_instead_txstr : 1;/**< [ 22: 22](R/W) When set and tx_ready is lost after achieved already, CH SM will go to PWRDN instead of TXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_rxstr_pu_pll_rx_value : 1;/**< [ 21: 21](R/W) Value of pu_pll_rx for RXSTR states.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_no_dsp_lock_pwrdn_instead_rxstr : 1;/**< [ 20: 20](R/W) When set and dsp_lock is lost after achieved already, or not achieved within the
+                                                                 given timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_ignore_tx_ready_loss : 1;/**< [ 19: 19](R/W) When set, loss of tx_ready after achieved already, will not affect CH SM.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_ignore_dsp_sigdet_loss : 1;/**< [ 18: 18](R/W) When set, loss of dsp_sigdet after achieved already, will not affect CH SM.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_ignore_dsp_lock_loss : 1;/**< [ 17: 17](R/W) When set, loss of dsp_lock after achieved already, will not affect CH SM.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_dsp_sigdet_loss_pwrdn_instead_rxstr : 1;/**< [ 16: 16](R/W) When set and dsp_sigdet is lost after achieved already, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t sd_phy_gen_ow_val     : 5;  /**< [ 15: 11](R/W) Set override value for sd_phy_gen. */
+        uint64_t sd_phy_gen_ow         : 1;  /**< [ 10: 10](R/W) Set override for sd_phy_gen. */
+        uint64_t pm_tx_idle_s_ow_val   : 1;  /**< [  9:  9](R/W) Set override value for pm_tx_idle_s. */
+        uint64_t pm_tx_idle_s_ow       : 1;  /**< [  8:  8](R/W) Set override for pm_tx_idle_s. */
+        uint64_t pm_st_pwrdn_s_ow_val  : 1;  /**< [  7:  7](R/W) Set override value for pm_st_pwrdn_s. */
+        uint64_t pm_st_pwrdn_s_ow      : 1;  /**< [  6:  6](R/W) Set override for pm_st_pwrdn_s. */
+        uint64_t pm_st_normal_s_ow_val : 1;  /**< [  5:  5](R/W) Set override value for pm_st_normal_s. */
+        uint64_t pm_st_normal_s_ow     : 1;  /**< [  4:  4](R/W) Set override for pm_st_normal_s. */
+        uint64_t pm_pu_tx_req_s_ow_val : 1;  /**< [  3:  3](R/W) Set override value for pm_pu_tx_req_s. */
+        uint64_t pm_pu_tx_req_s_ow     : 1;  /**< [  2:  2](R/W) Set override for pm_pu_tx_req_s. */
+        uint64_t pm_pu_rx_req_s_ow_val : 1;  /**< [  1:  1](R/W) Set override value for pm_pu_rx_req_s. */
+        uint64_t pm_pu_rx_req_s_ow     : 1;  /**< [  0:  0](R/W) Set override for pm_pu_rx_req_s. */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_pu_rx_req_s_ow     : 1;  /**< [  0:  0](R/W) Set override for pm_pu_rx_req_s. */
+        uint64_t pm_pu_rx_req_s_ow_val : 1;  /**< [  1:  1](R/W) Set override value for pm_pu_rx_req_s. */
+        uint64_t pm_pu_tx_req_s_ow     : 1;  /**< [  2:  2](R/W) Set override for pm_pu_tx_req_s. */
+        uint64_t pm_pu_tx_req_s_ow_val : 1;  /**< [  3:  3](R/W) Set override value for pm_pu_tx_req_s. */
+        uint64_t pm_st_normal_s_ow     : 1;  /**< [  4:  4](R/W) Set override for pm_st_normal_s. */
+        uint64_t pm_st_normal_s_ow_val : 1;  /**< [  5:  5](R/W) Set override value for pm_st_normal_s. */
+        uint64_t pm_st_pwrdn_s_ow      : 1;  /**< [  6:  6](R/W) Set override for pm_st_pwrdn_s. */
+        uint64_t pm_st_pwrdn_s_ow_val  : 1;  /**< [  7:  7](R/W) Set override value for pm_st_pwrdn_s. */
+        uint64_t pm_tx_idle_s_ow       : 1;  /**< [  8:  8](R/W) Set override for pm_tx_idle_s. */
+        uint64_t pm_tx_idle_s_ow_val   : 1;  /**< [  9:  9](R/W) Set override value for pm_tx_idle_s. */
+        uint64_t sd_phy_gen_ow         : 1;  /**< [ 10: 10](R/W) Set override for sd_phy_gen. */
+        uint64_t sd_phy_gen_ow_val     : 5;  /**< [ 15: 11](R/W) Set override value for sd_phy_gen. */
+        uint64_t txt_dsp_sigdet_loss_pwrdn_instead_rxstr : 1;/**< [ 16: 16](R/W) When set and dsp_sigdet is lost after achieved already, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_ignore_dsp_lock_loss : 1;/**< [ 17: 17](R/W) When set, loss of dsp_lock after achieved already, will not affect CH SM.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_ignore_dsp_sigdet_loss : 1;/**< [ 18: 18](R/W) When set, loss of dsp_sigdet after achieved already, will not affect CH SM.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_ignore_tx_ready_loss : 1;/**< [ 19: 19](R/W) When set, loss of tx_ready after achieved already, will not affect CH SM.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_no_dsp_lock_pwrdn_instead_rxstr : 1;/**< [ 20: 20](R/W) When set and dsp_lock is lost after achieved already, or not achieved within the
+                                                                 given timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_rxstr_pu_pll_rx_value : 1;/**< [ 21: 21](R/W) Value of pu_pll_rx for RXSTR states.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_tx_ready_loss_pwrdn_instead_txstr : 1;/**< [ 22: 22](R/W) When set and tx_ready is lost after achieved already, CH SM will go to PWRDN instead of TXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_txrx_on_timeout_pwrdn_instead_rxstr : 1;/**< [ 23: 23](R/W) When set and PWRUP gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_txrx_sd_timeout_pwrdn_instead_rxstr : 1;/**< [ 24: 24](R/W) When set and TXRX_SD gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t txt_txstr_pu_pll_tx_value : 1;/**< [ 25: 25](R/W) Value of pu_pll_tx for TXSTR states.
+                                                                 relevant only when TX train, when there is no TX train the configurations
+                                                                 without txt_ are used instead. */
+        uint64_t reg_tx_train_dsp_sigdet_sel_s : 2;/**< [ 27: 26](R/W) Defines the driver for dsp_sigdet when train_type is tx_train.
+                                                                 0x0: pll_ready_rx_s
+                                                                 0x1: pll_ready_rx_s & pll_ready_tx_s & tx_done_ok
+                                                                 0x2 / 0x3: pll_ready_rx_s & pll_ready_tx_s */
+        uint64_t reg_reset_en_tx_train_s : 1;/**< [ 28: 28](R/W) When set, soft reset to COMPHY SM during tx_train will take SM to idle and abort training.
+                                                                 additionally it will make soft reset raise tx_idle.
+                                                                 when not set and tx_train is on going, it will set tx_busy. */
+        uint64_t reg_reset_en_rx_train_s : 1;/**< [ 29: 29](R/W) When set, soft reset to COMPHY SM during rx_train will take SM to idle and abort training.
+                                                                 when not set and rx_train is on going, it will set rx_busy. */
+        uint64_t reg_reset_en_rx_init_s : 1; /**< [ 30: 30](R/W) When set, soft reset to COMPHY SM during rx_init will take SM to idle and abort init.
+                                                                 when not set and rx_init is on going, it will set rx_busy. */
+        uint64_t reg_reset_en_pu_pll_s : 1;  /**< [ 31: 31](R/W) When set, soft reset to COMPHY SMs during rx_pll_up / tx_pll_up will take SM to
+                                                                 idle and abort init.
+                                                                 when not set and COMPHY SMs are in rx_pll_up / tx_pll_up, it will set rx_busy / tx_busy. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control10_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control10 cavm_rpmx_anp_portx_control10_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL10(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL10(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1c8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL10", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL10(a,b) cavm_rpmx_anp_portx_control10_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL10(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL10(a,b) "RPMX_ANP_PORTX_CONTROL10"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL10(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL10(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL10(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control11
+ *
+ * RPM Anp Port Control11 Register
+ * Configurations + overrides.
+ */
+union cavm_rpmx_anp_portx_control11
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t rg_wait_pwrdn_max_timer_inf : 1;/**< [ 19: 19](R/W) Disable wait_pwrdn_max_timer. */
+        uint64_t pm_clockout_gater_ow_val : 1;/**< [ 18: 18](R/W) Set override value for pm_clockout_gater */
+        uint64_t pm_clockout_gater_ow  : 1;  /**< [ 17: 17](R/W) Set override for pm_clockout_gater */
+        uint64_t sd_sw_resetn_ow_val   : 1;  /**< [ 16: 16](R/W) Set override value for sd_sw_reset_. */
+        uint64_t sd_sw_resetn_ow       : 1;  /**< [ 15: 15](R/W) Set override for sd_sw_reset_. */
+        uint64_t pu_tx_both_in_idle    : 1;  /**< [ 14: 14](R/W) When set, and no tx train, both SMs need to be in idle in order to clear pu_tx, otherwise on TX SM. */
+        uint64_t reg_prog_mask_txrxsd_s : 1; /**< [ 13: 13](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_txrxon_s : 1; /**< [ 12: 12](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_txon_s  : 1;  /**< [ 11: 11](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rxsd_s  : 1;  /**< [ 10: 10](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rxon_s  : 1;  /**< [  9:  9](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_pwrup_s : 1;  /**< [  8:  8](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_norm_s  : 1;  /**< [  7:  7](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_tx_train_s : 1;/**< [  6:  6](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_tx_restr_s : 1;/**< [  5:  5](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rx_train_s : 1;/**< [  4:  4](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rx_restr_s : 1;/**< [  3:  3](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rx_init_s : 1;/**< [  2:  2](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_pm_sd_pu_reset_on_sftrst_s : 1;/**< [  1:  1](R/W) When set, COMPHY soft reset clears pu_* signals towards COMPHY. */
+        uint64_t pu_rx_both_in_idle    : 1;  /**< [  0:  0](R/W) When set, and no tx train, both SMs need to be in idle in order to clear pu_rx, otherwise on RX SM. */
+#else /* Word 0 - Little Endian */
+        uint64_t pu_rx_both_in_idle    : 1;  /**< [  0:  0](R/W) When set, and no tx train, both SMs need to be in idle in order to clear pu_rx, otherwise on RX SM. */
+        uint64_t reg_pm_sd_pu_reset_on_sftrst_s : 1;/**< [  1:  1](R/W) When set, COMPHY soft reset clears pu_* signals towards COMPHY. */
+        uint64_t reg_prog_mask_rx_init_s : 1;/**< [  2:  2](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rx_restr_s : 1;/**< [  3:  3](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rx_train_s : 1;/**< [  4:  4](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_tx_restr_s : 1;/**< [  5:  5](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_tx_train_s : 1;/**< [  6:  6](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_norm_s  : 1;  /**< [  7:  7](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_pwrup_s : 1;  /**< [  8:  8](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rxon_s  : 1;  /**< [  9:  9](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_rxsd_s  : 1;  /**< [ 10: 10](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_txon_s  : 1;  /**< [ 11: 11](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_txrxon_s : 1; /**< [ 12: 12](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t reg_prog_mask_txrxsd_s : 1; /**< [ 13: 13](R/W) When set, prog_*_done from CMD IF has no affect for the corresponding PROG state. */
+        uint64_t pu_tx_both_in_idle    : 1;  /**< [ 14: 14](R/W) When set, and no tx train, both SMs need to be in idle in order to clear pu_tx, otherwise on TX SM. */
+        uint64_t sd_sw_resetn_ow       : 1;  /**< [ 15: 15](R/W) Set override for sd_sw_reset_. */
+        uint64_t sd_sw_resetn_ow_val   : 1;  /**< [ 16: 16](R/W) Set override value for sd_sw_reset_. */
+        uint64_t pm_clockout_gater_ow  : 1;  /**< [ 17: 17](R/W) Set override for pm_clockout_gater */
+        uint64_t pm_clockout_gater_ow_val : 1;/**< [ 18: 18](R/W) Set override value for pm_clockout_gater */
+        uint64_t rg_wait_pwrdn_max_timer_inf : 1;/**< [ 19: 19](R/W) Disable wait_pwrdn_max_timer. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control11_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control11 cavm_rpmx_anp_portx_control11_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL11(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL11(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1d0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL11", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL11(a,b) cavm_rpmx_anp_portx_control11_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL11(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL11(a,b) "RPMX_ANP_PORTX_CONTROL11"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL11(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL11(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL11(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control2
+ *
+ * RPM Anp Port Control2 Register
+ * Overrides.
+ */
+union cavm_rpmx_anp_portx_control2
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pm_softrst_s_ow_val   : 1;  /**< [ 31: 31](R/W) Set override value for softrst_s. */
+        uint64_t pm_softrst_s_ow       : 1;  /**< [ 30: 30](R/W) Set override for softrst_s (reset towards Channel SM). */
+        uint64_t pm_st_en_ow_val       : 1;  /**< [ 29: 29](R/W) Set override value for st_en. */
+        uint64_t pm_st_en_ow           : 1;  /**< [ 28: 28](R/W) Set override for st_en (enable channel SM). */
+        uint64_t pm_sd_txclk_sync_en_pll_ow_val : 1;/**< [ 27: 27](R/W) Set override value for txclk_sync_en_pll. */
+        uint64_t pm_sd_txclk_sync_en_pll_ow : 1;/**< [ 26: 26](R/W) Set override for txclk_sync_en_pll. */
+        uint64_t pm_sd_couple_mode_en_ow_val : 1;/**< [ 25: 25](R/W) Set override value for sd_couple_mode. */
+        uint64_t pm_sd_couple_mode_en_ow : 1;/**< [ 24: 24](R/W) Set override for sd_couple_mode. */
+        uint64_t pm_sd_softrst_s_ow_val : 1; /**< [ 23: 23](R/W) Set override valuesd_softrst_s. */
+        uint64_t pm_sd_softrst_s_ow    : 1;  /**< [ 22: 22](R/W) Set override for sd_softrst_s (reset towards COMPHY SMs). */
+        uint64_t pm_sd_pu_rx_ow_val    : 1;  /**< [ 21: 21](R/W) Set override value for sd_pu_rx. */
+        uint64_t pm_sd_pu_rx_ow        : 1;  /**< [ 20: 20](R/W) Set override for sd_pu_rx (SerDes RX power up). */
+        uint64_t pm_sd_pu_tx_ow_val    : 1;  /**< [ 19: 19](R/W) Set override value for sd_pu_tx. */
+        uint64_t pm_sd_pu_tx_ow        : 1;  /**< [ 18: 18](R/W) Set override for sd_pu_tx (SerDes TX power up). */
+        uint64_t pm_sd_pu_pll_ow_val   : 1;  /**< [ 17: 17](R/W) Set override value for sd_pu_pll. */
+        uint64_t pm_sd_pu_pll_ow       : 1;  /**< [ 16: 16](R/W) Set override for sd_pu_pll (SerDes PLL power up). */
+        uint64_t pm_nr_reset_ow_val    : 1;  /**< [ 15: 15](R/W) Set override value for nr_reset. */
+        uint64_t pm_nr_reset_ow        : 1;  /**< [ 14: 14](R/W) Set override for nr_reset. */
+        uint64_t pm_an_restart_ow_val  : 1;  /**< [ 13: 13](R/W) Set override value for an_restart. */
+        uint64_t pm_an_restart_ow      : 1;  /**< [ 12: 12](R/W) Set override for an_restart. */
+        uint64_t pm_sd_phy_gen_rx_ow_val : 5;/**< [ 11:  7](R/W) Set override value for RX phy_gen (SerDes speed). */
+        uint64_t pm_sd_phy_gen_rx_ow   : 1;  /**< [  6:  6](R/W) Set override for RX phy_gen (SerDes speed). */
+        uint64_t pm_sd_phy_gen_tx_ow_val : 5;/**< [  5:  1](R/W) Set override value for TX phy_gen (SerDes speed). */
+        uint64_t pm_sd_phy_gen_tx_ow   : 1;  /**< [  0:  0](R/W) Set override for TX phy_gen (SerDes speed). */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_sd_phy_gen_tx_ow   : 1;  /**< [  0:  0](R/W) Set override for TX phy_gen (SerDes speed). */
+        uint64_t pm_sd_phy_gen_tx_ow_val : 5;/**< [  5:  1](R/W) Set override value for TX phy_gen (SerDes speed). */
+        uint64_t pm_sd_phy_gen_rx_ow   : 1;  /**< [  6:  6](R/W) Set override for RX phy_gen (SerDes speed). */
+        uint64_t pm_sd_phy_gen_rx_ow_val : 5;/**< [ 11:  7](R/W) Set override value for RX phy_gen (SerDes speed). */
+        uint64_t pm_an_restart_ow      : 1;  /**< [ 12: 12](R/W) Set override for an_restart. */
+        uint64_t pm_an_restart_ow_val  : 1;  /**< [ 13: 13](R/W) Set override value for an_restart. */
+        uint64_t pm_nr_reset_ow        : 1;  /**< [ 14: 14](R/W) Set override for nr_reset. */
+        uint64_t pm_nr_reset_ow_val    : 1;  /**< [ 15: 15](R/W) Set override value for nr_reset. */
+        uint64_t pm_sd_pu_pll_ow       : 1;  /**< [ 16: 16](R/W) Set override for sd_pu_pll (SerDes PLL power up). */
+        uint64_t pm_sd_pu_pll_ow_val   : 1;  /**< [ 17: 17](R/W) Set override value for sd_pu_pll. */
+        uint64_t pm_sd_pu_tx_ow        : 1;  /**< [ 18: 18](R/W) Set override for sd_pu_tx (SerDes TX power up). */
+        uint64_t pm_sd_pu_tx_ow_val    : 1;  /**< [ 19: 19](R/W) Set override value for sd_pu_tx. */
+        uint64_t pm_sd_pu_rx_ow        : 1;  /**< [ 20: 20](R/W) Set override for sd_pu_rx (SerDes RX power up). */
+        uint64_t pm_sd_pu_rx_ow_val    : 1;  /**< [ 21: 21](R/W) Set override value for sd_pu_rx. */
+        uint64_t pm_sd_softrst_s_ow    : 1;  /**< [ 22: 22](R/W) Set override for sd_softrst_s (reset towards COMPHY SMs). */
+        uint64_t pm_sd_softrst_s_ow_val : 1; /**< [ 23: 23](R/W) Set override valuesd_softrst_s. */
+        uint64_t pm_sd_couple_mode_en_ow : 1;/**< [ 24: 24](R/W) Set override for sd_couple_mode. */
+        uint64_t pm_sd_couple_mode_en_ow_val : 1;/**< [ 25: 25](R/W) Set override value for sd_couple_mode. */
+        uint64_t pm_sd_txclk_sync_en_pll_ow : 1;/**< [ 26: 26](R/W) Set override for txclk_sync_en_pll. */
+        uint64_t pm_sd_txclk_sync_en_pll_ow_val : 1;/**< [ 27: 27](R/W) Set override value for txclk_sync_en_pll. */
+        uint64_t pm_st_en_ow           : 1;  /**< [ 28: 28](R/W) Set override for st_en (enable channel SM). */
+        uint64_t pm_st_en_ow_val       : 1;  /**< [ 29: 29](R/W) Set override value for st_en. */
+        uint64_t pm_softrst_s_ow       : 1;  /**< [ 30: 30](R/W) Set override for softrst_s (reset towards Channel SM). */
+        uint64_t pm_softrst_s_ow_val   : 1;  /**< [ 31: 31](R/W) Set override value for softrst_s. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control2_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control2 cavm_rpmx_anp_portx_control2_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL2(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c188ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL2(a,b) cavm_rpmx_anp_portx_control2_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL2(a,b) "RPMX_ANP_PORTX_CONTROL2"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL2(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control3
+ *
+ * RPM Anp Port Control3 Register
+ * Overrides + TFIFO pointers update + timeout disable.
+ */
+union cavm_rpmx_anp_portx_control3
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t tx_train_error_s_ow_val : 2;/**< [ 31: 30](R/W) Set override value for tx_train_error_s. */
+        uint64_t tx_train_error_s_ow   : 1;  /**< [ 29: 29](R/W) Set override for tx_train_error_s. */
+        uint64_t reg_rx_tfifo_r_upd    : 1;  /**< [ 28: 28](R/W) RX T-FIFO update read pointer. */
+        uint64_t reg_rx_tfifo_w_upd    : 1;  /**< [ 27: 27](R/W) RX T-FIFO update write pointer. */
+        uint64_t reg_tx_tfifo_r_upd    : 1;  /**< [ 26: 26](R/W) TX T-FIFO update read pointer. */
+        uint64_t reg_tx_tfifo_w_upd    : 1;  /**< [ 25: 25](R/W) TX T-FIFO update write pointer. */
+        uint64_t pm_sd_dfe_en_ow_val   : 1;  /**< [ 24: 24](R/W) Set override value for sd_dfe_en. */
+        uint64_t pm_sd_dfe_en_ow       : 1;  /**< [ 23: 23](R/W) Set override for sd_dfe_en. */
+        uint64_t pm_sd_dfe_pat_dis_ow_val : 1;/**< [ 22: 22](R/W) Set override value for sd_dfe_pat_dis. */
+        uint64_t pm_sd_dfe_pat_dis_ow  : 1;  /**< [ 21: 21](R/W) Set override for sd_dfe_pat_dis. */
+        uint64_t pm_tx_train_poly_sel_ow_val : 4;/**< [ 20: 17](R/W) Set override value for tx_train_poly_sel. */
+        uint64_t pm_tx_train_poly_sel_ow : 1;/**< [ 16: 16](R/W) Set override for tx_train_poly_sel. */
+        uint64_t pm_sd_dfe_update_dis_ow_val : 1;/**< [ 15: 15](R/W) Set override value for sd_dfe_update_dis. */
+        uint64_t pm_sd_dfe_update_dis_ow : 1;/**< [ 14: 14](R/W) Set override for sd_dfe_update_dis. */
+        uint64_t pm_an_hcd_resolved_ow_val : 1;/**< [ 13: 13](R/W) Set override value for an_hcd_resolved. */
+        uint64_t pm_an_hcd_resolved_ow : 1;  /**< [ 12: 12](R/W) Set override for an_hcd_resolved. */
+        uint64_t pm_sd_tx_idle_ow_val  : 1;  /**< [ 11: 11](R/W) Set override value for sd_tx_idle. */
+        uint64_t pm_sd_tx_idle_ow      : 1;  /**< [ 10: 10](R/W) Set override for sd_tx_idle. */
+        uint64_t pm_an_hcd_clear_ow_val : 1; /**< [  9:  9](R/W) Set override value for an_hcd_clear. */
+        uint64_t pm_an_hcd_clear_ow    : 1;  /**< [  8:  8](R/W) Set override for an_hcd_clear. */
+        uint64_t pm_pwrdn_ow_val       : 1;  /**< [  7:  7](R/W) Set override value for pwrdn. */
+        uint64_t pm_pwrdn_ow           : 1;  /**< [  6:  6](R/W) Set override for pwrdn. */
+        uint64_t reg_prog_max_time_s_inf : 1;/**< [  5:  5](R/W) Disable CH SM PROG max timer. */
+        uint64_t pm_train_type_mx_ow_val : 2;/**< [  4:  3](R/W) Set override value for train_type_mx. */
+        uint64_t pm_train_type_mx_ow   : 1;  /**< [  2:  2](R/W) Set override for train_type_mx. */
+        uint64_t pm_pcs_couple_ow_val  : 1;  /**< [  1:  1](R/W) Set override value for pcs_couple. */
+        uint64_t pm_pcs_couple_ow      : 1;  /**< [  0:  0](R/W) Set override for pcs_couple. */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_pcs_couple_ow      : 1;  /**< [  0:  0](R/W) Set override for pcs_couple. */
+        uint64_t pm_pcs_couple_ow_val  : 1;  /**< [  1:  1](R/W) Set override value for pcs_couple. */
+        uint64_t pm_train_type_mx_ow   : 1;  /**< [  2:  2](R/W) Set override for train_type_mx. */
+        uint64_t pm_train_type_mx_ow_val : 2;/**< [  4:  3](R/W) Set override value for train_type_mx. */
+        uint64_t reg_prog_max_time_s_inf : 1;/**< [  5:  5](R/W) Disable CH SM PROG max timer. */
+        uint64_t pm_pwrdn_ow           : 1;  /**< [  6:  6](R/W) Set override for pwrdn. */
+        uint64_t pm_pwrdn_ow_val       : 1;  /**< [  7:  7](R/W) Set override value for pwrdn. */
+        uint64_t pm_an_hcd_clear_ow    : 1;  /**< [  8:  8](R/W) Set override for an_hcd_clear. */
+        uint64_t pm_an_hcd_clear_ow_val : 1; /**< [  9:  9](R/W) Set override value for an_hcd_clear. */
+        uint64_t pm_sd_tx_idle_ow      : 1;  /**< [ 10: 10](R/W) Set override for sd_tx_idle. */
+        uint64_t pm_sd_tx_idle_ow_val  : 1;  /**< [ 11: 11](R/W) Set override value for sd_tx_idle. */
+        uint64_t pm_an_hcd_resolved_ow : 1;  /**< [ 12: 12](R/W) Set override for an_hcd_resolved. */
+        uint64_t pm_an_hcd_resolved_ow_val : 1;/**< [ 13: 13](R/W) Set override value for an_hcd_resolved. */
+        uint64_t pm_sd_dfe_update_dis_ow : 1;/**< [ 14: 14](R/W) Set override for sd_dfe_update_dis. */
+        uint64_t pm_sd_dfe_update_dis_ow_val : 1;/**< [ 15: 15](R/W) Set override value for sd_dfe_update_dis. */
+        uint64_t pm_tx_train_poly_sel_ow : 1;/**< [ 16: 16](R/W) Set override for tx_train_poly_sel. */
+        uint64_t pm_tx_train_poly_sel_ow_val : 4;/**< [ 20: 17](R/W) Set override value for tx_train_poly_sel. */
+        uint64_t pm_sd_dfe_pat_dis_ow  : 1;  /**< [ 21: 21](R/W) Set override for sd_dfe_pat_dis. */
+        uint64_t pm_sd_dfe_pat_dis_ow_val : 1;/**< [ 22: 22](R/W) Set override value for sd_dfe_pat_dis. */
+        uint64_t pm_sd_dfe_en_ow       : 1;  /**< [ 23: 23](R/W) Set override for sd_dfe_en. */
+        uint64_t pm_sd_dfe_en_ow_val   : 1;  /**< [ 24: 24](R/W) Set override value for sd_dfe_en. */
+        uint64_t reg_tx_tfifo_w_upd    : 1;  /**< [ 25: 25](R/W) TX T-FIFO update write pointer. */
+        uint64_t reg_tx_tfifo_r_upd    : 1;  /**< [ 26: 26](R/W) TX T-FIFO update read pointer. */
+        uint64_t reg_rx_tfifo_w_upd    : 1;  /**< [ 27: 27](R/W) RX T-FIFO update write pointer. */
+        uint64_t reg_rx_tfifo_r_upd    : 1;  /**< [ 28: 28](R/W) RX T-FIFO update read pointer. */
+        uint64_t tx_train_error_s_ow   : 1;  /**< [ 29: 29](R/W) Set override for tx_train_error_s. */
+        uint64_t tx_train_error_s_ow_val : 2;/**< [ 31: 30](R/W) Set override value for tx_train_error_s. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control3_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control3 cavm_rpmx_anp_portx_control3_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL3(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c190ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL3", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL3(a,b) cavm_rpmx_anp_portx_control3_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL3(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL3(a,b) "RPMX_ANP_PORTX_CONTROL3"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL3(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL3(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL3(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control4
+ *
+ * RPM Anp Port Control4 Register
+ * Overrides.
+ */
+union cavm_rpmx_anp_portx_control4
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pm_rx_init_ow_val     : 1;  /**< [ 31: 31](R/W) Set override value for pm_rx_init. */
+        uint64_t pm_rx_init_ow         : 1;  /**< [ 30: 30](R/W) Set override for pm_rx_init. */
+        uint64_t pm_dsp_lock_ow_val    : 1;  /**< [ 29: 29](R/W) Set override value for pm_dsp_lock. */
+        uint64_t pm_dsp_lock_ow        : 1;  /**< [ 28: 28](R/W) Set override for pm_dsp_lock. */
+        uint64_t pm_dsp_sigdet_ow_val  : 1;  /**< [ 27: 27](R/W) Set override value for pm_dsp_sigdet. */
+        uint64_t pm_dsp_sigdet_ow      : 1;  /**< [ 26: 26](R/W) Set override for pm_dsp_sigdet. */
+        uint64_t pm_dsp_tx_ready_ow_val : 1; /**< [ 25: 25](R/W) Set override value for pm_dsp_tx_ready. */
+        uint64_t pm_dsp_tx_ready_ow    : 1;  /**< [ 24: 24](R/W) Set override for pm_dsp_tx_ready. */
+        uint64_t pm_dsp_rxdn_ack_ow_val : 1; /**< [ 23: 23](R/W) Set override value for pm_dsp_rxdn_ack. */
+        uint64_t pm_dsp_rxdn_ack_ow    : 1;  /**< [ 22: 22](R/W) Set override for pm_dsp_rxdn_ack. */
+        uint64_t pm_dsp_txdn_ack_ow_val : 1; /**< [ 21: 21](R/W) Set override value for pm_dsp_txdn_ack. */
+        uint64_t pm_dsp_txdn_ack_ow    : 1;  /**< [ 20: 20](R/W) Set override for pm_dsp_txdn_ack. */
+        uint64_t sd_txclk_sync_start_out_ow_val : 1;/**< [ 19: 19](R/W) Set override value for sd_txclk_sync_start_out. */
+        uint64_t sd_txclk_sync_start_out_ow : 1;/**< [ 18: 18](R/W) Set override for sd_txclk_sync_start_out. */
+        uint64_t tx_train_failed_ow_val : 1; /**< [ 17: 17](R/W) Set override value for tx_train_failed. */
+        uint64_t tx_train_failed_ow    : 1;  /**< [ 16: 16](R/W) Set override for tx_train_failed. */
+        uint64_t tx_train_complete_ow_val : 1;/**< [ 15: 15](R/W) Set override value for tx_train_complete. */
+        uint64_t tx_train_complete_ow  : 1;  /**< [ 14: 14](R/W) Set override for tx_train_complete. */
+        uint64_t rx_train_failed_ow_val : 1; /**< [ 13: 13](R/W) Set override value for rx_train_failed. */
+        uint64_t rx_train_failed_ow    : 1;  /**< [ 12: 12](R/W) Set override for rx_train_failed. */
+        uint64_t rx_train_complete_ow_val : 1;/**< [ 11: 11](R/W) Set override value for rx_train_complete. */
+        uint64_t rx_train_complete_ow  : 1;  /**< [ 10: 10](R/W) Set override for rx_train_complete. */
+        uint64_t rx_init_done_ow_val   : 1;  /**< [  9:  9](R/W) Set override value for rx_init_done. */
+        uint64_t rx_init_done_ow       : 1;  /**< [  8:  8](R/W) Set override for rx_init_done. */
+        uint64_t sq_detected_lpf_ow_val : 1; /**< [  7:  7](R/W) Set override value for sq_detected_lpf. */
+        uint64_t sq_detected_lpf_ow    : 1;  /**< [  6:  6](R/W) Set override for sq_detected_lpf. */
+        uint64_t pll_ready_rx_ow_val   : 1;  /**< [  5:  5](R/W) Set override value for pll_ready_rx. */
+        uint64_t pll_ready_rx_ow       : 1;  /**< [  4:  4](R/W) Set override for pll_ready_rx. */
+        uint64_t pll_ready_tx_ow_val   : 1;  /**< [  3:  3](R/W) Set override value for pll_ready_tx. */
+        uint64_t pll_ready_tx_ow       : 1;  /**< [  2:  2](R/W) Set override for pll_ready_tx. */
+        uint64_t pm_ap_en_s_ow_val     : 1;  /**< [  1:  1](R/W) Set override value for ap_en. */
+        uint64_t pm_ap_en_s_ow         : 1;  /**< [  0:  0](R/W) Set override for ap_en. */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_ap_en_s_ow         : 1;  /**< [  0:  0](R/W) Set override for ap_en. */
+        uint64_t pm_ap_en_s_ow_val     : 1;  /**< [  1:  1](R/W) Set override value for ap_en. */
+        uint64_t pll_ready_tx_ow       : 1;  /**< [  2:  2](R/W) Set override for pll_ready_tx. */
+        uint64_t pll_ready_tx_ow_val   : 1;  /**< [  3:  3](R/W) Set override value for pll_ready_tx. */
+        uint64_t pll_ready_rx_ow       : 1;  /**< [  4:  4](R/W) Set override for pll_ready_rx. */
+        uint64_t pll_ready_rx_ow_val   : 1;  /**< [  5:  5](R/W) Set override value for pll_ready_rx. */
+        uint64_t sq_detected_lpf_ow    : 1;  /**< [  6:  6](R/W) Set override for sq_detected_lpf. */
+        uint64_t sq_detected_lpf_ow_val : 1; /**< [  7:  7](R/W) Set override value for sq_detected_lpf. */
+        uint64_t rx_init_done_ow       : 1;  /**< [  8:  8](R/W) Set override for rx_init_done. */
+        uint64_t rx_init_done_ow_val   : 1;  /**< [  9:  9](R/W) Set override value for rx_init_done. */
+        uint64_t rx_train_complete_ow  : 1;  /**< [ 10: 10](R/W) Set override for rx_train_complete. */
+        uint64_t rx_train_complete_ow_val : 1;/**< [ 11: 11](R/W) Set override value for rx_train_complete. */
+        uint64_t rx_train_failed_ow    : 1;  /**< [ 12: 12](R/W) Set override for rx_train_failed. */
+        uint64_t rx_train_failed_ow_val : 1; /**< [ 13: 13](R/W) Set override value for rx_train_failed. */
+        uint64_t tx_train_complete_ow  : 1;  /**< [ 14: 14](R/W) Set override for tx_train_complete. */
+        uint64_t tx_train_complete_ow_val : 1;/**< [ 15: 15](R/W) Set override value for tx_train_complete. */
+        uint64_t tx_train_failed_ow    : 1;  /**< [ 16: 16](R/W) Set override for tx_train_failed. */
+        uint64_t tx_train_failed_ow_val : 1; /**< [ 17: 17](R/W) Set override value for tx_train_failed. */
+        uint64_t sd_txclk_sync_start_out_ow : 1;/**< [ 18: 18](R/W) Set override for sd_txclk_sync_start_out. */
+        uint64_t sd_txclk_sync_start_out_ow_val : 1;/**< [ 19: 19](R/W) Set override value for sd_txclk_sync_start_out. */
+        uint64_t pm_dsp_txdn_ack_ow    : 1;  /**< [ 20: 20](R/W) Set override for pm_dsp_txdn_ack. */
+        uint64_t pm_dsp_txdn_ack_ow_val : 1; /**< [ 21: 21](R/W) Set override value for pm_dsp_txdn_ack. */
+        uint64_t pm_dsp_rxdn_ack_ow    : 1;  /**< [ 22: 22](R/W) Set override for pm_dsp_rxdn_ack. */
+        uint64_t pm_dsp_rxdn_ack_ow_val : 1; /**< [ 23: 23](R/W) Set override value for pm_dsp_rxdn_ack. */
+        uint64_t pm_dsp_tx_ready_ow    : 1;  /**< [ 24: 24](R/W) Set override for pm_dsp_tx_ready. */
+        uint64_t pm_dsp_tx_ready_ow_val : 1; /**< [ 25: 25](R/W) Set override value for pm_dsp_tx_ready. */
+        uint64_t pm_dsp_sigdet_ow      : 1;  /**< [ 26: 26](R/W) Set override for pm_dsp_sigdet. */
+        uint64_t pm_dsp_sigdet_ow_val  : 1;  /**< [ 27: 27](R/W) Set override value for pm_dsp_sigdet. */
+        uint64_t pm_dsp_lock_ow        : 1;  /**< [ 28: 28](R/W) Set override for pm_dsp_lock. */
+        uint64_t pm_dsp_lock_ow_val    : 1;  /**< [ 29: 29](R/W) Set override value for pm_dsp_lock. */
+        uint64_t pm_rx_init_ow         : 1;  /**< [ 30: 30](R/W) Set override for pm_rx_init. */
+        uint64_t pm_rx_init_ow_val     : 1;  /**< [ 31: 31](R/W) Set override value for pm_rx_init. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control4_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control4 cavm_rpmx_anp_portx_control4_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL4(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c198ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL4", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL4(a,b) cavm_rpmx_anp_portx_control4_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL4(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL4(a,b) "RPMX_ANP_PORTX_CONTROL4"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL4(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL4(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL4(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control5
+ *
+ * RPM Anp Port Control5 Register
+ * Overrides + timeout disable + CH SM options.
+ */
+union cavm_rpmx_anp_portx_control5
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pm_prog_pwm_txrxsd_en_mx_s_ow_val : 1;/**< [ 31: 31](R/W) Set override value for pm_prog_pwm_txrxsd_en_mx_s. */
+        uint64_t pm_prog_pwm_txrxsd_en_mx_s_ow : 1;/**< [ 30: 30](R/W) Set override for pm_prog_pwm_txrxsd_en_mx_s. */
+        uint64_t pm_prog_pwm_txrxon_en_mx_s_ow_val : 1;/**< [ 29: 29](R/W) Set override value for pm_prog_pwm_txrxon_en_mx_s. */
+        uint64_t pm_prog_pwm_txrxon_en_mx_s_ow : 1;/**< [ 28: 28](R/W) Set override for pm_prog_pwm_txrxon_en_mx_s. */
+        uint64_t pm_prog_pwm_txon_en_mx_s_ow_val : 1;/**< [ 27: 27](R/W) Set override value for pm_prog_pwm_txon_en_mx_s. */
+        uint64_t pm_prog_pwm_txon_en_mx_s_ow : 1;/**< [ 26: 26](R/W) Set override for pm_prog_pwm_txon_en_mx_s. */
+        uint64_t pm_prog_pwm_rxsd_en_mx_s_ow_val : 1;/**< [ 25: 25](R/W) Set override value for pm_prog_pwm_rxsd_en_mx_s. */
+        uint64_t pm_prog_pwm_rxsd_en_mx_s_ow : 1;/**< [ 24: 24](R/W) Set override for pm_prog_pwm_rxsd_en_mx_s. */
+        uint64_t pm_prog_pwm_rxon_en_mx_s_ow_val : 1;/**< [ 23: 23](R/W) Set override value for pm_prog_pwm_rxon_en_mx_s. */
+        uint64_t pm_prog_pwm_rxon_en_mx_s_ow : 1;/**< [ 22: 22](R/W) Set override for pm_prog_pwm_rxon_en_mx_s. */
+        uint64_t pm_prog_pwm_pwrup_en_mx_s_ow_val : 1;/**< [ 21: 21](R/W) Set override value for pm_prog_pwm_pwrup_en_mx_s. */
+        uint64_t pm_prog_pwm_pwrup_en_mx_s_ow : 1;/**< [ 20: 20](R/W) Set override for pm_prog_pwm_pwrup_en_mx_s. */
+        uint64_t pm_prog_pwm_norm_en_mx_s_ow_val : 1;/**< [ 19: 19](R/W) Set override value for pm_prog_pwm_norm_en_mx_s. */
+        uint64_t pm_prog_pwm_norm_en_mx_s_ow : 1;/**< [ 18: 18](R/W) Set override for pm_prog_pwm_norm_en_mx_s. */
+        uint64_t txstr_pu_pll_tx_value : 1;  /**< [ 17: 17](R/W) Value of pu_pll_tx for TXSTR states.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t txrx_sd_timeout_pwrdn_instead_rxstr : 1;/**< [ 16: 16](R/W) When set and TXRX_SD gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t txrx_on_timeout_pwrdn_instead_rxstr : 1;/**< [ 15: 15](R/W) When set and PWRUP gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t tx_ready_loss_pwrdn_instead_txstr : 1;/**< [ 14: 14](R/W) When set and tx_ready is lost after achieved already, CH SM will go to PWRDN instead of TXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t rxstr_pu_pll_rx_value : 1;  /**< [ 13: 13](R/W) Value of pu_pll_rx for RXSTR states.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t no_dsp_lock_pwrdn_instead_rxstr : 1;/**< [ 12: 12](R/W) When set and dsp_lock is lost after achieved already, or not achieved within the
+                                                                 given timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t ignore_tx_ready_loss  : 1;  /**< [ 11: 11](R/W) When set, loss of tx_ready after achieved already, will not affect CH SM.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t ignore_dsp_sigdet_loss : 1; /**< [ 10: 10](R/W) When set, loss of dsp_sigdet after achieved already, will not affect CH SM.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t ignore_dsp_lock_loss  : 1;  /**< [  9:  9](R/W) When set, loss of dsp_lock after achieved already, will not affect CH SM.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t dsp_sigdet_loss_pwrdn_instead_rxstr : 1;/**< [  8:  8](R/W) When set and dsp_sigdet is lost after achieved already, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t sd_rx_dtl_clamp_s_ow_val : 1;/**< [  7:  7](R/W) Set override value for sd_rx_dtl_clamp_s. */
+        uint64_t sd_rx_dtl_clamp_s_ow  : 1;  /**< [  6:  6](R/W) Set override for sd_rx_dtl_clamp_s. */
+        uint64_t reg_normal_state_lock : 1;  /**< [  5:  5](R/W) When set to 0x1, if CH SM is in NORM state, it will stay there if there is
+                                                                 link/dsp_lock/tx_ready loss. */
+        uint64_t rg_txrx_max_timer_inf : 1;  /**< [  4:  4](R/W) Disable CH SM PWRUP max timer. */
+        uint64_t pm_tx_train_enable_ow_val : 1;/**< [  3:  3](R/W) Set override value for pm_tx_train_enable. */
+        uint64_t pm_tx_train_enable_ow : 1;  /**< [  2:  2](R/W) Set override for pm_tx_train_enable. */
+        uint64_t pm_rx_train_enable_ow_val : 1;/**< [  1:  1](R/W) Set override value for pm_rx_train_enable. */
+        uint64_t pm_rx_train_enable_ow : 1;  /**< [  0:  0](R/W) Set override for pm_rx_train_enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_rx_train_enable_ow : 1;  /**< [  0:  0](R/W) Set override for pm_rx_train_enable. */
+        uint64_t pm_rx_train_enable_ow_val : 1;/**< [  1:  1](R/W) Set override value for pm_rx_train_enable. */
+        uint64_t pm_tx_train_enable_ow : 1;  /**< [  2:  2](R/W) Set override for pm_tx_train_enable. */
+        uint64_t pm_tx_train_enable_ow_val : 1;/**< [  3:  3](R/W) Set override value for pm_tx_train_enable. */
+        uint64_t rg_txrx_max_timer_inf : 1;  /**< [  4:  4](R/W) Disable CH SM PWRUP max timer. */
+        uint64_t reg_normal_state_lock : 1;  /**< [  5:  5](R/W) When set to 0x1, if CH SM is in NORM state, it will stay there if there is
+                                                                 link/dsp_lock/tx_ready loss. */
+        uint64_t sd_rx_dtl_clamp_s_ow  : 1;  /**< [  6:  6](R/W) Set override for sd_rx_dtl_clamp_s. */
+        uint64_t sd_rx_dtl_clamp_s_ow_val : 1;/**< [  7:  7](R/W) Set override value for sd_rx_dtl_clamp_s. */
+        uint64_t dsp_sigdet_loss_pwrdn_instead_rxstr : 1;/**< [  8:  8](R/W) When set and dsp_sigdet is lost after achieved already, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t ignore_dsp_lock_loss  : 1;  /**< [  9:  9](R/W) When set, loss of dsp_lock after achieved already, will not affect CH SM.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t ignore_dsp_sigdet_loss : 1; /**< [ 10: 10](R/W) When set, loss of dsp_sigdet after achieved already, will not affect CH SM.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t ignore_tx_ready_loss  : 1;  /**< [ 11: 11](R/W) When set, loss of tx_ready after achieved already, will not affect CH SM.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t no_dsp_lock_pwrdn_instead_rxstr : 1;/**< [ 12: 12](R/W) When set and dsp_lock is lost after achieved already, or not achieved within the
+                                                                 given timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t rxstr_pu_pll_rx_value : 1;  /**< [ 13: 13](R/W) Value of pu_pll_rx for RXSTR states.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t tx_ready_loss_pwrdn_instead_txstr : 1;/**< [ 14: 14](R/W) When set and tx_ready is lost after achieved already, CH SM will go to PWRDN instead of TXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t txrx_on_timeout_pwrdn_instead_rxstr : 1;/**< [ 15: 15](R/W) When set and PWRUP gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t txrx_sd_timeout_pwrdn_instead_rxstr : 1;/**< [ 16: 16](R/W) When set and TXRX_SD gets timeout, CH SM will go to PWRDN instead of RXSTR.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t txstr_pu_pll_tx_value : 1;  /**< [ 17: 17](R/W) Value of pu_pll_tx for TXSTR states.
+                                                                 relevant only when no TX train, when there is TX train the txt_ configurations are used instead. */
+        uint64_t pm_prog_pwm_norm_en_mx_s_ow : 1;/**< [ 18: 18](R/W) Set override for pm_prog_pwm_norm_en_mx_s. */
+        uint64_t pm_prog_pwm_norm_en_mx_s_ow_val : 1;/**< [ 19: 19](R/W) Set override value for pm_prog_pwm_norm_en_mx_s. */
+        uint64_t pm_prog_pwm_pwrup_en_mx_s_ow : 1;/**< [ 20: 20](R/W) Set override for pm_prog_pwm_pwrup_en_mx_s. */
+        uint64_t pm_prog_pwm_pwrup_en_mx_s_ow_val : 1;/**< [ 21: 21](R/W) Set override value for pm_prog_pwm_pwrup_en_mx_s. */
+        uint64_t pm_prog_pwm_rxon_en_mx_s_ow : 1;/**< [ 22: 22](R/W) Set override for pm_prog_pwm_rxon_en_mx_s. */
+        uint64_t pm_prog_pwm_rxon_en_mx_s_ow_val : 1;/**< [ 23: 23](R/W) Set override value for pm_prog_pwm_rxon_en_mx_s. */
+        uint64_t pm_prog_pwm_rxsd_en_mx_s_ow : 1;/**< [ 24: 24](R/W) Set override for pm_prog_pwm_rxsd_en_mx_s. */
+        uint64_t pm_prog_pwm_rxsd_en_mx_s_ow_val : 1;/**< [ 25: 25](R/W) Set override value for pm_prog_pwm_rxsd_en_mx_s. */
+        uint64_t pm_prog_pwm_txon_en_mx_s_ow : 1;/**< [ 26: 26](R/W) Set override for pm_prog_pwm_txon_en_mx_s. */
+        uint64_t pm_prog_pwm_txon_en_mx_s_ow_val : 1;/**< [ 27: 27](R/W) Set override value for pm_prog_pwm_txon_en_mx_s. */
+        uint64_t pm_prog_pwm_txrxon_en_mx_s_ow : 1;/**< [ 28: 28](R/W) Set override for pm_prog_pwm_txrxon_en_mx_s. */
+        uint64_t pm_prog_pwm_txrxon_en_mx_s_ow_val : 1;/**< [ 29: 29](R/W) Set override value for pm_prog_pwm_txrxon_en_mx_s. */
+        uint64_t pm_prog_pwm_txrxsd_en_mx_s_ow : 1;/**< [ 30: 30](R/W) Set override for pm_prog_pwm_txrxsd_en_mx_s. */
+        uint64_t pm_prog_pwm_txrxsd_en_mx_s_ow_val : 1;/**< [ 31: 31](R/W) Set override value for pm_prog_pwm_txrxsd_en_mx_s. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control5_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control5 cavm_rpmx_anp_portx_control5_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL5(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1a0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL5", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL5(a,b) cavm_rpmx_anp_portx_control5_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL5(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL5(a,b) "RPMX_ANP_PORTX_CONTROL5"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL5(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL5(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL5(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control6
+ *
+ * RPM Anp Port Control6 Register
+ * Overrides + Configurations.
+ */
+union cavm_rpmx_anp_portx_control6
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t int_enabled_ow        : 1;  /**< [ 31: 31](R/W) Set override for int_enabled of CMD (PROG) interface. */
+        uint64_t int_valid_ow          : 1;  /**< [ 30: 30](R/W) Set override for int_valid of CMD (PROG) interface. */
+        uint64_t cmem_mask             : 1;  /**< [ 29: 29](R/W) Use zeros for all lines of CMEM. */
+        uint64_t rg_force_pg_start_s   : 1;  /**< [ 28: 28](R/W) Force PROG start. */
+        uint64_t rg_prog_enable_s      : 1;  /**< [ 27: 27](R/W) When set, PROG interface is enabled. */
+        uint64_t reg_link_fail_cnt_en  : 1;  /**< [ 26: 26](R/W) Link fail counter enable */
+        uint64_t reg_dsp_lock_fail_cnt_en : 1;/**< [ 25: 25](R/W) Dsp lock counter enable */
+        uint64_t reg_an_restart_cnt_en : 1;  /**< [ 24: 24](R/W) AN restart counter enable. */
+        uint64_t reg_rx_train_failed_latch : 1;/**< [ 23: 23](R/W) Reset reg_rx_train_failed upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t reg_tx_train_failed_latch : 1;/**< [ 22: 22](R/W) Reset reg_tx_train_failed upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t reg_rx_train_complete_latch : 1;/**< [ 21: 21](R/W) Reset reg_rx_train_complete upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t reg_tx_train_complete_latch : 1;/**< [ 20: 20](R/W) Reset reg_tx_train_complete upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t pcs_cfg_done_hw_clr   : 1;  /**< [ 19: 19](R/W) When set to 0x1, pcs_cfg_done clears upon an restart. */
+        uint64_t tx_busy_no_pwrdn      : 1;  /**< [ 18: 18](R/W) When set, don't provide txdn_ack to CH SM as long as tx is busy. */
+        uint64_t rg_sel_los_sig_s      : 1;  /**< [ 17: 17](R/W) Selects if link/lock is taken from PCS/DSP for channel SM.
+                                                                 0x0: PCS
+                                                                 0x1: DSP */
+        uint64_t rg_pwrdn_rdy_s        : 1;  /**< [ 16: 16](R/W) Pcs rx&tx pwrdn rdy. */
+        uint64_t reg_sigdet_mode       : 2;  /**< [ 15: 14](R/W) Selects the sigdet driver towards the PCS:
+                                                                 0x0: signal detect.
+                                                                 0x1: dsp_sigdet (signal detect + rx pll ready)
+                                                                 0x2: pre_dsp_sigdet.
+                                                                 0x3: dsp_lock. */
+        uint64_t reg_invert_sd_tx_out_s : 1; /**< [ 13: 13](R/W) Invert the digial tx serdes interface. */
+        uint64_t reg_invert_sd_rx_in_s : 1;  /**< [ 12: 12](R/W) Invert the digial rx serdes interface. */
+        uint64_t link_status_ow_val    : 1;  /**< [ 11: 11](R/W) Value for override. */
+        uint64_t link_status_ow        : 1;  /**< [ 10: 10](R/W) When set to 0x1, link_status from PCS value is overriden with ow_val. */
+        uint64_t pm_an_pcs_clkout_sel_ow_val : 1;/**< [  9:  9](R/W) Value when override is set. */
+        uint64_t pm_an_pcs_clkout_sel_ow : 1;/**< [  8:  8](R/W) Set override for the clock mux selector,
+                                                                 which selects if clock back to SerDes is taken from ANP or PCS.
+                                                                 when set to 0x1 ow_val is used. */
+        uint64_t pm_pcs_sd_tx_resetn_ow_val : 1;/**< [  7:  7](R/W) Value when override is set. */
+        uint64_t pm_pcs_sd_tx_resetn_ow : 1; /**< [  6:  6](R/W) Override value of tx reset towards PCS.
+                                                                 The reset is Active low.
+                                                                 When this enable is set (Active high), ow_val is used for the reset value. */
+        uint64_t pm_pcs_sd_rx_resetn_ow_val : 1;/**< [  5:  5](R/W) Value when override is set. */
+        uint64_t pm_pcs_sd_rx_resetn_ow : 1; /**< [  4:  4](R/W) Override value of rx reset towards PCS.
+                                                                 The reset is Active low.
+                                                                 When this enable is set (Active high), ow_val is used for the reset value. */
+        uint64_t pm_pcs_tx_clk_ena_ow_val : 1;/**< [  3:  3](R/W) Value used when override is set. */
+        uint64_t pm_pcs_tx_clk_ena_ow  : 1;  /**< [  2:  2](R/W) Enables override for clock enabler towards PCS TX.
+                                                                 when set, value taken for the clock enable taken from ow_val. */
+        uint64_t pm_pcs_rx_clk_ena_ow_val : 1;/**< [  1:  1](R/W) Value used when override is set. */
+        uint64_t pm_pcs_rx_clk_ena_ow  : 1;  /**< [  0:  0](R/W) Enables override for clock enabler towards PCS RX.
+                                                                 when set, value taken for the clock enable taken from ow_val. */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_pcs_rx_clk_ena_ow  : 1;  /**< [  0:  0](R/W) Enables override for clock enabler towards PCS RX.
+                                                                 when set, value taken for the clock enable taken from ow_val. */
+        uint64_t pm_pcs_rx_clk_ena_ow_val : 1;/**< [  1:  1](R/W) Value used when override is set. */
+        uint64_t pm_pcs_tx_clk_ena_ow  : 1;  /**< [  2:  2](R/W) Enables override for clock enabler towards PCS TX.
+                                                                 when set, value taken for the clock enable taken from ow_val. */
+        uint64_t pm_pcs_tx_clk_ena_ow_val : 1;/**< [  3:  3](R/W) Value used when override is set. */
+        uint64_t pm_pcs_sd_rx_resetn_ow : 1; /**< [  4:  4](R/W) Override value of rx reset towards PCS.
+                                                                 The reset is Active low.
+                                                                 When this enable is set (Active high), ow_val is used for the reset value. */
+        uint64_t pm_pcs_sd_rx_resetn_ow_val : 1;/**< [  5:  5](R/W) Value when override is set. */
+        uint64_t pm_pcs_sd_tx_resetn_ow : 1; /**< [  6:  6](R/W) Override value of tx reset towards PCS.
+                                                                 The reset is Active low.
+                                                                 When this enable is set (Active high), ow_val is used for the reset value. */
+        uint64_t pm_pcs_sd_tx_resetn_ow_val : 1;/**< [  7:  7](R/W) Value when override is set. */
+        uint64_t pm_an_pcs_clkout_sel_ow : 1;/**< [  8:  8](R/W) Set override for the clock mux selector,
+                                                                 which selects if clock back to SerDes is taken from ANP or PCS.
+                                                                 when set to 0x1 ow_val is used. */
+        uint64_t pm_an_pcs_clkout_sel_ow_val : 1;/**< [  9:  9](R/W) Value when override is set. */
+        uint64_t link_status_ow        : 1;  /**< [ 10: 10](R/W) When set to 0x1, link_status from PCS value is overriden with ow_val. */
+        uint64_t link_status_ow_val    : 1;  /**< [ 11: 11](R/W) Value for override. */
+        uint64_t reg_invert_sd_rx_in_s : 1;  /**< [ 12: 12](R/W) Invert the digial rx serdes interface. */
+        uint64_t reg_invert_sd_tx_out_s : 1; /**< [ 13: 13](R/W) Invert the digial tx serdes interface. */
+        uint64_t reg_sigdet_mode       : 2;  /**< [ 15: 14](R/W) Selects the sigdet driver towards the PCS:
+                                                                 0x0: signal detect.
+                                                                 0x1: dsp_sigdet (signal detect + rx pll ready)
+                                                                 0x2: pre_dsp_sigdet.
+                                                                 0x3: dsp_lock. */
+        uint64_t rg_pwrdn_rdy_s        : 1;  /**< [ 16: 16](R/W) Pcs rx&tx pwrdn rdy. */
+        uint64_t rg_sel_los_sig_s      : 1;  /**< [ 17: 17](R/W) Selects if link/lock is taken from PCS/DSP for channel SM.
+                                                                 0x0: PCS
+                                                                 0x1: DSP */
+        uint64_t tx_busy_no_pwrdn      : 1;  /**< [ 18: 18](R/W) When set, don't provide txdn_ack to CH SM as long as tx is busy. */
+        uint64_t pcs_cfg_done_hw_clr   : 1;  /**< [ 19: 19](R/W) When set to 0x1, pcs_cfg_done clears upon an restart. */
+        uint64_t reg_tx_train_complete_latch : 1;/**< [ 20: 20](R/W) Reset reg_tx_train_complete upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t reg_rx_train_complete_latch : 1;/**< [ 21: 21](R/W) Reset reg_rx_train_complete upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t reg_tx_train_failed_latch : 1;/**< [ 22: 22](R/W) Reset reg_tx_train_failed upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t reg_rx_train_failed_latch : 1;/**< [ 23: 23](R/W) Reset reg_rx_train_failed upon de-assertion of hcd_resolved.
+                                                                 0x0: disable latch - reset upon de-assertion of hcd_resolved.
+                                                                 0x1: enable latch - don't reset upon de-assertion of hcd_resolved */
+        uint64_t reg_an_restart_cnt_en : 1;  /**< [ 24: 24](R/W) AN restart counter enable. */
+        uint64_t reg_dsp_lock_fail_cnt_en : 1;/**< [ 25: 25](R/W) Dsp lock counter enable */
+        uint64_t reg_link_fail_cnt_en  : 1;  /**< [ 26: 26](R/W) Link fail counter enable */
+        uint64_t rg_prog_enable_s      : 1;  /**< [ 27: 27](R/W) When set, PROG interface is enabled. */
+        uint64_t rg_force_pg_start_s   : 1;  /**< [ 28: 28](R/W) Force PROG start. */
+        uint64_t cmem_mask             : 1;  /**< [ 29: 29](R/W) Use zeros for all lines of CMEM. */
+        uint64_t int_valid_ow          : 1;  /**< [ 30: 30](R/W) Set override for int_valid of CMD (PROG) interface. */
+        uint64_t int_enabled_ow        : 1;  /**< [ 31: 31](R/W) Set override for int_enabled of CMD (PROG) interface. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control6_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control6 cavm_rpmx_anp_portx_control6_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL6(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL6(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1a8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL6", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL6(a,b) cavm_rpmx_anp_portx_control6_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL6(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL6(a,b) "RPMX_ANP_PORTX_CONTROL6"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL6(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL6(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL6(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control7
+ *
+ * RPM Anp Port Control7 Register
+ * Overrides + Configurations.
+ */
+union cavm_rpmx_anp_portx_control7
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_norm_st_sq_detected_mask_s : 1;/**< [ 31: 31](R/W) When set, sq_detect loss is masked if CH SM is in NORM state. */
+        uint64_t reg_dfe_frozen_s      : 1;  /**< [ 30: 30](R/W) See dfe_auto_ctrl description. */
+        uint64_t reg_dfe_auto_ctrl_s   : 1;  /**< [ 29: 29](R/W) When set, and not during TX/RX train, disable DFE update if no rx train (i.e. TX
+                                                                 train or RX init without rx train).
+                                                                 if not set, and not during TX/RX train, disable DFE update only if dfe_frozen is set. */
+        uint64_t reg_dfe_adaptation_en_s : 1;/**< [ 28: 28](R/W) Reserved. no functionality. */
+        uint64_t dsp_txstr_ack_s_ow_val : 1; /**< [ 27: 27](R/W) Set override value for dsp_txstr_ack_s. */
+        uint64_t dsp_txstr_ack_s_ow    : 1;  /**< [ 26: 26](R/W) Set override for dsp_txstr_ack_s. */
+        uint64_t dsp_rxstr_ack_s_ow_val : 1; /**< [ 25: 25](R/W) Set override value for dsp_rxstr_ack_s. */
+        uint64_t dsp_rxstr_ack_s_ow    : 1;  /**< [ 24: 24](R/W) Set override for dsp_rxstr_ack_s. */
+        uint64_t reg_rxstr_abort_rx_init_s : 1;/**< [ 23: 23](R/W) When CH SM request RXSTR, and COMPHY RX SM is during rx init,
+                                                                 if not set, rx_init will continue, else it will go to rx_done_failed. */
+        uint64_t tx_train_timeout_cnt_clear : 1;/**< [ 22: 22](R/W) Clear tx_train_timeout counter. */
+        uint64_t tx_train_ok_cnt_clear : 1;  /**< [ 21: 21](R/W) Clear tx_train_ok counter. */
+        uint64_t tx_train_failed_cnt_clear : 1;/**< [ 20: 20](R/W) Clear tx_train_failed counter. */
+        uint64_t rx_train_timeout_cnt_clear : 1;/**< [ 19: 19](R/W) Clear rx_train_timeout counter. */
+        uint64_t rx_train_ok_cnt_clear : 1;  /**< [ 18: 18](R/W) Clear rx_train_ok counter. */
+        uint64_t rx_train_failed_cnt_clear : 1;/**< [ 17: 17](R/W) Clear rx_train_failed counter. */
+        uint64_t rx_init_timeout_clear : 1;  /**< [ 16: 16](R/W) Clear rx_init_timeout counter. */
+        uint64_t rx_init_ok_cnt_clear  : 1;  /**< [ 15: 15](R/W) Clear rx_init_ok counter. */
+        uint64_t duration_clear_on_sd_rst : 1;/**< [ 14: 14](R/W) Clear debug duration counters upon soft reset to COMPHY SMs. */
+        uint64_t cnt_clear_on_sd_rst   : 1;  /**< [ 13: 13](R/W) Clear debug counters upon soft reset to COMPHY SMs. */
+        uint64_t reg_prog_txrxsd_en_s  : 1;  /**< [ 12: 12](R/W) When set, CH SM will move to PROG_TXRXSD state before moving to TXRXSD state. */
+        uint64_t reg_prog_txrxon_en_s  : 1;  /**< [ 11: 11](R/W) When set, CH SM will move to PROG_TXRXON state before moving to TXRXON state. */
+        uint64_t reg_prog_txon_en_s    : 1;  /**< [ 10: 10](R/W) When set, CH SM will move to PROG_TXON state before moving to TXON state. */
+        uint64_t reg_prog_rxsd_en_s    : 1;  /**< [  9:  9](R/W) When set, CH SM will move to PROG_RXSD state before moving to RXSD state. */
+        uint64_t reg_prog_rxon_en_s    : 1;  /**< [  8:  8](R/W) When set, CH SM will move to PROG_RXON state before moving to RXON state. */
+        uint64_t reg_prog_pwrup_en_s   : 1;  /**< [  7:  7](R/W) When set, CH SM will move to PROG_PWRUP state before moving to PWRUP state. */
+        uint64_t reg_rxstr_abort_rx_train_s : 1;/**< [  6:  6](R/W) When CH SM request RXSTR, and COMPHY RX SM is during rx train,
+                                                                 if not set, rx_train will continue, else it will go to rx_done_failed. */
+        uint64_t reg_prog_norm_en_s    : 1;  /**< [  5:  5](R/W) When set, CH SM will move to PROG_NORM state before moving to NORM state. */
+        uint64_t reserved_4            : 1;
+        uint64_t pll_ready_tx_clean_ow_val : 1;/**< [  3:  3](R/W) Set override value for pll_ready_tx_clean. */
+        uint64_t pll_ready_tx_clean_ow : 1;  /**< [  2:  2](R/W) Set override for pll_ready_tx_clean. */
+        uint64_t pll_ready_rx_clean_ow_val : 1;/**< [  1:  1](R/W) Set override value for pll_ready_rx_clean. */
+        uint64_t pll_ready_rx_clean_ow : 1;  /**< [  0:  0](R/W) Set override for pll_ready_rx_clean. */
+#else /* Word 0 - Little Endian */
+        uint64_t pll_ready_rx_clean_ow : 1;  /**< [  0:  0](R/W) Set override for pll_ready_rx_clean. */
+        uint64_t pll_ready_rx_clean_ow_val : 1;/**< [  1:  1](R/W) Set override value for pll_ready_rx_clean. */
+        uint64_t pll_ready_tx_clean_ow : 1;  /**< [  2:  2](R/W) Set override for pll_ready_tx_clean. */
+        uint64_t pll_ready_tx_clean_ow_val : 1;/**< [  3:  3](R/W) Set override value for pll_ready_tx_clean. */
+        uint64_t reserved_4            : 1;
+        uint64_t reg_prog_norm_en_s    : 1;  /**< [  5:  5](R/W) When set, CH SM will move to PROG_NORM state before moving to NORM state. */
+        uint64_t reg_rxstr_abort_rx_train_s : 1;/**< [  6:  6](R/W) When CH SM request RXSTR, and COMPHY RX SM is during rx train,
+                                                                 if not set, rx_train will continue, else it will go to rx_done_failed. */
+        uint64_t reg_prog_pwrup_en_s   : 1;  /**< [  7:  7](R/W) When set, CH SM will move to PROG_PWRUP state before moving to PWRUP state. */
+        uint64_t reg_prog_rxon_en_s    : 1;  /**< [  8:  8](R/W) When set, CH SM will move to PROG_RXON state before moving to RXON state. */
+        uint64_t reg_prog_rxsd_en_s    : 1;  /**< [  9:  9](R/W) When set, CH SM will move to PROG_RXSD state before moving to RXSD state. */
+        uint64_t reg_prog_txon_en_s    : 1;  /**< [ 10: 10](R/W) When set, CH SM will move to PROG_TXON state before moving to TXON state. */
+        uint64_t reg_prog_txrxon_en_s  : 1;  /**< [ 11: 11](R/W) When set, CH SM will move to PROG_TXRXON state before moving to TXRXON state. */
+        uint64_t reg_prog_txrxsd_en_s  : 1;  /**< [ 12: 12](R/W) When set, CH SM will move to PROG_TXRXSD state before moving to TXRXSD state. */
+        uint64_t cnt_clear_on_sd_rst   : 1;  /**< [ 13: 13](R/W) Clear debug counters upon soft reset to COMPHY SMs. */
+        uint64_t duration_clear_on_sd_rst : 1;/**< [ 14: 14](R/W) Clear debug duration counters upon soft reset to COMPHY SMs. */
+        uint64_t rx_init_ok_cnt_clear  : 1;  /**< [ 15: 15](R/W) Clear rx_init_ok counter. */
+        uint64_t rx_init_timeout_clear : 1;  /**< [ 16: 16](R/W) Clear rx_init_timeout counter. */
+        uint64_t rx_train_failed_cnt_clear : 1;/**< [ 17: 17](R/W) Clear rx_train_failed counter. */
+        uint64_t rx_train_ok_cnt_clear : 1;  /**< [ 18: 18](R/W) Clear rx_train_ok counter. */
+        uint64_t rx_train_timeout_cnt_clear : 1;/**< [ 19: 19](R/W) Clear rx_train_timeout counter. */
+        uint64_t tx_train_failed_cnt_clear : 1;/**< [ 20: 20](R/W) Clear tx_train_failed counter. */
+        uint64_t tx_train_ok_cnt_clear : 1;  /**< [ 21: 21](R/W) Clear tx_train_ok counter. */
+        uint64_t tx_train_timeout_cnt_clear : 1;/**< [ 22: 22](R/W) Clear tx_train_timeout counter. */
+        uint64_t reg_rxstr_abort_rx_init_s : 1;/**< [ 23: 23](R/W) When CH SM request RXSTR, and COMPHY RX SM is during rx init,
+                                                                 if not set, rx_init will continue, else it will go to rx_done_failed. */
+        uint64_t dsp_rxstr_ack_s_ow    : 1;  /**< [ 24: 24](R/W) Set override for dsp_rxstr_ack_s. */
+        uint64_t dsp_rxstr_ack_s_ow_val : 1; /**< [ 25: 25](R/W) Set override value for dsp_rxstr_ack_s. */
+        uint64_t dsp_txstr_ack_s_ow    : 1;  /**< [ 26: 26](R/W) Set override for dsp_txstr_ack_s. */
+        uint64_t dsp_txstr_ack_s_ow_val : 1; /**< [ 27: 27](R/W) Set override value for dsp_txstr_ack_s. */
+        uint64_t reg_dfe_adaptation_en_s : 1;/**< [ 28: 28](R/W) Reserved. no functionality. */
+        uint64_t reg_dfe_auto_ctrl_s   : 1;  /**< [ 29: 29](R/W) When set, and not during TX/RX train, disable DFE update if no rx train (i.e. TX
+                                                                 train or RX init without rx train).
+                                                                 if not set, and not during TX/RX train, disable DFE update only if dfe_frozen is set. */
+        uint64_t reg_dfe_frozen_s      : 1;  /**< [ 30: 30](R/W) See dfe_auto_ctrl description. */
+        uint64_t reg_norm_st_sq_detected_mask_s : 1;/**< [ 31: 31](R/W) When set, sq_detect loss is masked if CH SM is in NORM state. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control7_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control7 cavm_rpmx_anp_portx_control7_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL7(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL7(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1b0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL7", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL7(a,b) cavm_rpmx_anp_portx_control7_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL7(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL7(a,b) "RPMX_ANP_PORTX_CONTROL7"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL7(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL7(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL7(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control8
+ *
+ * RPM Anp Port Control8 Register
+ * Overrides + timeout disable + configurations.
+ */
+union cavm_rpmx_anp_portx_control8
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t int_code_ow           : 1;  /**< [ 31: 31](R/W) Set override for int_code. */
+        uint64_t int_data_ow           : 1;  /**< [ 30: 30](R/W) Set override for int_data. */
+        uint64_t pg_en_mx_s_ow_val     : 1;  /**< [ 29: 29](R/W) Set override value for pg_en_mx_s. */
+        uint64_t pg_en_mx_s_ow         : 1;  /**< [ 28: 28](R/W) Set override for pg_en_mx_s. */
+        uint64_t ap_match_mx_s_ow_val  : 1;  /**< [ 27: 27](R/W) Set override value for ap_match_mx_s. */
+        uint64_t ap_match_mx_s_ow      : 1;  /**< [ 26: 26](R/W) Set override for ap_match_mx_s. */
+        uint64_t couple_match_mx_s_ow_val : 1;/**< [ 25: 25](R/W) Set override value for couple_match_mx_s. */
+        uint64_t couple_match_mx_s_ow  : 1;  /**< [ 24: 24](R/W) Set override for couple_match_mx_s. */
+        uint64_t opmode_match_mx_s_ow_val : 1;/**< [ 23: 23](R/W) Set override value for opmode_match_mx_s. */
+        uint64_t opmode_match_mx_s_ow  : 1;  /**< [ 22: 22](R/W) Set override for opmode_match_mx_s. */
+        uint64_t prog_tx_done_s_ow_val : 1;  /**< [ 21: 21](R/W) Set override value for prog_tx_done_s. */
+        uint64_t prog_tx_done_s_ow     : 1;  /**< [ 20: 20](R/W) Set override for prog_tx_done_s. */
+        uint64_t prog_rx_done_s_ow_val : 1;  /**< [ 19: 19](R/W) Set override value for prog_rx_done_s. */
+        uint64_t prog_rx_done_s_ow     : 1;  /**< [ 18: 18](R/W) Set override for prog_rx_done_s. */
+        uint64_t prog_pwm_done_s_ow_val : 1; /**< [ 17: 17](R/W) Set override value for prog_pwm_done_s. */
+        uint64_t prog_pwm_done_s_ow    : 1;  /**< [ 16: 16](R/W) Set override for prog_pwm_done_s. */
+        uint64_t comphy_int_ack_mx_s_ow_val : 1;/**< [ 15: 15](R/W) Set override value for comphy_int_ack_mx_s. */
+        uint64_t comphy_int_ack_mx_s_ow : 1; /**< [ 14: 14](R/W) Set override for comphy_int_ack_mx_s. */
+        uint64_t reg_tx_auto_re_train_s : 1; /**< [ 13: 13](R/W) When set, if tx train fails, COMPHY TX SM will automatically re-do tx_train. */
+        uint64_t reg_sel_init_done_s   : 1;  /**< [ 12: 12](R/W) When set, COMPHY RX SM poll rx_init_done as it comes from COMPHY, after sync.
+                                                                 when not set, it polls a pulse generated from the rise of rx_init_done after sync. */
+        uint64_t reg_rx_auto_re_train_s : 1; /**< [ 11: 11](R/W) When set, if rx train fails, COMPHY RX SM will automatically re-do rx_init & rx_train. */
+        uint64_t pcs_cfg_done_fin_s_ow_val : 1;/**< [ 10: 10](R/W) Set override value for pcs_cfg_done_fin_s. */
+        uint64_t pcs_cfg_done_fin_s_ow : 1;  /**< [  9:  9](R/W) Set override for pcs_cfg_done_fin_s. */
+        uint64_t reg_prog_en_tx_train_s : 1; /**< [  8:  8](R/W) When set, COMPHY TX SM will move to PROG_TX_TRAIN state before moving to TX_TRAIN state. */
+        uint64_t rx_busy_no_pwrdn      : 1;  /**< [  7:  7](R/W) When set, don't provide rxdn_ack to CH SM as long as rx is busy. */
+        uint64_t reg_prog_en_rx_train_s : 1; /**< [  6:  6](R/W) When set, COMPHY RX SM will move to PROG_RX_TRAIN state before moving to RX_TRAIN state. */
+        uint64_t reg_prog_en_rx_init_s : 1;  /**< [  5:  5](R/W) When set, COMPHY RX SM will move to PROG_RX_INIT state before moving to RX_INIT state. */
+        uint64_t rg_rxon_max_timer_inf : 1;  /**< [  4:  4](R/W) Disables RX_ON max timer. */
+        uint64_t rg_txon_max_timer_inf : 1;  /**< [  3:  3](R/W) Disables TX_ON max timer. */
+        uint64_t pm_train_type_ow_val  : 2;  /**< [  2:  1](R/W) Set override value for pm_train_type. */
+        uint64_t pm_train_type_ow      : 1;  /**< [  0:  0](R/W) Set override for pm_train_type. */
+#else /* Word 0 - Little Endian */
+        uint64_t pm_train_type_ow      : 1;  /**< [  0:  0](R/W) Set override for pm_train_type. */
+        uint64_t pm_train_type_ow_val  : 2;  /**< [  2:  1](R/W) Set override value for pm_train_type. */
+        uint64_t rg_txon_max_timer_inf : 1;  /**< [  3:  3](R/W) Disables TX_ON max timer. */
+        uint64_t rg_rxon_max_timer_inf : 1;  /**< [  4:  4](R/W) Disables RX_ON max timer. */
+        uint64_t reg_prog_en_rx_init_s : 1;  /**< [  5:  5](R/W) When set, COMPHY RX SM will move to PROG_RX_INIT state before moving to RX_INIT state. */
+        uint64_t reg_prog_en_rx_train_s : 1; /**< [  6:  6](R/W) When set, COMPHY RX SM will move to PROG_RX_TRAIN state before moving to RX_TRAIN state. */
+        uint64_t rx_busy_no_pwrdn      : 1;  /**< [  7:  7](R/W) When set, don't provide rxdn_ack to CH SM as long as rx is busy. */
+        uint64_t reg_prog_en_tx_train_s : 1; /**< [  8:  8](R/W) When set, COMPHY TX SM will move to PROG_TX_TRAIN state before moving to TX_TRAIN state. */
+        uint64_t pcs_cfg_done_fin_s_ow : 1;  /**< [  9:  9](R/W) Set override for pcs_cfg_done_fin_s. */
+        uint64_t pcs_cfg_done_fin_s_ow_val : 1;/**< [ 10: 10](R/W) Set override value for pcs_cfg_done_fin_s. */
+        uint64_t reg_rx_auto_re_train_s : 1; /**< [ 11: 11](R/W) When set, if rx train fails, COMPHY RX SM will automatically re-do rx_init & rx_train. */
+        uint64_t reg_sel_init_done_s   : 1;  /**< [ 12: 12](R/W) When set, COMPHY RX SM poll rx_init_done as it comes from COMPHY, after sync.
+                                                                 when not set, it polls a pulse generated from the rise of rx_init_done after sync. */
+        uint64_t reg_tx_auto_re_train_s : 1; /**< [ 13: 13](R/W) When set, if tx train fails, COMPHY TX SM will automatically re-do tx_train. */
+        uint64_t comphy_int_ack_mx_s_ow : 1; /**< [ 14: 14](R/W) Set override for comphy_int_ack_mx_s. */
+        uint64_t comphy_int_ack_mx_s_ow_val : 1;/**< [ 15: 15](R/W) Set override value for comphy_int_ack_mx_s. */
+        uint64_t prog_pwm_done_s_ow    : 1;  /**< [ 16: 16](R/W) Set override for prog_pwm_done_s. */
+        uint64_t prog_pwm_done_s_ow_val : 1; /**< [ 17: 17](R/W) Set override value for prog_pwm_done_s. */
+        uint64_t prog_rx_done_s_ow     : 1;  /**< [ 18: 18](R/W) Set override for prog_rx_done_s. */
+        uint64_t prog_rx_done_s_ow_val : 1;  /**< [ 19: 19](R/W) Set override value for prog_rx_done_s. */
+        uint64_t prog_tx_done_s_ow     : 1;  /**< [ 20: 20](R/W) Set override for prog_tx_done_s. */
+        uint64_t prog_tx_done_s_ow_val : 1;  /**< [ 21: 21](R/W) Set override value for prog_tx_done_s. */
+        uint64_t opmode_match_mx_s_ow  : 1;  /**< [ 22: 22](R/W) Set override for opmode_match_mx_s. */
+        uint64_t opmode_match_mx_s_ow_val : 1;/**< [ 23: 23](R/W) Set override value for opmode_match_mx_s. */
+        uint64_t couple_match_mx_s_ow  : 1;  /**< [ 24: 24](R/W) Set override for couple_match_mx_s. */
+        uint64_t couple_match_mx_s_ow_val : 1;/**< [ 25: 25](R/W) Set override value for couple_match_mx_s. */
+        uint64_t ap_match_mx_s_ow      : 1;  /**< [ 26: 26](R/W) Set override for ap_match_mx_s. */
+        uint64_t ap_match_mx_s_ow_val  : 1;  /**< [ 27: 27](R/W) Set override value for ap_match_mx_s. */
+        uint64_t pg_en_mx_s_ow         : 1;  /**< [ 28: 28](R/W) Set override for pg_en_mx_s. */
+        uint64_t pg_en_mx_s_ow_val     : 1;  /**< [ 29: 29](R/W) Set override value for pg_en_mx_s. */
+        uint64_t int_data_ow           : 1;  /**< [ 30: 30](R/W) Set override for int_data. */
+        uint64_t int_code_ow           : 1;  /**< [ 31: 31](R/W) Set override for int_code. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control8_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control8 cavm_rpmx_anp_portx_control8_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL8(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL8(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1b8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL8", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL8(a,b) cavm_rpmx_anp_portx_control8_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL8(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL8(a,b) "RPMX_ANP_PORTX_CONTROL8"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL8(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL8(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL8(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_control9
+ *
+ * RPM Anp Port Control9 Register
+ * Overrides.
+ */
+union cavm_rpmx_anp_portx_control9
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_control9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t int_data_ow_val       : 22; /**< [ 31: 10](R/W) Set override value for int_data. */
+        uint64_t int_code_ow_val       : 8;  /**< [  9:  2](R/W) Set override value for int_code. */
+        uint64_t int_valid_ow_val      : 1;  /**< [  1:  1](R/W) Set override value for int_valid. */
+        uint64_t int_enabled_ow_val    : 1;  /**< [  0:  0](R/W) Set override value for int_enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_enabled_ow_val    : 1;  /**< [  0:  0](R/W) Set override value for int_enabled. */
+        uint64_t int_valid_ow_val      : 1;  /**< [  1:  1](R/W) Set override value for int_valid. */
+        uint64_t int_code_ow_val       : 8;  /**< [  9:  2](R/W) Set override value for int_code. */
+        uint64_t int_data_ow_val       : 22; /**< [ 31: 10](R/W) Set override value for int_data. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_control9_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_control9 cavm_rpmx_anp_portx_control9_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL9(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL9(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1c0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_CONTROL9", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_CONTROL9(a,b) cavm_rpmx_anp_portx_control9_t
+#define bustype_CAVM_RPMX_ANP_PORTX_CONTROL9(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_CONTROL9(a,b) "RPMX_ANP_PORTX_CONTROL9"
+#define device_bar_CAVM_RPMX_ANP_PORTX_CONTROL9(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_CONTROL9(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_CONTROL9(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_counter
+ *
+ * RPM Anp Port Counter Register
+ * Last rx_init duration.
+ */
+union cavm_rpmx_anp_portx_counter
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_counter_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stat_rx_init_duration_l : 32;/**< [ 31:  0](RO/H) Last rx_init duration in cycles of system clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_rx_init_duration_l : 32;/**< [ 31:  0](RO/H) Last rx_init duration in cycles of system clock. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_counter_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_counter cavm_rpmx_anp_portx_counter_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c208ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_COUNTER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_COUNTER(a,b) cavm_rpmx_anp_portx_counter_t
+#define bustype_CAVM_RPMX_ANP_PORTX_COUNTER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_COUNTER(a,b) "RPMX_ANP_PORTX_COUNTER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_COUNTER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_COUNTER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_COUNTER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_counter1
+ *
+ * RPM Anp Port Counter1 Register
+ * Last rx training duration.
+ */
+union cavm_rpmx_anp_portx_counter1
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_counter1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stat_rx_train_duration_l : 32;/**< [ 31:  0](RO/H) Last rx training duration in cycles of system clock (32 LSB). */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_rx_train_duration_l : 32;/**< [ 31:  0](RO/H) Last rx training duration in cycles of system clock (32 LSB). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_counter1_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_counter1 cavm_rpmx_anp_portx_counter1_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER1(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c210ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_COUNTER1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_COUNTER1(a,b) cavm_rpmx_anp_portx_counter1_t
+#define bustype_CAVM_RPMX_ANP_PORTX_COUNTER1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_COUNTER1(a,b) "RPMX_ANP_PORTX_COUNTER1"
+#define device_bar_CAVM_RPMX_ANP_PORTX_COUNTER1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_COUNTER1(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_COUNTER1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_counter2
+ *
+ * RPM Anp Port Counter2 Register
+ * Last tx training duration.
+ */
+union cavm_rpmx_anp_portx_counter2
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_counter2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stat_tx_train_duration_l : 32;/**< [ 31:  0](RO/H) Last tx training duration in cycles of system clock (32 LSB). */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_tx_train_duration_l : 32;/**< [ 31:  0](RO/H) Last tx training duration in cycles of system clock (32 LSB). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_counter2_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_counter2 cavm_rpmx_anp_portx_counter2_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER2(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c218ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_COUNTER2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_COUNTER2(a,b) cavm_rpmx_anp_portx_counter2_t
+#define bustype_CAVM_RPMX_ANP_PORTX_COUNTER2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_COUNTER2(a,b) "RPMX_ANP_PORTX_COUNTER2"
+#define device_bar_CAVM_RPMX_ANP_PORTX_COUNTER2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_COUNTER2(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_COUNTER2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_counter3
+ *
+ * RPM Anp Port Counter3 Register
+ * RX train/init counter + rx train duration.
+ */
+union cavm_rpmx_anp_portx_counter3
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_counter3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stat_rx_train_duration_l_hi : 2;/**< [ 31: 30](RO/H) Last rx train duration in cycles of system clock (2 MSB). */
+        uint64_t stat_rx_train_failed_cnt : 10;/**< [ 29: 20](RO/H) Counts the times rx train performed and failed. */
+        uint64_t stat_rx_init_timeout_cnt : 10;/**< [ 19: 10](RO/H) Counts the times init performed and had timeout. */
+        uint64_t stat_rx_init_ok_cnt   : 10; /**< [  9:  0](RO/H) Counts the times init performed and done. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_rx_init_ok_cnt   : 10; /**< [  9:  0](RO/H) Counts the times init performed and done. */
+        uint64_t stat_rx_init_timeout_cnt : 10;/**< [ 19: 10](RO/H) Counts the times init performed and had timeout. */
+        uint64_t stat_rx_train_failed_cnt : 10;/**< [ 29: 20](RO/H) Counts the times rx train performed and failed. */
+        uint64_t stat_rx_train_duration_l_hi : 2;/**< [ 31: 30](RO/H) Last rx train duration in cycles of system clock (2 MSB). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_counter3_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_counter3 cavm_rpmx_anp_portx_counter3_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER3(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c220ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_COUNTER3", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_COUNTER3(a,b) cavm_rpmx_anp_portx_counter3_t
+#define bustype_CAVM_RPMX_ANP_PORTX_COUNTER3(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_COUNTER3(a,b) "RPMX_ANP_PORTX_COUNTER3"
+#define device_bar_CAVM_RPMX_ANP_PORTX_COUNTER3(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_COUNTER3(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_COUNTER3(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_counter4
+ *
+ * RPM Anp Port Counter4 Register
+ * RX + TX Counters + Last tx train duration.
+ */
+union cavm_rpmx_anp_portx_counter4
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_counter4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stat_tx_train_duration_l_hi : 2;/**< [ 31: 30](RO/H) Last tx train duration in cycles of system clock (2 MSB). */
+        uint64_t stat_tx_train_failed_cnt : 10;/**< [ 29: 20](RO/H) Counts the times tx train performed and had timeout. */
+        uint64_t stat_rx_train_timeout_cnt : 10;/**< [ 19: 10](RO/H) Counts the times rx train performed and had timeout. */
+        uint64_t stat_rx_train_ok_cnt  : 10; /**< [  9:  0](RO/H) Counts the times rx train performed and completed successfully. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_rx_train_ok_cnt  : 10; /**< [  9:  0](RO/H) Counts the times rx train performed and completed successfully. */
+        uint64_t stat_rx_train_timeout_cnt : 10;/**< [ 19: 10](RO/H) Counts the times rx train performed and had timeout. */
+        uint64_t stat_tx_train_failed_cnt : 10;/**< [ 29: 20](RO/H) Counts the times tx train performed and had timeout. */
+        uint64_t stat_tx_train_duration_l_hi : 2;/**< [ 31: 30](RO/H) Last tx train duration in cycles of system clock (2 MSB). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_counter4_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_counter4 cavm_rpmx_anp_portx_counter4_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER4(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c228ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_COUNTER4", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_COUNTER4(a,b) cavm_rpmx_anp_portx_counter4_t
+#define bustype_CAVM_RPMX_ANP_PORTX_COUNTER4(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_COUNTER4(a,b) "RPMX_ANP_PORTX_COUNTER4"
+#define device_bar_CAVM_RPMX_ANP_PORTX_COUNTER4(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_COUNTER4(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_COUNTER4(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_counter5
+ *
+ * RPM Anp Port Counter5 Register
+ * TX counters + CH SM PWRUP counter.
+ */
+union cavm_rpmx_anp_portx_counter5
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_counter5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t pwrup_cnt_s           : 10; /**< [ 29: 20](RO/H) Counts the times CH SM been in PWRUP state. */
+        uint64_t stat_tx_train_timeout_cnt : 10;/**< [ 19: 10](RO/H) Counts the times tx train performed and had timeout. */
+        uint64_t stat_tx_train_ok_cnt  : 10; /**< [  9:  0](RO/H) Counts the times tx train performed and finished successfully. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_tx_train_ok_cnt  : 10; /**< [  9:  0](RO/H) Counts the times tx train performed and finished successfully. */
+        uint64_t stat_tx_train_timeout_cnt : 10;/**< [ 19: 10](RO/H) Counts the times tx train performed and had timeout. */
+        uint64_t pwrup_cnt_s           : 10; /**< [ 29: 20](RO/H) Counts the times CH SM been in PWRUP state. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_counter5_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_counter5 cavm_rpmx_anp_portx_counter5_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER5(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c230ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_COUNTER5", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_COUNTER5(a,b) cavm_rpmx_anp_portx_counter5_t
+#define bustype_CAVM_RPMX_ANP_PORTX_COUNTER5(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_COUNTER5(a,b) "RPMX_ANP_PORTX_COUNTER5"
+#define device_bar_CAVM_RPMX_ANP_PORTX_COUNTER5(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_COUNTER5(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_COUNTER5(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_dsp_lock_fail_counter
+ *
+ * RPM Anp Port Dsp Lock Fail Counter Register
+ * Count dsp_lock restart.
+ */
+union cavm_rpmx_anp_portx_dsp_lock_fail_counter
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_dsp_lock_fail_counter_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t dsp_lock_fail_coutner : 16; /**< [ 15:  0](RO/H) Counts how many times static mode restart following the DSP lock timer expires. */
+#else /* Word 0 - Little Endian */
+        uint64_t dsp_lock_fail_coutner : 16; /**< [ 15:  0](RO/H) Counts how many times static mode restart following the DSP lock timer expires. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_dsp_lock_fail_counter_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_dsp_lock_fail_counter cavm_rpmx_anp_portx_dsp_lock_fail_counter_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c238ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(a,b) cavm_rpmx_anp_portx_dsp_lock_fail_counter_t
+#define bustype_CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(a,b) "RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_interrupt2_cause
+ *
+ * RPM Anp Port Interrupt2 Cause Register
+ * Per port interrupt register.
+ * TFIFO errors.
+ */
+union cavm_rpmx_anp_portx_interrupt2_cause
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_interrupt2_cause_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t rx_tfifo_empty        : 1;  /**< [  8:  8](R/W) RX T-FIFO got empty. */
+        uint64_t rx_tfifo_full         : 1;  /**< [  7:  7](R/W) RX T-FIFO got full. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [  6:  6](R/W) TX T-FIFO got empty. */
+        uint64_t tx_tfifo_full         : 1;  /**< [  5:  5](R/W) TX T-FIFO got full. */
+        uint64_t rx_tfifo_r_err        : 1;  /**< [  4:  4](R/W) RX T-FIFO read error */
+        uint64_t rx_tfifo_w_err        : 1;  /**< [  3:  3](R/W) RX T-FIFO write error */
+        uint64_t tx_tfifo_r_err        : 1;  /**< [  2:  2](R/W) TX T-FIFO read error */
+        uint64_t tx_tfifo_w_err        : 1;  /**< [  1:  1](R/W) TX T-FIFO write error */
+        uint64_t port_int2_sum         : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
+                                                                 rises upon unmasked interrupt assertion. */
+#else /* Word 0 - Little Endian */
+        uint64_t port_int2_sum         : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
+                                                                 rises upon unmasked interrupt assertion. */
+        uint64_t tx_tfifo_w_err        : 1;  /**< [  1:  1](R/W) TX T-FIFO write error */
+        uint64_t tx_tfifo_r_err        : 1;  /**< [  2:  2](R/W) TX T-FIFO read error */
+        uint64_t rx_tfifo_w_err        : 1;  /**< [  3:  3](R/W) RX T-FIFO write error */
+        uint64_t rx_tfifo_r_err        : 1;  /**< [  4:  4](R/W) RX T-FIFO read error */
+        uint64_t tx_tfifo_full         : 1;  /**< [  5:  5](R/W) TX T-FIFO got full. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [  6:  6](R/W) TX T-FIFO got empty. */
+        uint64_t rx_tfifo_full         : 1;  /**< [  7:  7](R/W) RX T-FIFO got full. */
+        uint64_t rx_tfifo_empty        : 1;  /**< [  8:  8](R/W) RX T-FIFO got empty. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_interrupt2_cause_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_interrupt2_cause cavm_rpmx_anp_portx_interrupt2_cause_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c010ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT2_CAUSE", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) cavm_rpmx_anp_portx_interrupt2_cause_t
+#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) "RPMX_ANP_PORTX_INTERRUPT2_CAUSE"
+#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_interrupt2_mask
+ *
+ * RPM Anp Port Interrupt2 Mask Register
+ * Mask for interrupt2 register.
+ */
+union cavm_rpmx_anp_portx_interrupt2_mask
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_interrupt2_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t port_int2_mask        : 8;  /**< [  8:  1](R/W) Mask for port interrupt cause2 */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t port_int2_mask        : 8;  /**< [  8:  1](R/W) Mask for port interrupt cause2 */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_interrupt2_mask_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_interrupt2_mask cavm_rpmx_anp_portx_interrupt2_mask_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c018ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT2_MASK", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) cavm_rpmx_anp_portx_interrupt2_mask_t
+#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) "RPMX_ANP_PORTX_INTERRUPT2_MASK"
+#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_interrupt_cause
+ *
+ * RPM Anp Port Interrupt Cause Register
+ * Per port interrupt register.
+ * an - restart/hcd_found.
+ * SMs - break point reached.
+ * timeouts and reaching prog states.
+ */
+union cavm_rpmx_anp_portx_interrupt_cause
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_interrupt_cause_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W) Reached CH wait_pwrdn timeout. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W) Reached CH PROG timeout. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W) COMPHY SM - didn't get tx_train_complete within the given timeout. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W) COMPHY SM - didn't get pll_tx_ready within the given timeout. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W) COMPHY SM - didn't get rx_train_complete within the given timeout. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W) COMPHY SM - didn't get pll_rx_ready within the given timeout. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W) COMPHY SM - didn't get rx_init_done within the given timeout. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W) Reached TX PROG timeout. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W) Reached RX PROG timeout. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W) COMPHY TX SM got to state PROG_TX_TRAIN. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W) COMPHY RX SM got to state PROG_RX_TRAIN. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W) COMPHY RX SM got to state PROG_RX_INIT. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W) CH SM - didn't get tx_ready/dsp_sigdet/lock within the given timeout */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W) CH SM - didn't get dsp_sigdet/lock within the given timeout */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W) CH SM - didn't get tx_ready within the given timeout */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W) CH SM - didn't reach link within the given timeout. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W) CH SM - DSP RX UP timeout.
+                                                                 SM didn't get dsp_lock / dsp_sigdet due to failure in RX operation. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W) CH SM PROG_TXRXSD state reached. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W) CH SM PROG_TXRXON state reached. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W) CH SM PROG_TXON state reached. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W) CH SM PROG_RXSD state reached. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W) CH SM PROG_RXON state reached. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W) CH SM PROG_PWRUP state reached. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W) CH SM PROG_NORM state reached. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W) SerDes RX SM break point reached. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W) SerDes TX SM break point reached. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W) Channel SM break point reached. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W) Interrupt when AN Arbiter SM enters AN_GOOD_CK state.
+                                                                 this interrupt will usually will rise with hcd_found interrupt.
+                                                                 if this interrupt is raised but hcd_found interrupt doesn't rise,
+                                                                 it means negotiation is completed but no common speed was found. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W) HCD found interrupt. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W) AN restart interrupt. */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
+                                                                 rises upon unmasked interrupt assertion. */
+#else /* Word 0 - Little Endian */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
+                                                                 rises upon unmasked interrupt assertion. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W) AN restart interrupt. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W) HCD found interrupt. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W) Interrupt when AN Arbiter SM enters AN_GOOD_CK state.
+                                                                 this interrupt will usually will rise with hcd_found interrupt.
+                                                                 if this interrupt is raised but hcd_found interrupt doesn't rise,
+                                                                 it means negotiation is completed but no common speed was found. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W) Channel SM break point reached. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W) SerDes TX SM break point reached. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W) SerDes RX SM break point reached. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W) CH SM PROG_NORM state reached. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W) CH SM PROG_PWRUP state reached. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W) CH SM PROG_RXON state reached. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W) CH SM PROG_RXSD state reached. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W) CH SM PROG_TXON state reached. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W) CH SM PROG_TXRXON state reached. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W) CH SM PROG_TXRXSD state reached. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W) CH SM - DSP RX UP timeout.
+                                                                 SM didn't get dsp_lock / dsp_sigdet due to failure in RX operation. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W) CH SM - didn't reach link within the given timeout. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W) CH SM - didn't get tx_ready within the given timeout */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W) CH SM - didn't get dsp_sigdet/lock within the given timeout */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W) CH SM - didn't get tx_ready/dsp_sigdet/lock within the given timeout */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W) COMPHY RX SM got to state PROG_RX_INIT. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W) COMPHY RX SM got to state PROG_RX_TRAIN. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W) COMPHY TX SM got to state PROG_TX_TRAIN. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W) Reached RX PROG timeout. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W) Reached TX PROG timeout. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W) COMPHY SM - didn't get rx_init_done within the given timeout. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W) COMPHY SM - didn't get pll_rx_ready within the given timeout. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W) COMPHY SM - didn't get rx_train_complete within the given timeout. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W) COMPHY SM - didn't get pll_tx_ready within the given timeout. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W) COMPHY SM - didn't get tx_train_complete within the given timeout. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W) Reached CH PROG timeout. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W) Reached CH wait_pwrdn timeout. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_interrupt_cause_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_interrupt_cause cavm_rpmx_anp_portx_interrupt_cause_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c000ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT_CAUSE", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) cavm_rpmx_anp_portx_interrupt_cause_t
+#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) "RPMX_ANP_PORTX_INTERRUPT_CAUSE"
+#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_interrupt_mask
+ *
+ * RPM Anp Port Interrupt Mask Register
+ * Mask for port interrupt register.
+ */
+union cavm_rpmx_anp_portx_interrupt_mask
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_interrupt_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t port_int_mask         : 30; /**< [ 30:  1](R/W) Mask for port interrupt cause */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t port_int_mask         : 30; /**< [ 30:  1](R/W) Mask for port interrupt cause */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_interrupt_mask_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_interrupt_mask cavm_rpmx_anp_portx_interrupt_mask_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c008ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT_MASK", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) cavm_rpmx_anp_portx_interrupt_mask_t
+#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) "RPMX_ANP_PORTX_INTERRUPT_MASK"
+#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_link_fail_counter
+ *
+ * RPM Anp Port Link Fail Counter Register
+ * Count restarts due to link fail.
+ */
+union cavm_rpmx_anp_portx_link_fail_counter
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_link_fail_counter_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t link_fail_counter     : 16; /**< [ 15:  0](RO/H) Counts how many times static mode restart following the PCS link timer expires. */
+#else /* Word 0 - Little Endian */
+        uint64_t link_fail_counter     : 16; /**< [ 15:  0](RO/H) Counts how many times static mode restart following the PCS link timer expires. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_link_fail_counter_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_link_fail_counter cavm_rpmx_anp_portx_link_fail_counter_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c240ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_LINK_FAIL_COUNTER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(a,b) cavm_rpmx_anp_portx_link_fail_counter_t
+#define bustype_CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(a,b) "RPMX_ANP_PORTX_LINK_FAIL_COUNTER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_pcs_link_max_timer_ap
+ *
+ * RPM Anp Port Pcs Link Max Timer Ap Register
+ * CH SM Max time in TXRX_ON state when operating AN.
+ */
+union cavm_rpmx_anp_portx_pcs_link_max_timer_ap
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_pcs_link_max_timer_ap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pcs_link_max_timer_ap : 32; /**< [ 31:  0](R/W) CH SM Max time in TXRX_ON state when operating AN.
+                                                                 can be disabled by rg_st_pcslink_max_time_ap_inf_s (AN Control).
+                                                                 default value is ~100ms. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcs_link_max_timer_ap : 32; /**< [ 31:  0](R/W) CH SM Max time in TXRX_ON state when operating AN.
+                                                                 can be disabled by rg_st_pcslink_max_time_ap_inf_s (AN Control).
+                                                                 default value is ~100ms. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_pcs_link_max_timer_ap_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_pcs_link_max_timer_ap cavm_rpmx_anp_portx_pcs_link_max_timer_ap_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0d0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(a,b) cavm_rpmx_anp_portx_pcs_link_max_timer_ap_t
+#define bustype_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(a,b) "RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP"
+#define device_bar_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_pcs_link_max_timer_norm
+ *
+ * RPM Anp Port Pcs Link Max Timer Norm Register
+ * CH SM Max time in TXRX_ON state when NOT operating AN.
+ */
+union cavm_rpmx_anp_portx_pcs_link_max_timer_norm
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_pcs_link_max_timer_norm_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pcs_link_max_timer_norm : 32;/**< [ 31:  0](R/W) CH SM Max time in TXRX_ON state when NOT operating AN (or after AN resolution).
+                                                                 i.e. when polling for PCS link.
+                                                                 can be disabled by rg_st_pcslink_max_time_norm_inf_s (Control).
+                                                                 default value is ~100ms. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcs_link_max_timer_norm : 32;/**< [ 31:  0](R/W) CH SM Max time in TXRX_ON state when NOT operating AN (or after AN resolution).
+                                                                 i.e. when polling for PCS link.
+                                                                 can be disabled by rg_st_pcslink_max_time_norm_inf_s (Control).
+                                                                 default value is ~100ms. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_pcs_link_max_timer_norm_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_pcs_link_max_timer_norm cavm_rpmx_anp_portx_pcs_link_max_timer_norm_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0c8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(a,b) cavm_rpmx_anp_portx_pcs_link_max_timer_norm_t
+#define bustype_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(a,b) "RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM"
+#define device_bar_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_idle_ap_min_timer
+ *
+ * RPM Anp Port Sd Idle Ap Min Timer Register
+ * COMPHY TX SM - Min timer to be in state tx_idle_remove_nokr when operating AN.
+ */
+union cavm_rpmx_anp_portx_sd_idle_ap_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_idle_ap_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_tx_idle_wait_time_ap_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer to be in state tx_idle_remove_nokr when operating AN.
+                                                                 default value is ~5872026ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_idle_wait_time_ap_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer to be in state tx_idle_remove_nokr when operating AN.
+                                                                 default value is ~5872026ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_idle_ap_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_idle_ap_min_timer cavm_rpmx_anp_portx_sd_idle_ap_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c130ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_idle_ap_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_idle_nap_min_timer
+ *
+ * RPM Anp Port Sd Idle Nap Min Timer Register
+ * COMPHY TX SM - Min timer to be in state tx_idle_remove_nokr when NOT operating AN.
+ */
+union cavm_rpmx_anp_portx_sd_idle_nap_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_idle_nap_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_tx_idle_wait_time_other_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer to be in state tx_idle_remove_nokr when NOT operating AN.
+                                                                 default value is ~832ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_idle_wait_time_other_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer to be in state tx_idle_remove_nokr when NOT operating AN.
+                                                                 default value is ~832ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_idle_nap_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_idle_nap_min_timer cavm_rpmx_anp_portx_sd_idle_nap_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c138ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_idle_nap_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_idle_rm_min_timer
+ *
+ * RPM Anp Port Sd Idle Rm Min Timer Register
+ * COMPHY TX SM - Min timer for state tx_idle_remove_2kr.
+ */
+union cavm_rpmx_anp_portx_sd_idle_rm_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_idle_rm_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_tx_comphy_idle_remove_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer for state tx_idle_remove_2kr.
+                                                                 default value is 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_comphy_idle_remove_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer for state tx_idle_remove_2kr.
+                                                                 default value is 0. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_idle_rm_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_idle_rm_min_timer cavm_rpmx_anp_portx_sd_idle_rm_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c128ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_idle_rm_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_pll_up_max_timer
+ *
+ * RPM Anp Port Sd Pll Up Max Timer Register
+ * Max time for
+ * COMPHY TX SM - tx_pll_up state.
+ * COMPHY RX SM - rx_pll_up state.
+ */
+union cavm_rpmx_anp_portx_sd_pll_up_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_pll_up_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_pll_up_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable pll_up_time_out. */
+        uint64_t reg_pll_up_time_out_s : 31; /**< [ 30:  0](R/W) Max time for
+                                                                 COMPHY TX SM - tx_pll_up state.
+                                                                 COMPHY RX SM - rx_pll_up state.
+                                                                 can be disabled by reg_pll_up_time_out_s_inf.
+                                                                 default value is ~78852915ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_pll_up_time_out_s : 31; /**< [ 30:  0](R/W) Max time for
+                                                                 COMPHY TX SM - tx_pll_up state.
+                                                                 COMPHY RX SM - rx_pll_up state.
+                                                                 can be disabled by reg_pll_up_time_out_s_inf.
+                                                                 default value is ~78852915ns. */
+        uint64_t reg_pll_up_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable pll_up_time_out. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_pll_up_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_pll_up_max_timer cavm_rpmx_anp_portx_sd_pll_up_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0e8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(a,b) cavm_rpmx_anp_portx_sd_pll_up_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(a,b) "RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_prog_max_timer
+ *
+ * RPM Anp Port Sd Prog Max Timer Register
+ * COMPHY SMs (TX & RX) Max timer for any PROG state.
+ */
+union cavm_rpmx_anp_portx_sd_prog_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_prog_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_sd_prog_max_time_s_inf : 1;/**< [ 31: 31](R/W) Disable PROG max timer. */
+        uint64_t reg_sd_prog_max_time_s : 31;/**< [ 30:  0](R/W) Max timer for any PROG state, for both COMPHY SMs (RX & TX).
+                                                                 can be disabled by 'reg_sd_prog_max_time_s_inf' .
+                                                                 default value is ~5ms. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_sd_prog_max_time_s : 31;/**< [ 30:  0](R/W) Max timer for any PROG state, for both COMPHY SMs (RX & TX).
+                                                                 can be disabled by 'reg_sd_prog_max_time_s_inf' .
+                                                                 default value is ~5ms. */
+        uint64_t reg_sd_prog_max_time_s_inf : 1;/**< [ 31: 31](R/W) Disable PROG max timer. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_prog_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_prog_max_timer cavm_rpmx_anp_portx_sd_prog_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0f0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_PROG_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(a,b) cavm_rpmx_anp_portx_sd_prog_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(a,b) "RPMX_ANP_PORTX_SD_PROG_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rx_init_max_timer
+ *
+ * RPM Anp Port Sd Rx Init Max Timer Register
+ * COMPHY RX SM - Max timer for rx_init state.
+ */
+union cavm_rpmx_anp_portx_sd_rx_init_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rx_init_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_rx_init_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable rx_init max timer. */
+        uint64_t reg_rx_init_time_out_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Max timer for rx_init state.
+                                                                 default value is ~235930ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_init_time_out_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Max timer for rx_init state.
+                                                                 default value is ~235930ns. */
+        uint64_t reg_rx_init_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable rx_init max timer. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rx_init_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rx_init_max_timer cavm_rpmx_anp_portx_sd_rx_init_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c100ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(a,b) cavm_rpmx_anp_portx_sd_rx_init_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(a,b) "RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rx_init_min_timer
+ *
+ * RPM Anp Port Sd Rx Init Min Timer Register
+ * COMPHY RX SM - Min time for rx_init state.
+ */
+union cavm_rpmx_anp_portx_sd_rx_init_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rx_init_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_init_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min time for rx_init state, before starting to poll rx_init_done.
+                                                                 default value is ~12288ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_init_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min time for rx_init state, before starting to poll rx_init_done.
+                                                                 default value is ~12288ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rx_init_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rx_init_min_timer cavm_rpmx_anp_portx_sd_rx_init_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c0f8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_rx_init_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rx_pll_up_min_timer
+ *
+ * RPM Anp Port Sd Rx Pll Up Min Timer Register
+ * COMPHY RX SM - Min timer for rx_pll_up state.
+ */
+union cavm_rpmx_anp_portx_sd_rx_pll_up_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rx_pll_up_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_pll_up_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_pll_up state.
+                                                                 default value is ~8192ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_pll_up_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_pll_up state.
+                                                                 default value is ~8192ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rx_pll_up_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rx_pll_up_min_timer cavm_rpmx_anp_portx_sd_rx_pll_up_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c108ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_rx_pll_up_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rx_retrain_min_timer
+ *
+ * RPM Anp Port Sd Rx Retrain Min Timer Register
+ * When RX retrain is set. this is the COMPHY RX SM wait time after rx_train failed,
+ * before moving to rx_wait_plug.
+ */
+union cavm_rpmx_anp_portx_sd_rx_retrain_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rx_retrain_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_retrain_time_s : 31; /**< [ 30:  0](R/W) When RX retrain is set. this is the COMPHY RX SM wait time after rx_train
+                                                                 failed,  before moving to rx_wait_plug.
+                                                                 default value is ~16384ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_retrain_time_s : 31; /**< [ 30:  0](R/W) When RX retrain is set. this is the COMPHY RX SM wait time after rx_train
+                                                                 failed,  before moving to rx_wait_plug.
+                                                                 default value is ~16384ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rx_retrain_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rx_retrain_min_timer cavm_rpmx_anp_portx_sd_rx_retrain_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c160ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_rx_retrain_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rx_wait_plug_min_timer
+ *
+ * RPM Anp Port Sd Rx Wait Plug Min Timer Register
+ * COMPHY RX SM - Min timer for rx_wait_plug state.
+ */
+union cavm_rpmx_anp_portx_sd_rx_wait_plug_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rx_wait_plug_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_wait_plug_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_wait_plug state.
+                                                                 default value is ~5018ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_wait_plug_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_wait_plug state.
+                                                                 default value is ~5018ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rx_wait_plug_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rx_wait_plug_min_timer cavm_rpmx_anp_portx_sd_rx_wait_plug_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c168ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_rx_wait_plug_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rx_wait_sq_det_min_timer
+ *
+ * RPM Anp Port Sd Rx Wait Sq Det Min Timer Register
+ * COMPHY RX SM - Min timer for rx_wait_sq_det state.
+ */
+union cavm_rpmx_anp_portx_sd_rx_wait_sq_det_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rx_wait_sq_det_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_wait_sq_det_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_wait_sq_det state.
+                                                                 default value is ~14746ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_wait_sq_det_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_wait_sq_det state.
+                                                                 default value is ~14746ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rx_wait_sq_det_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rx_wait_sq_det_min_timer cavm_rpmx_anp_portx_sd_rx_wait_sq_det_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c170ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_rx_wait_sq_det_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rxt_max_timer
+ *
+ * RPM Anp Port Sd Rxt Max Timer Register
+ * COMPHY RX SM - Max timer for rx_train state.
+ */
+union cavm_rpmx_anp_portx_sd_rxt_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rxt_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_rx_train_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable rx_train max timer. */
+        uint64_t reg_rx_train_time_out_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Max timer for rx_train state.
+                                                                 can be disabled by 'reg_rx_train_time_out_s_inf' .
+                                                                 default value is ~2999766221ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_train_time_out_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Max timer for rx_train state.
+                                                                 can be disabled by 'reg_rx_train_time_out_s_inf' .
+                                                                 default value is ~2999766221ns. */
+        uint64_t reg_rx_train_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable rx_train max timer. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rxt_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rxt_max_timer cavm_rpmx_anp_portx_sd_rxt_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c120ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RXT_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(a,b) cavm_rpmx_anp_portx_sd_rxt_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(a,b) "RPMX_ANP_PORTX_SD_RXT_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rxt_min_timer
+ *
+ * RPM Anp Port Sd Rxt Min Timer Register
+ * COMPHY RX SM - Min timer for rx_train state.
+ */
+union cavm_rpmx_anp_portx_sd_rxt_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rxt_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_train_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_train state.
+                                                                 default value is ~1638ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_train_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - Min timer for rx_train state.
+                                                                 default value is ~1638ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rxt_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rxt_min_timer cavm_rpmx_anp_portx_sd_rxt_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c110ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RXT_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_rxt_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_RXT_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_rxt_ok_max_timer
+ *
+ * RPM Anp Port Sd Rxt Ok Max Timer Register
+ * COMPHY RX SM - time to wait after RX train complete successful, before moving to rx_done_ok state.
+ */
+union cavm_rpmx_anp_portx_sd_rxt_ok_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_rxt_ok_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_train_ok_wait_timeout_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - time to wait after RX train complete successful, before moving to rx_done_ok state.
+                                                                 default value is ~6ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_rx_train_ok_wait_timeout_s : 31;/**< [ 30:  0](R/W) COMPHY RX SM - time to wait after RX train complete successful, before moving to rx_done_ok state.
+                                                                 default value is ~6ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_rxt_ok_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_rxt_ok_max_timer cavm_rpmx_anp_portx_sd_rxt_ok_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c118ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(a,b) cavm_rpmx_anp_portx_sd_rxt_ok_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(a,b) "RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_tx_pll_up_min_timer
+ *
+ * RPM Anp Port Sd Tx Pll Up Min Timer Register
+ * COMPHY TX SM - Min timer for state tx_pll_up.
+ */
+union cavm_rpmx_anp_portx_sd_tx_pll_up_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_tx_pll_up_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_tx_pll_up_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer for state tx_pll_up.
+                                                                 default value is ~8192ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_pll_up_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer for state tx_pll_up.
+                                                                 default value is ~8192ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_tx_pll_up_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_tx_pll_up_min_timer cavm_rpmx_anp_portx_sd_tx_pll_up_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c140ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_tx_pll_up_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_txt_max_timer
+ *
+ * RPM Anp Port Sd Txt Max Timer Register
+ * COMPHY TX SM - Max timer for tx_train state.
+ */
+union cavm_rpmx_anp_portx_sd_txt_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_txt_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reg_tx_train_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable tx_train max timer. */
+        uint64_t reg_tx_train_time_out_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Max timer for tx_train state.
+                                                                 can be disabled by 'reg_tx_train_time_out_s_inf' .
+                                                                 default value is ~2999766221ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_train_time_out_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Max timer for tx_train state.
+                                                                 can be disabled by 'reg_tx_train_time_out_s_inf' .
+                                                                 default value is ~2999766221ns. */
+        uint64_t reg_tx_train_time_out_s_inf : 1;/**< [ 31: 31](R/W) Disable tx_train max timer. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_txt_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_txt_max_timer cavm_rpmx_anp_portx_sd_txt_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c158ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_TXT_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(a,b) cavm_rpmx_anp_portx_sd_txt_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(a,b) "RPMX_ANP_PORTX_SD_TXT_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_txt_min_timer
+ *
+ * RPM Anp Port Sd Txt Min Timer Register
+ * COMPHY TX SM - Min timer for tx_train state.
+ */
+union cavm_rpmx_anp_portx_sd_txt_min_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_txt_min_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_tx_train_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer for tx_train state.
+                                                                 default value is ~3277ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_train_min_wait_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - Min timer for tx_train state.
+                                                                 default value is ~3277ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_txt_min_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_txt_min_timer cavm_rpmx_anp_portx_sd_txt_min_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c148ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_TXT_MIN_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(a,b) cavm_rpmx_anp_portx_sd_txt_min_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(a,b) "RPMX_ANP_PORTX_SD_TXT_MIN_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_sd_txt_ok_max_timer
+ *
+ * RPM Anp Port Sd Txt Ok Max Timer Register
+ * COMPHY TX SM - time to wait after tx_train complete successfully, before moving to tx_done_ok.
+ */
+union cavm_rpmx_anp_portx_sd_txt_ok_max_timer
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_sd_txt_ok_max_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_tx_train_ok_wait_timeout_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - time to wait after tx_train complete successfully, before moving to tx_done_ok.
+                                                                 default value is ~102ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_train_ok_wait_timeout_s : 31;/**< [ 30:  0](R/W) COMPHY TX SM - time to wait after tx_train complete successfully, before moving to tx_done_ok.
+                                                                 default value is ~102ns. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_sd_txt_ok_max_timer_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_sd_txt_ok_max_timer cavm_rpmx_anp_portx_sd_txt_ok_max_timer_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c150ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(a,b) cavm_rpmx_anp_portx_sd_txt_ok_max_timer_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(a,b) "RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_serdes_rx_sm_control
+ *
+ * RPM Anp Port Serdes Rx Sm Control Register
+ * Control Register for COMPHY RX SM.
+ * provides - state status, ability to override state, ability to trap state.
+ */
+union cavm_rpmx_anp_portx_serdes_rx_sm_control
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_serdes_rx_sm_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t sd_rx_sm_state        : 4;  /**< [  7:  4](R/W) Sd rx sm state;if sd_rx_sm_override_ctrl[0] = 0, this field gives the status of
+                                                                 the internal sd rx sm state machine,;else, the last written value */
+        uint64_t sd_rx_sm_bp_reached   : 1;  /**< [  3:  3](R/W) Break point reached.;If sd_rx_sm_override_ctrl[1] = 1 and internal state reaches
+                                                                 the value of bit [7:4], this bit is set. */
+        uint64_t sd_rx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_rx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+#else /* Word 0 - Little Endian */
+        uint64_t sd_rx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+        uint64_t sd_rx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_rx_sm_bp_reached   : 1;  /**< [  3:  3](R/W) Break point reached.;If sd_rx_sm_override_ctrl[1] = 1 and internal state reaches
+                                                                 the value of bit [7:4], this bit is set. */
+        uint64_t sd_rx_sm_state        : 4;  /**< [  7:  4](R/W) Sd rx sm state;if sd_rx_sm_override_ctrl[0] = 0, this field gives the status of
+                                                                 the internal sd rx sm state machine,;else, the last written value */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_serdes_rx_sm_control_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_serdes_rx_sm_control cavm_rpmx_anp_portx_serdes_rx_sm_control_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c030ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(a,b) cavm_rpmx_anp_portx_serdes_rx_sm_control_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(a,b) "RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_serdes_tx_sm_control
+ *
+ * RPM Anp Port Serdes Tx Sm Control Register
+ * Control Register for COMPHY TX SM.
+ * provides - state status, ability to override state, ability to trap state.
+ */
+union cavm_rpmx_anp_portx_serdes_tx_sm_control
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_serdes_tx_sm_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t sd_tx_sm_state        : 4;  /**< [  7:  4](R/W) Sd tx sm state;if sd_tx_sm_override_ctrl[0] = 0, this field gives the status of
+                                                                 the internal sd tx sm state machine,;else, the last written value */
+        uint64_t sd_tx_sm_bp_reached   : 1;  /**< [  3:  3](RO/H) Break point reached.;If sd_tx_sm_override_ctrl[1] = 1 and internal state reaches
+                                                                 the value of bit [7:4], this bit is set. */
+        uint64_t sd_tx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_tx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+#else /* Word 0 - Little Endian */
+        uint64_t sd_tx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+        uint64_t sd_tx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_tx_sm_bp_reached   : 1;  /**< [  3:  3](RO/H) Break point reached.;If sd_tx_sm_override_ctrl[1] = 1 and internal state reaches
+                                                                 the value of bit [7:4], this bit is set. */
+        uint64_t sd_tx_sm_state        : 4;  /**< [  7:  4](R/W) Sd tx sm state;if sd_tx_sm_override_ctrl[0] = 0, this field gives the status of
+                                                                 the internal sd tx sm state machine,;else, the last written value */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_serdes_tx_sm_control_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_serdes_tx_sm_control cavm_rpmx_anp_portx_serdes_tx_sm_control_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c028ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(a,b) cavm_rpmx_anp_portx_serdes_tx_sm_control_t
+#define bustype_CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(a,b) "RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL"
+#define device_bar_CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_status
+ *
+ * RPM Anp Port Status Register
+ * Status + Self-Clear configurations.
+ */
+union cavm_rpmx_anp_portx_status
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t reg_prog_tx_done_s    : 1;  /**< [  7:  7](R/W) When set, COMPHY TX SM will break from any PROG state to the actual state.
+                                                                 Self-Clear. */
+        uint64_t reg_prog_rx_done_s    : 1;  /**< [  6:  6](R/W) When set, COMPHY RX SM will break from any PROG state to the actual state.
+                                                                 Self-Clear. */
+        uint64_t reg_prog_pwm_done_s   : 1;  /**< [  5:  5](R/W) When set, CH SM will break from any PROG state to the actual state.
+                                                                 Self-Clear. */
+        uint64_t pcs_cfg_done          : 1;  /**< [  4:  4](R/W) Set to 0x1 to indicate PCS configuration is done, and CH SM can progress.
+                                                                 Clears upon an restart if pcs_cfg_done_hw_clr is set (Control6). */
+        uint64_t reg_rx_train_failed   : 1;  /**< [  3:  3](R/W) RX train failed.
+                                                                 Cleared by write or by HW according to Control16. */
+        uint64_t reg_tx_train_failed   : 1;  /**< [  2:  2](R/W) TX train failed.
+                                                                 Cleared by write or by HW according to Control16. */
+        uint64_t reg_rx_train_complete : 1;  /**< [  1:  1](R/W) RX train complete.
+                                                                 Cleared by write or by HW according to Control16. */
+        uint64_t reg_tx_train_complete : 1;  /**< [  0:  0](R/W) TX train complete.
+                                                                 Cleared by write or by HW according to Control16. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_tx_train_complete : 1;  /**< [  0:  0](R/W) TX train complete.
+                                                                 Cleared by write or by HW according to Control16. */
+        uint64_t reg_rx_train_complete : 1;  /**< [  1:  1](R/W) RX train complete.
+                                                                 Cleared by write or by HW according to Control16. */
+        uint64_t reg_tx_train_failed   : 1;  /**< [  2:  2](R/W) TX train failed.
+                                                                 Cleared by write or by HW according to Control16. */
+        uint64_t reg_rx_train_failed   : 1;  /**< [  3:  3](R/W) RX train failed.
+                                                                 Cleared by write or by HW according to Control16. */
+        uint64_t pcs_cfg_done          : 1;  /**< [  4:  4](R/W) Set to 0x1 to indicate PCS configuration is done, and CH SM can progress.
+                                                                 Clears upon an restart if pcs_cfg_done_hw_clr is set (Control6). */
+        uint64_t reg_prog_pwm_done_s   : 1;  /**< [  5:  5](R/W) When set, CH SM will break from any PROG state to the actual state.
+                                                                 Self-Clear. */
+        uint64_t reg_prog_rx_done_s    : 1;  /**< [  6:  6](R/W) When set, COMPHY RX SM will break from any PROG state to the actual state.
+                                                                 Self-Clear. */
+        uint64_t reg_prog_tx_done_s    : 1;  /**< [  7:  7](R/W) When set, COMPHY TX SM will break from any PROG state to the actual state.
+                                                                 Self-Clear. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_status_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_status cavm_rpmx_anp_portx_status_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1d8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_STATUS", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_STATUS(a,b) cavm_rpmx_anp_portx_status_t
+#define bustype_CAVM_RPMX_ANP_PORTX_STATUS(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_STATUS(a,b) "RPMX_ANP_PORTX_STATUS"
+#define device_bar_CAVM_RPMX_ANP_PORTX_STATUS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_STATUS(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_STATUS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_status1
+ *
+ * RPM Anp Port Status1 Register
+ * Status of internal signals.
+ */
+union cavm_rpmx_anp_portx_status1
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_status1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stat_pm_mode_50gr     : 1;  /**< [ 31: 31](RO/H) Pm_mode_50gr status. */
+        uint64_t stat_pm_mode_428gr8   : 1;  /**< [ 30: 30](RO/H) Pm_mode_428gr8 status. */
+        uint64_t stat_pm_mode_40gr4    : 1;  /**< [ 29: 29](RO/H) Pm_mode_40gr4 status. */
+        uint64_t stat_pm_mode_40gr2    : 1;  /**< [ 28: 28](RO/H) Pm_mode_40gr2 status. */
+        uint64_t stat_pm_mode_400gr8   : 1;  /**< [ 27: 27](RO/H) Pm_mode_400gr8 status. */
+        uint64_t stat_pm_mode_2p5g     : 1;  /**< [ 26: 26](RO/H) Pm_mode_2p5g status. */
+        uint64_t stat_pm_mode_25g      : 1;  /**< [ 25: 25](RO/H) Pm_mode_25g status. */
+        uint64_t stat_pm_mode_200gr8   : 1;  /**< [ 24: 24](RO/H) Pm_mode_200gr8 status. */
+        uint64_t stat_pm_mode_200gr4   : 1;  /**< [ 23: 23](RO/H) Pm_mode_200gr4 status. */
+        uint64_t stat_pm_mode_1g       : 1;  /**< [ 22: 22](RO/H) Pm_mode_1g status. */
+        uint64_t stat_pm_mode_110gr4   : 1;  /**< [ 21: 21](RO/H) Pm_mode_110gr4 status. */
+        uint64_t stat_pm_mode_10g      : 1;  /**< [ 20: 20](RO/H) Pm_mode_10g status. */
+        uint64_t stat_pm_mode_107gr2   : 1;  /**< [ 19: 19](RO/H) Pm_mode_107gr2 status. */
+        uint64_t stat_pm_mode_100gr4   : 1;  /**< [ 18: 18](RO/H) Pm_mode_100gr4 status. */
+        uint64_t stat_pm_mode_100gr2   : 1;  /**< [ 17: 17](RO/H) Pm_mode_100gr2 status. */
+        uint64_t stat_pm_enclk_ap_sys_s : 1; /**< [ 16: 16](RO/H) Pm_enclk_ap_sys_s status. */
+        uint64_t stat_pm_enclk_ap_ft_s : 1;  /**< [ 15: 15](RO/H) Pm_enclk_ap_ft_s status. */
+        uint64_t stat_pm_enclk_ap_fr_s : 1;  /**< [ 14: 14](RO/H) Pm_enclk_ap_fr_s status. */
+        uint64_t stat_pm_ap_reset_tx_s : 1;  /**< [ 13: 13](RO/H) Pm_ap_reset_tx_s status. */
+        uint64_t stat_pm_ap_reset_rx_s : 1;  /**< [ 12: 12](RO/H) Pm_ap_reset_rx_s status. */
+        uint64_t stat_pm_ap_mode_s     : 1;  /**< [ 11: 11](RO/H) Pm_ap_mode_s status. */
+        uint64_t stat_pm_ap_en_s       : 1;  /**< [ 10: 10](RO/H) Pm_ap_en_s status. */
+        uint64_t stat_pm_an_restart    : 1;  /**< [  9:  9](RO/H) Pm_an_restart status. */
+        uint64_t stat_pm_an_pcs_sel    : 1;  /**< [  8:  8](RO/H) Pm_an_pcs_sel status. */
+        uint64_t stat_pm_an_pcs_clkout_sel : 1;/**< [  7:  7](RO/H) Pm_an_pcs_clkout_sel status. */
+        uint64_t stat_pm_an_hcd_resolved : 1;/**< [  6:  6](RO/H) Pm_an_hcd_resolved status. */
+        uint64_t stat_pm_an_hcd_clear  : 1;  /**< [  5:  5](RO/H) Pm_an_hcd_clear status. */
+        uint64_t stat_pm_an_en_hcd_resolved : 1;/**< [  4:  4](RO/H) Pm_an_en_hcd_resolved status. */
+        uint64_t stat_dsp_txstr_req_s  : 1;  /**< [  3:  3](RO/H) Dsp_txstr_req_s status. */
+        uint64_t stat_dsp_txstr_req_mx_s : 1;/**< [  2:  2](RO/H) Dsp_txstr_req_mx_s status. */
+        uint64_t stat_dsp_rxstr_req_s  : 1;  /**< [  1:  1](RO/H) Dsp_rxstr_req_s status. */
+        uint64_t stat_dsp_rxstr_req_mx_s : 1;/**< [  0:  0](RO/H) Dsp_rxstr_req_mx_s status. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_dsp_rxstr_req_mx_s : 1;/**< [  0:  0](RO/H) Dsp_rxstr_req_mx_s status. */
+        uint64_t stat_dsp_rxstr_req_s  : 1;  /**< [  1:  1](RO/H) Dsp_rxstr_req_s status. */
+        uint64_t stat_dsp_txstr_req_mx_s : 1;/**< [  2:  2](RO/H) Dsp_txstr_req_mx_s status. */
+        uint64_t stat_dsp_txstr_req_s  : 1;  /**< [  3:  3](RO/H) Dsp_txstr_req_s status. */
+        uint64_t stat_pm_an_en_hcd_resolved : 1;/**< [  4:  4](RO/H) Pm_an_en_hcd_resolved status. */
+        uint64_t stat_pm_an_hcd_clear  : 1;  /**< [  5:  5](RO/H) Pm_an_hcd_clear status. */
+        uint64_t stat_pm_an_hcd_resolved : 1;/**< [  6:  6](RO/H) Pm_an_hcd_resolved status. */
+        uint64_t stat_pm_an_pcs_clkout_sel : 1;/**< [  7:  7](RO/H) Pm_an_pcs_clkout_sel status. */
+        uint64_t stat_pm_an_pcs_sel    : 1;  /**< [  8:  8](RO/H) Pm_an_pcs_sel status. */
+        uint64_t stat_pm_an_restart    : 1;  /**< [  9:  9](RO/H) Pm_an_restart status. */
+        uint64_t stat_pm_ap_en_s       : 1;  /**< [ 10: 10](RO/H) Pm_ap_en_s status. */
+        uint64_t stat_pm_ap_mode_s     : 1;  /**< [ 11: 11](RO/H) Pm_ap_mode_s status. */
+        uint64_t stat_pm_ap_reset_rx_s : 1;  /**< [ 12: 12](RO/H) Pm_ap_reset_rx_s status. */
+        uint64_t stat_pm_ap_reset_tx_s : 1;  /**< [ 13: 13](RO/H) Pm_ap_reset_tx_s status. */
+        uint64_t stat_pm_enclk_ap_fr_s : 1;  /**< [ 14: 14](RO/H) Pm_enclk_ap_fr_s status. */
+        uint64_t stat_pm_enclk_ap_ft_s : 1;  /**< [ 15: 15](RO/H) Pm_enclk_ap_ft_s status. */
+        uint64_t stat_pm_enclk_ap_sys_s : 1; /**< [ 16: 16](RO/H) Pm_enclk_ap_sys_s status. */
+        uint64_t stat_pm_mode_100gr2   : 1;  /**< [ 17: 17](RO/H) Pm_mode_100gr2 status. */
+        uint64_t stat_pm_mode_100gr4   : 1;  /**< [ 18: 18](RO/H) Pm_mode_100gr4 status. */
+        uint64_t stat_pm_mode_107gr2   : 1;  /**< [ 19: 19](RO/H) Pm_mode_107gr2 status. */
+        uint64_t stat_pm_mode_10g      : 1;  /**< [ 20: 20](RO/H) Pm_mode_10g status. */
+        uint64_t stat_pm_mode_110gr4   : 1;  /**< [ 21: 21](RO/H) Pm_mode_110gr4 status. */
+        uint64_t stat_pm_mode_1g       : 1;  /**< [ 22: 22](RO/H) Pm_mode_1g status. */
+        uint64_t stat_pm_mode_200gr4   : 1;  /**< [ 23: 23](RO/H) Pm_mode_200gr4 status. */
+        uint64_t stat_pm_mode_200gr8   : 1;  /**< [ 24: 24](RO/H) Pm_mode_200gr8 status. */
+        uint64_t stat_pm_mode_25g      : 1;  /**< [ 25: 25](RO/H) Pm_mode_25g status. */
+        uint64_t stat_pm_mode_2p5g     : 1;  /**< [ 26: 26](RO/H) Pm_mode_2p5g status. */
+        uint64_t stat_pm_mode_400gr8   : 1;  /**< [ 27: 27](RO/H) Pm_mode_400gr8 status. */
+        uint64_t stat_pm_mode_40gr2    : 1;  /**< [ 28: 28](RO/H) Pm_mode_40gr2 status. */
+        uint64_t stat_pm_mode_40gr4    : 1;  /**< [ 29: 29](RO/H) Pm_mode_40gr4 status. */
+        uint64_t stat_pm_mode_428gr8   : 1;  /**< [ 30: 30](RO/H) Pm_mode_428gr8 status. */
+        uint64_t stat_pm_mode_50gr     : 1;  /**< [ 31: 31](RO/H) Pm_mode_50gr status. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_status1_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_status1 cavm_rpmx_anp_portx_status1_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS1(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1e0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_STATUS1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_STATUS1(a,b) cavm_rpmx_anp_portx_status1_t
+#define bustype_CAVM_RPMX_ANP_PORTX_STATUS1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_STATUS1(a,b) "RPMX_ANP_PORTX_STATUS1"
+#define device_bar_CAVM_RPMX_ANP_PORTX_STATUS1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_STATUS1(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_STATUS1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_status2
+ *
+ * RPM Anp Port Status2 Register
+ * Internal signals status.
+ */
+union cavm_rpmx_anp_portx_status2
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_status2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t stat_pm_sd_pu_rx_s    : 1;  /**< [ 29: 29](RO/H) Pm_sd_pu_rx_s status. */
+        uint64_t stat_pm_sd_pu_pll_s   : 1;  /**< [ 28: 28](RO/H) Pm_sd_pu_pll_s status. */
+        uint64_t stat_pm_sd_phy_gen_tx_s : 5;/**< [ 27: 23](RO/H) Pm_sd_phy_gen_tx_s status. */
+        uint64_t stat_pm_sd_phy_gen_rx_s : 5;/**< [ 22: 18](RO/H) Pm_sd_phy_gen_rx_s status. */
+        uint64_t stat_pm_sd_couple_mode_en_s : 1;/**< [ 17: 17](RO/H) Pm_sd_couple_mode_en_s status. */
+        uint64_t stat_pm_pwrdn_s       : 1;  /**< [ 16: 16](RO/H) Pm_pwrdn_s status. */
+        uint64_t stat_pm_pcs_tx_clk_ena : 1; /**< [ 15: 15](RO/H) Pm_pcs_tx_clk_ena status. */
+        uint64_t stat_pm_pcs_sd_tx_reset_n : 1;/**< [ 14: 14](RO/H) Pm_pcs_sd_tx_reset_ status. */
+        uint64_t stat_pm_pcs_sd_rx_reset_n : 1;/**< [ 13: 13](RO/H) Pm_pcs_sd_rx_reset_ status. */
+        uint64_t stat_pm_pcs_rx_clk_ena : 1; /**< [ 12: 12](RO/H) Pm_pcs_rx_clk_ena status. */
+        uint64_t stat_pm_pcs_couple_s  : 1;  /**< [ 11: 11](RO/H) Pm_pcs_couple_s status. */
+        uint64_t stat_pm_nr_reset_s    : 1;  /**< [ 10: 10](RO/H) Pm_nr_reset_s status. */
+        uint64_t stat_pm_norm_x_state_s : 1; /**< [  9:  9](RO/H) Pm_norm_x_state_s status. */
+        uint64_t stat_pm_mode_usx5g    : 1;  /**< [  8:  8](RO/H) Pm_mode_usx5g status. */
+        uint64_t stat_pm_mode_usx2p5g  : 1;  /**< [  7:  7](RO/H) Pm_mode_usx2p5g status. */
+        uint64_t stat_pm_mode_usx20g   : 1;  /**< [  6:  6](RO/H) Pm_mode_usx20g status. */
+        uint64_t stat_pm_mode_usx10g   : 1;  /**< [  5:  5](RO/H) Pm_mode_usx10g status. */
+        uint64_t stat_pm_mode_usgmii   : 1;  /**< [  4:  4](RO/H) Pm_mode_usgmii status. */
+        uint64_t stat_pm_mode_qsgmii   : 1;  /**< [  3:  3](RO/H) Pm_mode_qsgmii status. */
+        uint64_t stat_pm_mode_custom   : 1;  /**< [  2:  2](RO/H) Pm_mode_custom status. */
+        uint64_t stat_pm_mode_5g       : 1;  /**< [  1:  1](RO/H) Pm_mode_5g status. */
+        uint64_t stat_pm_mode_50gr2    : 1;  /**< [  0:  0](RO/H) Pm_mode_50gr2 status. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_pm_mode_50gr2    : 1;  /**< [  0:  0](RO/H) Pm_mode_50gr2 status. */
+        uint64_t stat_pm_mode_5g       : 1;  /**< [  1:  1](RO/H) Pm_mode_5g status. */
+        uint64_t stat_pm_mode_custom   : 1;  /**< [  2:  2](RO/H) Pm_mode_custom status. */
+        uint64_t stat_pm_mode_qsgmii   : 1;  /**< [  3:  3](RO/H) Pm_mode_qsgmii status. */
+        uint64_t stat_pm_mode_usgmii   : 1;  /**< [  4:  4](RO/H) Pm_mode_usgmii status. */
+        uint64_t stat_pm_mode_usx10g   : 1;  /**< [  5:  5](RO/H) Pm_mode_usx10g status. */
+        uint64_t stat_pm_mode_usx20g   : 1;  /**< [  6:  6](RO/H) Pm_mode_usx20g status. */
+        uint64_t stat_pm_mode_usx2p5g  : 1;  /**< [  7:  7](RO/H) Pm_mode_usx2p5g status. */
+        uint64_t stat_pm_mode_usx5g    : 1;  /**< [  8:  8](RO/H) Pm_mode_usx5g status. */
+        uint64_t stat_pm_norm_x_state_s : 1; /**< [  9:  9](RO/H) Pm_norm_x_state_s status. */
+        uint64_t stat_pm_nr_reset_s    : 1;  /**< [ 10: 10](RO/H) Pm_nr_reset_s status. */
+        uint64_t stat_pm_pcs_couple_s  : 1;  /**< [ 11: 11](RO/H) Pm_pcs_couple_s status. */
+        uint64_t stat_pm_pcs_rx_clk_ena : 1; /**< [ 12: 12](RO/H) Pm_pcs_rx_clk_ena status. */
+        uint64_t stat_pm_pcs_sd_rx_reset_n : 1;/**< [ 13: 13](RO/H) Pm_pcs_sd_rx_reset_ status. */
+        uint64_t stat_pm_pcs_sd_tx_reset_n : 1;/**< [ 14: 14](RO/H) Pm_pcs_sd_tx_reset_ status. */
+        uint64_t stat_pm_pcs_tx_clk_ena : 1; /**< [ 15: 15](RO/H) Pm_pcs_tx_clk_ena status. */
+        uint64_t stat_pm_pwrdn_s       : 1;  /**< [ 16: 16](RO/H) Pm_pwrdn_s status. */
+        uint64_t stat_pm_sd_couple_mode_en_s : 1;/**< [ 17: 17](RO/H) Pm_sd_couple_mode_en_s status. */
+        uint64_t stat_pm_sd_phy_gen_rx_s : 5;/**< [ 22: 18](RO/H) Pm_sd_phy_gen_rx_s status. */
+        uint64_t stat_pm_sd_phy_gen_tx_s : 5;/**< [ 27: 23](RO/H) Pm_sd_phy_gen_tx_s status. */
+        uint64_t stat_pm_sd_pu_pll_s   : 1;  /**< [ 28: 28](RO/H) Pm_sd_pu_pll_s status. */
+        uint64_t stat_pm_sd_pu_rx_s    : 1;  /**< [ 29: 29](RO/H) Pm_sd_pu_rx_s status. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_status2_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_status2 cavm_rpmx_anp_portx_status2_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS2(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1e8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_STATUS2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_STATUS2(a,b) cavm_rpmx_anp_portx_status2_t
+#define bustype_CAVM_RPMX_ANP_PORTX_STATUS2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_STATUS2(a,b) "RPMX_ANP_PORTX_STATUS2"
+#define device_bar_CAVM_RPMX_ANP_PORTX_STATUS2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_STATUS2(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_STATUS2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_status3
+ *
+ * RPM Anp Port Status3 Register
+ * Internal signals status.
+ */
+union cavm_rpmx_anp_portx_status3
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_status3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stat_pm_sd_dfe_update_dis_s : 1;/**< [ 31: 31](RO/H) Pm_sd_dfe_update_dis_s status. */
+        uint64_t stat_pm_sd_dfe_pat_dis_s : 1;/**< [ 30: 30](RO/H) Pm_sd_dfe_pat_dis_s status. */
+        uint64_t stat_pm_sd_dfe_en_s   : 1;  /**< [ 29: 29](RO/H) Pm_sd_dfe_en_s status. */
+        uint64_t stat_pm_rx_train_enable_s : 1;/**< [ 28: 28](RO/H) Pm_rx_train_enable_s status. */
+        uint64_t stat_pm_rx_init_s     : 1;  /**< [ 27: 27](RO/H) Pm_rx_init_s status. */
+        uint64_t stat_pm_dsp_txstr_ack_s : 1;/**< [ 26: 26](RO/H) Pm_dsp_txstr_ack_s status. */
+        uint64_t stat_pm_dsp_tx_ready_s : 1; /**< [ 25: 25](RO/H) Pm_dsp_tx_ready_s status. */
+        uint64_t stat_pm_dsp_txdn_ack_s : 1; /**< [ 24: 24](RO/H) Pm_dsp_txdn_ack_s status. */
+        uint64_t stat_pm_dsp_sigdet_s  : 1;  /**< [ 23: 23](RO/H) Pm_dsp_sigdet_s status. */
+        uint64_t stat_pm_dsp_rxstr_ack_s : 1;/**< [ 22: 22](RO/H) Pm_dsp_rxstr_ack_s status. */
+        uint64_t stat_pm_dsp_rxdn_ack_s : 1; /**< [ 21: 21](RO/H) Pm_dsp_rxdn_ack_s status. */
+        uint64_t stat_pm_dsp_lock_s    : 1;  /**< [ 20: 20](RO/H) Pm_dsp_lock_s status. */
+        uint64_t stat_pll_ready_tx_s   : 1;  /**< [ 19: 19](RO/H) Pll_ready_tx_s status. */
+        uint64_t stat_pll_ready_tx_clean_s : 1;/**< [ 18: 18](RO/H) Pll_ready_tx_clean_s status. */
+        uint64_t stat_pll_ready_rx_s   : 1;  /**< [ 17: 17](RO/H) Pll_ready_rx_s status. */
+        uint64_t stat_pll_ready_rx_clean_s : 1;/**< [ 16: 16](RO/H) Pll_ready_rx_clean_s status. */
+        uint64_t stat_tx_ready_s       : 1;  /**< [ 15: 15](RO/H) Tx_ready_s status. */
+        uint64_t stat_pcs_lock_s       : 1;  /**< [ 14: 14](RO/H) Pcs_lock_s status. */
+        uint64_t stat_dsp_txdn_ack_s   : 1;  /**< [ 13: 13](RO/H) Dsp_txdn_ack_s status. */
+        uint64_t stat_dsp_sigdet_s     : 1;  /**< [ 12: 12](RO/H) Dsp_sigdet_s status. */
+        uint64_t stat_dsp_rxdn_ack_s   : 1;  /**< [ 11: 11](RO/H) Dsp_rxdn_ack_s status. */
+        uint64_t stat_dsp_pwrdn_ack_s  : 1;  /**< [ 10: 10](RO/H) Dsp_pwrdn_ack_s status. */
+        uint64_t stat_dsp_lock_s       : 1;  /**< [  9:  9](RO/H) Dsp_lock_s status. */
+        uint64_t stat_pm_tx_train_poly_sel_s : 4;/**< [  8:  5](RO/H) Pm_tx_train_poly_sel_s status. */
+        uint64_t stat_pm_st_en_s       : 1;  /**< [  4:  4](RO/H) Pm_st_en_s status. */
+        uint64_t stat_pm_softrst_s     : 1;  /**< [  3:  3](RO/H) Pm_softrst_s status. */
+        uint64_t stat_pm_sd_txclk_sync_en_pll_s : 1;/**< [  2:  2](RO/H) Pm_sd_txclk_sync_en_pll_s status. */
+        uint64_t stat_pm_sd_softrst_s  : 1;  /**< [  1:  1](RO/H) Pm_sd_softrst_s status. */
+        uint64_t stat_pm_sd_pu_tx_s    : 1;  /**< [  0:  0](RO/H) Pm_sd_pu_tx_s status. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_pm_sd_pu_tx_s    : 1;  /**< [  0:  0](RO/H) Pm_sd_pu_tx_s status. */
+        uint64_t stat_pm_sd_softrst_s  : 1;  /**< [  1:  1](RO/H) Pm_sd_softrst_s status. */
+        uint64_t stat_pm_sd_txclk_sync_en_pll_s : 1;/**< [  2:  2](RO/H) Pm_sd_txclk_sync_en_pll_s status. */
+        uint64_t stat_pm_softrst_s     : 1;  /**< [  3:  3](RO/H) Pm_softrst_s status. */
+        uint64_t stat_pm_st_en_s       : 1;  /**< [  4:  4](RO/H) Pm_st_en_s status. */
+        uint64_t stat_pm_tx_train_poly_sel_s : 4;/**< [  8:  5](RO/H) Pm_tx_train_poly_sel_s status. */
+        uint64_t stat_dsp_lock_s       : 1;  /**< [  9:  9](RO/H) Dsp_lock_s status. */
+        uint64_t stat_dsp_pwrdn_ack_s  : 1;  /**< [ 10: 10](RO/H) Dsp_pwrdn_ack_s status. */
+        uint64_t stat_dsp_rxdn_ack_s   : 1;  /**< [ 11: 11](RO/H) Dsp_rxdn_ack_s status. */
+        uint64_t stat_dsp_sigdet_s     : 1;  /**< [ 12: 12](RO/H) Dsp_sigdet_s status. */
+        uint64_t stat_dsp_txdn_ack_s   : 1;  /**< [ 13: 13](RO/H) Dsp_txdn_ack_s status. */
+        uint64_t stat_pcs_lock_s       : 1;  /**< [ 14: 14](RO/H) Pcs_lock_s status. */
+        uint64_t stat_tx_ready_s       : 1;  /**< [ 15: 15](RO/H) Tx_ready_s status. */
+        uint64_t stat_pll_ready_rx_clean_s : 1;/**< [ 16: 16](RO/H) Pll_ready_rx_clean_s status. */
+        uint64_t stat_pll_ready_rx_s   : 1;  /**< [ 17: 17](RO/H) Pll_ready_rx_s status. */
+        uint64_t stat_pll_ready_tx_clean_s : 1;/**< [ 18: 18](RO/H) Pll_ready_tx_clean_s status. */
+        uint64_t stat_pll_ready_tx_s   : 1;  /**< [ 19: 19](RO/H) Pll_ready_tx_s status. */
+        uint64_t stat_pm_dsp_lock_s    : 1;  /**< [ 20: 20](RO/H) Pm_dsp_lock_s status. */
+        uint64_t stat_pm_dsp_rxdn_ack_s : 1; /**< [ 21: 21](RO/H) Pm_dsp_rxdn_ack_s status. */
+        uint64_t stat_pm_dsp_rxstr_ack_s : 1;/**< [ 22: 22](RO/H) Pm_dsp_rxstr_ack_s status. */
+        uint64_t stat_pm_dsp_sigdet_s  : 1;  /**< [ 23: 23](RO/H) Pm_dsp_sigdet_s status. */
+        uint64_t stat_pm_dsp_txdn_ack_s : 1; /**< [ 24: 24](RO/H) Pm_dsp_txdn_ack_s status. */
+        uint64_t stat_pm_dsp_tx_ready_s : 1; /**< [ 25: 25](RO/H) Pm_dsp_tx_ready_s status. */
+        uint64_t stat_pm_dsp_txstr_ack_s : 1;/**< [ 26: 26](RO/H) Pm_dsp_txstr_ack_s status. */
+        uint64_t stat_pm_rx_init_s     : 1;  /**< [ 27: 27](RO/H) Pm_rx_init_s status. */
+        uint64_t stat_pm_rx_train_enable_s : 1;/**< [ 28: 28](RO/H) Pm_rx_train_enable_s status. */
+        uint64_t stat_pm_sd_dfe_en_s   : 1;  /**< [ 29: 29](RO/H) Pm_sd_dfe_en_s status. */
+        uint64_t stat_pm_sd_dfe_pat_dis_s : 1;/**< [ 30: 30](RO/H) Pm_sd_dfe_pat_dis_s status. */
+        uint64_t stat_pm_sd_dfe_update_dis_s : 1;/**< [ 31: 31](RO/H) Pm_sd_dfe_update_dis_s status. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_status3_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_status3 cavm_rpmx_anp_portx_status3_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS3(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1f0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_STATUS3", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_STATUS3(a,b) cavm_rpmx_anp_portx_status3_t
+#define bustype_CAVM_RPMX_ANP_PORTX_STATUS3(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_STATUS3(a,b) "RPMX_ANP_PORTX_STATUS3"
+#define device_bar_CAVM_RPMX_ANP_PORTX_STATUS3(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_STATUS3(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_STATUS3(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_status4
+ *
+ * RPM Anp Port Status4 Register
+ * Internal signals status.
+ */
+union cavm_rpmx_anp_portx_status4
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_status4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t stat_cmem_state       : 2;  /**< [ 30: 29](RO/H) Command interface CMEM SM state. */
+        uint64_t stat_sd_phy_gen_s     : 5;  /**< [ 28: 24](RO/H) Sd_phy_gen_s status. */
+        uint64_t stat_pm_tx_idle_s     : 1;  /**< [ 23: 23](RO/H) Pm_tx_idle_s status. */
+        uint64_t stat_pm_st_pwrdn_s    : 1;  /**< [ 22: 22](RO/H) Pm_st_pwrdn_s status. */
+        uint64_t stat_pm_st_normal_s   : 1;  /**< [ 21: 21](RO/H) Pm_st_normal_s status. */
+        uint64_t stat_pm_pu_tx_req_s   : 1;  /**< [ 20: 20](RO/H) Pm_pu_tx_req_s status. */
+        uint64_t stat_pm_pu_rx_req_s   : 1;  /**< [ 19: 19](RO/H) Pm_pu_rx_req_s status. */
+        uint64_t stat_sd_busy_tx_s     : 1;  /**< [ 18: 18](RO/H) Sd_busy_tx_s status. */
+        uint64_t stat_sd_busy_rx_s     : 1;  /**< [ 17: 17](RO/H) Sd_busy_rx_s status. */
+        uint64_t stat_pcs_cfg_done_fin_s : 1;/**< [ 16: 16](RO/H) Pcs_cfg_done_fin_s status. */
+        uint64_t stat_tx_train_failed_s : 1; /**< [ 15: 15](RO/H) Tx_train_failed_s status. */
+        uint64_t stat_tx_train_error_s : 2;  /**< [ 14: 13](RO/H) Tx_train_error_s status. */
+        uint64_t stat_tx_train_error_l : 2;  /**< [ 12: 11](RO/H) Tx_train_error_l status. */
+        uint64_t stat_tx_train_complete_s : 1;/**< [ 10: 10](RO/H) Tx_train_complete_s status. */
+        uint64_t stat_sq_detected_lpf_s : 1; /**< [  9:  9](RO/H) Sq_detected_lpf_s status. */
+        uint64_t stat_sd_txclk_sync_start_out_s : 1;/**< [  8:  8](RO/H) Sd_txclk_sync_start_out_s status. */
+        uint64_t stat_sd_rx_dtl_clamp_s : 1; /**< [  7:  7](RO/H) Sd_rx_dtl_clamp_s status. */
+        uint64_t stat_rx_train_failed_s : 1; /**< [  6:  6](RO/H) Rx_train_failed_s status. */
+        uint64_t stat_rx_train_complete_s : 1;/**< [  5:  5](RO/H) Rx_train_complete_s status. */
+        uint64_t stat_rx_init_done_s   : 1;  /**< [  4:  4](RO/H) Rx_init_done_s status. */
+        uint64_t stat_pm_tx_train_enable_s : 1;/**< [  3:  3](RO/H) Pm_tx_train_enable_s status. */
+        uint64_t stat_pm_train_type_s  : 2;  /**< [  2:  1](RO/H) Pm_train_type_s status. */
+        uint64_t stat_pm_sd_tx_idle_s  : 1;  /**< [  0:  0](RO/H) Pm_sd_tx_idle_s status. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_pm_sd_tx_idle_s  : 1;  /**< [  0:  0](RO/H) Pm_sd_tx_idle_s status. */
+        uint64_t stat_pm_train_type_s  : 2;  /**< [  2:  1](RO/H) Pm_train_type_s status. */
+        uint64_t stat_pm_tx_train_enable_s : 1;/**< [  3:  3](RO/H) Pm_tx_train_enable_s status. */
+        uint64_t stat_rx_init_done_s   : 1;  /**< [  4:  4](RO/H) Rx_init_done_s status. */
+        uint64_t stat_rx_train_complete_s : 1;/**< [  5:  5](RO/H) Rx_train_complete_s status. */
+        uint64_t stat_rx_train_failed_s : 1; /**< [  6:  6](RO/H) Rx_train_failed_s status. */
+        uint64_t stat_sd_rx_dtl_clamp_s : 1; /**< [  7:  7](RO/H) Sd_rx_dtl_clamp_s status. */
+        uint64_t stat_sd_txclk_sync_start_out_s : 1;/**< [  8:  8](RO/H) Sd_txclk_sync_start_out_s status. */
+        uint64_t stat_sq_detected_lpf_s : 1; /**< [  9:  9](RO/H) Sq_detected_lpf_s status. */
+        uint64_t stat_tx_train_complete_s : 1;/**< [ 10: 10](RO/H) Tx_train_complete_s status. */
+        uint64_t stat_tx_train_error_l : 2;  /**< [ 12: 11](RO/H) Tx_train_error_l status. */
+        uint64_t stat_tx_train_error_s : 2;  /**< [ 14: 13](RO/H) Tx_train_error_s status. */
+        uint64_t stat_tx_train_failed_s : 1; /**< [ 15: 15](RO/H) Tx_train_failed_s status. */
+        uint64_t stat_pcs_cfg_done_fin_s : 1;/**< [ 16: 16](RO/H) Pcs_cfg_done_fin_s status. */
+        uint64_t stat_sd_busy_rx_s     : 1;  /**< [ 17: 17](RO/H) Sd_busy_rx_s status. */
+        uint64_t stat_sd_busy_tx_s     : 1;  /**< [ 18: 18](RO/H) Sd_busy_tx_s status. */
+        uint64_t stat_pm_pu_rx_req_s   : 1;  /**< [ 19: 19](RO/H) Pm_pu_rx_req_s status. */
+        uint64_t stat_pm_pu_tx_req_s   : 1;  /**< [ 20: 20](RO/H) Pm_pu_tx_req_s status. */
+        uint64_t stat_pm_st_normal_s   : 1;  /**< [ 21: 21](RO/H) Pm_st_normal_s status. */
+        uint64_t stat_pm_st_pwrdn_s    : 1;  /**< [ 22: 22](RO/H) Pm_st_pwrdn_s status. */
+        uint64_t stat_pm_tx_idle_s     : 1;  /**< [ 23: 23](RO/H) Pm_tx_idle_s status. */
+        uint64_t stat_sd_phy_gen_s     : 5;  /**< [ 28: 24](RO/H) Sd_phy_gen_s status. */
+        uint64_t stat_cmem_state       : 2;  /**< [ 30: 29](RO/H) Command interface CMEM SM state. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_status4_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_status4 cavm_rpmx_anp_portx_status4_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS4(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c1f8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_STATUS4", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_STATUS4(a,b) cavm_rpmx_anp_portx_status4_t
+#define bustype_CAVM_RPMX_ANP_PORTX_STATUS4(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_STATUS4(a,b) "RPMX_ANP_PORTX_STATUS4"
+#define device_bar_CAVM_RPMX_ANP_PORTX_STATUS4(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_STATUS4(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_STATUS4(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_anp_port#_status5
+ *
+ * RPM Anp Port Status5 Register
+ * Command interface SMs states + TFIFOs fill levels.
+ */
+union cavm_rpmx_anp_portx_status5
+{
+    uint64_t u;
+    struct cavm_rpmx_anp_portx_status5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reg_rx_tfifo_uw_r     : 5;  /**< [ 30: 26](RO/H) RX T-FIFO Read side used words */
+        uint64_t reg_rx_tfifo_uw_w     : 5;  /**< [ 25: 21](RO/H) RX T-FIFO Write side used words */
+        uint64_t reg_tx_tfifo_uw_r     : 5;  /**< [ 20: 16](RO/H) TX T-FIFO Read side used words */
+        uint64_t reg_tx_tfifo_uw_w     : 5;  /**< [ 15: 11](RO/H) TX T-FIFO Write side used words */
+        uint64_t stat_prog_state_s     : 3;  /**< [ 10:  8](RO/H) Command interface PROG SM state. */
+        uint64_t stat_int_state        : 2;  /**< [  7:  6](RO/H) Command interface INT SM state. */
+        uint64_t stat_pm_cmem_addr_s   : 6;  /**< [  5:  0](RO/H) Command interface cmem current address. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_pm_cmem_addr_s   : 6;  /**< [  5:  0](RO/H) Command interface cmem current address. */
+        uint64_t stat_int_state        : 2;  /**< [  7:  6](RO/H) Command interface INT SM state. */
+        uint64_t stat_prog_state_s     : 3;  /**< [ 10:  8](RO/H) Command interface PROG SM state. */
+        uint64_t reg_tx_tfifo_uw_w     : 5;  /**< [ 15: 11](RO/H) TX T-FIFO Write side used words */
+        uint64_t reg_tx_tfifo_uw_r     : 5;  /**< [ 20: 16](RO/H) TX T-FIFO Read side used words */
+        uint64_t reg_rx_tfifo_uw_w     : 5;  /**< [ 25: 21](RO/H) RX T-FIFO Write side used words */
+        uint64_t reg_rx_tfifo_uw_r     : 5;  /**< [ 30: 26](RO/H) RX T-FIFO Read side used words */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_portx_status5_s cn; */
+};
+typedef union cavm_rpmx_anp_portx_status5 cavm_rpmx_anp_portx_status5_t;
+
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS5(uint64_t a, uint64_t b)
+{
+    if ((a<=4) && (b<=3))
+        return 0x87e0e805c200ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANP_PORTX_STATUS5", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANP_PORTX_STATUS5(a,b) cavm_rpmx_anp_portx_status5_t
+#define bustype_CAVM_RPMX_ANP_PORTX_STATUS5(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANP_PORTX_STATUS5(a,b) "RPMX_ANP_PORTX_STATUS5"
+#define device_bar_CAVM_RPMX_ANP_PORTX_STATUS5(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANP_PORTX_STATUS5(a,b) (a)
+#define arguments_CAVM_RPMX_ANP_PORTX_STATUS5(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_activity
@@ -6507,7 +13133,13 @@ union cavm_rpmx_cmrx_tx_thresh
     struct cavm_rpmx_cmrx_tx_thresh_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_17_63        : 47;
+        uint64_t ch_cred_only_after_mac_tx : 1;/**< [ 16: 16](R/W) When this bit is 1, ch_credit indications to P2X are delayed, to after data has left the MAC FIFO.
+                                                                 MAC FIFO fill level is indicated by wlevel signal. When wlevel is smaller than
+                                                                 the internal credit counter,
+                                                                 the gap between them corresponds to data that has already left the MAC FIFO.
+                                                                 The overall objective here is to be able to meet the standard requirement,
+                                                                 regarding maximum allowed Tx residual data after PFC is received. */
         uint64_t macout_thresh         : 3;  /**< [ 15: 13](R/W) Calibrated value, do not change it unless required to. Max value is 7.
                                                                  CMR starts packet transmission to MAC only if macout FIFO fill (16B granularity)
                                                                  is bigger than this value, or if FIFO contains an EOP beat. */
@@ -6531,7 +13163,13 @@ union cavm_rpmx_cmrx_tx_thresh
         uint64_t macout_thresh         : 3;  /**< [ 15: 13](R/W) Calibrated value, do not change it unless required to. Max value is 7.
                                                                  CMR starts packet transmission to MAC only if macout FIFO fill (16B granularity)
                                                                  is bigger than this value, or if FIFO contains an EOP beat. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t ch_cred_only_after_mac_tx : 1;/**< [ 16: 16](R/W) When this bit is 1, ch_credit indications to P2X are delayed, to after data has left the MAC FIFO.
+                                                                 MAC FIFO fill level is indicated by wlevel signal. When wlevel is smaller than
+                                                                 the internal credit counter,
+                                                                 the gap between them corresponds to data that has already left the MAC FIFO.
+                                                                 The overall objective here is to be able to meet the standard requirement,
+                                                                 regarding maximum allowed Tx residual data after PFC is received. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_tx_thresh_s cn; */
@@ -10244,8 +16882,8 @@ typedef union cavm_rpmx_msix_vecx_addr cavm_rpmx_msix_vecx_addr_t;
 static inline uint64_t CAVM_RPMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=41))
-        return 0x87e0e8800000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x3f);
+    if ((a<=4) && (b<=13))
+        return 0x87e0e8800000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("RPMX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10284,8 +16922,8 @@ typedef union cavm_rpmx_msix_vecx_ctl cavm_rpmx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_RPMX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=41))
-        return 0x87e0e8800008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x3f);
+    if ((a<=4) && (b<=13))
+        return 0x87e0e8800008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("RPMX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -13199,11 +19837,15 @@ union cavm_rpmx_mti_mac100_x_tx_fifo_sections
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold */
+        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold. Do not set to 0, as it will disable the septy
+                                                                 mechanism, which RPM relies on.
+                                                                 SW must set this field at initialization to the calibrated value, designated typical above. */
         uint64_t tx_section_full       : 16; /**< [ 15:  0](R/W) TX section full threshold */
 #else /* Word 0 - Little Endian */
         uint64_t tx_section_full       : 16; /**< [ 15:  0](R/W) TX section full threshold */
-        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold */
+        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold. Do not set to 0, as it will disable the septy
+                                                                 mechanism, which RPM relies on.
+                                                                 SW must set this field at initialization to the calibrated value, designated typical above. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -14397,11 +21039,11 @@ union cavm_rpmx_mti_pcs100_x_control1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W) 1=PCS reset, 0=normal; Self clearing. */
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
         uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
         uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
         uint64_t reserved_12           : 1;
-        uint64_t low_power             : 1;  /**< [ 11: 11](RO) 0=normal operation (Always 0). */
+        uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
         uint64_t reserved_7_10         : 4;
         uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
         uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
@@ -14411,11 +21053,11 @@ union cavm_rpmx_mti_pcs100_x_control1
         uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
         uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
         uint64_t reserved_7_10         : 4;
-        uint64_t low_power             : 1;  /**< [ 11: 11](RO) 0=normal operation (Always 0). */
+        uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
         uint64_t reserved_12           : 1;
         uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
         uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W) 1=PCS reset, 0=normal; Self clearing. */
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -18725,25 +25367,25 @@ union cavm_rpmx_mti_pcs50_x_control1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W) 1=PCS reset, 0=normal; Self clearing. */
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
         uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
         uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
         uint64_t reserved_12           : 1;
         uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
         uint64_t reserved_7_10         : 4;
         uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
-        uint64_t speed_selection       : 4;  /**< [  5:  2](RO) Read value depends on currently active configuration (see PCS_MODE or pins). */
+        uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
-        uint64_t speed_selection       : 4;  /**< [  5:  2](RO) Read value depends on currently active configuration (see PCS_MODE or pins). */
+        uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
         uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
         uint64_t reserved_7_10         : 4;
         uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
         uint64_t reserved_12           : 1;
         uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
         uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W) 1=PCS reset, 0=normal; Self clearing. */
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

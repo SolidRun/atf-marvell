@@ -2945,8 +2945,8 @@ static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t 
  * _ NPC_AF_MCAME()_BANK(3)_CAM()_W1_EXT[MD] corresponds to NPC_MCAM_KEY_X4_S[KW6]\<63:16\>.
  *
  * Note that for the X2 and X4 formats, a wide entry will not match unless
- * the INTF fields from the associated two or four banks match the INTF
- * value from the search key.
+ * the INTF,CTYPE fields from the associated two or four banks match the INTF,CTYPE
+ * value pair from the search key.
  *
  * For the X1 and X2 formats, a match in a lower-numbered bank takes priority over
  * a match in any higher numbered banks. Within each bank, the lowest numbered

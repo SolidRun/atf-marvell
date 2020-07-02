@@ -2936,12 +2936,12 @@ union cavm_smmux_iidr
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type} */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 On CNXXXX, this is the major revision. See FUS_FUSE_NUM_E::CHIP_ID().
+                                                                 On CNXXXX, this is the major revision. See FUSE_NUM_E::CHIP_ID().
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4] */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision or variant of the product.
-                                                                 On CNXXXX, this is the minor revision. See FUS_FUSE_NUM_E::CHIP_ID().
+                                                                 On CNXXXX, this is the minor revision. See FUSE_NUM_E::CHIP_ID().
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0] */
@@ -2955,12 +2955,12 @@ union cavm_smmux_iidr
 
                                                                  Matches the SMMU()_PIDR1/2/4[DES_{0,1,2}] fields. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision or variant of the product.
-                                                                 On CNXXXX, this is the minor revision. See FUS_FUSE_NUM_E::CHIP_ID().
+                                                                 On CNXXXX, this is the minor revision. See FUSE_NUM_E::CHIP_ID().
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0] */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 On CNXXXX, this is the major revision. See FUS_FUSE_NUM_E::CHIP_ID().
+                                                                 On CNXXXX, this is the major revision. See FUSE_NUM_E::CHIP_ID().
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4] */
@@ -7068,12 +7068,10 @@ union cavm_smmux_s_imp_bp_test1
                                                                  \<58\> = FXL - When high: Pending FIFO act as full
                                                                  \<57\> = CMD - When high: NS FIFO act as full.
                                                                  \<56\> = CMD - When high: S FIFO act as full.
-                                                                 \<55\> = CMD - When high: cmd_arb doesn't grant.
-                                                                 \<54\> = CMD - When high: act as msix_inflight is active.
-                                                                 \<53\> = CMD - When high: msix_arb doesn't grant.
-                                                                 \<52\> = TLB - When high: Pipe doesn't grant.
-                                                                 \<51\> = TLB - When high: Imitate TLBI BP from stage 4.
-                                                                 \<50\> = TLB - When high: Imitate TLBI BP from stage 8.
+                                                                 \<55\> = CMD - When high: Page FIFO act as full
+                                                                 \<54:53\> = CMD - Reserved.
+                                                                 \<52:51\> = TLB - Reserved.
+                                                                 \<50\> = TLB - When high: Pipe doesn't grant.
                                                                  \<49\> = TLB - When high: Snoop bridge doesn't get grant.
                                                                  \<48\> = TLB - When high: TLB doesn't grant SYNC ack. */
         uint64_t reserved_44_47        : 4;
@@ -7109,12 +7107,10 @@ union cavm_smmux_s_imp_bp_test1
                                                                  \<58\> = FXL - When high: Pending FIFO act as full
                                                                  \<57\> = CMD - When high: NS FIFO act as full.
                                                                  \<56\> = CMD - When high: S FIFO act as full.
-                                                                 \<55\> = CMD - When high: cmd_arb doesn't grant.
-                                                                 \<54\> = CMD - When high: act as msix_inflight is active.
-                                                                 \<53\> = CMD - When high: msix_arb doesn't grant.
-                                                                 \<52\> = TLB - When high: Pipe doesn't grant.
-                                                                 \<51\> = TLB - When high: Imitate TLBI BP from stage 4.
-                                                                 \<50\> = TLB - When high: Imitate TLBI BP from stage 8.
+                                                                 \<55\> = CMD - When high: Page FIFO act as full
+                                                                 \<54:53\> = CMD - Reserved.
+                                                                 \<52:51\> = TLB - Reserved.
+                                                                 \<50\> = TLB - When high: Pipe doesn't grant.
                                                                  \<49\> = TLB - When high: Snoop bridge doesn't get grant.
                                                                  \<48\> = TLB - When high: TLB doesn't grant SYNC ack. */
 #endif /* Word 0 - End */
@@ -7332,6 +7328,81 @@ static inline uint64_t CAVM_SMMUX_S_IMP_BP_TEST4(uint64_t a)
 #define device_bar_CAVM_SMMUX_S_IMP_BP_TEST4(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_S_IMP_BP_TEST4(a) (a)
 #define arguments_CAVM_SMMUX_S_IMP_BP_TEST4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) smmu#_s_imp_bp_test5
+ *
+ * INTERNAL: SMMU backpressure Register
+ */
+union cavm_smmux_s_imp_bp_test5
+{
+    uint64_t u;
+    struct cavm_smmux_s_imp_bp_test5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 14; /**< [ 63: 50](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63:56\> = When high TXN arbiter doesn't grant access to the corresponding IOB
+                                                                 \<55\> = When high TXN arbiter doesn't grant access to RVU
+                                                                 \<54\> = When high TXN arbiter doesn't grant access to Replay FIFO
+                                                                 \<53\> = When high CFGI cannot enter to CFC
+                                                                 \<52\> = When high PREFETCH cannot enter to CFC
+                                                                 \<51\> = When high GATOS cannot enter to CFC
+                                                                 \<50\> = When high CFC LU force to miss */
+        uint64_t reserved_40_49        : 10;
+        uint64_t bp_cfg                : 28; /**< [ 39: 12](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<39:38\> = Config 13
+                                                                   ..
+                                                                   \<13:12\> = Config 0. */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t bp_cfg                : 28; /**< [ 39: 12](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<39:38\> = Config 13
+                                                                   ..
+                                                                   \<13:12\> = Config 0. */
+        uint64_t reserved_40_49        : 10;
+        uint64_t enable                : 14; /**< [ 63: 50](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63:56\> = When high TXN arbiter doesn't grant access to the corresponding IOB
+                                                                 \<55\> = When high TXN arbiter doesn't grant access to RVU
+                                                                 \<54\> = When high TXN arbiter doesn't grant access to Replay FIFO
+                                                                 \<53\> = When high CFGI cannot enter to CFC
+                                                                 \<52\> = When high PREFETCH cannot enter to CFC
+                                                                 \<51\> = When high GATOS cannot enter to CFC
+                                                                 \<50\> = When high CFC LU force to miss */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_s_imp_bp_test5_s cn; */
+};
+typedef union cavm_smmux_s_imp_bp_test5 cavm_smmux_s_imp_bp_test5_t;
+
+static inline uint64_t CAVM_SMMUX_S_IMP_BP_TEST5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_S_IMP_BP_TEST5(uint64_t a)
+{
+    if (a==0)
+        return 0x830000008ea8ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("SMMUX_S_IMP_BP_TEST5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_S_IMP_BP_TEST5(a) cavm_smmux_s_imp_bp_test5_t
+#define bustype_CAVM_SMMUX_S_IMP_BP_TEST5(a) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_S_IMP_BP_TEST5(a) "SMMUX_S_IMP_BP_TEST5"
+#define device_bar_CAVM_SMMUX_S_IMP_BP_TEST5(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_S_IMP_BP_TEST5(a) (a)
+#define arguments_CAVM_SMMUX_S_IMP_BP_TEST5(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) smmu#_s_imp_cfc#_dat
@@ -7583,10 +7654,7 @@ union cavm_smmux_s_imp_ras_int
     struct cavm_smmux_s_imp_ras_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) ECC double error of translation replay buffer RAM. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) ECC double error of Configuration RAM. */
-        uint32_t reserved_3            : 1;
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) A fetch for TTD or configuration data received poisoned data from CCU/DRAM.
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) A DMA read of the secure CMDQ from memory received poisoned data from CCU/DRAM.
@@ -7600,10 +7668,7 @@ union cavm_smmux_s_imp_ras_int
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) A fetch for TTD or configuration data received poisoned data from CCU/DRAM.
                                                                  If SMMU()_S_IMP_RAS_CTL[RD_PSN_IGN]=0, also treat it as a fault for all related downstream logic. */
-        uint32_t reserved_3            : 1;
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) ECC double error of Configuration RAM. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) ECC double error of translation replay buffer RAM. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_s cn; */
@@ -7637,10 +7702,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1c
     struct cavm_smmux_s_imp_ras_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t reserved_3            : 1;
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7648,10 +7710,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1c
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t reserved_3            : 1;
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_ena_w1c_s cn; */
@@ -7685,10 +7744,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1s
     struct cavm_smmux_s_imp_ras_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t reserved_3            : 1;
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7696,10 +7752,7 @@ union cavm_smmux_s_imp_ras_int_ena_w1s
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t reserved_3            : 1;
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_ena_w1s_s cn; */
@@ -7733,10 +7786,7 @@ union cavm_smmux_s_imp_ras_int_w1s
     struct cavm_smmux_s_imp_ras_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t reserved_3            : 1;
+        uint32_t reserved_3_31         : 29;
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
@@ -7744,10 +7794,7 @@ union cavm_smmux_s_imp_ras_int_w1s
         uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
         uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
         uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t reserved_3            : 1;
-        uint32_t cfc_dbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[CFC_DBE]. */
-        uint32_t rpb_dbe               : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[RPB_DBE]. */
-        uint32_t reserved_6_31         : 26;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_ras_int_w1s_s cn; */
@@ -8270,10 +8317,10 @@ union cavm_smmux_s_mpamidr
         uint32_t reserved_24_31        : 8;
         uint32_t pmg_max               : 8;  /**< [ 23: 16](SRO) The maximum PMG value that is permitted to be used in this security state. This field is RES0
                                                                  when SMMU_IDR3.MPAM == 0 */
-        uint32_t partid_max            : 16; /**< [ 15:  0](SRO) The maximum PMG value that is permitted to be used in this security state. This field is RES0
+        uint32_t partid_max            : 16; /**< [ 15:  0](SRO) The maximum PARTID value that is permitted to be used in this security state. This field is RES0
                                                                  when SMMU_IDR3.MPAM == 0 */
 #else /* Word 0 - Little Endian */
-        uint32_t partid_max            : 16; /**< [ 15:  0](SRO) The maximum PMG value that is permitted to be used in this security state. This field is RES0
+        uint32_t partid_max            : 16; /**< [ 15:  0](SRO) The maximum PARTID value that is permitted to be used in this security state. This field is RES0
                                                                  when SMMU_IDR3.MPAM == 0 */
         uint32_t pmg_max               : 8;  /**< [ 23: 16](SRO) The maximum PMG value that is permitted to be used in this security state. This field is RES0
                                                                  when SMMU_IDR3.MPAM == 0 */

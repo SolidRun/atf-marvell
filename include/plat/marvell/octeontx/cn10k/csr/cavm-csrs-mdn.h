@@ -529,7 +529,7 @@ union cavm_mdn_bist_control
                                                                  the debug write has completed. */
         uint32_t tcam_dsel             : 1;  /**< [ 26: 26](R/W1) DSEL value. To Read/write Data or Mask into the TCAM. When '1' Data is
                                                                  presented, when '0' MASK value is presented. */
-        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W1) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
+        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
                                                                  0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
                                                                  0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
                                                                  0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
@@ -555,7 +555,7 @@ union cavm_mdn_bist_control
         uint32_t one_rep               : 1;  /**< [ 22: 22](R/W1) When set to one, the BIST state machine performs BIST only upon the REP
                                                                  specified below.  When cleared to zero, the BIST state machine performs
                                                                  BIST starting at the [REP] specified which may include multiple REPs. */
-        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W1) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
+        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
                                                                  0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
                                                                  0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
                                                                  0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
@@ -619,21 +619,21 @@ union cavm_mdn_bist_control_dbg_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
-        uint32_t wr_be                 : 2;  /**< [ 25: 24](RO/H) Debug write data byte enables. used the two bits to expand to the data width. */
-        uint32_t wr_mask               : 2;  /**< [ 23: 22](RO/H) Debug write data mask (in case of TCAMs). used the two bits to expand to the
+        uint32_t wr_be                 : 2;  /**< [ 25: 24](R/W) Debug write data byte enables. used the two bits to expand to the data width. */
+        uint32_t wr_mask               : 2;  /**< [ 23: 22](R/W) Debug write data mask (in case of TCAMs). used the two bits to expand to the
                                                                  data width. */
-        uint32_t wr_dat                : 2;  /**< [ 21: 20](RO/H) Debug write data. used the two bits to expand to the data width. */
-        uint32_t debug_addr            : 20; /**< [ 19:  0](RO/H) Read address/ write address in case we support debug write. Write this register 1st
+        uint32_t wr_dat                : 2;  /**< [ 21: 20](R/W) Debug write data. used the two bits to expand to the data width. */
+        uint32_t debug_addr            : 20; /**< [ 19:  0](R/W) Read address/ write address in case we support debug write. Write this register 1st
                                                                  followed by the MDN_BIST_CONTROL to enable hardware to use the same START bit to get the
                                                                  address to the FSM. This field must be written as zeros when starting or re-starting BIST. */
 #else /* Word 0 - Little Endian */
-        uint32_t debug_addr            : 20; /**< [ 19:  0](RO/H) Read address/ write address in case we support debug write. Write this register 1st
+        uint32_t debug_addr            : 20; /**< [ 19:  0](R/W) Read address/ write address in case we support debug write. Write this register 1st
                                                                  followed by the MDN_BIST_CONTROL to enable hardware to use the same START bit to get the
                                                                  address to the FSM. This field must be written as zeros when starting or re-starting BIST. */
-        uint32_t wr_dat                : 2;  /**< [ 21: 20](RO/H) Debug write data. used the two bits to expand to the data width. */
-        uint32_t wr_mask               : 2;  /**< [ 23: 22](RO/H) Debug write data mask (in case of TCAMs). used the two bits to expand to the
+        uint32_t wr_dat                : 2;  /**< [ 21: 20](R/W) Debug write data. used the two bits to expand to the data width. */
+        uint32_t wr_mask               : 2;  /**< [ 23: 22](R/W) Debug write data mask (in case of TCAMs). used the two bits to expand to the
                                                                  data width. */
-        uint32_t wr_be                 : 2;  /**< [ 25: 24](RO/H) Debug write data byte enables. used the two bits to expand to the data width. */
+        uint32_t wr_be                 : 2;  /**< [ 25: 24](R/W) Debug write data byte enables. used the two bits to expand to the data width. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -988,15 +988,25 @@ union cavm_mdn_debug_defect_row
     struct cavm_mdn_debug_defect_row_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rep_defect            : 8;  /**< [ 31: 24](RO/H) Repetition defect in the memory cell. */
+        uint32_t rep_defect            : 8;  /**< [ 31: 24](RO/H) Repetition at which the defect in the memory cell is found.
+                                                                 The maximum, minimum, first or last defect row is captured
+                                                                 according to the setting of MDN_BIST_CONFIG[DEBUG_ALGO]. The REP
+                                                                 at which the Error was detected is recorded in this field. */
         uint32_t reserved_21_23        : 3;
         uint32_t valid_defect          : 1;  /**< [ 20: 20](RO/H) Defect captured in [ROW_DEFECT] is valid. */
-        uint32_t row_defect            : 20; /**< [ 19:  0](RO/H) Row defect in the memory cell. */
+        uint32_t row_defect            : 20; /**< [ 19:  0](RO/H) Row in the memory cell in which defect is found.
+                                                                 The maximum, minimum, first or last defect row is captured here
+                                                                 according to the setting of MDN_BIST_CONFIG[DEBUG_ALGO]. */
 #else /* Word 0 - Little Endian */
-        uint32_t row_defect            : 20; /**< [ 19:  0](RO/H) Row defect in the memory cell. */
+        uint32_t row_defect            : 20; /**< [ 19:  0](RO/H) Row in the memory cell in which defect is found.
+                                                                 The maximum, minimum, first or last defect row is captured here
+                                                                 according to the setting of MDN_BIST_CONFIG[DEBUG_ALGO]. */
         uint32_t valid_defect          : 1;  /**< [ 20: 20](RO/H) Defect captured in [ROW_DEFECT] is valid. */
         uint32_t reserved_21_23        : 3;
-        uint32_t rep_defect            : 8;  /**< [ 31: 24](RO/H) Repetition defect in the memory cell. */
+        uint32_t rep_defect            : 8;  /**< [ 31: 24](RO/H) Repetition at which the defect in the memory cell is found.
+                                                                 The maximum, minimum, first or last defect row is captured
+                                                                 according to the setting of MDN_BIST_CONFIG[DEBUG_ALGO]. The REP
+                                                                 at which the Error was detected is recorded in this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdn_debug_defect_row_s cn; */

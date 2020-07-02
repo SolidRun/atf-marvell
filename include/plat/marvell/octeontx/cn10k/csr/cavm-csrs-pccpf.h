@@ -240,8 +240,10 @@
  */
 #define CAVM_PCC_JTAG_DEV_E_DAP (1)
 #define CAVM_PCC_JTAG_DEV_E_ECP (4)
+#define CAVM_PCC_JTAG_DEV_E_EHSM (5)
 #define CAVM_PCC_JTAG_DEV_E_MAIN (0)
 #define CAVM_PCC_JTAG_DEV_E_MCP (3)
+#define CAVM_PCC_JTAG_DEV_E_ML (6)
 #define CAVM_PCC_JTAG_DEV_E_SCP (2)
 
 /**
@@ -255,9 +257,6 @@
 #define CAVM_PCC_PIDR_PARTNUM0_E_CTI (0xd)
 #define CAVM_PCC_PIDR_PARTNUM0_E_DBG (0xe)
 #define CAVM_PCC_PIDR_PARTNUM0_E_ETR (0x13)
-#define CAVM_PCC_PIDR_PARTNUM0_E_GICD (2)
-#define CAVM_PCC_PIDR_PARTNUM0_E_GICR (1)
-#define CAVM_PCC_PIDR_PARTNUM0_E_GITS (3)
 #define CAVM_PCC_PIDR_PARTNUM0_E_GTI_BZ (4)
 #define CAVM_PCC_PIDR_PARTNUM0_E_GTI_CC (5)
 #define CAVM_PCC_PIDR_PARTNUM0_E_GTI_CTL (6)
@@ -2645,7 +2644,7 @@ union cavm_pccpf_xxx_vsec_sctl2
                                                                  For blocks which support SSID override, the R/W version of the value to be presented in
                                                                  PCCPF_XXX_SUBID[SSID]. \<15:8\> resets to PCC_PROD_E::GEN. \<7:0\> resets to 0x0.
 
-                                                                 At early boot the value in fuse FUS_FUSE_NUM_E::CHIP_TYPE() should be loaded into \<15:8\>
+                                                                 At early boot the value in fuse FUSE_NUM_E::CHIP_TYPE() should be loaded into \<15:8\>
                                                                  and 0x0 into \<7:0\>.  For blocks which do not support SSID override, this field is RAZ, and
                                                                  PCCPF_XXX_SUBID[SSID] will return a chip-specific value with \<15:8\> enumerated by
                                                                  PCC_PROD_E and \<7:0\> = 0x0. */
@@ -2654,7 +2653,7 @@ union cavm_pccpf_xxx_vsec_sctl2
                                                                  For blocks which support SSID override, the R/W version of the value to be presented in
                                                                  PCCPF_XXX_SUBID[SSID]. \<15:8\> resets to PCC_PROD_E::GEN. \<7:0\> resets to 0x0.
 
-                                                                 At early boot the value in fuse FUS_FUSE_NUM_E::CHIP_TYPE() should be loaded into \<15:8\>
+                                                                 At early boot the value in fuse FUSE_NUM_E::CHIP_TYPE() should be loaded into \<15:8\>
                                                                  and 0x0 into \<7:0\>.  For blocks which do not support SSID override, this field is RAZ, and
                                                                  PCCPF_XXX_SUBID[SSID] will return a chip-specific value with \<15:8\> enumerated by
                                                                  PCC_PROD_E and \<7:0\> = 0x0. */

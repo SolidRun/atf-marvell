@@ -37,7 +37,7 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_GTI_INT_VEC_E_CORE_WDOGX_DEL3T(a) (0xa + (a))
-#define CAVM_GTI_INT_VEC_E_CORE_WDOGX_INT(a) (0x40 + (a))
+#define CAVM_GTI_INT_VEC_E_CORE_WDOGX_INT(a) (0x4a + (a))
 #define CAVM_GTI_INT_VEC_E_ERROR (8)
 #define CAVM_GTI_INT_VEC_E_MAILBOX_RX (7)
 #define CAVM_GTI_INT_VEC_E_SECURE_WATCHDOG (4)
@@ -2393,11 +2393,9 @@ union cavm_gti_cwd_del3t
     struct cavm_gti_cwd_del3t_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_del3t_s cn; */
@@ -2430,11 +2428,9 @@ union cavm_gti_cwd_del3t_ena_clr
     struct cavm_gti_cwd_del3t_ena_clr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_del3t_ena_clr_s cn; */
@@ -2467,11 +2463,9 @@ union cavm_gti_cwd_del3t_ena_set
     struct cavm_gti_cwd_del3t_ena_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_del3t_ena_set_s cn; */
@@ -2504,11 +2498,9 @@ union cavm_gti_cwd_del3t_set
     struct cavm_gti_cwd_del3t_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_del3t_set_s cn; */
@@ -2541,11 +2533,9 @@ union cavm_gti_cwd_int
     struct cavm_gti_cwd_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog interrupt. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog interrupt. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog interrupt. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_int_s cn; */
@@ -2578,11 +2568,9 @@ union cavm_gti_cwd_int_ena_clr
     struct cavm_gti_cwd_int_ena_clr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_int_ena_clr_s cn; */
@@ -2615,11 +2603,9 @@ union cavm_gti_cwd_int_ena_set
     struct cavm_gti_cwd_int_ena_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_int_ena_set_s cn; */
@@ -2652,11 +2638,9 @@ union cavm_gti_cwd_int_set
     struct cavm_gti_cwd_int_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_int_set_s cn; */
@@ -2732,7 +2716,7 @@ typedef union cavm_gti_cwd_pokex cavm_gti_cwd_pokex_t;
 static inline uint64_t CAVM_GTI_CWD_POKEX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_POKEX(uint64_t a)
 {
-    if (a<=53)
+    if (a<=63)
         return 0x802000050000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("GTI_CWD_POKEX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2798,7 +2782,7 @@ typedef union cavm_gti_cwd_wdogx cavm_gti_cwd_wdogx_t;
 static inline uint64_t CAVM_GTI_CWD_WDOGX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_WDOGX(uint64_t a)
 {
-    if (a<=53)
+    if (a<=63)
         return 0x802000040000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("GTI_CWD_WDOGX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3068,8 +3052,8 @@ typedef union cavm_gti_msix_pbax cavm_gti_msix_pbax_t;
 static inline uint64_t CAVM_GTI_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_MSIX_PBAX(uint64_t a)
 {
-    if (a<=1)
-        return 0x80200f0f0000ll + 8ll * ((a) & 0x1);
+    if (a<=2)
+        return 0x80200f0f0000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("GTI_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3152,8 +3136,8 @@ typedef union cavm_gti_msix_vecx_addr cavm_gti_msix_vecx_addr_t;
 static inline uint64_t CAVM_GTI_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (a<=117)
-        return 0x80200f000000ll + 0x10ll * ((a) & 0x7f);
+    if (a<=137)
+        return 0x80200f000000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GTI_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3192,8 +3176,8 @@ typedef union cavm_gti_msix_vecx_ctl cavm_gti_msix_vecx_ctl_t;
 static inline uint64_t CAVM_GTI_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_MSIX_VECX_CTL(uint64_t a)
 {
-    if (a<=117)
-        return 0x80200f000008ll + 0x10ll * ((a) & 0x7f);
+    if (a<=137)
+        return 0x80200f000008ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GTI_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 

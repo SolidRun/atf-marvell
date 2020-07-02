@@ -215,7 +215,20 @@ union cavm_pemx_bar_ctl
     struct cavm_pemx_bar_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_41_63        : 23;
+        uint64_t stream_bits           : 5;  /**< [ 40: 36](R/W) When in endpoint mode, determines the formation of the inbound transaction's SMMU stream ID.
+                                                                 When in RC mode or [STREAM_BITS] is zero, the stream ID is the PEM bus's ECAM domain
+                                                                 (PCC_DEV_CON_E::PCIERC()\<21:16\>), concatenated with the inbound 16-bit requester ID (see the
+                                                                 PCC chapter). When in endpoint mode and [STREAM_BITS] is 1..16, [STREAM_BITS] number of least
+                                                                 significant bits of the requester ID are zeroed out before performing the above concatenation.
+
+                                                                 0x0  = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15:0\>}.
+                                                                 0x1  = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15:1\>, 0\<0\>}.
+                                                                 0x2  = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15:2\>, 0\<1:0\>}.
+                                                                 ...
+                                                                 0xf = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15\>, 0\<14:0\>}.
+                                                                 0x10 = Stream ID is {PEM ECAM domain\<21:16\>, 0}.
+                                                                 0x11 and above = Reserved. */
         uint64_t vf_bar0_enb           : 1;  /**< [ 35: 35](R/W) This bit controls whether BAR0 for all virtual functions is enabled.
 
                                                                  In RC mode:
@@ -417,7 +430,20 @@ union cavm_pemx_bar_ctl
                                                                   PCIEEP_SRIOV_CTL[VFE].  Both PCIEEP_SRIOV_CTL[VFE] and this
                                                                   bit must be set to enable a VF BAR0 hit to the PCI address
                                                                   specified by PCIEEP_SRIOV_BAR0U / PCIEEP_SRIOV_BAR0L. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t stream_bits           : 5;  /**< [ 40: 36](R/W) When in endpoint mode, determines the formation of the inbound transaction's SMMU stream ID.
+                                                                 When in RC mode or [STREAM_BITS] is zero, the stream ID is the PEM bus's ECAM domain
+                                                                 (PCC_DEV_CON_E::PCIERC()\<21:16\>), concatenated with the inbound 16-bit requester ID (see the
+                                                                 PCC chapter). When in endpoint mode and [STREAM_BITS] is 1..16, [STREAM_BITS] number of least
+                                                                 significant bits of the requester ID are zeroed out before performing the above concatenation.
+
+                                                                 0x0  = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15:0\>}.
+                                                                 0x1  = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15:1\>, 0\<0\>}.
+                                                                 0x2  = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15:2\>, 0\<1:0\>}.
+                                                                 ...
+                                                                 0xf = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15\>, 0\<14:0\>}.
+                                                                 0x10 = Stream ID is {PEM ECAM domain\<21:16\>, 0}.
+                                                                 0x11 and above = Reserved. */
+        uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_bar_ctl_s cn; */

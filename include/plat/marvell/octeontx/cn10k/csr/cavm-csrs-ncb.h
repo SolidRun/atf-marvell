@@ -477,11 +477,13 @@ union cavm_ncbx_arbidx_rr_ctl
         uint64_t reserved_4_63         : 60;
         uint64_t weight                : 4;  /**< [  3:  0](R/W/H) The weight field controls how many times a requestor will be granted access to
                                                                  ncbi bus when multiple requestors are requesting at the same time.
-                                                                 A value of 0 allows 1 time and a value of 15 allows 16 times. */
+                                                                 A value of 1 allows 1 time and a value of 15 allows 15 times.
+                                                                 A value of zero will use round robin arbitration. */
 #else /* Word 0 - Little Endian */
         uint64_t weight                : 4;  /**< [  3:  0](R/W/H) The weight field controls how many times a requestor will be granted access to
                                                                  ncbi bus when multiple requestors are requesting at the same time.
-                                                                 A value of 0 allows 1 time and a value of 15 allows 16 times. */
+                                                                 A value of 1 allows 1 time and a value of 15 allows 15 times.
+                                                                 A value of zero will use round robin arbitration. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;

@@ -959,7 +959,7 @@ static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b==0))
-        return 0x87e200808000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
+        return 0x87e2008f0000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 

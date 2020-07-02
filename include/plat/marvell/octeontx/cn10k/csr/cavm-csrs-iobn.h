@@ -374,18 +374,12 @@ union cavm_iobn_rperf_inrm_inbreq_s
         uint32_t smmu                  : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from the SMMU. Category is transaction source. Category fields
                                                                  are SMMU, NCB0, NCB1, and NCB2. */
-        uint32_t req                   : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is a request. Category is transaction request type. Category fields
-                                                                 are VIC and REQ.
-
-                                                                 Internal:
-                                                                 Request meaning using the VC REQ/RHQ CCU channel. */
-        uint32_t vic                   : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is a victim from the PCIe store-order-widget. Category is
-                                                                 transaction request type. Category fields are VIC and REQ.
-
-                                                                 Internal:
-                                                                 Victim meaning using the VC VIC CCU channel. */
+        uint32_t retry                 : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a retried request. Category is transaction retry. Category
+                                                                 fields are RETRY. */
+        uint32_t sow                   : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is from the PCIe store-order-widget. Category is transaction
+                                                                 SOW. Category fields are SOW. */
         uint32_t wd0                   : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request without data associated. Category is transaction
                                                                  data. Category fields are WD1 and WD0. */
@@ -459,18 +453,12 @@ union cavm_iobn_rperf_inrm_inbreq_s
         uint32_t wd0                   : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request without data associated. Category is transaction
                                                                  data. Category fields are WD1 and WD0. */
-        uint32_t vic                   : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is a victim from the PCIe store-order-widget. Category is
-                                                                 transaction request type. Category fields are VIC and REQ.
-
-                                                                 Internal:
-                                                                 Victim meaning using the VC VIC CCU channel. */
-        uint32_t req                   : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is a request. Category is transaction request type. Category fields
-                                                                 are VIC and REQ.
-
-                                                                 Internal:
-                                                                 Request meaning using the VC REQ/RHQ CCU channel. */
+        uint32_t sow                   : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is from the PCIe store-order-widget. Category is transaction
+                                                                 SOW. Category fields are SOW. */
+        uint32_t retry                 : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a retried request. Category is transaction retry. Category
+                                                                 fields are RETRY. */
         uint32_t smmu                  : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from the SMMU. Category is transaction source. Category fields
                                                                  are SMMU, NCB0, NCB1, and NCB2. */
@@ -608,7 +596,10 @@ union cavm_iobn_rperf_inrm_outreq_s
 
                                                                  Internal:
                                                                  Transactions with ERR set will target the error handler AID. */
-        uint32_t reserved_7_8          : 2;
+        uint32_t ret1                  : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request that is retried destined for NCB1. */
+        uint32_t ret0                  : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request that is retried destined for NCB0. */
         uint32_t wd0                   : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request without data associated. Category is transaction
                                                                  data. Category fields are WD1 and WD0. */
@@ -662,7 +653,10 @@ union cavm_iobn_rperf_inrm_outreq_s
         uint32_t wd0                   : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request without data associated. Category is transaction
                                                                  data. Category fields are WD1 and WD0. */
-        uint32_t reserved_7_8          : 2;
+        uint32_t ret0                  : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request that is retried destined for NCB0. */
+        uint32_t ret1                  : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request that is retried destined for NCB1. */
         uint32_t smmu                  : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to the SMMU. Category is transaction
                                                                  destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
@@ -858,14 +852,14 @@ union cavm_iobnx_bp_testx
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
-                                                                 \<63\> = Backpressure OMP OSIDq(CMD) LBK FIFO.
-                                                                 \<62\> = Backpressure OMP OSIDq(CMD) MSH FIFO.
-                                                                 \<61\> = TBD.
-                                                                 \<60\> = Backpressure OMP RDFLIDq (RSP) FIFO.
-                                                                 \<59\> = VCC - DAT (VIC).
-                                                                 \<58\> = VCC - DAT (REQ/REQH).
-                                                                 \<57\> = VCC - CMD (VIC).
-                                                                 \<56\> = VCC - CMD (REQ/RQH).
+                                                                 \<63\> = TBD.
+                                                                 \<62\> = imi_retry_smmu
+                                                                 \<61\> = imi_retry_sow
+                                                                 \<60\> = imi_tx_dat_stcpid
+                                                                 \<59\> = imi_tx_rsp
+                                                                 \<58\> = LBK - DAT. 10x.
+                                                                 \<57\> = LBK - RSP. 10x.
+                                                                 \<56\> = LBK - REQ. 10x.
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
@@ -961,14 +955,14 @@ union cavm_iobnx_bp_testx
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
-                                                                 \<63\> = Backpressure OMP OSIDq(CMD) LBK FIFO.
-                                                                 \<62\> = Backpressure OMP OSIDq(CMD) MSH FIFO.
-                                                                 \<61\> = TBD.
-                                                                 \<60\> = Backpressure OMP RDFLIDq (RSP) FIFO.
-                                                                 \<59\> = VCC - DAT (VIC).
-                                                                 \<58\> = VCC - DAT (REQ/REQH).
-                                                                 \<57\> = VCC - CMD (VIC).
-                                                                 \<56\> = VCC - CMD (REQ/RQH).
+                                                                 \<63\> = TBD.
+                                                                 \<62\> = imi_retry_smmu
+                                                                 \<61\> = imi_retry_sow
+                                                                 \<60\> = imi_tx_dat_stcpid
+                                                                 \<59\> = imi_tx_rsp
+                                                                 \<58\> = LBK - DAT. 10x.
+                                                                 \<57\> = LBK - RSP. 10x.
+                                                                 \<56\> = LBK - REQ. 10x.
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
@@ -1029,15 +1023,11 @@ union cavm_iobnx_cfg0
                                                                  Each bit is control for a given NCB bus, where bit 8 is for NCB bus 0 and bit 11 is for NCB bus 3. */
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
                                                                  [5] == NCB1, [6] == NCB2, [7] == NCB3. */
-        uint64_t force_immx_sclk_cond_clk_en : 1;/**< [  3:  3](R/W) Force on IMMX clocks. For diagnostic use only. */
-        uint64_t force_inrm_sclk_cond_clk_en : 1;/**< [  2:  2](R/W) Force on INRM clocks. For diagnostic use only. */
-        uint64_t force_inrf_sclk_cond_clk_en : 1;/**< [  1:  1](R/W) Force on INRF clocks. For diagnostic use only. */
-        uint64_t force_ins_sclk_cond_clk_en : 1;/**< [  0:  0](R/W) Force on INS clocks. For diagnostic use only. */
+        uint64_t reserved_1_3          : 3;
+        uint64_t force_sclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force on sclks. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t force_ins_sclk_cond_clk_en : 1;/**< [  0:  0](R/W) Force on INS clocks. For diagnostic use only. */
-        uint64_t force_inrf_sclk_cond_clk_en : 1;/**< [  1:  1](R/W) Force on INRF clocks. For diagnostic use only. */
-        uint64_t force_inrm_sclk_cond_clk_en : 1;/**< [  2:  2](R/W) Force on INRM clocks. For diagnostic use only. */
-        uint64_t force_immx_sclk_cond_clk_en : 1;/**< [  3:  3](R/W) Force on IMMX clocks. For diagnostic use only. */
+        uint64_t force_sclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force on sclks. For diagnostic use only. */
+        uint64_t reserved_1_3          : 3;
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
                                                                  [5] == NCB1, [6] == NCB2, [7] == NCB3. */
         uint64_t clken                 : 4;  /**< [ 11:  8](R/W) Force the NCBO clock enable to be always on. For diagnostic use only.
@@ -1084,13 +1074,11 @@ union cavm_iobnx_cfg1
         uint64_t reserved_4_7          : 4;
         uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
                                                                  outstanding request to receive responses. For diagnostic use only. */
-        uint64_t force_immx_rclk_cond_clk_en : 1;/**< [  2:  2](R/W) Force conditional clocks active. For diagnostic use only. */
-        uint64_t force_inrm_rclk_cond_clk_en : 1;/**< [  1:  1](R/W) Force conditional clocks active. For diagnostic use only. */
-        uint64_t force_inrf_rclk_cond_clk_en : 1;/**< [  0:  0](R/W) Force conditional clocks active. For diagnostic use only. */
+        uint64_t reserved_1_2          : 2;
+        uint64_t force_rclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force rclk conditional clocks active. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t force_inrf_rclk_cond_clk_en : 1;/**< [  0:  0](R/W) Force conditional clocks active. For diagnostic use only. */
-        uint64_t force_inrm_rclk_cond_clk_en : 1;/**< [  1:  1](R/W) Force conditional clocks active. For diagnostic use only. */
-        uint64_t force_immx_rclk_cond_clk_en : 1;/**< [  2:  2](R/W) Force conditional clocks active. For diagnostic use only. */
+        uint64_t force_rclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force rclk conditional clocks active. For diagnostic use only. */
+        uint64_t reserved_1_2          : 2;
         uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
                                                                  outstanding request to receive responses. For diagnostic use only. */
         uint64_t reserved_4_7          : 4;

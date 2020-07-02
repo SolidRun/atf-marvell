@@ -2364,13 +2364,13 @@ union cavm_pcieepx_ebar
     struct cavm_pcieepx_ebar_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eraddr                : 20; /**< [ 31: 12](R/W) Expansion ROM address. */
+        uint32_t eraddr                : 20; /**< [ 31: 12](RO) Expansion ROM address. */
         uint32_t reserved_1_11         : 11;
-        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable (Not Supported). */
+        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not Supported). */
 #else /* Word 0 - Little Endian */
-        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable (Not Supported). */
+        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not Supported). */
         uint32_t reserved_1_11         : 11;
-        uint32_t eraddr                : 20; /**< [ 31: 12](R/W) Expansion ROM address. */
+        uint32_t eraddr                : 20; /**< [ 31: 12](RO) Expansion ROM address. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_ebar_s cn; */
@@ -2931,12 +2931,12 @@ union cavm_pcieepx_gen3_eq_ctl
                                                                  * Equalization phase 3 complete status bit is set in the link status register. */
         uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
                                                                  0 = Direction of change.
-                                                                 1 = Figure of merit.
+                                                                 1 = Figure of merit (Not Supported).
                                                                  2-15 = Reserved. */
 #else /* Word 0 - Little Endian */
         uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
                                                                  0 = Direction of change.
-                                                                 1 = Figure of merit.
+                                                                 1 = Figure of merit (Not Supported).
                                                                  2-15 = Reserved. */
         uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
 
@@ -3383,7 +3383,7 @@ union cavm_pcieepx_id
         uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for PCIERP, writable through PEM()_CFG_TBL().
                                                                   Firmware must configure this field prior to starting the link.
                                                                   _ \<15:8\> is typically set to the appropriate chip number, from the
-                                                                 FUS_FUSE_NUM_E::CHIP_TYPE() fuses, and as enumerated by PCC_PROD_E::CNXXXX.
+                                                                 FUSE_NUM_E::CHIP_TYPE() fuses, and as enumerated by PCC_PROD_E::CNXXXX.
                                                                   _ \<7:0\> is typically set to PCC_DEV_IDL_E::PCIERC. */
         uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Marvell (Cavium)'s vendor ID, writable through PEM()_CFG_TBL().
                                                                  During an EPROM Load, if a value of 0xFFFF is loaded to this field and
@@ -3399,7 +3399,7 @@ union cavm_pcieepx_id
         uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for PCIERP, writable through PEM()_CFG_TBL().
                                                                   Firmware must configure this field prior to starting the link.
                                                                   _ \<15:8\> is typically set to the appropriate chip number, from the
-                                                                 FUS_FUSE_NUM_E::CHIP_TYPE() fuses, and as enumerated by PCC_PROD_E::CNXXXX.
+                                                                 FUSE_NUM_E::CHIP_TYPE() fuses, and as enumerated by PCC_PROD_E::CNXXXX.
                                                                   _ \<7:0\> is typically set to PCC_DEV_IDL_E::PCIERC. */
 #endif /* Word 0 - End */
     } s;
@@ -12226,12 +12226,12 @@ union cavm_pcieepx_rev
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_TBL().
 
                                                                  Software must initialize this register if desired to represent the proper
-                                                                 revision number, i.e. as read from FUS_FUSE_NUM_E::CHIP_ID(). */
+                                                                 revision number, i.e. as read from FUSE_NUM_E::CHIP_ID(). */
 #else /* Word 0 - Little Endian */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_TBL().
 
                                                                  Software must initialize this register if desired to represent the proper
-                                                                 revision number, i.e. as read from FUS_FUSE_NUM_E::CHIP_ID(). */
+                                                                 revision number, i.e. as read from FUSE_NUM_E::CHIP_ID(). */
         uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_TBL().
                                                                  0x0 = No standard interface. */
         uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_TBL().

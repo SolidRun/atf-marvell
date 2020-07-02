@@ -366,11 +366,8 @@
  * NIX Send Completion Status Enumeration
  * Enumerates values of NIX_SEND_COMP_S[STATUS] and NIX_LF_SEND_ERR_DBG[ERRCODE].
  */
-#define CAVM_NIX_SEND_STATUS_E_AGE_DROP (0x30)
-#define CAVM_NIX_SEND_STATUS_E_COLOR_RED_DROP (0x28)
 #define CAVM_NIX_SEND_STATUS_E_DATA_FAULT (0x16)
 #define CAVM_NIX_SEND_STATUS_E_DATA_POISON (0x17)
-#define CAVM_NIX_SEND_STATUS_E_FLUSH_DROP (0x29)
 #define CAVM_NIX_SEND_STATUS_E_GOOD (0)
 #define CAVM_NIX_SEND_STATUS_E_INVALID_SUBDC (0x14)
 #define CAVM_NIX_SEND_STATUS_E_JUMP_FAULT (7)
@@ -389,6 +386,7 @@
 #define CAVM_NIX_SEND_STATUS_E_SEND_MEM_ERR (0x13)
 #define CAVM_NIX_SEND_STATUS_E_SEND_MEM_FAULT (0x27)
 #define CAVM_NIX_SEND_STATUS_E_SEND_SG_ERR (0x12)
+#define CAVM_NIX_SEND_STATUS_E_SEND_STATS_ERR (0x28)
 #define CAVM_NIX_SEND_STATUS_E_SQB_FAULT (3)
 #define CAVM_NIX_SEND_STATUS_E_SQB_POISON (4)
 #define CAVM_NIX_SEND_STATUS_E_SQ_CTX_FAULT (1)
@@ -538,6 +536,7 @@
  * Enumerates the last index of NIX_AF_LF()_RX_STAT() and NIX_LF_RX_STAT().
  */
 #define CAVM_NIX_STAT_LF_RX_E_RX_BCAST (2)
+#define CAVM_NIX_STAT_LF_RX_E_RX_CPT_DROP_PKTS (0x18)
 #define CAVM_NIX_STAT_LF_RX_E_RX_DROP (4)
 #define CAVM_NIX_STAT_LF_RX_E_RX_DROP_OCTS (5)
 #define CAVM_NIX_STAT_LF_RX_E_RX_DRP_BCAST (8)
@@ -546,15 +545,21 @@
 #define CAVM_NIX_STAT_LF_RX_E_RX_DRP_MCAST (9)
 #define CAVM_NIX_STAT_LF_RX_E_RX_ERR (7)
 #define CAVM_NIX_STAT_LF_RX_E_RX_FCS (6)
-#define CAVM_NIX_STAT_LF_RX_E_RX_GC_OCTS (0xc)
-#define CAVM_NIX_STAT_LF_RX_E_RX_GC_PKTS (0xd)
+#define CAVM_NIX_STAT_LF_RX_E_RX_GC_OCTS_DROP (0x12)
+#define CAVM_NIX_STAT_LF_RX_E_RX_GC_OCTS_PASSED (0xc)
+#define CAVM_NIX_STAT_LF_RX_E_RX_GC_PKTS_DROP (0x13)
+#define CAVM_NIX_STAT_LF_RX_E_RX_GC_PKTS_PASSED (0xd)
 #define CAVM_NIX_STAT_LF_RX_E_RX_MCAST (3)
 #define CAVM_NIX_STAT_LF_RX_E_RX_OCTS (0)
-#define CAVM_NIX_STAT_LF_RX_E_RX_RC_OCTS (0x10)
-#define CAVM_NIX_STAT_LF_RX_E_RX_RC_PKTS (0x11)
+#define CAVM_NIX_STAT_LF_RX_E_RX_RC_OCTS_DROP (0x16)
+#define CAVM_NIX_STAT_LF_RX_E_RX_RC_OCTS_PASSED (0x10)
+#define CAVM_NIX_STAT_LF_RX_E_RX_RC_PKTS_DROP (0x17)
+#define CAVM_NIX_STAT_LF_RX_E_RX_RC_PKTS_PASSED (0x11)
 #define CAVM_NIX_STAT_LF_RX_E_RX_UCAST (1)
-#define CAVM_NIX_STAT_LF_RX_E_RX_YC_OCTS (0xe)
-#define CAVM_NIX_STAT_LF_RX_E_RX_YC_PKTS (0xf)
+#define CAVM_NIX_STAT_LF_RX_E_RX_YC_OCTS_DROP (0x14)
+#define CAVM_NIX_STAT_LF_RX_E_RX_YC_OCTS_PASSED (0xe)
+#define CAVM_NIX_STAT_LF_RX_E_RX_YC_PKTS_DROP (0x15)
+#define CAVM_NIX_STAT_LF_RX_E_RX_YC_PKTS_PASSED (0xf)
 
 /**
  * Enumeration nix_stat_lf_tx_e
@@ -730,8 +735,9 @@ union cavm_nix_age_and_send_stats_s
         uint64_t aging                 : 1;  /**< [ 30: 30] Enables Aging (Latency drop) feature.
                                                                  0 = Aging not needed for this packet.
                                                                  1 = Aging needed for this packet. */
-        uint64_t latency_drop          : 1;  /**< [ 29: 29] Bit identifier provided to SEB to drop this packet because it has exceeded the
-                                                                 latency threshold. */
+        uint64_t latency_drop          : 1;  /**< [ 29: 29] Bit identifier provided by SQM to SEB to drop this packet because it has exceeded the
+                                                                 latency threshold.
+                                                                 This bit is for internal use within NIXTX. Software should not use this bit. */
         uint64_t threshold             : 29; /**< [ 28:  0] Threshold to be provided by Software in units of us(granularity of Threshold).
                                                                  Internal:
                                                                  29-bits would cover up until 180secs with 29-bits. See NIX_AF_SQM_SCLK_CNT to
@@ -741,8 +747,9 @@ union cavm_nix_age_and_send_stats_s
                                                                  Internal:
                                                                  29-bits would cover up until 180secs with 29-bits. See NIX_AF_SQM_SCLK_CNT to
                                                                  consider different wrap conditions. */
-        uint64_t latency_drop          : 1;  /**< [ 29: 29] Bit identifier provided to SEB to drop this packet because it has exceeded the
-                                                                 latency threshold. */
+        uint64_t latency_drop          : 1;  /**< [ 29: 29] Bit identifier provided by SQM to SEB to drop this packet because it has exceeded the
+                                                                 latency threshold.
+                                                                 This bit is for internal use within NIXTX. Software should not use this bit. */
         uint64_t aging                 : 1;  /**< [ 30: 30] Enables Aging (Latency drop) feature.
                                                                  0 = Aging not needed for this packet.
                                                                  1 = Aging needed for this packet. */
@@ -3644,7 +3651,7 @@ union cavm_nix_send_comp_s
  *
  * NIX_SEND_CRC_S constraints:
  * * When present, NIX_SEND_CRC_S subdescriptors must precede all NIX_SEND_SG_S,
- * NIX_SEND_IMM_S and NIX_SEND_MEM_S subdescriptors in the send descriptor.
+ * NIX_SEND_SG2_S, NIX_SEND_IMM_S and NIX_SEND_MEM_S subdescriptors in the send descriptor.
  * * NIX_SEND_CRC_S subdescriptors must follow the same order as their checksum
  * and insert regions in the packet, i.e. the checksum and insert regions of a
  * NIX_SEND_CRC_S must come after the checksum and insert regions of a preceding
@@ -3673,25 +3680,27 @@ union cavm_nix_send_crc_s
         uint64_t reserved_48_57        : 10;
         uint64_t insert                : 16; /**< [ 47: 32] Byte position relative to the first packet byte at which to insert the first byte of the
                                                                  calculated CRC. NIX does not allocate bytes as it inserts the CRC result into the packet,
-                                                                 it overwrites four pre-supplied packet bytes using NIX_SEND_SG_S or NIX_SEND_IMM_S.
-                                                                 The insertion point may not be within the start/size region of this NIX_SEND_CRC_S or
-                                                                 another NIX_SEND_CRC_S. */
+                                                                 it overwrites four pre-supplied packet bytes using NIX_SEND_SG_S, NIX_SEND_SG2_S, or
+                                                                 NIX_SEND_IMM_S. The insertion point may not be within the start/size region of this
+                                                                 NIX_SEND_CRC_S or another NIX_SEND_CRC_S. */
         uint64_t start                 : 16; /**< [ 31: 16] Byte position relative to the first packet byte at which to start the
                                                                  checksum. Must be even when [ALG] = NIX_SENDCRCALG_E::ONES16. */
         uint64_t size                  : 16; /**< [ 15:  0] Length of checksum region, must not be zero. The region is contiguous in packet bytes
                                                                  [START] through [START]+[SIZE]-1. Note that these covered packet bytes need not be
-                                                                 contiguous in LLC/DRAM -- they can straddle any number of NIX_SEND_SG_S subdescriptors. */
+                                                                 contiguous in LLC/DRAM -- they can straddle any number of NIX_SEND_SG_S or NIX_SEND_SG2_S
+                                                                 subdescriptors. */
 #else /* Word 0 - Little Endian */
         uint64_t size                  : 16; /**< [ 15:  0] Length of checksum region, must not be zero. The region is contiguous in packet bytes
                                                                  [START] through [START]+[SIZE]-1. Note that these covered packet bytes need not be
-                                                                 contiguous in LLC/DRAM -- they can straddle any number of NIX_SEND_SG_S subdescriptors. */
+                                                                 contiguous in LLC/DRAM -- they can straddle any number of NIX_SEND_SG_S or NIX_SEND_SG2_S
+                                                                 subdescriptors. */
         uint64_t start                 : 16; /**< [ 31: 16] Byte position relative to the first packet byte at which to start the
                                                                  checksum. Must be even when [ALG] = NIX_SENDCRCALG_E::ONES16. */
         uint64_t insert                : 16; /**< [ 47: 32] Byte position relative to the first packet byte at which to insert the first byte of the
                                                                  calculated CRC. NIX does not allocate bytes as it inserts the CRC result into the packet,
-                                                                 it overwrites four pre-supplied packet bytes using NIX_SEND_SG_S or NIX_SEND_IMM_S.
-                                                                 The insertion point may not be within the start/size region of this NIX_SEND_CRC_S or
-                                                                 another NIX_SEND_CRC_S. */
+                                                                 it overwrites four pre-supplied packet bytes using NIX_SEND_SG_S, NIX_SEND_SG2_S, or
+                                                                 NIX_SEND_IMM_S. The insertion point may not be within the start/size region of this
+                                                                 NIX_SEND_CRC_S or another NIX_SEND_CRC_S. */
         uint64_t reserved_48_57        : 10;
         uint64_t alg                   : 2;  /**< [ 59: 58] CRC algorithm enumerated by NIX_SENDCRCALG_E. */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send CRC. Enumerated by NIX_SUBDC_E::CRC. */
@@ -3742,7 +3751,7 @@ union cavm_nix_send_ext_s
                                                                  also [MARK_EN]. */
         uint64_t shp_ra                : 2;  /**< [ 43: 42] Red algorithm. Enumerated by NIX_REDALG_E. Specifies handling of a packet that
                                                                  traverses a RED MDQ through TL2 shaper. (A shaper is in RED state when
-                                                                 NIX_AF_TL*()_SHAPE_STATE[COLOR]=0x2.) Has no effect when the packet traverses no
+                                                                 NIX_AF_TL*()_SHAPE_STATE_PIR[COLOR]=0x2.) Has no effect when the packet traverses no
                                                                  shapers that are in the RED state. When [SHP_RA]!=STD, [SHP_RA] overrides the
                                                                  NIX_AF_TL*()_SHAPE[RED_ALGO] settings in all MDQ through TL2 shapers traversed
                                                                  by the packet. [SHP_RA] has no effect on the TL1 rate limiters. See
@@ -3903,7 +3912,7 @@ union cavm_nix_send_ext_s
                                                                  When [LSO] is set, hardware applies [SHP_DIS] to each LSO segment. */
         uint64_t shp_ra                : 2;  /**< [ 43: 42] Red algorithm. Enumerated by NIX_REDALG_E. Specifies handling of a packet that
                                                                  traverses a RED MDQ through TL2 shaper. (A shaper is in RED state when
-                                                                 NIX_AF_TL*()_SHAPE_STATE[COLOR]=0x2.) Has no effect when the packet traverses no
+                                                                 NIX_AF_TL*()_SHAPE_STATE_PIR[COLOR]=0x2.) Has no effect when the packet traverses no
                                                                  shapers that are in the RED state. When [SHP_RA]!=STD, [SHP_RA] overrides the
                                                                  NIX_AF_TL*()_SHAPE[RED_ALGO] settings in all MDQ through TL2 shapers traversed
                                                                  by the packet. [SHP_RA] has no effect on the TL1 rate limiters. See
@@ -4425,7 +4434,11 @@ union cavm_nix_send_mem_s
                                                                  descriptor if NIX_SEND_HDR_S[PNC] is set, and before initiating SSO add
                                                                  work for any NIX_SEND_WORK_S in the descriptor. This may have reduced
                                                                  performance over not waiting. */
-        uint64_t reserved_16_52        : 37;
+        uint64_t per_lso_seg           : 1;  /**< [ 52: 52] When NIX_SEND_EXT_S[LSO] is set in the descriptor,
+                                                                 1'b1: NIX executes the memory update once per each LSO segment.
+                                                                 1'b0: NIX executes the memory update only while processing the last LSO segment,
+                                                                       after processing prior segments. */
+        uint64_t reserved_16_51        : 36;
         uint64_t offset                : 16; /**< [ 15:  0] Adder offset. Constant value to add or subtract or set. If the count being
                                                                  modified is to represent the true packet size, then the offset may
                                                                  represent the pad and FCS appended to the packet.
@@ -4443,7 +4456,11 @@ union cavm_nix_send_mem_s
                                                                  Note IOB hardware has a special encoding for atomic decrement,
                                                                  therefore a change of minus one is twice as IOB bandwidth efficient as adding/subtracting
                                                                  other values or setting. */
-        uint64_t reserved_16_52        : 37;
+        uint64_t reserved_16_51        : 36;
+        uint64_t per_lso_seg           : 1;  /**< [ 52: 52] When NIX_SEND_EXT_S[LSO] is set in the descriptor,
+                                                                 1'b1: NIX executes the memory update once per each LSO segment.
+                                                                 1'b0: NIX executes the memory update only while processing the last LSO segment,
+                                                                       after processing prior segments. */
         uint64_t wmem                  : 1;  /**< [ 53: 53] Wait for memory.
                                                                  0 = The memory operation may complete after the CQE is posted and/or add work is
                                                                  initiated, and potentially after software has begun servicing the
@@ -4816,8 +4833,8 @@ union cavm_nix_sq_ctx_hw_s
         uint64_t dse_rsvd1             : 28; /**< [255:228] Reserved. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t dnq_rsvd1             : 17; /**< [319:303] Reserved. */
-        uint64_t smq_rr_quantum        : 24; /**< [302:279] See NIX_SQ_CTX_S[SMQ_RR_QUANTUM]. */
+        uint64_t dnq_rsvd1             : 27; /**< [319:293] Reserved. */
+        uint64_t smq_rr_weight         : 14; /**< [292:279] See NIX_SQ_CTX_S[SMQ_RR_QUANTUM]. */
         uint64_t lmt_dis               : 1;  /**< [278:278] See NIX_SQ_CTX_S[LMT_DIS]. */
         uint64_t tail_offset           : 6;  /**< [277:272] See NIX_SQ_CTX_S[TAIL_OFFSET]. */
         uint64_t sqb_enqueue_count     : 16; /**< [271:256] Used in combination with [SQB_DEQUEUE_COUNT] to respond back to Software
@@ -4829,8 +4846,8 @@ union cavm_nix_sq_ctx_hw_s
                                                                  [SQB_ENQUEUE_COUNT] - [SQB_DEQUEUE_COUNT]. */
         uint64_t tail_offset           : 6;  /**< [277:272] See NIX_SQ_CTX_S[TAIL_OFFSET]. */
         uint64_t lmt_dis               : 1;  /**< [278:278] See NIX_SQ_CTX_S[LMT_DIS]. */
-        uint64_t smq_rr_quantum        : 24; /**< [302:279] See NIX_SQ_CTX_S[SMQ_RR_QUANTUM]. */
-        uint64_t dnq_rsvd1             : 17; /**< [319:303] Reserved. */
+        uint64_t smq_rr_weight         : 14; /**< [292:279] See NIX_SQ_CTX_S[SMQ_RR_QUANTUM]. */
+        uint64_t dnq_rsvd1             : 27; /**< [319:293] Reserved. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t tail_sqb              : 64; /**< [383:320] See NIX_SQ_CTX_S[TAIL_SQB]. */
@@ -4843,19 +4860,19 @@ union cavm_nix_sq_ctx_hw_s
         uint64_t next_sqb              : 64; /**< [447:384] See NIX_SQ_CTX_S[NEXT_SQB]. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t scm1_rsvd2            : 32; /**< [511:480] Reserved. */
+        uint64_t scm1_rsvd2            : 31; /**< [511:481] Reserved. */
+        uint64_t mnq_dis               : 1;  /**< [480:480] See NIX_SQ_CTX_S[MNQ_DIS]. */
         uint64_t smq_next_sq_vld       : 1;  /**< [479:479] See NIX_SQ_CTX_S[SMQ_NEXT_SQ] is valid. */
         uint64_t smq_next_sq           : 20; /**< [478:459] See NIX_SQ_CTX_S[SMQ_NEXT_SQ]. */
         uint64_t smq_pend              : 1;  /**< [458:458] See NIX_SQ_CTX_S[SMQ_PEND]. */
-        uint64_t smq                   : 9;  /**< [457:449] See NIX_SQ_CTX_S[SMQ]. */
-        uint64_t mnq_dis               : 1;  /**< [448:448] See NIX_SQ_CTX_S[MNQ_DIS]. */
+        uint64_t smq                   : 10; /**< [457:448] See NIX_SQ_CTX_S[SMQ]. */
 #else /* Word 7 - Little Endian */
-        uint64_t mnq_dis               : 1;  /**< [448:448] See NIX_SQ_CTX_S[MNQ_DIS]. */
-        uint64_t smq                   : 9;  /**< [457:449] See NIX_SQ_CTX_S[SMQ]. */
+        uint64_t smq                   : 10; /**< [457:448] See NIX_SQ_CTX_S[SMQ]. */
         uint64_t smq_pend              : 1;  /**< [458:458] See NIX_SQ_CTX_S[SMQ_PEND]. */
         uint64_t smq_next_sq           : 20; /**< [478:459] See NIX_SQ_CTX_S[SMQ_NEXT_SQ]. */
         uint64_t smq_next_sq_vld       : 1;  /**< [479:479] See NIX_SQ_CTX_S[SMQ_NEXT_SQ] is valid. */
-        uint64_t scm1_rsvd2            : 32; /**< [511:480] Reserved. */
+        uint64_t mnq_dis               : 1;  /**< [480:480] See NIX_SQ_CTX_S[MNQ_DIS]. */
+        uint64_t scm1_rsvd2            : 31; /**< [511:481] Reserved. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t smenq_sqb             : 64; /**< [575:512] See NIX_SQ_CTX_S[SMENQ_SQB]. */
@@ -4863,17 +4880,15 @@ union cavm_nix_sq_ctx_hw_s
         uint64_t smenq_sqb             : 64; /**< [575:512] See NIX_SQ_CTX_S[SMENQ_SQB]. */
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
-        uint64_t scm_dq_rsvd0          : 7;  /**< [639:633] Reserved. */
-        uint64_t scm_lso_rem           : 18; /**< [632:615] Reserved. */
-        uint64_t smq_rr_count          : 25; /**< [614:590] See NIX_SQ_CTX_S[SMQ_RR_COUNT]. */
+        uint64_t scm_lso_rem           : 18; /**< [639:622] Reserved. */
+        uint64_t smq_rr_count          : 32; /**< [621:590] See NIX_SQ_CTX_S[SMQ_RR_COUNT]. */
         uint64_t cq_limit              : 8;  /**< [589:582] See NIX_SQ_CTX_S[CQ_LIMIT]. */
         uint64_t smenq_offset          : 6;  /**< [581:576] See NIX_SQ_CTX_S[SMENQ_OFFSET]. */
 #else /* Word 9 - Little Endian */
         uint64_t smenq_offset          : 6;  /**< [581:576] See NIX_SQ_CTX_S[SMENQ_OFFSET]. */
         uint64_t cq_limit              : 8;  /**< [589:582] See NIX_SQ_CTX_S[CQ_LIMIT]. */
-        uint64_t smq_rr_count          : 25; /**< [614:590] See NIX_SQ_CTX_S[SMQ_RR_COUNT]. */
-        uint64_t scm_lso_rem           : 18; /**< [632:615] Reserved. */
-        uint64_t scm_dq_rsvd0          : 7;  /**< [639:633] Reserved. */
+        uint64_t smq_rr_count          : 32; /**< [621:590] See NIX_SQ_CTX_S[SMQ_RR_COUNT]. */
+        uint64_t scm_lso_rem           : 18; /**< [639:622] Reserved. */
 #endif /* Word 9 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t scm_dq_rsvd1          : 9;  /**< [703:695] Reserved. */
@@ -4987,9 +5002,15 @@ union cavm_nix_sq_ctx_s
                                                                  Bypass NDC when all ones. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t sqb_count             : 16; /**< [127:112] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
+        uint64_t smq_rr_count_lb       : 7;  /**< [127:121] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
+                                                                 Value is a 32-bit two's complement signed integer count. This contains the lower 7 bits.
+
+                                                                 Internal:
+                                                                 Used by NIX to keep track of DWRR state between SQ's. SW should not write this. */
+        uint64_t reserved_119_120      : 2;
+        uint64_t sqb_count             : 16; /**< [118:103] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
                                                                  [TAIL_SQB], and any linked SQBs in between. Excludes the SQB at [NEXT_SQB]. */
-        uint64_t default_chan          : 12; /**< [111:100] Default channel enumerated by NIX_CHAN_E.
+        uint64_t default_chan          : 12; /**< [102: 91] Default channel enumerated by NIX_CHAN_E.
 
                                                                  If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
@@ -4999,48 +5020,52 @@ union cavm_nix_sq_ctx_s
                                                                  If the SQ transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is
                                                                  set), this is the SDP channel to which packets are transmitted when
                                                                  [SDP_MCAST] is clear, and the SDP multicast index when [SDP_MCAST] is set. */
-        uint64_t smq_rr_quantum        : 24; /**< [ 99: 76] Round-robin (DWRR) quantum for packets pushed from this SQ to the
-                                                                 associated SMQ (24-bit unsigned integer). Specifies the amount of packet
-                                                                 data bytes to push to SMQ in a round.
+        uint64_t smq_rr_weight         : 14; /**< [ 90: 77] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
+                                                                 determines the number of data bytes to push to SMQ in a round. Number of
+                                                                 data bytes is equal to:
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU] or
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_SDP_MTU[MTU]
 
-                                                                 The minimum value is the MTU. The recommended value for equal weight
-                                                                 arbitration is the larger of the MTU or:
-
-                                                                 _ NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
-        uint64_t sso_ena               : 1;  /**< [ 75: 75] SSO add work enable.
+                                                                 The recommended value of SMQ_RR_WEIGHT should be such that:
+                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU]) should be equal
+                                                                 or greater than the larger of the MTU size or
+                                                                 NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
+        uint64_t sso_ena               : 1;  /**< [ 76: 76] SSO add work enable.
                                                                  0 = The SQ never adds work to SSO, and NIX_SEND_WORK_S is ignored when present
                                                                  in a send descriptor.
                                                                  1 = A packets with NIX_SEND_WORK_S will add work to SSO. */
-        uint64_t xoff                  : 1;  /**< [ 74: 74] Transmit off. When set, the SQ will not push meta descriptors to the
+        uint64_t xoff                  : 1;  /**< [ 75: 75] Transmit off. When set, the SQ will not push meta descriptors to the
                                                                  associated SMQ. Software can read, set and clear this bit with
                                                                  NIX_LF_SQ_OP_INT[XOFF]. */
-        uint64_t cq_ena                : 1;  /**< [ 73: 73] Completion queue enable.
+        uint64_t cq_ena                : 1;  /**< [ 74: 74] Completion queue enable.
                                                                  0 = NIX_SEND_HDR_S[PNC] is ignored and a packet from this SQ will never generate
                                                                  a CQE.
                                                                  1 = A packet with NIX_SEND_HDR_S[PNC] will add a send completion CQE to [CQ]. */
-        uint64_t smq                   : 9;  /**< [ 72: 64] Send meta-descriptor queue for this SQ. Must be less than 512. */
+        uint64_t smq                   : 10; /**< [ 73: 64] Send meta-descriptor queue for this SQ. Must be less than 832 */
 #else /* Word 1 - Little Endian */
-        uint64_t smq                   : 9;  /**< [ 72: 64] Send meta-descriptor queue for this SQ. Must be less than 512. */
-        uint64_t cq_ena                : 1;  /**< [ 73: 73] Completion queue enable.
+        uint64_t smq                   : 10; /**< [ 73: 64] Send meta-descriptor queue for this SQ. Must be less than 832 */
+        uint64_t cq_ena                : 1;  /**< [ 74: 74] Completion queue enable.
                                                                  0 = NIX_SEND_HDR_S[PNC] is ignored and a packet from this SQ will never generate
                                                                  a CQE.
                                                                  1 = A packet with NIX_SEND_HDR_S[PNC] will add a send completion CQE to [CQ]. */
-        uint64_t xoff                  : 1;  /**< [ 74: 74] Transmit off. When set, the SQ will not push meta descriptors to the
+        uint64_t xoff                  : 1;  /**< [ 75: 75] Transmit off. When set, the SQ will not push meta descriptors to the
                                                                  associated SMQ. Software can read, set and clear this bit with
                                                                  NIX_LF_SQ_OP_INT[XOFF]. */
-        uint64_t sso_ena               : 1;  /**< [ 75: 75] SSO add work enable.
+        uint64_t sso_ena               : 1;  /**< [ 76: 76] SSO add work enable.
                                                                  0 = The SQ never adds work to SSO, and NIX_SEND_WORK_S is ignored when present
                                                                  in a send descriptor.
                                                                  1 = A packets with NIX_SEND_WORK_S will add work to SSO. */
-        uint64_t smq_rr_quantum        : 24; /**< [ 99: 76] Round-robin (DWRR) quantum for packets pushed from this SQ to the
-                                                                 associated SMQ (24-bit unsigned integer). Specifies the amount of packet
-                                                                 data bytes to push to SMQ in a round.
+        uint64_t smq_rr_weight         : 14; /**< [ 90: 77] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
+                                                                 determines the number of data bytes to push to SMQ in a round. Number of
+                                                                 data bytes is equal to:
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU] or
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_SDP_MTU[MTU]
 
-                                                                 The minimum value is the MTU. The recommended value for equal weight
-                                                                 arbitration is the larger of the MTU or:
-
-                                                                 _ NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
-        uint64_t default_chan          : 12; /**< [111:100] Default channel enumerated by NIX_CHAN_E.
+                                                                 The recommended value of SMQ_RR_WEIGHT should be such that:
+                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU]) should be equal
+                                                                 or greater than the larger of the MTU size or
+                                                                 NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
+        uint64_t default_chan          : 12; /**< [102: 91] Default channel enumerated by NIX_CHAN_E.
 
                                                                  If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
@@ -5050,8 +5075,14 @@ union cavm_nix_sq_ctx_s
                                                                  If the SQ transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is
                                                                  set), this is the SDP channel to which packets are transmitted when
                                                                  [SDP_MCAST] is clear, and the SDP multicast index when [SDP_MCAST] is set. */
-        uint64_t sqb_count             : 16; /**< [127:112] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
+        uint64_t sqb_count             : 16; /**< [118:103] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
                                                                  [TAIL_SQB], and any linked SQBs in between. Excludes the SQB at [NEXT_SQB]. */
+        uint64_t reserved_119_120      : 2;
+        uint64_t smq_rr_count_lb       : 7;  /**< [127:121] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
+                                                                 Value is a 32-bit two's complement signed integer count. This contains the lower 7 bits.
+
+                                                                 Internal:
+                                                                 Used by NIX to keep track of DWRR state between SQ's. SW should not write this. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_191          : 1;
@@ -5066,11 +5097,17 @@ union cavm_nix_sq_ctx_s
                                                                  allocations and frees for this SQ. The selected aura must correspond to a
                                                                  pool where the buffers (after any NPA_POOL_S[BUF_OFFSET]) are at least of
                                                                  size NIX_AF_SQ_CONST[SQB_SIZE] (4KB). */
-        uint64_t smq_rr_count          : 25; /**< [152:128] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
-                                                                 A 25-bit two's complement signed integer count. */
+        uint64_t smq_rr_count_ub       : 25; /**< [152:128] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
+                                                                 Value is a 32-bit two's complement signed integer count. This contains the upper 25 bits.
+
+                                                                 Internal:
+                                                                 Used by NIX to keep track of DWRR state between SQ's. SW should not write this. */
 #else /* Word 2 - Little Endian */
-        uint64_t smq_rr_count          : 25; /**< [152:128] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
-                                                                 A 25-bit two's complement signed integer count. */
+        uint64_t smq_rr_count_ub       : 25; /**< [152:128] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
+                                                                 Value is a 32-bit two's complement signed integer count. This contains the upper 25 bits.
+
+                                                                 Internal:
+                                                                 Used by NIX to keep track of DWRR state between SQ's. SW should not write this. */
         uint64_t sqb_aura              : 20; /**< [172:153] SQB aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] used for SQE buffer
                                                                  allocations and frees for this SQ. The selected aura must correspond to a
                                                                  pool where the buffers (after any NPA_POOL_S[BUF_OFFSET]) are at least of
@@ -8880,7 +8917,7 @@ typedef union cavm_nixx_af_lfx_rx_statx cavm_nixx_af_lfx_rx_statx_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_STATX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_STATX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=127) && (c<=17))
+    if ((a<=1) && (b<=127) && (c<=24))
         return 0x840040004500ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_STATX", 3, a, b, c, 0, 0, 0);
 }
@@ -9798,13 +9835,13 @@ union cavm_nixx_af_mdqx_cir
     struct cavm_nixx_af_mdqx_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -9858,13 +9895,13 @@ union cavm_nixx_af_mdqx_cir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_mdqx_cir_s cn; */
@@ -9874,8 +9911,8 @@ typedef union cavm_nixx_af_mdqx_cir cavm_nixx_af_mdqx_cir_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001420ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001420ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9911,8 +9948,8 @@ typedef union cavm_nixx_af_mdqx_in_md_count cavm_nixx_af_mdqx_in_md_count_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_IN_MD_COUNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_IN_MD_COUNT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x8400400014e0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x8400400014e0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_IN_MD_COUNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9986,8 +10023,8 @@ typedef union cavm_nixx_af_mdqx_md_debug cavm_nixx_af_mdqx_md_debug_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_MD_DEBUG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_MD_DEBUG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x8400400014c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x8400400014c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_MD_DEBUG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10023,8 +10060,8 @@ typedef union cavm_nixx_af_mdqx_out_md_count cavm_nixx_af_mdqx_out_md_count_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_OUT_MD_COUNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_OUT_MD_COUNT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000db0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040000db0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_OUT_MD_COUNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10062,8 +10099,8 @@ typedef union cavm_nixx_af_mdqx_parent cavm_nixx_af_mdqx_parent_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_PARENT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_PARENT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001480ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001480ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_PARENT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10086,13 +10123,13 @@ union cavm_nixx_af_mdqx_pir
     struct cavm_nixx_af_mdqx_pir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -10146,13 +10183,13 @@ union cavm_nixx_af_mdqx_pir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_mdqx_pir_s cn; */
@@ -10162,8 +10199,8 @@ typedef union cavm_nixx_af_mdqx_pir cavm_nixx_af_mdqx_pir_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001430ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001430ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10178,8 +10215,6 @@ static inline uint64_t CAVM_NIXX_AF_MDQX_PIR(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) nix#_af_mdq#_pointers
  *
  * INTERNAL: NIX AF Meta Descriptor 4 Linked List Pointers Debug Register
- *
- * This register has the same bit fields as NIX_AF_TL4()_POINTERS.
  */
 union cavm_nixx_af_mdqx_pointers
 {
@@ -10187,15 +10222,15 @@ union cavm_nixx_af_mdqx_pointers
     struct cavm_nixx_af_mdqx_pointers_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t prev                  : 9;  /**< [ 24: 16](R/W/H) See NIX_AF_TL2()_POINTERS[PREV]. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t next                  : 9;  /**< [  8:  0](R/W/H) See NIX_AF_TL2()_POINTERS[NEXT]. */
+        uint64_t reserved_26_63        : 38;
+        uint64_t prev                  : 10; /**< [ 25: 16](R/W/H) See NIX_AF_TL2()_POINTERS[PREV]. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t next                  : 10; /**< [  9:  0](R/W/H) See NIX_AF_TL2()_POINTERS[NEXT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t next                  : 9;  /**< [  8:  0](R/W/H) See NIX_AF_TL2()_POINTERS[NEXT]. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t prev                  : 9;  /**< [ 24: 16](R/W/H) See NIX_AF_TL2()_POINTERS[PREV]. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t next                  : 10; /**< [  9:  0](R/W/H) See NIX_AF_TL2()_POINTERS[NEXT]. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t prev                  : 10; /**< [ 25: 16](R/W/H) See NIX_AF_TL2()_POINTERS[PREV]. */
+        uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_mdqx_pointers_s cn; */
@@ -10205,8 +10240,8 @@ typedef union cavm_nixx_af_mdqx_pointers cavm_nixx_af_mdqx_pointers_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_POINTERS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_POINTERS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001460ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001460ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_POINTERS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10246,8 +10281,8 @@ typedef union cavm_nixx_af_mdqx_ptr_fifo cavm_nixx_af_mdqx_ptr_fifo_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_PTR_FIFO(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_PTR_FIFO(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x8400400014d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x8400400014d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_PTR_FIFO", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10286,8 +10321,8 @@ typedef union cavm_nixx_af_mdqx_sched_state cavm_nixx_af_mdqx_sched_state_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHED_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHED_STATE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001440ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001440ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SCHED_STATE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10358,8 +10393,8 @@ typedef union cavm_nixx_af_mdqx_schedule cavm_nixx_af_mdqx_schedule_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHEDULE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHEDULE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001400ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001400ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SCHEDULE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10408,8 +10443,8 @@ typedef union cavm_nixx_af_mdqx_shape cavm_nixx_af_mdqx_shape_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001410ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001410ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SHAPE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10421,55 +10456,102 @@ static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_MDQX_SHAPE(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_mdq#_shape_state
+ * Register (RVU_PF_BAR0) nix#_af_mdq#_shape_state_cir
  *
  * NIX AF Meta Descriptor Queue Shaping State Registers
- * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE.
+ * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE_CIR.
  * This register must not be written during normal operation.
  */
-union cavm_nixx_af_mdqx_shape_state
+union cavm_nixx_af_mdqx_shape_state_cir
 {
     uint64_t u;
-    struct cavm_nixx_af_mdqx_shape_state_s
+    struct cavm_nixx_af_mdqx_shape_state_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
 #else /* Word 0 - Little Endian */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_af_mdqx_shape_state_s cn; */
+    /* struct cavm_nixx_af_mdqx_shape_state_cir_s cn; */
 };
-typedef union cavm_nixx_af_mdqx_shape_state cavm_nixx_af_mdqx_shape_state_t;
+typedef union cavm_nixx_af_mdqx_shape_state_cir cavm_nixx_af_mdqx_shape_state_cir_t;
 
-static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001450ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
-    __cavm_csr_fatal("NIXX_AF_MDQX_SHAPE_STATE", 2, a, b, 0, 0, 0, 0);
+    if ((a<=1) && (b<=831))
+        return 0x8400400012d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    __cavm_csr_fatal("NIXX_AF_MDQX_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_NIXX_AF_MDQX_SHAPE_STATE(a,b) cavm_nixx_af_mdqx_shape_state_t
-#define bustype_CAVM_NIXX_AF_MDQX_SHAPE_STATE(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_MDQX_SHAPE_STATE(a,b) "NIXX_AF_MDQX_SHAPE_STATE"
-#define device_bar_CAVM_NIXX_AF_MDQX_SHAPE_STATE(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_MDQX_SHAPE_STATE(a,b) (a)
-#define arguments_CAVM_NIXX_AF_MDQX_SHAPE_STATE(a,b) (a),(b),-1,-1
+#define typedef_CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(a,b) cavm_nixx_af_mdqx_shape_state_cir_t
+#define bustype_CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(a,b) "NIXX_AF_MDQX_SHAPE_STATE_CIR"
+#define device_bar_CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_mdq#_shape_state_pir
+ *
+ * NIX AF Meta Descriptor Queue Shaping State Registers
+ * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE_PIR.
+ * This register must not be written during normal operation.
+ */
+union cavm_nixx_af_mdqx_shape_state_pir
+{
+    uint64_t u;
+    struct cavm_nixx_af_mdqx_shape_state_pir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+#else /* Word 0 - Little Endian */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_mdqx_shape_state_pir_s cn; */
+};
+typedef union cavm_nixx_af_mdqx_shape_state_pir cavm_nixx_af_mdqx_shape_state_pir_t;
+
+static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=831))
+        return 0x840040001450ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    __cavm_csr_fatal("NIXX_AF_MDQX_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(a,b) cavm_nixx_af_mdqx_shape_state_pir_t
+#define bustype_CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(a,b) "NIXX_AF_MDQX_SHAPE_STATE_PIR"
+#define device_bar_CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_mdq#_sw_xoff
@@ -10501,8 +10583,8 @@ typedef union cavm_nixx_af_mdqx_sw_xoff cavm_nixx_af_mdqx_sw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001470ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040001470ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10610,8 +10692,8 @@ typedef union cavm_nixx_af_mdq_twx_arb_req_debug0 cavm_nixx_af_mdq_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x8400400013c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=6))
+        return 0x8400400013c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
     __cavm_csr_fatal("NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10646,8 +10728,8 @@ typedef union cavm_nixx_af_mdq_twx_arb_req_debug1 cavm_nixx_af_mdq_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x8400400013d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=6))
+        return 0x8400400013d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
     __cavm_csr_fatal("NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10662,7 +10744,6 @@ static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t 
  * Register (RVU_PF_BAR0) nix#_af_mdq_tw_arb_ctl_debug
  *
  * NIX AF Meta Descriptor Queue Timewheel Arbiter Control Debug Register
- * This register has the same bit fields as NIX_AF_TL4_TW_ARB_REQ_DEBUG.
  */
 union cavm_nixx_af_mdq_tw_arb_ctl_debug
 {
@@ -10673,11 +10754,11 @@ union cavm_nixx_af_mdq_tw_arb_ctl_debug
         uint64_t reserved_17_63        : 47;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t req_index             : 9;  /**< [  8:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t req_index             : 10; /**< [  9:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
 #else /* Word 0 - Little Endian */
-        uint64_t req_index             : 9;  /**< [  8:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
-        uint64_t reserved_9_15         : 7;
+        uint64_t req_index             : 10; /**< [  9:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_10_15        : 6;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
         uint64_t reserved_17_63        : 47;
@@ -13080,15 +13161,15 @@ union cavm_nixx_af_rx_cptx_credit
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t hysteresis            : 6;  /**< [ 61: 56](RAZ) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
+        uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
         uint64_t reserved_54_55        : 2;
-        uint64_t inst_credit_th        : 22; /**< [ 53: 32](RAZ) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
+        uint64_t inst_credit_th        : 22; /**< [ 53: 32](R/W) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
                                                                  is asserted. When INST_CRED_CNT goes above the (INST_CRED_CNT+2^HYSTERESIS) the
                                                                  back-pressure is released. Value of 0 disables CPT backpressure mechanism.
                                                                  (INST_CRED_CNT+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
                                                                  value. */
         uint64_t reserved_31           : 1;
-        uint64_t bpid                  : 9;  /**< [ 30: 22](RAZ) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
+        uint64_t bpid                  : 9;  /**< [ 30: 22](R/W) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
         uint64_t inst_cred_cnt         : 22; /**< [ 21:  0](R/W/H) Instruction credit count. This value, plus 1, represents the maximum number
                                                                  of outstanding CPT_INST_S that NIX may send to CPT. Note that this field
                                                                  represents a two's complement signed value that decrements towards zero as
@@ -13122,15 +13203,15 @@ union cavm_nixx_af_rx_cptx_credit
                                                                  NIX_AF_LF()_RX_IPSEC_CFG0 allows this CPT to be selected), software should
                                                                  initialize this field (by adding a positive value) to the number of
                                                                  outstanding instructions that NIX may send to CPT, minus 1. */
-        uint64_t bpid                  : 9;  /**< [ 30: 22](RAZ) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
+        uint64_t bpid                  : 9;  /**< [ 30: 22](R/W) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
         uint64_t reserved_31           : 1;
-        uint64_t inst_credit_th        : 22; /**< [ 53: 32](RAZ) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
+        uint64_t inst_credit_th        : 22; /**< [ 53: 32](R/W) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
                                                                  is asserted. When INST_CRED_CNT goes above the (INST_CRED_CNT+2^HYSTERESIS) the
                                                                  back-pressure is released. Value of 0 disables CPT backpressure mechanism.
                                                                  (INST_CRED_CNT+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
                                                                  value. */
         uint64_t reserved_54_55        : 2;
-        uint64_t hysteresis            : 6;  /**< [ 61: 56](RAZ) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
+        uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -16335,7 +16416,12 @@ union cavm_nixx_af_smqx_cfg
     struct cavm_nixx_af_smqx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
+        uint64_t reserved_58_63        : 6;
+        uint64_t sdp                   : 1;  /**< [ 57: 57](R/W) Software would program this bit to 1 if the SMQ belongs to a flow connected to SDP.
+                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to CGX.
+                                                                 This register bit is used to indicate to PSE that this MD belongs to SDP flow vs
+                                                                 CGX flow and would be used also to determine which MTU to use for DWRR Quantum
+                                                                 add. */
         uint64_t pri_thr               : 6;  /**< [ 56: 51](R/W) SMQ enqueue priority threshold. When NIX_AF_SMQ()_STATUS[LEVEL] is less
                                                                  than or equal to this value, high priority is given for enqueuing of MDs to
                                                                  this SMQ. */
@@ -16392,7 +16478,7 @@ union cavm_nixx_af_smqx_cfg
                                                                  but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
-                                                                 Must not exceed 9212 (9216 minus four byte FCS) if the SMQ transmits to
+                                                                 Must not exceed 16380 (16384 minus four byte FCS) if the SMQ transmits to
                                                                  RPM and LBK. May be set to a larger value (up to 65535 bytes) if the SMQ
                                                                  transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is set).
 
@@ -16432,7 +16518,7 @@ union cavm_nixx_af_smqx_cfg
                                                                  but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
-                                                                 Must not exceed 9212 (9216 minus four byte FCS) if the SMQ transmits to
+                                                                 Must not exceed 16380 (16384 minus four byte FCS) if the SMQ transmits to
                                                                  RPM and LBK. May be set to a larger value (up to 65535 bytes) if the SMQ
                                                                  transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is set).
 
@@ -16489,7 +16575,12 @@ union cavm_nixx_af_smqx_cfg
         uint64_t pri_thr               : 6;  /**< [ 56: 51](R/W) SMQ enqueue priority threshold. When NIX_AF_SMQ()_STATUS[LEVEL] is less
                                                                  than or equal to this value, high priority is given for enqueuing of MDs to
                                                                  this SMQ. */
-        uint64_t reserved_57_63        : 7;
+        uint64_t sdp                   : 1;  /**< [ 57: 57](R/W) Software would program this bit to 1 if the SMQ belongs to a flow connected to SDP.
+                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to CGX.
+                                                                 This register bit is used to indicate to PSE that this MD belongs to SDP flow vs
+                                                                 CGX flow and would be used also to determine which MTU to use for DWRR Quantum
+                                                                 add. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_smqx_cfg_s cn; */
@@ -16499,8 +16590,8 @@ typedef union cavm_nixx_af_smqx_cfg cavm_nixx_af_smqx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040000700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16539,8 +16630,8 @@ typedef union cavm_nixx_af_smqx_head cavm_nixx_af_smqx_head_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_HEAD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_HEAD(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000710ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040000710ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_HEAD", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16579,8 +16670,8 @@ typedef union cavm_nixx_af_smqx_nxt_head cavm_nixx_af_smqx_nxt_head_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_NXT_HEAD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_NXT_HEAD(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000740ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040000740ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_NXT_HEAD", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16617,8 +16708,8 @@ typedef union cavm_nixx_af_smqx_status cavm_nixx_af_smqx_status_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000730ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040000730ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16657,8 +16748,8 @@ typedef union cavm_nixx_af_smqx_tail cavm_nixx_af_smqx_tail_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_TAIL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_TAIL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000720ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if ((a<=1) && (b<=831))
+        return 0x840040000720ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_TAIL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16851,12 +16942,19 @@ union cavm_nixx_af_sqm_dbg_ctl_status
     struct cavm_nixx_af_sqm_dbg_ctl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_29_63        : 35;
+        uint64_t reserved_30_63        : 34;
+        uint64_t tm17                  : 1;  /**< [ 29: 29](R/W) Feature enables scheduling of fetched SQEs from SQs with negative RR Count by accumulating
+                                                                 deficit instead of dropping those SQEs.
+                                                                 Set [0] disables this feature.
+                                                                 Set [1] enables this feature.
+
+                                                                 Internal:
+                                                                 Recommended rule is that TM17 == TM13 so that non-scheduled SQEs do not accumulate locking
+                                                                 cachelines in the NDC. */
         uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit.
-                                                                 Note - Change reset + typical to 0. */
+                                                                 packets sent prior to the flush to transmit. */
         uint64_t tm15                  : 1;  /**< [ 27: 27](R/W) Sets conservative limits to number of SQEs prefetched by the FE in Sticky Mode. This
                                                                  feature has no effect on non-sticky mode behavior.
                                                                  Set [0] disables this feature.
@@ -17055,9 +17153,16 @@ union cavm_nixx_af_sqm_dbg_ctl_status
         uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit.
-                                                                 Note - Change reset + typical to 0. */
-        uint64_t reserved_29_63        : 35;
+                                                                 packets sent prior to the flush to transmit. */
+        uint64_t tm17                  : 1;  /**< [ 29: 29](R/W) Feature enables scheduling of fetched SQEs from SQs with negative RR Count by accumulating
+                                                                 deficit instead of dropping those SQEs.
+                                                                 Set [0] disables this feature.
+                                                                 Set [1] enables this feature.
+
+                                                                 Internal:
+                                                                 Recommended rule is that TM17 == TM13 so that non-scheduled SQEs do not accumulate locking
+                                                                 cachelines in the NDC. */
+        uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_sqm_dbg_ctl_status_s cn; */
@@ -17315,13 +17420,13 @@ union cavm_nixx_af_tl1x_cir
     struct cavm_nixx_af_tl1x_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -17375,13 +17480,13 @@ union cavm_nixx_af_tl1x_cir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl1x_cir_s cn; */
@@ -18046,50 +18151,48 @@ static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_TL1X_SHAPE(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_tl1#_shape_state
+ * Register (RVU_PF_BAR0) nix#_af_tl1#_shape_state_cir
  *
  * NIX AF Transmit Level 1 Shape State Register
  * This register must not be written during normal operation.
  */
-union cavm_nixx_af_tl1x_shape_state
+union cavm_nixx_af_tl1x_shape_state_cir
 {
     uint64_t u;
-    struct cavm_nixx_af_tl1x_shape_state_s
+    struct cavm_nixx_af_tl1x_shape_state_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t color                 : 1;  /**< [ 52: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t reserved_34_63        : 30;
+        uint64_t color                 : 1;  /**< [ 33: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0 = Connected - shaper is connected.
                                                                  1 = Pruned - shaper is disconnected. */
-        uint64_t reserved_26_51        : 26;
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
 #else /* Word 0 - Little Endian */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
-        uint64_t reserved_26_51        : 26;
-        uint64_t color                 : 1;  /**< [ 52: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
+        uint64_t color                 : 1;  /**< [ 33: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0 = Connected - shaper is connected.
                                                                  1 = Pruned - shaper is disconnected. */
-        uint64_t reserved_53_63        : 11;
+        uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_af_tl1x_shape_state_s cn; */
+    /* struct cavm_nixx_af_tl1x_shape_state_cir_s cn; */
 };
-typedef union cavm_nixx_af_tl1x_shape_state cavm_nixx_af_tl1x_shape_state_t;
+typedef union cavm_nixx_af_tl1x_shape_state_cir cavm_nixx_af_tl1x_shape_state_cir_t;
 
-static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE_STATE(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=27))
         return 0x840040000c50ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
-    __cavm_csr_fatal("NIXX_AF_TL1X_SHAPE_STATE", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("NIXX_AF_TL1X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_NIXX_AF_TL1X_SHAPE_STATE(a,b) cavm_nixx_af_tl1x_shape_state_t
-#define bustype_CAVM_NIXX_AF_TL1X_SHAPE_STATE(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL1X_SHAPE_STATE(a,b) "NIXX_AF_TL1X_SHAPE_STATE"
-#define device_bar_CAVM_NIXX_AF_TL1X_SHAPE_STATE(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL1X_SHAPE_STATE(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL1X_SHAPE_STATE(a,b) (a),(b),-1,-1
+#define typedef_CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(a,b) cavm_nixx_af_tl1x_shape_state_cir_t
+#define bustype_CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(a,b) "NIXX_AF_TL1X_SHAPE_STATE_CIR"
+#define device_bar_CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_tl1#_sw_xoff
@@ -18496,13 +18599,13 @@ union cavm_nixx_af_tl2x_cir
     struct cavm_nixx_af_tl2x_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -18556,13 +18659,13 @@ union cavm_nixx_af_tl2x_cir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl2x_cir_s cn; */
@@ -18889,13 +18992,13 @@ union cavm_nixx_af_tl2x_pir
     struct cavm_nixx_af_tl2x_pir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -18949,13 +19052,13 @@ union cavm_nixx_af_tl2x_pir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl2x_pir_s cn; */
@@ -19195,7 +19298,7 @@ union cavm_nixx_af_tl2x_shape
                                                                  NIX_AF_TL*()_PIR[ENABLE]/NIX_AF_MDQ()_PIR[ENABLE] is clear. */
         uint64_t red_algo              : 2;  /**< [ 10:  9](R/W) Shaper red state algorithm when not specified by the NIX SEND. Used by hardware
                                                                  only when the shaper is in RED state. (A shaper is in RED state when
-                                                                 NIX_AF_TL*()_SHAPE_STATE[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
+                                                                 NIX_AF_TL*()_SHAPE_STATE_PIR[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
                                                                  packet, this [RED_ALGO] is not used, and NIX_SEND_EXT_S[SHP_RA] instead defines
                                                                  the shaper red state algorithm used for the packet. The
                                                                  encoding for the [RED_ALGO]/NIX_SEND_EXT_S[SHP_RA] that is used:
@@ -19238,7 +19341,7 @@ union cavm_nixx_af_tl2x_shape
                                                                  NIX_AF_DWRR_SDP_MTU/NIX_AF_DWRR_RPM_MTU */
         uint64_t red_algo              : 2;  /**< [ 10:  9](R/W) Shaper red state algorithm when not specified by the NIX SEND. Used by hardware
                                                                  only when the shaper is in RED state. (A shaper is in RED state when
-                                                                 NIX_AF_TL*()_SHAPE_STATE[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
+                                                                 NIX_AF_TL*()_SHAPE_STATE_PIR[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
                                                                  packet, this [RED_ALGO] is not used, and NIX_SEND_EXT_S[SHP_RA] instead defines
                                                                  the shaper red state algorithm used for the packet. The
                                                                  encoding for the [RED_ALGO]/NIX_SEND_EXT_S[SHP_RA] that is used:
@@ -19295,54 +19398,100 @@ static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_TL2X_SHAPE(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_tl2#_shape_state
+ * Register (RVU_PF_BAR0) nix#_af_tl2#_shape_state_cir
  *
  * NIX AF Transmit Level 2 Shape State Registers
  * This register must not be written during normal operation.
  */
-union cavm_nixx_af_tl2x_shape_state
+union cavm_nixx_af_tl2x_shape_state_cir
 {
     uint64_t u;
-    struct cavm_nixx_af_tl2x_shape_state_s
+    struct cavm_nixx_af_tl2x_shape_state_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
 #else /* Word 0 - Little Endian */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_af_tl2x_shape_state_s cn; */
+    /* struct cavm_nixx_af_tl2x_shape_state_cir_s cn; */
 };
-typedef union cavm_nixx_af_tl2x_shape_state cavm_nixx_af_tl2x_shape_state_t;
+typedef union cavm_nixx_af_tl2x_shape_state_cir cavm_nixx_af_tl2x_shape_state_cir_t;
 
-static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=255))
+        return 0x840040000cd0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    __cavm_csr_fatal("NIXX_AF_TL2X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(a,b) cavm_nixx_af_tl2x_shape_state_cir_t
+#define bustype_CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(a,b) "NIXX_AF_TL2X_SHAPE_STATE_CIR"
+#define device_bar_CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_tl2#_shape_state_pir
+ *
+ * NIX AF Transmit Level 2 Shape State Registers
+ * This register must not be written during normal operation.
+ */
+union cavm_nixx_af_tl2x_shape_state_pir
+{
+    uint64_t u;
+    struct cavm_nixx_af_tl2x_shape_state_pir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+#else /* Word 0 - Little Endian */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_tl2x_shape_state_pir_s cn; */
+};
+typedef union cavm_nixx_af_tl2x_shape_state_pir cavm_nixx_af_tl2x_shape_state_pir_t;
+
+static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=255))
         return 0x840040000e50ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
-    __cavm_csr_fatal("NIXX_AF_TL2X_SHAPE_STATE", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("NIXX_AF_TL2X_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_NIXX_AF_TL2X_SHAPE_STATE(a,b) cavm_nixx_af_tl2x_shape_state_t
-#define bustype_CAVM_NIXX_AF_TL2X_SHAPE_STATE(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL2X_SHAPE_STATE(a,b) "NIXX_AF_TL2X_SHAPE_STATE"
-#define device_bar_CAVM_NIXX_AF_TL2X_SHAPE_STATE(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL2X_SHAPE_STATE(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL2X_SHAPE_STATE(a,b) (a),(b),-1,-1
+#define typedef_CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(a,b) cavm_nixx_af_tl2x_shape_state_pir_t
+#define bustype_CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(a,b) "NIXX_AF_TL2X_SHAPE_STATE_PIR"
+#define device_bar_CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_tl2#_sw_xoff
@@ -19640,13 +19789,13 @@ union cavm_nixx_af_tl3x_cir
     struct cavm_nixx_af_tl3x_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -19700,13 +19849,13 @@ union cavm_nixx_af_tl3x_cir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl3x_cir_s cn; */
@@ -20011,13 +20160,13 @@ union cavm_nixx_af_tl3x_pir
     struct cavm_nixx_af_tl3x_pir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -20071,13 +20220,13 @@ union cavm_nixx_af_tl3x_pir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl3x_pir_s cn; */
@@ -20347,55 +20496,102 @@ static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_TL3X_SHAPE(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_tl3#_shape_state
+ * Register (RVU_PF_BAR0) nix#_af_tl3#_shape_state_cir
  *
- * NIX AF Transmit Level 3 Shaping State Registers
- * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE.
+ * NIX AF Transmit Level 3 Shaping State CIR Registers
+ * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE_CIR.
  * This register must not be written during normal operation.
  */
-union cavm_nixx_af_tl3x_shape_state
+union cavm_nixx_af_tl3x_shape_state_cir
 {
     uint64_t u;
-    struct cavm_nixx_af_tl3x_shape_state_s
+    struct cavm_nixx_af_tl3x_shape_state_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
 #else /* Word 0 - Little Endian */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_af_tl3x_shape_state_s cn; */
+    /* struct cavm_nixx_af_tl3x_shape_state_cir_s cn; */
 };
-typedef union cavm_nixx_af_tl3x_shape_state cavm_nixx_af_tl3x_shape_state_t;
+typedef union cavm_nixx_af_tl3x_shape_state_cir cavm_nixx_af_tl3x_shape_state_cir_t;
 
-static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=255))
+        return 0x840040000ed0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    __cavm_csr_fatal("NIXX_AF_TL3X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(a,b) cavm_nixx_af_tl3x_shape_state_cir_t
+#define bustype_CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(a,b) "NIXX_AF_TL3X_SHAPE_STATE_CIR"
+#define device_bar_CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_tl3#_shape_state_pir
+ *
+ * NIX AF Transmit Level 3 Shaping State PIR Registers
+ * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE_PIR.
+ * This register must not be written during normal operation.
+ */
+union cavm_nixx_af_tl3x_shape_state_pir
+{
+    uint64_t u;
+    struct cavm_nixx_af_tl3x_shape_state_pir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+#else /* Word 0 - Little Endian */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_tl3x_shape_state_pir_s cn; */
+};
+typedef union cavm_nixx_af_tl3x_shape_state_pir cavm_nixx_af_tl3x_shape_state_pir_t;
+
+static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=255))
         return 0x840040001050ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
-    __cavm_csr_fatal("NIXX_AF_TL3X_SHAPE_STATE", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("NIXX_AF_TL3X_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_NIXX_AF_TL3X_SHAPE_STATE(a,b) cavm_nixx_af_tl3x_shape_state_t
-#define bustype_CAVM_NIXX_AF_TL3X_SHAPE_STATE(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL3X_SHAPE_STATE(a,b) "NIXX_AF_TL3X_SHAPE_STATE"
-#define device_bar_CAVM_NIXX_AF_TL3X_SHAPE_STATE(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL3X_SHAPE_STATE(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL3X_SHAPE_STATE(a,b) (a),(b),-1,-1
+#define typedef_CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(a,b) cavm_nixx_af_tl3x_shape_state_pir_t
+#define bustype_CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(a,b) "NIXX_AF_TL3X_SHAPE_STATE_PIR"
+#define device_bar_CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_tl3#_sw_xoff
@@ -20845,13 +21041,13 @@ union cavm_nixx_af_tl4x_cir
     struct cavm_nixx_af_tl4x_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -20905,13 +21101,13 @@ union cavm_nixx_af_tl4x_cir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_cir_s cn; */
@@ -20937,8 +21133,6 @@ static inline uint64_t CAVM_NIXX_AF_TL4X_CIR(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) nix#_af_tl4#_green
  *
  * INTERNAL: NIX Transmit Level 4 Green State Debug Register
- *
- * This register has the same bit fields as NIX_AF_TL3()_GREEN.
  */
 union cavm_nixx_af_tl4x_green
 {
@@ -20950,15 +21144,11 @@ union cavm_nixx_af_tl4x_green
         uint64_t rr_active             : 1;  /**< [ 40: 40](R/W/H) Round-robin red active. Indicates that the round-robin input is mapped to RED. */
         uint64_t active_vec            : 20; /**< [ 39: 20](R/W/H) Active vector. A 10-bit vector, ordered by priority, that indicate which inputs to this
                                                                  scheduling queue are active. For internal use only. */
-        uint64_t reserved_19           : 1;
-        uint64_t head                  : 9;  /**< [ 18: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
-        uint64_t reserved_9            : 1;
-        uint64_t tail                  : 9;  /**< [  8:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
+        uint64_t head                  : 10; /**< [ 19: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
+        uint64_t tail                  : 10; /**< [  9:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t tail                  : 9;  /**< [  8:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
-        uint64_t reserved_9            : 1;
-        uint64_t head                  : 9;  /**< [ 18: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
-        uint64_t reserved_19           : 1;
+        uint64_t tail                  : 10; /**< [  9:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
+        uint64_t head                  : 10; /**< [ 19: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
         uint64_t active_vec            : 20; /**< [ 39: 20](R/W/H) Active vector. A 10-bit vector, ordered by priority, that indicate which inputs to this
                                                                  scheduling queue are active. For internal use only. */
         uint64_t rr_active             : 1;  /**< [ 40: 40](R/W/H) Round-robin red active. Indicates that the round-robin input is mapped to RED. */
@@ -21218,13 +21408,13 @@ union cavm_nixx_af_tl4x_pir
     struct cavm_nixx_af_tl4x_pir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This base-2 exponent is used to divide the
                                                                  data rate by specifying the number of time-wheel turns required before the
@@ -21278,13 +21468,13 @@ union cavm_nixx_af_tl4x_pir
 
                                                                  Max rate = 2 Mbps * ((1 + (255/256)) \<\< 15) = 130 Gbps. */
         uint64_t reserved_17_28        : 12;
-        uint64_t burst_mantissa        : 8;  /**< [ 36: 29](R/W) Burst mantissa. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t burst_exponent        : 4;  /**< [ 40: 37](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
-                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0xFF, the burst limit is the largest
-                                                                 possible value, which is 130,816 (0x1FF00) bytes. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t burst_mantissa        : 15; /**< [ 43: 29](R/W) Burst mantissa. The burst limit is ((256 + BURST_MANTISSA) \<\< (BURST_EXPONENT+ 1)) / 256
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is (((256 + 0x7fff) \<\< (0xf+ 1)) / 256) = 8453888 bytes. */
+        uint64_t burst_exponent        : 4;  /**< [ 47: 44](R/W) Burst exponent. The burst limit is 1.[BURST_MANTISSA] \<\< ([BURST_EXPONENT] + 1).
+                                                                 With [BURST_EXPONENT]=0xF and [BURST_MANTISSA]=0x7FFF, the burst limit is the largest
+                                                                 possible value, which is 8453888 bytes. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_pir_s cn; */
@@ -21354,7 +21544,7 @@ static inline uint64_t CAVM_NIXX_AF_TL4X_POINTERS(uint64_t a, uint64_t b)
  *
  * INTERNAL: NIX Transmit Level 4 Red State Debug Register
  *
- * This register has the same bit fields as NIX_AF_TL3()_YELLOW.
+ * This register has the same bit fields as NIX_AF_TL4()_YELLOW.
  */
 union cavm_nixx_af_tl4x_red
 {
@@ -21362,15 +21552,13 @@ union cavm_nixx_af_tl4x_red
     struct cavm_nixx_af_tl4x_red_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
-        uint64_t head                  : 9;  /**< [ 18: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
-        uint64_t reserved_9            : 1;
-        uint64_t tail                  : 9;  /**< [  8:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
+        uint64_t reserved_20_63        : 44;
+        uint64_t head                  : 10; /**< [ 19: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
+        uint64_t tail                  : 10; /**< [  9:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t tail                  : 9;  /**< [  8:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
-        uint64_t reserved_9            : 1;
-        uint64_t head                  : 9;  /**< [ 18: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
-        uint64_t reserved_19_63        : 45;
+        uint64_t tail                  : 10; /**< [  9:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
+        uint64_t head                  : 10; /**< [ 19: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_red_s cn; */
@@ -21529,15 +21717,15 @@ union cavm_nixx_af_tl4x_sdp_link_cfg
                                                                  1 = The TL4 queue may only transmit to SDP and will respond to backpressure from
                                                                  NIX_AF_SDP_LINK_CREDIT. If [BP_ENA] is set, the queue also responds to channel
                                                                  backpressure. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t relchan               : 8;  /**< [  7:  0](R/W) Relative channel number. When [BP_ENA] is set, this is the
+        uint64_t reserved_7_11         : 5;
+        uint64_t relchan               : 7;  /**< [  6:  0](R/W) Relative channel number. When [BP_ENA] is set, this is the
                                                                  NIX_CHAN_E::SDP_CH() index of the SDP channel that may backpressure the TL4
                                                                  queue. */
 #else /* Word 0 - Little Endian */
-        uint64_t relchan               : 8;  /**< [  7:  0](R/W) Relative channel number. When [BP_ENA] is set, this is the
+        uint64_t relchan               : 7;  /**< [  6:  0](R/W) Relative channel number. When [BP_ENA] is set, this is the
                                                                  NIX_CHAN_E::SDP_CH() index of the SDP channel that may backpressure the TL4
                                                                  queue. */
-        uint64_t reserved_8_11         : 4;
+        uint64_t reserved_7_11         : 5;
         uint64_t ena                   : 1;  /**< [ 12: 12](R/W) Enable.
                                                                  0 = The TL4 queue will not transmit to SDP and may transmit to RPM and/or LBK.
                                                                  1 = The TL4 queue may only transmit to SDP and will respond to backpressure from
@@ -21622,55 +21810,102 @@ static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_TL4X_SHAPE(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_tl4#_shape_state
+ * Register (RVU_PF_BAR0) nix#_af_tl4#_shape_state_cir
  *
- * NIX AF Transmit Level 4 Shaping State Registers
- * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE.
+ * NIX AF Transmit Level 4 Shaping CIR State Registers
+ * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE_CIR.
  * This register must not be written during normal operation.
  */
-union cavm_nixx_af_tl4x_shape_state
+union cavm_nixx_af_tl4x_shape_state_cir
 {
     uint64_t u;
-    struct cavm_nixx_af_tl4x_shape_state_s
+    struct cavm_nixx_af_tl4x_shape_state_cir_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
 #else /* Word 0 - Little Endian */
-        uint64_t cir_accum             : 26; /**< [ 25:  0](R/W/H) Committed information rate accumulator. Debug access to the live CIR accumulator. */
-        uint64_t pir_accum             : 26; /**< [ 51: 26](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
-        uint64_t color                 : 2;  /**< [ 53: 52](R/W/H) Shaper connection status. Debug access to the live shaper state.
+        uint64_t cir_accum             : 33; /**< [ 32:  0](R/W/H) Committed information rate accumulator. Debug access to the live integer portion CIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
                                                                  0x0 = Green - shaper is connected into the green list.
                                                                  0x1 = Yellow - shaper is connected into the yellow list.
                                                                  0x2 = Red - shaper is connected into the red list.
                                                                  0x3 = Pruned - shaper is disconnected. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_af_tl4x_shape_state_s cn; */
+    /* struct cavm_nixx_af_tl4x_shape_state_cir_s cn; */
 };
-typedef union cavm_nixx_af_tl4x_shape_state cavm_nixx_af_tl4x_shape_state_t;
+typedef union cavm_nixx_af_tl4x_shape_state_cir cavm_nixx_af_tl4x_shape_state_cir_t;
 
-static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=511))
+        return 0x8400400010d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    __cavm_csr_fatal("NIXX_AF_TL4X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(a,b) cavm_nixx_af_tl4x_shape_state_cir_t
+#define bustype_CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(a,b) "NIXX_AF_TL4X_SHAPE_STATE_CIR"
+#define device_bar_CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_tl4#_shape_state_pir
+ *
+ * NIX AF Transmit Level 4 Shaping State Registers
+ * This register has the same bit fields as NIX_AF_TL2()_SHAPE_STATE_PIR.
+ * This register must not be written during normal operation.
+ */
+union cavm_nixx_af_tl4x_shape_state_pir
+{
+    uint64_t u;
+    struct cavm_nixx_af_tl4x_shape_state_pir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+#else /* Word 0 - Little Endian */
+        uint64_t pir_accum             : 33; /**< [ 32:  0](R/W/H) Peak information rate accumulator. Debug access to the live PIR accumulator. */
+        uint64_t color                 : 2;  /**< [ 34: 33](R/W/H) Shaper connection status. Debug access to the live shaper state.
+                                                                 0x0 = Green - shaper is connected into the green list.
+                                                                 0x1 = Yellow - shaper is connected into the yellow list.
+                                                                 0x2 = Red - shaper is connected into the red list.
+                                                                 0x3 = Pruned - shaper is disconnected. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_tl4x_shape_state_pir_s cn; */
+};
+typedef union cavm_nixx_af_tl4x_shape_state_pir cavm_nixx_af_tl4x_shape_state_pir_t;
+
+static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=511))
         return 0x840040001250ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
-    __cavm_csr_fatal("NIXX_AF_TL4X_SHAPE_STATE", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("NIXX_AF_TL4X_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_NIXX_AF_TL4X_SHAPE_STATE(a,b) cavm_nixx_af_tl4x_shape_state_t
-#define bustype_CAVM_NIXX_AF_TL4X_SHAPE_STATE(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_TL4X_SHAPE_STATE(a,b) "NIXX_AF_TL4X_SHAPE_STATE"
-#define device_bar_CAVM_NIXX_AF_TL4X_SHAPE_STATE(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_TL4X_SHAPE_STATE(a,b) (a)
-#define arguments_CAVM_NIXX_AF_TL4X_SHAPE_STATE(a,b) (a),(b),-1,-1
+#define typedef_CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(a,b) cavm_nixx_af_tl4x_shape_state_pir_t
+#define bustype_CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(a,b) "NIXX_AF_TL4X_SHAPE_STATE_PIR"
+#define device_bar_CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(a,b) (a)
+#define arguments_CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_tl4#_sw_xoff
@@ -21725,8 +21960,8 @@ union cavm_nixx_af_tl4x_topology
     struct cavm_nixx_af_tl4x_topology_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t prio_anchor           : 9;  /**< [ 40: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_42_63        : 22;
+        uint64_t prio_anchor           : 10; /**< [ 41: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
         uint64_t reserved_5_31         : 27;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
         uint64_t reserved_0            : 1;
@@ -21734,8 +21969,8 @@ union cavm_nixx_af_tl4x_topology
         uint64_t reserved_0            : 1;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
         uint64_t reserved_5_31         : 27;
-        uint64_t prio_anchor           : 9;  /**< [ 40: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t prio_anchor           : 10; /**< [ 41: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_topology_s cn; */
@@ -21761,8 +21996,6 @@ static inline uint64_t CAVM_NIXX_AF_TL4X_TOPOLOGY(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) nix#_af_tl4#_yellow
  *
  * INTERNAL: NIX Transmit Level 4 Yellow State Debug Register
- *
- * This register has the same bit fields as NIX_AF_TL3()_YELLOW
  */
 union cavm_nixx_af_tl4x_yellow
 {
@@ -21770,15 +22003,13 @@ union cavm_nixx_af_tl4x_yellow
     struct cavm_nixx_af_tl4x_yellow_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
-        uint64_t head                  : 9;  /**< [ 18: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
-        uint64_t reserved_9            : 1;
-        uint64_t tail                  : 9;  /**< [  8:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
+        uint64_t reserved_20_63        : 44;
+        uint64_t head                  : 10; /**< [ 19: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
+        uint64_t tail                  : 10; /**< [  9:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t tail                  : 9;  /**< [  8:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
-        uint64_t reserved_9            : 1;
-        uint64_t head                  : 9;  /**< [ 18: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
-        uint64_t reserved_19_63        : 45;
+        uint64_t tail                  : 10; /**< [  9:  0](R/W/H) Tail pointer. The index of round-robin linked-list tail. For internal use only. */
+        uint64_t head                  : 10; /**< [ 19: 10](R/W/H) Head pointer. The index of round-robin linked-list head. For internal use only. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_yellow_s cn; */

@@ -393,9 +393,9 @@ union cavm_npa_aura_s
                                                                  Bits \<63:53\>, \<5:0\> are ignored by hardware, treated as always 0x0. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t avg_level             : 8;  /**< [127:120] Current moving average of the 8-bit shifted and saturated aura count. The
-                                                                 higher [AVG_LEVEL] is, the more free resources. The lower levels indicate
-                                                                 buffer exhaustion. See [SHIFT] and [AVG_CON].
+        uint64_t avg_level             : 8;  /**< [127:120] Current moving average of the 8-bit shifted and saturated count of available aura buffers
+                                                                 (i.e. 255 - 8b shifted and saturated aura count). The higher [AVG_LEVEL] is, the more
+                                                                 available resources. The lower levels indicate buffer exhaustion. See [SHIFT] and [AVG_CON].
 
                                                                  NPA_INPQ_E::NIX()_RX uses [AVG_LEVEL] in receive queue QOS calculations. */
         uint64_t reserved_118_119      : 2;
@@ -537,9 +537,9 @@ union cavm_npa_aura_s
                                                                  calculations. NPA saturates the aura [COUNT] to 8 bits for the aura, and compares this
                                                                  8-bit shifted and saturated count directly to [AURA_DROP] and [BP]. */
         uint64_t reserved_118_119      : 2;
-        uint64_t avg_level             : 8;  /**< [127:120] Current moving average of the 8-bit shifted and saturated aura count. The
-                                                                 higher [AVG_LEVEL] is, the more free resources. The lower levels indicate
-                                                                 buffer exhaustion. See [SHIFT] and [AVG_CON].
+        uint64_t avg_level             : 8;  /**< [127:120] Current moving average of the 8-bit shifted and saturated count of available aura buffers
+                                                                 (i.e. 255 - 8b shifted and saturated aura count). The higher [AVG_LEVEL] is, the more
+                                                                 available resources. The lower levels indicate buffer exhaustion. See [SHIFT] and [AVG_CON].
 
                                                                  NPA_INPQ_E::NIX()_RX uses [AVG_LEVEL] in receive queue QOS calculations. */
 #endif /* Word 1 - End */

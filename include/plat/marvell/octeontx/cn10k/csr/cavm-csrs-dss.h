@@ -51,7 +51,7 @@ union cavm_dssx_clk_en
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t s_mem_clk_en          : 1;  /**< [  4:  4](SR/W) 1- clock enabled , 0- clock disabled */
+        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1- clock enabled , 0- clock disabled */
         uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1- clock enabled , 0- clock disabled */
         uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1- clock enabled , 0- clock disabled */
         uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1- clock enabled , 0- clock disabled */
@@ -61,7 +61,7 @@ union cavm_dssx_clk_en
         uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1- clock enabled , 0- clock disabled */
         uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1- clock enabled , 0- clock disabled */
         uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_mem_clk_en          : 1;  /**< [  4:  4](SR/W) 1- clock enabled , 0- clock disabled */
+        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1- clock enabled , 0- clock disabled */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -97,7 +97,7 @@ union cavm_dssx_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t s_force_crypto_slow_clk : 1;/**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
+        uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
                                                                  1:4 mode. in 1:2 mode the slow and fast clock (dfi and phy clocks) are at the
                                                                  same ferquency) */
         uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0- ddr type is ddr4 , 1- ddr type is ddr5 */
@@ -105,7 +105,7 @@ union cavm_dssx_ctrl
 #else /* Word 0 - Little Endian */
         uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0- ddr mode is 1:2 , 1- ddr mode is 1:4 */
         uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0- ddr type is ddr4 , 1- ddr type is ddr5 */
-        uint64_t s_force_crypto_slow_clk : 1;/**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
+        uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
                                                                  1:4 mode. in 1:2 mode the slow and fast clock (dfi and phy clocks) are at the
                                                                  same ferquency) */
         uint64_t reserved_3_63         : 61;
@@ -782,7 +782,7 @@ static inline uint64_t CAVM_DSSX_INT_W1S(uint64_t a)
  * Register (RSL) dss#_mc_core_reset_n
  *
  * DSS dfi domain reset Register
- * dfi clock SW reset - active low.
+ * dfi clock software reset - active low.
  */
 union cavm_dssx_mc_core_reset_n
 {
@@ -859,42 +859,42 @@ static inline uint64_t CAVM_DSSX_MC_CTRL(uint64_t a)
 #define arguments_CAVM_DSSX_MC_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dss#_mem_reset_n
+ * Register (RSL) dss#_mct_reset_n
  *
- * DSS mct mem domain reset Register
- * mem clock SW reset - active low.
+ * DSS mct clock domain reset Register
+ * mct clock domain software reset - active low.
  */
-union cavm_dssx_mem_reset_n
+union cavm_dssx_mct_reset_n
 {
     uint64_t u;
-    struct cavm_dssx_mem_reset_n_s
+    struct cavm_dssx_mct_reset_n_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t s_mem_reset_n         : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_mct_reset_n         : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mem_reset_n         : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_mct_reset_n         : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dssx_mem_reset_n_s cn; */
+    /* struct cavm_dssx_mct_reset_n_s cn; */
 };
-typedef union cavm_dssx_mem_reset_n cavm_dssx_mem_reset_n_t;
+typedef union cavm_dssx_mct_reset_n cavm_dssx_mct_reset_n_t;
 
-static inline uint64_t CAVM_DSSX_MEM_RESET_N(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSSX_MEM_RESET_N(uint64_t a)
+static inline uint64_t CAVM_DSSX_MCT_RESET_N(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_MCT_RESET_N(uint64_t a)
 {
     if (a<=3)
         return 0x87e03c000010ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("DSSX_MEM_RESET_N", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("DSSX_MCT_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DSSX_MEM_RESET_N(a) cavm_dssx_mem_reset_n_t
-#define bustype_CAVM_DSSX_MEM_RESET_N(a) CSR_TYPE_RSL
-#define basename_CAVM_DSSX_MEM_RESET_N(a) "DSSX_MEM_RESET_N"
-#define device_bar_CAVM_DSSX_MEM_RESET_N(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSSX_MEM_RESET_N(a) (a)
-#define arguments_CAVM_DSSX_MEM_RESET_N(a) (a),-1,-1,-1
+#define typedef_CAVM_DSSX_MCT_RESET_N(a) cavm_dssx_mct_reset_n_t
+#define bustype_CAVM_DSSX_MCT_RESET_N(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_MCT_RESET_N(a) "DSSX_MCT_RESET_N"
+#define device_bar_CAVM_DSSX_MCT_RESET_N(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_MCT_RESET_N(a) (a)
+#define arguments_CAVM_DSSX_MCT_RESET_N(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dss#_msix_pba#
@@ -1016,6 +1016,44 @@ static inline uint64_t CAVM_DSSX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define arguments_CAVM_DSSX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) dss#_phy_apb_reset_n
+ *
+ * DSS phy apb clock domain reset Register
+ * phy apb clock domain software reset - active low.
+ */
+union cavm_dssx_phy_apb_reset_n
+{
+    uint64_t u;
+    struct cavm_dssx_phy_apb_reset_n_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t s_phy_apb_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+#else /* Word 0 - Little Endian */
+        uint64_t s_phy_apb_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_phy_apb_reset_n_s cn; */
+};
+typedef union cavm_dssx_phy_apb_reset_n cavm_dssx_phy_apb_reset_n_t;
+
+static inline uint64_t CAVM_DSSX_PHY_APB_RESET_N(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_PHY_APB_RESET_N(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c000018ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSSX_PHY_APB_RESET_N", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_PHY_APB_RESET_N(a) cavm_dssx_phy_apb_reset_n_t
+#define bustype_CAVM_DSSX_PHY_APB_RESET_N(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_PHY_APB_RESET_N(a) "DSSX_PHY_APB_RESET_N"
+#define device_bar_CAVM_DSSX_PHY_APB_RESET_N(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_PHY_APB_RESET_N(a) (a)
+#define arguments_CAVM_DSSX_PHY_APB_RESET_N(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) dss#_phy_ctrl
  *
  * DSS PHY control Register
@@ -1027,11 +1065,13 @@ union cavm_dssx_phy_ctrl
     struct cavm_dssx_phy_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY */
         uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) controls the value driven to the ddr_phy's PPROT_PIN input port. */
 #else /* Word 0 - Little Endian */
         uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) controls the value driven to the ddr_phy's PPROT_PIN input port. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_phy_ctrl_s cn; */
@@ -1057,7 +1097,7 @@ static inline uint64_t CAVM_DSSX_PHY_CTRL(uint64_t a)
  * Register (RSL) dss#_phy_ref_reset_n
  *
  * DSS phy domain reset Register
- * phy clock SW reset - active low.
+ * phy clock software reset - active low.
  */
 union cavm_dssx_phy_ref_reset_n
 {
@@ -1554,8 +1594,8 @@ union cavm_dss_mctx_dbg_sw_op_cmd_ctrl
     struct cavm_dss_mctx_dbg_sw_op_cmd_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t s_sw_op_sys_addr      : 48; /**< [ 57: 10](SR/W) SW requested system address:
+        uint64_t reserved_62_63        : 2;
+        uint64_t s_sw_op_sys_addr      : 52; /**< [ 61: 10](SR/W) SW requested system address:
                                                                  When SW command is issued when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x0  - traffic
                                                                  alike operation, MCT will treat this SW command as a demand read/write operation
                                                                  with the same system address.
@@ -1579,12 +1619,12 @@ union cavm_dss_mctx_dbg_sw_op_cmd_ctrl
                                                                  0x1 - pure software interface - MCT will encrypt/decrypt the requested data using the
                                                                  configured debug key in MCT_SW_DBG_KEY_LOW and MCT_SW_DBG_KEY_HIGH. */
         uint64_t reserved_2_9          : 8;
-        uint64_t s_sw_op_sys_addr      : 48; /**< [ 57: 10](SR/W) SW requested system address:
+        uint64_t s_sw_op_sys_addr      : 52; /**< [ 61: 10](SR/W) SW requested system address:
                                                                  When SW command is issued when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x0  - traffic
                                                                  alike operation, MCT will treat this SW command as a demand read/write operation
                                                                  with the same system address.
                                                                  Note: this field is valid only when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x0. */
-        uint64_t reserved_58_63        : 6;
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dss_mctx_dbg_sw_op_cmd_ctrl_s cn; */
@@ -1935,11 +1975,11 @@ union cavm_dss_mctx_int_w1c
                                                                  that configured in two windows or more. */
         uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) When set, indicates there was read access to an address
                                                                  that configured in two windows or more. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) When set, indicates there was write access to not configured address */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) When set, indicates there was read access to not configured address */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) When set, indicates there was write access to not configured address. */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) When set, indicates there was read access to not configured address. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) When set, indicates there was read access to not configured address */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) When set, indicates there was write access to not configured address */
+        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) When set, indicates there was read access to not configured address. */
+        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) When set, indicates there was write access to not configured address. */
         uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) When set, indicates there was read access to an address
                                                                  that configured in two windows or more. */
         uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) When set, indicates there was write access to an address
@@ -2251,11 +2291,11 @@ union cavm_dss_mctx_win_addr_hix
     struct cavm_dss_mctx_win_addr_hix_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t s_win_addr_hi         : 48; /**< [ 47:  0](SR/W) Window max address */
+        uint64_t reserved_52_63        : 12;
+        uint64_t s_win_addr_hi         : 52; /**< [ 51:  0](SR/W) Window max address */
 #else /* Word 0 - Little Endian */
-        uint64_t s_win_addr_hi         : 48; /**< [ 47:  0](SR/W) Window max address */
-        uint64_t reserved_48_63        : 16;
+        uint64_t s_win_addr_hi         : 52; /**< [ 51:  0](SR/W) Window max address */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dss_mctx_win_addr_hix_s cn; */
@@ -2290,11 +2330,11 @@ union cavm_dss_mctx_win_addr_lox
     struct cavm_dss_mctx_win_addr_lox_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t s_win_addr_lo         : 48; /**< [ 47:  0](SR/W) Window base address */
+        uint64_t reserved_52_63        : 12;
+        uint64_t s_win_addr_lo         : 52; /**< [ 51:  0](SR/W) Window base address */
 #else /* Word 0 - Little Endian */
-        uint64_t s_win_addr_lo         : 48; /**< [ 47:  0](SR/W) Window base address */
-        uint64_t reserved_48_63        : 16;
+        uint64_t s_win_addr_lo         : 52; /**< [ 51:  0](SR/W) Window base address */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dss_mctx_win_addr_lox_s cn; */

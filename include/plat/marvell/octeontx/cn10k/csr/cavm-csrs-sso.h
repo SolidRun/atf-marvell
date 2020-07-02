@@ -650,9 +650,6 @@ static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(uint64_t a)
  * SSO Admin Function  BAR2 Alias Registers
  * These registers alias to the SSO BAR2 registers for the PF and function
  * selected by SSO_AF_BAR2_SEL[PF_FUNC].
- *
- * Internal:
- * Not implemented. Placeholder for bug33464.
  */
 union cavm_sso_af_bar2_aliasx
 {
@@ -2645,6 +2642,47 @@ static inline uint64_t CAVM_SSO_AF_HWGRPX_IU_ACCNT(uint64_t a)
 #define device_bar_CAVM_SSO_AF_HWGRPX_IU_ACCNT(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSO_AF_HWGRPX_IU_ACCNT(a) (a)
 #define arguments_CAVM_SSO_AF_HWGRPX_IU_ACCNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_hwgrp#_ls_pc
+ *
+ * SSO AF Hardware Group Scheduled LMTST Performance Counter Register
+ * Counts the number of scheduled LMTST work for each hardware group. The
+ * counter rolls over through zero when the maximum value is exceeded.
+ */
+union cavm_sso_af_hwgrpx_ls_pc
+{
+    uint64_t u;
+    struct cavm_sso_af_hwgrpx_ls_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Scheduled LMTST performance counter for hardware group. Writes are for diagnostic
+                                                                 use only, and defined only when neither work nor GET_WORKs are present in the
+                                                                 SSO. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Scheduled LMTST performance counter for hardware group. Writes are for diagnostic
+                                                                 use only, and defined only when neither work nor GET_WORKs are present in the
+                                                                 SSO. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_hwgrpx_ls_pc_s cn; */
+};
+typedef union cavm_sso_af_hwgrpx_ls_pc cavm_sso_af_hwgrpx_ls_pc_t;
+
+static inline uint64_t CAVM_SSO_AF_HWGRPX_LS_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_HWGRPX_LS_PC(uint64_t a)
+{
+    if (a<=255)
+        return 0x8400702000c0ll + 0x1000ll * ((a) & 0xff);
+    __cavm_csr_fatal("SSO_AF_HWGRPX_LS_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_HWGRPX_LS_PC(a) cavm_sso_af_hwgrpx_ls_pc_t
+#define bustype_CAVM_SSO_AF_HWGRPX_LS_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_HWGRPX_LS_PC(a) "SSO_AF_HWGRPX_LS_PC"
+#define device_bar_CAVM_SSO_AF_HWGRPX_LS_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_HWGRPX_LS_PC(a) (a)
+#define arguments_CAVM_SSO_AF_HWGRPX_LS_PC(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) sso_af_hwgrp#_page_cnt

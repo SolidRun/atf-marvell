@@ -250,8 +250,8 @@ typedef union cavm_rnm_drbgx_ent_forcex cavm_rnm_drbgx_ent_forcex_t;
 static inline uint64_t CAVM_RNM_DRBGX_ENT_FORCEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBGX_ENT_FORCEX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x87e00f000300ll + 0x400ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=3))
+        return 0x87e00f000300ll + 0x400ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RNM_DRBGX_ENT_FORCEX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -574,17 +574,11 @@ union cavm_rnm_ebg_ent
         uint64_t reserved_32_63        : 32;
         uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Entropy value is ready to read.
                                                                  1 = Not ready. */
-        uint64_t err_rep               : 1;  /**< [ 30: 30](RO/H) Error flag for repetition count health test. */
-        uint64_t err_adp               : 1;  /**< [ 29: 29](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t st_done               : 1;  /**< [ 28: 28](RO/H) Done flag for EBG startup tests. */
-        uint64_t reserved_16_27        : 12;
+        uint64_t reserved_16_30        : 15;
         uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
 #else /* Word 0 - Little Endian */
         uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
-        uint64_t reserved_16_27        : 12;
-        uint64_t st_done               : 1;  /**< [ 28: 28](RO/H) Done flag for EBG startup tests. */
-        uint64_t err_adp               : 1;  /**< [ 29: 29](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t err_rep               : 1;  /**< [ 30: 30](RO/H) Error flag for repetition count health test. */
+        uint64_t reserved_16_30        : 15;
         uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Entropy value is ready to read.
                                                                  1 = Not ready. */
         uint64_t reserved_32_63        : 32;
@@ -607,49 +601,6 @@ static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void)
 #define device_bar_CAVM_RNM_EBG_ENT 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RNM_EBG_ENT 0
 #define arguments_CAVM_RNM_EBG_ENT -1,-1,-1,-1
-
-/**
- * Register (RSL) rnm_ebg_health_cfg
- *
- * RNM EBG Entropy Value Register
- * This register is used to configure the EBG Health tests.
- */
-union cavm_rnm_ebg_health_cfg
-{
-    uint64_t u;
-    struct cavm_rnm_ebg_health_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
-        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNG_RSTN is 0. */
-        uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNG_RSTN is 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNG_RSTN is 0. */
-        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNG_RSTN is 0. */
-        uint64_t reserved_19_63        : 45;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_ebg_health_cfg_s cn; */
-};
-typedef union cavm_rnm_ebg_health_cfg cavm_rnm_ebg_health_cfg_t;
-
-#define CAVM_RNM_EBG_HEALTH_CFG CAVM_RNM_EBG_HEALTH_CFG_FUNC()
-static inline uint64_t CAVM_RNM_EBG_HEALTH_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_EBG_HEALTH_CFG_FUNC(void)
-{
-    return 0x87e00f000050ll;
-}
-
-#define typedef_CAVM_RNM_EBG_HEALTH_CFG cavm_rnm_ebg_health_cfg_t
-#define bustype_CAVM_RNM_EBG_HEALTH_CFG CSR_TYPE_RSL
-#define basename_CAVM_RNM_EBG_HEALTH_CFG "RNM_EBG_HEALTH_CFG"
-#define device_bar_CAVM_RNM_EBG_HEALTH_CFG 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_EBG_HEALTH_CFG 0
-#define arguments_CAVM_RNM_EBG_HEALTH_CFG -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_eer_key
@@ -734,6 +685,92 @@ static inline uint64_t CAVM_RNM_HEALTH_STATUS_FUNC(void)
 #define arguments_CAVM_RNM_HEALTH_STATUS -1,-1,-1,-1
 
 /**
+ * Register (RSL) rnm_pf_ebg_health
+ *
+ * RNM EBG Health Configuration and Status Register
+ * This register is used to configure and check the status of the EBG (Entropy Bit
+ * Generator) Health tests.
+ */
+union cavm_rnm_pf_ebg_health
+{
+    uint64_t u;
+    struct cavm_rnm_pf_ebg_health_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t err_rep               : 1;  /**< [ 21: 21](RO/H) Error flag for repetition count health test. */
+        uint64_t err_adp               : 1;  /**< [ 20: 20](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t st_done               : 1;  /**< [ 19: 19](RO/H) Done flag for EBG startup tests. */
+        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
+                                                                 Only writable when RNG_RSTN is 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t st_done               : 1;  /**< [ 19: 19](RO/H) Done flag for EBG startup tests. */
+        uint64_t err_adp               : 1;  /**< [ 20: 20](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t err_rep               : 1;  /**< [ 21: 21](RO/H) Error flag for repetition count health test. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_pf_ebg_health_s cn; */
+};
+typedef union cavm_rnm_pf_ebg_health cavm_rnm_pf_ebg_health_t;
+
+#define CAVM_RNM_PF_EBG_HEALTH CAVM_RNM_PF_EBG_HEALTH_FUNC()
+static inline uint64_t CAVM_RNM_PF_EBG_HEALTH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_EBG_HEALTH_FUNC(void)
+{
+    return 0x87e00f000050ll;
+}
+
+#define typedef_CAVM_RNM_PF_EBG_HEALTH cavm_rnm_pf_ebg_health_t
+#define bustype_CAVM_RNM_PF_EBG_HEALTH CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_EBG_HEALTH "RNM_PF_EBG_HEALTH"
+#define device_bar_CAVM_RNM_PF_EBG_HEALTH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_EBG_HEALTH 0
+#define arguments_CAVM_RNM_PF_EBG_HEALTH -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_pf_random
+ *
+ * RNM Random Register
+ */
+union cavm_rnm_pf_random
+{
+    uint64_t u;
+    struct cavm_rnm_pf_random_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_pf_random_s cn; */
+};
+typedef union cavm_rnm_pf_random cavm_rnm_pf_random_t;
+
+#define CAVM_RNM_PF_RANDOM CAVM_RNM_PF_RANDOM_FUNC()
+static inline uint64_t CAVM_RNM_PF_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_RANDOM_FUNC(void)
+{
+    return 0x87e00f000400ll;
+}
+
+#define typedef_CAVM_RNM_PF_RANDOM cavm_rnm_pf_random_t
+#define bustype_CAVM_RNM_PF_RANDOM CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_RANDOM "RNM_PF_RANDOM"
+#define device_bar_CAVM_RNM_PF_RANDOM 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_RANDOM 0
+#define arguments_CAVM_RNM_PF_RANDOM -1,-1,-1,-1
+
+/**
  * Register (NCB) rnm_random
  *
  * RNM Random Register
@@ -805,6 +842,56 @@ static inline uint64_t CAVM_RNM_SERIAL_NUM_FUNC(void)
 #define device_bar_CAVM_RNM_SERIAL_NUM 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RNM_SERIAL_NUM 0
 #define arguments_CAVM_RNM_SERIAL_NUM -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_vf_ebg_health
+ *
+ * RNM EBG Health Configuration and Status Register
+ * This register is used to configure and check the status of the EBG (Entropy Bit
+ * Generator) Health tests.
+ */
+union cavm_rnm_vf_ebg_health
+{
+    uint64_t u;
+    struct cavm_rnm_vf_ebg_health_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
+        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
+        uint64_t c_rep                 : 9;  /**< [ 19: 11](RO/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t c_adp                 : 11; /**< [ 10:  0](RO/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
+                                                                 Only writable when RNG_RSTN is 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t c_adp                 : 11; /**< [ 10:  0](RO/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t c_rep                 : 9;  /**< [ 19: 11](RO/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+                                                                 Only writable when RNG_RSTN is 0. */
+        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
+        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_vf_ebg_health_s cn; */
+};
+typedef union cavm_rnm_vf_ebg_health cavm_rnm_vf_ebg_health_t;
+
+#define CAVM_RNM_VF_EBG_HEALTH CAVM_RNM_VF_EBG_HEALTH_FUNC()
+static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void)
+{
+    return 0x80f000800020ll;
+}
+
+#define typedef_CAVM_RNM_VF_EBG_HEALTH cavm_rnm_vf_ebg_health_t
+#define bustype_CAVM_RNM_VF_EBG_HEALTH CSR_TYPE_NCB
+#define basename_CAVM_RNM_VF_EBG_HEALTH "RNM_VF_EBG_HEALTH"
+#define device_bar_CAVM_RNM_VF_EBG_HEALTH 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_VF_EBG_HEALTH 0
+#define arguments_CAVM_RNM_VF_EBG_HEALTH -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_zuc#_init_lfsr#

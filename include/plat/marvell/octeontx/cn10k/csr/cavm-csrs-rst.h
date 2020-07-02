@@ -119,7 +119,7 @@
  * and RST_TEST_PLL().
  */
 #define CAVM_RST_PLL_E_CPTCLK (6)
-#define CAVM_RST_PLL_E_DTSCLK (5)
+#define CAVM_RST_PLL_E_DFICLK (5)
 #define CAVM_RST_PLL_E_IOCLK (3)
 #define CAVM_RST_PLL_E_MESHCLK (1)
 #define CAVM_RST_PLL_E_MLCLK (4)
@@ -2519,7 +2519,7 @@ union cavm_rst_pll_limit
                                                                  since the minimum PLL frequency is 200 MHz.
 
                                                                  Internal:
-                                                                 The field is initialized to FUS_FUSE_NUM_E::CPT_MAX_MUL() fuses on a chip domain reset. */
+                                                                 The field is initialized to FUSE_NUM_E::CPT_MAX_MUL() fuses on a chip domain reset. */
         uint64_t reserved_15           : 1;
         uint64_t core_max_mul          : 7;  /**< [ 14:  8](R/W/H) Core clock maximum PLL multiplier.
                                                                  This field is used to limit the RST_CORE_PLL[CUR_MUL] value.
@@ -2529,7 +2529,7 @@ union cavm_rst_pll_limit
                                                                  since the minimum PLL frequency is 300 MHz.
 
                                                                  Internal:
-                                                                 The field is initialized to FUS_FUSE_NUM_E::CORE_MAX_MUL() fuses on a chip domain reset. */
+                                                                 The field is initialized to FUSE_NUM_E::CORE_MAX_MUL() fuses on a chip domain reset. */
         uint64_t reserved_7            : 1;
         uint64_t pnr_max_mul           : 7;  /**< [  6:  0](R/W/H) Coprocessor clock maximum PLL multiplier.
                                                                  This field is used to limit the RST_PNR_PLL[CUR_MUL] value.
@@ -2539,7 +2539,7 @@ union cavm_rst_pll_limit
                                                                  since the minimum PLL frequency is 300 MHz.
 
                                                                  Internal:
-                                                                 The field is initialized to FUS_FUSE_NUM_E::PNR_MAX_MUL() fuses on a chip domain
+                                                                 The field is initialized to FUSE_NUM_E::PNR_MAX_MUL() fuses on a chip domain
                                                                  reset. */
 #else /* Word 0 - Little Endian */
         uint64_t pnr_max_mul           : 7;  /**< [  6:  0](R/W/H) Coprocessor clock maximum PLL multiplier.
@@ -2550,7 +2550,7 @@ union cavm_rst_pll_limit
                                                                  since the minimum PLL frequency is 300 MHz.
 
                                                                  Internal:
-                                                                 The field is initialized to FUS_FUSE_NUM_E::PNR_MAX_MUL() fuses on a chip domain
+                                                                 The field is initialized to FUSE_NUM_E::PNR_MAX_MUL() fuses on a chip domain
                                                                  reset. */
         uint64_t reserved_7            : 1;
         uint64_t core_max_mul          : 7;  /**< [ 14:  8](R/W/H) Core clock maximum PLL multiplier.
@@ -2561,7 +2561,7 @@ union cavm_rst_pll_limit
                                                                  since the minimum PLL frequency is 300 MHz.
 
                                                                  Internal:
-                                                                 The field is initialized to FUS_FUSE_NUM_E::CORE_MAX_MUL() fuses on a chip domain reset. */
+                                                                 The field is initialized to FUSE_NUM_E::CORE_MAX_MUL() fuses on a chip domain reset. */
         uint64_t reserved_15           : 1;
         uint64_t cpt_max_mul           : 7;  /**< [ 22: 16](R/W/H) Crypto clock maximum PLL multiplier.
                                                                  This field is used to limit the RST_CPT_PLL[CUR_MUL] value.
@@ -2571,7 +2571,7 @@ union cavm_rst_pll_limit
                                                                  since the minimum PLL frequency is 200 MHz.
 
                                                                  Internal:
-                                                                 The field is initialized to FUS_FUSE_NUM_E::CPT_MAX_MUL() fuses on a chip domain reset. */
+                                                                 The field is initialized to FUSE_NUM_E::CPT_MAX_MUL() fuses on a chip domain reset. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
