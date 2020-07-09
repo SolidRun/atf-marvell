@@ -65,4 +65,11 @@ typedef struct {
 	size_t		length;
 } file_state_t;
 
+#define SPI_CONFIG_ERR		2
+#define SPI_MMAP_ERR		3
+#define SPI_IMG_VALIDATE_ERR	4
+#define SPI_IMG_UPDATE_ERR	5
+
+int spi_secure_update(uintptr_t user_buf, uintptr_t size,
+				uint32_t bus, uint32_t cs);
 #endif /* __SPI_H__ */

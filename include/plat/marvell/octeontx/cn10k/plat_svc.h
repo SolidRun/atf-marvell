@@ -79,8 +79,25 @@
  */
 #define PLAT_OCTEONTX_SERDES_DBG_PRBS		0xc2000d07
 
+/*
+ * x1 - user_buffer
+ * x2 - size
+ * x3 - bus
+ * x4 - chip select
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *		-2 -- SPI_CONFIG_ERR
+ *		-3 -- SPI_MMAP_ERR
+ *		-4 -- SPI_IMG_VALIDATE_ERR
+ *		-5 -- SPI_IMG_UPDATE_ERR
+ */
+#define PLAT_OCTEONTX_SPI_SECURE_UPDATE		0xc2000d08
+
 /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			11
+#define OTX3_NUM_SMC_CALLS			12
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
