@@ -125,7 +125,7 @@ union ecam_config {
 	uint8_t u;
 	struct ecam_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint8_t reserved	: 5; /* For future use */
+		uint8_t reserved	: 4; /* For future use */
 		uint8_t is_secure	: 1; /*
 					      * Flag to indicate if given device
 					      * is visible only in secure world.
@@ -141,11 +141,17 @@ union ecam_config {
 					      * is visible only to MCP.
 					      * Used only on T93, default: 0
 					      */
+		uint8_t is_ecp_secure	: 1; /*
+					      * Flag to indicate if given device
+					      * is visible only to ECP.
+					      * Used only on cn10K, default: 0
+					      */
 #else
+		uint8_t is_ecp_secure	: 1;
 		uint8_t is_mcp_secure	: 1;
 		uint8_t is_scp_secure	: 1;
 		uint8_t is_secure	: 1;
-		uint8_t reserved	: 5;
+		uint8_t reserved	: 4;
 #endif
 	} s;
 };
