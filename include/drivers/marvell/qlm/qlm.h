@@ -177,10 +177,12 @@ typedef enum {
 } qlm_loop_t;
 
 typedef enum {
-	QLM_GSERC_TYPE,
+	QLM_GSERC_TYPE = 0,
 	QLM_GSERR_TYPE,
 	QLM_GSERN_TYPE,
+	QLM_GSERJ_TYPE,
 	QLM_GSERM_TYPE,
+	QLM_TYPE_END
 } qlm_type_t;
 
 /*
