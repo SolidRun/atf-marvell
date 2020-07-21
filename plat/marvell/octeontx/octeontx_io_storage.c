@@ -74,26 +74,6 @@ static io_block_spec_t fip_block_spec = {
 	.offset	= 0x440000,
 #endif
 };
-
-#if defined(PLAT_t106)
-static io_block_spec_t bl31_block_spec = {
-	/* ATF BL31 base address 0x360000,
-	 *  TIM_HEADER - 0x1000
-	 *  EBF HEADER - 0x100
-	 */
-	.offset	= 0x361100,
-	.length = 0xF000,
-};
-
-static io_block_spec_t bl33_block_spec = {
-	/* U-BOOT base address 0x420000,
-	 *  TIM_HEADER - 0x1000
-	 */
-	.offset	= 0x421000,
-	.length = 0x90000,
-};
-#endif
-
 static const io_uuid_spec_t bl2_uuid_spec = {
 	.uuid = UUID_TRUSTED_BOOT_FIRMWARE_BL2,
 };
@@ -369,7 +349,7 @@ static int open_spi(const uintptr_t spec)
 			io_close(local_image_handle);
 		}
 	}
-	
+
 	return result;
 }
 
@@ -461,10 +441,10 @@ void octeontx_io_setup(void)
 
 	io_result = register_io_dev_dummy(&bl31_dev_con);
 	assert(io_result == 0);
-	
+
 	io_result = register_io_dev_dummy(&bl33_dev_con);
 	assert(io_result == 0);
-	
+
 	io_result = register_io_dev_spi(&spi_dev_con);
 	assert(io_result == 0);
 
@@ -486,7 +466,7 @@ void octeontx_io_setup(void)
 	io_result = io_dev_open(bl33_dev_con, (uintptr_t)NULL,
 				&bl33_dev_handle);
 	assert(io_result == 0);
-	
+
 	io_result = io_dev_open(spi_dev_con, (uintptr_t)NULL,
 				&spi_dev_handle);
 	assert(io_result == 0);
@@ -609,7 +589,12 @@ int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 	const char *medium;
 	int (*check)(const uintptr_t spec);
 	uintptr_t handle;
-	uintptr_t spec;
+	/* Temp spec to probe IO medium */
+	io_block_spec_t spec = {
+		.offset	= 0x361100,
+		.length = 0xF000,
+	};
+	int boot_type;
 #endif
 	int result;
 	const struct plat_io_policy *policy;
@@ -620,60 +605,49 @@ int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 	if (image_id == FIP_IMAGE_ID)
 		return plat_get_fip_source(dev_handle, image_spec);
 
-#if defined(PLAT_t106)
 	policy = &policies[image_id];
 	result = policy->check(policy->image_spec);
-	if (result == 0)
-		VERBOSE("%s: policy obtained\n", __func__);
 
+#if defined(PLAT_t106)
 	/* Check for boot type */
-	switch (plat_octeontx_bcfg->bcfg.boot_dev.boot_type) {
+	boot_type = plat_octeontx_bcfg->bcfg.boot_dev.boot_type;
+	switch (boot_type) {
 		case OCTEONTX_BOOT_REMOTE:
 			plat_fill_fip_memmap_spec();
 			handle = memmap_dev_handle;
-			spec = (uintptr_t)&fip_block_spec;
+			spec = fip_block_spec;
 			check = open_memmap;
 			medium = "memmap";
 			break;
 		case OCTEONTX_BOOT_SPI:
 			handle = spi_dev_handle;
-			spec = (uintptr_t)NULL;
-			if (image_id == BL31_IMAGE_ID)
-				spec = (uintptr_t)&bl31_block_spec;
-			else if (image_id == BL33_IMAGE_ID)
-				spec = (uintptr_t)&bl33_block_spec;
 			check = open_spi;
 			medium = "SPI";
 			break;
 		case OCTEONTX_BOOT_EMMC:
 			handle = emmc_dev_handle;
-			spec = (uintptr_t)NULL;
-			if (image_id == BL31_IMAGE_ID)
-				spec = (uintptr_t)&bl31_block_spec;
-			else if (image_id == BL33_IMAGE_ID)
-				spec = (uintptr_t)&bl33_block_spec;
 			check = open_emmc;
 			medium = "MMC";
 			break;
 		default:
 			ERROR("Boot medium: 0x%02x is not supported!\n",
-				plat_octeontx_bcfg->bcfg.boot_dev.boot_type);
+				boot_type);
 			while(1);
 	}
-	
-	result = check(spec);
-	if (result == 0) {
-		*image_spec = spec;
-		*dev_handle = handle;
-	} else {
-		ERROR("FIP not found on medium %s\n", medium);
+	result = check((uintptr_t)&spec);
+	if (result) {
+		ERROR("Boot Medium %s not accesible\n", medium);
 		result = -ENOENT;
 	}
 
+	/* Read TIM from Source device */
+	result = plat_read_tim(boot_type, image_id, handle, image_spec);
+	if (result) {
+		WARN("Reading TIM returned %d\n", result);
+		return -ENOENT;
+	}
+	*dev_handle = handle;
 #else
-	policy = &policies[image_id];
-	result = policy->check(policy->image_spec);
-
 	if (result == 0) {
 		*image_spec = policy->image_spec;
 		*dev_handle = *(policy->dev_handle);
