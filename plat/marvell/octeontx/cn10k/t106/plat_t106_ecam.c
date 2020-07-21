@@ -15,11 +15,10 @@
 #include <octeontx_ecam.h>
 #include <plat_board_cfg.h>
 #include <plat_scfg.h>
-#include <cgx.h>
 #include <octeontx_utils.h>
 #include <plat_cn10k_configuration.h>
 #include <rvu.h>
-#include <qlm/qlm.h>
+#include <qlm/qlm_cn10k.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-pccpf.h"

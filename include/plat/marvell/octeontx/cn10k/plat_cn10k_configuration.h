@@ -5,8 +5,8 @@
  * https://spdx.org/licenses
  */
 
-#ifndef __PLAT_OTX3_CONFIGURATION_H__
-#define __PLAT_OTX3_CONFIGURATION_H__
+#ifndef __PLAT_CN10K_CONFIGURATION_H__
+#define __PLAT_CN10K_CONFIGURATION_H__
 
 /* Used to initialize individual device IOBN security settings */
 struct cn10k_stream_security_setting {
@@ -20,9 +20,8 @@ struct cn10k_stream_security_setting {
 int plat_octeontx_get_iobn_count(void);
 int plat_octeontx_get_cpt_count(void);
 int plat_octeontx_get_rpm_count(void);
-int plat_octeontx_get_gser_count(void);
+int plat_octeontx_get_gserm_count(void);
 int plat_octeontx_get_gserp_count(void);
-int plat_octeontx_get_gserr_count(void);
 int plat_octeontx_get_mcc_count(void);
 int plat_octeontx_get_pem_count(void);
 int plat_get_altpkg(void);
@@ -31,4 +30,4 @@ unsigned int plat_configure_cpt_rid(void);
 struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count);
 void plat_cn10k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr);
 
-#endif /* __PLAT_OTX3_CONFIGURATION_H__ */
+#endif /* __PLAT_CN10K_CONFIGURATION_H__ */

@@ -15,7 +15,6 @@
 #include <rvu.h>
 #include <plat_board_cfg.h>
 #include <plat_scmi.h>
-#include <cgx.h>
 
 extern void *scmi_handle;
 

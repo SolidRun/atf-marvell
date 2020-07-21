@@ -41,15 +41,18 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/t106/plat_t106_setup.c		\
 				plat/marvell/octeontx/cn10k/plat_setup.c		\
 				plat/marvell/octeontx/cn10k/aarch64/plat_octeontx_common.S	\
 				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S		\
+				drivers/marvell/qlm/qlm.c			\
+				drivers/marvell/qlm/qlm_gserm_ops.c		\
 
 BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/t106/plat_t106_ecam.c		\
-				drivers/marvell/sh_fwdata.c		\
+				drivers/marvell/sh_fwdata_cn10k.c		\
 				drivers/marvell/rvu.c		\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\
+				plat/marvell/octeontx/cn10k/plat_scfg.c		\
 				plat/marvell/octeontx/cn10k/plat_cn10k_iobn.c			\
 
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
-				drivers/marvell/sh_fwdata.c		\
+				drivers/marvell/sh_fwdata_cn10k.c		\
 				drivers/marvell/rvu.c		\
 				plat/marvell/octeontx/cn10k/plat_pm.c			\
 				plat/marvell/octeontx/cn10k/plat_pwrc.c		\
