@@ -9,14 +9,17 @@ Additionaly we have drivers which resides in:
 Common code reside in:
 /plat/marvell/octeontx
 
-We have two families CN8xxx and CN9xxx.
+We have two families CN8xxx/CN9xxx/CN10K
 CN8xxx code reside in:
 /plat/marvell/octeontx/otx
 
 CN9xxx code reside in:
-/plat/marvell/octeontx/otx
+/plat/marvell/octeontx/otx2
 
-We have four platforms: T81, T83, F95 and T96.
+CN10K code reside in:
+/plat/marvell/octeontx/cn10k
+
+We have multiple platforms: T81, T83, F95/T96/LOKI/T98/F95MM, T106.
 T81 code reside in:
 /plat/marvell/octeontx/otx/t81
 
@@ -28,6 +31,18 @@ F95 code reside in:
 
 T96 code reside in:
 /plat/marvell/octeontx/otx2/t96
+
+LOKI code reside in:
+/plat/marvell/octeontx/otx2/loki
+
+T98 code reside in:
+/plat/marvell/octeontx/otx2/t98
+
+F95MM code reside in:
+/plat/marvell/octeontx/otx2/f95mm
+
+T106 code reside in:
+/plat/marvell/octeontx/cn10k/t106
 
 Common code may call:
 - functions implemented in common code
