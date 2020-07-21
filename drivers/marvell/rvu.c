@@ -705,17 +705,18 @@ static void cn10k_rvu_apr_init(void)
 static void config_lmt_map_table(void)
 {
 	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
-	uint64_t lmt_ent_addr;
-	uint64_t val = 0;
-	int vfs = MAX_RVU_VFS;
-	int pf;
+	union cavm_rvu_af_pfx_vf_bar4_addr vf_bar4_addr;
+	uint64_t lmt_ent_addr, vf_lmt_addr;
+	uint64_t val = 0, lmt_ent_base_addr;
+	int vfs = MAX_RVU_VFS, pf, vf;
 
 	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (!rvu_dev[pf].enable)
 			continue;
 
-		lmt_ent_addr = RVU_LMT_MAPTBL_BASE +
+		lmt_ent_base_addr = RVU_LMT_MAPTBL_BASE +
 				(pf * vfs) * RVU_LMT_MAPTBL_ENTRY_SIZE;
+		lmt_ent_addr = lmt_ent_base_addr;
 		/* Enable 512 LMT Lines per PF */
 		/* TODO for t106: remove hard-coded values */
 		val |= 0x1 << 20 | 0x4 << 16;
@@ -726,6 +727,21 @@ static void config_lmt_map_table(void)
 		debug_rvu("RVU: PF%u LMT entry @ %p, val 0x%016llx\n", pf,
 			  (void *)lmt_ent_addr + 0x8, (long long)val);
 		octeontx_write64((lmt_ent_addr + 0x8), val);
+		if (rvu_dev[pf].num_vfs) {
+			vf_bar4_addr.u = CSR_READ(CAVM_RVU_AF_PFX_VF_BAR4_ADDR(pf));
+			vf_lmt_addr = vf_bar4_addr.u;
+			for (vf = 0; vf < rvu_dev[pf].num_vfs; vf++) {
+				lmt_ent_addr = lmt_ent_base_addr + ((vf + 1) * RVU_LMT_MAPTBL_ENTRY_SIZE);
+				octeontx_write64(lmt_ent_addr, vf_lmt_addr);
+				debug_rvu("RVU: PF%u  VF%u LMT entry @ %p, LMTLINE_ADDR 0x%016llx\n",
+					  pf, vf, (void *)lmt_ent_addr, (long long)vf_lmt_addr);
+				octeontx_write64((lmt_ent_addr + 0x8), val);
+				debug_rvu("RVU: VF%u LMT entry @ %p, val 0x%016llx\n", vf,
+					  (void *)lmt_ent_addr + 0x8,
+					  (long long)val);
+				vf_lmt_addr += RVU_PF_LMT_LMTLINE_SIZE;
+			}
+		}
 	}
 }
 
