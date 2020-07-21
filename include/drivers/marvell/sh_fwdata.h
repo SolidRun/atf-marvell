@@ -10,6 +10,7 @@
 
 #include <rvu.h>
 
+/* API declarations */
 /* CGX related shared firmware data */
 struct sfp_eeprom_s {
 #define SFP_EEPROM_SIZE 256
@@ -32,7 +33,7 @@ struct phy_s {
 	} fec_stats;
 };
 
-struct cgx_lmac_fwdata_s {
+struct eth_lmac_fwdata_s {
 	/* RO to kernel. FW to set rw_valid as 0 when updating this struct
 	 * indicating data is invalid. After copying the data, this bit needs
 	 * to be set as 1. only when this bit is 1, kernel should
@@ -53,7 +54,7 @@ struct cgx_lmac_fwdata_s {
 
 };
 
-/* To be synced with linux/drivers/net/ethernet/marvell/octeontx2/af/rvu.h */
+/* sh_fwdata to be synced with linux/drivers/net/ethernet/marvell/octeontx2/af/rvu.h */
 struct sh_fwdata {
 #define SH_FWDATA_HEADER_MAGIC	0xCFDA	/*Custom Firmware Data*/
 #define SH_FWDATA_VERSION	0x0001
@@ -73,18 +74,12 @@ struct sh_fwdata {
  #define FWDATA_RESERVED_MEM 1023
 	uint64_t reserved[FWDATA_RESERVED_MEM];
 	/* Do not add new fields below this line */
-#define CGX_MAX		4
-#define CGX_LMACS_MAX	4
-	struct cgx_lmac_fwdata_s cgx_fw_data[CGX_MAX][CGX_LMACS_MAX];
+#define ETH_MAX		5
+#define ETH_LMACS_MAX	4
+	struct eth_lmac_fwdata_s eth_fw_data[ETH_MAX][ETH_LMACS_MAX];
 };
 
-static inline uint64_t get_sh_fwdata_base(void)
-{
-	return SH_FWDATA_BASE;
-}
-
 /* API declarations */
-void sh_fwdata_init(void);
 void sh_fwdata_update_supported_fec(int cgx_id, int lmac_id);
 int sh_fwdata_get_supported_fec(int cgx_id, int lmac_id);
 void sh_fwdata_update_eeprom_data(int cgx_id, int lmac_id, uint16_t sff_id);
@@ -95,5 +90,13 @@ void sh_fwdata_update_phy_can_change_mod_type(int cgx_id, int lmac_id);
 void sh_fwdata_update_phy_has_fec_stats(int cgx_id, int lmac_id);
 void sh_fwdata_update_phy_fec_stats(int cgx_id, int lmac_id);
 void sh_fwdata_set_supported_link_modes(int cgx_id, int lmac_id);
+
+static inline uint64_t get_sh_fwdata_base(void)
+{
+	return SH_FWDATA_BASE;
+}
+
+/* API declarations */
+void sh_fwdata_init(void);
 
 #endif
