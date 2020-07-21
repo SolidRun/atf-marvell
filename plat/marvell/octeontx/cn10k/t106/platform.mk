@@ -54,6 +54,7 @@ BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/t106/plat_t106_ecam.c		\
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\
 				drivers/marvell/rvu.c		\
+				drivers/marvell/rpm_intf.c		\
 				plat/marvell/octeontx/cn10k/plat_pm.c			\
 				plat/marvell/octeontx/cn10k/plat_pwrc.c		\
 				plat/marvell/octeontx/cn10k/plat_scmi.c		\
