@@ -65,4 +65,12 @@ typedef struct {
 	size_t		length;
 } file_state_t;
 
+int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs);
+int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
+			int addr_len, int spi_con, int cs);
+int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
+			int addr_len, int spi_con, int cs);
+int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
+		      int spi_con, int cs);
+
 #endif /* __SPI_H__ */
