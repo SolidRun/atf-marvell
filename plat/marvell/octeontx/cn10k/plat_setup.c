@@ -57,10 +57,8 @@ void plat_octeontx_setup(void)
  */
 unsigned int plat_configure_cpt_rid(void)
 {
-	unsigned int val = 0;
-
 	/* program CPT revision id */
-	return val;
+	return 4;
 }
 
 /*
