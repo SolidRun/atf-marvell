@@ -17013,29 +17013,57 @@ union cavm_gserpx_common_phy_ctrl_bcfg
     struct cavm_gserpx_common_phy_ctrl_bcfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t pmem_wr_prot          : 1;  /**< [  4:  4](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+        uint64_t reserved_10_63        : 54;
+        uint64_t pclk_keep_on          : 1;  /**< [  9:  9](R/W) Forces pclk in gserp_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Enables coarse gain clock gating in retimer.
+                                                                 1 = Forces pclk to be forced on at all times. */
+        uint64_t pmem_wr_prot          : 1;  /**< [  8:  8](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
+        uint64_t avdd_sel              : 4;  /**< [  7:  4](R/W) Directly drives the PIN_AVDD_SEL[3:0] input of the PHY.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = 0.95V +/-3%.
+                                                                 0x3 = 1.0V +/-3%.
+                                                                 0x4 = 1.05V +/-3%.
+                                                                 0x5 = 1.1V +/-3%.
+                                                                 0x6 = 1.15V +/-3%.
+                                                                 0x7 = 1.2V +/-3%. */
         uint64_t refclk_sel            : 4;  /**< [  3:  0](R/W) Each bit controls that lane's group source for reference clock.  For example,
                                                                  REFCLK_SEL[0] is for lane 0.
                                                                  For a given lane, its bit will determine the source as follows:
-                                                                 0x0 - Ref clock sourced from group1.
-                                                                 0x1 - Ref clock sourced from group2. */
+                                                                 0x0 = Ref clock sourced from group1 which is typically for RC and will not be a
+                                                                 spread-spectrum source.
+                                                                 0x1 = Ref clock sourced from group2 which is for EP and can either be a spread
+                                                                 or non-spread source. */
 #else /* Word 0 - Little Endian */
         uint64_t refclk_sel            : 4;  /**< [  3:  0](R/W) Each bit controls that lane's group source for reference clock.  For example,
                                                                  REFCLK_SEL[0] is for lane 0.
                                                                  For a given lane, its bit will determine the source as follows:
-                                                                 0x0 - Ref clock sourced from group1.
-                                                                 0x1 - Ref clock sourced from group2. */
-        uint64_t pmem_wr_prot          : 1;  /**< [  4:  4](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 0x0 = Ref clock sourced from group1 which is typically for RC and will not be a
+                                                                 spread-spectrum source.
+                                                                 0x1 = Ref clock sourced from group2 which is for EP and can either be a spread
+                                                                 or non-spread source. */
+        uint64_t avdd_sel              : 4;  /**< [  7:  4](R/W) Directly drives the PIN_AVDD_SEL[3:0] input of the PHY.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = 0.95V +/-3%.
+                                                                 0x3 = 1.0V +/-3%.
+                                                                 0x4 = 1.05V +/-3%.
+                                                                 0x5 = 1.1V +/-3%.
+                                                                 0x6 = 1.15V +/-3%.
+                                                                 0x7 = 1.2V +/-3%. */
+        uint64_t pmem_wr_prot          : 1;  /**< [  8:  8](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
-        uint64_t reserved_5_63         : 59;
+        uint64_t pclk_keep_on          : 1;  /**< [  9:  9](R/W) Forces pclk in gserp_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Enables coarse gain clock gating in retimer.
+                                                                 1 = Forces pclk to be forced on at all times. */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_common_phy_ctrl_bcfg_s cn; */
@@ -18197,6 +18225,59 @@ static inline uint64_t CAVM_GSERPX_CTLE_DEBUG_0(uint64_t a)
 #define device_bar_CAVM_GSERPX_CTLE_DEBUG_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_CTLE_DEBUG_0(a) (a)
 #define arguments_CAVM_GSERPX_CTLE_DEBUG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_debug
+ *
+ * GSERP QLM Debug Register
+ * Register controls settings for communications between MIO and GSERP for
+ * debug purposes.
+ */
+union cavm_gserpx_debug
+{
+    uint64_t u;
+    struct cavm_gserpx_debug_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t lane_sel              : 3;  /**< [  2:  0](R/W) Selects source within COMPHY bridging inputs/outputs with MIO.
+                                                                 All non-selected source's inputs will be forced to zero(s).
+                                                                 If LANE_SEL[2] is set, will be considered indication of CMN as source.
+                                                                 0x0 = LANE0 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x1 = LANE1 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x2 = LANE2 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x3 = LANE3 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x4 = CMN is source of outputs to MIO and receives the inputs from MIO. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_sel              : 3;  /**< [  2:  0](R/W) Selects source within COMPHY bridging inputs/outputs with MIO.
+                                                                 All non-selected source's inputs will be forced to zero(s).
+                                                                 If LANE_SEL[2] is set, will be considered indication of CMN as source.
+                                                                 0x0 = LANE0 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x1 = LANE1 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x2 = LANE2 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x3 = LANE3 is source of outputs to MIO and receives the inputs from MIO.
+                                                                 0x4 = CMN is source of outputs to MIO and receives the inputs from MIO. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_debug_s cn; */
+};
+typedef union cavm_gserpx_debug cavm_gserpx_debug_t;
+
+static inline uint64_t CAVM_GSERPX_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_DEBUG(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e090020068ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_DEBUG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_DEBUG(a) cavm_gserpx_debug_t
+#define bustype_CAVM_GSERPX_DEBUG(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_DEBUG(a) "GSERPX_DEBUG"
+#define device_bar_CAVM_GSERPX_DEBUG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_DEBUG(a) (a)
+#define arguments_CAVM_GSERPX_DEBUG(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_dfe_ana_reg0
@@ -32771,10 +32852,11 @@ static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG7(uint64_t a)
  * Register (RSL) gserp#_furcation_mode
  *
  * GSERP Furcation Mode Register
- * The value in this register MUST be the same across GSERP instances 0-3
- * for 96xx.  For 98xx, it must be the same across GSERP instances 0-3 as
- * well as for instances 4-7.  Note that the value shared across 0-3 is
- * allowed to be different than the value shared across 4-7.
+ * This register the pipe between the GSERP and PEM/BPEM instances.
+ *
+ * This register should be configured once prior to taking the PEM/BPEM Macs
+ * out of reset (setting PEM_ON[PEMON]).  Once PEMON is set, this register must
+ * not be changed.
  */
 union cavm_gserpx_furcation_mode
 {
@@ -32787,11 +32869,11 @@ union cavm_gserpx_furcation_mode
         uint64_t mux_cfg               : 3;  /**< [  6:  4](R/W) THIS IS FOR T106xx.
                                                                  For GSERP0:
                                                                    0   = Connect GSERP0 to PEM0 as a x4; PEM1 unused.
-                                                                   1   = Connect GSERP0 to PEM0 as a x2; connect GSERP0 to PEM1 as a x2.
+                                                                   1   = Connect GSERP0 to PEM0 as a x2; connect GSERP0 to BPEM1 as a x2.
                                                                    2-7 = Reserved.
                                                                  For GSERP1:
                                                                    0   = Reserved.
-                                                                   1   = Connect GSERP1 to PEM2 as a x2; connect GSERP1 to PEM3 as a x2.
+                                                                   1   = Connect GSERP1 to BPEM2 as a x2; connect GSERP1 to BPEM3 as a x2.
                                                                    2-7 = Reserved. */
         uint64_t mode                  : 4;  /**< [  3:  0](R/W) Mode value descriptions:
                                                                    0x0 - pipe0 (x4) to QLM lanes 3-0
@@ -32805,11 +32887,11 @@ union cavm_gserpx_furcation_mode
         uint64_t mux_cfg               : 3;  /**< [  6:  4](R/W) THIS IS FOR T106xx.
                                                                  For GSERP0:
                                                                    0   = Connect GSERP0 to PEM0 as a x4; PEM1 unused.
-                                                                   1   = Connect GSERP0 to PEM0 as a x2; connect GSERP0 to PEM1 as a x2.
+                                                                   1   = Connect GSERP0 to PEM0 as a x2; connect GSERP0 to BPEM1 as a x2.
                                                                    2-7 = Reserved.
                                                                  For GSERP1:
                                                                    0   = Reserved.
-                                                                   1   = Connect GSERP1 to PEM2 as a x2; connect GSERP1 to PEM3 as a x2.
+                                                                   1   = Connect GSERP1 to BPEM2 as a x2; connect GSERP1 to BPEM3 as a x2.
                                                                    2-7 = Reserved. */
         uint64_t reserved_7_62         : 56;
         uint64_t pipe_strap_enable     : 1;  /**< [ 63: 63](R/W) For debug purposes only. Should always be set to 1. */
@@ -34843,21 +34925,11 @@ union cavm_gserpx_init_ctl
         uint64_t fw_rdy                : 1;  /**< [  3:  3](R/W) Software sets this bit after loading the firmware image into GSERP()_PMEM. */
         uint64_t direct_access_en      : 1;  /**< [  2:  2](R/W) Software sets this bit prior to loading the firmware image into GSERP()_PMEM and
                                                                  then clears this bit when finished loading firmware. */
-        uint64_t apb_reset             : 1;  /**< [  1:  1](R/W) Active-high reset for the APB bus related to the CPU within this GSERP instance.
-                                                                 Must be clear prior to accessing APB bus via JTAG or RSL.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error. */
+        uint64_t reserved_1            : 1;
         uint64_t por_reset             : 1;  /**< [  0:  0](R/W) Active-high power-on reset. */
 #else /* Word 0 - Little Endian */
         uint64_t por_reset             : 1;  /**< [  0:  0](R/W) Active-high power-on reset. */
-        uint64_t apb_reset             : 1;  /**< [  1:  1](R/W) Active-high reset for the APB bus related to the CPU within this GSERP instance.
-                                                                 Must be clear prior to accessing APB bus via JTAG or RSL.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error. */
+        uint64_t reserved_1            : 1;
         uint64_t direct_access_en      : 1;  /**< [  2:  2](R/W) Software sets this bit prior to loading the firmware image into GSERP()_PMEM and
                                                                  then clears this bit when finished loading firmware. */
         uint64_t fw_rdy                : 1;  /**< [  3:  3](R/W) Software sets this bit after loading the firmware image into GSERP()_PMEM. */
@@ -39693,31 +39765,41 @@ union cavm_gserpx_int_ena_w1c
     struct cavm_gserpx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_CMN]. */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN3]. */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN2]. */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN1]. */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN0]. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN0]. */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN1]. */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN2]. */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN3]. */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[ECC_ERR_CMN]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_int_ena_w1c_s cn; */
@@ -39753,31 +39835,41 @@ union cavm_gserpx_int_ena_w1s
     struct cavm_gserpx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_CMN]. */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN3]. */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN2]. */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN1]. */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN0]. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN0]. */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN1]. */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN2]. */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_LN3]. */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[ECC_ERR_CMN]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_int_ena_w1s_s cn; */
@@ -39815,31 +39907,41 @@ union cavm_gserpx_int_sum
     struct cavm_gserpx_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1C/H) COMPHY Interrupt Out */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1C/H) COMPHY MCU Watchdog Timeout Common */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 3 */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 2 */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 1 */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 0 */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) COMPHY Internal ECC Error Common */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) COMPHY Internal ECC Error Lane 3 */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) COMPHY Internal ECC Error Lane 2 */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) COMPHY Internal ECC Error Lane 1 */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) COMPHY Internal ECC Error Lane 0 */
+        uint64_t reserved_16_63        : 48;
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) COMPHY Interrupt Out */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) COMPHY MCU Watchdog Timeout Common */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 3 */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 2 */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 1 */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 0 */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) COMPHY Internal DBE Error Common */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) COMPHY Internal DBE Error Lane 3 */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) COMPHY Internal DBE Error Lane 2 */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) COMPHY Internal DBE Error Lane 1 */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) COMPHY Internal DBE Error Lane 0 */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) COMPHY Internal SBE Error Common */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) COMPHY Internal SBE Error Lane 3 */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) COMPHY Internal SBE Error Lane 2 */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) COMPHY Internal SBE Error Lane 1 */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) COMPHY Internal SBE Error Lane 0 */
 #else /* Word 0 - Little Endian */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) COMPHY Internal ECC Error Lane 0 */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) COMPHY Internal ECC Error Lane 1 */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) COMPHY Internal ECC Error Lane 2 */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) COMPHY Internal ECC Error Lane 3 */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) COMPHY Internal ECC Error Common */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 0 */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 1 */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 2 */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 3 */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1C/H) COMPHY MCU Watchdog Timeout Common */
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1C/H) COMPHY Interrupt Out */
-        uint64_t reserved_11_63        : 53;
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) COMPHY Internal SBE Error Lane 0 */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) COMPHY Internal SBE Error Lane 1 */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) COMPHY Internal SBE Error Lane 2 */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) COMPHY Internal SBE Error Lane 3 */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) COMPHY Internal SBE Error Common */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) COMPHY Internal DBE Error Lane 0 */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) COMPHY Internal DBE Error Lane 1 */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) COMPHY Internal DBE Error Lane 2 */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) COMPHY Internal DBE Error Lane 3 */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) COMPHY Internal DBE Error Common */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 0 */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 1 */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 2 */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 3 */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) COMPHY MCU Watchdog Timeout Common */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) COMPHY Interrupt Out */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_int_sum_s cn; */
@@ -39873,31 +39975,41 @@ union cavm_gserpx_int_sum_w1s
     struct cavm_gserpx_int_sum_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_CMN]. */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN3]. */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN2]. */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN1]. */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN0]. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ecc_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN0]. */
-        uint64_t ecc_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN1]. */
-        uint64_t ecc_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN2]. */
-        uint64_t ecc_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_LN3]. */
-        uint64_t ecc_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[ECC_ERR_CMN]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t int_out               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_int_sum_w1s_s cn; */
@@ -61579,84 +61691,6 @@ static inline uint64_t CAVM_GSERPX_PROCESSMON_REG1(uint64_t a)
 #define arguments_CAVM_GSERPX_PROCESSMON_REG1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) gserp#_refclk1_ctr
- *
- * GSERP QLM Reference Clock1 Cycle Counter Register
- * A free-running counter of reference clock group1 cycles to enable rough
- * confirmation of reference clock frequency via software. Read the counter;
- * wait some time, e.g., 100ms; read the counter; calculate frequency based
- * on the difference in values during the known wait time.
- */
-union cavm_gserpx_refclk1_ctr
-{
-    uint64_t u;
-    struct cavm_gserpx_refclk1_ctr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_refclk1_ctr_s cn; */
-};
-typedef union cavm_gserpx_refclk1_ctr cavm_gserpx_refclk1_ctr_t;
-
-static inline uint64_t CAVM_GSERPX_REFCLK1_CTR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_REFCLK1_CTR(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e090020090ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_REFCLK1_CTR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_REFCLK1_CTR(a) cavm_gserpx_refclk1_ctr_t
-#define bustype_CAVM_GSERPX_REFCLK1_CTR(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_REFCLK1_CTR(a) "GSERPX_REFCLK1_CTR"
-#define device_bar_CAVM_GSERPX_REFCLK1_CTR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_REFCLK1_CTR(a) (a)
-#define arguments_CAVM_GSERPX_REFCLK1_CTR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) gserp#_refclk2_ctr
- *
- * GSERP QLM Reference Clock2 Cycle Counter Register
- * A free-running counter of reference clock group1 cycles to enable rough
- * confirmation of reference clock frequency via software. Read the counter;
- * wait some time, e.g., 100ms; read the counter; calculate frequency based
- * on the difference in values during the known wait time.
- */
-union cavm_gserpx_refclk2_ctr
-{
-    uint64_t u;
-    struct cavm_gserpx_refclk2_ctr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Running count of PLL reference clock cycles. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_refclk2_ctr_s cn; */
-};
-typedef union cavm_gserpx_refclk2_ctr cavm_gserpx_refclk2_ctr_t;
-
-static inline uint64_t CAVM_GSERPX_REFCLK2_CTR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_REFCLK2_CTR(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e090020098ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_REFCLK2_CTR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_REFCLK2_CTR(a) cavm_gserpx_refclk2_ctr_t
-#define bustype_CAVM_GSERPX_REFCLK2_CTR(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_REFCLK2_CTR(a) "GSERPX_REFCLK2_CTR"
-#define device_bar_CAVM_GSERPX_REFCLK2_CTR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_REFCLK2_CTR(a) (a)
-#define arguments_CAVM_GSERPX_REFCLK2_CTR(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) gserp#_reg_sft_rst_ctl0
  *
  * GSERP_REG_SFT_RST_CTL0 Register
@@ -62755,63 +62789,6 @@ static inline uint64_t CAVM_GSERPX_RX_CLK_3(uint64_t a)
 #define device_bar_CAVM_GSERPX_RX_CLK_3(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_RX_CLK_3(a) (a)
 #define arguments_CAVM_GSERPX_RX_CLK_3(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) gserp#_rx_clk_obs_ctl
- *
- * GSERP QLM RX Clock Observe Control Register
- * Register controls settings for providing a divided version of the rx clock
- * for debug observe purposes.
- */
-union cavm_gserpx_rx_clk_obs_ctl
-{
-    uint64_t u;
-    struct cavm_gserpx_rx_clk_obs_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t mio_en                : 1;  /**< [  8:  8](R/W) Enable driving the clock output from the lane to MIO. This bit should be set low before
-                                                                 changing [MIO_DRATIO]; it may be written to 1 in the same cycle that [DRATIO] is
-                                                                 written. */
-        uint64_t reserved_2_7          : 6;
-        uint64_t mio_dratio            : 2;  /**< [  1:  0](R/W) Divider ratio for the clock output from the lane to MIO relative to the clock for the
-                                                                 parallel receive data.
-                                                                 0x0 = Divide by 1, i.e., no division.
-                                                                 0x1 = Divide by 2.
-                                                                 0x2 = Divide by 4.
-                                                                 0x3 = Divide by 8. */
-#else /* Word 0 - Little Endian */
-        uint64_t mio_dratio            : 2;  /**< [  1:  0](R/W) Divider ratio for the clock output from the lane to MIO relative to the clock for the
-                                                                 parallel receive data.
-                                                                 0x0 = Divide by 1, i.e., no division.
-                                                                 0x1 = Divide by 2.
-                                                                 0x2 = Divide by 4.
-                                                                 0x3 = Divide by 8. */
-        uint64_t reserved_2_7          : 6;
-        uint64_t mio_en                : 1;  /**< [  8:  8](R/W) Enable driving the clock output from the lane to MIO. This bit should be set low before
-                                                                 changing [MIO_DRATIO]; it may be written to 1 in the same cycle that [DRATIO] is
-                                                                 written. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_rx_clk_obs_ctl_s cn; */
-};
-typedef union cavm_gserpx_rx_clk_obs_ctl cavm_gserpx_rx_clk_obs_ctl_t;
-
-static inline uint64_t CAVM_GSERPX_RX_CLK_OBS_CTL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_RX_CLK_OBS_CTL(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e090020088ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_RX_CLK_OBS_CTL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_RX_CLK_OBS_CTL(a) cavm_gserpx_rx_clk_obs_ctl_t
-#define bustype_CAVM_GSERPX_RX_CLK_OBS_CTL(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_RX_CLK_OBS_CTL(a) "GSERPX_RX_CLK_OBS_CTL"
-#define device_bar_CAVM_GSERPX_RX_CLK_OBS_CTL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_RX_CLK_OBS_CTL(a) (a)
-#define arguments_CAVM_GSERPX_RX_CLK_OBS_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_rx_data_dcc_cal_0

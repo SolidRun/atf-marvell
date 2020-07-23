@@ -829,31 +829,29 @@ union cavm_mdn_const
     struct cavm_mdn_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t virt                  : 1;  /**< [ 29: 29](RO) Asserted when this MDN is virtual. */
-        uint32_t debug_read            : 1;  /**< [ 28: 28](RO) Asserted when this MDN has debug read capability via MDN_BIST_CONTROL and MDN_DEBUG_DATA(). */
-        uint32_t ecc                   : 1;  /**< [ 27: 27](RO) Asserted when this MDH is capable or reporting ECC or parity error events. */
-        uint32_t bisr                  : 1;  /**< [ 26: 26](RO) Asserted when BISR capable. */
-        uint32_t bist                  : 1;  /**< [ 25: 25](RO) Asserted when BIST capable. */
-        uint32_t rows                  : 14; /**< [ 24: 11](RO) Number of rows minus 1 in the SRAM or CAM (16K max). */
-        uint32_t cols                  : 11; /**< [ 10:  0](RO) Number of columns minus 1 (data BIST) in the SRAM or CAM (2K max).
+        uint32_t virt                  : 1;  /**< [ 31: 31](RO) Asserted when this MDN is virtual. */
+        uint32_t debug_read            : 1;  /**< [ 30: 30](RO) Asserted when this MDN has debug read capability via MDN_BIST_CONTROL and MDN_DEBUG_DATA(). */
+        uint32_t ecc                   : 1;  /**< [ 29: 29](RO) Asserted when this MDH is capable or reporting ECC or parity error events. */
+        uint32_t bisr                  : 1;  /**< [ 28: 28](RO) Asserted when BISR capable. */
+        uint32_t bist                  : 1;  /**< [ 27: 27](RO) Asserted when BIST capable. */
+        uint32_t rows                  : 14; /**< [ 26: 13](RO) Number of rows minus 1 in the SRAM or CAM (16K max). */
+        uint32_t cols                  : 13; /**< [ 12:  0](RO) Number of columns minus 1 (data BIST) in the SRAM or CAM (8K max).
                                                                  The value includes any redundant bits for repair.  For multi-port RAMs
                                                                  the value is the sum of all data bits across all ports minus 1.  Thus
                                                                  a 20-bit 2RW RAM with BISR will have a value of (2 x (20 + 1)) - 1 = 41
                                                                  for 2 ports of 21 bits (including repair) minus 1. */
 #else /* Word 0 - Little Endian */
-        uint32_t cols                  : 11; /**< [ 10:  0](RO) Number of columns minus 1 (data BIST) in the SRAM or CAM (2K max).
+        uint32_t cols                  : 13; /**< [ 12:  0](RO) Number of columns minus 1 (data BIST) in the SRAM or CAM (8K max).
                                                                  The value includes any redundant bits for repair.  For multi-port RAMs
                                                                  the value is the sum of all data bits across all ports minus 1.  Thus
                                                                  a 20-bit 2RW RAM with BISR will have a value of (2 x (20 + 1)) - 1 = 41
                                                                  for 2 ports of 21 bits (including repair) minus 1. */
-        uint32_t rows                  : 14; /**< [ 24: 11](RO) Number of rows minus 1 in the SRAM or CAM (16K max). */
-        uint32_t bist                  : 1;  /**< [ 25: 25](RO) Asserted when BIST capable. */
-        uint32_t bisr                  : 1;  /**< [ 26: 26](RO) Asserted when BISR capable. */
-        uint32_t ecc                   : 1;  /**< [ 27: 27](RO) Asserted when this MDH is capable or reporting ECC or parity error events. */
-        uint32_t debug_read            : 1;  /**< [ 28: 28](RO) Asserted when this MDN has debug read capability via MDN_BIST_CONTROL and MDN_DEBUG_DATA(). */
-        uint32_t virt                  : 1;  /**< [ 29: 29](RO) Asserted when this MDN is virtual. */
-        uint32_t reserved_30_31        : 2;
+        uint32_t rows                  : 14; /**< [ 26: 13](RO) Number of rows minus 1 in the SRAM or CAM (16K max). */
+        uint32_t bist                  : 1;  /**< [ 27: 27](RO) Asserted when BIST capable. */
+        uint32_t bisr                  : 1;  /**< [ 28: 28](RO) Asserted when BISR capable. */
+        uint32_t ecc                   : 1;  /**< [ 29: 29](RO) Asserted when this MDH is capable or reporting ECC or parity error events. */
+        uint32_t debug_read            : 1;  /**< [ 30: 30](RO) Asserted when this MDN has debug read capability via MDN_BIST_CONTROL and MDN_DEBUG_DATA(). */
+        uint32_t virt                  : 1;  /**< [ 31: 31](RO) Asserted when this MDN is virtual. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdn_const_s cn; */
@@ -872,6 +870,44 @@ static inline uint64_t CAVM_MDN_CONST_FUNC(void)
 #define basename_CAVM_MDN_CONST "MDN_CONST"
 #define busnum_CAVM_MDN_CONST 0
 #define arguments_CAVM_MDN_CONST -1,-1,-1,-1
+
+/**
+ * Register (MDSB) mdn_const_row
+ *
+ * MDN Constants Row Register
+ * This register has constants pertaining to this node for software discovery.
+ * It captures the number of ROWs
+ * See also MDC_RAS_ROM().
+ */
+union cavm_mdn_const_row
+{
+    uint32_t u;
+    struct cavm_mdn_const_row_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_20_31        : 12;
+        uint32_t rows                  : 20; /**< [ 19:  0](RO) Containts the number of entries in this MDN_ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t rows                  : 20; /**< [ 19:  0](RO) Containts the number of entries in this MDN_ID. */
+        uint32_t reserved_20_31        : 12;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mdn_const_row_s cn; */
+};
+typedef union cavm_mdn_const_row cavm_mdn_const_row_t;
+
+#define CAVM_MDN_CONST_ROW CAVM_MDN_CONST_ROW_FUNC()
+static inline uint64_t CAVM_MDN_CONST_ROW_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MDN_CONST_ROW_FUNC(void)
+{
+    return 0x6c;
+}
+
+#define typedef_CAVM_MDN_CONST_ROW cavm_mdn_const_row_t
+#define bustype_CAVM_MDN_CONST_ROW CSR_TYPE_MDSB
+#define basename_CAVM_MDN_CONST_ROW "MDN_CONST_ROW"
+#define busnum_CAVM_MDN_CONST_ROW 0
+#define arguments_CAVM_MDN_CONST_ROW -1,-1,-1,-1
 
 /**
  * Register (MDSB) mdn_debug_data#

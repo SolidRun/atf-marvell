@@ -96,7 +96,7 @@ static inline uint64_t CAVM_EMMCX_CONST(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_EMMCX_CONST(uint64_t a)
 {
     if (a==0)
-        return 0x824000000468ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000708ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -133,7 +133,7 @@ static inline uint64_t CAVM_EMMCX_ECO(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_EMMCX_ECO(uint64_t a)
 {
     if (a==0)
-        return 0x824000000470ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000710ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8218,7 +8218,7 @@ static inline uint64_t CAVM_EMMCX_SHIM_CFG(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_EMMCX_SHIM_CFG(uint64_t a)
 {
     if (a==0)
-        return 0x824000000460ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000000700ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SHIM_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 

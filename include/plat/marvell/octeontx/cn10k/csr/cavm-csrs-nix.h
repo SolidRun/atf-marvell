@@ -1884,7 +1884,8 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t first_skip            : 7;  /**< [170:164] See NIX_RQ_CTX_S[FIRST_SKIP]. */
         uint64_t lpb_sizem1            : 12; /**< [163:152] See NIX_RQ_CTX_S[LPB_SIZEM1]. */
         uint64_t spb_ena               : 1;  /**< [151:151] See NIX_RQ_CTX_S[SPB_ENA]. */
-        uint64_t reserved_148_150      : 3;
+        uint64_t reserved_150          : 1;
+        uint64_t spb_high_sizem1       : 2;  /**< [149:148] See NIX_RQ_CTX_S[SPB_HIGH_SIZEM1]. */
         uint64_t wqe_skip              : 2;  /**< [147:146] See NIX_RQ_CTX_S[WQE_SKIP]. */
         uint64_t spb_sizem1            : 6;  /**< [145:140] See NIX_RQ_CTX_S[SPB_SIZEM1]. */
         uint64_t policer_ena           : 1;  /**< [139:139] See NIX_RQ_CTX_S[POLICER_ENA] */
@@ -1896,7 +1897,8 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t policer_ena           : 1;  /**< [139:139] See NIX_RQ_CTX_S[POLICER_ENA] */
         uint64_t spb_sizem1            : 6;  /**< [145:140] See NIX_RQ_CTX_S[SPB_SIZEM1]. */
         uint64_t wqe_skip              : 2;  /**< [147:146] See NIX_RQ_CTX_S[WQE_SKIP]. */
-        uint64_t reserved_148_150      : 3;
+        uint64_t spb_high_sizem1       : 2;  /**< [149:148] See NIX_RQ_CTX_S[SPB_HIGH_SIZEM1]. */
+        uint64_t reserved_150          : 1;
         uint64_t spb_ena               : 1;  /**< [151:151] See NIX_RQ_CTX_S[SPB_ENA]. */
         uint64_t lpb_sizem1            : 12; /**< [163:152] See NIX_RQ_CTX_S[LPB_SIZEM1]. */
         uint64_t first_skip            : 7;  /**< [170:164] See NIX_RQ_CTX_S[FIRST_SKIP]. */
@@ -2063,8 +2065,8 @@ union cavm_nix_rq_ctx_s
         uint64_t cq                    : 20; /**< [ 23:  4] Completion Queue for this SQ. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] is clear.
 
-                                                                 When [SSO_ENA] and [ENA_WQWD] are both set, [SPB_ENA] must be clear and the WQE is
-                                                                 written at the beginning of the packet's first buffer allocated from [LPB_AURA], and
+                                                                 When [SSO_ENA] and [ENA_WQWD] are both set, WQE is
+                                                                 written at the beginning of the packet's first buffer allocated from [SPB_AURA/LPB_AURA], and
                                                                  the packet data starts at word offset [FIRST_SKIP] in the buffer.
 
                                                                  When [SSO_ENA] is set and [ENA_WQWD] is clear, the WQE is written to a
@@ -2086,8 +2088,8 @@ union cavm_nix_rq_ctx_s
                                                                  hardware fast-path subject to other packet checks. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] is clear.
 
-                                                                 When [SSO_ENA] and [ENA_WQWD] are both set, [SPB_ENA] must be clear and the WQE is
-                                                                 written at the beginning of the packet's first buffer allocated from [LPB_AURA], and
+                                                                 When [SSO_ENA] and [ENA_WQWD] are both set, WQE is
+                                                                 written at the beginning of the packet's first buffer allocated from [SPB_AURA/LPB_AURA], and
                                                                  the packet data starts at word offset [FIRST_SKIP] in the buffer.
 
                                                                  When [SSO_ENA] is set and [ENA_WQWD] is clear, the WQE is written to a
@@ -2174,7 +2176,7 @@ union cavm_nix_rq_ctx_s
 
                                                                     if ([XQE_IMM_COPY]) {
                                                                        // Include copy of first imm_bytes in SPB or LPB.
-                                                                       if (pkt_bytes_padded \<= spb_bytes) {
+                                                                       if ([SPB_ENA] && pkt_bytes_padded \<= spb_bytes) {
                                                                           spb_write = True;  // Write packet to an SPB
                                                                        } else {
                                                                           lpb_write = True;  // Write packet to one or more LPBs
@@ -2228,7 +2230,7 @@ union cavm_nix_rq_ctx_s
 
                                                                     if ([XQE_IMM_COPY]) {
                                                                        // Include copy of first imm_bytes in SPB or LPB.
-                                                                       if (pkt_bytes_padded \<= spb_bytes) {
+                                                                       if ([SPB_ENA] && pkt_bytes_padded \<= spb_bytes) {
                                                                           spb_write = True;  // Write packet to an SPB
                                                                        } else {
                                                                           lpb_write = True;  // Write packet to one or more LPBs
@@ -2345,7 +2347,8 @@ union cavm_nix_rq_ctx_s
 
                                                                  Must be clear when [ENA_WQWD] is set.
                                                                  See [SPB_AURA]. */
-        uint64_t reserved_148_150      : 3;
+        uint64_t reserved_150          : 1;
+        uint64_t spb_high_sizem1       : 2;  /**< [149:148] Two MSB bits of SPB_SIZEM1 */
         uint64_t wqe_skip              : 2;  /**< [147:146] WQE start offset. The number of 128-byte cache lines to skip from the WQE
                                                                  buffer pointer (from [LPB_AURA] when [ENA_WQWD] is set and [WQE_AURA]
                                                                  otherwise) to the first WQE byte stored in the buffer. */
@@ -2354,7 +2357,8 @@ union cavm_nix_rq_ctx_s
                                                                  write into that buffer. See [SPB_AURA].
 
                                                                  Internal:
-                                                                 Limited to 6 bits (512 bytes) to enable early SPB/LBP decision and avoid
+                                                                 With [SPB_HIGH_SIZEM1], buffer is limited to 8 bits (2K bytes) to enable early
+                                                                 SPB/LBP decision and avoid
                                                                  store-and-forward of larger packets. */
         uint64_t policer_ena           : 1;  /**< [139:139] Policer enable */
         uint64_t reserved_138          : 1;
@@ -2368,12 +2372,14 @@ union cavm_nix_rq_ctx_s
                                                                  write into that buffer. See [SPB_AURA].
 
                                                                  Internal:
-                                                                 Limited to 6 bits (512 bytes) to enable early SPB/LBP decision and avoid
+                                                                 With [SPB_HIGH_SIZEM1], buffer is limited to 8 bits (2K bytes) to enable early
+                                                                 SPB/LBP decision and avoid
                                                                  store-and-forward of larger packets. */
         uint64_t wqe_skip              : 2;  /**< [147:146] WQE start offset. The number of 128-byte cache lines to skip from the WQE
                                                                  buffer pointer (from [LPB_AURA] when [ENA_WQWD] is set and [WQE_AURA]
                                                                  otherwise) to the first WQE byte stored in the buffer. */
-        uint64_t reserved_148_150      : 3;
+        uint64_t spb_high_sizem1       : 2;  /**< [149:148] Two MSB bits of SPB_SIZEM1 */
+        uint64_t reserved_150          : 1;
         uint64_t spb_ena               : 1;  /**< [151:151] Small packet buffer enable:
 
                                                                  0 = Do not use small packet buffers. All receive packets are stored in
@@ -4919,9 +4925,11 @@ union cavm_nix_sq_ctx_hw_s
         uint64_t smenq_next_sqb        : 64; /**< [767:704] See NIX_SQ_CTX_S[SMENQ_NEXT_SQB]. */
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
-        uint64_t seb_rsvd1             : 64; /**< [831:768] Reserved. */
+        uint64_t age_drop_pkts         : 32; /**< [831:800] See NIX_SQ_CTX_S[AGED_DROP_PKTS]. */
+        uint64_t age_drop_octs         : 32; /**< [799:768] See NIX_SQ_CTX_S[AGED_DROP_OCTS]. */
 #else /* Word 12 - Little Endian */
-        uint64_t seb_rsvd1             : 64; /**< [831:768] Reserved. */
+        uint64_t age_drop_octs         : 32; /**< [799:768] See NIX_SQ_CTX_S[AGED_DROP_OCTS]. */
+        uint64_t age_drop_pkts         : 32; /**< [831:800] See NIX_SQ_CTX_S[AGED_DROP_PKTS]. */
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
         uint64_t drop_octs_lsw         : 16; /**< [895:880] See NIX_SQ_CTX_S[DROP_OCTS]. */
@@ -5258,9 +5266,11 @@ union cavm_nix_sq_ctx_s
         uint64_t reserved_816_831      : 16;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-        uint64_t reserved_832_895      : 64;
+        uint64_t aged_drop_pkts        : 32; /**< [895:864] Outbound dropped packets because of aging. */
+        uint64_t aged_drop_octs        : 32; /**< [863:832] Outbound dropped octets because of aging. */
 #else /* Word 13 - Little Endian */
-        uint64_t reserved_832_895      : 64;
+        uint64_t aged_drop_octs        : 32; /**< [863:832] Outbound dropped octets because of aging. */
+        uint64_t aged_drop_pkts        : 32; /**< [895:864] Outbound dropped packets because of aging. */
 #endif /* Word 13 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
         uint64_t reserved_944_959      : 16;
@@ -8563,10 +8573,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  \<pre\>
                                                                  [DEFCPT]  [HSHCPT]  CPT selected by NIX
                                                                  --------  --------  -------------------
-                                                                    0        0       Always use CPT(0).
-                                                                    0        1       Bit \<0\> of SPI selects CPT.
-                                                                    1        0       Always use CPT(1).
-                                                                    1        1       Inverse of Bit \<0\> of SPI selects CPT.
+                                                                    0        0       Always use NIX_AF_RX_CPR(0)_QSEL info to submit to CPT.
+                                                                    0        1       Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
+                                                                    1        1       Inverse of Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                  \</pre\> */
         uint64_t defcpt                : 1;  /**< [ 46: 46](R/W) Default CPT index. See [HSHCPT]. */
         uint64_t tt                    : 2;  /**< [ 45: 44](R/W) SSO tag type to load to NIX_WQE_HDR_S[TT] for IPSEC fast-path
@@ -8611,10 +8621,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  \<pre\>
                                                                  [DEFCPT]  [HSHCPT]  CPT selected by NIX
                                                                  --------  --------  -------------------
-                                                                    0        0       Always use CPT(0).
-                                                                    0        1       Bit \<0\> of SPI selects CPT.
-                                                                    1        0       Always use CPT(1).
-                                                                    1        1       Inverse of Bit \<0\> of SPI selects CPT.
+                                                                    0        0       Always use NIX_AF_RX_CPR(0)_QSEL info to submit to CPT.
+                                                                    0        1       Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
+                                                                    1        1       Inverse of Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                  \</pre\> */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -22779,6 +22789,45 @@ static inline uint64_t CAVM_NIXX_AF_TX_VTAG_DEFX_DATA(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_TX_VTAG_DEFX_DATA(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) nix#_af_vwqe_hash_func_mask
+ *
+ * NIX AF VWQE Hash Function Timer Register
+ */
+union cavm_nixx_af_vwqe_hash_func_mask
+{
+    uint64_t u;
+    struct cavm_nixx_af_vwqe_hash_func_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t mask                  : 35; /**< [ 34:  0](R/W) VWQE hash function mask register. used to limit the hash space for more hash colisions to occur.
+                                                                 used for diagnostic only. */
+#else /* Word 0 - Little Endian */
+        uint64_t mask                  : 35; /**< [ 34:  0](R/W) VWQE hash function mask register. used to limit the hash space for more hash colisions to occur.
+                                                                 used for diagnostic only. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_vwqe_hash_func_mask_s cn; */
+};
+typedef union cavm_nixx_af_vwqe_hash_func_mask cavm_nixx_af_vwqe_hash_func_mask_t;
+
+static inline uint64_t CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400400047a0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_VWQE_HASH_FUNC_MASK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(a) cavm_nixx_af_vwqe_hash_func_mask_t
+#define bustype_CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(a) "NIXX_AF_VWQE_HASH_FUNC_MASK"
+#define device_bar_CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(a) (a)
+#define arguments_CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) nix#_af_vwqe_timer
  *
  * NIX AF VWQE Timer Register
@@ -24125,7 +24174,7 @@ static inline uint64_t CAVM_NIXX_LF_OP_VWQE_FLUSH(uint64_t a)
  *
  * NIX LF Policer Bandwidth Profiles Operation Register
  * A 64-bit atomic load-and-add to this register reads policer bandwidth profile.
- * The atomic write data has format NIX_OP_Q_WDATA_S with the same encoding of Q as
+ * The atomic write data has format NIX_OP_Q_WDATA_S with the same encoding of BAND_PROF as
  * specified by NIX_AQ_INST_S[CINDEX] for NIX_AQ_INST_S[CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF.
  * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
  *
@@ -24137,11 +24186,11 @@ union cavm_nixx_lf_pl_op_band_prof
     struct cavm_nixx_lf_pl_op_band_prof_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((NIX_AQ_INST_S[CINDEX] \<\< 4) |
+        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF \<\< 4) |
                                                                  (NIX_BAND_PROF_S word[3:0])).
                                                                  Note that SW should read NIX_LF_PL_OP_BAND_PROF Word 0, before reading any other Word. */
 #else /* Word 0 - Little Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((NIX_AQ_INST_S[CINDEX] \<\< 4) |
+        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF \<\< 4) |
                                                                  (NIX_BAND_PROF_S word[3:0])).
                                                                  Note that SW should read NIX_LF_PL_OP_BAND_PROF Word 0, before reading any other Word. */
 #endif /* Word 0 - End */

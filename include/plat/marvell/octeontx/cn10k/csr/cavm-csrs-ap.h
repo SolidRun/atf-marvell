@@ -6165,7 +6165,9 @@ union cavm_ap_cvmmemctl1_el1
     struct cavm_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rsvd_58_63            : 6;  /**< [ 63: 58](R/W) Reserved. */
+        uint64_t rsvd_59_63            : 5;  /**< [ 63: 59](R/W) Reserved. */
+        uint64_t bphy128ena            : 1;  /**< [ 58: 58](R/W) 0 = Accesses described below will trap. 1 = Allow \> 64-bit memory instructions,
+                                                                 multi-register memory instructions to BPHY I/O address regions. */
         uint64_t specutlbmissdis       : 1;  /**< [ 57: 57](R/W) uTLB miss processing for speculative instructions disable. For diagnostic use only. */
         uint64_t icremoteicflush       : 1;  /**< [ 56: 56](R/W) Force ICache flush when any remote IC is received.
                                                                  0 = Do nothing.
@@ -6293,7 +6295,9 @@ union cavm_ap_cvmmemctl1_el1
                                                                  0 = Do nothing.
                                                                  1 = Flush the ICache. */
         uint64_t specutlbmissdis       : 1;  /**< [ 57: 57](R/W) uTLB miss processing for speculative instructions disable. For diagnostic use only. */
-        uint64_t rsvd_58_63            : 6;  /**< [ 63: 58](R/W) Reserved. */
+        uint64_t bphy128ena            : 1;  /**< [ 58: 58](R/W) 0 = Accesses described below will trap. 1 = Allow \> 64-bit memory instructions,
+                                                                 multi-register memory instructions to BPHY I/O address regions. */
+        uint64_t rsvd_59_63            : 5;  /**< [ 63: 59](R/W) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ap_cvmmemctl1_el1_s cn; */

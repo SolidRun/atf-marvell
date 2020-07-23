@@ -1037,9 +1037,9 @@ union cavm_rvu_af_pfx_vf_bar4_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t barbits               : 6;  /**< [  5:  0](R/W) Programmable size of VF region in DRAM per PF. VF region includes all PF's VF_LMTLINEs. */
+        uint64_t barbits               : 6;  /**< [  5:  0](R/W) Programmable size of the VF BAR4 region in DRAM for a single VF within PFn. */
 #else /* Word 0 - Little Endian */
-        uint64_t barbits               : 6;  /**< [  5:  0](R/W) Programmable size of VF region in DRAM per PF. VF region includes all PF's VF_LMTLINEs. */
+        uint64_t barbits               : 6;  /**< [  5:  0](R/W) Programmable size of the VF BAR4 region in DRAM for a single VF within PFn. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;

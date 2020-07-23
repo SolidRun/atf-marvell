@@ -96,7 +96,10 @@ union cavm_dssx_ctrl
     struct cavm_dssx_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1- forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
+                                                                 0- Leave the KBD as is (data from MC).
+                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
                                                                  1:4 mode. in 1:2 mode the slow and fast clock (dfi and phy clocks) are at the
                                                                  same ferquency) */
@@ -108,7 +111,10 @@ union cavm_dssx_ctrl
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
                                                                  1:4 mode. in 1:2 mode the slow and fast clock (dfi and phy clocks) are at the
                                                                  same ferquency) */
-        uint64_t reserved_3_63         : 61;
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1- forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
+                                                                 0- Leave the KBD as is (data from MC).
+                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_ctrl_s cn; */
@@ -1453,7 +1459,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_HIGH(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_HIGH(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c001208ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_DATA_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1492,7 +1498,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_LOW(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_DATA_LOW(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c001200ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_DATA_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1531,7 +1537,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_HIGH(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_HIGH(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011f8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_KEY_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1570,7 +1576,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_LOW(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_KEY_LOW(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011f0ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_KEY_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1635,7 +1641,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CMD_CTRL(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CMD_CTRL(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011e8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_OP_CMD_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1684,7 +1690,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CTRL(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_OP_CTRL(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c0011e0ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1723,7 +1729,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_HIGH(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_HIGH(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c001218ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_RESP_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1762,7 +1768,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_LOW(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_LOW(uint64_t a)
 {
     if (a<=3)
-        return 0x87e03c001210ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e03c0011f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("DSS_MCTX_DBG_SW_RESP_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1859,202 +1865,6 @@ static inline uint64_t CAVM_DSS_MCTX_ENABLE(uint64_t a)
 #define device_bar_CAVM_DSS_MCTX_ENABLE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_DSS_MCTX_ENABLE(a) (a)
 #define arguments_CAVM_DSS_MCTX_ENABLE(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dss_mct#_int_ena_w1c
- *
- * DSS MCT Interrupt Enable Clear Registers
- * This register clears interrupt enable bits.
- */
-union cavm_dss_mctx_int_ena_w1c
-{
-    uint64_t u;
-    struct cavm_dss_mctx_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
-#else /* Word 0 - Little Endian */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) Reads or clears enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dss_mctx_int_ena_w1c_s cn; */
-};
-typedef union cavm_dss_mctx_int_ena_w1c cavm_dss_mctx_int_ena_w1c_t;
-
-static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1C(uint64_t a)
-{
-    if (a<=3)
-        return 0x87e03c0011d0ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("DSS_MCTX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSS_MCTX_INT_ENA_W1C(a) cavm_dss_mctx_int_ena_w1c_t
-#define bustype_CAVM_DSS_MCTX_INT_ENA_W1C(a) CSR_TYPE_RSL
-#define basename_CAVM_DSS_MCTX_INT_ENA_W1C(a) "DSS_MCTX_INT_ENA_W1C"
-#define device_bar_CAVM_DSS_MCTX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSS_MCTX_INT_ENA_W1C(a) (a)
-#define arguments_CAVM_DSS_MCTX_INT_ENA_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dss_mct#_int_ena_w1s
- *
- * DSS MCT Interrupt Enable Set Registers
- * This register sets interrupt enable bits.
- */
-union cavm_dss_mctx_int_ena_w1s
-{
-    uint64_t u;
-    struct cavm_dss_mctx_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
-#else /* Word 0 - Little Endian */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets enable for DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dss_mctx_int_ena_w1s_s cn; */
-};
-typedef union cavm_dss_mctx_int_ena_w1s cavm_dss_mctx_int_ena_w1s_t;
-
-static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSS_MCTX_INT_ENA_W1S(uint64_t a)
-{
-    if (a<=3)
-        return 0x87e03c0011d8ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("DSS_MCTX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSS_MCTX_INT_ENA_W1S(a) cavm_dss_mctx_int_ena_w1s_t
-#define bustype_CAVM_DSS_MCTX_INT_ENA_W1S(a) CSR_TYPE_RSL
-#define basename_CAVM_DSS_MCTX_INT_ENA_W1S(a) "DSS_MCTX_INT_ENA_W1S"
-#define device_bar_CAVM_DSS_MCTX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSS_MCTX_INT_ENA_W1S(a) (a)
-#define arguments_CAVM_DSS_MCTX_INT_ENA_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dss_mct#_int_w1c
- *
- * DSS MCT Interrupts Register
- * This register defines the crypto Interrupts.
- */
-union cavm_dss_mctx_int_w1c
-{
-    uint64_t u;
-    struct cavm_dss_mctx_int_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) When set, indicates there was overflow in write data FIFO. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) When set, indicates there was overflow in read FIFO. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) When set, indicates there was write access to an address
-                                                                 that configured in two windows or more. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) When set, indicates there was read access to an address
-                                                                 that configured in two windows or more. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) When set, indicates there was write access to not configured address. */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) When set, indicates there was read access to not configured address. */
-#else /* Word 0 - Little Endian */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1C/H) When set, indicates there was read access to not configured address. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1C/H) When set, indicates there was write access to not configured address. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1C/H) When set, indicates there was read access to an address
-                                                                 that configured in two windows or more. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1C/H) When set, indicates there was write access to an address
-                                                                 that configured in two windows or more. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1C/H) When set, indicates there was overflow in read FIFO. */
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1C/H) When set, indicates there was overflow in write data FIFO. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dss_mctx_int_w1c_s cn; */
-};
-typedef union cavm_dss_mctx_int_w1c cavm_dss_mctx_int_w1c_t;
-
-static inline uint64_t CAVM_DSS_MCTX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSS_MCTX_INT_W1C(uint64_t a)
-{
-    if (a<=3)
-        return 0x87e03c0011c0ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("DSS_MCTX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSS_MCTX_INT_W1C(a) cavm_dss_mctx_int_w1c_t
-#define bustype_CAVM_DSS_MCTX_INT_W1C(a) CSR_TYPE_RSL
-#define basename_CAVM_DSS_MCTX_INT_W1C(a) "DSS_MCTX_INT_W1C"
-#define device_bar_CAVM_DSS_MCTX_INT_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSS_MCTX_INT_W1C(a) (a)
-#define arguments_CAVM_DSS_MCTX_INT_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dss_mct#_int_w1s
- *
- * DSS MCT Interrupt Set Registers
- * This register sets interrupt bits.
- */
-union cavm_dss_mctx_int_w1s
-{
-    uint64_t u;
-    struct cavm_dss_mctx_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
-#else /* Word 0 - Little Endian */
-        uint64_t s_not_configured_read_address : 1;/**< [  0:  0](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_READ_ADDRESS]. */
-        uint64_t s_not_configured_write_address : 1;/**< [  1:  1](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_NOT_CONFIGURED_WRITE_ADDRESS]. */
-        uint64_t s_rd_multi_hits       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_RD_MULTI_HITS]. */
-        uint64_t s_wr_multi_hits       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WR_MULTI_HITS]. */
-        uint64_t s_read_fifo_overflow  : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_READ_FIFO_OVERFLOW]. */
-        uint64_t s_write_data_fifo_overflow : 1;/**< [  5:  5](SR/W1S/H) Reads or sets DSS_MCT(0..3)_INT_W1C[S_WRITE_DATA_FIFO_OVERFLOW]. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dss_mctx_int_w1s_s cn; */
-};
-typedef union cavm_dss_mctx_int_w1s cavm_dss_mctx_int_w1s_t;
-
-static inline uint64_t CAVM_DSS_MCTX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSS_MCTX_INT_W1S(uint64_t a)
-{
-    if (a<=3)
-        return 0x87e03c0011c8ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("DSS_MCTX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSS_MCTX_INT_W1S(a) cavm_dss_mctx_int_w1s_t
-#define bustype_CAVM_DSS_MCTX_INT_W1S(a) CSR_TYPE_RSL
-#define basename_CAVM_DSS_MCTX_INT_W1S(a) "DSS_MCTX_INT_W1S"
-#define device_bar_CAVM_DSS_MCTX_INT_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSS_MCTX_INT_W1S(a) (a)
-#define arguments_CAVM_DSS_MCTX_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dss_mct#_key_hi

@@ -467,6 +467,52 @@ static inline uint64_t CAVM_EHSM_S_ECO_FUNC(void)
 #define arguments_CAVM_EHSM_S_ECO -1,-1,-1,-1
 
 /**
+ * Register (NCB32b) ehsm_s_refclk_check_cycle
+ *
+ * INTERNAL: EHSM Refclk Check Cycle Boundaries Register
+ *
+ * This register determine the boundaries of refclk cycles represent by Ring Oscillator cycles.
+ */
+union cavm_ehsm_s_refclk_check_cycle
+{
+    uint32_t u;
+    struct cavm_ehsm_s_refclk_check_cycle_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cycle16_max           : 16; /**< [ 31: 16](SR/W) Set the max boundary of refclk cycle.
+                                                                 Internal:
+                                                                 16 * 535 mhz osc /  85 mhz refclk + 2 =\> 535/85  = 6.294 * 16 = 100.714 + 2 = 103 = 0x67 */
+        uint32_t cycle16_min           : 16; /**< [ 15:  0](SR/W) Set the min boundary of refclk cycle.
+                                                                 Internal:
+                                                                 16 * 200 mhz osc / 115 mhz refclk - 2 =\> 200/115 = 1.739 * 16 = 27.824 - 2 = 25 = 0x19 */
+#else /* Word 0 - Little Endian */
+        uint32_t cycle16_min           : 16; /**< [ 15:  0](SR/W) Set the min boundary of refclk cycle.
+                                                                 Internal:
+                                                                 16 * 200 mhz osc / 115 mhz refclk - 2 =\> 200/115 = 1.739 * 16 = 27.824 - 2 = 25 = 0x19 */
+        uint32_t cycle16_max           : 16; /**< [ 31: 16](SR/W) Set the max boundary of refclk cycle.
+                                                                 Internal:
+                                                                 16 * 535 mhz osc /  85 mhz refclk + 2 =\> 535/85  = 6.294 * 16 = 100.714 + 2 = 103 = 0x67 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_s_refclk_check_cycle_s cn; */
+};
+typedef union cavm_ehsm_s_refclk_check_cycle cavm_ehsm_s_refclk_check_cycle_t;
+
+#define CAVM_EHSM_S_REFCLK_CHECK_CYCLE CAVM_EHSM_S_REFCLK_CHECK_CYCLE_FUNC()
+static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_CYCLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_CYCLE_FUNC(void)
+{
+    return 0x80b000004210ll;
+}
+
+#define typedef_CAVM_EHSM_S_REFCLK_CHECK_CYCLE cavm_ehsm_s_refclk_check_cycle_t
+#define bustype_CAVM_EHSM_S_REFCLK_CHECK_CYCLE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_S_REFCLK_CHECK_CYCLE "EHSM_S_REFCLK_CHECK_CYCLE"
+#define device_bar_CAVM_EHSM_S_REFCLK_CHECK_CYCLE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_S_REFCLK_CHECK_CYCLE 0
+#define arguments_CAVM_EHSM_S_REFCLK_CHECK_CYCLE -1,-1,-1,-1
+
+/**
  * Register (NCB32b) ehsm_sw_sensor
  *
  * CPC eHSM Software Sensor Register

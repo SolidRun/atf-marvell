@@ -47,6 +47,7 @@
  * Enumerates the permissions for CPC access.
  */
 #define CAVM_CPC_PERMIT_E_ECP_DIS (4)
+#define CAVM_CPC_PERMIT_E_EHSM_DIS (5)
 #define CAVM_CPC_PERMIT_E_MCP_DIS (1)
 #define CAVM_CPC_PERMIT_E_NSEC_DIS (3)
 #define CAVM_CPC_PERMIT_E_SCP_DIS (0)
@@ -1028,7 +1029,7 @@ union cavm_cpc_ram_permitx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t exedis                : 4;  /**< [ 31: 28](R/W) Execute permission of each access group.
                                                                  _ \<0\> if set disallows ECP access.
-                                                                 _ \<1\> if set disallows EHSM access.
+                                                                 _ \<1\> Reserved.
                                                                  _ \<2\> if set disallows SCP access.
                                                                  _ \<3\> if set disallows MCP access. */
         uint32_t reserved_22_27        : 6;
@@ -1066,7 +1067,7 @@ union cavm_cpc_ram_permitx
         uint32_t reserved_22_27        : 6;
         uint32_t exedis                : 4;  /**< [ 31: 28](R/W) Execute permission of each access group.
                                                                  _ \<0\> if set disallows ECP access.
-                                                                 _ \<1\> if set disallows EHSM access.
+                                                                 _ \<1\> Reserved.
                                                                  _ \<2\> if set disallows SCP access.
                                                                  _ \<3\> if set disallows MCP access. */
 #endif /* Word 0 - End */

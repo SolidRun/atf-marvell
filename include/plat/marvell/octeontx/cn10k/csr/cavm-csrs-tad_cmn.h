@@ -105,7 +105,11 @@ union cavm_tad_cmn_cbusy
     struct cavm_tad_cmn_cbusy_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
+        uint64_t ddr_timeout           : 32; /**< [ 63: 32](R/W) DDR CBUSY minimum timeout value. Every DDR PartID CBUSY value is stored and valid
+                                                                 for at least the duration of this value. After which the DDR PartID CBUSY is no
+                                                                 longer part of TAD CBUSY as it is considered stale.
+
+                                                                 Values are in units of 10ns. */
         uint64_t tad_cbusy1_busy_trsh  : 7;  /**< [ 31: 25](R/W) This register sets the threshold at which TAD resources are considered busy.
                                                                  Max value is 72. */
         uint64_t tad_cbusy1_free_trsh  : 7;  /**< [ 24: 18](R/W) This register sets the threshold at which TAD resources are considered free.
@@ -115,9 +119,9 @@ union cavm_tad_cmn_cbusy
         uint64_t tad_cbusy0_free_trsh  : 7;  /**< [ 10:  4](R/W) This register sets the threshold at which MPAM PartID is considered free.
                                                                  Max value is 72. */
         uint64_t ddr_cbusy_en          : 2;  /**< [  3:  2](R/W) This register enables ORing DDR bits into CBUSY responses. */
-        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](R/W) This register enabless ORing TAD bits into CBUSY responses. */
+        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](R/W) This register enables ORing TAD bits into CBUSY responses. */
 #else /* Word 0 - Little Endian */
-        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](R/W) This register enabless ORing TAD bits into CBUSY responses. */
+        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](R/W) This register enables ORing TAD bits into CBUSY responses. */
         uint64_t ddr_cbusy_en          : 2;  /**< [  3:  2](R/W) This register enables ORing DDR bits into CBUSY responses. */
         uint64_t tad_cbusy0_free_trsh  : 7;  /**< [ 10:  4](R/W) This register sets the threshold at which MPAM PartID is considered free.
                                                                  Max value is 72. */
@@ -127,7 +131,11 @@ union cavm_tad_cmn_cbusy
                                                                  Max value is 72. */
         uint64_t tad_cbusy1_busy_trsh  : 7;  /**< [ 31: 25](R/W) This register sets the threshold at which TAD resources are considered busy.
                                                                  Max value is 72. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t ddr_timeout           : 32; /**< [ 63: 32](R/W) DDR CBUSY minimum timeout value. Every DDR PartID CBUSY value is stored and valid
+                                                                 for at least the duration of this value. After which the DDR PartID CBUSY is no
+                                                                 longer part of TAD CBUSY as it is considered stale.
+
+                                                                 Values are in units of 10ns. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tad_cmn_cbusy_s cn; */
@@ -284,8 +292,7 @@ static inline uint64_t CAVM_TAD_CMN_CTL_FUNC(void)
  * Register (RSL) tad_cmn_mpam#_mask
  *
  * TAD Common Memory Partitioning Mask Registers
- * The corresponding TAD()_MPAM()_ACNT and TAD()_MPAM()_HCNT registers are
- * cleared whenever this register is written.
+ * MPAM partitioning.
  */
 union cavm_tad_cmn_mpamx_mask
 {
@@ -294,14 +301,14 @@ union cavm_tad_cmn_mpamx_mask
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
-        uint64_t dtg                   : 12; /**< [ 27: 16](R/W) Each bit set to 1 prevents the use of the corresponding DTG way by sources that
+        uint64_t dtg                   : 12; /**< [ 27: 16](R/W) Each bit set to 0 prevents the use of the corresponding DTG way by sources that
                                                                  are using this MPAMID. It is illegal to prevent all DTG ways from being used. */
-        uint64_t ltg                   : 16; /**< [ 15:  0](R/W) Each bit set to 1 prevents the use of the corresponding LTG way by sources
+        uint64_t ltg                   : 16; /**< [ 15:  0](R/W) Each bit set to 0 prevents the use of the corresponding LTG way by sources
                                                                  that are using this MPAMID. */
 #else /* Word 0 - Little Endian */
-        uint64_t ltg                   : 16; /**< [ 15:  0](R/W) Each bit set to 1 prevents the use of the corresponding LTG way by sources
+        uint64_t ltg                   : 16; /**< [ 15:  0](R/W) Each bit set to 0 prevents the use of the corresponding LTG way by sources
                                                                  that are using this MPAMID. */
-        uint64_t dtg                   : 12; /**< [ 27: 16](R/W) Each bit set to 1 prevents the use of the corresponding DTG way by sources that
+        uint64_t dtg                   : 12; /**< [ 27: 16](R/W) Each bit set to 0 prevents the use of the corresponding DTG way by sources that
                                                                  are using this MPAMID. It is illegal to prevent all DTG ways from being used. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */

@@ -229,11 +229,13 @@ union cavm_mrml_config
     struct cavm_mrml_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
+        uint64_t reserved_2_63         : 62;
+        uint64_t force_gibm_clk        : 1;  /**< [  1:  1](SR/W) Force the conditional clocks in GIBM to always be enabled. For diagnostic use only. */
         uint64_t force_clk_en          : 1;  /**< [  0:  0](SR/W) Force the conditional clocks to be always enabled. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
         uint64_t force_clk_en          : 1;  /**< [  0:  0](SR/W) Force the conditional clocks to be always enabled. For diagnostic use only. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t force_gibm_clk        : 1;  /**< [  1:  1](SR/W) Force the conditional clocks in GIBM to always be enabled. For diagnostic use only. */
+        uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mrml_config_s cn; */
@@ -266,7 +268,8 @@ union cavm_mrml_int_ena_w1c
     struct cavm_mrml_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[GIBM]. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[LOCAL_TOE]. */
         uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[OCX_TOE].
                                                                  Internal:
@@ -276,7 +279,8 @@ union cavm_mrml_int_ena_w1c
                                                                  Internal:
                                                                  OCX timeout error. When set, an OCX timeout error has occurred. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[LOCAL_TOE]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[GIBM]. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mrml_int_ena_w1c_s cn; */
@@ -309,7 +313,8 @@ union cavm_mrml_int_ena_w1s
     struct cavm_mrml_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for MRML_INT_SUM[GIBM]. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for MRML_INT_SUM[LOCAL_TOE]. */
         uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for MRML_INT_SUM[OCX_TOE].
                                                                  Internal:
@@ -319,7 +324,8 @@ union cavm_mrml_int_ena_w1s
                                                                  Internal:
                                                                  OCX timeout error. When set, an OCX timeout error has occurred. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for MRML_INT_SUM[LOCAL_TOE]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for MRML_INT_SUM[GIBM]. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mrml_int_ena_w1s_s cn; */
@@ -439,7 +445,10 @@ union cavm_mrml_int_sum
     struct cavm_mrml_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) GIBM received a fault response when attempting to write a GIB interrupt message towards
+                                                                 the GIC.  The interrupt message was dropped.  This most likely indicates a bad MSIX
+                                                                 vecator address, or SMMU misprogramming. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
         uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reserved.
                                                                  Internal:
@@ -449,7 +458,10 @@ union cavm_mrml_int_sum
                                                                  Internal:
                                                                  OCX timeout error. When set, an OCX timeout error has occurred. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) GIBM received a fault response when attempting to write a GIB interrupt message towards
+                                                                 the GIC.  The interrupt message was dropped.  This most likely indicates a bad MSIX
+                                                                 vecator address, or SMMU misprogramming. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mrml_int_sum_s cn; */
@@ -482,7 +494,8 @@ union cavm_mrml_int_sum_w1s
     struct cavm_mrml_int_sum_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets MRML_INT_SUM[GIBM]. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets MRML_INT_SUM[LOCAL_TOE]. */
         uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets MRML_INT_SUM[OCX_TOE].
                                                                  Internal:
@@ -492,7 +505,8 @@ union cavm_mrml_int_sum_w1s
                                                                  Internal:
                                                                  OCX timeout error. When set, an OCX timeout error has occurred. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets MRML_INT_SUM[LOCAL_TOE]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets MRML_INT_SUM[GIBM]. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mrml_int_sum_w1s_s cn; */

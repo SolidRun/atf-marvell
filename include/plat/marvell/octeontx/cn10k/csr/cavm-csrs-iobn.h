@@ -129,7 +129,7 @@
  * Enumerates IOBN()_RPERF_INRM()[CLASS*].
  */
 #define CAVM_IOBN_RPERF_INRM_CLASS_E_INB_BP (1)
-#define CAVM_IOBN_RPERF_INRM_CLASS_E_INB_CMT (2)
+#define CAVM_IOBN_RPERF_INRM_CLASS_E_INB_DAT (2)
 #define CAVM_IOBN_RPERF_INRM_CLASS_E_INB_REQ (3)
 #define CAVM_IOBN_RPERF_INRM_CLASS_E_INB_RSP (4)
 #define CAVM_IOBN_RPERF_INRM_CLASS_E_NO_PERF (0)
@@ -150,26 +150,13 @@ union cavm_iobn_rperf_inrm_inbbp_s
     struct cavm_iobn_rperf_inrm_inbbp_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_12_31        : 20;
-        uint32_t fwd                   : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when a FWD
-                                                                 request from CCU is received.
-
-                                                                 Internal:
-                                                                 While a FWD may not be a direct BP event, the presence of FWDs indicates a
-                                                                 possible resource contention which can lead to lower performance. */
-        uint32_t dat_vic_fifo          : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT VIC FIFO credits. */
-        uint32_t dat_rsp_fifo          : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT RSP FIFO credits. */
-        uint32_t dat_req_fifo          : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT REQ FIFO credits. */
-        uint32_t reserved_7            : 1;
-        uint32_t dat_vic_vcc           : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT VIC VCC credits. */
-        uint32_t dat_req_vcc           : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT REQ VCC credits. */
-        uint32_t dat_slc               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT.SLC credits. */
+        uint32_t reserved_7_31         : 25;
+        uint32_t lbk_dat               : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Data credits. */
+        uint32_t lbk_rsp               : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Response credits. */
+        uint32_t lbk_req               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Request credits. */
         uint32_t reserved_3            : 1;
         uint32_t msh_dat               : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when BP from
                                                                  exhaustion of MSH Data credits. */
@@ -185,52 +172,26 @@ union cavm_iobn_rperf_inrm_inbbp_s
         uint32_t msh_dat               : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when BP from
                                                                  exhaustion of MSH Data credits. */
         uint32_t reserved_3            : 1;
-        uint32_t dat_slc               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT.SLC credits. */
-        uint32_t dat_req_vcc           : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT REQ VCC credits. */
-        uint32_t dat_vic_vcc           : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT VIC VCC credits. */
-        uint32_t reserved_7            : 1;
-        uint32_t dat_req_fifo          : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT REQ FIFO credits. */
-        uint32_t dat_rsp_fifo          : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT RSP FIFO credits. */
-        uint32_t dat_vic_fifo          : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT VIC FIFO credits. */
-        uint32_t fwd                   : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when a FWD
-                                                                 request from CCU is received.
-
-                                                                 Internal:
-                                                                 While a FWD may not be a direct BP event, the presence of FWDs indicates a
-                                                                 possible resource contention which can lead to lower performance. */
-        uint32_t reserved_12_31        : 20;
+        uint32_t lbk_req               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Request credits. */
+        uint32_t lbk_rsp               : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Response credits. */
+        uint32_t lbk_dat               : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Data credits. */
+        uint32_t reserved_7_31         : 25;
 #endif /* Word 0 - End */
     } s;
     struct cavm_iobn_rperf_inrm_inbbp_s_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
-        uint32_t reserved_12           : 1;
-        uint32_t fwd                   : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when a FWD
-                                                                 request from CCU is received.
-
-                                                                 Internal:
-                                                                 While a FWD may not be a direct BP event, the presence of FWDs indicates a
-                                                                 possible resource contention which can lead to lower performance. */
-        uint32_t dat_vic_fifo          : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT VIC FIFO credits. */
-        uint32_t dat_rsp_fifo          : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT RSP FIFO credits. */
-        uint32_t dat_req_fifo          : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT REQ FIFO credits. */
-        uint32_t reserved_7            : 1;
-        uint32_t dat_vic_vcc           : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT VIC VCC credits. */
-        uint32_t dat_req_vcc           : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT REQ VCC credits. */
-        uint32_t dat_slc               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT.SLC credits. */
+        uint32_t reserved_7_12         : 6;
+        uint32_t lbk_dat               : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Data credits. */
+        uint32_t lbk_rsp               : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Response credits. */
+        uint32_t lbk_req               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Request credits. */
         uint32_t reserved_3            : 1;
         uint32_t msh_dat               : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when BP from
                                                                  exhaustion of MSH Data credits. */
@@ -246,104 +207,113 @@ union cavm_iobn_rperf_inrm_inbbp_s
         uint32_t msh_dat               : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when BP from
                                                                  exhaustion of MSH Data credits. */
         uint32_t reserved_3            : 1;
-        uint32_t dat_slc               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT.SLC credits. */
-        uint32_t dat_req_vcc           : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT REQ VCC credits. */
-        uint32_t dat_vic_vcc           : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of CCU DAT VIC VCC credits. */
-        uint32_t reserved_7            : 1;
-        uint32_t dat_req_fifo          : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT REQ FIFO credits. */
-        uint32_t dat_rsp_fifo          : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT RSP FIFO credits. */
-        uint32_t dat_vic_fifo          : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when BP from
-                                                                 exhaustion of DAT VIC FIFO credits. */
-        uint32_t fwd                   : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when a FWD
-                                                                 request from CCU is received.
-
-                                                                 Internal:
-                                                                 While a FWD may not be a direct BP event, the presence of FWDs indicates a
-                                                                 possible resource contention which can lead to lower performance. */
-        uint32_t reserved_12           : 1;
+        uint32_t lbk_req               : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Request credits. */
+        uint32_t lbk_rsp               : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Response credits. */
+        uint32_t lbk_dat               : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when BP from
+                                                                 exhaustion of MSH Data credits. */
+        uint32_t reserved_7_12         : 6;
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } cn;
 };
 
 /**
- * Structure iobn_rperf_inrm_inbcmt_s
+ * Structure iobn_rperf_inrm_inbdat_s
  *
- * IOBN INRM Performance Commit for Inbound Request Control Structure
- * This structure represents an enable bit-vector of conditions. At least one bit from
- * each category must be to trigger a counter update. All fields requested must match
- * for the performance counter to be updated. The commits being monitored are from the
- * ACK mesh to IOBN in response to earlier inbound requests.
+ * IOBN INRM Perfomance Inbound Data Control Structure
+ * This structure represents an enable
+ * bit-vector of conditions. At least one bit from each category must be to trigger a
+ * counter update. All fields requested must match for the performance counter to be
+ * updated.
  */
-union cavm_iobn_rperf_inrm_inbcmt_s
+union cavm_iobn_rperf_inrm_inbdat_s
 {
     uint32_t u;
-    struct cavm_iobn_rperf_inrm_inbcmt_s_s
+    struct cavm_iobn_rperf_inrm_inbdat_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
         uint32_t ncb2                  : 1;  /**< [ 12: 12] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to bus NCB2. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
+                                                                 transaction is bus NCB2. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb1                  : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to bus NCB1. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
+                                                                 transaction is bus NCB1. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb0                  : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to bus NCB0. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
+                                                                 transaction is bus NCB0. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t smmu                  : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to the SMMU. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
-        uint32_t reserved_5_8          : 4;
+                                                                 transaction is from the SMMU. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
+        uint32_t reserved_8            : 1;
+        uint32_t full                  : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a FULL command. Category is transaction full type.
+                                                                 data. Category fields are FULL. */
+        uint32_t wd0                   : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request without data associated. Category is transaction
+                                                                 data. Category fields are WD1 and WD0. */
+        uint32_t wd1                   : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request with data associated. Category is transaction
+                                                                 data. Category fields are WD1 and WD0. */
         uint32_t err0                  : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is a commit without error/fault associated. Category is transaction
+                                                                 transaction is a request without error associated. Category is transaction
                                                                  error. Category fields are ERR1 and ERR0. */
         uint32_t err1                  : 1;  /**< [  3:  3] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is commit with error/fault associated. Category is transaction
+                                                                 transaction is a request with error associated. Category is transaction
                                                                  error. Category fields are ERR1 and ERR0. */
-        uint32_t msh                   : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is from the mesh. Category is transaction source. Category fields
-                                                                 are LBK and MSH. */
-        uint32_t reserved_1            : 1;
+        uint32_t cr                    : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a completion response. Category is transaction completion type.
+                                                                 Category fields are CR. */
+        uint32_t msh                   : 1;  /**< [  1:  1] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is targeted to IOBN or CCU via the mesh. Category is transaction
+                                                                 destination. Category fields are LBK and MSH. */
         uint32_t lbk                   : 1;  /**< [  0:  0] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is from IOBN internal loopback. Category is transaction
-                                                                 source. Category fields are LBK and MSH. */
+                                                                 transaction is targeted to IOBN internal loopback. Category is transaction
+                                                                 destination. Category fields are LBK and MSH. */
 #else /* Word 0 - Little Endian */
         uint32_t lbk                   : 1;  /**< [  0:  0] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is from IOBN internal loopback. Category is transaction
-                                                                 source. Category fields are LBK and MSH. */
-        uint32_t reserved_1            : 1;
-        uint32_t msh                   : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is from the mesh. Category is transaction source. Category fields
-                                                                 are LBK and MSH. */
+                                                                 transaction is targeted to IOBN internal loopback. Category is transaction
+                                                                 destination. Category fields are LBK and MSH. */
+        uint32_t msh                   : 1;  /**< [  1:  1] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is targeted to IOBN or CCU via the mesh. Category is transaction
+                                                                 destination. Category fields are LBK and MSH. */
+        uint32_t cr                    : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a completion response. Category is transaction completion type.
+                                                                 Category fields are CR. */
         uint32_t err1                  : 1;  /**< [  3:  3] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is commit with error/fault associated. Category is transaction
+                                                                 transaction is a request with error associated. Category is transaction
                                                                  error. Category fields are ERR1 and ERR0. */
         uint32_t err0                  : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is a commit without error/fault associated. Category is transaction
+                                                                 transaction is a request without error associated. Category is transaction
                                                                  error. Category fields are ERR1 and ERR0. */
-        uint32_t reserved_5_8          : 4;
+        uint32_t wd1                   : 1;  /**< [  5:  5] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request with data associated. Category is transaction
+                                                                 data. Category fields are WD1 and WD0. */
+        uint32_t wd0                   : 1;  /**< [  6:  6] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a request without data associated. Category is transaction
+                                                                 data. Category fields are WD1 and WD0. */
+        uint32_t full                  : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
+                                                                 transaction is a FULL command. Category is transaction full type.
+                                                                 data. Category fields are FULL. */
+        uint32_t reserved_8            : 1;
         uint32_t smmu                  : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to the SMMU. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
+                                                                 transaction is from the SMMU. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb0                  : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to bus NCB0. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
+                                                                 transaction is bus NCB0. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb1                  : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to bus NCB1. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
+                                                                 transaction is bus NCB1. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb2                  : 1;  /**< [ 12: 12] When set, increment the associated RPERF IRNM performance count when source
-                                                                 transaction is targeted to bus NCB2. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
+                                                                 transaction is bus NCB2. Category is transaction source. Category fields
+                                                                 are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_iobn_rperf_inrm_inbcmt_s_s cn; */
+    /* struct cavm_iobn_rperf_inrm_inbdat_s_s cn; */
 };
 
 /**
@@ -848,7 +818,7 @@ union cavm_iobnx_bp_testx
                                                                  \<59\> = TBD.
                                                                  \<58\> = TBD.
                                                                  \<57\> = TBD.
-                                                                 \<56\> = TBD.
+                                                                 \<56\> = iut_smmu_bp - emulates backpressure to IUT from SMMU.
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
@@ -951,7 +921,7 @@ union cavm_iobnx_bp_testx
                                                                  \<59\> = TBD.
                                                                  \<58\> = TBD.
                                                                  \<57\> = TBD.
-                                                                 \<56\> = TBD.
+                                                                 \<56\> = iut_smmu_bp - emulates backpressure to IUT from SMMU.
 
                                                                  \<page\>
                                                                  IOBN()_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
@@ -1702,16 +1672,14 @@ union cavm_iobnx_int_ena_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t reserved_22_23        : 2;
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_DBE]. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
@@ -1723,16 +1691,14 @@ union cavm_iobnx_int_ena_w1c
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t reserved_22_23        : 2;
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
@@ -1770,16 +1736,14 @@ union cavm_iobnx_int_ena_w1s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t reserved_22_23        : 2;
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_DBE]. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
@@ -1791,16 +1755,14 @@ union cavm_iobnx_int_ena_w1s
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t reserved_22_23        : 2;
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
@@ -1839,16 +1801,14 @@ union cavm_iobnx_int_sum
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) MSH to SMMU store (CSR) has poison data. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) MSH to SMMU data (CR) has a DBE. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) MSH to SMMU data (CR) has a DBE. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) MSH response has a checksum error. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) MSH snoop has a checksum error. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) MSH request has a checksum error. */
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) MSH data has a checksum error. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) MSH request has a SBE. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) MSH request has a SBE. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) MSH response has a SBE. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) MSH response has a DBE. */
+        uint64_t reserved_22_23        : 2;
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) MSH data has a SBE. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) MSH data has a DBE. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) NCBI CR had fault data error. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) NCBO CR had poison data error. See IOBN_NCBO()_CR_ERR_STATUS. */
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) NCBI CR associated with an inactive CPID. See IOBN_NCBI()_CR_ERR_STATUS. */
@@ -1862,16 +1822,14 @@ union cavm_iobnx_int_sum
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) NCBI CR associated with an inactive CPID. See IOBN_NCBI()_CR_ERR_STATUS. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) NCBO CR had poison data error. See IOBN_NCBO()_CR_ERR_STATUS. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) NCBI CR had fault data error. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1C/H) MSH response has a DBE. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1C/H) MSH response has a SBE. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1C/H) MSH request has a SBE. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1C/H) MSH request has a SBE. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) MSH data has a DBE. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) MSH data has a SBE. */
+        uint64_t reserved_22_23        : 2;
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) MSH data has a checksum error. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) MSH request has a checksum error. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) MSH snoop has a checksum error. */
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) MSH response has a checksum error. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1C/H) MSH to SMMU data (CR) has a DBE. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1C/H) MSH to SMMU data (CR) has a DBE. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) MSH to SMMU store (CSR) has poison data. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
@@ -1909,16 +1867,14 @@ union cavm_iobnx_int_sum_w1s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
+        uint64_t reserved_22_23        : 2;
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_DBE]. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
@@ -1930,16 +1886,14 @@ union cavm_iobnx_int_sum_w1s
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBI_UNEXP_CR]. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_POIS_CR]. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_rsp_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_DBE]. */
-        uint64_t msh_rsp_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_SBE]. */
-        uint64_t msh_req_dbe           : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_DBE]. */
-        uint64_t msh_req_sbe           : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t reserved_22_23        : 2;
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DAT_CHK]. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_REQ_CHK]. */
         uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SNP_CHK]. */
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_smmu_rsp_dbe      : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_DBE]. */
-        uint64_t msh_smmu_rsp_sbe      : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_RSP_SBE]. */
+        uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */

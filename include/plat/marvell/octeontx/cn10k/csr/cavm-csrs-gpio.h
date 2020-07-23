@@ -61,8 +61,8 @@
  * GPIO MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX(a) (0x24 + 2 * (a))
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR(a) (0x25 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX(a) (0x18 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR(a) (0x19 + 2 * (a))
 #define CAVM_GPIO_INT_VEC_E_MC_INTR_PPX(a) (0 + (a))
 
 /**
@@ -317,7 +317,7 @@ typedef union cavm_gpio_bit_cfgx cavm_gpio_bit_cfgx_t;
 static inline uint64_t CAVM_GPIO_BIT_CFGX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_BIT_CFGX(uint64_t a)
 {
-    if (a<=83)
+    if (a<=75)
         return 0x803000000400ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_BIT_CFGX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -354,7 +354,7 @@ union cavm_gpio_bit_permitx
                                                                    \<1\> = Disable APs (non MCP/SCP) nonsecure world from accessing the pin.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing the pin.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing the pin.
-                                                                   \<4\> = Disable XCP2 (MCP) from accessing the pin. */
+                                                                   \<4\> = Disable XCP2 (ECP) from accessing the pin. */
 #else /* Word 0 - Little Endian */
         uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing the corresponding pin.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
@@ -362,7 +362,7 @@ union cavm_gpio_bit_permitx
                                                                    \<1\> = Disable APs (non MCP/SCP) nonsecure world from accessing the pin.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing the pin.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing the pin.
-                                                                   \<4\> = Disable XCP2 (MCP) from accessing the pin. */
+                                                                   \<4\> = Disable XCP2 (ECP) from accessing the pin. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -373,7 +373,7 @@ typedef union cavm_gpio_bit_permitx cavm_gpio_bit_permitx_t;
 static inline uint64_t CAVM_GPIO_BIT_PERMITX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_BIT_PERMITX(uint64_t a)
 {
-    if (a<=83)
+    if (a<=75)
         return 0x803000002000ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_BIT_PERMITX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -723,7 +723,7 @@ typedef union cavm_gpio_intrx cavm_gpio_intrx_t;
 static inline uint64_t CAVM_GPIO_INTRX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_INTRX(uint64_t a)
 {
-    if (a<=83)
+    if (a<=75)
         return 0x803000000800ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_INTRX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1253,7 +1253,7 @@ typedef union cavm_gpio_msix_pbax cavm_gpio_msix_pbax_t;
 static inline uint64_t CAVM_GPIO_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_PBAX(uint64_t a)
 {
-    if (a<=3)
+    if (a<=2)
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1339,7 +1339,7 @@ typedef union cavm_gpio_msix_vecx_addr cavm_gpio_msix_vecx_addr_t;
 static inline uint64_t CAVM_GPIO_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (a<=203)
+    if (a<=175)
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1381,7 +1381,7 @@ typedef union cavm_gpio_msix_vecx_ctl cavm_gpio_msix_vecx_ctl_t;
 static inline uint64_t CAVM_GPIO_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_VECX_CTL(uint64_t a)
 {
-    if (a<=203)
+    if (a<=175)
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GPIO_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1508,7 +1508,7 @@ union cavm_gpio_permit
                                                                    \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
-                                                                   \<4\> = Disable XCP2 (MCP) from accessing GPIO global registers. */
+                                                                   \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
 #else /* Word 0 - Little Endian */
         uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
@@ -1516,7 +1516,7 @@ union cavm_gpio_permit
                                                                    \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
-                                                                   \<4\> = Disable XCP2 (MCP) from accessing GPIO global registers. */
+                                                                   \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -1550,21 +1550,21 @@ union cavm_gpio_pkg_ver
     struct cavm_gpio_pkg_ver_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
+        uint64_t reserved_4_63         : 60;
+        uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
                                                                  0x0 = SKU package A = 45 x 45 package, up to 6 DDR5 channels, for CN106XXS.
                                                                  0x1 = SKU package B = 42.5 x 42.5 package, up to 6 DDR5 channels, for CN106XX.
 
                                                                  Internal:
                                                                  Architecturally defined, same encoding across same die. */
 #else /* Word 0 - Little Endian */
-        uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
+        uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
                                                                  0x0 = SKU package A = 45 x 45 package, up to 6 DDR5 channels, for CN106XXS.
                                                                  0x1 = SKU package B = 42.5 x 42.5 package, up to 6 DDR5 channels, for CN106XX.
 
                                                                  Internal:
                                                                  Architecturally defined, same encoding across same die. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gpio_pkg_ver_s cn; */
@@ -1720,11 +1720,11 @@ union cavm_gpio_strap1
     struct cavm_gpio_strap1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t strap                 : 20; /**< [ 19:  0](RO/H) GPIO strap data of GPIO pins 64 and above. Unimplemented pins bits read as 0. */
+        uint64_t reserved_12_63        : 52;
+        uint64_t strap                 : 12; /**< [ 11:  0](RO/H) GPIO strap data of GPIO pins 64 and above. Unimplemented pins bits read as 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t strap                 : 20; /**< [ 19:  0](RO/H) GPIO strap data of GPIO pins 64 and above. Unimplemented pins bits read as 0. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t strap                 : 12; /**< [ 11:  0](RO/H) GPIO strap data of GPIO pins 64 and above. Unimplemented pins bits read as 0. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gpio_strap1_s cn; */

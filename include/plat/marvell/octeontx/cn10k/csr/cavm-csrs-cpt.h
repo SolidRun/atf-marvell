@@ -1347,7 +1347,9 @@ union cavm_cptx_af_constants0
     struct cavm_cptx_af_constants0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_60_63        : 4;
+        uint64_t ctx_entry_cnt         : 12; /**< [ 59: 48](RO) Number of context cache entries. */
+        uint64_t ctx_entry_size        : 8;  /**< [ 47: 40](RO) Number of 128B blocks for each context cache entry. */
         uint64_t epcis                 : 8;  /**< [ 39: 32](RO) Number of EPCI buses. */
         uint64_t reserved_24_31        : 8;
         uint64_t grps                  : 8;  /**< [ 23: 16](RO) Number of engine groups implemented. */
@@ -1359,7 +1361,9 @@ union cavm_cptx_af_constants0
         uint64_t grps                  : 8;  /**< [ 23: 16](RO) Number of engine groups implemented. */
         uint64_t reserved_24_31        : 8;
         uint64_t epcis                 : 8;  /**< [ 39: 32](RO) Number of EPCI buses. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t ctx_entry_size        : 8;  /**< [ 47: 40](RO) Number of 128B blocks for each context cache entry. */
+        uint64_t ctx_entry_cnt         : 12; /**< [ 59: 48](RO) Number of context cache entries. */
+        uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_constants0_s cn; */
@@ -1436,6 +1440,46 @@ static inline uint64_t CAVM_CPTX_AF_CONSTANTS1(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_CONSTANTS1(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CONSTANTS1(a) (a)
 #define arguments_CAVM_CPTX_AF_CONSTANTS1(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_constants2
+ *
+ * CPT AF Constants Register
+ * This register contains implementation-related parameters of CPT.
+ */
+union cavm_cptx_af_constants2
+{
+    uint64_t u;
+    struct cavm_cptx_af_constants2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rxc_rxd_cnt           : 16; /**< [ 31: 16](RO) Number of 128B RXC data buffer blocks. */
+        uint64_t rxc_fte_cnt           : 16; /**< [ 15:  0](RO) Number of RXC simultaneous reassembly efforts. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxc_fte_cnt           : 16; /**< [ 15:  0](RO) Number of RXC simultaneous reassembly efforts. */
+        uint64_t rxc_rxd_cnt           : 16; /**< [ 31: 16](RO) Number of 128B RXC data buffer blocks. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_constants2_s cn; */
+};
+typedef union cavm_cptx_af_constants2 cavm_cptx_af_constants2_t;
+
+static inline uint64_t CAVM_CPTX_AF_CONSTANTS2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CONSTANTS2(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0001008ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CONSTANTS2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CONSTANTS2(a) cavm_cptx_af_constants2_t
+#define bustype_CAVM_CPTX_AF_CONSTANTS2(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CONSTANTS2(a) "CPTX_AF_CONSTANTS2"
+#define device_bar_CAVM_CPTX_AF_CONSTANTS2(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CONSTANTS2(a) (a)
+#define arguments_CAVM_CPTX_AF_CONSTANTS2(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_cptclk_cnt
@@ -1578,6 +1622,80 @@ static inline uint64_t CAVM_CPTX_AF_CTL(uint64_t a)
 #define arguments_CAVM_CPTX_AF_CTL(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_aop_latency_pc
+ *
+ * CPT AF Context AOP Latency Counter Register
+ */
+union cavm_cptx_af_ctx_aop_latency_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_aop_latency_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for AOPs to be processed. Incremented every
+                                                                 coprocessor-clock by the number of AOPs outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_AOP_PC to determine the average AOP latency. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for AOPs to be processed. Incremented every
+                                                                 coprocessor-clock by the number of AOPs outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_AOP_PC to determine the average AOP latency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_aop_latency_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_aop_latency_pc cavm_cptx_af_ctx_aop_latency_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049418ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_AOP_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(a) cavm_cptx_af_ctx_aop_latency_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(a) "CPTX_AF_CTX_AOP_LATENCY_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_AOP_LATENCY_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_aop_pc
+ *
+ * CPT AF Context AOP Performance Counter Register
+ */
+union cavm_cptx_af_ctx_aop_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_aop_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of AOPs processed by the context processor. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of AOPs processed by the context processor. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_aop_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_aop_pc cavm_cptx_af_ctx_aop_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_AOP_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_AOP_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049410ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_AOP_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_AOP_PC(a) cavm_cptx_af_ctx_aop_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_AOP_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_AOP_PC(a) "CPTX_AF_CTX_AOP_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_AOP_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_AOP_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_AOP_PC(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_err
  *
  * CPT AF CTX Error Register
@@ -1591,10 +1709,10 @@ union cavm_cptx_af_ctx_err
         uint64_t reserved_2_63         : 62;
         uint64_t list_err              : 1;  /**< [  1:  1](R/W/H) This register is set to one when a context operation is sent to the context processor
                                                                  from an engine not on any ordered list. */
-        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) This register is set to 1 if the CTX processor detects that multiple
+        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) This register is set to one if the CTX processor detects that multiple
                                                                  groups are using the same context. */
 #else /* Word 0 - Little Endian */
-        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) This register is set to 1 if the CTX processor detects that multiple
+        uint64_t grp_err               : 1;  /**< [  0:  0](R/W/H) This register is set to one if the CTX processor detects that multiple
                                                                  groups are using the same context. */
         uint64_t list_err              : 1;  /**< [  1:  1](R/W/H) This register is set to one when a context operation is sent to the context processor
                                                                  from an engine not on any ordered list. */
@@ -1662,6 +1780,80 @@ static inline uint64_t CAVM_CPTX_AF_CTX_FAA_CNTX(uint64_t a, uint64_t b)
 #define arguments_CAVM_CPTX_AF_CTX_FAA_CNTX(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_ffetch_latency_pc
+ *
+ * CPT AF Context Final Fetch Latency Counter Register
+ */
+union cavm_cptx_af_ctx_ffetch_latency_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_ffetch_latency_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for issued final fetches to return. Incremented every
+                                                                 coprocessor-clock by the number of final fetches outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_FFETCH_PC to determine the average final fetch latency. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for issued final fetches to return. Incremented every
+                                                                 coprocessor-clock by the number of final fetches outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_FFETCH_PC to determine the average final fetch latency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_ffetch_latency_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_ffetch_latency_pc cavm_cptx_af_ctx_ffetch_latency_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049438ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_FFETCH_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(a) cavm_cptx_af_ctx_ffetch_latency_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(a) "CPTX_AF_CTX_FFETCH_LATENCY_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_FFETCH_LATENCY_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_ffetch_pc
+ *
+ * CPT AF Context Final Fetch Performance Counter Register
+ */
+union cavm_cptx_af_ctx_ffetch_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_ffetch_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of final context fetches returned to the context processor. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of final context fetches returned to the context processor. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_ffetch_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_ffetch_pc cavm_cptx_af_ctx_ffetch_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_FFETCH_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_FFETCH_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049430ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_FFETCH_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_FFETCH_PC(a) cavm_cptx_af_ctx_ffetch_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_FFETCH_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_FFETCH_PC(a) "CPTX_AF_CTX_FFETCH_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_FFETCH_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_FFETCH_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_FFETCH_PC(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_flush_timer
  *
  * CPT AF CTX dirty data flush timer Register
@@ -1714,6 +1906,224 @@ static inline uint64_t CAVM_CPTX_AF_CTX_FLUSH_TIMER(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) (a)
 #define arguments_CAVM_CPTX_AF_CTX_FLUSH_TIMER(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_hit_pc
+ *
+ * CPT AF Context Hit Performance Counter Register
+ */
+union cavm_cptx_af_ctx_hit_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_hit_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of hits in the context processor. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of hits in the context processor. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_hit_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_hit_pc cavm_cptx_af_ctx_hit_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_HIT_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_HIT_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049408ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_HIT_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_HIT_PC(a) cavm_cptx_af_ctx_hit_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_HIT_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_HIT_PC(a) "CPTX_AF_CTX_HIT_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_HIT_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_HIT_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_HIT_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_ifetch_latency_pc
+ *
+ * CPT AF Context Initial Fetch Latency Counter Register
+ */
+union cavm_cptx_af_ctx_ifetch_latency_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_ifetch_latency_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for issued initial fetches to return. Incremented every
+                                                                 coprocessor-clock by the number of initial fetches outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_IFETCH_PC to determine the average initial fetch latency. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for issued initial fetches to return. Incremented every
+                                                                 coprocessor-clock by the number of initial fetches outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_IFETCH_PC to determine the average initial fetch latency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_ifetch_latency_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_ifetch_latency_pc cavm_cptx_af_ctx_ifetch_latency_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049428ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_IFETCH_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(a) cavm_cptx_af_ctx_ifetch_latency_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(a) "CPTX_AF_CTX_IFETCH_LATENCY_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_IFETCH_LATENCY_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_ifetch_pc
+ *
+ * CPT AF Context Initial Fetch Performance Counter Register
+ */
+union cavm_cptx_af_ctx_ifetch_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_ifetch_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of initial context fetches returned to the context processor. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of initial context fetches returned to the context processor. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_ifetch_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_ifetch_pc cavm_cptx_af_ctx_ifetch_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_IFETCH_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_IFETCH_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049420ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_IFETCH_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_IFETCH_PC(a) cavm_cptx_af_ctx_ifetch_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_IFETCH_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_IFETCH_PC(a) "CPTX_AF_CTX_IFETCH_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_IFETCH_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_IFETCH_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_IFETCH_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_mis_pc
+ *
+ * CPT AF Context Miss Performance Counter Register
+ */
+union cavm_cptx_af_ctx_mis_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_mis_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of misses in the context processor. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of misses in the context processor. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_mis_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_mis_pc cavm_cptx_af_ctx_mis_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_MIS_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_MIS_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049400ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_MIS_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_MIS_PC(a) cavm_cptx_af_ctx_mis_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_MIS_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_MIS_PC(a) "CPTX_AF_CTX_MIS_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_MIS_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_MIS_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_MIS_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_wback_latency_pc
+ *
+ * CPT AF Context Writeback Latency Counter Register
+ */
+union cavm_cptx_af_ctx_wback_latency_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_wback_latency_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for issued context writebacks to indicate completion. Incremented
+                                                                 every coprocessor-clock by the number of writebacks outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_WBACK_PC to determine the average context writeback latency. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for issued context writebacks to indicate completion. Incremented
+                                                                 every coprocessor-clock by the number of writebacks outstanding in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_WBACK_PC to determine the average context writeback latency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_wback_latency_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_wback_latency_pc cavm_cptx_af_ctx_wback_latency_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049448ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_WBACK_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(a) cavm_cptx_af_ctx_wback_latency_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(a) "CPTX_AF_CTX_WBACK_LATENCY_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_WBACK_LATENCY_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_wback_pc
+ *
+ * CPT AF Context Writeback Performance Counter Register
+ */
+union cavm_cptx_af_ctx_wback_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_wback_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of NCB context writebacks completed by the context processor. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of NCB context writebacks completed by the context processor. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_wback_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_wback_pc cavm_cptx_af_ctx_wback_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_WBACK_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_WBACK_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049440ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_WBACK_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_WBACK_PC(a) cavm_cptx_af_ctx_wback_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_WBACK_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_WBACK_PC(a) "CPTX_AF_CTX_WBACK_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_WBACK_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_WBACK_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_WBACK_PC(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_diag
@@ -4239,6 +4649,159 @@ static inline uint64_t CAVM_CPTX_AF_RVU_LF_CFG_DEBUG(uint64_t a)
 #define arguments_CAVM_CPTX_AF_RVU_LF_CFG_DEBUG(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_cfg
+ *
+ * CPT AF RXC Configuration Register
+ */
+union cavm_cptx_af_rxc_cfg
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maxium number of 128B RXC data buffer blocks that a packet may consume.
+                                                                 This is used to reserve RXC data buffers when scheduling a CPT instruction that
+                                                                 may use RXC.  Once the DLEN is known, the number of reserved RXC data buffers is
+                                                                 adjusted. */
+#else /* Word 0 - Little Endian */
+        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maxium number of 128B RXC data buffer blocks that a packet may consume.
+                                                                 This is used to reserve RXC data buffers when scheduling a CPT instruction that
+                                                                 may use RXC.  Once the DLEN is known, the number of reserved RXC data buffers is
+                                                                 adjusted. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_cfg_s cn; */
+};
+typedef union cavm_cptx_af_rxc_cfg cavm_cptx_af_rxc_cfg_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_CFG(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050000ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_CFG(a) cavm_cptx_af_rxc_cfg_t
+#define bustype_CAVM_CPTX_AF_RXC_CFG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_CFG(a) "CPTX_AF_RXC_CFG"
+#define device_bar_CAVM_CPTX_AF_RXC_CFG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_CFG(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_dfrg
+ *
+ * CPT AF RXC Defragment Register
+ */
+union cavm_cptx_af_rxc_dfrg
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_dfrg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t zombie_thres          : 12; /**< [ 59: 48](RAZ) Thresold level of zombie reassembly entries at which the oldest will be
+                                                                 terminated. ZOMEIE_THRES=0 disables threshold. */
+        uint64_t reserved_44_47        : 4;
+        uint64_t zombie_cnt            : 12; /**< [ 43: 32](RAZ) Reserved. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t busy_thres            : 12; /**< [ 27: 16](RO) Thresold level of active reassembly entries at which the oldest will be
+                                                                 terminated. 0x0 disables threshold. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t busy_cnt              : 12; /**< [ 11:  0](R/W) Number of active reassembly entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t busy_cnt              : 12; /**< [ 11:  0](R/W) Number of active reassembly entries. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t busy_thres            : 12; /**< [ 27: 16](RO) Thresold level of active reassembly entries at which the oldest will be
+                                                                 terminated. 0x0 disables threshold. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t zombie_cnt            : 12; /**< [ 43: 32](RAZ) Reserved. */
+        uint64_t reserved_44_47        : 4;
+        uint64_t zombie_thres          : 12; /**< [ 59: 48](RAZ) Thresold level of zombie reassembly entries at which the oldest will be
+                                                                 terminated. ZOMEIE_THRES=0 disables threshold. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_dfrg_s cn; */
+};
+typedef union cavm_cptx_af_rxc_dfrg cavm_cptx_af_rxc_dfrg_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_DFRG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_DFRG(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050010ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_DFRG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_DFRG(a) cavm_cptx_af_rxc_dfrg_t
+#define bustype_CAVM_CPTX_AF_RXC_DFRG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_DFRG(a) "CPTX_AF_RXC_DFRG"
+#define device_bar_CAVM_CPTX_AF_RXC_DFRG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_DFRG(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_DFRG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_time
+ *
+ * CPT AF RXC Time Register
+ */
+union cavm_cptx_af_rxc_time
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_time_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 16; /**< [ 63: 48](RO) The current time. */
+        uint64_t reserved_32_47        : 16;
+        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  [LIMIT]=0 disables timeouts.  When the
+                                                                 age of the reassembly effort is older than ([STEP]*[LIMIT]),
+                                                                 the reassembly effort will be terminated with REAS_STS=TIMEOUT.  For example,
+                                                                 setting [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
+                                                                 200ms granularity. */
+        uint64_t step                  : 20; /**< [ 19:  0](R/W) The granularity of time used to track the age of reassembly attempts.
+                                                                 0x0 = Disabled.
+                                                                 0x1 = 1 microsecond.
+                                                                 0x2 = 2 microseconds.
+                                                                 _ etc. */
+#else /* Word 0 - Little Endian */
+        uint64_t step                  : 20; /**< [ 19:  0](R/W) The granularity of time used to track the age of reassembly attempts.
+                                                                 0x0 = Disabled.
+                                                                 0x1 = 1 microsecond.
+                                                                 0x2 = 2 microseconds.
+                                                                 _ etc. */
+        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  [LIMIT]=0 disables timeouts.  When the
+                                                                 age of the reassembly effort is older than ([STEP]*[LIMIT]),
+                                                                 the reassembly effort will be terminated with REAS_STS=TIMEOUT.  For example,
+                                                                 setting [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
+                                                                 200ms granularity. */
+        uint64_t reserved_32_47        : 16;
+        uint64_t count                 : 16; /**< [ 63: 48](RO) The current time. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_time_s cn; */
+};
+typedef union cavm_cptx_af_rxc_time cavm_cptx_af_rxc_time_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_TIME(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_TIME(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050008ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_TIME", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_TIME(a) cavm_cptx_af_rxc_time_t
+#define bustype_CAVM_CPTX_AF_RXC_TIME(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_TIME(a) "CPTX_AF_RXC_TIME"
+#define device_bar_CAVM_CPTX_AF_RXC_TIME(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_TIME(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_TIME(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_xe#_thr
  *
  * RVU Admin Function XE Throttle Register
@@ -4677,13 +5240,17 @@ union cavm_cptx_lf_ctx_err
     struct cavm_cptx_lf_ctx_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue while there are still entries on its ordered list. */
+        uint64_t reserved_3_63         : 61;
+        uint64_t busy_sw_flush         : 1;  /**< [  2:  2](R/W/H) This bit is set when a software-initiated CTX flush with invalidate (via CPT_LF_CTX_FLUSH)
+                                                                 targets an active entry in CPT_CTX. */
+        uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue with active entries in CPT_CTX. */
         uint64_t flush_st_flt          : 1;  /**< [  0:  0](R/W/H) This bit is set when a software-initiated CTX flush (via CPT_LF_CTX_FLUSH) causes a store fault. */
 #else /* Word 0 - Little Endian */
         uint64_t flush_st_flt          : 1;  /**< [  0:  0](R/W/H) This bit is set when a software-initiated CTX flush (via CPT_LF_CTX_FLUSH) causes a store fault. */
-        uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue while there are still entries on its ordered list. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue with active entries in CPT_CTX. */
+        uint64_t busy_sw_flush         : 1;  /**< [  2:  2](R/W/H) This bit is set when a software-initiated CTX flush with invalidate (via CPT_LF_CTX_FLUSH)
+                                                                 targets an active entry in CPT_CTX. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_lf_ctx_err_s cn; */

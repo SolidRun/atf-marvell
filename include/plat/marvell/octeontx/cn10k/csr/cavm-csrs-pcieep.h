@@ -6183,11 +6183,11 @@ union cavm_pcieepx_pl32g_ctl
         uint32_t reserved_11_31        : 21;
         uint32_t mod_ts_use_mode_sel   : 3;  /**< [ 10:  8](RO) Modified TS usage mode selected (not supported). */
         uint32_t reserved_2_7          : 6;
-        uint32_t no_eq_need_dis        : 1;  /**< [  1:  1](RO/WRSL) No equalization needed disable. */
+        uint32_t no_eq_need_dis        : 1;  /**< [  1:  1](R/W) No equalization needed disable. */
         uint32_t eq_byp_hirate_dis     : 1;  /**< [  0:  0](R/W) Equalization bypass to highest rate disable. */
 #else /* Word 0 - Little Endian */
         uint32_t eq_byp_hirate_dis     : 1;  /**< [  0:  0](R/W) Equalization bypass to highest rate disable. */
-        uint32_t no_eq_need_dis        : 1;  /**< [  1:  1](RO/WRSL) No equalization needed disable. */
+        uint32_t no_eq_need_dis        : 1;  /**< [  1:  1](R/W) No equalization needed disable. */
         uint32_t reserved_2_7          : 6;
         uint32_t mod_ts_use_mode_sel   : 3;  /**< [ 10:  8](RO) Modified TS usage mode selected (not supported). */
         uint32_t reserved_11_31        : 21;

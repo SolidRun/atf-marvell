@@ -815,84 +815,6 @@ static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 #define arguments_CAVM_TADX_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tad#_mpam#_acnt
- *
- * TAD Memory Paritioning Allocate Count Registers
- */
-union cavm_tadx_mpamx_acnt
-{
-    uint64_t u;
-    struct cavm_tadx_mpamx_acnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Counter incremented whenever a request allocates while using the corresponding
-                                                                 MPAMID. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Counter incremented whenever a request allocates while using the corresponding
-                                                                 MPAMID. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_mpamx_acnt_s cn; */
-};
-typedef union cavm_tadx_mpamx_acnt cavm_tadx_mpamx_acnt_t;
-
-static inline uint64_t CAVM_TADX_MPAMX_ACNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_MPAMX_ACNT(uint64_t a, uint64_t b)
-{
-    if ((a<=127) && (b<=255))
-        return 0x87e200001000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0xff);
-    __cavm_csr_fatal("TADX_MPAMX_ACNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_MPAMX_ACNT(a,b) cavm_tadx_mpamx_acnt_t
-#define bustype_CAVM_TADX_MPAMX_ACNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_TADX_MPAMX_ACNT(a,b) "TADX_MPAMX_ACNT"
-#define device_bar_CAVM_TADX_MPAMX_ACNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_MPAMX_ACNT(a,b) (a)
-#define arguments_CAVM_TADX_MPAMX_ACNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) tad#_mpam#_hcnt
- *
- * TAD Memory Paritioning Hit Count Registers
- */
-union cavm_tadx_mpamx_hcnt
-{
-    uint64_t u;
-    struct cavm_tadx_mpamx_hcnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Counter incremented whenever a request hits in the LTG or DTG while using the
-                                                                 corresponding MPAMID. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Counter incremented whenever a request hits in the LTG or DTG while using the
-                                                                 corresponding MPAMID. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_mpamx_hcnt_s cn; */
-};
-typedef union cavm_tadx_mpamx_hcnt cavm_tadx_mpamx_hcnt_t;
-
-static inline uint64_t CAVM_TADX_MPAMX_HCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_MPAMX_HCNT(uint64_t a, uint64_t b)
-{
-    if ((a<=127) && (b<=255))
-        return 0x87e200001008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0xff);
-    __cavm_csr_fatal("TADX_MPAMX_HCNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_MPAMX_HCNT(a,b) cavm_tadx_mpamx_hcnt_t
-#define bustype_CAVM_TADX_MPAMX_HCNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_TADX_MPAMX_HCNT(a,b) "TADX_MPAMX_HCNT"
-#define device_bar_CAVM_TADX_MPAMX_HCNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_MPAMX_HCNT(a,b) (a)
-#define arguments_CAVM_TADX_MPAMX_HCNT(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) tad#_mpam#_rcnt
  *
  * TAD Memory Paritioning Resource Count Registers
@@ -921,8 +843,8 @@ typedef union cavm_tadx_mpamx_rcnt cavm_tadx_mpamx_rcnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b)
 {
-    if ((a<=127) && (b<=255))
-        return 0x87e200002000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0xff);
+    if ((a<=127) && (b<=127))
+        return 0x87e200002000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("TADX_MPAMX_RCNT", 2, a, b, 0, 0, 0, 0);
 }
 

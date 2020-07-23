@@ -165,8 +165,8 @@ union cavm_rnm_ctl_status
         uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](RAZ) Ignored, deprecated feature. */
         uint64_t force_clk             : 1;  /**< [ 12: 12](SR/W) When set, conditional clock is always on. For diagnostic use only. */
         uint64_t zuc_en                : 1;  /**< [ 11: 11](RAZ) Ignored, deprecated feature. */
-        uint64_t eer_lck               : 1;  /**< [ 10: 10](SRO/H) Encryption enable register locked. */
-        uint64_t eer_val               : 1;  /**< [  9:  9](SRO/H) Dormant encryption key match. */
+        uint64_t eer_lck               : 1;  /**< [ 10: 10](RAZ) Ignored, deprecated feature. */
+        uint64_t eer_val               : 1;  /**< [  9:  9](RAZ) Ignored, deprecated feature. */
         uint64_t ent_sel               : 4;  /**< [  8:  5](RAZ) Ignored, deprecated feature. */
         uint64_t exp_ent               : 1;  /**< [  4:  4](RAZ) Ignored, deprecated feature. */
         uint64_t rng_rst               : 1;  /**< [  3:  3](RAZ) Ignored, deprecated feature. */
@@ -184,8 +184,8 @@ union cavm_rnm_ctl_status
         uint64_t rng_rst               : 1;  /**< [  3:  3](RAZ) Ignored, deprecated feature. */
         uint64_t exp_ent               : 1;  /**< [  4:  4](RAZ) Ignored, deprecated feature. */
         uint64_t ent_sel               : 4;  /**< [  8:  5](RAZ) Ignored, deprecated feature. */
-        uint64_t eer_val               : 1;  /**< [  9:  9](SRO/H) Dormant encryption key match. */
-        uint64_t eer_lck               : 1;  /**< [ 10: 10](SRO/H) Encryption enable register locked. */
+        uint64_t eer_val               : 1;  /**< [  9:  9](RAZ) Ignored, deprecated feature. */
+        uint64_t eer_lck               : 1;  /**< [ 10: 10](RAZ) Ignored, deprecated feature. */
         uint64_t zuc_en                : 1;  /**< [ 11: 11](RAZ) Ignored, deprecated feature. */
         uint64_t force_clk             : 1;  /**< [ 12: 12](SR/W) When set, conditional clock is always on. For diagnostic use only. */
         uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](RAZ) Ignored, deprecated feature. */
@@ -606,7 +606,7 @@ static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void)
  * Register (RSL) rnm_eer_key
  *
  * RNM Encryption Enable Register
- * This register is the encryption enable register.
+ * Ignored, deprecated feature.
  */
 union cavm_rnm_eer_key
 {
@@ -614,11 +614,9 @@ union cavm_rnm_eer_key
     struct cavm_rnm_eer_key_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](SWO) Dormant encryption key. If dormant crypto is fuse-enabled, crypto can be enabled by
-                                                                 writing this register with the correct key. */
+        uint64_t key                   : 64; /**< [ 63:  0](RAZ) Ignored, deprecated feature. */
 #else /* Word 0 - Little Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](SWO) Dormant encryption key. If dormant crypto is fuse-enabled, crypto can be enabled by
-                                                                 writing this register with the correct key. */
+        uint64_t key                   : 64; /**< [ 63:  0](RAZ) Ignored, deprecated feature. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_eer_key_s cn; */
@@ -811,8 +809,7 @@ static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
  *
  * RNM Fuse Serial Number Register
  * Internal:
- * The serial number doesn't need to be on an external CSR bus, but the CSR cores aren't able to
- * add fine-grained clock gating to volatile fields.
+ * Ignored, deprecated feature.
  */
 union cavm_rnm_serial_num
 {
@@ -820,9 +817,9 @@ union cavm_rnm_serial_num
     struct cavm_rnm_serial_num_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Dormant encryption serial number. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) Ignored, deprecated feature. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Dormant encryption serial number. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) Ignored, deprecated feature. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_serial_num_s cn; */

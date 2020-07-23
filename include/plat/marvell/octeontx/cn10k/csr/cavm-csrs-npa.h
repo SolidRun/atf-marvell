@@ -103,6 +103,8 @@
  */
 #define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_ACCEPTED (0)
 #define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_ERR (2)
+#define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_NOCORE (3)
+#define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_NOCORE_WAIT (4)
 #define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_WAIT (1)
 
 /**
@@ -835,11 +837,14 @@ union cavm_npa_batch_alloc_compare_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t drop                  : 1;  /**< [ 63: 63] Perform DROP processing on Allocation, when set to 1. */
-        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the request,
-                                                                 the batch logic will respond immediately to the atomic request with a resources-busy /
-                                                                 request-not-serviced indication. If set to 0, and resources not available, the
-                                                                 request will remain pending until resources become available and the request is
-                                                                 serviced. */
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the
+                                                                 request, the batch logic will respond immediately to the atomic request with a
+                                                                 NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT indication. If set to 0, and
+                                                                 resources not available, the request will remain pending until resources become
+                                                                 available and the request is serviced. SW can set resource levels with
+                                                                 NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The
+                                                                 request's DIS_WAIT will be ignored if NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is
+                                                                 set. */
         uint64_t reserved_50_61        : 12;
         uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfullment of the request.
                                                                    0x0 = Store full cache line, allocate cache (STF).
@@ -861,11 +866,14 @@ union cavm_npa_batch_alloc_compare_s
                                                                    0x2 = Store partial cache line, allocate cache (STP).
                                                                    0x3 = Store partial cache line stash, allocate cache (STSTP). */
         uint64_t reserved_50_61        : 12;
-        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the request,
-                                                                 the batch logic will respond immediately to the atomic request with a resources-busy /
-                                                                 request-not-serviced indication. If set to 0, and resources not available, the
-                                                                 request will remain pending until resources become available and the request is
-                                                                 serviced. */
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the
+                                                                 request, the batch logic will respond immediately to the atomic request with a
+                                                                 NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT indication. If set to 0, and
+                                                                 resources not available, the request will remain pending until resources become
+                                                                 available and the request is serviced. SW can set resource levels with
+                                                                 NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The
+                                                                 request's DIS_WAIT will be ignored if NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is
+                                                                 set. */
         uint64_t drop                  : 1;  /**< [ 63: 63] Perform DROP processing on Allocation, when set to 1. */
 #endif /* Word 0 - End */
     } s;
@@ -909,9 +917,9 @@ union cavm_npa_batch_alloc_swap_s
     struct cavm_npa_batch_alloc_swap_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t address               : 64; /**< [ 63:  0] Address to write the allocated IOVA's. */
+        uint64_t address               : 64; /**< [ 63:  0] LF IOVA Address to write the requested allocated pointers. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 64; /**< [ 63:  0] Address to write the allocated IOVA's. */
+        uint64_t address               : 64; /**< [ 63:  0] LF IOVA Address to write the requested allocated pointers. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_batch_alloc_swap_s_s cn; */
@@ -2431,11 +2439,11 @@ union cavm_npa_af_batch_accept_ctl
                                                                  and instead uses STP commands. Defaults to 0, enabling stashing if requested by
                                                                  batch pointer alloc command. */
         uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
-        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold. */
-        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold. */
+        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold.  A value of zero is unconditional acceptance.  Max value is 64. */
+        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold.  A value of zero is unconditional acceptance. */
 #else /* Word 0 - Little Endian */
-        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold. */
-        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold. */
+        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold.  A value of zero is unconditional acceptance. */
+        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold.  A value of zero is unconditional acceptance.  Max value is 64. */
         uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
         uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for batch alloc pointer returns
                                                                  and instead uses STP commands. Defaults to 0, enabling stashing if requested by
@@ -2462,6 +2470,42 @@ static inline uint64_t CAVM_NPA_AF_BATCH_ACCEPT_CTL_FUNC(void)
 #define arguments_CAVM_NPA_AF_BATCH_ACCEPT_CTL -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) npa_af_batch_aux_dbg_sel
+ *
+ * INTERNAL: NPA AF BATCH AUX Debug Select Register
+ */
+union cavm_npa_af_batch_aux_dbg_sel
+{
+    uint64_t u;
+    struct cavm_npa_af_batch_aux_dbg_sel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t sel                   : 8;  /**< [  7:  0](R/W) Extra debug select bits */
+#else /* Word 0 - Little Endian */
+        uint64_t sel                   : 8;  /**< [  7:  0](R/W) Extra debug select bits */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_batch_aux_dbg_sel_s cn; */
+};
+typedef union cavm_npa_af_batch_aux_dbg_sel cavm_npa_af_batch_aux_dbg_sel_t;
+
+#define CAVM_NPA_AF_BATCH_AUX_DBG_SEL CAVM_NPA_AF_BATCH_AUX_DBG_SEL_FUNC()
+static inline uint64_t CAVM_NPA_AF_BATCH_AUX_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_BATCH_AUX_DBG_SEL_FUNC(void)
+{
+    return 0x8400300006e0ll;
+}
+
+#define typedef_CAVM_NPA_AF_BATCH_AUX_DBG_SEL cavm_npa_af_batch_aux_dbg_sel_t
+#define bustype_CAVM_NPA_AF_BATCH_AUX_DBG_SEL CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_BATCH_AUX_DBG_SEL "NPA_AF_BATCH_AUX_DBG_SEL"
+#define device_bar_CAVM_NPA_AF_BATCH_AUX_DBG_SEL 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_BATCH_AUX_DBG_SEL 0
+#define arguments_CAVM_NPA_AF_BATCH_AUX_DBG_SEL -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) npa_af_batch_bp_test
  *
  * INTERNAL: NPA AF BATCH Backpressure Test Register
@@ -2485,13 +2529,20 @@ union cavm_npa_af_batch_bp_test
                                                                  \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
                                                                  \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
                                                                  \<55\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<15:14\>.
-                                                                 \<54\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<13:12\>.
-                                                                 \<53\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<11:10\>.
-                                                                 \<52\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<9:8\>.
-                                                                 \<51\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<7:6\>.
-                                                                 \<50\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<5:4\>.
-                                                                 \<49\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<3:2\>.
-                                                                 \<48\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<1:0\>. */
+                                                                 \<54\> = Apply backpressure to BATCH logic (ncbi_rsp).       Backpressure weight
+                                                                 controlled by [BP_CFG]\<13:12\>.
+                                                                 \<53\> = Apply backpressure to BATCH logic (hwreq_free).     Backpressure weight
+                                                                 controlled by [BP_CFG]\<11:10\>.
+                                                                 \<52\> = Apply backpressure to BATCH logic (hwreq_alloc1).   Backpressure weight
+                                                                 controlled by [BP_CFG]\<9:8\>.
+                                                                 \<51\> = Apply backpressure to BATCH logic (hwreq_alloc0).   Backpressure weight
+                                                                 controlled by [BP_CFG]\<7:6\>.
+                                                                 \<50\> = Apply backpressure to BATCH logic (req_fif_lmtst).  Backpressure weight
+                                                                 controlled by [BP_CFG]\<5:4\>.
+                                                                 \<49\> = Apply backpressure to BATCH logic (req_fif_alloc1). Backpressure weight
+                                                                 controlled by [BP_CFG]\<3:2\>.
+                                                                 \<48\> = Apply backpressure to BATCH logic (req_fif_alloc0). Backpressure weight
+                                                                 controlled by [BP_CFG]\<1:0\>. */
         uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
@@ -2552,13 +2603,20 @@ union cavm_npa_af_batch_bp_test
                                                                  \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
                                                                  \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
                                                                  \<55\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<15:14\>.
-                                                                 \<54\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<13:12\>.
-                                                                 \<53\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<11:10\>.
-                                                                 \<52\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<9:8\>.
-                                                                 \<51\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<7:6\>.
-                                                                 \<50\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<5:4\>.
-                                                                 \<49\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<3:2\>.
-                                                                 \<48\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<1:0\>. */
+                                                                 \<54\> = Apply backpressure to BATCH logic (ncbi_rsp).       Backpressure weight
+                                                                 controlled by [BP_CFG]\<13:12\>.
+                                                                 \<53\> = Apply backpressure to BATCH logic (hwreq_free).     Backpressure weight
+                                                                 controlled by [BP_CFG]\<11:10\>.
+                                                                 \<52\> = Apply backpressure to BATCH logic (hwreq_alloc1).   Backpressure weight
+                                                                 controlled by [BP_CFG]\<9:8\>.
+                                                                 \<51\> = Apply backpressure to BATCH logic (hwreq_alloc0).   Backpressure weight
+                                                                 controlled by [BP_CFG]\<7:6\>.
+                                                                 \<50\> = Apply backpressure to BATCH logic (req_fif_lmtst).  Backpressure weight
+                                                                 controlled by [BP_CFG]\<5:4\>.
+                                                                 \<49\> = Apply backpressure to BATCH logic (req_fif_alloc1). Backpressure weight
+                                                                 controlled by [BP_CFG]\<3:2\>.
+                                                                 \<48\> = Apply backpressure to BATCH logic (req_fif_alloc0). Backpressure weight
+                                                                 controlled by [BP_CFG]\<1:0\>. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_af_batch_bp_test_s cn; */
@@ -4504,8 +4562,9 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
  * This register is used to batch allocate pointers from a given aura's pool. A
  * 64-bit atomic CAS operation to NPA_LF_AURA_BATCH_ALLOC allocates the pointers.
  * The atomic SWAP data format is NPA_BATCH_ALLOC_SWAP_S. The atomic COMPARE data
- * format is NPA_BATCH_ALLOC_COMPARE_S. The CAS operation will return 0 if the
- * CAS operation was accepted, or non-zero value if not accepted. All other
+ * format is NPA_BATCH_ALLOC_COMPARE_S. The CAS operation will return 0 (ALLOC_RESULT_ACCEPTED) if the
+ * CAS operation was accepted, or non-zero value if not accepted as enumerated by
+ * NPA_BATCH_ALLOC_RESULT_E. All other
  * accesses to this register (e.g. reads and writes) are RAZ/WI.  RSL accesses
  * to this register are RAZ/WI.
  *

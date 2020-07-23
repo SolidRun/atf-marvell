@@ -1374,7 +1374,10 @@ union cavm_pemx_clk_en
     struct cavm_pemx_clk_en_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Forces pclk in pemc_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Enables coarse gain clock gating in retimer.
+                                                                 1 = Forces pclk to be forced on at all times. */
         uint64_t pem_mdh_dis           : 1;  /**< [  4:  4](R/W) When set, the memory and diagnostic hubs inside PEM are disabled and
                                                                  will not respond commands from the MDC. If this PEM is not in use, this
                                                                  bit should be set to save power. */
@@ -1414,7 +1417,10 @@ union cavm_pemx_clk_en
         uint64_t pem_mdh_dis           : 1;  /**< [  4:  4](R/W) When set, the memory and diagnostic hubs inside PEM are disabled and
                                                                  will not respond commands from the MDC. If this PEM is not in use, this
                                                                  bit should be set to save power. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Forces pclk in pemc_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Enables coarse gain clock gating in retimer.
+                                                                 1 = Forces pclk to be forced on at all times. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_clk_en_s cn; */
@@ -6365,7 +6371,9 @@ union cavm_pemx_rst_mac
     struct cavm_pemx_rst_mac_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t dis_pipe_rst          : 1;  /**< [  3:  3](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
+                                                                 insure the pipe reset is asserted.   Setting this bit will disable this function. */
         uint64_t diag_clr_phystatus    : 1;  /**< [  2:  2](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
         uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When set, resets the PIPE PCS. */
         uint64_t mac_rst               : 1;  /**< [  0:  0](R/W) When set, resets the PCIe Mac as well as its associated application logic.
@@ -6377,7 +6385,9 @@ union cavm_pemx_rst_mac
                                                                  mac_rst_n. */
         uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When set, resets the PIPE PCS. */
         uint64_t diag_clr_phystatus    : 1;  /**< [  2:  2](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t dis_pipe_rst          : 1;  /**< [  3:  3](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
+                                                                 insure the pipe reset is asserted.   Setting this bit will disable this function. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_rst_mac_s cn; */
