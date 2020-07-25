@@ -75,6 +75,7 @@ static io_block_spec_t fip_block_spec = {
 #endif
 };
 
+#if defined(PLAT_t106)
 static io_block_spec_t bl31_block_spec = {
 	/* ATF BL31 base address 0x360000,
 	 *  TIM_HEADER - 0x1000
@@ -91,6 +92,7 @@ static io_block_spec_t bl33_block_spec = {
 	.offset	= 0x421000,
 	.length = 0x90000,
 };
+#endif
 
 static const io_uuid_spec_t bl2_uuid_spec = {
 	.uuid = UUID_TRUSTED_BOOT_FIRMWARE_BL2,

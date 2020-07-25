@@ -8,7 +8,9 @@
 #include <bakery_lock.h>
 #include <mmio.h>
 #include <plat/common/platform.h>
+#if defined(PLAT_t106)
 #include <plat_cn10k_configuration.h>
+#endif
 #include <octeontx_legacy_pwrc.h>
 #include <octeontx_common.h>
 #include <arch_helpers.h>
