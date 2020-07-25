@@ -232,8 +232,8 @@ static void init_smmu(uint64_t config_base, uint64_t config_size)
 			vector_base += 8;
 			debug_io("SMMU(%d) : Vector:%d address :%lx irq:%d\n",
 				smmunr, i,
-				((i%2) ? CAVM_GICD_CLRSPI_NSR :
-					CAVM_GICD_SETSPI_NSR),
+				((i%2) ? (long)CAVM_GICD_CLRSPI_NSR :
+					(long)CAVM_GICD_SETSPI_NSR),
 				smmu_get_irq(smmunr, i));
 		}
 	}
@@ -623,7 +623,10 @@ static void octeontx_ecam_dev_enumerate(struct ecam_device *device)
 	/* Program SSID for the device if applicable for
 	* the platform
 	*/
-	plat_ops.program_ssid(device, pconfig);
+	if (plat_ops.program_ssid) {
+		debug_io("%s: programming platform ssid...\n", __func__);
+		plat_ops.program_ssid(device, pconfig);
+	}
 
 	debug_io("%s: pconfig: 0x%llx, value: 0x%x\n", __func__, pconfig,
 		octeontx_read32(pconfig));
