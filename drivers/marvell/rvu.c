@@ -34,7 +34,9 @@
 #include "cavm-csrs-rvu.h"
 #include "cavm-csrs-sso.h"
 #include "cavm-csrs-tim.h"
+#ifdef PLAT_t98
 #include "cavm-csrs-ree.h"
+#endif
 
 #ifdef DEBUG_ATF_RVU
 #define debug_rvu printf
@@ -846,7 +848,7 @@ static void mailbox_enable(void)
 #if defined(PLAT_t106)
 	cn10k_mailbox_enable();
 #else
-	otx2_mailbox_enable;
+	otx2_mailbox_enable();
 #endif
 	return;
 }
@@ -891,8 +893,10 @@ static void conf_msix_admin_blk_offset(void)
 	union cavm_tim_priv_af_int_cfg tim_int_cfg;
 	union cavm_ndcx_priv_af_int_cfg ndc_int_cfg;
 	union cavm_cptx_priv_af_int_cfg	cpt_int_cfg;
+#ifdef PLAT_t98
 	union cavm_reex_priv_af_int_cfg ree_int_cfg;
 	rvu_sw_rvu_pf_t *sw_pf;
+#endif
 	int af_msix_used = 0, i = 0;
 	uint64_t midr;
 
@@ -958,6 +962,7 @@ static void conf_msix_admin_blk_offset(void)
 		af_msix_used += cpt_int_cfg.s.msix_size;
 	}
 
+#ifdef PLAT_t98
 	for (i = 0; i < SW_RVU_REE_NUM_PF; i++) {
 		sw_pf = find_sw_rvu_pf_info(SW_RVU_REE_PF(i));
 		assert(sw_pf != NULL);
@@ -971,6 +976,7 @@ static void conf_msix_admin_blk_offset(void)
 		CSR_WRITE(CAVM_REEX_PRIV_AF_INT_CFG(i), ree_int_cfg.u);
 		af_msix_used += ree_int_cfg.s.msix_size;
 	}
+#endif
 
 	/* Sanity check for incorrect FDT setup */
 	assert(af_msix_used <= rvu_dev[0].pf_num_msix_vec);
