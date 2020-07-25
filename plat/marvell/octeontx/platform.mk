@@ -20,6 +20,9 @@ GIC_ENABLE_V4_EXTN      ?=       0
 $(eval $(call assert_boolean,GIC_ENABLE_V4_EXTN))
 $(eval $(call add_define,GIC_ENABLE_V4_EXTN))
 
+# set default CSR include path (unless already defined by platform)
+PLAT_CSR_INCLUDE        ?=       include/plat/marvell/octeontx/csr
+
 ifeq (${BUILD_TYPE}, release)
 	# Use LOG_LEVEL_WARN in release builds
         LOG_LEVEL	:=	30
@@ -37,6 +40,7 @@ PLAT_INCLUDES		:=	-Iinclude/common/tbbr				\
 				-Iinclude/plat/marvell/octeontx/aarch64 			\
 				-Iinclude/drivers/marvell				\
 				-Iinclude/lib				\
+				-I${PLAT_CSR_INCLUDE}
 
 include lib/xlat_tables_v2/xlat_tables.mk
 

@@ -9,6 +9,9 @@ HANDLE_EA_EL3_FIRST	:=       1
 # Enable GIC v4 extension
 GIC_ENABLE_V4_EXTN      :=       1
 
+# override default platform CSR include path
+PLAT_CSR_INCLUDE        :=       include/plat/marvell/octeontx/cn10k/csr
+
 # Include common Marvell platform's makefile helper
 include plat/marvell/octeontx/platform.mk
 
@@ -30,8 +33,7 @@ ARM_ARCH_MINOR		:=	2
 # Allow to use armv8.2 specific instructions
 TF_CFLAGS_aarch64	:=	$(patsubst -march=%, -march=armv8.2-a, $(TF_CFLAGS_aarch64))
 
-PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k/csr 		\
-				-Iinclude/plat/marvell/octeontx/cn10k			\
+PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k			\
 				-Iplat/marvell/octeontx/cn10k/t106/include		\
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/t106/plat_t106_setup.c		\
