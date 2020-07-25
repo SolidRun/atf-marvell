@@ -460,7 +460,7 @@ int plat_octeontx_fill_board_details(void)
 {
 	const void *fdt = fdt_ptr;
 	int offset, rc;
-	int fdt_vfs = 0;
+	int fdt_vfs = 0, i;
 
 	rc = fdt_check_header(fdt);
 	if (rc) {
@@ -482,6 +482,10 @@ int plat_octeontx_fill_board_details(void)
 
 	/* Parse RVU configuration */
 	cn10k_parse_rvu_config(fdt, &fdt_vfs);
+
+	/* only support a single NIX */
+	for (i = 0; i < MAX_CGX; i++)
+		plat_octeontx_bcfg->cgx_cfg[i].nix_block = NIX0;
 
 	return 0;
 }
