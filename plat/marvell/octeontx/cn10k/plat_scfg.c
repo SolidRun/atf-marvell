@@ -31,6 +31,7 @@ int plat_octeontx_fill_soc_details(void)
 	*/
 	plat_octeontx_scfg->gser_count = plat_octeontx_get_gser_count();
 	plat_octeontx_scfg->mcc_count = plat_octeontx_get_mcc_count();
+	plat_octeontx_scfg->nix_count = plat_octeontx_get_nix_count();
 	fill_qlm_max_lane_num();
 
 	return 0;
