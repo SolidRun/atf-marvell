@@ -52,7 +52,6 @@ struct sw_rvu_dev_info {
 
 /* Stores ETH LMAC data for RVU PF dynamic provisioning */
 struct rvu_pf_eth_lmac {
-	struct rpm_lmac_config *lmac;
 	uint8_t                eth_id;
 	uint8_t                lmac_id;
 };
@@ -179,15 +178,20 @@ static void octeontx_init_rvu_fixed(int *hwvf, int rvu, int bfdt_index,
 	*hwvf += rvu_dev[rvu].num_vfs;
 }
 
-static void octeontx_init_rvu_lmac(int *hwvf, int rvu, rpm_config_t *rpm,
+static void octeontx_init_rvu_lmac(int *hwvf, int rvu, int eth_id,
 				   int lmac_id)
 {
+	int num_rvu_vfs, num_msix_vec;
+	nix_block_t nix_block;
+
+	plat_octeontx_get_eth_lmac_rvu_info(eth_id, lmac_id, &num_rvu_vfs,
+					    &num_msix_vec, (int *)&nix_block);
 	rvu_dev[rvu].enable = TRUE;
-	rvu_dev[rvu].num_vfs = rpm->lmac_cfg[lmac_id].num_rvu_vfs;
+	rvu_dev[rvu].num_vfs = num_rvu_vfs;
 	rvu_dev[rvu].first_hwvf = *hwvf;
-	rvu_dev[rvu].pf_num_msix_vec = rpm->lmac_cfg[lmac_id].num_msix_vec;
-	rvu_dev[rvu].vf_num_msix_vec = rpm->lmac_cfg[lmac_id].num_msix_vec;
-	switch (rpm->nix_block) {
+	rvu_dev[rvu].pf_num_msix_vec = num_msix_vec;
+	rvu_dev[rvu].vf_num_msix_vec = num_msix_vec;
+	switch (nix_block) {
 	case NIX0:
 		rvu_dev[rvu].pf_res_nix_id = 0;
 		break;
@@ -312,7 +316,9 @@ static int rvu_provision_pfs_for_sw_devs(int rvu_pf_start, int top_eth_pf,
 		 * Otherwise, adjust uninitialized count.
 		 */
 		if (rvu_pf <= top_eth_pf) {
-			eth_lmac_list[rvu_pf].lmac->lmac_enable = 0;
+			plat_octeontx_enable_eth_lmac(
+				  eth_lmac_list[rvu_pf].eth_id,
+				  eth_lmac_list[rvu_pf].lmac_id, false);
 			debug_rvu("RVU: replacing ETH%d/LMAC%d with REE\n",
 				  eth_lmac_list[rvu_pf].eth_id,
 				  eth_lmac_list[rvu_pf].lmac_id);
@@ -375,7 +381,9 @@ static int rvu_provision_pfs_for_sw_devs(int rvu_pf_start, int top_eth_pf,
 		 * Otherwise, adjust uninitialized count.
 		 */
 		if (rvu_pf <= top_eth_pf) {
-			eth_lmac_list[rvu_pf].lmac->lmac_enable = 0;
+			plat_octeontx_enable_eth_lmac(
+				  eth_lmac_list[rvu_pf].eth_id,
+				  eth_lmac_list[rvu_pf].lmac_id, false);
 			debug_rvu("RVU: replacing ETH%d/LMAC%d with SDP\n",
 				  eth_lmac_list[rvu_pf].eth_id,
 				  eth_lmac_list[rvu_pf].lmac_id);
@@ -397,7 +405,6 @@ static int octeontx_init_rvu_from_fdt(void)
 	int uninit_pfs = 0, sso_tim_pfs, npa_pfs;
 	int top_eth_pf, top_uninit_pf, top_pool_pf;
 	rvu_sw_rvu_pf_t *sw_pf;
-	rpm_config_t *rpm;
 	struct rvu_pf_eth_lmac eth_lmac_list[MAX_RVU_PFS];
 	/* Implementation note: this array only requires elements equal to the
 	 * max number of ETH LMAC devices.
@@ -535,21 +542,17 @@ static int octeontx_init_rvu_from_fdt(void)
 	uninit_pfs += (RVU_ETH_LAST - RVU_ETH_FIRST + 1);
 
 	/* Determine the required number of ETH LMAC PFs */
-	for (eth_id = 0; eth_id < MAX_RPM; eth_id++) {
-		rpm = &(plat_octeontx_bcfg->rpm_cfg[eth_id]);
-		if (rpm->enable) {
-			for (lmac_id = 0; lmac_id < MAX_LMAC_PER_RPM;
-			     lmac_id++) {
-				if (rpm->lmac_cfg[lmac_id].lmac_enable) {
-					/* Save for possible re-allocation */
-					eth_lmac_list[pf].lmac =
-						&rpm->lmac_cfg[lmac_id];
-					eth_lmac_list[pf].eth_id = eth_id;
-					eth_lmac_list[pf].lmac_id = lmac_id;
+	for (eth_id = 0; eth_id < plat_octeontx_get_eth_count(); eth_id++) {
+		for (lmac_id = 0; lmac_id < plat_octeontx_get_eth_lmac_count();
+		     lmac_id++) {
+			if (plat_octeontx_is_enabled_eth_lmac(eth_id,
+							      lmac_id)) {
+				/* Save for possible re-allocation */
+				eth_lmac_list[pf].eth_id = eth_id;
+				eth_lmac_list[pf].lmac_id = lmac_id;
 
-					top_eth_pf = pf++;
-					uninit_pfs--;
-				}
+				top_eth_pf = pf++;
+				uninit_pfs--;
 			}
 		}
 	}
@@ -574,25 +577,21 @@ static int octeontx_init_rvu_from_fdt(void)
 	 * perform actual provisioning of RVU PFs to ETH devices.
 	 */
 	pf = RVU_ETH_FIRST;
-	for (eth_id = 0; eth_id < MAX_RPM; eth_id++) {
-		rpm = &(plat_octeontx_bcfg->rpm_cfg[eth_id]);
-		if (rpm->enable) {
-			for (lmac_id = 0; lmac_id < MAX_LMAC_PER_RPM;
-			     lmac_id++) {
-				if (rpm->lmac_cfg[lmac_id].lmac_enable) {
-					/* Sanity check */
-					assert(eth_lmac_list[pf].lmac ==
-					       &rpm->lmac_cfg[lmac_id]);
-					assert(eth_lmac_list[pf].eth_id ==
-					       eth_id);
-					assert(eth_lmac_list[pf].lmac_id ==
-					       lmac_id);
-					octeontx_init_rvu_lmac(&current_hwvf,
-							       pf, rpm,
-							       lmac_id);
-					assert(current_hwvf <= MAX_RVU_HWVFS);
-					pf++;
-				}
+	for (eth_id = 0; eth_id < plat_octeontx_get_eth_count(); eth_id++) {
+		for (lmac_id = 0; lmac_id < plat_octeontx_get_eth_lmac_count();
+		     lmac_id++) {
+			if (plat_octeontx_is_enabled_eth_lmac(eth_id,
+							      lmac_id)) {
+				/* Sanity check */
+				assert(eth_lmac_list[pf].eth_id ==
+				       eth_id);
+				assert(eth_lmac_list[pf].lmac_id ==
+				       lmac_id);
+				octeontx_init_rvu_lmac(&current_hwvf,
+						       pf, eth_id,
+						       lmac_id);
+				assert(current_hwvf <= MAX_RVU_HWVFS);
+				pf++;
 			}
 		}
 	}
