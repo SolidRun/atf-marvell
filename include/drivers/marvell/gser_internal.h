@@ -114,26 +114,6 @@ static inline int64_t gser_extract_smag(uint64_t v, int lsb, int msb)
 	return r;
 }
 
-static inline int qlm_get_gbaud_mhz(int qlm, int lane)
-{
-	qlm_state_lane_t state;
-	cgx_config_t *cgx;
-	int gserx, cgx_idx;
-
-	cgx_idx = plat_get_cgx_idx(qlm);
-	cgx = &(plat_octeontx_bcfg->cgx_cfg[cgx_idx]);
-	if (cgx->qlm_ops == NULL) {
-		debug_gser("%s:CGX%d: has no qlm_ops\n",  __func__, cgx_idx);
-		return 0;
-	}
-
-	gserx = plat_otx2_get_gserx(qlm, NULL);
-
-	state = cgx->qlm_ops->qlm_get_state(gserx, lane);
-
-	return state.s.baud_mhz;
-}
-
 /* Internal functions */
 extern int gsern_voltage;
 
@@ -160,5 +140,7 @@ int gsern_init_sata_scc(int qlm, enum gsern_lane_modes mode);
 /* Implemented in drivers/marvell/gsern/gsern_init_network.c */
 int gsern_init_network(int qlm, int qlm_lane, enum gsern_flags flags,
 	enum gsern_lane_modes mode);
+
+int qlm_get_gbaud_mhz(int qlm, int lane);
 
 #endif /* _GSER_INTERNAL_H_ */

@@ -133,10 +133,28 @@ typedef union {
 	} s;
 } qlm_state_lane_t;
 
+/* QLM APIs */
+
 typedef enum {
 	QLM_MODE_FLAG_NONE = 0,     /* No flags */
 	QLM_MODE_FLAG_ENDPOINT = 1, /* PCIe in EP instead of RC */
 } qlm_mode_flags_t;
+
+static inline qlm_state_lane_t qlm_build_state(qlm_modes_t mode, int baud_mhz,
+	qlm_mode_flags_t flags)
+{
+	qlm_state_lane_t state;
+
+	state.u = 0;
+	state.s.mode = mode;
+	state.s.baud_mhz = baud_mhz;
+	state.s.flags = flags;
+	state.s.pcie =
+		(mode > QLM_MODE_DISABLED) && (mode <= QLM_MODE_PCIE_X16);
+	state.s.sata = (mode == QLM_MODE_SATA);
+	state.s.cgx = (mode >= QLM_MODE_SGMII) && (mode < QLM_MODE_LAST);
+	return state;
+}
 
 typedef enum {
 	QLM_DIRECTION_TX = 1,
@@ -162,6 +180,7 @@ typedef enum {
 	QLM_GSERC_TYPE,
 	QLM_GSERR_TYPE,
 	QLM_GSERN_TYPE,
+	QLM_GSERM_TYPE,
 } qlm_type_t;
 
 /*
@@ -186,31 +205,6 @@ struct qlm_mode_strmap_s {
 	char *linux_str;
 	int eth_link_speed; /* in units of Gbps */
 };
-
-/* QLM APIs */
-
-/*
- * Setup the PEM to either driver or receive reset from PRST based on RC or EP
- *
- * @param pem	Which PEM to setup
- * @param is_endpoint
- *			   Non zero if PEM is a EP
- */
-static inline qlm_state_lane_t qlm_build_state(qlm_modes_t mode, int baud_mhz,
-	qlm_mode_flags_t flags)
-{
-	qlm_state_lane_t state;
-
-	state.u = 0;
-	state.s.mode = mode;
-	state.s.baud_mhz = baud_mhz;
-	state.s.flags = flags;
-	state.s.pcie =
-		(mode > QLM_MODE_DISABLED) && (mode <= QLM_MODE_PCIE_X16);
-	state.s.sata = (mode == QLM_MODE_SATA);
-	state.s.cgx = (mode >= QLM_MODE_SGMII) && (mode < QLM_MODE_LAST);
-	return state;
-}
 
 const struct qlm_mode_strmap_s qlm_get_mode_strmap(int qlm_mode);
 
@@ -259,7 +253,6 @@ typedef struct {
 } qlm_ops_t;
 
 /* QLM platform specific API */
-
 /*
  * Return struct qlm_ops_t with pointer to functions for specific cgx.
  */
@@ -271,5 +264,4 @@ const qlm_ops_t *plat_otx2_get_qlm_ops(int cgx_idx);
  * first_gserx = gserx_idx + *shift_from_first
  */
 int plat_otx2_get_gserx(int qlm, int *shift_from_first);
-
 #endif /* _QLM_H_ */

@@ -9,9 +9,7 @@
 #include <octeontx_common.h>
 #include <qlm/qlm.h>
 
-#if 0
 #include "cavm-csrs-cgx.h"
-#endif
 
 static const struct qlm_mode_strmap_s qlmmode_strmap[] = {
 	/* These modes are defined to have a 1 to 1 reflection from the

@@ -11,6 +11,26 @@
 #include <qlm/qlm_gsern.h>
 #include <gser_internal.h>
 
+int qlm_get_gbaud_mhz(int qlm, int lane)
+{
+	qlm_state_lane_t state;
+	cgx_config_t *cgx;
+	int gserx, cgx_idx;
+
+	cgx_idx = plat_get_cgx_idx(qlm);
+	cgx = &(plat_octeontx_bcfg->cgx_cfg[cgx_idx]);
+	if (cgx->qlm_ops == NULL) {
+		debug_gser("%s:CGX%d: has no qlm_ops\n",  __func__, cgx_idx);
+		return 0;
+	}
+
+	gserx = plat_otx2_get_gserx(qlm, NULL);
+
+	state = cgx->qlm_ops->qlm_get_state(gserx, lane);
+
+	return state.s.baud_mhz;
+}
+
 static qlm_state_lane_t qlm_get_state_gsern(int qlm, int lane)
 {
 	qlm_state_lane_t state;
