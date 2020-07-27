@@ -17,7 +17,7 @@
 #include <plat_scfg.h>
 #include <plat_cn10k_configuration.h>
 #include <octeontx_utils.h>
-#include <qlm/qlm.h>
+#include <qlm/qlm_cn10k.h>
 #include <rvu.h>
 #include <strtol.h>
 
@@ -34,6 +34,41 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
+/* Output information specific for CN10K, for now only RPM. */
+void plat_octeontx_print_board_variables(void)
+{
+#ifdef DEBUG_ATF_DTS
+	int i, j;
+	rpm_config_t *rpm;
+	rpm_lmac_config_t *lmac;
+
+	for (i = 0; i < plat_octeontx_scfg->rpm_count; i++) {
+		rpm = &(plat_octeontx_bcfg->rpm_cfg[i]);
+		debug_dts("RPM%d: lmac_count = %d\n", i, rpm->lmac_count);
+		for (j = 0; j < rpm->lmac_count; j++) {
+			lmac = &rpm->lmac_cfg[j];
+			debug_dts("RPM%d.LMAC%d: mode = %s:%d, qlm = %d, lane = %d\n",
+					i,
+					j,
+					gserm_get_mode_strmap(lmac->mode_idx).ebf_str,
+					lmac->mode,
+					lmac->gserm_idx,
+					lmac->lane);
+			debug_dts("\tnum_rvu_vfs=%d, num_msix_vec=%d\n",
+					lmac->num_rvu_vfs,
+					lmac->num_msix_vec);
+			debug_dts("\tMAC=%x:%x:%x:%x:%x:%x\n",
+					lmac->local_mac_address[0],
+					lmac->local_mac_address[1],
+					lmac->local_mac_address[2],
+					lmac->local_mac_address[3],
+					lmac->local_mac_address[4],
+					lmac->local_mac_address[5]);
+			debug_dts("\tLMAC enable=%d\n", lmac->lmac_enable);
+		}
+	}
+#endif
+}
 
 /**
  * cn10k_handle_num_rvu_vfs - handle errors and report user about
@@ -240,7 +275,7 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 		plat_octeontx_bcfg->rvu_config.sw_pf[i].mapping =
 			SW_RVU_MAP_NONE;
 
-	/* CGX configuration is already done on this step,
+	/* RPM configuration is already done on this step,
 	 * perform initial setup for other RVU-related nodes */
 	plat_octeontx_bcfg->rvu_config.valid = 0;
 	soc_offset = offset = fdt_path_offset(fdt, "/soc@0");
@@ -495,12 +530,400 @@ static void cn10k_parse_spi_config(const void *fdt)
 	 */
 }
 
+/* Return numeric representation of the EBF field required. Return -1, if such
+ * field isn't defined. Note that -1 can be value for the field.
+ */
+static long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop,
+		int base)
+{
+	long ret;
+	int offset;
+	const char *buf;
+	int len;
+
+	offset = fdt_path_offset(fdt_addr, "/cavium,bdk");
+	buf = fdt_getprop(fdt_addr, offset, prop, &len);
+	if (!buf) {
+		debug_dts("No %s option is set in EBF.\n", prop);
+		return -1;
+	}
+	ret = strtol(buf, NULL, base);
+
+	return ret;
+}
+
+/* This routine sets a number of LMACs to initialize and the size to use.
+ * For instance:
+ *  - SGMII_2X1: will initialize 2 LMACs and each LMAC will take only one
+ *  lane
+ *  - XAUI_1X4: will initialize 1 LMAC and it will take all 4 lanes
+ */
+static void cn10k_lmac_num_touse(int mode_idx, int *cnt, int *touse)
+{
+	*cnt = 0;
+	*touse = 0;
+	switch (mode_idx) {
+	case GSERM_MODE_XFI:
+	case GSERM_MODE_SFI:
+	case GSERM_MODE_25GAUI_C2C:
+	case GSERM_MODE_25GAUI_C2M:
+		*cnt = 1;
+		*touse = 1;
+		break;
+	}
+}
+
+/* Check if it is possible to configure LMAC in the current mode. Return
+ * 0 in case of success, otherwise return -1.
+ */
+static int cn10k_check_qlm_lmacs(int rpm_idx,
+		int qlm, int mode_idx, int lmac_need)
+{
+	int lmac_avail;
+	rpm_config_t *rpm;
+	rpm_lmac_config_t *lmac;
+	int i;
+	int max_lanes = plat_octeontx_scfg->qlm_max_lane_num[qlm];
+
+	debug_dts("RPM%d: qlm = %d, mode_idx = %d, lmac_need = %d\n",
+			 rpm_idx, qlm, mode_idx, lmac_need);
+	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
+	lmac_avail = MAX_LMAC_PER_RPM - rpm->lmacs_used;
+
+	if (max_lanes == 1) {
+		/* SLMs does not support quad lane Ethernet protocols.
+		 * Only 1 lane is available.
+		 */
+		lmac_avail = 1;
+		for (i = 0; i < rpm->lmac_count; i++) {
+			lmac = &rpm->lmac_cfg[i];
+			if (lmac->gserm_idx == qlm)
+				lmac_avail--;
+		}
+	}
+
+	if (lmac_need > lmac_avail) {
+		WARN("RPM%d: Can't configure mode:%s. Requires %d LMACs, but %d LMACs available on QLM%d.\n",
+				rpm_idx,
+				gserm_get_mode_strmap(mode_idx).ebf_str,
+				lmac_need, lmac_avail, qlm);
+		return -1;
+	}
+
+	return 0;
+}
+
+/* Fill RPM structure, if possible.
+ * Return the number of lanes used for initialization.
+ */
+static int cn10k_fill_rpm_struct(int rpm_idx, int qlm, int mode_idx,
+			int lane)
+{
+	rpm_config_t *rpm;
+	rpm_lmac_config_t *lmac;
+	int mode;
+	int i, j;
+	int lcnt, lused;
+	uint32_t lane_mask = 0;
+
+	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
+
+	if ((mode_idx < GSERM_MODE_XFI) ||
+		(mode_idx >= GSERM_MODE_LAST)) {
+		debug_dts("QLM%d.LANE%d: not configured for RPM, skip.\n", qlm, lane);
+		return 0;
+	}
+
+	cn10k_lmac_num_touse(mode_idx, &lcnt, &lused);
+	if (!lcnt || !lused) {
+		debug_dts("RPM%d: the %s mode doesn't require any LMAC initialization.\n",
+				rpm_idx,
+				gserm_get_mode_strmap(mode_idx).ebf_str);
+		return 0;
+	}
+	debug_dts("RPM%d: mode_idx %d needs %d lanes, %d lmacs\n",
+		rpm_idx, mode_idx, lused, lcnt);
+
+	if (cn10k_check_qlm_lmacs(rpm_idx, qlm, mode_idx, lcnt * lused))
+		return 0;
+
+	if (lane % (lcnt * lused)) {
+		WARN("RPM%d.LANE%d: wrong LANE for the %s mode.\n",
+				rpm_idx, lane,
+				gserm_get_mode_strmap(mode_idx).ebf_str);
+
+		return 0;
+	}
+
+	mode = gserm_get_mode_strmap(mode_idx).mode;
+
+	for (i = 0; i < lcnt; i++) {
+		lmac = &rpm->lmac_cfg[rpm->lmac_count];
+
+		/* Fill in the RPM/LMAC structures */
+		lmac->mode = mode;
+		lmac->mode_idx = mode_idx;
+		lmac->gserm_idx = qlm;
+
+		lmac->lane = lane + i;
+
+		/* Create the GSER lane_mask */
+		for (j = 0; j < lused; j++)
+			lane_mask |= (1 << lmac->lane);
+
+		lmac->lane_mask = lane_mask;
+		/* Update the RPM lane mask */
+		rpm->lanes_used_mask |= lane_mask;
+
+		/* max_lane_count is the number of SERDES lanes used by the
+		 * original LMAC type (original means it came about as a result
+		 * of the device tree property QLM-MODE.N0.QLM%d).  The Ethernet
+		 * mode change feature will use max_lane_count to determine if
+		 * the new Ethernet mode (that the user wants to change to at
+		 * run-time) can be accommodated.
+		 */
+		lmac->max_lane_count = lused;
+
+		debug_dts(
+			"RPM%d: LANE%d: lmac lane_mask 0x%x, qlm %d, rpm_lane_mask 0x%x\n",
+				rpm_idx, lane, lmac->lane_mask,
+				lmac->gserm_idx, rpm->lanes_used_mask);
+
+		rpm->lmac_count++;
+		rpm->lmacs_used += lused;
+
+	}
+
+	rpm->enable = 1;
+
+	return (lcnt * lused);
+}
+
+/* Get the LMAC information from the Linux DT file. The following properties
+ * are checked:
+ *  - phy-handle
+ *  - num-rvu-vfs
+ *  - num-msix-vec
+ * SGMII/QSGMII only:
+ *  - octeontx,sgmii-mac-phy-mode
+ *  - octeontx,disable-autonegotiation
+ */
+static void cn10k_rpm_lmacs_check_linux(const void *fdt,
+		rpm_config_t *rpm, int rpm_idx, int rpm_offset, int *fdt_vfs)
+{
+	int lmac_idx;
+	rpm_lmac_config_t *lmac;
+	char name[16], node_name[64];
+	const int *val;
+	int len;
+	int lmac_offset;
+	int req_vfs;
+
+	for (lmac_idx = 0; lmac_idx < rpm->lmac_count; lmac_idx++) {
+		int lane = 0;
+
+		lmac = &rpm->lmac_cfg[lmac_idx];
+
+		debug_dts("%s: rpm_idx %d lmac_idx %d lane %d\n", __func__,
+				rpm_idx, lmac_idx, lmac->lane);
+
+		lane = lmac->lane;
+
+		snprintf(name, sizeof(name), "%s@%d%d",
+				gserm_get_mode_strmap(lmac->mode_idx).linux_str,
+				rpm_idx, lane);
+		lmac_offset = fdt_subnode_offset(fdt, rpm_offset, name);
+		if (lmac_offset < 0) {
+			ERROR("RPM%d.LMAC%d: DT:%s not found in device tree\n",
+					rpm_idx, lmac_idx, name);
+			continue;
+		}
+
+		/* Construct the proper node name for error handling */
+		snprintf(node_name, sizeof(node_name), "%s/%s",
+			 fdt_get_name(fdt, rpm_offset, NULL),
+			 fdt_get_name(fdt, lmac_offset, NULL));
+		val = fdt_getprop(fdt, lmac_offset, "num-rvu-vfs", &len);
+		if (val) {
+			/* We've got that property, handle any errors with config */
+			req_vfs = fdt32_to_cpu(*val);
+			lmac->num_rvu_vfs = cn10k_handle_num_rvu_vfs(req_vfs,
+						DEFAULT_VFS, fdt_vfs, node_name);
+		} else {
+			/* If there's no such property in FDT
+			 * try to assign default VFS */
+			VERBOSE("RVU: No num-rvu-vfs property for node %s\n", name);
+			lmac->num_rvu_vfs = cn10k_handle_num_rvu_vfs(DEFAULT_VFS,
+						DEFAULT_VFS, fdt_vfs, node_name);
+		}
+
+		/* Increment number of allocated HWVFs */
+		*fdt_vfs += lmac->num_rvu_vfs;
+
+		val = fdt_getprop(fdt, lmac_offset, "num-msix-vec", &len);
+		if (val)
+			lmac->num_msix_vec = fdt32_to_cpu(*val);
+		else {
+			VERBOSE("RPM%d.LMAC%d: num-msix-vec not set, configuring %d number of MSIX.\n",
+					rpm_idx, lmac_idx, DEFAULT_MSIX_LMAC);
+			lmac->num_msix_vec = DEFAULT_MSIX_LMAC;
+		}
+
+		/* Enable LMAC */
+		lmac->lmac_enable = 1;
+	}
+}
+
+/* Main routine to parse the RPM information from the Linux DT file. */
+static void cn10k_rpm_check_linux(const void *fdt)
+{
+	int i;
+	rpm_config_t *rpm;
+	int offset, rpm_offset;
+	int fdt_vfs = 0;
+	char name[16];
+
+	offset = fdt_path_offset(fdt, "/soc@0");
+	if (offset < 0) {
+		ERROR("DT: Can't find RPM information in the Linux DT.\n");
+		return;
+	}
+	offset = fdt_node_offset_by_compatible(fdt, offset, "pci-bridge");
+	if (offset < 0) {
+		ERROR("DT: Unable to find mrml_bridge node.\n");
+		return;
+	}
+
+	for (i = 0; i < plat_octeontx_scfg->rpm_count; i++) {
+		rpm = &(plat_octeontx_bcfg->rpm_cfg[i]);
+		snprintf(name, sizeof(name), "rpm@%d", i);
+		if (!rpm->lmac_count)
+			continue;
+		rpm_offset = fdt_subnode_offset(fdt, offset, name);
+		if (rpm_offset < 0) {
+			ERROR("DT: %s node present in the device tree\n", name);
+			continue;
+		}
+		cn10k_rpm_lmacs_check_linux(fdt, rpm, i, rpm_offset, &fdt_vfs);
+	}
+
+	/* Parse RVU configuration */
+	cn10k_parse_rvu_config(fdt, &fdt_vfs);
+}
+
+/* Assign all the possible MAC addresses to the LMAC initialized.
+ * This is made according to the values from the EBF DT file:
+ *   BOARD-MAC-ADDRESS-NUM
+ *   BOARD-MAC-ADDRESS
+ * First "N" LMACs will be configured. Remaining interfaces will be
+ * initialized with zeros.
+ */
+static void cn10k_rpm_assign_mac(const void *fdt)
+{
+	int rpm_idx, lmac_idx;
+	rpm_config_t *rpm;
+	rpm_lmac_config_t *lmac;
+	int mac_num;
+	int override;
+	long mac;
+
+	/* Parse EBF DT file, to find variables to set MAC address:
+	 *   BOARD-MAC-ADDRESS-NUM
+	 *   BOARD-MAC-ADDRESS-NUM-OVERRIDE
+	 *   BOARD-MAC-ADDRESS
+	 */
+	mac_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 10);
+	if (!mac_num)
+		mac_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 16);
+	debug_dts("BOARD-MAC-ADDRESS-NUM=%d\n", mac_num);
+	override = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM-OVERRIDE", 10);
+	if (override >= 0) {
+		debug_dts("Override number of MAC to set=%d.\n", override);
+		mac_num = override;
+	}
+	if (mac_num <= 0) {
+		debug_dts("No MAC addresses should be set.\n");
+		return;
+	}
+	mac = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS", 16);
+	debug_dts("BOARD-MAC-ADDRESS=%lx\n", mac);
+	if (mac == -1) {
+		debug_dts("Base MAC address is not defined.\n");
+		return;
+	}
+
+	/* Update the board configuration */
+	plat_octeontx_bcfg->pf_mac_base = mac;
+	plat_octeontx_bcfg->pf_mac_num = mac_num;
+
+	/* Initialize N first LMACs with the MAC address. */
+	for (rpm_idx = 0; rpm_idx < plat_octeontx_scfg->rpm_count; rpm_idx++) {
+		rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
+		for (lmac_idx = 0; lmac_idx < rpm->lmac_count; lmac_idx++) {
+			lmac = &rpm->lmac_cfg[lmac_idx];
+			if (!lmac->lmac_enable)
+				continue;
+			lmac->local_mac_address[0] = (mac >> 40) & 0xff;
+			lmac->local_mac_address[1] = (mac >> 32) & 0xff;
+			lmac->local_mac_address[2] = (mac >> 24) & 0xff;
+			lmac->local_mac_address[3] = (mac >> 16) & 0xff;
+			lmac->local_mac_address[4] = (mac >> 8) & 0xff;
+			lmac->local_mac_address[5] = mac & 0xff;
+			mac++;
+			mac_num--;
+			/* If there are no free LMACs, then just return
+			 * from the routine.
+			 */
+			if (!mac_num) {
+				debug_dts("All free MAC addresses are assigned.\n");
+				return;
+			}
+		}
+	}
+}
+
+static void cn10k_fill_rpm_details(const void *fdt)
+{
+	int gserm_idx;
+	int lane_idx;
+	int lnum;
+	int rpm_idx;
+	int mode_idx;
+	gserm_state_lane_t gserm_state;
+
+	debug_dts("%s: qlm %d\n", __func__, plat_octeontx_scfg->gserm_count);
+
+	for (gserm_idx = 0; gserm_idx < plat_octeontx_scfg->gserm_count; gserm_idx++) {
+		debug_dts("%s: qlm_idx %d\n", __func__, gserm_idx);
+
+		lnum = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
+		for (lane_idx = 0; lane_idx < lnum; lane_idx++) {
+			gserm_state = gserm_get_state(gserm_idx, lane_idx);
+			debug_dts("QLM%d.LANE%d: mode=%d:%s\n",
+				gserm_idx, lane_idx,
+				gserm_state.s.mode,
+				gserm_get_mode_strmap(gserm_state.s.mode).ebf_str);
+			mode_idx = gserm_state.s.mode;
+
+			rpm_idx = plat_get_rpm_idx(gserm_idx);
+			if ((rpm_idx < 0) ||
+			    (rpm_idx >= plat_octeontx_scfg->rpm_count))
+				continue;
+
+			debug_dts("RPM%d: Configure GSER%d Lane%d\n",
+				rpm_idx, gserm_idx, lane_idx);
+			cn10k_fill_rpm_struct(rpm_idx, gserm_idx,
+					mode_idx, lane_idx);
+		}
+	}
+	cn10k_rpm_check_linux(fdt);
+	cn10k_rpm_assign_mac(fdt);
+}
 
 int plat_octeontx_fill_board_details(void)
 {
 	const void *fdt = fdt_ptr;
-	int offset, rc;
-	int fdt_vfs = 0, i;
+	int offset, rc, i;
 
 	rc = fdt_check_header(fdt);
 	if (rc) {
@@ -520,15 +943,14 @@ int plat_octeontx_fill_board_details(void)
 		cn10k_boot_device_from_strapx();
 	}
 
-	/* Parse RVU configuration */
-	cn10k_parse_rvu_config(fdt, &fdt_vfs);
-
-	/* only support a single NIX */
-	for (i = 0; i < MAX_CGX; i++)
-		plat_octeontx_bcfg->cgx_cfg[i].nix_block = NIX0;
+	cn10k_fill_rpm_details(fdt);
 
 	/* Parse SPI configuration */
 	cn10k_parse_spi_config(fdt);
+
+	/* configure NIX for RPM; only support a single NIX */
+	for (i = 0; i < MAX_RPM; i++)
+		plat_octeontx_bcfg->rpm_cfg[i].nix_block = NIX0;
 
 	return 0;
 }
