@@ -8,6 +8,12 @@
 #ifndef _PLATFORM_DT_H_
 #define _PLATFORM_DT_H_
 
+/* Total number of SPI Bus */
+#define MAX_SPI_BUS		2
+
+/* Total number of SPI CS */
+#define MAX_SPI_CS		4
+
 #define MAX_CGX			3
 
 #define MAX_LMAC_PER_CGX	4

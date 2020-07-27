@@ -456,6 +456,46 @@ static int cn10k_parse_boot_device(const void *fdt, const int offset)
 	return 0;
 }
 
+/*
+ * Parse SPI Controller Config from FDT
+ */
+
+static void cn10k_parse_spi_config(const void *fdt)
+{
+	const uint32_t *preg, *reg;
+	uint32_t addr;
+	int node, bus = 0, cs = 0;
+
+	/* Parse for secure-spi config */
+	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
+	while (node > 0) {
+		if (fdt_getprop(fdt, node, "secure-spi", NULL)) {
+			/* Get CS info */
+			reg = fdt_getprop(fdt, node, "reg", NULL);
+			if (reg)
+				cs = fdt32_to_cpu(*reg);
+			/* Read parent node to get bus num */
+			preg = fdt_getprop(fdt, fdt_parent_offset(fdt, node),
+					  "reg", NULL);
+			if (preg) {
+				addr = fdt32_to_cpu(*preg);
+				if (addr == SPI_CTRL0_ADDR)
+					bus = 0;
+				if (addr == SPI_CTRL1_ADDR)
+					bus = 1;
+			}
+			debug_dts("\nSPI%d marked Secure\n", bus);
+			plat_octeontx_bcfg->spi_cfg[bus].is_secure = 1;
+			plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
+		}
+		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
+	}
+	/* FIXME
+	 * Need to delete spi controller node from fdt
+	 */
+}
+
+
 int plat_octeontx_fill_board_details(void)
 {
 	const void *fdt = fdt_ptr;
@@ -486,6 +526,9 @@ int plat_octeontx_fill_board_details(void)
 	/* only support a single NIX */
 	for (i = 0; i < MAX_CGX; i++)
 		plat_octeontx_bcfg->cgx_cfg[i].nix_block = NIX0;
+
+	/* Parse SPI configuration */
+	cn10k_parse_spi_config(fdt);
 
 	return 0;
 }
