@@ -18,7 +18,7 @@
 #include <plat_octeontx.h>
 #include <octeontx_irqs_def.h>
 #include <plat_scfg.h>
-#include <qlm/qlm.h>
+#include <qlm/qlm_cn10k.h>
 
 /* This file map memory for different blocks so it needs all csrs definitions */
 #include "cavm-csrs.h"
@@ -61,7 +61,7 @@ int plat_octeontx_get_smmu_count(void)
 
 int plat_octeontx_get_twsi_count(void)
 {
-	return 6;
+	return 12;
 }
 
 int plat_octeontx_get_cpt_count(void)
@@ -71,55 +71,22 @@ int plat_octeontx_get_cpt_count(void)
 
 int plat_octeontx_get_rpm_count(void)
 {
-	return 5;
+	return 3;
 }
 
 int plat_octeontx_get_pem_count(void)
 {
-	return 0;
+	return 4;
 }
 
-int plat_octeontx_get_gser_count(void)
+int plat_octeontx_get_gserm_count(void)
 {
-	/* FIXME */
-	return 0;
+	return 3;
 }
 
 int plat_octeontx_get_gserp_count(void)
 {
-	return 0;
-}
-
-int plat_cn10k_get_gserx(int qlm, int *shift_from_first)
-{
-	int gserx;
-	int gserp_count;
-
-	if (qlm >= plat_octeontx_get_gser_count())
-		return -1;
-
-	gserp_count = plat_octeontx_get_gserp_count();
-
-	if (qlm < gserp_count)
-		return -1;
-
-	gserx = qlm - gserp_count;
-
-	if (shift_from_first != NULL) {
-		/* For Higher DLMs, *shift_from_first should be -1 */
-		*shift_from_first = 0;
-	}
-
-	return gserx;
-}
-
-const qlm_ops_t *plat_cn10k_get_qlm_ops(int rpm_idx)
-{
-	if (rpm_idx < 0 || rpm_idx >= plat_octeontx_get_rpm_count())
-		return NULL;
-
-	/* FIXME to return gserm_ops */
-	return NULL;
+	return 3;
 }
 
 int plat_octeontx_get_uaa_count(void)
@@ -142,18 +109,48 @@ int plat_octeontx_get_mcc_count(void)
 	return MAX_MCC;
 }
 
-/* Return number of lanes available for different QLMs. */
+/* Return number of lanes available for different QLMs.
+ * QLM 0 : starts at GSERM0
+ */
 int plat_get_max_lane_num(int qlm)
 {
-	/* FIXME */
-	return 0;
+	int lanes = 0;
+
+	switch (qlm) {
+	case 0:
+		lanes = 4;
+		break;
+	case 1:
+	case 2:
+		lanes = 1;
+		break;
+	default:
+		lanes = 0;
+		break;
+	}
+	return lanes;
 }
 
 /* Return the RPM<->QLM mapping */
 int plat_get_rpm_idx(int qlm)
 {
-	/* FIXME */
-	return 0;
+	int idx = -1;
+
+	switch (qlm) {
+	case 0:
+		idx = 0;
+		break;
+	case 1:
+		idx = 1;
+		break;
+	case 2:
+		idx = 2;
+		break;
+	default:
+		idx = -1;
+		break;
+	}
+	return idx;
 }
 
 /*
@@ -241,7 +238,18 @@ void plat_add_mmio()
 		add_map_record(CAVM_PEM_BAR_E_PEMX_PF_BAR4(i), CAVM_PEM_BAR_E_PEMX_PF_BAR4_SIZE, attr);
 	}
 
-	/* FIXME: mmap for GSER, RPM.. */
+	device_type_count = plat_octeontx_get_gserm_count();
+	for (i = 0; i < device_type_count; i++)
+		add_map_record(CAVM_GSERM_BAR_E_GSERMX_PF_BAR0(i),
+			       CAVM_GSERM_BAR_E_GSERMX_PF_BAR0_SIZE, attr);
+
+	device_type_count = plat_octeontx_get_rpm_count();
+	for (i = 0; i < device_type_count; i++) {
+		add_map_record(CAVM_RPM_BAR_E_RPMX_PF_BAR0(i),
+			       CAVM_RPM_BAR_E_RPMX_PF_BAR0_SIZE, attr);
+		add_map_record(CAVM_RPM_BAR_E_RPMX_PF_BAR4(i),
+			       CAVM_RPM_BAR_E_RPMX_PF_BAR4_SIZE, attr);
+	}
 	add_map_record(CAVM_GPIO_BAR_E_GPIO_PF_BAR0, CAVM_GPIO_BAR_E_GPIO_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_GPIO_BAR_E_GPIO_PF_BAR4, CAVM_GPIO_BAR_E_GPIO_PF_BAR4_SIZE, attr);
 

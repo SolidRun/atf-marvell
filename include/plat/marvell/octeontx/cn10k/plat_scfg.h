@@ -17,7 +17,7 @@ typedef struct plat_octeontx_scfg {
 	uint8_t qlm_max_lane_num[MAX_QLM];
 	uint8_t iobn_count;
 	uint8_t rpm_count;
-	uint8_t gser_count;
+	uint8_t gserm_count;
 	uint8_t mcc_count;
 	uint8_t nix_count;
 } plat_octeontx_scfg_t;
