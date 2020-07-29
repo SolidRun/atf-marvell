@@ -11,6 +11,8 @@
 #include <string.h>
 #include <platform_def.h>
 #include <octeontx_common.h>
+#include <cgx_intf.h>
+#include <cgx.h>
 #include <plat_pwrc.h>
 #include <octeontx_legacy_pwrc.h>
 #include <gpio_octeontx.h>

@@ -39,6 +39,5 @@ static const unsigned char plat_octeontx_power_domain_tree_desc[] = {
 
 /* plat APIs specific to Octeon TX2 family */
 int plat_get_max_lane_num(int qlm);
-int plat_get_rpm_idx(int qlm);
 
 #endif /* __T106_PLAT_SETUP_H__ */

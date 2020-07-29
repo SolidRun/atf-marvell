@@ -14,9 +14,9 @@
 /* Total number of SPI CS */
 #define MAX_SPI_CS		4
 
-#define MAX_RPM			3
+#define MAX_CGX			3
 
-#define MAX_LMAC_PER_RPM	4
+#define MAX_LMAC_PER_CGX	4
 
 /* Total number of Hardware VFs */
 #define MAX_RVU_HWVFS		256
