@@ -2,8 +2,7 @@
 Only files placed under /drivers directory are considered in this file as "drivers".
 In this file common directory is /plat/marvell/octeontx
 Family directories are ${common directory}/otx and ${common direcotry}/otx2
-and ${common directory}/cn10k
-Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/t106
+Platform directories are otx/t81, otx/t83, otx2/f95 and otx2/t96
 
 1.       Brief description of directory tree
 /drivers/marvell                        -- drivers source code
@@ -11,7 +10,6 @@ Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/t106
 /include/plat/marvell/octeontx          -- API for code shared by all OcteonTX families
 /include/plat/marvell/octeontx/otx      -- API for code shared by CN8xxx
 /include/plat/marvell/octeontx/otx2     -- API for code shared by CN9xxx
-/include/plat/marvell/octeontx/cn10k    -- API for code shared by CN10K
 /plat/marvell/octeontx                  -- source code common for OcteonTX families
 /plat/marvell/octeontx/otx              -- source code common for CN8xxx
 /plat/marvell/octeontx/otx/t81          -- source code specific for CN81xx
@@ -23,14 +21,6 @@ Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/t106
 /plat/marvell/octeontx/otx2/f95/include -- API for CNF95xx specific code
 /plat/marvell/octeontx/otx2/t96         -- source code specific for CN96xx
 /plat/marvell/octeontx/otx2/t96/include -- API for CN96xx specific code
-/plat/marvell/octeontx/otx2/loki         -- source code specific for LOKI
-/plat/marvell/octeontx/otx2/loki/include -- API for LOKI specific code
-/plat/marvell/octeontx/otx2/t98         -- source code specific for T98
-/plat/marvell/octeontx/otx2/t98/include -- API for T98 specific code
-/plat/marvell/octeontx/otx2/f95mm         -- source code specific for F95MM
-/plat/marvell/octeontx/otx2/f95mm/include -- API for F95MM specific code
-/plat/marvell/octeontx/cn10k/t106       -- source code specific for CN10K
-/plat/marvell/octeontx/cn10k/t106/include -- API for CN10K specific code
 
 1.1.     Additional subdirectories
 1.1.1.   /plat/marvell/octeontx/
@@ -39,7 +29,7 @@ On every level following from /plat/marvell/octeontx, aarch64 directory may appe
 This directory contains assembler sources.
 
 1.1.1.2. Others
-Some complex features may require greater separation then one source file.
+Some complex feutures may require greater separation then one source file.
 This is rare case but it is allowed to group source files in subdirectories.
 
 1.1.2.   /drivers/marvell
@@ -47,7 +37,7 @@ This is rare case but it is allowed to group source files in subdirectories.
 There should be crated subdirectory if there is many implementations for the same device.
 It may be case, when implementation of driver differs between platforms in many places
 and it will be hard to put approperiate platform callbacks that will generalize driver.
-Then instance of driver for every platform should be placed in dedicated subdirectory.
+Then instance of driver for every platform should be placed in deticated subdirectory.
 If API for these drivers is common then only one header file should be placed in
 /include/drivers/marvell directory.
 If API differs between drivers, then under /include/drivers/marvell should be
@@ -83,9 +73,8 @@ E.g.
   /plat/marvell/octeontx/otx2/b_file.c
 
 2.3.     /plat/marvell/octeontx
-2.3.1    otx, otx2 and cn10k
-Files under /plat/marvell/octeontx/otx, /plat/marvell/octeontx/otx2 and
-/plat/marvell/octeontx/cn10k
+2.3.1    otx and otx2
+Files under /plat/marvell/octeontx/otx and /plat/marvell/octeontx/otx2
 should have "plat_" prefix.
 
 
@@ -94,9 +83,9 @@ should have "plat_" prefix.
 Functions that are static should have prefix common for all static functions
 in specific file.
 E.g.
-  File /plat/marvell/octeontx/otx2/plat_board_cfg.c:
-  static void octeontx2_fill_qlm_details(const void *fdt)
-  where "octeontx2_" is prefix.
+  File /plat/marvell/octeontx/otx2/plat_rvu.c:
+  static int rvu_get_msix_for_cpt()
+  where "rvu_" is prefix.
 
 3.2.     Driver functions
 All functions across one driver should have the same prefix. This prefix is
