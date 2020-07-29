@@ -38,10 +38,10 @@
 #endif
 #define RST_REF_CLK 50
 
-static struct eth_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
+static struct cgx_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
 {
 	struct sh_fwdata *fw_data;
-	struct eth_lmac_fwdata_s *sh_cgx_fwdata;
+	struct cgx_lmac_fwdata_s *sh_cgx_fwdata;
 
 	fw_data = (struct sh_fwdata *)get_sh_fwdata_base();
 	sh_cgx_fwdata = &fw_data->cgx_fw_data[cgx_id][lmac_id];
@@ -55,7 +55,12 @@ static struct eth_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
 
 void sh_fwdata_init(void)
 {
+#if defined(PLAT_t106) /* FIXME : no c_mul /pnr_mul field */
+	cavm_rst_core_pll_t rst_core_pll;
+	cavm_rst_pnr_pll_t rst_pnr_pll;
+#else
 	union cavm_rst_boot cavm_rst_boot_t;
+#endif
 	struct sh_fwdata *fwdata;
 	int i, pf_mac_num;
 	uint64_t pf_mac;
@@ -88,9 +93,16 @@ void sh_fwdata_init(void)
 		fwdata->pf_macs[i] = pf_mac;
 		pf_mac++;
 	}
+#if defined(PLAT_t106) /* FIXME : no c_mul /pnr_mul field */
+	rst_core_pll.u = CSR_READ(CAVM_RST_CORE_PLL);
+	rst_pnr_pll.u = CSR_READ(CAVM_RST_PNR_PLL);
+	fwdata->rclk = rst_core_pll.s.cur_mul * RST_REF_CLK;
+	fwdata->sclk = rst_pnr_pll.s.cur_mul * RST_REF_CLK;
+#else
 	cavm_rst_boot_t.u = CSR_READ(CAVM_RST_BOOT);
 	fwdata->rclk = cavm_rst_boot_t.s.c_mul * RST_REF_CLK;
 	fwdata->sclk = cavm_rst_boot_t.s.pnr_mul * RST_REF_CLK;
+#endif
 	fwdata->rvu_af_msixtr_base = CSR_READ(CAVM_RVU_AF_MSIXTR_BASE);
 
 #ifdef NT_FW_CONFIG
@@ -102,7 +114,7 @@ void sh_fwdata_init(void)
 void sh_fwdata_update_supported_fec(int cgx_id, int lmac_id)
 {
 	int val;
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 	cgx_lmac_config_t *lmac_cfg;
 
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
@@ -132,7 +144,7 @@ void sh_fwdata_update_supported_fec(int cgx_id, int lmac_id)
 
 void sh_fwdata_update_eeprom_data(int cgx_id, int lmac_id, uint16_t sff_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(cgx_id, lmac_id);
 
 	fwdata = get_sh_cgx_fwdata_ptr(cgx_id, lmac_id);
@@ -147,7 +159,7 @@ void sh_fwdata_update_eeprom_data(int cgx_id, int lmac_id, uint16_t sff_id)
 
 void sh_fwdata_clear_eeprom_data(int cgx_id, int lmac_id, uint16_t sff_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 
 	fwdata = get_sh_cgx_fwdata_ptr(cgx_id, lmac_id);
 
@@ -159,7 +171,7 @@ void sh_fwdata_clear_eeprom_data(int cgx_id, int lmac_id, uint16_t sff_id)
 
 int sh_fwdata_get_supported_fec(int cgx_id, int lmac_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 
 	fwdata = get_sh_cgx_fwdata_ptr(cgx_id, lmac_id);
 
@@ -172,7 +184,7 @@ int sh_fwdata_get_supported_fec(int cgx_id, int lmac_id)
 
 void sh_fwdata_set_supported_link_modes(int cgx_id, int lmac_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 	cgx_lmac_config_t *lmac_cfg;
 
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
@@ -196,7 +208,7 @@ void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)
 
 void sh_fwdata_update_phy_mod_type(int cgx_id, int lmac_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 	phy_config_t *phy;
 	cgx_lmac_config_t *lmac_cfg;
 
@@ -221,7 +233,7 @@ void sh_fwdata_update_phy_mod_type(int cgx_id, int lmac_id)
 
 void sh_fwdata_update_phy_can_change_mod_type(int cgx_id, int lmac_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 	phy_config_t *phy;
 	cgx_lmac_config_t *lmac_cfg;
 
@@ -249,7 +261,7 @@ void sh_fwdata_update_phy_can_change_mod_type(int cgx_id, int lmac_id)
 
 void sh_fwdata_update_phy_has_fec_stats(int cgx_id, int lmac_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 	phy_config_t *phy;
 	cgx_lmac_config_t *lmac_cfg;
 
@@ -277,7 +289,7 @@ void sh_fwdata_update_phy_has_fec_stats(int cgx_id, int lmac_id)
 
 void sh_fwdata_update_phy_fec_stats(int cgx_id, int lmac_id)
 {
-	struct eth_lmac_fwdata_s *fwdata;
+	struct cgx_lmac_fwdata_s *fwdata;
 	phy_config_t *phy;
 	cgx_lmac_config_t *lmac_cfg;
 

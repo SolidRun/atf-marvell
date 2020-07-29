@@ -120,6 +120,29 @@ int octeontx_fill_board_details(int info)
 			plat_octeontx_bcfg->bcfg.board_model[i] = tolower(plat_octeontx_bcfg->bcfg.board_model[i]);
 	}
 
+	config = octeontx_fdt_get(fdt, offset, "QLM-AUTO-CONFIG", 0);
+	if (config != -1) {
+		plat_octeontx_bcfg->qlm_auto_config = config;
+	} else
+		plat_octeontx_bcfg->qlm_auto_config = 0;
+
+	config = octeontx_fdt_get(fdt, offset, "BMC-BOOT-TWSI-CONFIG", 0);
+	if (config != -1) {
+		plat_octeontx_bcfg->bcfg.bmc_boot_twsi_bus = (config >> 8) & 0xff;
+		plat_octeontx_bcfg->bcfg.bmc_boot_twsi_addr = config & 0xff;
+	} else {
+		plat_octeontx_bcfg->bcfg.bmc_boot_twsi_bus = octeontx_fdt_get(fdt, offset, "BMC-BOOT-TWSI-BUS", 10);
+		plat_octeontx_bcfg->bcfg.bmc_boot_twsi_addr = octeontx_fdt_get(fdt, offset, "BMC-BOOT-TWSI-ADDR", 16);
+	}
+	config = octeontx_fdt_get(fdt, offset, "BMC-IPMI-TWSI-CONFIG", 0);
+	if (config != -1) {
+		plat_octeontx_bcfg->bcfg.bmc_ipmi_twsi_bus = (config >> 8) & 0xff;
+		plat_octeontx_bcfg->bcfg.bmc_ipmi_twsi_addr = config & 0xff;
+	} else {
+		plat_octeontx_bcfg->bcfg.bmc_ipmi_twsi_bus = octeontx_fdt_get(fdt, offset, "BMC-IPMI-TWSI-BUS", 10);
+		plat_octeontx_bcfg->bcfg.bmc_ipmi_twsi_addr = octeontx_fdt_get(fdt, offset, "BMC-IPMI-TWSI-ADDR", 16);
+	}
+
 	plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_in = octeontx_fdt_get(fdt, offset, "GPIO-SHUTDOWN-CTL-IN", 0);
 	/* The new format is hex and allows for node id and polarity
 	 * packed into the value. We don't use them right now and mask
