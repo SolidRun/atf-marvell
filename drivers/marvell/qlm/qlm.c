@@ -9,7 +9,9 @@
 #include <octeontx_common.h>
 #include <qlm/qlm.h>
 
+#if 0
 #include "cavm-csrs-cgx.h"
+#endif
 
 static const struct qlm_mode_strmap_s qlmmode_strmap[] = {
 	/* These modes are defined to have a 1 to 1 reflection from the
@@ -23,6 +25,7 @@ static const struct qlm_mode_strmap_s qlmmode_strmap[] = {
 	{-1, 0, "PCIE_X16", NULL},
 	{-1, 0, "SATA", NULL},
 	/* CGX/LMAC types. */
+#if 0
 	{CAVM_CGX_LMAC_TYPES_E_SGMII, 1250, "SGMII", "sgmii"},
 	{CAVM_CGX_LMAC_TYPES_E_SGMII, 1250, "1G_X", "sgmii"},
 	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 1250, "QSGMII", "qsgmii"},
@@ -65,6 +68,7 @@ static const struct qlm_mode_strmap_s qlmmode_strmap[] = {
 	{CAVM_CGX_LMAC_TYPES_E_USXGMII, 20625, "USXGMII_4X1", "usxgmii"},
 	{CAVM_CGX_LMAC_TYPES_E_USXGMII, 20625, "USXGMII_2X1", "usxgmii"},
 	{CAVM_CGX_LMAC_TYPES_E_USXGMII, 10312, "USXGMII_1X1", "usxgmii"},
+#endif
 	{-1, 0, NULL, NULL}
 };
 
