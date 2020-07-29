@@ -148,7 +148,6 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_APA, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_TAD, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_MPI, ECAM_CUSTOM_INSTANCE},
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES}
 };
 
@@ -380,15 +379,13 @@ static int cn106xx_matched_dev(struct secure_devices *dev,
 	// custom match for specific instance
 	if (dev->instance == ECAM_CUSTOM_INSTANCE) {
 		debug_plat_ecam(
-			"ECAM: pccpf.devid = %x instance=%d bus=%d\n",
+			"ECAM: pccpf.devid = %x instance=%d bus=%d did=%x\n",
 			pccpf_id.s.devid, vsec_ctl.s.inst_num,
-			plat_octeontx_bcfg->bcfg.slave_twsi.s.bus);
-
+			plat_octeontx_bcfg->bcfg.slave_twsi.s.bus,
+			ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MIO_TWS));
 		switch (pccpf_id.s.devid) {
 		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MIO_TWS):
 			return cn106xx_matched_twsi_slave(vsec_ctl.s.inst_num);
-		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MPI):
-	return plat_octeontx_bcfg->spi_cfg[vsec_ctl.s.inst_num].is_secure;
 		}
 	}
 

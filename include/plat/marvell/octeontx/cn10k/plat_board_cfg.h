@@ -195,11 +195,6 @@ typedef struct ras_config {
 	int nr_ghes;
 } ras_config_t;
 
-typedef struct spi_config {
-	uint32_t is_secure;
-	uint32_t cs[MAX_SPI_CS];
-} spi_config_t;
-
 typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
 	rvu_config_t rvu_config;
@@ -211,13 +206,9 @@ typedef struct plat_octeontx_board_cfg {
 	int pf_mac_num;
 	int qlm_auto_config;
 	int show_smi_in_nsw; /* flag to show or hide SMI in non-secure world */
-	spi_config_t spi_cfg[MAX_SPI_BUS];
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
 uint64_t ccs_region_get_info(ccs_region_index_t index, uint64_t *start);
-
-#define SPI_CTRL0_ADDR	U(0x3000)
-#define SPI_CTRL1_ADDR	U(0x3800)
 
 #endif /* __PLAT_BOARD_CFG_H__ */
