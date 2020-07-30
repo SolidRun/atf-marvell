@@ -80,3 +80,13 @@ void sh_fwdata_init(void)
 	fwdata->sclk = rst_pnr_pll.s.cur_mul * RST_REF_CLK;
 	fwdata->rvu_af_msixtr_base = CSR_READ(CAVM_RVU_AF_MSIXTR_BASE);
 }
+
+void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)
+{
+	struct sh_fwdata *fwdata = (struct sh_fwdata *)get_sh_fwdata_base();
+
+	if (pf_id >= PF_MACNUM_MAX)
+		return;
+
+	fwdata->pf_macs[pf_id] = mac;
+}

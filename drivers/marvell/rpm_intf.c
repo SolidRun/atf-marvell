@@ -407,8 +407,6 @@ void rpm_fw_intf_init(void)
 	rpm_lmac_config_t *lmac_cfg;
 	rpm_lmac_context_t *lmac_ctx;
 
-	printf("%s\n", __func__);
-
 	for (int rpm = 0; rpm < plat_octeontx_scfg->rpm_count; rpm++) {
 		rpm_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm];
 

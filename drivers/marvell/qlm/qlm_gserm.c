@@ -21,8 +21,6 @@
  */
 gserm_state_lane_t gserm_get_state(int gserm, int lane)
 {
-	printf("%s: gserm %d lane %d\n", __func__,
-				gserm, lane);
 	gserm_state_lane_t state = {.u = CSR_READ(CAVM_GSERMX_SCRATCHX(gserm, lane))};
 	return state;
 }

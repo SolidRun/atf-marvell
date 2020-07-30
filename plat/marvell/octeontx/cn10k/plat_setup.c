@@ -19,6 +19,7 @@
 #include <octeontx_utils.h>
 #include <octeontx_security.h>
 #include <sh_fwdata.h>
+#include <rpm.h>
 
 #if RAS_EXTENSION
 #include <plat_ras.h>
@@ -38,6 +39,11 @@ extern void plat_armtrace_init(void);
  */
 void plat_octeontx_setup(void)
 {
+	sh_fwdata_init();
+
+	/* Initialize RPM framework */
+	rpm_fw_intf_init();
+
 	/* setup gpio interrupt handling */
 	plat_gpio_irq_setup();
 
