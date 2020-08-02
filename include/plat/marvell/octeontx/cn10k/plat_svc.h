@@ -94,7 +94,7 @@
  *		-4 -- SPI_IMG_VALIDATE_ERR
  *		-5 -- SPI_IMG_UPDATE_ERR
  */
-#define PLAT_OCTEONTX_SPI_SECURE_UPDATE		0xc2000d08
+#define PLAT_OCTEONTX_SPI_SECURE_UPDATE		0xc2000b05
 
 /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			12
