@@ -124,7 +124,10 @@ int plat_get_max_lane_num(int qlm)
 		break;
 	case 1:
 	case 2:
-		lanes = 1;
+		if (plat_get_altpkg() == CN106XX_PKG)
+			lanes = 1;
+		else
+			lanes = 0;
 		break;
 	default:
 		lanes = 0;
@@ -136,23 +139,10 @@ int plat_get_max_lane_num(int qlm)
 /* Return the RPM<->QLM mapping */
 int plat_get_rpm_idx(int qlm)
 {
-	int idx = -1;
+	if (qlm < 3)
+		return qlm;
 
-	switch (qlm) {
-	case 0:
-		idx = 0;
-		break;
-	case 1:
-		idx = 1;
-		break;
-	case 2:
-		idx = 2;
-		break;
-	default:
-		idx = -1;
-		break;
-	}
-	return idx;
+	return -1;
 }
 
 /*
