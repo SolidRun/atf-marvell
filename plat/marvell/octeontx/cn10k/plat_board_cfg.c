@@ -552,6 +552,23 @@ static long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop,
 	return ret;
 }
 
+static void cn10k_fill_twsi_slave_details(const void *fdt)
+{
+	int twssl_bus, twssl_addr;
+
+	twssl_bus = cn10k_fdtebf_get_num(
+		fdt, "SCP-TWSI-SLAVE-BUS.N0", 10);
+
+	plat_octeontx_bcfg->bcfg.slave_twsi.s.bus = twssl_bus;
+
+	twssl_addr = cn10k_fdtebf_get_num(
+		fdt, "SCP-TWSI-SLAVE-ADDR.N0", 16);
+	if (twssl_addr == -1)
+		twssl_addr = 0x77;
+
+	plat_octeontx_bcfg->bcfg.slave_twsi.s.addr = twssl_addr;
+}
+
 /* This routine sets a number of LMACs to initialize and the size to use.
  * For instance:
  *  - SGMII_2X1: will initialize 2 LMACs and each LMAC will take only one
@@ -944,6 +961,8 @@ int plat_octeontx_fill_board_details(void)
 	}
 
 	cn10k_fill_rpm_details(fdt);
+
+	cn10k_fill_twsi_slave_details(fdt);
 
 	/* Parse SPI configuration */
 	cn10k_parse_spi_config(fdt);
