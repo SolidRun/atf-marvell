@@ -35,7 +35,7 @@ typedef union {
 
 /* QLM APIs */
 
-static inline gserm_state_lane_t qlm_build_state(gserm_modes_t mode, int baud_mhz,
+static inline gserm_state_lane_t gserm_build_state(gserm_modes_t mode, int baud_mhz,
 	uint8_t flags)
 {
 	gserm_state_lane_t state;
@@ -58,4 +58,8 @@ const struct gserm_mode_strmap_s gserm_get_mode_strmap(int gserm_mode);
 
 /* Obtains GSERM SCRATCHX state */
 gserm_state_lane_t gserm_get_state(int gserm, int lane);
+
+/* Sets GSERM SCRATCHX state */
+void gserm_set_state(int gserx, int lane, gserm_state_lane_t gserm_state);
+
 #endif /* _QLM_H_ */

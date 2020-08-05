@@ -45,6 +45,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/t106/plat_t106_setup.c		\
 				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S		\
 				drivers/marvell/qlm/qlm_cn10k.c			\
 				drivers/marvell/qlm/qlm_gserm.c		\
+				drivers/marvell/rpm.c		\
 
 BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/t106/plat_t106_ecam.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\

@@ -108,7 +108,7 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	union rpm_scratchx0 scratchx0;
 
 	debug_rpm_intf("%s %d:%d link_up %d speed %d duplex %d\t"
-			"err_type %d fec %d\n",
+			"err_type %d\n",
 			__func__, rpm_id, lmac_id,
 			link->s.link_up, link->s.speed,
 			link->s.full_duplex, err_type);
@@ -125,7 +125,62 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 
 static int rpm_link_bringup(int rpm_id, int lmac_id)
 {
-	/* FIXME */
+	rpm_lmac_config_t *lmac_cfg;
+	rpm_lmac_context_t *lmac_ctx;
+	rpm_link_state_t link_sts;
+
+	/* Get the lmac type and based on lmac
+	 * type, initialize SGMII/XAUI link
+	 */
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	debug_rpm_intf("%s %d:%d lmac_type %d\n", __func__, rpm_id,
+			lmac_id, lmac_cfg->mode);
+
+	lmac_ctx = &lmac_context[rpm_id][lmac_id];
+
+	link_sts.u64 = 0;
+
+	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R)) {
+		/* Enable LMAC port - PCS/MAC config */
+		if (rpm_lmac_port_enable(rpm_id, lmac_id) != 0) {
+			/* FIXME: Need to retry on link failure */
+			if (rpm_get_error_type(rpm_id, lmac_id) != 0) {
+				debug_rpm_intf("%s %d:%d Link down\n",
+						__func__, rpm_id, lmac_id);
+				goto link_err;
+			}
+		}
+		/* Get LMAC Port link status */
+		if (rpm_lmac_port_get_status(rpm_id, lmac_id, &link_sts) != 1) {
+			/* FIXME: Need to retry on link failure */
+			if (rpm_get_error_type(rpm_id, lmac_id) != 0) {
+				debug_rpm_intf("%s %d:%d Link status down,\n",
+						__func__, rpm_id, lmac_id);
+				goto link_err;
+			}
+		}
+		if (link_sts.s.link_up == 1) {
+			/* Enable Port for packet transfer */
+			rpm_lmac_port_packet_config(rpm_id, lmac_id, 1);
+			/* Update link status */
+			lmac_ctx->s.link_up = link_sts.s.link_up;
+			lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
+			lmac_ctx->s.speed = link_sts.s.speed;
+			rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
+			return 0;
+		}
+	}
+link_err:
+	/* FIXME: If the link is down, handle link management
+	 * runtime
+	 */
+	lmac_ctx->s.link_up = link_sts.s.link_up;
+	lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
+	lmac_ctx->s.speed = link_sts.s.speed;
+	rpm_set_link_state(rpm_id, lmac_id, &link_sts,
+			rpm_get_error_type(rpm_id, lmac_id));
 	return 0;
 }
 
@@ -146,7 +201,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R)) {
-		/* FIXME */
+		rpm_lmac_port_disable(rpm_id, lmac_id);
 
 	} else {
 		debug_rpm_intf("%s LMAC%d mode %d not configured correctly"

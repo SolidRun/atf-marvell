@@ -905,7 +905,7 @@ static void cn10k_fill_rpm_details(const void *fdt)
 	int lane_idx;
 	int lnum;
 	int rpm_idx;
-	int mode_idx;
+	int mode_idx, baud_rate, flags = 0;
 	gserm_state_lane_t gserm_state;
 
 	debug_dts("%s: gserm%d\n", __func__, plat_octeontx_scfg->gserm_count);
@@ -922,6 +922,14 @@ static void cn10k_fill_rpm_details(const void *fdt)
 				gserm_get_mode_strmap(gserm_state.s.mode).ebf_str);
 			mode_idx = gserm_state.s.mode;
 
+			/* If baud rate is not updated by EBF, update
+			 * the SCRATCHX with default baud rate
+			 */
+			if (gserm_state.s.baud_mhz == 0) {
+				baud_rate = gserm_get_mode_strmap(mode_idx).baud_rate;
+				gserm_state = gserm_build_state(mode_idx, baud_rate, flags);
+				gserm_set_state(gserm_idx, lane_idx, gserm_state);
+			}
 			rpm_idx = plat_get_rpm_idx(gserm_idx);
 			if ((rpm_idx < 0) ||
 			    (rpm_idx >= plat_octeontx_scfg->rpm_count))

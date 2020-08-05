@@ -9,9 +9,75 @@
 #define __RPM_H__
 
 #include <platform_dt.h>
+#include "cavm-csrs-rpm.h"
+
+#define clock_get_count(...)	read_cntpct_el0()
+#define clock_get_rate(...)	100000000ull
 
 /* ERROR MASK based on cgx_err_type */
 #define RPM_ERR_MASK                    0x3FF           /* 10 bits */
+
+/* Recommended back pressure buffer depth to be 1/4th of FIFO size */
+#define RPM_BP_ON_MARK_SIZE_DIV		4
+
+/* Packet data depth is 128-bit and mark to be configured in
+ * multiple of 16 bytes
+ */
+#define RPM_BP_PACKET_DATA_DEPTH	16
+
+#define MAX_MTI_PCS_REG	 50
+
+typedef enum mti_pcsconfig_reg {
+	MTI_PCS100_VL0_0 = 0x21200,
+	MTI_PCS100_VL0_1 = 0x21208,
+	MTI_PCS100_VL1_0 = 0x21210,
+	MTI_PCS100_VL1_1 = 0x21218,
+	MTI_PCS100_VL2_0 = 0x21220,
+	MTI_PCS100_VL2_1 = 0x21228,
+	MTI_PCS100_VL3_0 = 0x21230,
+	MTI_PCS100_VL3_1 = 0x21238,
+	MTI_PCS100_VL4_0 = 0x21240,
+	MTI_PCS100_VL4_1 = 0x21248,
+	MTI_PCS100_VL5_0 = 0x21250,
+	MTI_PCS100_VL5_1 = 0x21258,
+	MTI_PCS100_VL6_0 = 0x21260,
+	MTI_PCS100_VL6_1 = 0x21268,
+	MTI_PCS100_VL7_0 = 0x21270,
+	MTI_PCS100_VL7_1 = 0x21278,
+	MTI_PCS100_VL8_0 = 0x21280,
+	MTI_PCS100_VL8_1 = 0x21288,
+	MTI_PCS100_VL9_0 = 0x21290,
+	MTI_PCS100_VL9_1 = 0x21298,
+	MTI_PCS100_VL10_0 = 0x212A0,
+	MTI_PCS100_VL10_1 = 0x212A8,
+	MTI_PCS100_VL11_0 = 0x212B0,
+	MTI_PCS100_VL11_1 = 0x212B8,
+	MTI_PCS100_VL12_0 = 0x212C0,
+	MTI_PCS100_VL12_1 = 0x212C8,
+	MTI_PCS100_VL13_0 = 0x212D0,
+	MTI_PCS100_VL13_1 = 0x212D8,
+	MTI_PCS100_VL14_0 = 0x212E0,
+	MTI_PCS100_VL14_1 = 0x212E8,
+	MTI_PCS100_VL15_0 = 0x212F0,
+	MTI_PCS100_VL15_1 = 0x212F8,
+	MTI_PCS100_VL16_0 = 0x21300,
+	MTI_PCS100_VL16_1 = 0x21308,
+	MTI_PCS100_VL17_0 = 0x21310,
+	MTI_PCS100_VL17_1 = 0x21318,
+	MTI_PCS100_VL18_0 = 0x21320,
+	MTI_PCS100_VL18_1 = 0x21328,
+	MTI_PCS100_VL19_0 = 0x21328,
+	MTI_PCS100_VL19_1 = 0x21338,
+
+	MTI_PCS100_VENDOR_PCS_MODE = 0x21080,
+	MTI_PCS100_VENDOR_VL_INTVL = 0x21010,
+
+} mti_pcsconfig_reg_t;
+
+typedef struct rpm_lmac_pcs_config {
+	uint64_t offset;
+	uint64_t val;
+} rpm_lmac_pcs_config_t;
 
 /* Read-Modify-Write APIs for RPM CSRs */
 #define CAVM_MODIFY_RPM_CSR(type, csr, field, val)        \
@@ -84,5 +150,10 @@ void rpm_fw_intf_shutdown(void);
 
 /* plat APIs specific to Octeon TX2 family */
 int plat_get_rpm_idx(int qlm);
+void rpm_init(int rpm_id);
+int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *link_sts);
+void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable);
+int rpm_lmac_port_enable(int rpm_id, int lmac_id);
+int rpm_lmac_port_disable(int rpm_id, int lmac_id);
 
 #endif
