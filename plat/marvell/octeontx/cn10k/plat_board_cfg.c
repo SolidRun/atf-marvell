@@ -47,7 +47,7 @@ void plat_octeontx_print_board_variables(void)
 		debug_dts("RPM%d: lmac_count = %d\n", i, rpm->lmac_count);
 		for (j = 0; j < rpm->lmac_count; j++) {
 			lmac = &rpm->lmac_cfg[j];
-			debug_dts("RPM%d.LMAC%d: mode = %s:%d, qlm = %d, lane = %d\n",
+			debug_dts("RPM%d.LMAC%d: mode = %s:%d, gserm = %d, lane = %d\n",
 					i,
 					j,
 					gserm_get_mode_strmap(lmac->mode_idx).ebf_str,
@@ -594,16 +594,16 @@ static void cn10k_lmac_num_touse(int mode_idx, int *cnt, int *touse)
  * 0 in case of success, otherwise return -1.
  */
 static int cn10k_check_qlm_lmacs(int rpm_idx,
-		int qlm, int mode_idx, int lmac_need)
+		int gserm, int mode_idx, int lmac_need)
 {
 	int lmac_avail;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
 	int i;
-	int max_lanes = plat_octeontx_scfg->qlm_max_lane_num[qlm];
+	int max_lanes = plat_octeontx_scfg->qlm_max_lane_num[gserm];
 
-	debug_dts("RPM%d: qlm = %d, mode_idx = %d, lmac_need = %d\n",
-			 rpm_idx, qlm, mode_idx, lmac_need);
+	debug_dts("RPM%d: gserm = %d, mode_idx = %d, lmac_need = %d\n",
+			 rpm_idx, gserm, mode_idx, lmac_need);
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
 	lmac_avail = MAX_LMAC_PER_RPM - rpm->lmacs_used;
 
@@ -614,16 +614,16 @@ static int cn10k_check_qlm_lmacs(int rpm_idx,
 		lmac_avail = 1;
 		for (i = 0; i < rpm->lmac_count; i++) {
 			lmac = &rpm->lmac_cfg[i];
-			if (lmac->gserm_idx == qlm)
+			if (lmac->gserm_idx == gserm)
 				lmac_avail--;
 		}
 	}
 
 	if (lmac_need > lmac_avail) {
-		WARN("RPM%d: Can't configure mode:%s. Requires %d LMACs, but %d LMACs available on QLM%d.\n",
+		WARN("RPM%d: Can't configure mode:%s. Requires %d LMACs, but %d LMACs available on GSERM%d.\n",
 				rpm_idx,
 				gserm_get_mode_strmap(mode_idx).ebf_str,
-				lmac_need, lmac_avail, qlm);
+				lmac_need, lmac_avail, gserm);
 		return -1;
 	}
 
@@ -633,7 +633,7 @@ static int cn10k_check_qlm_lmacs(int rpm_idx,
 /* Fill RPM structure, if possible.
  * Return the number of lanes used for initialization.
  */
-static int cn10k_fill_rpm_struct(int rpm_idx, int qlm, int mode_idx,
+static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 			int lane)
 {
 	rpm_config_t *rpm;
@@ -647,7 +647,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int qlm, int mode_idx,
 
 	if ((mode_idx < GSERM_MODE_XFI) ||
 		(mode_idx >= GSERM_MODE_LAST)) {
-		debug_dts("QLM%d.LANE%d: not configured for RPM, skip.\n", qlm, lane);
+		debug_dts("GSERM%d.LANE%d: not configured for RPM, skip.\n", gser, lane);
 		return 0;
 	}
 
@@ -661,7 +661,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int qlm, int mode_idx,
 	debug_dts("RPM%d: mode_idx %d needs %d lanes, %d lmacs\n",
 		rpm_idx, mode_idx, lused, lcnt);
 
-	if (cn10k_check_qlm_lmacs(rpm_idx, qlm, mode_idx, lcnt * lused))
+	if (cn10k_check_qlm_lmacs(rpm_idx, gser, mode_idx, lcnt * lused))
 		return 0;
 
 	if (lane % (lcnt * lused)) {
@@ -680,7 +680,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int qlm, int mode_idx,
 		/* Fill in the RPM/LMAC structures */
 		lmac->mode = mode;
 		lmac->mode_idx = mode_idx;
-		lmac->gserm_idx = qlm;
+		lmac->gserm_idx = gser;
 
 		lmac->lane = lane + i;
 
@@ -694,7 +694,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int qlm, int mode_idx,
 
 		/* max_lane_count is the number of SERDES lanes used by the
 		 * original LMAC type (original means it came about as a result
-		 * of the device tree property QLM-MODE.N0.QLM%d).  The Ethernet
+		 * of the device tree property GSERM%d-MODE).  The Ethernet
 		 * mode change feature will use max_lane_count to determine if
 		 * the new Ethernet mode (that the user wants to change to at
 		 * run-time) can be accommodated.
@@ -702,7 +702,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int qlm, int mode_idx,
 		lmac->max_lane_count = lused;
 
 		debug_dts(
-			"RPM%d: LANE%d: lmac lane_mask 0x%x, qlm %d, rpm_lane_mask 0x%x\n",
+			"RPM%d:LANE%d: lane_mask 0x%x, gserm%d, rpm_lane_mask 0x%x\n",
 				rpm_idx, lane, lmac->lane_mask,
 				lmac->gserm_idx, rpm->lanes_used_mask);
 
@@ -908,15 +908,15 @@ static void cn10k_fill_rpm_details(const void *fdt)
 	int mode_idx;
 	gserm_state_lane_t gserm_state;
 
-	debug_dts("%s: qlm %d\n", __func__, plat_octeontx_scfg->gserm_count);
+	debug_dts("%s: gserm%d\n", __func__, plat_octeontx_scfg->gserm_count);
 
 	for (gserm_idx = 0; gserm_idx < plat_octeontx_scfg->gserm_count; gserm_idx++) {
-		debug_dts("%s: qlm_idx %d\n", __func__, gserm_idx);
+		debug_dts("%s: gserm%d\n", __func__, gserm_idx);
 
 		lnum = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
 		for (lane_idx = 0; lane_idx < lnum; lane_idx++) {
 			gserm_state = gserm_get_state(gserm_idx, lane_idx);
-			debug_dts("QLM%d.LANE%d: mode=%d:%s\n",
+			debug_dts("GSERM%d.LANE%d: mode=%d:%s\n",
 				gserm_idx, lane_idx,
 				gserm_state.s.mode,
 				gserm_get_mode_strmap(gserm_state.s.mode).ebf_str);
@@ -927,7 +927,7 @@ static void cn10k_fill_rpm_details(const void *fdt)
 			    (rpm_idx >= plat_octeontx_scfg->rpm_count))
 				continue;
 
-			debug_dts("RPM%d: Configure GSER%d Lane%d\n",
+			debug_dts("RPM%d: Configure GSERM%d Lane%d\n",
 				rpm_idx, gserm_idx, lane_idx);
 			cn10k_fill_rpm_struct(rpm_idx, gserm_idx,
 					mode_idx, lane_idx);
