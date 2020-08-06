@@ -101,6 +101,51 @@
 #define CAVM_CPT_LF_INT_VEC_E_MISC (0)
 
 /**
+ * Enumeration cpt_pkt_defrag_e
+ *
+ * CPT Packet Defragmentation Order Enumeration
+ * Enumerates the packet defrag option selected by the CTX.
+ */
+#define CAVM_CPT_PKT_DEFRAG_E_ANY_ORDER (0)
+#define CAVM_CPT_PKT_DEFRAG_E_FWD_ORDER (1)
+#define CAVM_CPT_PKT_DEFRAG_E_REV_ORDER (2)
+
+/**
+ * Enumeration cpt_pkt_fmt_e
+ *
+ * CPT Packet Format Enumeration
+ * Enumerates the packet format option selected by the CTX.
+ */
+#define CAVM_CPT_PKT_FMT_E_FULL (0)
+#define CAVM_CPT_PKT_FMT_E_META (1)
+
+/**
+ * Enumeration cpt_pkt_out_e
+ *
+ * CPT Packet Output Enumeration
+ * Enumerates the packet output option selected by the CTX.
+ */
+#define CAVM_CPT_PKT_OUT_E_LLC_DRAM (0)
+#define CAVM_CPT_PKT_OUT_E_X2P_HW_DFRG (2)
+#define CAVM_CPT_PKT_OUT_E_X2P_NO_DFRG (1)
+#define CAVM_CPT_PKT_OUT_E_X2P_UC_DFRG (3)
+
+/**
+ * Enumeration cpt_pkt_reas_sts_e
+ *
+ * CPT Packet Reassembly Status Enumeration
+ * Enumerates the packet reassembly status found in the CPT_PARSE_HDR_S.
+ */
+#define CAVM_CPT_PKT_REAS_STS_E_BAD_ORDER (2)
+#define CAVM_CPT_PKT_REAS_STS_E_EVICT (4)
+#define CAVM_CPT_PKT_REAS_STS_E_L3P_ERR (6)
+#define CAVM_CPT_PKT_REAS_STS_E_OVERLAP (5)
+#define CAVM_CPT_PKT_REAS_STS_E_SUCCESS (0)
+#define CAVM_CPT_PKT_REAS_STS_E_TIMEOUT (1)
+#define CAVM_CPT_PKT_REAS_STS_E_TOO_MANY (3)
+#define CAVM_CPT_PKT_REAS_STS_E_ZOMBIE (7)
+
+/**
  * Enumeration cpt_psb_acc_e
  *
  * CPT Power Serial Bus Accumulator Enumeration
@@ -113,18 +158,69 @@
 #define CAVM_CPT_PSB_ACC_E_STARTED_SE (0)
 
 /**
- * Enumeration cpt_psb_event_e
+ * Structure cpt_ctx_hw_s
  *
- * CPT Power Serial Bus Event Enumeration
- * Enumerates the event numbers for CPT PSB slaves, which correspond to index {b} of
- * PSBS_SYS()_EVENT()_CFG.
+ * CPT Context HW Structure
+ * This structure specifies the CPT context layout that is used in conjuction with CTX/RXC.
  */
-#define CAVM_CPT_PSB_EVENT_E_BUSY_AE_BITX(a) (0x10 + (a))
-#define CAVM_CPT_PSB_EVENT_E_BUSY_IE_BITX(a) (8 + (a))
-#define CAVM_CPT_PSB_EVENT_E_BUSY_SE_BITX(a) (0 + (a))
-#define CAVM_CPT_PSB_EVENT_E_STARTED_AE (0x22)
-#define CAVM_CPT_PSB_EVENT_E_STARTED_IE (0x21)
-#define CAVM_CPT_PSB_EVENT_E_STARTED_SE (0x20)
+union cavm_cpt_ctx_hw_s
+{
+    uint64_t u[2];
+    struct cavm_cpt_ctx_hw_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
+        uint64_t reserved_58_59        : 2;
+        uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
+        uint64_t reserved_55           : 1;
+        uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
+        uint64_t x2p_dest              : 1;  /**< [ 47: 47] Reserved for 108xx to indicate which NIX to send packet to on X2P. */
+        uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. */
+        uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format. */
+        uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output. */
+        uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
+        uint64_t reserved_40           : 1;
+        uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX on X2P */
+        uint64_t orig_pkt_free         : 1;  /**< [ 33: 33] Free uses ABS=1 or not */
+        uint64_t orig_pkt_fabs         : 1;  /**< [ 32: 32] When set, CPT will free ([DPTR]-[L2_LEN]-([ORIG_PKT_FOFF]\<\<3)) to NPA using
+                                                                 PF_FUNC=RVU_PF_FUNC and aura=[PKT_AURA]. */
+        uint64_t ctx_id                : 16; /**< [ 31: 16] Used by RXC (inner IP processing) along with COOKIE/SRC_IP/DST_IP/FRAG_ID to
+                                                                 associate fragments together. */
+        uint64_t uc_defined            : 16; /**< [ 15:  0] Defined by microcode.  Used by microcode in forming the HW request to perform SA update. */
+#else /* Word 0 - Little Endian */
+        uint64_t uc_defined            : 16; /**< [ 15:  0] Defined by microcode.  Used by microcode in forming the HW request to perform SA update. */
+        uint64_t ctx_id                : 16; /**< [ 31: 16] Used by RXC (inner IP processing) along with COOKIE/SRC_IP/DST_IP/FRAG_ID to
+                                                                 associate fragments together. */
+        uint64_t orig_pkt_fabs         : 1;  /**< [ 32: 32] When set, CPT will free ([DPTR]-[L2_LEN]-([ORIG_PKT_FOFF]\<\<3)) to NPA using
+                                                                 PF_FUNC=RVU_PF_FUNC and aura=[PKT_AURA]. */
+        uint64_t orig_pkt_free         : 1;  /**< [ 33: 33] Free uses ABS=1 or not */
+        uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX on X2P */
+        uint64_t reserved_40           : 1;
+        uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
+        uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output. */
+        uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format. */
+        uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. */
+        uint64_t x2p_dest              : 1;  /**< [ 47: 47] Reserved for 108xx to indicate which NIX to send packet to on X2P. */
+        uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
+        uint64_t reserved_55           : 1;
+        uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
+        uint64_t reserved_58_59        : 2;
+        uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t cookie                : 32; /**< [127: 96] Cookie may contain fields used for NPC parsing to group together SPIs with same behavior. */
+        uint64_t orig_pkt_foff         : 8;  /**< [ 95: 88] Signed free offset. */
+        uint64_t reserved_84_87        : 4;
+        uint64_t orig_pkt_aura         : 20; /**< [ 83: 64] Aura to be used when freeing the buffer. */
+#else /* Word 1 - Little Endian */
+        uint64_t orig_pkt_aura         : 20; /**< [ 83: 64] Aura to be used when freeing the buffer. */
+        uint64_t reserved_84_87        : 4;
+        uint64_t orig_pkt_foff         : 8;  /**< [ 95: 88] Signed free offset. */
+        uint64_t cookie                : 32; /**< [127: 96] Cookie may contain fields used for NPC parsing to group together SPIs with same behavior. */
+#endif /* Word 1 - End */
+    } s;
+    /* struct cavm_cpt_ctx_hw_s_s cn; */
+};
 
 /**
  * Structure cpt_fc_write_s
@@ -935,7 +1031,8 @@ union cavm_cpt_res_s
     struct cavm_cpt_res_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
+        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during NEW_WORK request. */
+        uint64_t reserved_17_23        : 7;
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When set, CPT incremented CPT_LF_DONE[DONE] upon completing
                                                                  the CPT_INST_S, possibly causing an interrupt.
 
@@ -991,12 +1088,13 @@ union cavm_cpt_res_s
                                                                  the CPT_INST_S, possibly causing an interrupt.
 
                                                                  See also CPT_INST_S[DONEINT]. [DONEINT] may differ from CPT_INST_S[DONEINT]. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_17_23        : 7;
+        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during NEW_WORK request. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_64_127       : 64;
+        uint64_t esn                   : 64; /**< [127: 64] Extended sequence number provided to CTX via the atomic decrypt/NOP. */
 #else /* Word 1 - Little Endian */
-        uint64_t reserved_64_127       : 64;
+        uint64_t esn                   : 64; /**< [127: 64] Extended sequence number provided to CTX via the atomic decrypt/NOP. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_cpt_res_s_s cn; */
@@ -4649,14 +4747,14 @@ static inline uint64_t CAVM_CPTX_AF_RVU_LF_CFG_DEBUG(uint64_t a)
 #define arguments_CAVM_CPTX_AF_RVU_LF_CFG_DEBUG(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) cpt#_af_rxc_cfg
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_cfg1
  *
- * CPT AF RXC Configuration Register
+ * CPT AF RXC Configuration Register 1
  */
-union cavm_cptx_af_rxc_cfg
+union cavm_cptx_af_rxc_cfg1
 {
     uint64_t u;
-    struct cavm_cptx_af_rxc_cfg_s
+    struct cavm_cptx_af_rxc_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
@@ -4672,24 +4770,113 @@ union cavm_cptx_af_rxc_cfg
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_cptx_af_rxc_cfg_s cn; */
+    /* struct cavm_cptx_af_rxc_cfg1_s cn; */
 };
-typedef union cavm_cptx_af_rxc_cfg cavm_cptx_af_rxc_cfg_t;
+typedef union cavm_cptx_af_rxc_cfg1 cavm_cptx_af_rxc_cfg1_t;
 
-static inline uint64_t CAVM_CPTX_AF_RXC_CFG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CPTX_AF_RXC_CFG(uint64_t a)
+static inline uint64_t CAVM_CPTX_AF_RXC_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_CFG1(uint64_t a)
 {
     if (a<=1)
         return 0x8400a0050000ll + 0x10000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("CPTX_AF_RXC_CFG", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("CPTX_AF_RXC_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_CPTX_AF_RXC_CFG(a) cavm_cptx_af_rxc_cfg_t
-#define bustype_CAVM_CPTX_AF_RXC_CFG(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_CPTX_AF_RXC_CFG(a) "CPTX_AF_RXC_CFG"
-#define device_bar_CAVM_CPTX_AF_RXC_CFG(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_CPTX_AF_RXC_CFG(a) (a)
-#define arguments_CAVM_CPTX_AF_RXC_CFG(a) (a),-1,-1,-1
+#define typedef_CAVM_CPTX_AF_RXC_CFG1(a) cavm_cptx_af_rxc_cfg1_t
+#define bustype_CAVM_CPTX_AF_RXC_CFG1(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_CFG1(a) "CPTX_AF_RXC_CFG1"
+#define device_bar_CAVM_CPTX_AF_RXC_CFG1(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_CFG1(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_CFG1(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_cfg2
+ *
+ * CPT AF RXC Configuration Register 2
+ */
+union cavm_cptx_af_rxc_cfg2
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_cfg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t l3p_ext_hdr           : 8;  /**< [  7:  0](R/W) IPv6 programmable extension header type to use when parsing the IPv6 header
+                                                                 of a packet with fragment information.  Note that the IPv6 extension header
+                                                                 specified must have a header extension length field.  This is required for the
+                                                                 parsing logic to correctly compute the IPv6 packet fragment size.  The L3P_EXT_HDR
+                                                                 field must be set to 0x0 when not used.
+
+                                                                 Internal:
+                                                                 The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
+                                                                 when searching through the IPv6 packet extension headers to determine the packet
+                                                                 fragment size:
+                                                                   0x00 Hop-by-Hop Options.
+                                                                   0x2B Routing.
+                                                                   0x2C Fragment.
+                                                                   0x3C Destination Options.
+                                                                   0x87 Mobility.
+                                                                 The L3P_EXT_HDR field supports programming an additional IPv6 extension header type
+                                                                 to recognize during the IPv6 extension header search.  For example, programming
+                                                                 L3P_EXT_HDR=0x8B, the Host Identity Protocol extension header, would result in the L3P
+                                                                 IPv6 extension header search to include any found Host Identity Protocol extension
+                                                                 headers in the packet fragment size calculation.  When L3P_EXT_HDR=0x0, only the five
+                                                                 IPv6 extension header types list above are included in the IPv6 extension header
+                                                                 search.  These five extension header types are non-terminating in that when L3P
+                                                                 encounters one of these extension headers it subtracts the extension header length
+                                                                 from the packet payload length to compute the fragment size but also continues to
+                                                                 search for additional extension headers.  An unrecognized extension header type
+                                                                 will terminate the L3P extension header seach and will not be included in the
+                                                                 fragment size calculation. */
+#else /* Word 0 - Little Endian */
+        uint64_t l3p_ext_hdr           : 8;  /**< [  7:  0](R/W) IPv6 programmable extension header type to use when parsing the IPv6 header
+                                                                 of a packet with fragment information.  Note that the IPv6 extension header
+                                                                 specified must have a header extension length field.  This is required for the
+                                                                 parsing logic to correctly compute the IPv6 packet fragment size.  The L3P_EXT_HDR
+                                                                 field must be set to 0x0 when not used.
+
+                                                                 Internal:
+                                                                 The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
+                                                                 when searching through the IPv6 packet extension headers to determine the packet
+                                                                 fragment size:
+                                                                   0x00 Hop-by-Hop Options.
+                                                                   0x2B Routing.
+                                                                   0x2C Fragment.
+                                                                   0x3C Destination Options.
+                                                                   0x87 Mobility.
+                                                                 The L3P_EXT_HDR field supports programming an additional IPv6 extension header type
+                                                                 to recognize during the IPv6 extension header search.  For example, programming
+                                                                 L3P_EXT_HDR=0x8B, the Host Identity Protocol extension header, would result in the L3P
+                                                                 IPv6 extension header search to include any found Host Identity Protocol extension
+                                                                 headers in the packet fragment size calculation.  When L3P_EXT_HDR=0x0, only the five
+                                                                 IPv6 extension header types list above are included in the IPv6 extension header
+                                                                 search.  These five extension header types are non-terminating in that when L3P
+                                                                 encounters one of these extension headers it subtracts the extension header length
+                                                                 from the packet payload length to compute the fragment size but also continues to
+                                                                 search for additional extension headers.  An unrecognized extension header type
+                                                                 will terminate the L3P extension header seach and will not be included in the
+                                                                 fragment size calculation. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_cfg2_s cn; */
+};
+typedef union cavm_cptx_af_rxc_cfg2 cavm_cptx_af_rxc_cfg2_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_CFG2(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050008ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_CFG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_CFG2(a) cavm_cptx_af_rxc_cfg2_t
+#define bustype_CAVM_CPTX_AF_RXC_CFG2(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_CFG2(a) "CPTX_AF_RXC_CFG2"
+#define device_bar_CAVM_CPTX_AF_RXC_CFG2(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_CFG2(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_CFG2(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_rxc_dfrg
@@ -4703,25 +4890,25 @@ union cavm_cptx_af_rxc_dfrg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t zombie_thres          : 12; /**< [ 59: 48](RAZ) Thresold level of zombie reassembly entries at which the oldest will be
-                                                                 terminated. ZOMEIE_THRES=0 disables threshold. */
+        uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
+                                                                 terminated. ZOMBIE_THRES=0 disables threshold. */
         uint64_t reserved_44_47        : 4;
-        uint64_t zombie_cnt            : 12; /**< [ 43: 32](RAZ) Reserved. */
+        uint64_t zombie_cnt            : 12; /**< [ 43: 32](R/W) Reserved. */
         uint64_t reserved_28_31        : 4;
-        uint64_t busy_thres            : 12; /**< [ 27: 16](RO) Thresold level of active reassembly entries at which the oldest will be
+        uint64_t busy_thres            : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
                                                                  terminated. 0x0 disables threshold. */
         uint64_t reserved_12_15        : 4;
         uint64_t busy_cnt              : 12; /**< [ 11:  0](R/W) Number of active reassembly entries. */
 #else /* Word 0 - Little Endian */
         uint64_t busy_cnt              : 12; /**< [ 11:  0](R/W) Number of active reassembly entries. */
         uint64_t reserved_12_15        : 4;
-        uint64_t busy_thres            : 12; /**< [ 27: 16](RO) Thresold level of active reassembly entries at which the oldest will be
+        uint64_t busy_thres            : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
                                                                  terminated. 0x0 disables threshold. */
         uint64_t reserved_28_31        : 4;
-        uint64_t zombie_cnt            : 12; /**< [ 43: 32](RAZ) Reserved. */
+        uint64_t zombie_cnt            : 12; /**< [ 43: 32](R/W) Reserved. */
         uint64_t reserved_44_47        : 4;
-        uint64_t zombie_thres          : 12; /**< [ 59: 48](RAZ) Thresold level of zombie reassembly entries at which the oldest will be
-                                                                 terminated. ZOMEIE_THRES=0 disables threshold. */
+        uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
+                                                                 terminated. ZOMBIE_THRES=0 disables threshold. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -4733,7 +4920,7 @@ static inline uint64_t CAVM_CPTX_AF_RXC_DFRG(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_CPTX_AF_RXC_DFRG(uint64_t a)
 {
     if (a<=1)
-        return 0x8400a0050010ll + 0x10000000ll * ((a) & 0x1);
+        return 0x8400a0050020ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("CPTX_AF_RXC_DFRG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4755,12 +4942,48 @@ union cavm_cptx_af_rxc_time
     struct cavm_cptx_af_rxc_time_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 16; /**< [ 63: 48](RO) The current time. */
-        uint64_t reserved_32_47        : 16;
-        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  [LIMIT]=0 disables timeouts.  When the
-                                                                 age of the reassembly effort is older than ([STEP]*[LIMIT]),
+        uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](RO) The current time. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) The current time. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_time_s cn; */
+};
+typedef union cavm_cptx_af_rxc_time cavm_cptx_af_rxc_time_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_TIME(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_TIME(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050010ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_TIME", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_TIME(a) cavm_cptx_af_rxc_time_t
+#define bustype_CAVM_CPTX_AF_RXC_TIME(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_TIME(a) "CPTX_AF_RXC_TIME"
+#define device_bar_CAVM_CPTX_AF_RXC_TIME(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_TIME(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_TIME(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_time_cfg
+ *
+ * CPT AF RXC Time Configuration Register
+ */
+union cavm_cptx_af_rxc_time_cfg
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_time_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  TIME_LIMIT=0 disables timeouts.  When the
+                                                                 age of the reassembly effort is older than (TIME_STEP*TIME_LIMIt),
                                                                  the reassembly effort will be terminated with REAS_STS=TIMEOUT.  For example,
-                                                                 setting [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
+                                                                 setting TIME_LIMIT=300 and TIME_STEP=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
         uint64_t step                  : 20; /**< [ 19:  0](R/W) The granularity of time used to track the age of reassembly attempts.
                                                                  0x0 = Disabled.
@@ -4773,33 +4996,32 @@ union cavm_cptx_af_rxc_time
                                                                  0x1 = 1 microsecond.
                                                                  0x2 = 2 microseconds.
                                                                  _ etc. */
-        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  [LIMIT]=0 disables timeouts.  When the
-                                                                 age of the reassembly effort is older than ([STEP]*[LIMIT]),
+        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  TIME_LIMIT=0 disables timeouts.  When the
+                                                                 age of the reassembly effort is older than (TIME_STEP*TIME_LIMIt),
                                                                  the reassembly effort will be terminated with REAS_STS=TIMEOUT.  For example,
-                                                                 setting [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
+                                                                 setting TIME_LIMIT=300 and TIME_STEP=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
-        uint64_t reserved_32_47        : 16;
-        uint64_t count                 : 16; /**< [ 63: 48](RO) The current time. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_cptx_af_rxc_time_s cn; */
+    /* struct cavm_cptx_af_rxc_time_cfg_s cn; */
 };
-typedef union cavm_cptx_af_rxc_time cavm_cptx_af_rxc_time_t;
+typedef union cavm_cptx_af_rxc_time_cfg cavm_cptx_af_rxc_time_cfg_t;
 
-static inline uint64_t CAVM_CPTX_AF_RXC_TIME(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CPTX_AF_RXC_TIME(uint64_t a)
+static inline uint64_t CAVM_CPTX_AF_RXC_TIME_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_TIME_CFG(uint64_t a)
 {
     if (a<=1)
-        return 0x8400a0050008ll + 0x10000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("CPTX_AF_RXC_TIME", 1, a, 0, 0, 0, 0, 0);
+        return 0x8400a0050018ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_TIME_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_CPTX_AF_RXC_TIME(a) cavm_cptx_af_rxc_time_t
-#define bustype_CAVM_CPTX_AF_RXC_TIME(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_CPTX_AF_RXC_TIME(a) "CPTX_AF_RXC_TIME"
-#define device_bar_CAVM_CPTX_AF_RXC_TIME(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_CPTX_AF_RXC_TIME(a) (a)
-#define arguments_CAVM_CPTX_AF_RXC_TIME(a) (a),-1,-1,-1
+#define typedef_CAVM_CPTX_AF_RXC_TIME_CFG(a) cavm_cptx_af_rxc_time_cfg_t
+#define bustype_CAVM_CPTX_AF_RXC_TIME_CFG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_TIME_CFG(a) "CPTX_AF_RXC_TIME_CFG"
+#define device_bar_CAVM_CPTX_AF_RXC_TIME_CFG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_TIME_CFG(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_TIME_CFG(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_xe#_thr

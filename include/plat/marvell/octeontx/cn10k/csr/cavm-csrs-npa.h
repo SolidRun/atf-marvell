@@ -2439,11 +2439,29 @@ union cavm_npa_af_batch_accept_ctl
                                                                  and instead uses STP commands. Defaults to 0, enabling stashing if requested by
                                                                  batch pointer alloc command. */
         uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
-        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold.  A value of zero is unconditional acceptance.  Max value is 64. */
-        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold.  A value of zero is unconditional acceptance. */
+        uint64_t reserved_10_13        : 4;
+        uint64_t fifo_thr              : 6;  /**< [  9:  4](R/W) Batch FIFO acceptance threshold in batch alloc transactions.  A value of zero is
+                                                                 unconditional acceptance.  Maximum value is 32 transactions.
+
+                                                                 Internal:
+                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
+        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance thresholdin batch alloc transactions.  A value of zero is
+                                                                 unconditional acceptance.  Maximum value is 15 transactions.
+
+                                                                 Internal:
+                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
 #else /* Word 0 - Little Endian */
-        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance threshold.  A value of zero is unconditional acceptance. */
-        uint64_t fifo_thr              : 10; /**< [ 13:  4](R/W) Batch FIFO acceptance threshold.  A value of zero is unconditional acceptance.  Max value is 64. */
+        uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance thresholdin batch alloc transactions.  A value of zero is
+                                                                 unconditional acceptance.  Maximum value is 15 transactions.
+
+                                                                 Internal:
+                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
+        uint64_t fifo_thr              : 6;  /**< [  9:  4](R/W) Batch FIFO acceptance threshold in batch alloc transactions.  A value of zero is
+                                                                 unconditional acceptance.  Maximum value is 32 transactions.
+
+                                                                 Internal:
+                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
+        uint64_t reserved_10_13        : 4;
         uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
         uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for batch alloc pointer returns
                                                                  and instead uses STP commands. Defaults to 0, enabling stashing if requested by

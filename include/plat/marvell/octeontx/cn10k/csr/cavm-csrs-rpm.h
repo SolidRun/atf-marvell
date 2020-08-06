@@ -15682,10 +15682,15 @@ union cavm_rpmx_ext_mti_portx_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When loop_ena is set defines the tx_rdy towards the application */
-        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) When loop_ena is set - defnes it to transmit RX also to application.
-                                                                 0x0 transmit to application
-                                                                 0x1 block transmission to application (by dval=0 always) */
+        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When LOOP_ENA is set, defines whether CMR TX data is backpressured or dropped.
+                                                                 0x0 CMR TX data is backpressured
+                                                                 0x1 CMR TX data is dropped */
+        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented.
+                                                                 When LOOP_ENA is set, this bit controls whether to transmit RX data to CMR as well.
+                                                                 0x0 transmit to CMR
+                                                                 0x1 block transmission to CMR (by dval=0 always) */
         uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Port_res_speed From HW
                                                                  0x0: The value configured in the port_res_speed is used
                                                                  0x1: The value from the PCS is used */
@@ -15795,10 +15800,15 @@ union cavm_rpmx_ext_mti_portx_control
         uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Port_res_speed From HW
                                                                  0x0: The value configured in the port_res_speed is used
                                                                  0x1: The value from the PCS is used */
-        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) When loop_ena is set - defnes it to transmit RX also to application.
-                                                                 0x0 transmit to application
-                                                                 0x1 block transmission to application (by dval=0 always) */
-        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When loop_ena is set defines the tx_rdy towards the application */
+        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented.
+                                                                 When LOOP_ENA is set, this bit controls whether to transmit RX data to CMR as well.
+                                                                 0x0 transmit to CMR
+                                                                 0x1 block transmission to CMR (by dval=0 always) */
+        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When LOOP_ENA is set, defines whether CMR TX data is backpressured or dropped.
+                                                                 0x0 CMR TX data is backpressured
+                                                                 0x1 CMR TX data is dropped */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
@@ -16116,7 +16126,9 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_PAUSE_OVERRIDE(uint64_t a, uint64
  * Register (RSL) rpm#_ext_mti_port#_peer_delay
  *
  * RPM Ext MTI Port Peer Delay Register
- * Set peer delay value for Time Stamping purposes (Non-Segmented ports).
+ * Set peer delay value for Time Stamping purposes.
+ * Internal:
+ * Register relevant for 1-step PTP only.
  */
 union cavm_rpmx_ext_mti_portx_peer_delay
 {
@@ -16125,19 +16137,15 @@ union cavm_rpmx_ext_mti_portx_peer_delay
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t peer_delay_valid      : 1;  /**< [ 31: 31](R/W) Writing 1 triggers load of the 30-bit value in bits[29:0] of this register;
-                                                                 Self-clear bit */
+        uint64_t peer_delay_valid      : 1;  /**< [ 31: 31](R/W1/H) Writing 1 triggers a load of PEER_DELAY. Self-clearing bit. */
         uint64_t reserved_30           : 1;
-        uint64_t peer_delay            : 30; /**< [ 29:  0](R/W) The egress pipe delay of port 0, represented as an unsigned 30-bit nanosecond value.
-                                                                 The value will be loaded and used only when the trigger peer_delay_valid bit[31]
-                                                                 of this register is written with 1. */
+        uint64_t peer_delay            : 30; /**< [ 29:  0](R/W) The egress pipe delay of the port, represented as an unsigned 30-bit nanosecond value.
+                                                                 The value will be loaded and used only when PEER_DELAY_VALID is written with 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t peer_delay            : 30; /**< [ 29:  0](R/W) The egress pipe delay of port 0, represented as an unsigned 30-bit nanosecond value.
-                                                                 The value will be loaded and used only when the trigger peer_delay_valid bit[31]
-                                                                 of this register is written with 1. */
+        uint64_t peer_delay            : 30; /**< [ 29:  0](R/W) The egress pipe delay of the port, represented as an unsigned 30-bit nanosecond value.
+                                                                 The value will be loaded and used only when PEER_DELAY_VALID is written with 1. */
         uint64_t reserved_30           : 1;
-        uint64_t peer_delay_valid      : 1;  /**< [ 31: 31](R/W) Writing 1 triggers load of the 30-bit value in bits[29:0] of this register;
-                                                                 Self-clear bit */
+        uint64_t peer_delay_valid      : 1;  /**< [ 31: 31](R/W1/H) Writing 1 triggers a load of PEER_DELAY. Self-clearing bit. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -16871,13 +16879,17 @@ union cavm_rpmx_ext_mti_portx_tsu_status
     struct cavm_rpmx_ext_mti_portx_tsu_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_desk_rlevel       : 7;  /**< [ 14:  8](RO/H) Deskew FIFO fill level. Used to compensate for static jitter in multi-lane modes. */
+        uint64_t reserved_2_7          : 6;
         uint64_t tsu_tx_ready          : 1;  /**< [  1:  1](RO/H) Indicates that the TSU is operational */
         uint64_t tsu_rx_ready          : 1;  /**< [  0:  0](RO/H) Indicates when the timestamp module is synchronized and able to provide a valid timestamp output. */
 #else /* Word 0 - Little Endian */
         uint64_t tsu_rx_ready          : 1;  /**< [  0:  0](RO/H) Indicates when the timestamp module is synchronized and able to provide a valid timestamp output. */
         uint64_t tsu_tx_ready          : 1;  /**< [  1:  1](RO/H) Indicates that the TSU is operational */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_2_7          : 6;
+        uint64_t tsu_desk_rlevel       : 7;  /**< [ 14:  8](RO/H) Deskew FIFO fill level. Used to compensate for static jitter in multi-lane modes. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_ext_mti_portx_tsu_status_s cn; */
@@ -20273,7 +20285,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100_X_XIF_MODE(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_baser_status1
  *
- * RPM Mti Pcs100  Baser Status1 Register
+ * RPM MTI PCS Baser Status1 Register
  * Link Status Information.
  */
 union cavm_rpmx_mti_pcs100_x_baser_status1
@@ -20283,15 +20295,15 @@ union cavm_rpmx_mti_pcs100_x_baser_status1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t receive_link          : 1;  /**< [ 12: 12](RO) Receive link status. 1=Link up; 0=link down. */
+        uint64_t receive_link          : 1;  /**< [ 12: 12](RO/H) Receive link status. 1=Link up; 0=link down. */
         uint64_t reserved_2_11         : 10;
-        uint64_t high_ber              : 1;  /**< [  1:  1](RO) 1=PCS reporting a high BER. */
-        uint64_t block_lock            : 1;  /**< [  0:  0](RO) 1=PCS locked to received blocks. */
+        uint64_t high_ber              : 1;  /**< [  1:  1](RO/H) 1=PCS reporting a high BER. */
+        uint64_t block_lock            : 1;  /**< [  0:  0](RO/H) 1=PCS locked to received blocks. */
 #else /* Word 0 - Little Endian */
-        uint64_t block_lock            : 1;  /**< [  0:  0](RO) 1=PCS locked to received blocks. */
-        uint64_t high_ber              : 1;  /**< [  1:  1](RO) 1=PCS reporting a high BER. */
+        uint64_t block_lock            : 1;  /**< [  0:  0](RO/H) 1=PCS locked to received blocks. */
+        uint64_t high_ber              : 1;  /**< [  1:  1](RO/H) 1=PCS reporting a high BER. */
         uint64_t reserved_2_11         : 10;
-        uint64_t receive_link          : 1;  /**< [ 12: 12](RO) Receive link status. 1=Link up; 0=link down. */
+        uint64_t receive_link          : 1;  /**< [ 12: 12](RO/H) Receive link status. 1=Link up; 0=link down. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -20302,8 +20314,8 @@ typedef union cavm_rpmx_mti_pcs100_x_baser_status1 cavm_rpmx_mti_pcs100_x_baser_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_STATUS1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018100ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_BASER_STATUS1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -20317,7 +20329,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_STATUS1(uint64_t a, uint64_t
 /**
  * Register (RSL) rpm#_mti_pcs100_#_baser_status2
  *
- * RPM Mti Pcs100  Baser Status2 Register
+ * RPM MTI PCS Baser Status2 Register
  * Link Status latches and error counters.
  */
 union cavm_rpmx_mti_pcs100_x_baser_status2
@@ -20327,15 +20339,15 @@ union cavm_rpmx_mti_pcs100_x_baser_status2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t block_lock            : 1;  /**< [ 15: 15](RO) Block Lock; Latched low. */
-        uint64_t high_ber              : 1;  /**< [ 14: 14](RO) BER flag; Latched high. */
-        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO) BER counter; None roll-over. */
-        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO) Errored blocks counter; None roll-over. */
+        uint64_t block_lock            : 1;  /**< [ 15: 15](RO/H) Block Lock; Latched low. */
+        uint64_t high_ber              : 1;  /**< [ 14: 14](RO/H) BER flag; Latched high. */
+        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO/H) BER counter; None roll-over. */
+        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO/H) Errored blocks counter; None roll-over. */
 #else /* Word 0 - Little Endian */
-        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO) Errored blocks counter; None roll-over. */
-        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO) BER counter; None roll-over. */
-        uint64_t high_ber              : 1;  /**< [ 14: 14](RO) BER flag; Latched high. */
-        uint64_t block_lock            : 1;  /**< [ 15: 15](RO) Block Lock; Latched low. */
+        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO/H) Errored blocks counter; None roll-over. */
+        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO/H) BER counter; None roll-over. */
+        uint64_t high_ber              : 1;  /**< [ 14: 14](RO/H) BER flag; Latched high. */
+        uint64_t block_lock            : 1;  /**< [ 15: 15](RO/H) Block Lock; Latched low. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -20346,8 +20358,8 @@ typedef union cavm_rpmx_mti_pcs100_x_baser_status2 cavm_rpmx_mti_pcs100_x_baser_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_STATUS2(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018108ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_BASER_STATUS2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -20361,7 +20373,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_STATUS2(uint64_t a, uint64_t
 /**
  * Register (RSL) rpm#_mti_pcs100_#_baser_test_control
  *
- * RPM Mti Pcs100  Baser Test Control Register
+ * RPM MTI PCS Baser Test Control Register
  * Test Pattern Generator and Checker controls.
  */
 union cavm_rpmx_mti_pcs100_x_baser_test_control
@@ -20373,15 +20385,15 @@ union cavm_rpmx_mti_pcs100_x_baser_test_control
         uint64_t reserved_8_63         : 56;
         uint64_t select_random         : 1;  /**< [  7:  7](R/W) Select Random Idle test pattern (40G); Overrides bits 1:0 when set. */
         uint64_t reserved_4_6          : 3;
-        uint64_t tx_testpattern        : 1;  /**< [  3:  3](RO) Transmit test-pattern enable. */
-        uint64_t rx_testpattern        : 1;  /**< [  2:  2](RO) Receive test-pattern enable. */
-        uint64_t select_square         : 1;  /**< [  1:  1](RO) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
-        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](RO) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
+        uint64_t tx_testpattern        : 1;  /**< [  3:  3](R/W) Transmit test-pattern enable. */
+        uint64_t rx_testpattern        : 1;  /**< [  2:  2](R/W) Receive test-pattern enable. */
+        uint64_t select_square         : 1;  /**< [  1:  1](R/W) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
+        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](R/W) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](RO) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
-        uint64_t select_square         : 1;  /**< [  1:  1](RO) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
-        uint64_t rx_testpattern        : 1;  /**< [  2:  2](RO) Receive test-pattern enable. */
-        uint64_t tx_testpattern        : 1;  /**< [  3:  3](RO) Transmit test-pattern enable. */
+        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](R/W) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
+        uint64_t select_square         : 1;  /**< [  1:  1](R/W) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
+        uint64_t rx_testpattern        : 1;  /**< [  2:  2](R/W) Receive test-pattern enable. */
+        uint64_t tx_testpattern        : 1;  /**< [  3:  3](R/W) Transmit test-pattern enable. */
         uint64_t reserved_4_6          : 3;
         uint64_t select_random         : 1;  /**< [  7:  7](R/W) Select Random Idle test pattern (40G); Overrides bits 1:0 when set. */
         uint64_t reserved_8_63         : 56;
@@ -20394,8 +20406,8 @@ typedef union cavm_rpmx_mti_pcs100_x_baser_test_control cavm_rpmx_mti_pcs100_x_b
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_TEST_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_TEST_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018150ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_BASER_TEST_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -20409,7 +20421,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_TEST_CONTROL(uint64_t a, uin
 /**
  * Register (RSL) rpm#_mti_pcs100_#_baser_test_err_cnt
  *
- * RPM Mti Pcs100  Baser Test Err Cnt Register
+ * RPM MTI PCS Baser Test Err Cnt Register
  * Test Pattern Error Counter; Clears on read; None roll-over.
  */
 union cavm_rpmx_mti_pcs100_x_baser_test_err_cnt
@@ -20419,9 +20431,9 @@ union cavm_rpmx_mti_pcs100_x_baser_test_err_cnt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t counter               : 16; /**< [ 15:  0](RO) Test pattern error counter; Clears on read; None roll-over. */
+        uint64_t counter               : 16; /**< [ 15:  0](RO/H) Test pattern error counter; Clears on read; None roll-over. */
 #else /* Word 0 - Little Endian */
-        uint64_t counter               : 16; /**< [ 15:  0](RO) Test pattern error counter; Clears on read; None roll-over. */
+        uint64_t counter               : 16; /**< [ 15:  0](RO/H) Test pattern error counter; Clears on read; None roll-over. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -20432,8 +20444,8 @@ typedef union cavm_rpmx_mti_pcs100_x_baser_test_err_cnt cavm_rpmx_mti_pcs100_x_b
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_TEST_ERR_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_TEST_ERR_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018158ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_BASER_TEST_ERR_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -20447,7 +20459,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BASER_TEST_ERR_CNT(uint64_t a, uin
 /**
  * Register (RSL) rpm#_mti_pcs100_#_ber_high_order_cnt
  *
- * RPM Mti Pcs100  Ber High Order Cnt Register
+ * RPM MTI PCS Ber High Order Cnt Register
  * BER High Order Counter of BER bits 21:6; None roll-over.
  */
 union cavm_rpmx_mti_pcs100_x_ber_high_order_cnt
@@ -20457,9 +20469,9 @@ union cavm_rpmx_mti_pcs100_x_ber_high_order_cnt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t ber_counter           : 16; /**< [ 15:  0](RO) Bits 21:6 of BER counter; None roll-over. */
+        uint64_t ber_counter           : 16; /**< [ 15:  0](RO/H) Bits 21:6 of BER counter; None roll-over. */
 #else /* Word 0 - Little Endian */
-        uint64_t ber_counter           : 16; /**< [ 15:  0](RO) Bits 21:6 of BER counter; None roll-over. */
+        uint64_t ber_counter           : 16; /**< [ 15:  0](RO/H) Bits 21:6 of BER counter; None roll-over. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -20470,8 +20482,8 @@ typedef union cavm_rpmx_mti_pcs100_x_ber_high_order_cnt cavm_rpmx_mti_pcs100_x_b
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BER_HIGH_ORDER_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BER_HIGH_ORDER_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018160ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_BER_HIGH_ORDER_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -20483,769 +20495,135 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BER_HIGH_ORDER_CNT(uint64_t a, uin
 #define arguments_CAVM_RPMX_MTI_PCS100_X_BER_HIGH_ORDER_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane0
+ * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane#
  *
- * RPM Mti Pcs100  Bip Err Cnt Lane0 Register
- * BIP Error Counter Lane 0; Clears on read; None roll-over.
+ * RPM MTI PCS Bip Err Cnt Lane Register
+ * BIP Error Counter Lane \<b\>; Clears on read; None roll-over.
+ * Internal:
+ * This group of registers should be duplicated 0..19, but CSR3 does not support extern
+ * regs to be non-aligned.
+ * Instead of duplicating 20 times, I prefer to create several (aligned) groups.
  */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane0
+union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lanex
 {
     uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane0_s
+    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lanex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 0; None roll-over. */
+        uint64_t error_counter         : 16; /**< [ 15:  0](RO/H) BIP error counter for lane \<b\>; None roll-over. */
 #else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 0; None roll-over. */
+        uint64_t error_counter         : 16; /**< [ 15:  0](RO/H) BIP error counter for lane \<b\>; None roll-over. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane0_s cn; */
+    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lanex_s cn; */
 };
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane0 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane0_t;
+typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lanex cavm_rpmx_mti_pcs100_x_bip_err_cnt_lanex_t;
 
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018640ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0", 2, a, b, 0, 0, 0, 0);
+    if ((a<=8) && (b<=3) && (c<=7))
+        return 0x87e0e0020640ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane0_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE0(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(a,b,c) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lanex_t
+#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(a,b,c) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX"
+#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(a,b,c) (a)
+#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANEX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane1
+ * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane2#
  *
- * RPM Mti Pcs100  Bip Err Cnt Lane1 Register
- * BIP Error Counter Lane 1; Clears on read; None roll-over.
+ * RPM MTI PCS Bip Err Cnt Lane Register
+ * BIP Error Counter Lane \<b+8\>; Clears on read; None roll-over.
+ * Internal:
+ * This group of registers should be duplicated 0..19, but CSR3 does not support extern
+ * regs to be non-aligned.
+ * Instead of duplicating 20 times, I prefer to create several (aligned) groups.
  */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane1
+union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2x
 {
     uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane1_s
+    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 1; None roll-over. */
+        uint64_t error_counter         : 16; /**< [ 15:  0](RO/H) BIP error counter for lane \<b+8\>; None roll-over. */
 #else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 1; None roll-over. */
+        uint64_t error_counter         : 16; /**< [ 15:  0](RO/H) BIP error counter for lane \<b+8\>; None roll-over. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane1_s cn; */
+    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2x_s cn; */
 };
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane1 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane1_t;
+typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2x cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2x_t;
 
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018648ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1", 2, a, b, 0, 0, 0, 0);
+    if ((a<=8) && (b<=3) && (c<=7))
+        return 0x87e0e0020680ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane1_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE1(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(a,b,c) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2x_t
+#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(a,b,c) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X"
+#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(a,b,c) (a)
+#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2X(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane10
+ * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane3#
  *
- * RPM Mti Pcs100  Bip Err Cnt Lane10 Register
- * BIP Error Counter Lane 10; Clears on read; None roll-over
+ * RPM MTI PCS Bip Err Cnt Lane Register
+ * BIP Error Counter Lane \<b+16\>; Clears on read; None roll-over.
+ * Internal:
+ * This group of registers should be duplicated 0..19, but CSR3 does not support extern
+ * regs to be non-aligned.
+ * Instead of duplicating 20 times, I prefer to create several (aligned) groups.
  */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane10
+union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3x
 {
     uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane10_s
+    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 10; None roll-over. */
+        uint64_t error_counter         : 16; /**< [ 15:  0](RO/H) BIP error counter for lane \<b+16\>; None roll-over. */
 #else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 10; None roll-over. */
+        uint64_t error_counter         : 16; /**< [ 15:  0](RO/H) BIP error counter for lane \<b+16\>; None roll-over. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane10_s cn; */
+    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3x_s cn; */
 };
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane10 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane10_t;
+typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3x cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3x_t;
 
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018690ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10", 2, a, b, 0, 0, 0, 0);
+    if ((a<=8) && (b<=3) && (c<=3))
+        return 0x87e0e00206c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane10_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE10(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane11
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane11 Register
- * BIP Error Counter Lane 11; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane11
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane11_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 11; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 11; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane11_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane11 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane11_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018698ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane11_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE11(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane12
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane12 Register
- * BIP Error Counter Lane 12; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane12
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane12_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 12; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 12; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane12_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane12 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane12_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186a0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane12_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE12(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane13
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane13 Register
- * BIP Error Counter Lane 13; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane13
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane13_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 13; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 13; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane13_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane13 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane13_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186a8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane13_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE13(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane14
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane14 Register
- * BIP Error Counter Lane 14; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane14
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane14_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 14; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 14; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane14_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane14 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane14_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186b0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane14_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE14(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane15
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane15 Register
- * BIP Error Counter Lane 15; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane15
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane15_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 15; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 15; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane15_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane15 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane15_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186b8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane15_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE15(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane16
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane16 Register
- * BIP Error Counter Lane 16; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane16
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane16_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 16; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 16; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane16_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane16 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane16_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186c0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane16_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE16(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane17
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane17 Register
- * BIP Error Counter Lane 17; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane17
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane17_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 17; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 17; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane17_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane17 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane17_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186c8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane17_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE17(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane18
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane18 Register
- * BIP Error Counter Lane 18; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane18
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane18_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 18; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 18; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane18_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane18 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane18_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186d0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane18_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE18(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane19
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane19 Register
- * BIP Error Counter Lane 19; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane19
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane19_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 19; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 19; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane19_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane19 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane19_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00186d8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane19_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE19(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane2
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane2 Register
- * BIP Error Counter Lane 2; Clears on read; None roll-over.
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 2; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 2; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018650ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane2_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane3
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane3 Register
- * BIP Error Counter Lane 3; Clears on read; None roll-over.
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 3; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 3; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018658ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane4
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane4 Register
- * BIP Error Counter Lane 4; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane4
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane4_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 4; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 4; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane4_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane4 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane4_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018660ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane4_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE4(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane5
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane5 Register
- * BIP Error Counter Lane 5; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane5
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane5_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 5; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 5; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane5_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane5 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane5_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018668ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane5_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE5(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane6
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane6 Register
- * BIP Error Counter Lane 6; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane6
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane6_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 6; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 6; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane6_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane6 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane6_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018670ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane6_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE6(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane7
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane7 Register
- * BIP Error Counter Lane 7; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane7
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 7; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 7; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane7_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane7 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane7_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018678ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane7_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE7(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane8
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane8 Register
- * BIP Error Counter Lane 8; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane8
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane8_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 8; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 8; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane8_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane8 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane8_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018680ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane8_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE8(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_bip_err_cnt_lane9
- *
- * RPM Mti Pcs100  Bip Err Cnt Lane9 Register
- * BIP Error Counter Lane 9; Clears on read; None roll-over
- */
-union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane9
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane9_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 9; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t error_counter         : 16; /**< [ 15:  0](RO) BIP error counter for lane 9; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane9_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane9 cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane9_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018688ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(a,b) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane9_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(a,b) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE9(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(a,b,c) cavm_rpmx_mti_pcs100_x_bip_err_cnt_lane3x_t
+#define bustype_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(a,b,c) "RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X"
+#define device_bar_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(a,b,c) (a)
+#define arguments_CAVM_RPMX_MTI_PCS100_X_BIP_ERR_CNT_LANE3X(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (RSL) rpm#_mti_pcs100_#_control1
  *
- * RPM Mti Pcs100  Control1 Register
+ * RPM MTI PCS Control1 Register
  * PCS Control.
  */
 union cavm_rpmx_mti_pcs100_x_control1
@@ -21284,8 +20662,8 @@ typedef union cavm_rpmx_mti_pcs100_x_control1 cavm_rpmx_mti_pcs100_x_control1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_CONTROL1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018000ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_CONTROL1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -21299,7 +20677,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_CONTROL1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_control2
  *
- * RPM Mti Pcs100  Control2 Register
+ * RPM MTI PCS Control2 Register
  * Operating speed indication.
  */
 union cavm_rpmx_mti_pcs100_x_control2
@@ -21344,8 +20722,8 @@ typedef union cavm_rpmx_mti_pcs100_x_control2 cavm_rpmx_mti_pcs100_x_control2_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_CONTROL2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_CONTROL2(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018038ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_CONTROL2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -21359,7 +20737,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_CONTROL2(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_device_id0
  *
- * RPM Mti Pcs100  Device Id0 Register
+ * RPM MTI PCS Device Id0 Register
  * PHY Identifier constant from package parameter PHY_IDENTIFIER bits 15:4. Bits 3:0 always 0.
  */
 union cavm_rpmx_mti_pcs100_x_device_id0
@@ -21369,9 +20747,13 @@ union cavm_rpmx_mti_pcs100_x_device_id0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
+        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file.
+                                                                 0x0 - even PCS channels.
+                                                                 0x1 - odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
+        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file.
+                                                                 0x0 - even PCS channels.
+                                                                 0x1 - odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -21382,8 +20764,8 @@ typedef union cavm_rpmx_mti_pcs100_x_device_id0 cavm_rpmx_mti_pcs100_x_device_id
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICE_ID0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICE_ID0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018010ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_DEVICE_ID0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -21397,7 +20779,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICE_ID0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_device_id1
  *
- * RPM Mti Pcs100  Device Id1 Register
+ * RPM MTI PCS Device Id1 Register
  * PHY Identifier constant from package parameter PHY_IDENTIFIER bits 31:16.
  */
 union cavm_rpmx_mti_pcs100_x_device_id1
@@ -21420,8 +20802,8 @@ typedef union cavm_rpmx_mti_pcs100_x_device_id1 cavm_rpmx_mti_pcs100_x_device_id
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICE_ID1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICE_ID1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018018ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_DEVICE_ID1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -21435,7 +20817,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICE_ID1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_devices_in_pkg1
  *
- * RPM Mti Pcs100  Devices In Pkg1 Register
+ * RPM MTI PCS Devices In Pkg1 Register
  * Constant indicating PCS presence.
  */
 union cavm_rpmx_mti_pcs100_x_devices_in_pkg1
@@ -21470,8 +20852,8 @@ typedef union cavm_rpmx_mti_pcs100_x_devices_in_pkg1 cavm_rpmx_mti_pcs100_x_devi
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICES_IN_PKG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICES_IN_PKG1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018028ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_DEVICES_IN_PKG1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -21485,7 +20867,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICES_IN_PKG1(uint64_t a, uint64
 /**
  * Register (RSL) rpm#_mti_pcs100_#_devices_in_pkg2
  *
- * RPM Mti Pcs100  Devices In Pkg2 Register
+ * RPM MTI PCS Devices In Pkg2 Register
  * Vendor specific presence.
  */
 union cavm_rpmx_mti_pcs100_x_devices_in_pkg2
@@ -21514,8 +20896,8 @@ typedef union cavm_rpmx_mti_pcs100_x_devices_in_pkg2 cavm_rpmx_mti_pcs100_x_devi
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICES_IN_PKG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICES_IN_PKG2(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018030ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_DEVICES_IN_PKG2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -21529,7 +20911,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_DEVICES_IN_PKG2(uint64_t a, uint64
 /**
  * Register (RSL) rpm#_mti_pcs100_#_err_blk_high_order_cnt
  *
- * RPM Mti Pcs100  Err Blk High Order Cnt Register
+ * RPM MTI PCS Err Blk High Order Cnt Register
  * Error Blocks High Order Counter bits 21:8; None roll-over.
  */
 union cavm_rpmx_mti_pcs100_x_err_blk_high_order_cnt
@@ -21541,9 +20923,9 @@ union cavm_rpmx_mti_pcs100_x_err_blk_high_order_cnt
         uint64_t reserved_16_63        : 48;
         uint64_t high_order_present    : 1;  /**< [ 15: 15](RO) High order counter present; Always 1. */
         uint64_t reserved_14           : 1;
-        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO) Bits 21:8 of Error Blocks counter; None roll-over. */
+        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO/H) Bits 21:8 of Error Blocks counter; None roll-over. */
 #else /* Word 0 - Little Endian */
-        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO) Bits 21:8 of Error Blocks counter; None roll-over. */
+        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO/H) Bits 21:8 of Error Blocks counter; None roll-over. */
         uint64_t reserved_14           : 1;
         uint64_t high_order_present    : 1;  /**< [ 15: 15](RO) High order counter present; Always 1. */
         uint64_t reserved_16_63        : 48;
@@ -21556,8 +20938,8 @@ typedef union cavm_rpmx_mti_pcs100_x_err_blk_high_order_cnt cavm_rpmx_mti_pcs100
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_ERR_BLK_HIGH_ORDER_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_ERR_BLK_HIGH_ORDER_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018168ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_ERR_BLK_HIGH_ORDER_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -21569,769 +20951,93 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_ERR_BLK_HIGH_ORDER_CNT(uint64_t a,
 #define arguments_CAVM_RPMX_MTI_PCS100_X_ERR_BLK_HIGH_ORDER_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) rpm#_mti_pcs100_#_lane0_mapping
+ * Register (RSL) rpm#_mti_pcs100_#_lane_mapping#
  *
- * RPM Mti Pcs100  Lane0 Mapping Register
- * Lane 0 mapping bits 5:0.
+ * RPM MTI PCS Lane Mapping Register
+ * Lane \<b\> mapping.
+ * Internal:
+ * This group of registers should be duplicated 0..19, but CSR3 does not support extern
+ * regs to be non-aligned.
+ * Instead of duplicating 20 times, I prefer to create several (aligned) groups.
  */
-union cavm_rpmx_mti_pcs100_x_lane0_mapping
+union cavm_rpmx_mti_pcs100_x_lane_mappingx
 {
     uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane0_mapping_s
+    struct cavm_rpmx_mti_pcs100_x_lane_mappingx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 0 mapping. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t mapping               : 5;  /**< [  4:  0](RO/H) Lane \<b\> mapping. */
 #else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 0 mapping. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t mapping               : 5;  /**< [  4:  0](RO/H) Lane \<b\> mapping. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane0_mapping_s cn; */
+    /* struct cavm_rpmx_mti_pcs100_x_lane_mappingx_s cn; */
 };
-typedef union cavm_rpmx_mti_pcs100_x_lane0_mapping cavm_rpmx_mti_pcs100_x_lane0_mapping_t;
+typedef union cavm_rpmx_mti_pcs100_x_lane_mappingx cavm_rpmx_mti_pcs100_x_lane_mappingx_t;
 
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018c80ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE0_MAPPING", 2, a, b, 0, 0, 0, 0);
+    if ((a<=8) && (b<=3) && (c<=15))
+        return 0x87e0e0020c80ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
+    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE_MAPPINGX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane0_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE0_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE0_MAPPING(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(a,b,c) cavm_rpmx_mti_pcs100_x_lane_mappingx_t
+#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(a,b,c) "RPMX_MTI_PCS100_X_LANE_MAPPINGX"
+#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(a,b,c) (a)
+#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPINGX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) rpm#_mti_pcs100_#_lane10_mapping
+ * Register (RSL) rpm#_mti_pcs100_#_lane_mapping2#
  *
- * RPM Mti Pcs100  Lane10 Mapping Register
- * Lane 10 mapping bits 5:0.
+ * RPM MTI PCS Lane Mapping Register
+ * Lane \<b+16\> mapping.
+ * Internal:
+ * This group of registers should be duplicated 0..19, but CSR3 does not support extern
+ * regs to be non-aligned.
+ * Instead of duplicating 20 times, I prefer to create several (aligned) groups.
  */
-union cavm_rpmx_mti_pcs100_x_lane10_mapping
+union cavm_rpmx_mti_pcs100_x_lane_mapping2x
 {
     uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane10_mapping_s
+    struct cavm_rpmx_mti_pcs100_x_lane_mapping2x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 10 mapping. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t mapping               : 5;  /**< [  4:  0](RO/H) Lane \<b+16\> mapping. */
 #else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 10 mapping. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t mapping               : 5;  /**< [  4:  0](RO/H) Lane \<b+16\> mapping. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane10_mapping_s cn; */
+    /* struct cavm_rpmx_mti_pcs100_x_lane_mapping2x_s cn; */
 };
-typedef union cavm_rpmx_mti_pcs100_x_lane10_mapping cavm_rpmx_mti_pcs100_x_lane10_mapping_t;
+typedef union cavm_rpmx_mti_pcs100_x_lane_mapping2x cavm_rpmx_mti_pcs100_x_lane_mapping2x_t;
 
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cd0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE10_MAPPING", 2, a, b, 0, 0, 0, 0);
+    if ((a<=8) && (b<=3) && (c<=3))
+        return 0x87e0e0020d00ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE_MAPPING2X", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane10_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE10_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE10_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane11_mapping
- *
- * RPM Mti Pcs100  Lane11 Mapping Register
- * Lane 11 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane11_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane11_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 11 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 11 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane11_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane11_mapping cavm_rpmx_mti_pcs100_x_lane11_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cd8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE11_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane11_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE11_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE11_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane12_mapping
- *
- * RPM Mti Pcs100  Lane12 Mapping Register
- * Lane 12 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane12_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane12_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 12 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 12 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane12_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane12_mapping cavm_rpmx_mti_pcs100_x_lane12_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018ce0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE12_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane12_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE12_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE12_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane13_mapping
- *
- * RPM Mti Pcs100  Lane13 Mapping Register
- * Lane 13 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane13_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane13_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 13 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 13 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane13_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane13_mapping cavm_rpmx_mti_pcs100_x_lane13_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018ce8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE13_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane13_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE13_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE13_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane14_mapping
- *
- * RPM Mti Pcs100  Lane14 Mapping Register
- * Lane 14 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane14_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane14_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 14 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 14 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane14_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane14_mapping cavm_rpmx_mti_pcs100_x_lane14_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cf0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE14_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane14_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE14_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE14_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane15_mapping
- *
- * RPM Mti Pcs100  Lane15 Mapping Register
- * Lane 15 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane15_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane15_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 15 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 15 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane15_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane15_mapping cavm_rpmx_mti_pcs100_x_lane15_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cf8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE15_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane15_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE15_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE15_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane16_mapping
- *
- * RPM Mti Pcs100  Lane16 Mapping Register
- * Lane 16 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane16_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane16_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 16 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 16 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane16_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane16_mapping cavm_rpmx_mti_pcs100_x_lane16_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018d00ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE16_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane16_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE16_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE16_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane17_mapping
- *
- * RPM Mti Pcs100  Lane17 Mapping Register
- * Lane 17 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane17_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane17_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 17 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 17 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane17_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane17_mapping cavm_rpmx_mti_pcs100_x_lane17_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018d08ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE17_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane17_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE17_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE17_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane18_mapping
- *
- * RPM Mti Pcs100  Lane18 Mapping Register
- * Lane 18 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane18_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane18_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 18 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 18 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane18_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane18_mapping cavm_rpmx_mti_pcs100_x_lane18_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018d10ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE18_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane18_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE18_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE18_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane19_mapping
- *
- * RPM Mti Pcs100  Lane19 Mapping Register
- * Lane 19 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane19_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane19_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 19 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 19 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane19_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane19_mapping cavm_rpmx_mti_pcs100_x_lane19_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018d18ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE19_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane19_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE19_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE19_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane1_mapping
- *
- * RPM Mti Pcs100  Lane1 Mapping Register
- * Lane 1 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane1_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane1_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 1 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 1 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane1_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane1_mapping cavm_rpmx_mti_pcs100_x_lane1_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018c88ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE1_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane1_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE1_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE1_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane2_mapping
- *
- * RPM Mti Pcs100  Lane2 Mapping Register
- * Lane 2 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane2_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane2_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 2 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 2 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane2_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane2_mapping cavm_rpmx_mti_pcs100_x_lane2_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018c90ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE2_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane2_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE2_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE2_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane3_mapping
- *
- * RPM Mti Pcs100  Lane3 Mapping Register
- * Lane 3 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane3_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane3_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 3 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 3 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane3_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane3_mapping cavm_rpmx_mti_pcs100_x_lane3_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018c98ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE3_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane3_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE3_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE3_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane4_mapping
- *
- * RPM Mti Pcs100  Lane4 Mapping Register
- * Lane 4 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane4_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane4_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 4 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 4 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane4_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane4_mapping cavm_rpmx_mti_pcs100_x_lane4_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018ca0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE4_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane4_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE4_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE4_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane5_mapping
- *
- * RPM Mti Pcs100  Lane5 Mapping Register
- * Lane 5 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane5_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane5_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 5 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 5 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane5_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane5_mapping cavm_rpmx_mti_pcs100_x_lane5_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018ca8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE5_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane5_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE5_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE5_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane6_mapping
- *
- * RPM Mti Pcs100  Lane6 Mapping Register
- * Lane 6 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane6_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane6_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 6 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 6 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane6_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane6_mapping cavm_rpmx_mti_pcs100_x_lane6_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cb0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE6_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane6_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE6_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE6_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane7_mapping
- *
- * RPM Mti Pcs100  Lane7 Mapping Register
- * Lane 7 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane7_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane7_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 7 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 7 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane7_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane7_mapping cavm_rpmx_mti_pcs100_x_lane7_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cb8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE7_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane7_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE7_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE7_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane8_mapping
- *
- * RPM Mti Pcs100  Lane8 Mapping Register
- * Lane 8 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane8_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane8_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 8 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 8 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane8_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane8_mapping cavm_rpmx_mti_pcs100_x_lane8_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cc0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE8_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane8_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE8_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE8_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs100_#_lane9_mapping
- *
- * RPM Mti Pcs100  Lane9 Mapping Register
- * Lane 9 mapping bits 5:0.
- */
-union cavm_rpmx_mti_pcs100_x_lane9_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs100_x_lane9_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 9 mapping. */
-#else /* Word 0 - Little Endian */
-        uint64_t mapping               : 16; /**< [ 15:  0](RO) Lane 9 mapping. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs100_x_lane9_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs100_x_lane9_mapping cavm_rpmx_mti_pcs100_x_lane9_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018cc8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS100_X_LANE9_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(a,b) cavm_rpmx_mti_pcs100_x_lane9_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(a,b) "RPMX_MTI_PCS100_X_LANE9_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE9_MAPPING(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(a,b,c) cavm_rpmx_mti_pcs100_x_lane_mapping2x_t
+#define bustype_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(a,b,c) "RPMX_MTI_PCS100_X_LANE_MAPPING2X"
+#define device_bar_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(a,b,c) (a)
+#define arguments_CAVM_RPMX_MTI_PCS100_X_LANE_MAPPING2X(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (RSL) rpm#_mti_pcs100_#_multilane_align_stat1
  *
- * RPM Mti Pcs100  Multilane Align Stat1 Register
+ * RPM MTI PCS Multilane Align Stat1 Register
  * Lane Alignment Status Bits and Block Lock.
  */
 union cavm_rpmx_mti_pcs100_x_multilane_align_stat1
@@ -22341,27 +21047,13 @@ union cavm_rpmx_mti_pcs100_x_multilane_align_stat1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO) Lane alignment status; 1=All Receive lanes locked and aligned. */
+        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO/H) Lane alignment status; 1=All Receive lanes locked and aligned. */
         uint64_t reserved_8_11         : 4;
-        uint64_t lane7_block_lock      : 1;  /**< [  7:  7](RO) Lane 7 block lock. */
-        uint64_t lane6_block_lock      : 1;  /**< [  6:  6](RO) Lane 6 block lock. */
-        uint64_t lane5_block_lock      : 1;  /**< [  5:  5](RO) Lane 5 block lock. */
-        uint64_t lane4_block_lock      : 1;  /**< [  4:  4](RO) Lane 4 block lock. */
-        uint64_t lane3_block_lock      : 1;  /**< [  3:  3](RO) Lane 3 block lock. */
-        uint64_t lane2_block_lock      : 1;  /**< [  2:  2](RO) Lane 2 block lock. */
-        uint64_t lane1_block_lock      : 1;  /**< [  1:  1](RO) Lane 1 block lock. */
-        uint64_t lane0_block_lock      : 1;  /**< [  0:  0](RO) Lane 0 block lock. */
+        uint64_t lane_block_lock       : 8;  /**< [  7:  0](RO/H) Bit i specifies Lane i block lock. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane0_block_lock      : 1;  /**< [  0:  0](RO) Lane 0 block lock. */
-        uint64_t lane1_block_lock      : 1;  /**< [  1:  1](RO) Lane 1 block lock. */
-        uint64_t lane2_block_lock      : 1;  /**< [  2:  2](RO) Lane 2 block lock. */
-        uint64_t lane3_block_lock      : 1;  /**< [  3:  3](RO) Lane 3 block lock. */
-        uint64_t lane4_block_lock      : 1;  /**< [  4:  4](RO) Lane 4 block lock. */
-        uint64_t lane5_block_lock      : 1;  /**< [  5:  5](RO) Lane 5 block lock. */
-        uint64_t lane6_block_lock      : 1;  /**< [  6:  6](RO) Lane 6 block lock. */
-        uint64_t lane7_block_lock      : 1;  /**< [  7:  7](RO) Lane 7 block lock. */
+        uint64_t lane_block_lock       : 8;  /**< [  7:  0](RO/H) Bit i specifies Lane i block lock. */
         uint64_t reserved_8_11         : 4;
-        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO) Lane alignment status; 1=All Receive lanes locked and aligned. */
+        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO/H) Lane alignment status; 1=All Receive lanes locked and aligned. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -22372,8 +21064,8 @@ typedef union cavm_rpmx_mti_pcs100_x_multilane_align_stat1 cavm_rpmx_mti_pcs100_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018190ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020190ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22387,7 +21079,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT1(uint64_t a, 
 /**
  * Register (RSL) rpm#_mti_pcs100_#_multilane_align_stat2
  *
- * RPM Mti Pcs100  Multilane Align Stat2 Register
+ * RPM MTI PCS Multilane Align Stat2 Register
  * Lane Alignment Status Bits and Block Lock.
  */
 union cavm_rpmx_mti_pcs100_x_multilane_align_stat2
@@ -22397,31 +21089,9 @@ union cavm_rpmx_mti_pcs100_x_multilane_align_stat2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t lane19_block_lock     : 1;  /**< [ 11: 11](RO) Lane 19 block lock. */
-        uint64_t lane18_block_lock     : 1;  /**< [ 10: 10](RO) Lane 18 block lock. */
-        uint64_t lane17_block_lock     : 1;  /**< [  9:  9](RO) Lane 17 block lock. */
-        uint64_t lane16_block_lock     : 1;  /**< [  8:  8](RO) Lane 16 block lock. */
-        uint64_t lane15_block_lock     : 1;  /**< [  7:  7](RO) Lane 15 block lock. */
-        uint64_t lane14_block_lock     : 1;  /**< [  6:  6](RO) Lane 14 block lock. */
-        uint64_t lane13_block_lock     : 1;  /**< [  5:  5](RO) Lane 13 block lock. */
-        uint64_t lane12_block_lock     : 1;  /**< [  4:  4](RO) Lane 12 block lock. */
-        uint64_t lane11_block_lock     : 1;  /**< [  3:  3](RO) Lane 11 block lock. */
-        uint64_t lane10_block_lock     : 1;  /**< [  2:  2](RO) Lane 10 block lock. */
-        uint64_t lane9_block_lock      : 1;  /**< [  1:  1](RO) Lane 9 block lock. */
-        uint64_t lane8_block_lock      : 1;  /**< [  0:  0](RO) Lane 8 block lock. */
+        uint64_t lane_block_lock       : 12; /**< [ 11:  0](RO/H) Bit i specifies Lane i+8 block lock. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane8_block_lock      : 1;  /**< [  0:  0](RO) Lane 8 block lock. */
-        uint64_t lane9_block_lock      : 1;  /**< [  1:  1](RO) Lane 9 block lock. */
-        uint64_t lane10_block_lock     : 1;  /**< [  2:  2](RO) Lane 10 block lock. */
-        uint64_t lane11_block_lock     : 1;  /**< [  3:  3](RO) Lane 11 block lock. */
-        uint64_t lane12_block_lock     : 1;  /**< [  4:  4](RO) Lane 12 block lock. */
-        uint64_t lane13_block_lock     : 1;  /**< [  5:  5](RO) Lane 13 block lock. */
-        uint64_t lane14_block_lock     : 1;  /**< [  6:  6](RO) Lane 14 block lock. */
-        uint64_t lane15_block_lock     : 1;  /**< [  7:  7](RO) Lane 15 block lock. */
-        uint64_t lane16_block_lock     : 1;  /**< [  8:  8](RO) Lane 16 block lock. */
-        uint64_t lane17_block_lock     : 1;  /**< [  9:  9](RO) Lane 17 block lock. */
-        uint64_t lane18_block_lock     : 1;  /**< [ 10: 10](RO) Lane 18 block lock. */
-        uint64_t lane19_block_lock     : 1;  /**< [ 11: 11](RO) Lane 19 block lock. */
+        uint64_t lane_block_lock       : 12; /**< [ 11:  0](RO/H) Bit i specifies Lane i+8 block lock. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -22432,8 +21102,8 @@ typedef union cavm_rpmx_mti_pcs100_x_multilane_align_stat2 cavm_rpmx_mti_pcs100_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT2(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018198ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020198ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22447,7 +21117,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT2(uint64_t a, 
 /**
  * Register (RSL) rpm#_mti_pcs100_#_multilane_align_stat3
  *
- * RPM Mti Pcs100  Multilane Align Stat3 Register
+ * RPM MTI PCS Multilane Align Stat3 Register
  * Lane Alignment Marker Lock Status bits.
  */
 union cavm_rpmx_mti_pcs100_x_multilane_align_stat3
@@ -22457,23 +21127,9 @@ union cavm_rpmx_mti_pcs100_x_multilane_align_stat3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t lane7_align_mlock     : 1;  /**< [  7:  7](RO) Lane 7 alignment marker lock. */
-        uint64_t lane6_align_mlock     : 1;  /**< [  6:  6](RO) Lane 6 alignment marker lock. */
-        uint64_t lane5_align_mlock     : 1;  /**< [  5:  5](RO) Lane 5 alignment marker lock. */
-        uint64_t lane4_align_mlock     : 1;  /**< [  4:  4](RO) Lane 4 alignment marker lock. */
-        uint64_t lane3_align_mlock     : 1;  /**< [  3:  3](RO) Lane 3 alignment marker lock. */
-        uint64_t lane2_align_mlock     : 1;  /**< [  2:  2](RO) Lane 2 alignment marker lock. */
-        uint64_t lane1_align_mlock     : 1;  /**< [  1:  1](RO) Lane 1 alignment marker lock. */
-        uint64_t lane0_align_mlock     : 1;  /**< [  0:  0](RO) Lane 0 alignment marker lock. */
+        uint64_t lane_align_mlock      : 8;  /**< [  7:  0](RO/H) Bit i specifies Lane i alignment marker lock. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane0_align_mlock     : 1;  /**< [  0:  0](RO) Lane 0 alignment marker lock. */
-        uint64_t lane1_align_mlock     : 1;  /**< [  1:  1](RO) Lane 1 alignment marker lock. */
-        uint64_t lane2_align_mlock     : 1;  /**< [  2:  2](RO) Lane 2 alignment marker lock. */
-        uint64_t lane3_align_mlock     : 1;  /**< [  3:  3](RO) Lane 3 alignment marker lock. */
-        uint64_t lane4_align_mlock     : 1;  /**< [  4:  4](RO) Lane 4 alignment marker lock. */
-        uint64_t lane5_align_mlock     : 1;  /**< [  5:  5](RO) Lane 5 alignment marker lock. */
-        uint64_t lane6_align_mlock     : 1;  /**< [  6:  6](RO) Lane 6 alignment marker lock. */
-        uint64_t lane7_align_mlock     : 1;  /**< [  7:  7](RO) Lane 7 alignment marker lock. */
+        uint64_t lane_align_mlock      : 8;  /**< [  7:  0](RO/H) Bit i specifies Lane i alignment marker lock. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -22484,8 +21140,8 @@ typedef union cavm_rpmx_mti_pcs100_x_multilane_align_stat3 cavm_rpmx_mti_pcs100_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT3(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00181a0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00201a0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT3", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22499,7 +21155,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT3(uint64_t a, 
 /**
  * Register (RSL) rpm#_mti_pcs100_#_multilane_align_stat4
  *
- * RPM Mti Pcs100  Multilane Align Stat4 Register
+ * RPM MTI PCS Multilane Align Stat4 Register
  * Lane Alignment Marker Lock lane 8 to 19.
  */
 union cavm_rpmx_mti_pcs100_x_multilane_align_stat4
@@ -22509,31 +21165,9 @@ union cavm_rpmx_mti_pcs100_x_multilane_align_stat4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t lane19_align_mlock    : 1;  /**< [ 11: 11](RO) Lane 19 alignment marker lock. */
-        uint64_t lane18_align_mlock    : 1;  /**< [ 10: 10](RO) Lane 18 alignment marker lock. */
-        uint64_t lane17_align_mlock    : 1;  /**< [  9:  9](RO) Lane 17 alignment marker lock. */
-        uint64_t lane16_align_mlock    : 1;  /**< [  8:  8](RO) Lane 16 alignment marker lock. */
-        uint64_t lane15_align_mlock    : 1;  /**< [  7:  7](RO) Lane 15 alignment marker lock. */
-        uint64_t lane14_align_mlock    : 1;  /**< [  6:  6](RO) Lane 14 alignment marker lock. */
-        uint64_t lane13_align_mlock    : 1;  /**< [  5:  5](RO) Lane 13 alignment marker lock. */
-        uint64_t lane12_align_mlock    : 1;  /**< [  4:  4](RO) Lane 12 alignment marker lock. */
-        uint64_t lane11_align_mlock    : 1;  /**< [  3:  3](RO) Lane 11 alignment marker lock. */
-        uint64_t lane10_align_mlock    : 1;  /**< [  2:  2](RO) Lane 10 alignment marker lock. */
-        uint64_t lane9_align_mlock     : 1;  /**< [  1:  1](RO) Lane 9 alignment marker lock. */
-        uint64_t lane8_align_mlock     : 1;  /**< [  0:  0](RO) Lane 8 alignment marker lock. */
+        uint64_t lane_align_mlock      : 12; /**< [ 11:  0](RO/H) Bit i specifies Lane i+8 alignment marker lock. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane8_align_mlock     : 1;  /**< [  0:  0](RO) Lane 8 alignment marker lock. */
-        uint64_t lane9_align_mlock     : 1;  /**< [  1:  1](RO) Lane 9 alignment marker lock. */
-        uint64_t lane10_align_mlock    : 1;  /**< [  2:  2](RO) Lane 10 alignment marker lock. */
-        uint64_t lane11_align_mlock    : 1;  /**< [  3:  3](RO) Lane 11 alignment marker lock. */
-        uint64_t lane12_align_mlock    : 1;  /**< [  4:  4](RO) Lane 12 alignment marker lock. */
-        uint64_t lane13_align_mlock    : 1;  /**< [  5:  5](RO) Lane 13 alignment marker lock. */
-        uint64_t lane14_align_mlock    : 1;  /**< [  6:  6](RO) Lane 14 alignment marker lock. */
-        uint64_t lane15_align_mlock    : 1;  /**< [  7:  7](RO) Lane 15 alignment marker lock. */
-        uint64_t lane16_align_mlock    : 1;  /**< [  8:  8](RO) Lane 16 alignment marker lock. */
-        uint64_t lane17_align_mlock    : 1;  /**< [  9:  9](RO) Lane 17 alignment marker lock. */
-        uint64_t lane18_align_mlock    : 1;  /**< [ 10: 10](RO) Lane 18 alignment marker lock. */
-        uint64_t lane19_align_mlock    : 1;  /**< [ 11: 11](RO) Lane 19 alignment marker lock. */
+        uint64_t lane_align_mlock      : 12; /**< [ 11:  0](RO/H) Bit i specifies Lane i+8 alignment marker lock. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -22544,8 +21178,8 @@ typedef union cavm_rpmx_mti_pcs100_x_multilane_align_stat4 cavm_rpmx_mti_pcs100_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT4(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00181a8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00201a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT4", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22559,7 +21193,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_MULTILANE_ALIGN_STAT4(uint64_t a, 
 /**
  * Register (RSL) rpm#_mti_pcs100_#_pkg_id0
  *
- * RPM Mti Pcs100  Pkg Id0 Register
+ * RPM MTI PCS Pkg Id0 Register
  * Constant from package parameter PACK_IDENTIFIER bits 15:0.
  */
 union cavm_rpmx_mti_pcs100_x_pkg_id0
@@ -22582,8 +21216,8 @@ typedef union cavm_rpmx_mti_pcs100_x_pkg_id0 cavm_rpmx_mti_pcs100_x_pkg_id0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_PKG_ID0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_PKG_ID0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018070ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_PKG_ID0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22597,7 +21231,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_PKG_ID0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_pkg_id1
  *
- * RPM Mti Pcs100  Pkg Id1 Register
+ * RPM MTI PCS Pkg Id1 Register
  * Constant from package parameter PACK_IDENTIFIER bits 31:16.
  */
 union cavm_rpmx_mti_pcs100_x_pkg_id1
@@ -22620,8 +21254,8 @@ typedef union cavm_rpmx_mti_pcs100_x_pkg_id1 cavm_rpmx_mti_pcs100_x_pkg_id1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_PKG_ID1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_PKG_ID1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018078ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020078ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_PKG_ID1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22635,7 +21269,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_PKG_ID1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_a0
  *
- * RPM Mti Pcs100  Seed A0 Register
+ * RPM MTI PCS Seed A0 Register
  * 10G Base-R Test Pattern Seed A bits 15:0.
  */
 union cavm_rpmx_mti_pcs100_x_seed_a0
@@ -22658,8 +21292,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_a0 cavm_rpmx_mti_pcs100_x_seed_a0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018110ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_A0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22673,7 +21307,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_a1
  *
- * RPM Mti Pcs100  Seed A1 Register
+ * RPM MTI PCS Seed A1 Register
  * 10G Base-R Test Pattern Seed A bits 31:16.
  */
 union cavm_rpmx_mti_pcs100_x_seed_a1
@@ -22696,8 +21330,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_a1 cavm_rpmx_mti_pcs100_x_seed_a1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018118ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_A1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22711,7 +21345,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_a2
  *
- * RPM Mti Pcs100  Seed A2 Register
+ * RPM MTI PCS Seed A2 Register
  * 10G Base-R Test Pattern Seed A bits 47:32.
  */
 union cavm_rpmx_mti_pcs100_x_seed_a2
@@ -22734,8 +21368,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_a2 cavm_rpmx_mti_pcs100_x_seed_a2_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A2(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018120ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_A2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22749,7 +21383,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A2(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_a3
  *
- * RPM Mti Pcs100  Seed A3 Register
+ * RPM MTI PCS Seed A3 Register
  * 10G Base-R Test Pattern Seed A bits 57:48.
  */
 union cavm_rpmx_mti_pcs100_x_seed_a3
@@ -22772,8 +21406,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_a3 cavm_rpmx_mti_pcs100_x_seed_a3_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A3(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018128ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_A3", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22787,7 +21421,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_A3(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_b0
  *
- * RPM Mti Pcs100  Seed B0 Register
+ * RPM MTI PCS Seed B0 Register
  * 10G Base-R Test Pattern Seed B bits 15:0.
  */
 union cavm_rpmx_mti_pcs100_x_seed_b0
@@ -22810,8 +21444,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_b0 cavm_rpmx_mti_pcs100_x_seed_b0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018130ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_B0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22825,7 +21459,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_b1
  *
- * RPM Mti Pcs100  Seed B1 Register
+ * RPM MTI PCS Seed B1 Register
  * 10G Base-R Test Pattern Seed B bits 31:16.
  */
 union cavm_rpmx_mti_pcs100_x_seed_b1
@@ -22848,8 +21482,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_b1 cavm_rpmx_mti_pcs100_x_seed_b1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018138ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_B1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22863,7 +21497,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_b2
  *
- * RPM Mti Pcs100  Seed B2 Register
+ * RPM MTI PCS Seed B2 Register
  * 10G Base-R Test Pattern Seed B bits 47:32.
  */
 union cavm_rpmx_mti_pcs100_x_seed_b2
@@ -22886,8 +21520,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_b2 cavm_rpmx_mti_pcs100_x_seed_b2_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B2(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018140ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_B2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22901,7 +21535,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B2(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_seed_b3
  *
- * RPM Mti Pcs100  Seed B3 Register
+ * RPM MTI PCS Seed B3 Register
  * 10G Base-R Test Pattern Seed B bits 57:48.
  */
 union cavm_rpmx_mti_pcs100_x_seed_b3
@@ -22924,8 +21558,8 @@ typedef union cavm_rpmx_mti_pcs100_x_seed_b3 cavm_rpmx_mti_pcs100_x_seed_b3_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B3(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018148ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SEED_B3", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22939,7 +21573,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SEED_B3(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_speed_ability
  *
- * RPM Mti Pcs100  Speed Ability Register
+ * RPM MTI PCS Speed Ability Register
  * PCS supported speeds (values as defined by standard only, no proprietary speeds).
  */
 union cavm_rpmx_mti_pcs100_x_speed_ability
@@ -22951,7 +21585,8 @@ union cavm_rpmx_mti_pcs100_x_speed_ability
         uint64_t reserved_6_63         : 58;
         uint64_t c50g                  : 1;  /**< [  5:  5](RO) When 1, this PCS is 50G capable. */
         uint64_t c25g                  : 1;  /**< [  4:  4](RO) When 1, this PCS is 25G capable. */
-        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable. */
+        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
         uint64_t c40g                  : 1;  /**< [  2:  2](RO) When 1, this PCS is 40G capable. */
         uint64_t c10pass_ts            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10PASS-TS/2Base-TL capable. */
         uint64_t c10geth               : 1;  /**< [  0:  0](RO) When 1, this PCS is 10Geth capable. */
@@ -22959,7 +21594,8 @@ union cavm_rpmx_mti_pcs100_x_speed_ability
         uint64_t c10geth               : 1;  /**< [  0:  0](RO) When 1, this PCS is 10Geth capable. */
         uint64_t c10pass_ts            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10PASS-TS/2Base-TL capable. */
         uint64_t c40g                  : 1;  /**< [  2:  2](RO) When 1, this PCS is 40G capable. */
-        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable. */
+        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
         uint64_t c25g                  : 1;  /**< [  4:  4](RO) When 1, this PCS is 25G capable. */
         uint64_t c50g                  : 1;  /**< [  5:  5](RO) When 1, this PCS is 50G capable. */
         uint64_t reserved_6_63         : 58;
@@ -22972,8 +21608,8 @@ typedef union cavm_rpmx_mti_pcs100_x_speed_ability cavm_rpmx_mti_pcs100_x_speed_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SPEED_ABILITY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SPEED_ABILITY(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018020ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_SPEED_ABILITY", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -22987,7 +21623,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_SPEED_ABILITY(uint64_t a, uint64_t
 /**
  * Register (RSL) rpm#_mti_pcs100_#_status1
  *
- * RPM Mti Pcs100  Status1 Register
+ * RPM MTI PCS Status1 Register
  * PCS Status.
  */
 union cavm_rpmx_mti_pcs100_x_status1
@@ -22997,36 +21633,36 @@ union cavm_rpmx_mti_pcs100_x_status1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO) 1: transmit is or was in LPI state;
+        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO/H) 1: transmit is or was in LPI state;
                                                                  0: normal operation; Latching high. */
-        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO) 1: receive is or was in LPI state;
+        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO/H) 1: receive is or was in LPI state;
                                                                  0: normal operation; Latching high. */
-        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO) 1: transmit is currently in LPI state;
+        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO/H) 1: transmit is currently in LPI state;
                                                                  0: normal operation. */
-        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO) 1: receive is currently in LPI state;
+        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO/H) 1: receive is currently in LPI state;
                                                                  0: normal operation. */
-        uint64_t fault                 : 1;  /**< [  7:  7](RO) When 1, indicates a fault condition idetected; When ?0?, indicates that no fault
+        uint64_t fault                 : 1;  /**< [  7:  7](RO/H) When 1, indicates a fault condition is detected; When 0, indicates that no fault
                                                                  condition is detected. */
         uint64_t reserved_3_6          : 4;
-        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO) When 1, indicates PCS receive link up; When ?0?, indicates PCS receive link is
+        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO/H) When 1, indicates PCS receive link up; When 0, indicates PCS receive link is
                                                                  or was down (latching low). */
-        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) Set to 1 to indicate that the PCS implements a low power mode. */
+        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) When 1, indicates that the PCS implements a low power mode. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) Set to 1 to indicate that the PCS implements a low power mode. */
-        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO) When 1, indicates PCS receive link up; When ?0?, indicates PCS receive link is
+        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) When 1, indicates that the PCS implements a low power mode. */
+        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO/H) When 1, indicates PCS receive link up; When 0, indicates PCS receive link is
                                                                  or was down (latching low). */
         uint64_t reserved_3_6          : 4;
-        uint64_t fault                 : 1;  /**< [  7:  7](RO) When 1, indicates a fault condition idetected; When ?0?, indicates that no fault
+        uint64_t fault                 : 1;  /**< [  7:  7](RO/H) When 1, indicates a fault condition is detected; When 0, indicates that no fault
                                                                  condition is detected. */
-        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO) 1: receive is currently in LPI state;
+        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO/H) 1: receive is currently in LPI state;
                                                                  0: normal operation. */
-        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO) 1: transmit is currently in LPI state;
+        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO/H) 1: transmit is currently in LPI state;
                                                                  0: normal operation. */
-        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO) 1: receive is or was in LPI state;
+        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO/H) 1: receive is or was in LPI state;
                                                                  0: normal operation; Latching high. */
-        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO) 1: transmit is or was in LPI state;
+        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO/H) 1: transmit is or was in LPI state;
                                                                  0: normal operation; Latching high. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
@@ -23038,8 +21674,8 @@ typedef union cavm_rpmx_mti_pcs100_x_status1 cavm_rpmx_mti_pcs100_x_status1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_STATUS1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018008ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_STATUS1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23053,7 +21689,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_STATUS1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_status2
  *
- * RPM Mti Pcs100  Status2 Register
+ * RPM MTI PCS Status2 Register
  * Fault status; Device capabilities
  */
 union cavm_rpmx_mti_pcs100_x_status2
@@ -23063,7 +21699,7 @@ union cavm_rpmx_mti_pcs100_x_status2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When bits are 10 = device responding at this address. */
+        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When 0x2, device responding at this address. */
         uint64_t reserved_12_13        : 2;
         uint64_t transmit_fault        : 1;  /**< [ 11: 11](RO/H) Transmit fault. 1=Fault condition on transmit path. Latched high */
         uint64_t receive_fault         : 1;  /**< [ 10: 10](RO/H) Receive fault. 1=Fault condition on receive path. Latched high */
@@ -23071,7 +21707,8 @@ union cavm_rpmx_mti_pcs100_x_status2
         uint64_t c50gbase_r            : 1;  /**< [  8:  8](RO) When 1, this PCS is 50GBase-R capable. */
         uint64_t c25gbase_r            : 1;  /**< [  7:  7](RO) When 1, this PCS is 25GBase-R capable. */
         uint64_t reserved_6            : 1;
-        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable. */
+        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
         uint64_t c40gbase_r            : 1;  /**< [  4:  4](RO) When 1, this PCS is 40GBase-R capable. */
         uint64_t c10gbase_t            : 1;  /**< [  3:  3](RO) When 1, this PCS is 10GBase-T capable. */
         uint64_t c10gbase_w            : 1;  /**< [  2:  2](RO) When 1, this PCS is 10GBase-W capable. */
@@ -23083,7 +21720,8 @@ union cavm_rpmx_mti_pcs100_x_status2
         uint64_t c10gbase_w            : 1;  /**< [  2:  2](RO) When 1, this PCS is 10GBase-W capable. */
         uint64_t c10gbase_t            : 1;  /**< [  3:  3](RO) When 1, this PCS is 10GBase-T capable. */
         uint64_t c40gbase_r            : 1;  /**< [  4:  4](RO) When 1, this PCS is 40GBase-R capable. */
-        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable. */
+        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
         uint64_t reserved_6            : 1;
         uint64_t c25gbase_r            : 1;  /**< [  7:  7](RO) When 1, this PCS is 25GBase-R capable. */
         uint64_t c50gbase_r            : 1;  /**< [  8:  8](RO) When 1, this PCS is 50GBase-R capable. */
@@ -23091,7 +21729,7 @@ union cavm_rpmx_mti_pcs100_x_status2
         uint64_t receive_fault         : 1;  /**< [ 10: 10](RO/H) Receive fault. 1=Fault condition on receive path. Latched high */
         uint64_t transmit_fault        : 1;  /**< [ 11: 11](RO/H) Transmit fault. 1=Fault condition on transmit path. Latched high */
         uint64_t reserved_12_13        : 2;
-        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When bits are 10 = device responding at this address. */
+        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When 0x2, device responding at this address. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23102,8 +21740,8 @@ typedef union cavm_rpmx_mti_pcs100_x_status2 cavm_rpmx_mti_pcs100_x_status2_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_STATUS2(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0018040ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_STATUS2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23117,8 +21755,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_STATUS2(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vendor_core_rev
  *
- * RPM Mti Pcs100  Vendor Core Rev Register
- * Vendor Specific Reg; Core Revision derived from DEV_VERSION package parameter.
+ * RPM MTI PCS Vendor Core Rev Register
+ * Vendor Specific Reg; Core Revision as defined by CORE_REVISION package parameter.
  */
 union cavm_rpmx_mti_pcs100_x_vendor_core_rev
 {
@@ -23127,9 +21765,11 @@ union cavm_rpmx_mti_pcs100_x_vendor_core_rev
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by DEV_VERSION parameter in PCS package file. */
+        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by CORE_REVISION parameter in PCS package file.
+                                                                 0x0 for even PCS channels. 0x300 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by DEV_VERSION parameter in PCS package file. */
+        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by CORE_REVISION parameter in PCS package file.
+                                                                 0x0 for even PCS channels. 0x300 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23140,8 +21780,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_core_rev cavm_rpmx_mti_pcs100_x_vend
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_CORE_REV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_CORE_REV(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019008ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_CORE_REV", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23171,11 +21811,11 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl0_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL0 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m0. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL0 m1. Reset value is 0x68 for even PCS channels, 0x76 for odd PCS channels. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m0. Reset value is 0xc1 for even PCS channels, 0x90 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL0 m1. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m0. Reset value is 0xc1 for even PCS channels, 0x90 for odd PCS channels. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL0 m1. Reset value is 0x68 for even PCS channels, 0x76 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23186,8 +21826,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl0_0 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL0_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL0_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019040ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL0_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23217,9 +21857,9 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl0_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m2. Reset value is 0x21 for even PCS channels, 0x47 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m2. Reset value is 0x21 for even PCS channels, 0x47 for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -23230,8 +21870,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl0_1 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL0_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL0_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019048ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021048ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL0_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23261,11 +21901,11 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl1_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL1 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m0. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL1 m1. Reset value is 0x71 for even PCS channels, 0xc4 for odd PCS channels. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m0. Reset value is 0x9d for even PCS channels, 0xf0 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL1 m1. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m0. Reset value is 0x9d for even PCS channels, 0xf0 for odd PCS channels. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL1 m1. Reset value is 0x71 for even PCS channels, 0xc4 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23276,8 +21916,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl1_0 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL1_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL1_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019050ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021050ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL1_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23307,9 +21947,9 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m2. Reset value is 0x8e for even PCS channels, 0xe6 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m2. Reset value is 0x8e for even PCS channels, 0xe6 for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -23320,8 +21960,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl1_1 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL1_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL1_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019058ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021058ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL1_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23351,11 +21991,11 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl2_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL2 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m0. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL2 m1. Reset value is 0x4b for even PCS channels, 0x65 for odd PCS channels. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m0. Reset value is 0x59 for even PCS channels, 0xc5 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL2 m1. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m0. Reset value is 0x59 for even PCS channels, 0xc5 for odd PCS channels. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL2 m1. Reset value is 0x4b for even PCS channels, 0x65 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23366,8 +22006,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl2_0 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL2_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL2_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019060ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL2_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23397,9 +22037,9 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl2_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m2. Reset value is 0xe8 for even PCS channels, 0x9b for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m2. Reset value is 0xe8 for even PCS channels, 0x9b for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -23410,8 +22050,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl2_1 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL2_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL2_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019068ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021068ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL2_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23441,11 +22081,11 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl3_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL3 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m0. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL3 m1. Reset value is 0x95 for even PCS channels, 0x79 for odd PCS channels. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m0. Reset value is 0x4d for even PCS channels, 0xa2 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL3 m1. */
+        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m0. Reset value is 0x4d for even PCS channels, 0xa2 for odd PCS channels. */
+        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL3 m1. Reset value is 0x95 for even PCS channels, 0x79 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23456,8 +22096,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl3_0 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL3_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL3_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019070ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL3_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23487,9 +22127,9 @@ union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl3_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m2. Reset value is 0x7b for even PCS channels, 0x3d for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m2. */
+        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m2. Reset value is 0x7b for even PCS channels, 0x3d for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -23500,8 +22140,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_mirror_vl3_1 cavm_rpmx_mti_pcs100_x_
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL3_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL3_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019078ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021078ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL3_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23515,7 +22155,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_MIRROR_VL3_1(uint64_t a, ui
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vendor_pcs_mode
  *
- * RPM Mti Pcs100  Vendor Pcs Mode Register
+ * RPM MTI PCS Vendor Pcs Mode Register
  * Vendor Specific Reg; Configure PCS supporting Clause 49 or 82 Encoder/Decoder, MLD.
  */
 union cavm_rpmx_mti_pcs100_x_vendor_pcs_mode
@@ -23560,8 +22200,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_pcs_mode cavm_rpmx_mti_pcs100_x_vend
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_PCS_MODE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_PCS_MODE(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019080ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021080ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_PCS_MODE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23575,7 +22215,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_PCS_MODE(uint64_t a, uint64
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vendor_scratch
  *
- * RPM Mti Pcs100  Vendor Scratch Register
+ * RPM MTI PCS Vendor Scratch Register
  * Vendor Specific Reg; Scratch Register.
  */
 union cavm_rpmx_mti_pcs100_x_vendor_scratch
@@ -23598,8 +22238,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_scratch cavm_rpmx_mti_pcs100_x_vendo
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_SCRATCH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_SCRATCH(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019000ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_SCRATCH", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23613,7 +22253,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_SCRATCH(uint64_t a, uint64_
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vendor_txlane_thresh
  *
- * RPM Mti Pcs100  Vendor Txlane Thresh Register
+ * RPM MTI PCS Vendor Txlane Thresh Register
  * Vendor Specific Reg; Defines the transmit line decoupling FIFOs almost full threshold.
  */
 union cavm_rpmx_mti_pcs100_x_vendor_txlane_thresh
@@ -23623,9 +22263,23 @@ union cavm_rpmx_mti_pcs100_x_vendor_txlane_thresh
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t threshold4            : 16; /**< [ 15:  0](R/W) A 4-bit value per serdes lane for 4 lanes (Quad); Valid values are 4..9. */
+        uint64_t threshold3            : 4;  /**< [ 15: 12](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane3/7; Valid values are 5-10. */
+        uint64_t threshold2            : 4;  /**< [ 11:  8](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane2/6; Valid values are 5-10. */
+        uint64_t threshold1            : 4;  /**< [  7:  4](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane1/5; Valid values are 5-10. */
+        uint64_t threshold0            : 4;  /**< [  3:  0](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane0/4; Valid values are 5-10. */
 #else /* Word 0 - Little Endian */
-        uint64_t threshold4            : 16; /**< [ 15:  0](R/W) A 4-bit value per serdes lane for 4 lanes (Quad); Valid values are 4..9. */
+        uint64_t threshold0            : 4;  /**< [  3:  0](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane0/4; Valid values are 5-10. */
+        uint64_t threshold1            : 4;  /**< [  7:  4](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane1/5; Valid values are 5-10. */
+        uint64_t threshold2            : 4;  /**< [ 11:  8](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane2/6; Valid values are 5-10. */
+        uint64_t threshold3            : 4;  /**< [ 15: 12](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
+                                                                 for lane3/7; Valid values are 5-10. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23636,8 +22290,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_txlane_thresh cavm_rpmx_mti_pcs100_x
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_TXLANE_THRESH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_TXLANE_THRESH(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019018ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_TXLANE_THRESH", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23651,7 +22305,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_TXLANE_THRESH(uint64_t a, u
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vendor_vl_intvl
  *
- * RPM Mti Pcs100  Vendor Vl Intvl Register
+ * RPM MTI PCS Vendor Vl Intvl Register
  * Vendor Specific Reg; Set the amount of data between markers. (I.e. distance of markers-1).
  */
 union cavm_rpmx_mti_pcs100_x_vendor_vl_intvl
@@ -23674,8 +22328,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vendor_vl_intvl cavm_rpmx_mti_pcs100_x_vend
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_VL_INTVL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_VL_INTVL(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019010ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VENDOR_VL_INTVL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23689,7 +22343,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VENDOR_VL_INTVL(uint64_t a, uint64
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl0_0
  *
- * RPM Mti Pcs100  Vl0 0 Register
+ * RPM MTI PCS Vl0 0 Register
  * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 0.
  */
 union cavm_rpmx_mti_pcs100_x_vl0_0
@@ -23699,9 +22353,11 @@ union cavm_rpmx_mti_pcs100_x_vl0_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x68c1 for even PCS channels, 0x7690 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x68c1 for even PCS channels, 0x7690 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -23712,8 +22368,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl0_0 cavm_rpmx_mti_pcs100_x_vl0_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL0_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL0_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019200ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021200ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL0_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23727,7 +22383,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL0_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl0_1
  *
- * RPM Mti Pcs100  Vl0 1 Register
+ * RPM MTI PCS Vl0 1 Register
  * Vendor Specific Reg; Last byte of PCS Virtual Lane 0 marker pattern.
  */
 union cavm_rpmx_mti_pcs100_x_vl0_1
@@ -23737,9 +22393,9 @@ union cavm_rpmx_mti_pcs100_x_vl0_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t vl0_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl0_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0x21 for even PCS channels, 0x47 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl0_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl0_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0x21 for even PCS channels, 0x47 for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -23750,8 +22406,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl0_1 cavm_rpmx_mti_pcs100_x_vl0_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL0_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL0_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019208ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021208ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL0_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23765,8 +22421,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL0_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl10_0
  *
- * RPM Mti Pcs100  Vl10 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl10 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl10_0
 {
@@ -23788,8 +22444,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl10_0 cavm_rpmx_mti_pcs100_x_vl10_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL10_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL10_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192a0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212a0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL10_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23803,8 +22459,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL10_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl10_1
  *
- * RPM Mti Pcs100  Vl10 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl10 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl10_1
 {
@@ -23826,8 +22482,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl10_1 cavm_rpmx_mti_pcs100_x_vl10_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL10_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL10_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192a8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL10_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23841,8 +22497,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL10_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl11_0
  *
- * RPM Mti Pcs100  Vl11 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl11 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl11_0
 {
@@ -23864,8 +22520,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl11_0 cavm_rpmx_mti_pcs100_x_vl11_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL11_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL11_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192b0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL11_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23879,8 +22535,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL11_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl11_1
  *
- * RPM Mti Pcs100  Vl11 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl11 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl11_1
 {
@@ -23902,8 +22558,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl11_1 cavm_rpmx_mti_pcs100_x_vl11_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL11_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL11_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192b8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL11_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23917,8 +22573,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL11_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl12_0
  *
- * RPM Mti Pcs100  Vl12 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl12 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl12_0
 {
@@ -23940,8 +22596,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl12_0 cavm_rpmx_mti_pcs100_x_vl12_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL12_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL12_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192c0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL12_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23955,8 +22611,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL12_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl12_1
  *
- * RPM Mti Pcs100  Vl12 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl12 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl12_1
 {
@@ -23978,8 +22634,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl12_1 cavm_rpmx_mti_pcs100_x_vl12_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL12_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL12_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192c8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212c8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL12_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23993,8 +22649,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL12_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl13_0
  *
- * RPM Mti Pcs100  Vl13 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl13 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl13_0
 {
@@ -24016,8 +22672,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl13_0 cavm_rpmx_mti_pcs100_x_vl13_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL13_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL13_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192d0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL13_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24031,8 +22687,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL13_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl13_1
  *
- * RPM Mti Pcs100  Vl13 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl13 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl13_1
 {
@@ -24054,8 +22710,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl13_1 cavm_rpmx_mti_pcs100_x_vl13_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL13_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL13_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192d8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL13_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24069,8 +22725,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL13_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl14_0
  *
- * RPM Mti Pcs100  Vl14 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl14 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl14_0
 {
@@ -24092,8 +22748,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl14_0 cavm_rpmx_mti_pcs100_x_vl14_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL14_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL14_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192e0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212e0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL14_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24107,8 +22763,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL14_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl14_1
  *
- * RPM Mti Pcs100  Vl14 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl14 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl14_1
 {
@@ -24130,8 +22786,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl14_1 cavm_rpmx_mti_pcs100_x_vl14_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL14_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL14_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192e8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212e8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL14_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24145,8 +22801,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL14_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl15_0
  *
- * RPM Mti Pcs100  Vl15 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl15 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl15_0
 {
@@ -24168,8 +22824,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl15_0 cavm_rpmx_mti_pcs100_x_vl15_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL15_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL15_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192f0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212f0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL15_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24183,8 +22839,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL15_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl15_1
  *
- * RPM Mti Pcs100  Vl15 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl15 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl15_1
 {
@@ -24206,8 +22862,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl15_1 cavm_rpmx_mti_pcs100_x_vl15_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL15_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL15_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e00192f8ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e00212f8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL15_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24221,8 +22877,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL15_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl16_0
  *
- * RPM Mti Pcs100  Vl16 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl16 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl16_0
 {
@@ -24244,8 +22900,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl16_0 cavm_rpmx_mti_pcs100_x_vl16_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL16_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL16_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019300ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021300ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL16_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24259,8 +22915,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL16_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl16_1
  *
- * RPM Mti Pcs100  Vl16 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl16 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl16_1
 {
@@ -24282,8 +22938,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl16_1 cavm_rpmx_mti_pcs100_x_vl16_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL16_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL16_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019308ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021308ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL16_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24297,8 +22953,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL16_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl17_0
  *
- * RPM Mti Pcs100  Vl17 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl17 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl17_0
 {
@@ -24320,8 +22976,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl17_0 cavm_rpmx_mti_pcs100_x_vl17_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL17_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL17_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019310ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021310ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL17_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24335,8 +22991,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL17_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl17_1
  *
- * RPM Mti Pcs100  Vl17 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl17 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl17_1
 {
@@ -24358,8 +23014,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl17_1 cavm_rpmx_mti_pcs100_x_vl17_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL17_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL17_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019318ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021318ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL17_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24373,8 +23029,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL17_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl18_0
  *
- * RPM Mti Pcs100  Vl18 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl18 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl18_0
 {
@@ -24396,8 +23052,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl18_0 cavm_rpmx_mti_pcs100_x_vl18_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL18_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL18_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019320ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021320ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL18_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24411,8 +23067,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL18_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl18_1
  *
- * RPM Mti Pcs100  Vl18 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl18 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl18_1
 {
@@ -24434,8 +23090,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl18_1 cavm_rpmx_mti_pcs100_x_vl18_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL18_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL18_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019328ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021328ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL18_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24449,8 +23105,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL18_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl19_0
  *
- * RPM Mti Pcs100  Vl19 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl19 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl19_0
 {
@@ -24472,8 +23128,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl19_0 cavm_rpmx_mti_pcs100_x_vl19_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL19_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL19_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019330ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021330ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL19_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24487,8 +23143,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL19_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl19_1
  *
- * RPM Mti Pcs100  Vl19 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl19 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl19_1
 {
@@ -24510,8 +23166,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl19_1 cavm_rpmx_mti_pcs100_x_vl19_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL19_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL19_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019338ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021338ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL19_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24525,7 +23181,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL19_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl1_0
  *
- * RPM Mti Pcs100  Vl1 0 Register
+ * RPM MTI PCS Vl1 0 Register
  * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 1.
  */
 union cavm_rpmx_mti_pcs100_x_vl1_0
@@ -24535,9 +23191,11 @@ union cavm_rpmx_mti_pcs100_x_vl1_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x719d for even PCS channels, 0xc4f0 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x719d for even PCS channels, 0xc4f0 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -24548,8 +23206,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl1_0 cavm_rpmx_mti_pcs100_x_vl1_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL1_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL1_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019210ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021210ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL1_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24563,7 +23221,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL1_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl1_1
  *
- * RPM Mti Pcs100  Vl1 1 Register
+ * RPM MTI PCS Vl1 1 Register
  * Vendor Specific Reg; Last byte of PCS Virtual Lane 1 marker pattern.
  */
 union cavm_rpmx_mti_pcs100_x_vl1_1
@@ -24573,9 +23231,9 @@ union cavm_rpmx_mti_pcs100_x_vl1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t vl1_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl1_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0x8e for even PCS channels, 0xe6 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl1_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl1_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0x8e for even PCS channels, 0xe6 for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -24586,8 +23244,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl1_1 cavm_rpmx_mti_pcs100_x_vl1_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL1_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL1_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019218ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021218ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL1_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24601,7 +23259,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL1_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl2_0
  *
- * RPM Mti Pcs100  Vl2 0 Register
+ * RPM MTI PCS Vl2 0 Register
  * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 2.
  */
 union cavm_rpmx_mti_pcs100_x_vl2_0
@@ -24611,9 +23269,11 @@ union cavm_rpmx_mti_pcs100_x_vl2_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x4b59 for even PCS channels, 0x65c5 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x4b59 for even PCS channels, 0x65c5 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -24624,8 +23284,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl2_0 cavm_rpmx_mti_pcs100_x_vl2_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL2_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL2_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019220ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021220ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL2_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24639,7 +23299,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL2_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl2_1
  *
- * RPM Mti Pcs100  Vl2 1 Register
+ * RPM MTI PCS Vl2 1 Register
  * Vendor Specific Reg; Last byte of PCS Virtual Lane 2 marker pattern.
  */
 union cavm_rpmx_mti_pcs100_x_vl2_1
@@ -24649,9 +23309,9 @@ union cavm_rpmx_mti_pcs100_x_vl2_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t vl2_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl2_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0xe8 for even PCS channels, 0x9b for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl2_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl2_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0xe8 for even PCS channels, 0x9b for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -24662,8 +23322,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl2_1 cavm_rpmx_mti_pcs100_x_vl2_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL2_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL2_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019228ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021228ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL2_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24677,7 +23337,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL2_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl3_0
  *
- * RPM Mti Pcs100  Vl3 0 Register
+ * RPM MTI PCS Vl3 0 Register
  * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 3.
  */
 union cavm_rpmx_mti_pcs100_x_vl3_0
@@ -24687,9 +23347,11 @@ union cavm_rpmx_mti_pcs100_x_vl3_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x954d for even PCS channels, 0x79a2 for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
+        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1
+                                                                 Reset value is 0x954d for even PCS channels, 0x79a2 for odd PCS channels. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -24700,8 +23362,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl3_0 cavm_rpmx_mti_pcs100_x_vl3_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL3_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL3_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019230ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021230ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL3_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24715,7 +23377,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL3_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl3_1
  *
- * RPM Mti Pcs100  Vl3 1 Register
+ * RPM MTI PCS Vl3 1 Register
  * Vendor Specific Reg; Last byte of PCS Virtual Lane 3 marker pattern.
  */
 union cavm_rpmx_mti_pcs100_x_vl3_1
@@ -24725,9 +23387,9 @@ union cavm_rpmx_mti_pcs100_x_vl3_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t vl3_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl3_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0x7b for even PCS channels, 0x3d for odd PCS channels. */
 #else /* Word 0 - Little Endian */
-        uint64_t vl3_1                 : 8;  /**< [  7:  0](R/W) M2. */
+        uint64_t vl3_1                 : 8;  /**< [  7:  0](R/W) M2. Reset value is 0x7b for even PCS channels, 0x3d for odd PCS channels. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -24738,8 +23400,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl3_1 cavm_rpmx_mti_pcs100_x_vl3_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL3_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL3_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019238ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021238ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL3_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24753,8 +23415,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL3_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl4_0
  *
- * RPM Mti Pcs100  Vl4 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl4 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl4_0
 {
@@ -24776,8 +23438,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl4_0 cavm_rpmx_mti_pcs100_x_vl4_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL4_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL4_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019240ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021240ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL4_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24791,8 +23453,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL4_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl4_1
  *
- * RPM Mti Pcs100  Vl4 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl4 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl4_1
 {
@@ -24814,8 +23476,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl4_1 cavm_rpmx_mti_pcs100_x_vl4_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL4_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL4_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019248ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021248ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL4_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24829,8 +23491,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL4_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl5_0
  *
- * RPM Mti Pcs100  Vl5 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl5 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl5_0
 {
@@ -24852,8 +23514,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl5_0 cavm_rpmx_mti_pcs100_x_vl5_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL5_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL5_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019250ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021250ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL5_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24867,8 +23529,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL5_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl5_1
  *
- * RPM Mti Pcs100  Vl5 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl5 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl5_1
 {
@@ -24890,8 +23552,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl5_1 cavm_rpmx_mti_pcs100_x_vl5_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL5_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL5_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019258ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021258ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL5_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24905,8 +23567,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL5_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl6_0
  *
- * RPM Mti Pcs100  Vl6 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl6 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl6_0
 {
@@ -24928,8 +23590,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl6_0 cavm_rpmx_mti_pcs100_x_vl6_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL6_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL6_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019260ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021260ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL6_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24943,8 +23605,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL6_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl6_1
  *
- * RPM Mti Pcs100  Vl6 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl6 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl6_1
 {
@@ -24966,8 +23628,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl6_1 cavm_rpmx_mti_pcs100_x_vl6_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL6_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL6_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019268ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021268ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL6_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -24981,8 +23643,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL6_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl7_0
  *
- * RPM Mti Pcs100  Vl7 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl7 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl7_0
 {
@@ -25004,8 +23666,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl7_0 cavm_rpmx_mti_pcs100_x_vl7_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL7_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL7_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019270ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021270ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL7_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25019,8 +23681,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL7_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl7_1
  *
- * RPM Mti Pcs100  Vl7 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl7 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl7_1
 {
@@ -25042,8 +23704,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl7_1 cavm_rpmx_mti_pcs100_x_vl7_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL7_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL7_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019278ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021278ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL7_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25057,8 +23719,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL7_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl8_0
  *
- * RPM Mti Pcs100  Vl8 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl8 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl8_0
 {
@@ -25080,8 +23742,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl8_0 cavm_rpmx_mti_pcs100_x_vl8_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL8_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL8_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019280ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021280ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL8_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25095,8 +23757,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL8_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl8_1
  *
- * RPM Mti Pcs100  Vl8 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl8 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl8_1
 {
@@ -25118,8 +23780,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl8_1 cavm_rpmx_mti_pcs100_x_vl8_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL8_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL8_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019288ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021288ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL8_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25133,8 +23795,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL8_1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl9_0
  *
- * RPM Mti Pcs100  Vl9 0 Register
- * Marker pattern m1,m0 for PCS Virtual Lane.
+ * RPM MTI PCS Vl9 0 Register
+ * Marker pattern m1,m0 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl9_0
 {
@@ -25156,8 +23818,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl9_0 cavm_rpmx_mti_pcs100_x_vl9_0_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL9_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL9_0(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019290ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021290ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL9_0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25171,8 +23833,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL9_0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_pcs100_#_vl9_1
  *
- * RPM Mti Pcs100  Vl9 1 Register
- * Marker pattern m2 for PCS Virtual Lane.
+ * RPM MTI PCS Vl9 1 Register
+ * Marker pattern m2 for PCS Virtual Lane. RAZ for odd PCS channels.
  */
 union cavm_rpmx_mti_pcs100_x_vl9_1
 {
@@ -25194,8 +23856,8 @@ typedef union cavm_rpmx_mti_pcs100_x_vl9_1 cavm_rpmx_mti_pcs100_x_vl9_1_t;
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL9_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL9_1(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0019298ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0021298ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_MTI_PCS100_X_VL9_1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25205,2388 +23867,6 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100_X_VL9_1(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_MTI_PCS100_X_VL9_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_MTI_PCS100_X_VL9_1(a,b) (a)
 #define arguments_CAVM_RPMX_MTI_PCS100_X_VL9_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_baser_status1
- *
- * RPM Mti Pcs50  Baser Status1 Register
- * Link Status Information.
- */
-union cavm_rpmx_mti_pcs50_x_baser_status1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_baser_status1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t receive_link          : 1;  /**< [ 12: 12](RO) Receive link status. 1=Link up; 0=link down. */
-        uint64_t reserved_2_11         : 10;
-        uint64_t high_ber              : 1;  /**< [  1:  1](RO) 1=PCS reporting a high BER. */
-        uint64_t block_lock            : 1;  /**< [  0:  0](RO) 1=PCS locked to received blocks. */
-#else /* Word 0 - Little Endian */
-        uint64_t block_lock            : 1;  /**< [  0:  0](RO) 1=PCS locked to received blocks. */
-        uint64_t high_ber              : 1;  /**< [  1:  1](RO) 1=PCS reporting a high BER. */
-        uint64_t reserved_2_11         : 10;
-        uint64_t receive_link          : 1;  /**< [ 12: 12](RO) Receive link status. 1=Link up; 0=link down. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_baser_status1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_baser_status1 cavm_rpmx_mti_pcs50_x_baser_status1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120100ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BASER_STATUS1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(a,b) cavm_rpmx_mti_pcs50_x_baser_status1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(a,b) "RPMX_MTI_PCS50_X_BASER_STATUS1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_baser_status2
- *
- * RPM Mti Pcs50  Baser Status2 Register
- * Link Status latches and error counters.
- */
-union cavm_rpmx_mti_pcs50_x_baser_status2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_baser_status2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t block_lock            : 1;  /**< [ 15: 15](RO) Block Lock; Latched low. */
-        uint64_t high_ber              : 1;  /**< [ 14: 14](RO) BER flag; Latched high. */
-        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO) BER counter; None roll-over. */
-        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO) Errored blocks counter; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO) Errored blocks counter; None roll-over. */
-        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO) BER counter; None roll-over. */
-        uint64_t high_ber              : 1;  /**< [ 14: 14](RO) BER flag; Latched high. */
-        uint64_t block_lock            : 1;  /**< [ 15: 15](RO) Block Lock; Latched low. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_baser_status2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_baser_status2 cavm_rpmx_mti_pcs50_x_baser_status2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120108ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BASER_STATUS2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(a,b) cavm_rpmx_mti_pcs50_x_baser_status2_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(a,b) "RPMX_MTI_PCS50_X_BASER_STATUS2"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BASER_STATUS2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_baser_test_control
- *
- * RPM Mti Pcs50  Baser Test Control Register
- * Test Pattern Generator and Checker controls.
- */
-union cavm_rpmx_mti_pcs50_x_baser_test_control
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_baser_test_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t select_random         : 1;  /**< [  7:  7](R/W) Select Random Idle test pattern (40G); Overrides bits 1:0 when set. */
-        uint64_t reserved_4_6          : 3;
-        uint64_t tx_testpattern        : 1;  /**< [  3:  3](R/W) Transmit test-pattern enable. */
-        uint64_t rx_testpattern        : 1;  /**< [  2:  2](R/W) Receive test-pattern enable. */
-        uint64_t select_square         : 1;  /**< [  1:  1](R/W) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
-        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](R/W) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](R/W) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
-        uint64_t select_square         : 1;  /**< [  1:  1](R/W) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
-        uint64_t rx_testpattern        : 1;  /**< [  2:  2](R/W) Receive test-pattern enable. */
-        uint64_t tx_testpattern        : 1;  /**< [  3:  3](R/W) Transmit test-pattern enable. */
-        uint64_t reserved_4_6          : 3;
-        uint64_t select_random         : 1;  /**< [  7:  7](R/W) Select Random Idle test pattern (40G); Overrides bits 1:0 when set. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_baser_test_control_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_baser_test_control cavm_rpmx_mti_pcs50_x_baser_test_control_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120150ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BASER_TEST_CONTROL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(a,b) cavm_rpmx_mti_pcs50_x_baser_test_control_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(a,b) "RPMX_MTI_PCS50_X_BASER_TEST_CONTROL"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_CONTROL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_baser_test_err_cnt
- *
- * RPM Mti Pcs50  Baser Test Err Cnt Register
- * Test Pattern Error Counter; Clears on read; None roll-over.
- */
-union cavm_rpmx_mti_pcs50_x_baser_test_err_cnt
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_baser_test_err_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t counter               : 16; /**< [ 15:  0](RO) Test pattern error counter; Clears on read; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t counter               : 16; /**< [ 15:  0](RO) Test pattern error counter; Clears on read; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_baser_test_err_cnt_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_baser_test_err_cnt cavm_rpmx_mti_pcs50_x_baser_test_err_cnt_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120158ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(a,b) cavm_rpmx_mti_pcs50_x_baser_test_err_cnt_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(a,b) "RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BASER_TEST_ERR_CNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_ber_high_order_cnt
- *
- * RPM Mti Pcs50  Ber High Order Cnt Register
- * BER High Order Counter of BER bits 21:6; None roll-over.
- */
-union cavm_rpmx_mti_pcs50_x_ber_high_order_cnt
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_ber_high_order_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t ber_counter           : 16; /**< [ 15:  0](RO) Bits 21:6 of BER counter; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t ber_counter           : 16; /**< [ 15:  0](RO) Bits 21:6 of BER counter; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_ber_high_order_cnt_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_ber_high_order_cnt cavm_rpmx_mti_pcs50_x_ber_high_order_cnt_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120160ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(a,b) cavm_rpmx_mti_pcs50_x_ber_high_order_cnt_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(a,b) "RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BER_HIGH_ORDER_CNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_bip_err_cnt_lane0
- *
- * RPM Mti Pcs50  Bip Err Cnt Lane0 Register
- * BIP Error Counter Lane 0; Clears on read; None roll-over.
- */
-union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 0; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 0; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane0 cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120640ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(a,b) cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(a,b) "RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_bip_err_cnt_lane1
- *
- * RPM Mti Pcs50  Bip Err Cnt Lane1 Register
- * BIP Error Counter Lane 1; Clears on read; None roll-over.
- */
-union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 1; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 1; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane1 cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120648ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(a,b) cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(a,b) "RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_bip_err_cnt_lane2
- *
- * RPM Mti Pcs50  Bip Err Cnt Lane2 Register
- * BIP Error Counter Lane 2; Clears on read; None roll-over.
- */
-union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 2; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 2; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane2 cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120650ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(a,b) cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane2_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(a,b) "RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_bip_err_cnt_lane3
- *
- * RPM Mti Pcs50  Bip Err Cnt Lane3 Register
- * BIP Error Counter Lane 3; Clears on read; None roll-over.
- */
-union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane3
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 3; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t bip_error_counter     : 16; /**< [ 15:  0](RO) BIP error counter lane 3; None roll-over. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane3_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane3 cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane3_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120658ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(a,b) cavm_rpmx_mti_pcs50_x_bip_err_cnt_lane3_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(a,b) "RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_BIP_ERR_CNT_LANE3(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_control1
- *
- * RPM Mti Pcs50  Control1 Register
- * PCS Control.
- */
-union cavm_rpmx_mti_pcs50_x_control1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_control1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
-        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
-        uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
-        uint64_t reserved_12           : 1;
-        uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
-        uint64_t reserved_7_10         : 4;
-        uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
-        uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
-        uint64_t reserved_0_1          : 2;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
-        uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
-        uint64_t reserved_7_10         : 4;
-        uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
-        uint64_t reserved_12           : 1;
-        uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
-        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_control1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_control1 cavm_rpmx_mti_pcs50_x_control1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_CONTROL1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120000ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_CONTROL1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_CONTROL1(a,b) cavm_rpmx_mti_pcs50_x_control1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_CONTROL1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_CONTROL1(a,b) "RPMX_MTI_PCS50_X_CONTROL1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_CONTROL1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_CONTROL1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_CONTROL1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_control2
- *
- * RPM Mti Pcs50  Control2 Register
- * Operating speed indication.
- */
-union cavm_rpmx_mti_pcs50_x_control2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_control2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t pcs_type              : 4;  /**< [  3:  0](RO/H) Selected PCS type:
-                                                                 0xb = 5G   - 802.3bz
-                                                                 0xa = 2.5G - 802.3bz
-                                                                 0x8 = 50G  - 802.3cd
-                                                                 0x7 = 25G  - 802.3by
-                                                                 0x5 = 100G
-                                                                 0x4 = 40G
-                                                                 0x0 = 10G
-
-                                                                 Internal:
-                                                                 0xd = 400G - 802.3bs
-                                                                 0xc = 200G - 802.3bs */
-#else /* Word 0 - Little Endian */
-        uint64_t pcs_type              : 4;  /**< [  3:  0](RO/H) Selected PCS type:
-                                                                 0xb = 5G   - 802.3bz
-                                                                 0xa = 2.5G - 802.3bz
-                                                                 0x8 = 50G  - 802.3cd
-                                                                 0x7 = 25G  - 802.3by
-                                                                 0x5 = 100G
-                                                                 0x4 = 40G
-                                                                 0x0 = 10G
-
-                                                                 Internal:
-                                                                 0xd = 400G - 802.3bs
-                                                                 0xc = 200G - 802.3bs */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_control2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_control2 cavm_rpmx_mti_pcs50_x_control2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_CONTROL2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_CONTROL2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120038ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_CONTROL2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_CONTROL2(a,b) cavm_rpmx_mti_pcs50_x_control2_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_CONTROL2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_CONTROL2(a,b) "RPMX_MTI_PCS50_X_CONTROL2"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_CONTROL2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_CONTROL2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_CONTROL2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_device_id0
- *
- * RPM Mti Pcs50  Device Id0 Register
- * PHY Identifier constant from package parameter PHY_IDENTIFIER bits 15:4. Bits 3:0 always 0.
- */
-union cavm_rpmx_mti_pcs50_x_device_id0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_device_id0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
-#else /* Word 0 - Little Endian */
-        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_device_id0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_device_id0 cavm_rpmx_mti_pcs50_x_device_id0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120010ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_DEVICE_ID0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(a,b) cavm_rpmx_mti_pcs50_x_device_id0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(a,b) "RPMX_MTI_PCS50_X_DEVICE_ID0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_device_id1
- *
- * RPM Mti Pcs50  Device Id1 Register
- * PHY Identifier constant from package parameter PHY_IDENTIFIER bits 31:16.
- */
-union cavm_rpmx_mti_pcs50_x_device_id1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_device_id1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t identifier1           : 16; /**< [ 15:  0](RO) Bits 31:16 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
-#else /* Word 0 - Little Endian */
-        uint64_t identifier1           : 16; /**< [ 15:  0](RO) Bits 31:16 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_device_id1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_device_id1 cavm_rpmx_mti_pcs50_x_device_id1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120018ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_DEVICE_ID1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(a,b) cavm_rpmx_mti_pcs50_x_device_id1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(a,b) "RPMX_MTI_PCS50_X_DEVICE_ID1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_DEVICE_ID1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_devices_in_pkg1
- *
- * RPM Mti Pcs50  Devices In Pkg1 Register
- * Constant indicating PCS presence.
- */
-union cavm_rpmx_mti_pcs50_x_devices_in_pkg1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_devices_in_pkg1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t tc_pres               : 1;  /**< [  6:  6](RO) TC present when 1. */
-        uint64_t dte_xs                : 1;  /**< [  5:  5](RO) DTE XS present when 1. */
-        uint64_t phy_xs                : 1;  /**< [  4:  4](RO) PHY XS present when 1. */
-        uint64_t pcs_pres              : 1;  /**< [  3:  3](RO) PCS present when 1. */
-        uint64_t wis_pres              : 1;  /**< [  2:  2](RO) WIS present when 1. */
-        uint64_t pmd_pma               : 1;  /**< [  1:  1](RO) PMD/PMA present when 1. */
-        uint64_t clause22              : 1;  /**< [  0:  0](RO) Clause 22 registers present when 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t clause22              : 1;  /**< [  0:  0](RO) Clause 22 registers present when 1. */
-        uint64_t pmd_pma               : 1;  /**< [  1:  1](RO) PMD/PMA present when 1. */
-        uint64_t wis_pres              : 1;  /**< [  2:  2](RO) WIS present when 1. */
-        uint64_t pcs_pres              : 1;  /**< [  3:  3](RO) PCS present when 1. */
-        uint64_t phy_xs                : 1;  /**< [  4:  4](RO) PHY XS present when 1. */
-        uint64_t dte_xs                : 1;  /**< [  5:  5](RO) DTE XS present when 1. */
-        uint64_t tc_pres               : 1;  /**< [  6:  6](RO) TC present when 1. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_devices_in_pkg1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_devices_in_pkg1 cavm_rpmx_mti_pcs50_x_devices_in_pkg1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120028ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_DEVICES_IN_PKG1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(a,b) cavm_rpmx_mti_pcs50_x_devices_in_pkg1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(a,b) "RPMX_MTI_PCS50_X_DEVICES_IN_PKG1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_devices_in_pkg2
- *
- * RPM Mti Pcs50  Devices In Pkg2 Register
- * Vendor specific presence.
- */
-union cavm_rpmx_mti_pcs50_x_devices_in_pkg2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_devices_in_pkg2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t device2               : 1;  /**< [ 15: 15](RO) Vendor specific device 2 present */
-        uint64_t device1               : 1;  /**< [ 14: 14](RO) Vendor specific device 1 present */
-        uint64_t clause22              : 1;  /**< [ 13: 13](RO) Clause 22 extension present */
-        uint64_t reserved_0_12         : 13;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_12         : 13;
-        uint64_t clause22              : 1;  /**< [ 13: 13](RO) Clause 22 extension present */
-        uint64_t device1               : 1;  /**< [ 14: 14](RO) Vendor specific device 1 present */
-        uint64_t device2               : 1;  /**< [ 15: 15](RO) Vendor specific device 2 present */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_devices_in_pkg2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_devices_in_pkg2 cavm_rpmx_mti_pcs50_x_devices_in_pkg2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120030ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_DEVICES_IN_PKG2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(a,b) cavm_rpmx_mti_pcs50_x_devices_in_pkg2_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(a,b) "RPMX_MTI_PCS50_X_DEVICES_IN_PKG2"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_DEVICES_IN_PKG2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_err_blk_high_order_cnt
- *
- * RPM Mti Pcs50  Err Blk High Order Cnt Register
- * Error Blocks High Order Counter bits 21:8; None roll-over.
- */
-union cavm_rpmx_mti_pcs50_x_err_blk_high_order_cnt
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_err_blk_high_order_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t high_order_present    : 1;  /**< [ 15: 15](RO) High order counter present; Always 1. */
-        uint64_t reserved_14           : 1;
-        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO) Bits 21:8 of Error Blocks counter; None roll-over. */
-#else /* Word 0 - Little Endian */
-        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO) Bits 21:8 of Error Blocks counter; None roll-over. */
-        uint64_t reserved_14           : 1;
-        uint64_t high_order_present    : 1;  /**< [ 15: 15](RO) High order counter present; Always 1. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_err_blk_high_order_cnt_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_err_blk_high_order_cnt cavm_rpmx_mti_pcs50_x_err_blk_high_order_cnt_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120168ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(a,b) cavm_rpmx_mti_pcs50_x_err_blk_high_order_cnt_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(a,b) "RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_ERR_BLK_HIGH_ORDER_CNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_lane0_mapping
- *
- * RPM Mti Pcs50  Lane0 Mapping Register
- * Lane Channel 0 mapping bits 1:0.
- */
-union cavm_rpmx_mti_pcs50_x_lane0_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_lane0_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 0 mapping bits 1:0. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 0 mapping bits 1:0. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_lane0_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_lane0_mapping cavm_rpmx_mti_pcs50_x_lane0_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120c80ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_LANE0_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(a,b) cavm_rpmx_mti_pcs50_x_lane0_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(a,b) "RPMX_MTI_PCS50_X_LANE0_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_LANE0_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_lane1_mapping
- *
- * RPM Mti Pcs50  Lane1 Mapping Register
- * Lane Channel 1 mapping bits 1:0.
- */
-union cavm_rpmx_mti_pcs50_x_lane1_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_lane1_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 1 mapping bits 1:0. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 1 mapping bits 1:0. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_lane1_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_lane1_mapping cavm_rpmx_mti_pcs50_x_lane1_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120c88ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_LANE1_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(a,b) cavm_rpmx_mti_pcs50_x_lane1_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(a,b) "RPMX_MTI_PCS50_X_LANE1_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_LANE1_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_lane2_mapping
- *
- * RPM Mti Pcs50  Lane2 Mapping Register
- * Lane Channel 2 mapping bits 1:0.
- */
-union cavm_rpmx_mti_pcs50_x_lane2_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_lane2_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 2 mapping bits 1:0. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 2 mapping bits 1:0. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_lane2_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_lane2_mapping cavm_rpmx_mti_pcs50_x_lane2_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120c90ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_LANE2_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(a,b) cavm_rpmx_mti_pcs50_x_lane2_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(a,b) "RPMX_MTI_PCS50_X_LANE2_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_LANE2_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_lane3_mapping
- *
- * RPM Mti Pcs50  Lane3 Mapping Register
- * Lane Channel 3 mapping bits 1:0.
- */
-union cavm_rpmx_mti_pcs50_x_lane3_mapping
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_lane3_mapping_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 3 mapping bits 1:0. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane_mapping          : 2;  /**< [  1:  0](RO) Lane 3 mapping bits 1:0. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_lane3_mapping_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_lane3_mapping cavm_rpmx_mti_pcs50_x_lane3_mapping_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120c98ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_LANE3_MAPPING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(a,b) cavm_rpmx_mti_pcs50_x_lane3_mapping_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(a,b) "RPMX_MTI_PCS50_X_LANE3_MAPPING"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_LANE3_MAPPING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_multilane_align_stat1
- *
- * RPM Mti Pcs50  Multilane Align Stat1 Register
- * Lane Alignment Status Bits and Block Lock.
- */
-union cavm_rpmx_mti_pcs50_x_multilane_align_stat1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_multilane_align_stat1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO) Lane alignment status; 1=All Receive lanes locked and aligned. */
-        uint64_t reserved_4_11         : 8;
-        uint64_t lane3_block_lock      : 1;  /**< [  3:  3](RO) Lane 3 block lock. */
-        uint64_t lane2_block_lock      : 1;  /**< [  2:  2](RO) Lane 2 block lock. */
-        uint64_t lane1_block_lock      : 1;  /**< [  1:  1](RO) Lane 1 block lock. */
-        uint64_t lane0_block_lock      : 1;  /**< [  0:  0](RO) Lane 0 block lock. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane0_block_lock      : 1;  /**< [  0:  0](RO) Lane 0 block lock. */
-        uint64_t lane1_block_lock      : 1;  /**< [  1:  1](RO) Lane 1 block lock. */
-        uint64_t lane2_block_lock      : 1;  /**< [  2:  2](RO) Lane 2 block lock. */
-        uint64_t lane3_block_lock      : 1;  /**< [  3:  3](RO) Lane 3 block lock. */
-        uint64_t reserved_4_11         : 8;
-        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO) Lane alignment status; 1=All Receive lanes locked and aligned. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_multilane_align_stat1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_multilane_align_stat1 cavm_rpmx_mti_pcs50_x_multilane_align_stat1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120190ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(a,b) cavm_rpmx_mti_pcs50_x_multilane_align_stat1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(a,b) "RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_multilane_align_stat3
- *
- * RPM Mti Pcs50  Multilane Align Stat3 Register
- * Lane Alignment Marker Lock Status bits.
- */
-union cavm_rpmx_mti_pcs50_x_multilane_align_stat3
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_multilane_align_stat3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t lane3_marker_lock     : 1;  /**< [  3:  3](RO) Lane 3 alignment marker lock */
-        uint64_t lane2_marker_lock     : 1;  /**< [  2:  2](RO) Lane 2 alignment marker lock */
-        uint64_t lane1_marker_lock     : 1;  /**< [  1:  1](RO) Lane 1 alignment marker lock */
-        uint64_t lane0_marker_lock     : 1;  /**< [  0:  0](RO) Lane 0 alignment marker lock */
-#else /* Word 0 - Little Endian */
-        uint64_t lane0_marker_lock     : 1;  /**< [  0:  0](RO) Lane 0 alignment marker lock */
-        uint64_t lane1_marker_lock     : 1;  /**< [  1:  1](RO) Lane 1 alignment marker lock */
-        uint64_t lane2_marker_lock     : 1;  /**< [  2:  2](RO) Lane 2 alignment marker lock */
-        uint64_t lane3_marker_lock     : 1;  /**< [  3:  3](RO) Lane 3 alignment marker lock */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_multilane_align_stat3_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_multilane_align_stat3 cavm_rpmx_mti_pcs50_x_multilane_align_stat3_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e01201a0ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(a,b) cavm_rpmx_mti_pcs50_x_multilane_align_stat3_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(a,b) "RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_MULTILANE_ALIGN_STAT3(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_pkg_id0
- *
- * RPM Mti Pcs50  Pkg Id0 Register
- * Constant from package parameter PACK_IDENTIFIER bits 15:0.
- */
-union cavm_rpmx_mti_pcs50_x_pkg_id0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_pkg_id0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 15:0. */
-#else /* Word 0 - Little Endian */
-        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 15:0. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_pkg_id0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_pkg_id0 cavm_rpmx_mti_pcs50_x_pkg_id0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_PKG_ID0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_PKG_ID0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120070ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_PKG_ID0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_PKG_ID0(a,b) cavm_rpmx_mti_pcs50_x_pkg_id0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_PKG_ID0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_PKG_ID0(a,b) "RPMX_MTI_PCS50_X_PKG_ID0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_PKG_ID0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_PKG_ID0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_PKG_ID0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_pkg_id1
- *
- * RPM Mti Pcs50  Pkg Id1 Register
- * Constant from package parameter PACK_IDENTIFIER bits 31:16.
- */
-union cavm_rpmx_mti_pcs50_x_pkg_id1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_pkg_id1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 31:16. */
-#else /* Word 0 - Little Endian */
-        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 31:16. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_pkg_id1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_pkg_id1 cavm_rpmx_mti_pcs50_x_pkg_id1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_PKG_ID1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_PKG_ID1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120078ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_PKG_ID1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_PKG_ID1(a,b) cavm_rpmx_mti_pcs50_x_pkg_id1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_PKG_ID1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_PKG_ID1(a,b) "RPMX_MTI_PCS50_X_PKG_ID1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_PKG_ID1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_PKG_ID1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_PKG_ID1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_a0
- *
- * RPM Mti Pcs50  Seed A0 Register
- * 10G Base-R Test Pattern Seed A bits 15:0.
- */
-union cavm_rpmx_mti_pcs50_x_seed_a0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_a0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed A: Bits 15:0. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed A: Bits 15:0. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_a0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_a0 cavm_rpmx_mti_pcs50_x_seed_a0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120110ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_A0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_A0(a,b) cavm_rpmx_mti_pcs50_x_seed_a0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_A0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_A0(a,b) "RPMX_MTI_PCS50_X_SEED_A0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_A0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_A0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_A0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_a1
- *
- * RPM Mti Pcs50  Seed A1 Register
- * 10G Base-R Test Pattern Seed A bits 31:16.
- */
-union cavm_rpmx_mti_pcs50_x_seed_a1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_a1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed A: Bits 31:16. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed A: Bits 31:16. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_a1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_a1 cavm_rpmx_mti_pcs50_x_seed_a1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120118ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_A1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_A1(a,b) cavm_rpmx_mti_pcs50_x_seed_a1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_A1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_A1(a,b) "RPMX_MTI_PCS50_X_SEED_A1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_A1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_A1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_A1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_a2
- *
- * RPM Mti Pcs50  Seed A2 Register
- * 10G Base-R Test Pattern Seed A bits 47:32.
- */
-union cavm_rpmx_mti_pcs50_x_seed_a2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_a2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed A: Bits 47:32. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed A: Bits 47:32. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_a2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_a2 cavm_rpmx_mti_pcs50_x_seed_a2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120120ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_A2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_A2(a,b) cavm_rpmx_mti_pcs50_x_seed_a2_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_A2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_A2(a,b) "RPMX_MTI_PCS50_X_SEED_A2"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_A2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_A2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_A2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_a3
- *
- * RPM Mti Pcs50  Seed A3 Register
- * 10G Base-R Test Pattern Seed A bits 57:48.
- */
-union cavm_rpmx_mti_pcs50_x_seed_a3
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_a3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t seed                  : 10; /**< [  9:  0](RO) 10GBase-R Test Pattern Seed A: Bits 57:48. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 10; /**< [  9:  0](RO) 10GBase-R Test Pattern Seed A: Bits 57:48. */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_a3_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_a3 cavm_rpmx_mti_pcs50_x_seed_a3_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_A3(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120128ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_A3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_A3(a,b) cavm_rpmx_mti_pcs50_x_seed_a3_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_A3(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_A3(a,b) "RPMX_MTI_PCS50_X_SEED_A3"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_A3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_A3(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_A3(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_b0
- *
- * RPM Mti Pcs50  Seed B0 Register
- * 10G Base-R Test Pattern Seed B bits 15:0.
- */
-union cavm_rpmx_mti_pcs50_x_seed_b0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_b0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed B: Bits 15:0. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed B: Bits 15:0. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_b0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_b0 cavm_rpmx_mti_pcs50_x_seed_b0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120130ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_B0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_B0(a,b) cavm_rpmx_mti_pcs50_x_seed_b0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_B0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_B0(a,b) "RPMX_MTI_PCS50_X_SEED_B0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_B0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_B0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_B0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_b1
- *
- * RPM Mti Pcs50  Seed B1 Register
- * 10G Base-R Test Pattern Seed B bits 31:16.
- */
-union cavm_rpmx_mti_pcs50_x_seed_b1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_b1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed B: Bits 31:16. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed B: Bits 31:16. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_b1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_b1 cavm_rpmx_mti_pcs50_x_seed_b1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120138ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_B1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_B1(a,b) cavm_rpmx_mti_pcs50_x_seed_b1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_B1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_B1(a,b) "RPMX_MTI_PCS50_X_SEED_B1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_B1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_B1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_B1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_b2
- *
- * RPM Mti Pcs50  Seed B2 Register
- * 10G Base-R Test Pattern Seed B bits 47:32.
- */
-union cavm_rpmx_mti_pcs50_x_seed_b2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_b2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed B: Bits 47:32. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 16; /**< [ 15:  0](RO) 10GBase-R Test Pattern Seed B: Bits 47:32. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_b2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_b2 cavm_rpmx_mti_pcs50_x_seed_b2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120140ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_B2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_B2(a,b) cavm_rpmx_mti_pcs50_x_seed_b2_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_B2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_B2(a,b) "RPMX_MTI_PCS50_X_SEED_B2"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_B2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_B2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_B2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_seed_b3
- *
- * RPM Mti Pcs50  Seed B3 Register
- * 10G Base-R Test Pattern Seed B bits 57:48.
- */
-union cavm_rpmx_mti_pcs50_x_seed_b3
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_seed_b3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t seed                  : 10; /**< [  9:  0](RO) 10GBase-R Test Pattern Seed B: Bits 57:48. */
-#else /* Word 0 - Little Endian */
-        uint64_t seed                  : 10; /**< [  9:  0](RO) 10GBase-R Test Pattern Seed B: Bits 57:48. */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_seed_b3_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_seed_b3 cavm_rpmx_mti_pcs50_x_seed_b3_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SEED_B3(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120148ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SEED_B3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SEED_B3(a,b) cavm_rpmx_mti_pcs50_x_seed_b3_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SEED_B3(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SEED_B3(a,b) "RPMX_MTI_PCS50_X_SEED_B3"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SEED_B3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SEED_B3(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SEED_B3(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_speed_ability
- *
- * RPM Mti Pcs50  Speed Ability Register
- * PCS supported speeds (values as defined by standard only, no proprietary speeds).
- */
-union cavm_rpmx_mti_pcs50_x_speed_ability
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_speed_ability_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t c50g                  : 1;  /**< [  5:  5](RO) When 1, this PCS is 50G capable. */
-        uint64_t c25g                  : 1;  /**< [  4:  4](RO) When 1, this PCS is 25G capable. */
-        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable. */
-        uint64_t c40g                  : 1;  /**< [  2:  2](RO) When 1, this PCS is 40G capable. */
-        uint64_t c10pass_ts            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10PASS-TS/2Base-TL capable. */
-        uint64_t c10geth               : 1;  /**< [  0:  0](RO) When 1, this PCS is 10Geth capable. */
-#else /* Word 0 - Little Endian */
-        uint64_t c10geth               : 1;  /**< [  0:  0](RO) When 1, this PCS is 10Geth capable. */
-        uint64_t c10pass_ts            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10PASS-TS/2Base-TL capable. */
-        uint64_t c40g                  : 1;  /**< [  2:  2](RO) When 1, this PCS is 40G capable. */
-        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable. */
-        uint64_t c25g                  : 1;  /**< [  4:  4](RO) When 1, this PCS is 25G capable. */
-        uint64_t c50g                  : 1;  /**< [  5:  5](RO) When 1, this PCS is 50G capable. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_speed_ability_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_speed_ability cavm_rpmx_mti_pcs50_x_speed_ability_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120020ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_SPEED_ABILITY", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(a,b) cavm_rpmx_mti_pcs50_x_speed_ability_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(a,b) "RPMX_MTI_PCS50_X_SPEED_ABILITY"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_SPEED_ABILITY(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_status1
- *
- * RPM Mti Pcs50  Status1 Register
- * PCS Status.
- */
-union cavm_rpmx_mti_pcs50_x_status1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_status1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO) 1: transmit is or was in LPI state;
-                                                                 0: normal operation; Latching high. */
-        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO) 1: receive is or was in LPI state;
-                                                                 0: normal operation; Latching high. */
-        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO) 1: transmit is currently in LPI state;
-                                                                 0: normal operation. */
-        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO) 1: receive is currently in LPI state;
-                                                                 0: normal operation. */
-        uint64_t fault                 : 1;  /**< [  7:  7](RO) When 1, indicates a fault condition idetected; When ?0?, indicates that no fault
-                                                                 condition is detected. */
-        uint64_t reserved_3_6          : 4;
-        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO) When 1, indicates PCS receive link up; When ?0?, indicates PCS receive link is
-                                                                 or was down (latching low). */
-        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) Set to 1 to indicate that the PCS implements a low power mode. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) Set to 1 to indicate that the PCS implements a low power mode. */
-        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO) When 1, indicates PCS receive link up; When ?0?, indicates PCS receive link is
-                                                                 or was down (latching low). */
-        uint64_t reserved_3_6          : 4;
-        uint64_t fault                 : 1;  /**< [  7:  7](RO) When 1, indicates a fault condition idetected; When ?0?, indicates that no fault
-                                                                 condition is detected. */
-        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO) 1: receive is currently in LPI state;
-                                                                 0: normal operation. */
-        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO) 1: transmit is currently in LPI state;
-                                                                 0: normal operation. */
-        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO) 1: receive is or was in LPI state;
-                                                                 0: normal operation; Latching high. */
-        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO) 1: transmit is or was in LPI state;
-                                                                 0: normal operation; Latching high. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_status1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_status1 cavm_rpmx_mti_pcs50_x_status1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_STATUS1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120008ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_STATUS1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_STATUS1(a,b) cavm_rpmx_mti_pcs50_x_status1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_STATUS1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_STATUS1(a,b) "RPMX_MTI_PCS50_X_STATUS1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_STATUS1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_STATUS1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_STATUS1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_status2
- *
- * RPM Mti Pcs50  Status2 Register
- * Fault status; Device capabilities
- */
-union cavm_rpmx_mti_pcs50_x_status2
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_status2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When bits are 10 = device responding at this address. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t transmit_fault        : 1;  /**< [ 11: 11](RO/H) Transmit fault. 1=Fault condition on transmit path. Latched high */
-        uint64_t receive_fault         : 1;  /**< [ 10: 10](RO/H) Receive fault. 1=Fault condition on receive path. Latched high */
-        uint64_t reserved_9            : 1;
-        uint64_t c50gbase_r            : 1;  /**< [  8:  8](RO) When 1, this PCS is 50GBase-R capable. */
-        uint64_t c25gbase_r            : 1;  /**< [  7:  7](RO) When 1, this PCS is 25GBase-R capable. */
-        uint64_t reserved_6            : 1;
-        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable. */
-        uint64_t c40gbase_r            : 1;  /**< [  4:  4](RO) When 1, this PCS is 40GBase-R capable. */
-        uint64_t c10gbase_t            : 1;  /**< [  3:  3](RO) When 1, this PCS is 10GBase-T capable. */
-        uint64_t c10gbase_w            : 1;  /**< [  2:  2](RO) When 1, this PCS is 10GBase-W capable. */
-        uint64_t c10gbase_x            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10GBase-X capable. */
-        uint64_t c10gbase_r            : 1;  /**< [  0:  0](RO) When 1, this PCS is 10GBase-R capable. */
-#else /* Word 0 - Little Endian */
-        uint64_t c10gbase_r            : 1;  /**< [  0:  0](RO) When 1, this PCS is 10GBase-R capable. */
-        uint64_t c10gbase_x            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10GBase-X capable. */
-        uint64_t c10gbase_w            : 1;  /**< [  2:  2](RO) When 1, this PCS is 10GBase-W capable. */
-        uint64_t c10gbase_t            : 1;  /**< [  3:  3](RO) When 1, this PCS is 10GBase-T capable. */
-        uint64_t c40gbase_r            : 1;  /**< [  4:  4](RO) When 1, this PCS is 40GBase-R capable. */
-        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable. */
-        uint64_t reserved_6            : 1;
-        uint64_t c25gbase_r            : 1;  /**< [  7:  7](RO) When 1, this PCS is 25GBase-R capable. */
-        uint64_t c50gbase_r            : 1;  /**< [  8:  8](RO) When 1, this PCS is 50GBase-R capable. */
-        uint64_t reserved_9            : 1;
-        uint64_t receive_fault         : 1;  /**< [ 10: 10](RO/H) Receive fault. 1=Fault condition on receive path. Latched high */
-        uint64_t transmit_fault        : 1;  /**< [ 11: 11](RO/H) Transmit fault. 1=Fault condition on transmit path. Latched high */
-        uint64_t reserved_12_13        : 2;
-        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When bits are 10 = device responding at this address. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_status2_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_status2 cavm_rpmx_mti_pcs50_x_status2_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_STATUS2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0120040ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_STATUS2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_STATUS2(a,b) cavm_rpmx_mti_pcs50_x_status2_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_STATUS2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_STATUS2(a,b) "RPMX_MTI_PCS50_X_STATUS2"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_STATUS2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_STATUS2(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_STATUS2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_core_rev
- *
- * RPM Mti Pcs50  Vendor Core Rev Register
- * Vendor Specific Reg; Core Revision as defined by CORE_REVISION package parameter.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_core_rev
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_core_rev_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by CORE_REVISION parameter in PCS package file. */
-#else /* Word 0 - Little Endian */
-        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by CORE_REVISION parameter in PCS package file. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_core_rev_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_core_rev cavm_rpmx_mti_pcs50_x_vendor_core_rev_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121008ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_CORE_REV", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(a,b) cavm_rpmx_mti_pcs50_x_vendor_core_rev_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(a,b) "RPMX_MTI_PCS50_X_VENDOR_CORE_REV"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_CORE_REV(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl0_0
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl0 0 Register
- *
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 0.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL0 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL0 m1. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_0 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121040ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl0_1
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl0 1 Register
- *
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 0 marker pattern.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m2. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL0 m2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_1 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121048ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl0_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL0_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl1_0
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl1 0 Register
- *
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 1.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL1 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL1 m1. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_0 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121050ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl1_1
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl1 1 Register
- *
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 1 marker pattern.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m2. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL1 m2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_1 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121058ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl1_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL1_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl2_0
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl2 0 Register
- *
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 2.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL2 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL2 m1. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_0 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121060ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl2_1
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl2 1 Register
- *
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 2 marker pattern.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m2. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL2 m2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_1 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121068ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl2_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL2_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl3_0
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl3 0 Register
- *
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 3.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL3 m1. */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m0             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m0. */
-        uint64_t mirror_m1             : 8;  /**< [ 15:  8](R/W) Mirror of VL3 m1. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_0 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121070ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_mirror_vl3_1
- *
- * INTERNAL: RPM Mti Pcs50  Vendor Mirror Vl3 1 Register
- *
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 3 marker pattern.
- *
- * This register exists due to standard backward compatibility of original 40G PCS definition
- * This register and VLx_y register access a same shared register.
- * Thus, writing this register will affect VLx_y register as well.
- * It is highly recommended NOT TO WRITE to this register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m2. */
-#else /* Word 0 - Little Endian */
-        uint64_t mirror_m2             : 8;  /**< [  7:  0](R/W) Mirror of VL3 m2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_1 cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121078ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(a,b) cavm_rpmx_mti_pcs50_x_vendor_mirror_vl3_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(a,b) "RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_MIRROR_VL3_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_pcs_mode
- *
- * RPM Mti Pcs50  Vendor Pcs Mode Register
- * Vendor Specific Reg; Configure PCS supporting Clause 49 or 82 Encoder/Decoder, MLD.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_pcs_mode
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_pcs_mode_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t st_hi_ber5            : 1;  /**< [ 11: 11](RO/H) Current status of Hi_ber5 setting. */
-        uint64_t st_hi_ber25           : 1;  /**< [ 10: 10](RO/H) Current status of Hi_ber25 setting. */
-        uint64_t st_disable_mld        : 1;  /**< [  9:  9](RO/H) Current status of MLD setting. */
-        uint64_t st_ena_clause49       : 1;  /**< [  8:  8](RO/H) Current status of Clause 49 setting. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t hi_ber5               : 1;  /**< [  3:  3](R/W) When 1 PCS implements 5G Hi-Ber (125us, 32 errors). When 0 Hi-Ber implements
-                                                                 according to Ena_clause49 */
-        uint64_t hi_ber25              : 1;  /**< [  2:  2](R/W) When 1 PCS implements 25G Hi-Ber (2ms, 97 errors). When 0 Hi-Ber implements
-                                                                 according to Ena_clause49 */
-        uint64_t disable_mld           : 1;  /**< [  1:  1](R/W) When 0 PCS 4-lane MLD function is active; When 1 the MLD function is disabled. */
-        uint64_t ena_clause49          : 1;  /**< [  0:  0](R/W) When 0 PCS uses Clause 82 encoder/decoder functions; When 1 PCS uses Clause 49
-                                                                 encoder/decoder functions. */
-#else /* Word 0 - Little Endian */
-        uint64_t ena_clause49          : 1;  /**< [  0:  0](R/W) When 0 PCS uses Clause 82 encoder/decoder functions; When 1 PCS uses Clause 49
-                                                                 encoder/decoder functions. */
-        uint64_t disable_mld           : 1;  /**< [  1:  1](R/W) When 0 PCS 4-lane MLD function is active; When 1 the MLD function is disabled. */
-        uint64_t hi_ber25              : 1;  /**< [  2:  2](R/W) When 1 PCS implements 25G Hi-Ber (2ms, 97 errors). When 0 Hi-Ber implements
-                                                                 according to Ena_clause49 */
-        uint64_t hi_ber5               : 1;  /**< [  3:  3](R/W) When 1 PCS implements 5G Hi-Ber (125us, 32 errors). When 0 Hi-Ber implements
-                                                                 according to Ena_clause49 */
-        uint64_t reserved_4_7          : 4;
-        uint64_t st_ena_clause49       : 1;  /**< [  8:  8](RO/H) Current status of Clause 49 setting. */
-        uint64_t st_disable_mld        : 1;  /**< [  9:  9](RO/H) Current status of MLD setting. */
-        uint64_t st_hi_ber25           : 1;  /**< [ 10: 10](RO/H) Current status of Hi_ber25 setting. */
-        uint64_t st_hi_ber5            : 1;  /**< [ 11: 11](RO/H) Current status of Hi_ber5 setting. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_pcs_mode_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_pcs_mode cavm_rpmx_mti_pcs50_x_vendor_pcs_mode_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121080ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_PCS_MODE", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(a,b) cavm_rpmx_mti_pcs50_x_vendor_pcs_mode_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(a,b) "RPMX_MTI_PCS50_X_VENDOR_PCS_MODE"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_PCS_MODE(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_scratch
- *
- * RPM Mti Pcs50  Vendor Scratch Register
- * Vendor Specific Reg; Scratch Register.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_scratch
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t scratch               : 16; /**< [ 15:  0](R/W) Scratch Register; Register address to test read and write operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t scratch               : 16; /**< [ 15:  0](R/W) Scratch Register; Register address to test read and write operation. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_scratch_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_scratch cavm_rpmx_mti_pcs50_x_vendor_scratch_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121000ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_SCRATCH", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(a,b) cavm_rpmx_mti_pcs50_x_vendor_scratch_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(a,b) "RPMX_MTI_PCS50_X_VENDOR_SCRATCH"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_SCRATCH(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_txlane_thresh
- *
- * RPM Mti Pcs50  Vendor Txlane Thresh Register
- * Vendor Specific Reg; Defines the transmit line decoupling FIFOs almost full threshold.
- */
-union cavm_rpmx_mti_pcs50_x_vendor_txlane_thresh
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_txlane_thresh_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t threshold3            : 4;  /**< [ 15: 12](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane3/7; Valid values are 5-10. */
-        uint64_t threshold2            : 4;  /**< [ 11:  8](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane2/6; Valid values are 5-10. */
-        uint64_t threshold1            : 4;  /**< [  7:  4](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane1/5; Valid values are 5-10. */
-        uint64_t threshold0            : 4;  /**< [  3:  0](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane0/4; Valid values are 5-10. */
-#else /* Word 0 - Little Endian */
-        uint64_t threshold0            : 4;  /**< [  3:  0](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane0/4; Valid values are 5-10. */
-        uint64_t threshold1            : 4;  /**< [  7:  4](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane1/5; Valid values are 5-10. */
-        uint64_t threshold2            : 4;  /**< [ 11:  8](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane2/6; Valid values are 5-10. */
-        uint64_t threshold3            : 4;  /**< [ 15: 12](R/W) A 4-bit value to define the transmit line decoupling FIFOs almost full threshold
-                                                                 for lane3/7; Valid values are 5-10. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_txlane_thresh_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_txlane_thresh cavm_rpmx_mti_pcs50_x_vendor_txlane_thresh_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121018ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(a,b) cavm_rpmx_mti_pcs50_x_vendor_txlane_thresh_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(a,b) "RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_TXLANE_THRESH(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vendor_vl_intvl
- *
- * RPM Mti Pcs50  Vendor Vl Intvl Register
- * Vendor Specific Reg; Set the amount of data between markers. (I.e. distance of markers-1).
- */
-union cavm_rpmx_mti_pcs50_x_vendor_vl_intvl
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vendor_vl_intvl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t marker_counter        : 16; /**< [ 15:  0](R/W) A 16-bit value defining the amount of data between markers; (distance of markers-1). */
-#else /* Word 0 - Little Endian */
-        uint64_t marker_counter        : 16; /**< [ 15:  0](R/W) A 16-bit value defining the amount of data between markers; (distance of markers-1). */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vendor_vl_intvl_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vendor_vl_intvl cavm_rpmx_mti_pcs50_x_vendor_vl_intvl_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121010ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VENDOR_VL_INTVL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(a,b) cavm_rpmx_mti_pcs50_x_vendor_vl_intvl_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(a,b) "RPMX_MTI_PCS50_X_VENDOR_VL_INTVL"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VENDOR_VL_INTVL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl0_0
- *
- * RPM Mti Pcs50  Vl0 0 Register
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 0.
- */
-union cavm_rpmx_mti_pcs50_x_vl0_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl0_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-#else /* Word 0 - Little Endian */
-        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl0_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl0_0 cavm_rpmx_mti_pcs50_x_vl0_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL0_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL0_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121200ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL0_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL0_0(a,b) cavm_rpmx_mti_pcs50_x_vl0_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL0_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL0_0(a,b) "RPMX_MTI_PCS50_X_VL0_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL0_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL0_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL0_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl0_1
- *
- * RPM Mti Pcs50  Vl0 1 Register
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 0 marker pattern.
- */
-union cavm_rpmx_mti_pcs50_x_vl0_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl0_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t vl0_1                 : 8;  /**< [  7:  0](R/W) M2. */
-#else /* Word 0 - Little Endian */
-        uint64_t vl0_1                 : 8;  /**< [  7:  0](R/W) M2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl0_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl0_1 cavm_rpmx_mti_pcs50_x_vl0_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL0_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL0_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121208ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL0_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL0_1(a,b) cavm_rpmx_mti_pcs50_x_vl0_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL0_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL0_1(a,b) "RPMX_MTI_PCS50_X_VL0_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL0_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL0_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL0_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl1_0
- *
- * RPM Mti Pcs50  Vl1 0 Register
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 1.
- */
-union cavm_rpmx_mti_pcs50_x_vl1_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl1_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-#else /* Word 0 - Little Endian */
-        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl1_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl1_0 cavm_rpmx_mti_pcs50_x_vl1_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL1_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL1_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121210ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL1_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL1_0(a,b) cavm_rpmx_mti_pcs50_x_vl1_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL1_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL1_0(a,b) "RPMX_MTI_PCS50_X_VL1_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL1_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL1_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL1_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl1_1
- *
- * RPM Mti Pcs50  Vl1 1 Register
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 1 marker pattern.
- */
-union cavm_rpmx_mti_pcs50_x_vl1_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl1_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t vl1_1                 : 8;  /**< [  7:  0](R/W) M2. */
-#else /* Word 0 - Little Endian */
-        uint64_t vl1_1                 : 8;  /**< [  7:  0](R/W) M2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl1_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl1_1 cavm_rpmx_mti_pcs50_x_vl1_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL1_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL1_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121218ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL1_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL1_1(a,b) cavm_rpmx_mti_pcs50_x_vl1_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL1_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL1_1(a,b) "RPMX_MTI_PCS50_X_VL1_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL1_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL1_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL1_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl2_0
- *
- * RPM Mti Pcs50  Vl2 0 Register
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 2.
- */
-union cavm_rpmx_mti_pcs50_x_vl2_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl2_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-#else /* Word 0 - Little Endian */
-        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl2_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl2_0 cavm_rpmx_mti_pcs50_x_vl2_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL2_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL2_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121220ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL2_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL2_0(a,b) cavm_rpmx_mti_pcs50_x_vl2_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL2_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL2_0(a,b) "RPMX_MTI_PCS50_X_VL2_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL2_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL2_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL2_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl2_1
- *
- * RPM Mti Pcs50  Vl2 1 Register
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 2 marker pattern.
- */
-union cavm_rpmx_mti_pcs50_x_vl2_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl2_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t vl2_1                 : 8;  /**< [  7:  0](R/W) M2. */
-#else /* Word 0 - Little Endian */
-        uint64_t vl2_1                 : 8;  /**< [  7:  0](R/W) M2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl2_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl2_1 cavm_rpmx_mti_pcs50_x_vl2_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL2_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL2_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121228ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL2_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL2_1(a,b) cavm_rpmx_mti_pcs50_x_vl2_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL2_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL2_1(a,b) "RPMX_MTI_PCS50_X_VL2_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL2_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL2_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL2_1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl3_0
- *
- * RPM Mti Pcs50  Vl3 0 Register
- * Vendor Specific Reg; Marker pattern for PCS Virtual Lane 3.
- */
-union cavm_rpmx_mti_pcs50_x_vl3_0
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl3_0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-#else /* Word 0 - Little Endian */
-        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Bits 7:0 = m0, Bits 15:8 = m1 */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl3_0_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl3_0 cavm_rpmx_mti_pcs50_x_vl3_0_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL3_0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL3_0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121230ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL3_0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL3_0(a,b) cavm_rpmx_mti_pcs50_x_vl3_0_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL3_0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL3_0(a,b) "RPMX_MTI_PCS50_X_VL3_0"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL3_0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL3_0(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL3_0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_mti_pcs50_#_vl3_1
- *
- * RPM Mti Pcs50  Vl3 1 Register
- * Vendor Specific Reg; Last byte of PCS Virtual Lane 3 marker pattern.
- */
-union cavm_rpmx_mti_pcs50_x_vl3_1
-{
-    uint64_t u;
-    struct cavm_rpmx_mti_pcs50_x_vl3_1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t vl3_1                 : 8;  /**< [  7:  0](R/W) M2. */
-#else /* Word 0 - Little Endian */
-        uint64_t vl3_1                 : 8;  /**< [  7:  0](R/W) M2. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_pcs50_x_vl3_1_s cn; */
-};
-typedef union cavm_rpmx_mti_pcs50_x_vl3_1 cavm_rpmx_mti_pcs50_x_vl3_1_t;
-
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL3_1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_MTI_PCS50_X_VL3_1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=1))
-        return 0x87e0e0121238ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
-    __cavm_csr_fatal("RPMX_MTI_PCS50_X_VL3_1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_MTI_PCS50_X_VL3_1(a,b) cavm_rpmx_mti_pcs50_x_vl3_1_t
-#define bustype_CAVM_RPMX_MTI_PCS50_X_VL3_1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_MTI_PCS50_X_VL3_1(a,b) "RPMX_MTI_PCS50_X_VL3_1"
-#define device_bar_CAVM_RPMX_MTI_PCS50_X_VL3_1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_MTI_PCS50_X_VL3_1(a,b) (a)
-#define arguments_CAVM_RPMX_MTI_PCS50_X_VL3_1(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_mti_rsfec_ccw_hi#

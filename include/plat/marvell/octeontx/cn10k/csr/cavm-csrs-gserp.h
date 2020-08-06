@@ -4543,6 +4543,724 @@ static inline uint64_t CAVM_GSERPX_ANA_VDD_REG0(uint64_t a)
 #define arguments_CAVM_GSERPX_ANA_VDD_REG0(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_anagrp_ctl1
+ *
+ * GSERP Analog Group Control1 Register
+ * This register contains control inputs going to the ANA_GRP module.
+ * Only the GSERP0 instance of GSERP is expected to make the connections.
+ *
+ * This register is asynchronously reset on rst__pll_dcok.
+ */
+union cavm_gserpx_anagrp_ctl1
+{
+    uint64_t u;
+    struct cavm_gserpx_anagrp_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t unused                : 7;  /**< [ 63: 57](R/W) Not currently used. */
+        uint64_t avdd_sel              : 2;  /**< [ 56: 55](R/W) Analog Power Supply Select.
+                                                                 Selects whether AVDD is 1.2V, 1.1V,1.0V or 0.9V.
+                                                                 0x0: 0.9V
+                                                                 0x1: 1.0V
+                                                                 0x2: 1.1V
+                                                                 0x3: 1.2V */
+        uint64_t cp_hvop_en            : 1;  /**< [ 54: 54](R/W) Charge-pump Internal Auxiliary Enable.
+                                                                 Used for Operational Amplifier (OPA) power supply and based on AVDD voltage level.
+                                                                 0x0: Disable auxiliary charge-pump, AVDD for OPA at AVDD = 1.1V or 1.2V
+                                                                 0x1: Enable auxiliary charge-pump at AVDD = 0.9V or 1.0V */
+        uint64_t cp2vddrs_en           : 1;  /**< [ 53: 53](R/W) Charge-pump Core Voltage Mode Selection.
+                                                                 0x0: AVDD + Regulation VDDR
+                                                                 0x1: Two regulation VDDRs */
+        uint64_t cp_bgref_en           : 1;  /**< [ 52: 52](R/W) Charge-pump Close Loop Reference Voltage Source Selection.
+                                                                 When RESERVE_IN[9] = 0
+                                                                 0x0: Use AVDD divide down value as reference
+                                                                 0x1: Use bandgap output with hysteresis comparator as reference.
+                                                                 When RESERVE_IN[9] = 1, CP_BGREF_EN = X, use bandgap output without hysteresis
+                                                                 comparator as reference. */
+        uint64_t cp_clp_en             : 1;  /**< [ 51: 51](R/W) Charge-pump Work Mode Selection.
+                                                                 0x0: Open loop mode
+                                                                 0x1: Close loop mode */
+        uint64_t sel_div_clkana        : 1;  /**< [ 50: 50](R/W) Charge-pump OSC Divider Ratio for Output Analog Group CLKANA (FCLKANA).
+                                                                 0x0: Fosc/4
+                                                                 0x1: Fosc/8 */
+        uint64_t sel_div_clkbg         : 2;  /**< [ 49: 48](R/W) Charge-pump OSC Divider Ratio for Bandgap Input Clock (Fbandgapclk).
+                                                                 0x0: Fosc/32
+                                                                 0x1: Fosc/64
+                                                                 0x2: Fosc/128
+                                                                 0x3: Fosc/256 */
+        uint64_t iosc_cp_sel           : 4;  /**< [ 47: 44](R/W) Charge-pump OSC Current Selection.
+                                                                 The OSC current ranges from 5 uA to 20 uA,1 uA per step.
+                                                                 0x0: 5 uA
+                                                                 0x1: 6 uA
+                                                                 [...]
+                                                                 0xF: 20 uA */
+        uint64_t osc_cp_ctune          : 3;  /**< [ 43: 41](R/W) Charge-pump OSC Capacitance Tuning Selection.
+                                                                 0x0: 0 fF
+                                                                 0x1: 2 fF
+                                                                 0x2: 4 fF
+                                                                 0x3: 6 fF
+                                                                 0x4: 8 fF
+                                                                 0x5: 10 fF
+                                                                 0x6: 12 fF
+                                                                 0x7: 14 fF */
+        uint64_t vref_cp_sel           : 3;  /**< [ 40: 38](R/W) Charge-pump Reference Voltage Selection.
+                                                                 Different control bits are used for close loop and open loop work mode.
+
+                                                                 Close loop work mode (CP_CLP_EN = 1)
+                                                                 VREF_CP_SEL[2:0]  Input reference voltage  ADD1P65V_CHP
+                                                                 0x0               0.63V                    1.575V
+                                                                 0x1               0.64V                    1.6V
+                                                                 0x2               0.65V                    1.625V
+                                                                 0x3               0.66V                    1.65V
+                                                                 0x4               0.67V                    1.675V
+                                                                 0x5               0.68V                    1.7V
+                                                                 0x6               0.69V                    1.725V
+                                                                 0x7               0.7V                     1.75V
+
+                                                                 Open loop work mode (CP_CLP_EN = 0)
+                                                                 Use AVDD_SEL[1:0] and VREF_CP_SEL[2:0] for charge-pump input voltage selection.
+                                                                 VREF_CP_SEL[2:0]  AVDD_SEL[1:0]            AVDD
+                                                                 0x3               0x0                      0.9V
+                                                                 0x1               0x1                      1.0V
+                                                                 0x0               0x2                      1.1V
+                                                                 0x1               0x3                      1.2V */
+        uint64_t iop_cp_sel            : 3;  /**< [ 37: 35](R/W) OPA Input Current Selection.
+                                                                 This field affects the loop gain band width (GBW).
+                                                                 0x0: 1 uA
+                                                                 0x1: 1.5 uA
+                                                                 0x2: 2 uA
+                                                                 0x3: 2.5 uA
+                                                                 0x4: 3 uA
+                                                                 0x5: 3.5 uA
+                                                                 0x6: 4 uA
+                                                                 0x7: 4.5 uA */
+        uint64_t chopper_bg_en         : 1;  /**< [ 34: 34](R/W) Notch Filter, Chopper Clock and Ripple Cancelling Clock Enable Control.
+                                                                 0x0: Disable notch filter, Chopper clock and ripple cancelling clock.
+                                                                 0x1: Enable notch filter, Chopper clock and ripple cancelling clock. */
+        uint64_t res_trim_bg_sel       : 5;  /**< [ 33: 29](R/W) Bandgap Trimming Resistor Variation Corner Select.
+                                                                 Selects the resistor process variation.
+                                                                 0x07: SS resistor corner
+                                                                 0x0D: TT resistor corner
+                                                                 0x14: FF resistor corner */
+        uint64_t vbg_sel               : 4;  /**< [ 28: 25](R/W) Bandgap Output Voltage Select.
+                                                                 0x0: 0.60V
+                                                                 0x1: 0.62V
+                                                                 0x2: 0.64V
+                                                                 [...]
+                                                                 0x7: 0.74V
+                                                                 [...]
+                                                                 0xC: 0.84V
+                                                                 0xD: 0.86V
+                                                                 0xE: 0.88V
+                                                                 0xF: 0.90V */
+        uint64_t icc_adj               : 2;  /**< [ 24: 23](R/W) ICC Current Adjust.
+                                                                 Fine adjustment of ICC current.
+                                                                 0x0: 97%
+                                                                 0x1: 100%
+                                                                 0x2: 103%
+                                                                 0x3: 107% */
+        uint64_t ipp_adj               : 2;  /**< [ 22: 21](R/W) IPP Current Adjust.
+                                                                 Fine adjustment of IPP current.
+                                                                 0x0: 97%
+                                                                 0x1: 100%
+                                                                 0x2: 103%
+                                                                 0x3: 107% */
+        uint64_t vddr_g2_g_short       : 1;  /**< [ 20: 20](R/W) VDDR_G2 to VDDR_G Short Enable.
+                                                                 Short VDDR_G2 to VDDR_G.
+                                                                 0x0: Do not short VDDR_G2 to VDDR_G, recommend setting for AVDD = 1.2V
+                                                                 0x1: Short VDDR_G2 to VDDR_G, recommended setting for AVDD = 0.9V to 1.1V */
+        uint64_t vreg_0p75v_sel        : 3;  /**< [ 19: 17](R/W) 0.75V Regulator Voltage Select.
+                                                                 When AVDD_SEL[1:0] = 0x0 or 0x1:
+                                                                   0x0: 0.575V
+                                                                   0x1: 0.6V
+                                                                   0x2: 0.625V
+                                                                   0x3: 0.65V
+                                                                   0x4: 0.675V
+                                                                   0x5: 0.7V
+                                                                   0x6: 0.725V
+                                                                   0x7: 0.75V
+                                                                 When AVDD_SEL[1:0] = 0x2 or 0x3:
+                                                                   0x0: 0.65V
+                                                                   0x1: 0.67V
+                                                                   0x2: 0.69V
+                                                                   0x3: 0.71V
+                                                                   0x4: 0.73V
+                                                                   0x5: 0.75V
+                                                                   0x6: 0.77V
+                                                                   0x7: 0.79V */
+        uint64_t vreg_1p0v_sel         : 2;  /**< [ 16: 15](R/W) 1.0V Regulator Voltage Select.
+                                                                 When AVDD_SEL[1:0] = 0x0, regulator output = AVDD.
+                                                                 When AVDD_SEL[1:0] = 0x1:
+                                                                   0x0: 0.82V
+                                                                   0x1: 0.84V
+                                                                   0x2: 0.86V
+                                                                   0x3: 0.88V
+                                                                 When AVDD_SEL[1:0] = 0x2:
+                                                                   0x0: 0.92V
+                                                                   0x1: 0.94V
+                                                                   0x2: 0.96V
+                                                                   0x3: 0.98V
+                                                                 When AVDD_SEL[1:0] = 0x3:
+                                                                   0x0: 0.98V
+                                                                   0x1: 1.0V
+                                                                   0x2: 1.02V
+                                                                   0x3: 1.04V */
+        uint64_t bypass                : 1;  /**< [ 14: 14](R/W) Crystal Oscillator Circuit (XTAL) Bypass Control Signal.
+                                                                 0x0: Normal operation when the internal crystal oscillator circuit (XTAL) functions
+                                                                 0x1: Crystal oscillator circuit (XTAL) is disabled, external reference clock
+                                                                 drives in through XTAL_IN pad */
+        uint64_t ac_bypass_en          : 1;  /**< [ 13: 13](R/W) This pin is only valid when BYPASS = 1.
+                                                                 0x0: XTAL_IN is not internally biased
+                                                                 0x1: XTAL_IN is internal weakly biased through a 3k-ohm resistor */
+        uint64_t gainx2                : 1;  /**< [ 12: 12](R/W) Crystal Oscillator Circuit (XTAL) Gain Control Select.
+                                                                 0x0: 1x buffer size (crystal frequency is 15 MHz to 30 MHz)
+                                                                 0x1: 2x buffer size (crystal frequency is 30 MHz to 60 MHz) */
+        uint64_t ixtal                 : 5;  /**< [ 11:  7](R/W) Crystal Oscillator Circuit (XTAL) Biasing Current Select.
+                                                                 Used for setting XTAL block biasing current.
+                                                                 0x00: 10 uA
+                                                                 0x01: 15 uA
+                                                                 0x02: 20 uA
+                                                                 [...]
+                                                                 0x14: 80 uA
+                                                                 [...]
+                                                                 0x1F: 165 uA */
+        uint64_t pu_xtl                : 1;  /**< [  6:  6](R/W) Crystal Oscillator (XTAL) Circuit Power-up.
+                                                                 0x0: Power down XTAL
+                                                                 0x1: Power up XTAL */
+        uint64_t refclkl1_en           : 1;  /**< [  5:  5](R/W) Long Distance Reference Clock REFCLKL1 Enable.
+                                                                 0x0: Disable long distance reference clock
+                                                                 0x1: Enable long distance reference clock */
+        uint64_t refclkl1_sr_sel       : 2;  /**< [  4:  3](R/W) Long Distance Reference Clock Buffer REFCLKL1 Slew Rate Control.
+                                                                 0x0: 30 ps
+                                                                 0x1: 80 ps
+                                                                 0x2: 110 ps
+                                                                 0x3: 140 ps */
+        uint64_t refclkl2_en           : 1;  /**< [  2:  2](R/W) Long Distance Reference Clock REFCLKL2 Enable.
+                                                                 0x0: Disable long distance reference clock
+                                                                 0x1: Enable long distance reference clock */
+        uint64_t refclkl2_sr_sel       : 2;  /**< [  1:  0](R/W) Long Distance Reference Clock Buffer REFCLKL2 Slew Rate Control.
+                                                                 0x0: 30 ps
+                                                                 0x1: 80 ps
+                                                                 0x2: 110 ps
+                                                                 0x3: 140 ps */
+#else /* Word 0 - Little Endian */
+        uint64_t refclkl2_sr_sel       : 2;  /**< [  1:  0](R/W) Long Distance Reference Clock Buffer REFCLKL2 Slew Rate Control.
+                                                                 0x0: 30 ps
+                                                                 0x1: 80 ps
+                                                                 0x2: 110 ps
+                                                                 0x3: 140 ps */
+        uint64_t refclkl2_en           : 1;  /**< [  2:  2](R/W) Long Distance Reference Clock REFCLKL2 Enable.
+                                                                 0x0: Disable long distance reference clock
+                                                                 0x1: Enable long distance reference clock */
+        uint64_t refclkl1_sr_sel       : 2;  /**< [  4:  3](R/W) Long Distance Reference Clock Buffer REFCLKL1 Slew Rate Control.
+                                                                 0x0: 30 ps
+                                                                 0x1: 80 ps
+                                                                 0x2: 110 ps
+                                                                 0x3: 140 ps */
+        uint64_t refclkl1_en           : 1;  /**< [  5:  5](R/W) Long Distance Reference Clock REFCLKL1 Enable.
+                                                                 0x0: Disable long distance reference clock
+                                                                 0x1: Enable long distance reference clock */
+        uint64_t pu_xtl                : 1;  /**< [  6:  6](R/W) Crystal Oscillator (XTAL) Circuit Power-up.
+                                                                 0x0: Power down XTAL
+                                                                 0x1: Power up XTAL */
+        uint64_t ixtal                 : 5;  /**< [ 11:  7](R/W) Crystal Oscillator Circuit (XTAL) Biasing Current Select.
+                                                                 Used for setting XTAL block biasing current.
+                                                                 0x00: 10 uA
+                                                                 0x01: 15 uA
+                                                                 0x02: 20 uA
+                                                                 [...]
+                                                                 0x14: 80 uA
+                                                                 [...]
+                                                                 0x1F: 165 uA */
+        uint64_t gainx2                : 1;  /**< [ 12: 12](R/W) Crystal Oscillator Circuit (XTAL) Gain Control Select.
+                                                                 0x0: 1x buffer size (crystal frequency is 15 MHz to 30 MHz)
+                                                                 0x1: 2x buffer size (crystal frequency is 30 MHz to 60 MHz) */
+        uint64_t ac_bypass_en          : 1;  /**< [ 13: 13](R/W) This pin is only valid when BYPASS = 1.
+                                                                 0x0: XTAL_IN is not internally biased
+                                                                 0x1: XTAL_IN is internal weakly biased through a 3k-ohm resistor */
+        uint64_t bypass                : 1;  /**< [ 14: 14](R/W) Crystal Oscillator Circuit (XTAL) Bypass Control Signal.
+                                                                 0x0: Normal operation when the internal crystal oscillator circuit (XTAL) functions
+                                                                 0x1: Crystal oscillator circuit (XTAL) is disabled, external reference clock
+                                                                 drives in through XTAL_IN pad */
+        uint64_t vreg_1p0v_sel         : 2;  /**< [ 16: 15](R/W) 1.0V Regulator Voltage Select.
+                                                                 When AVDD_SEL[1:0] = 0x0, regulator output = AVDD.
+                                                                 When AVDD_SEL[1:0] = 0x1:
+                                                                   0x0: 0.82V
+                                                                   0x1: 0.84V
+                                                                   0x2: 0.86V
+                                                                   0x3: 0.88V
+                                                                 When AVDD_SEL[1:0] = 0x2:
+                                                                   0x0: 0.92V
+                                                                   0x1: 0.94V
+                                                                   0x2: 0.96V
+                                                                   0x3: 0.98V
+                                                                 When AVDD_SEL[1:0] = 0x3:
+                                                                   0x0: 0.98V
+                                                                   0x1: 1.0V
+                                                                   0x2: 1.02V
+                                                                   0x3: 1.04V */
+        uint64_t vreg_0p75v_sel        : 3;  /**< [ 19: 17](R/W) 0.75V Regulator Voltage Select.
+                                                                 When AVDD_SEL[1:0] = 0x0 or 0x1:
+                                                                   0x0: 0.575V
+                                                                   0x1: 0.6V
+                                                                   0x2: 0.625V
+                                                                   0x3: 0.65V
+                                                                   0x4: 0.675V
+                                                                   0x5: 0.7V
+                                                                   0x6: 0.725V
+                                                                   0x7: 0.75V
+                                                                 When AVDD_SEL[1:0] = 0x2 or 0x3:
+                                                                   0x0: 0.65V
+                                                                   0x1: 0.67V
+                                                                   0x2: 0.69V
+                                                                   0x3: 0.71V
+                                                                   0x4: 0.73V
+                                                                   0x5: 0.75V
+                                                                   0x6: 0.77V
+                                                                   0x7: 0.79V */
+        uint64_t vddr_g2_g_short       : 1;  /**< [ 20: 20](R/W) VDDR_G2 to VDDR_G Short Enable.
+                                                                 Short VDDR_G2 to VDDR_G.
+                                                                 0x0: Do not short VDDR_G2 to VDDR_G, recommend setting for AVDD = 1.2V
+                                                                 0x1: Short VDDR_G2 to VDDR_G, recommended setting for AVDD = 0.9V to 1.1V */
+        uint64_t ipp_adj               : 2;  /**< [ 22: 21](R/W) IPP Current Adjust.
+                                                                 Fine adjustment of IPP current.
+                                                                 0x0: 97%
+                                                                 0x1: 100%
+                                                                 0x2: 103%
+                                                                 0x3: 107% */
+        uint64_t icc_adj               : 2;  /**< [ 24: 23](R/W) ICC Current Adjust.
+                                                                 Fine adjustment of ICC current.
+                                                                 0x0: 97%
+                                                                 0x1: 100%
+                                                                 0x2: 103%
+                                                                 0x3: 107% */
+        uint64_t vbg_sel               : 4;  /**< [ 28: 25](R/W) Bandgap Output Voltage Select.
+                                                                 0x0: 0.60V
+                                                                 0x1: 0.62V
+                                                                 0x2: 0.64V
+                                                                 [...]
+                                                                 0x7: 0.74V
+                                                                 [...]
+                                                                 0xC: 0.84V
+                                                                 0xD: 0.86V
+                                                                 0xE: 0.88V
+                                                                 0xF: 0.90V */
+        uint64_t res_trim_bg_sel       : 5;  /**< [ 33: 29](R/W) Bandgap Trimming Resistor Variation Corner Select.
+                                                                 Selects the resistor process variation.
+                                                                 0x07: SS resistor corner
+                                                                 0x0D: TT resistor corner
+                                                                 0x14: FF resistor corner */
+        uint64_t chopper_bg_en         : 1;  /**< [ 34: 34](R/W) Notch Filter, Chopper Clock and Ripple Cancelling Clock Enable Control.
+                                                                 0x0: Disable notch filter, Chopper clock and ripple cancelling clock.
+                                                                 0x1: Enable notch filter, Chopper clock and ripple cancelling clock. */
+        uint64_t iop_cp_sel            : 3;  /**< [ 37: 35](R/W) OPA Input Current Selection.
+                                                                 This field affects the loop gain band width (GBW).
+                                                                 0x0: 1 uA
+                                                                 0x1: 1.5 uA
+                                                                 0x2: 2 uA
+                                                                 0x3: 2.5 uA
+                                                                 0x4: 3 uA
+                                                                 0x5: 3.5 uA
+                                                                 0x6: 4 uA
+                                                                 0x7: 4.5 uA */
+        uint64_t vref_cp_sel           : 3;  /**< [ 40: 38](R/W) Charge-pump Reference Voltage Selection.
+                                                                 Different control bits are used for close loop and open loop work mode.
+
+                                                                 Close loop work mode (CP_CLP_EN = 1)
+                                                                 VREF_CP_SEL[2:0]  Input reference voltage  ADD1P65V_CHP
+                                                                 0x0               0.63V                    1.575V
+                                                                 0x1               0.64V                    1.6V
+                                                                 0x2               0.65V                    1.625V
+                                                                 0x3               0.66V                    1.65V
+                                                                 0x4               0.67V                    1.675V
+                                                                 0x5               0.68V                    1.7V
+                                                                 0x6               0.69V                    1.725V
+                                                                 0x7               0.7V                     1.75V
+
+                                                                 Open loop work mode (CP_CLP_EN = 0)
+                                                                 Use AVDD_SEL[1:0] and VREF_CP_SEL[2:0] for charge-pump input voltage selection.
+                                                                 VREF_CP_SEL[2:0]  AVDD_SEL[1:0]            AVDD
+                                                                 0x3               0x0                      0.9V
+                                                                 0x1               0x1                      1.0V
+                                                                 0x0               0x2                      1.1V
+                                                                 0x1               0x3                      1.2V */
+        uint64_t osc_cp_ctune          : 3;  /**< [ 43: 41](R/W) Charge-pump OSC Capacitance Tuning Selection.
+                                                                 0x0: 0 fF
+                                                                 0x1: 2 fF
+                                                                 0x2: 4 fF
+                                                                 0x3: 6 fF
+                                                                 0x4: 8 fF
+                                                                 0x5: 10 fF
+                                                                 0x6: 12 fF
+                                                                 0x7: 14 fF */
+        uint64_t iosc_cp_sel           : 4;  /**< [ 47: 44](R/W) Charge-pump OSC Current Selection.
+                                                                 The OSC current ranges from 5 uA to 20 uA,1 uA per step.
+                                                                 0x0: 5 uA
+                                                                 0x1: 6 uA
+                                                                 [...]
+                                                                 0xF: 20 uA */
+        uint64_t sel_div_clkbg         : 2;  /**< [ 49: 48](R/W) Charge-pump OSC Divider Ratio for Bandgap Input Clock (Fbandgapclk).
+                                                                 0x0: Fosc/32
+                                                                 0x1: Fosc/64
+                                                                 0x2: Fosc/128
+                                                                 0x3: Fosc/256 */
+        uint64_t sel_div_clkana        : 1;  /**< [ 50: 50](R/W) Charge-pump OSC Divider Ratio for Output Analog Group CLKANA (FCLKANA).
+                                                                 0x0: Fosc/4
+                                                                 0x1: Fosc/8 */
+        uint64_t cp_clp_en             : 1;  /**< [ 51: 51](R/W) Charge-pump Work Mode Selection.
+                                                                 0x0: Open loop mode
+                                                                 0x1: Close loop mode */
+        uint64_t cp_bgref_en           : 1;  /**< [ 52: 52](R/W) Charge-pump Close Loop Reference Voltage Source Selection.
+                                                                 When RESERVE_IN[9] = 0
+                                                                 0x0: Use AVDD divide down value as reference
+                                                                 0x1: Use bandgap output with hysteresis comparator as reference.
+                                                                 When RESERVE_IN[9] = 1, CP_BGREF_EN = X, use bandgap output without hysteresis
+                                                                 comparator as reference. */
+        uint64_t cp2vddrs_en           : 1;  /**< [ 53: 53](R/W) Charge-pump Core Voltage Mode Selection.
+                                                                 0x0: AVDD + Regulation VDDR
+                                                                 0x1: Two regulation VDDRs */
+        uint64_t cp_hvop_en            : 1;  /**< [ 54: 54](R/W) Charge-pump Internal Auxiliary Enable.
+                                                                 Used for Operational Amplifier (OPA) power supply and based on AVDD voltage level.
+                                                                 0x0: Disable auxiliary charge-pump, AVDD for OPA at AVDD = 1.1V or 1.2V
+                                                                 0x1: Enable auxiliary charge-pump at AVDD = 0.9V or 1.0V */
+        uint64_t avdd_sel              : 2;  /**< [ 56: 55](R/W) Analog Power Supply Select.
+                                                                 Selects whether AVDD is 1.2V, 1.1V,1.0V or 0.9V.
+                                                                 0x0: 0.9V
+                                                                 0x1: 1.0V
+                                                                 0x2: 1.1V
+                                                                 0x3: 1.2V */
+        uint64_t unused                : 7;  /**< [ 63: 57](R/W) Not currently used. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_anagrp_ctl1_s cn; */
+};
+typedef union cavm_gserpx_anagrp_ctl1 cavm_gserpx_anagrp_ctl1_t;
+
+static inline uint64_t CAVM_GSERPX_ANAGRP_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_ANAGRP_CTL1(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0900200c0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_ANAGRP_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_ANAGRP_CTL1(a) cavm_gserpx_anagrp_ctl1_t
+#define bustype_CAVM_GSERPX_ANAGRP_CTL1(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_ANAGRP_CTL1(a) "GSERPX_ANAGRP_CTL1"
+#define device_bar_CAVM_GSERPX_ANAGRP_CTL1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_ANAGRP_CTL1(a) (a)
+#define arguments_CAVM_GSERPX_ANAGRP_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_anagrp_ctl2
+ *
+ * GSERP Analog Group Control2 Register
+ * This register contains control inputs going to the ANA_GRP module.
+ * Only the GSERP0 instance of GSERP is expected to make the connections.
+ *
+ * This register is asynchronously reset on rst__pll_dcok.
+ */
+union cavm_gserpx_anagrp_ctl2
+{
+    uint64_t u;
+    struct cavm_gserpx_anagrp_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t clkout_dig0_div_sel   : 2;  /**< [ 39: 38](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 37: 36](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 35: 34](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig3_div_sel   : 2;  /**< [ 33: 32](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t icc10u_in_sel         : 1;  /**< [ 31: 31](R/W) Free-running Ring Oscillator (RING) External ICC Biasing Current Select.
+                                                                 0x0: Use internal ICC or IPP current for RING. ICC10U_IN cannot be tied low or left floating.
+                                                                 0x1: Use external ICC current for RING. Feed external constant 10 uA current to ICC10U_IN.
+                                                                 PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current */
+        uint64_t pu_osc                : 1;  /**< [ 30: 30](R/W) Free-running Ring Oscillator Power-up.
+                                                                 0x0: Power down ring oscillator
+                                                                 0x1: Power up ring oscillator */
+        uint64_t speed_osc             : 2;  /**< [ 29: 28](R/W) CLKOUT_OSC Frequency Select.
+                                                                 0x0: 7.5 MHz to 8.3 MHz
+                                                                 0x1: 8.4 MHz to 9.4 MHz
+                                                                 0x2: 9.5 MHz to 10.1 MHz
+                                                                 0x3: 11.2 MHz to 13.4 MHz */
+        uint64_t reserve_in            : 10; /**< [ 27: 18](R/W) Reserved Input Register Pins.
+                                                                 Connect to SoC register.
+
+                                                                 [9]
+                                                                 Charge-pump Close Loop Reference Voltage Source Selection.
+                                                                 0x0: CP_BGREF_EN = 0x0: use AVDD divide down value as reference
+                                                                      CP_BGREF_EN = 0x1: use bandgap output with hysteresis comparator as reference
+                                                                 0x1: CP_BGREF_EN = X    use bandgap output without hysteresis comparator as reference
+
+                                                                 [8:6]
+                                                                 At BYPASS = 0:
+                                                                   * When RESERVE_IN[7] = 1, RESERVE_IN[8] = x, analog clock takes clock from
+                                                                 XTAL_OUT (through the Schmitt trigger)
+                                                                   * When RESERVE_IN[7] = 0, RESERVE_IN[8] = 0, the analog clock takes clock from
+                                                                 XTAL_OUT (not through Schmitt trigger).
+                                                                   * When RESERVE_IN[7] = 0, RESERVE_IN[8] = 1, analog clock takes clock from XTAL_IN.
+                                                                   * When RESERVE_IN[6] = 0, RESERVE_IN[8] = x, digital clock takes clock from
+                                                                 XTAL_OUT (through Schmitt trigger)
+                                                                   * When RESERVE_IN[6] = 1, RESERVE_IN[8] = 0, digital clock takes clock from
+                                                                 XTAL_OUT (not through Schmitt trigger).
+                                                                   * When RESERVE_IN[6] = 1, RESERVE_IN[8] = 1, digital clock takes clock from XTAL_IN.
+
+                                                                 [5]
+                                                                 Reserved.
+
+                                                                 [4:3]
+                                                                 Programmable c_reg1p2vto0p75v standby current
+                                                                 0x0: 100 uA
+                                                                 0x1: 200 uA
+                                                                 0x2: 300 uA
+                                                                 0x3: 400 uA
+
+                                                                 [2]
+                                                                 VDDR_1P0V selection
+                                                                 0x0: VDDR_1P0V uses internal regulated 0.8V, 0.95V or 1.0V
+                                                                 0x1: VDDR_1P0V connects to AVDD
+
+                                                                 [1:0]
+                                                                 XTAL main clock buffer selection
+                                                                 0x0: 4x size, best noise performance
+                                                                 0x1: 3x size
+                                                                 0x2: 2x size
+                                                                 0x3: 1x size, least power consumption */
+        uint64_t reserve_in_2          : 12; /**< [ 17:  6](R/W) Reserved Input Register 2 Pins.
+
+                                                                 [11:7]
+                                                                 Reserved.
+
+                                                                 [6]
+                                                                 IPP Current Burst in Mode
+                                                                 0X0 IPP increase +20%
+                                                                 0X1 keep IPP current
+
+                                                                 [5]
+                                                                 Reserved.
+
+                                                                 [4]
+                                                                 Programable AVDD_POR Trigger Voltage.
+                                                                 0x0: AVDD rise edge trigger = 0.97V at AVDD_SEL[1:0] = 0x2
+                                                                      AVDD rise edge trigger = 1.0V at AVDD_SEL[1:0] = 0x3
+                                                                 0x1: AVDD rise edge trigger = 0.94V at AVDD_SEL[1:0] = 0x2
+                                                                      AVDD rise edge trigger = 0.97V at AVDD_SEL[1:0] = 0x3
+
+                                                                 [3]
+                                                                 REFCLKL1/REFCLKL2 Regulator Standby Current Select.
+                                                                 0x0: 100 uA
+                                                                 0x1: 200 uA
+
+                                                                 [2]
+                                                                 XTAL Output Clock Delay Time Select.
+                                                                 0x0: Delay time is 1024/ Fxtl
+                                                                 0x1: No delay
+
+                                                                 [1:0]
+                                                                 Free-running Ring Oscillator (RING) Biasing current.
+                                                                 PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current. */
+        uint64_t test_ana              : 5;  /**< [  5:  1](R/W) Analog Test Control Bits.
+                                                                 Also logic OR with JTAG TDR.
+                                                                 0x0: Tristate the output.
+
+                                                                 Internal:
+                                                                 encodings for analog observe on TP
+                                                                 0x01: AVDD = 1.2V
+                                                                 0x02: AVSS = 0
+                                                                 0x03: DVDD = 0.8V
+                                                                 0x04: VREF0P74V = 0.74V
+                                                                 0x05: VDD_RING = 0.4V
+                                                                 0x06: BG_RDY = DVDD
+                                                                 0x07: VDDR0P95V_MAS = 1.0V
+                                                                 0x08: VDDR0P95V_SLV = 1.0V
+                                                                 0x09: VDDR0P95V_SLV_BUF = 1.0V
+                                                                 0x0A: VDDR0P75V_MAS = 0.75V
+                                                                 0x0B: XTAL_NB = 0.4V
+                                                                 0x0C: VBGOUT = 0.74V
+                                                                 0x0D: VDDR_CP = 0.45 V
+                                                                 0x0E: VFB_CP = 0.66V
+                                                                 0x0F: VREF_CP = 0.66V
+                                                                 0x10 to 0x1F: Reserved */
+        uint64_t pu                    : 1;  /**< [  0:  0](R/W) Analog Group Power-up.
+                                                                 Power up control for current reference.
+                                                                 0x0: Power down
+                                                                 0x1: Power up
+                                                                 Note: also controlled by JTAG IDDQ TDR. */
+#else /* Word 0 - Little Endian */
+        uint64_t pu                    : 1;  /**< [  0:  0](R/W) Analog Group Power-up.
+                                                                 Power up control for current reference.
+                                                                 0x0: Power down
+                                                                 0x1: Power up
+                                                                 Note: also controlled by JTAG IDDQ TDR. */
+        uint64_t test_ana              : 5;  /**< [  5:  1](R/W) Analog Test Control Bits.
+                                                                 Also logic OR with JTAG TDR.
+                                                                 0x0: Tristate the output.
+
+                                                                 Internal:
+                                                                 encodings for analog observe on TP
+                                                                 0x01: AVDD = 1.2V
+                                                                 0x02: AVSS = 0
+                                                                 0x03: DVDD = 0.8V
+                                                                 0x04: VREF0P74V = 0.74V
+                                                                 0x05: VDD_RING = 0.4V
+                                                                 0x06: BG_RDY = DVDD
+                                                                 0x07: VDDR0P95V_MAS = 1.0V
+                                                                 0x08: VDDR0P95V_SLV = 1.0V
+                                                                 0x09: VDDR0P95V_SLV_BUF = 1.0V
+                                                                 0x0A: VDDR0P75V_MAS = 0.75V
+                                                                 0x0B: XTAL_NB = 0.4V
+                                                                 0x0C: VBGOUT = 0.74V
+                                                                 0x0D: VDDR_CP = 0.45 V
+                                                                 0x0E: VFB_CP = 0.66V
+                                                                 0x0F: VREF_CP = 0.66V
+                                                                 0x10 to 0x1F: Reserved */
+        uint64_t reserve_in_2          : 12; /**< [ 17:  6](R/W) Reserved Input Register 2 Pins.
+
+                                                                 [11:7]
+                                                                 Reserved.
+
+                                                                 [6]
+                                                                 IPP Current Burst in Mode
+                                                                 0X0 IPP increase +20%
+                                                                 0X1 keep IPP current
+
+                                                                 [5]
+                                                                 Reserved.
+
+                                                                 [4]
+                                                                 Programable AVDD_POR Trigger Voltage.
+                                                                 0x0: AVDD rise edge trigger = 0.97V at AVDD_SEL[1:0] = 0x2
+                                                                      AVDD rise edge trigger = 1.0V at AVDD_SEL[1:0] = 0x3
+                                                                 0x1: AVDD rise edge trigger = 0.94V at AVDD_SEL[1:0] = 0x2
+                                                                      AVDD rise edge trigger = 0.97V at AVDD_SEL[1:0] = 0x3
+
+                                                                 [3]
+                                                                 REFCLKL1/REFCLKL2 Regulator Standby Current Select.
+                                                                 0x0: 100 uA
+                                                                 0x1: 200 uA
+
+                                                                 [2]
+                                                                 XTAL Output Clock Delay Time Select.
+                                                                 0x0: Delay time is 1024/ Fxtl
+                                                                 0x1: No delay
+
+                                                                 [1:0]
+                                                                 Free-running Ring Oscillator (RING) Biasing current.
+                                                                 PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current. */
+        uint64_t reserve_in            : 10; /**< [ 27: 18](R/W) Reserved Input Register Pins.
+                                                                 Connect to SoC register.
+
+                                                                 [9]
+                                                                 Charge-pump Close Loop Reference Voltage Source Selection.
+                                                                 0x0: CP_BGREF_EN = 0x0: use AVDD divide down value as reference
+                                                                      CP_BGREF_EN = 0x1: use bandgap output with hysteresis comparator as reference
+                                                                 0x1: CP_BGREF_EN = X    use bandgap output without hysteresis comparator as reference
+
+                                                                 [8:6]
+                                                                 At BYPASS = 0:
+                                                                   * When RESERVE_IN[7] = 1, RESERVE_IN[8] = x, analog clock takes clock from
+                                                                 XTAL_OUT (through the Schmitt trigger)
+                                                                   * When RESERVE_IN[7] = 0, RESERVE_IN[8] = 0, the analog clock takes clock from
+                                                                 XTAL_OUT (not through Schmitt trigger).
+                                                                   * When RESERVE_IN[7] = 0, RESERVE_IN[8] = 1, analog clock takes clock from XTAL_IN.
+                                                                   * When RESERVE_IN[6] = 0, RESERVE_IN[8] = x, digital clock takes clock from
+                                                                 XTAL_OUT (through Schmitt trigger)
+                                                                   * When RESERVE_IN[6] = 1, RESERVE_IN[8] = 0, digital clock takes clock from
+                                                                 XTAL_OUT (not through Schmitt trigger).
+                                                                   * When RESERVE_IN[6] = 1, RESERVE_IN[8] = 1, digital clock takes clock from XTAL_IN.
+
+                                                                 [5]
+                                                                 Reserved.
+
+                                                                 [4:3]
+                                                                 Programmable c_reg1p2vto0p75v standby current
+                                                                 0x0: 100 uA
+                                                                 0x1: 200 uA
+                                                                 0x2: 300 uA
+                                                                 0x3: 400 uA
+
+                                                                 [2]
+                                                                 VDDR_1P0V selection
+                                                                 0x0: VDDR_1P0V uses internal regulated 0.8V, 0.95V or 1.0V
+                                                                 0x1: VDDR_1P0V connects to AVDD
+
+                                                                 [1:0]
+                                                                 XTAL main clock buffer selection
+                                                                 0x0: 4x size, best noise performance
+                                                                 0x1: 3x size
+                                                                 0x2: 2x size
+                                                                 0x3: 1x size, least power consumption */
+        uint64_t speed_osc             : 2;  /**< [ 29: 28](R/W) CLKOUT_OSC Frequency Select.
+                                                                 0x0: 7.5 MHz to 8.3 MHz
+                                                                 0x1: 8.4 MHz to 9.4 MHz
+                                                                 0x2: 9.5 MHz to 10.1 MHz
+                                                                 0x3: 11.2 MHz to 13.4 MHz */
+        uint64_t pu_osc                : 1;  /**< [ 30: 30](R/W) Free-running Ring Oscillator Power-up.
+                                                                 0x0: Power down ring oscillator
+                                                                 0x1: Power up ring oscillator */
+        uint64_t icc10u_in_sel         : 1;  /**< [ 31: 31](R/W) Free-running Ring Oscillator (RING) External ICC Biasing Current Select.
+                                                                 0x0: Use internal ICC or IPP current for RING. ICC10U_IN cannot be tied low or left floating.
+                                                                 0x1: Use external ICC current for RING. Feed external constant 10 uA current to ICC10U_IN.
+                                                                 PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current */
+        uint64_t clkout_dig3_div_sel   : 2;  /**< [ 33: 32](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 35: 34](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 37: 36](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig0_div_sel   : 2;  /**< [ 39: 38](R/W) Clock Division Ratio Select.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_anagrp_ctl2_s cn; */
+};
+typedef union cavm_gserpx_anagrp_ctl2 cavm_gserpx_anagrp_ctl2_t;
+
+static inline uint64_t CAVM_GSERPX_ANAGRP_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_ANAGRP_CTL2(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0900200c8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_ANAGRP_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_ANAGRP_CTL2(a) cavm_gserpx_anagrp_ctl2_t
+#define bustype_CAVM_GSERPX_ANAGRP_CTL2(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_ANAGRP_CTL2(a) "GSERPX_ANAGRP_CTL2"
+#define device_bar_CAVM_GSERPX_ANAGRP_CTL2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_ANAGRP_CTL2(a) (a)
+#define arguments_CAVM_GSERPX_ANAGRP_CTL2(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_cache_debug0
  *
  * GSERP_CACHE_DEBUG0 Register
@@ -39826,8 +40544,6 @@ static inline uint64_t CAVM_GSERPX_INT_ENA_W1C(uint64_t a)
  *
  * GSERP Interrupt Enable Set Register
  * This register sets interrupt enable bits.
- * Internal:
- * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
  */
 union cavm_gserpx_int_ena_w1s
 {
@@ -39896,8 +40612,6 @@ static inline uint64_t CAVM_GSERPX_INT_ENA_W1S(uint64_t a)
  *
  * GSERP Interrupt Summary Register
  * This register contains the different interrupt summary bits of the GSERP.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
  * This register is reset on cold reset.
  */
@@ -48658,6 +49372,83 @@ static inline uint64_t CAVM_GSERPX_PHASE_DEBUG_0(uint64_t a)
 #define device_bar_CAVM_GSERPX_PHASE_DEBUG_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_PHASE_DEBUG_0(a) (a)
 #define arguments_CAVM_GSERPX_PHASE_DEBUG_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_phy_lane_rst_ctl
+ *
+ * GSERP Phy Lane Reset Control Register
+ * This register allows software to manually control the per-lane reset
+ * inputs on the PHY.  Intended to assist DFT or possibly for debug purposes.
+ */
+union cavm_gserpx_phy_lane_rst_ctl
+{
+    uint64_t u;
+    struct cavm_gserpx_phy_lane_rst_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t value_ln3             : 1;  /**< [  7:  7](R/W) If OVERRIDE_LN3 is set, use as the value software would like to override
+                                                                 on the lane3 reset signals going into the phy. */
+        uint64_t value_ln2             : 1;  /**< [  6:  6](R/W) If OVERRIDE_LN2 is set, use as the value software would like to override
+                                                                 on the lane2 reset signals going into the phy. */
+        uint64_t value_ln1             : 1;  /**< [  5:  5](R/W) If OVERRIDE_LN1 is set, use as the value software would like to override
+                                                                 on the lane1 reset signals going into the phy. */
+        uint64_t value_ln0             : 1;  /**< [  4:  4](R/W) If OVERRIDE_LN0 is set, use as the value software would like to override
+                                                                 on the lane0 reset signals going into the phy. */
+        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W) Allow software override control for reset inputs to the phy on lane3.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[3] as the reset to the phy for lane3 */
+        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W) Allow software override control for reset inputs to the phy on lane2.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[2] as the reset to the phy for lane2 */
+        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W) Allow software override control for reset inputs to the phy on lane1.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[1] as the reset to the phy for lane1 */
+        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W) Allow software override control for reset inputs to the phy on lane0.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[0] as the reset to the phy for lane0 */
+#else /* Word 0 - Little Endian */
+        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W) Allow software override control for reset inputs to the phy on lane0.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[0] as the reset to the phy for lane0 */
+        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W) Allow software override control for reset inputs to the phy on lane1.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[1] as the reset to the phy for lane1 */
+        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W) Allow software override control for reset inputs to the phy on lane2.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[2] as the reset to the phy for lane2 */
+        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W) Allow software override control for reset inputs to the phy on lane3.
+                                                                 0x0: do not override
+                                                                 0x1: force the value in VALUE[3] as the reset to the phy for lane3 */
+        uint64_t value_ln0             : 1;  /**< [  4:  4](R/W) If OVERRIDE_LN0 is set, use as the value software would like to override
+                                                                 on the lane0 reset signals going into the phy. */
+        uint64_t value_ln1             : 1;  /**< [  5:  5](R/W) If OVERRIDE_LN1 is set, use as the value software would like to override
+                                                                 on the lane1 reset signals going into the phy. */
+        uint64_t value_ln2             : 1;  /**< [  6:  6](R/W) If OVERRIDE_LN2 is set, use as the value software would like to override
+                                                                 on the lane2 reset signals going into the phy. */
+        uint64_t value_ln3             : 1;  /**< [  7:  7](R/W) If OVERRIDE_LN3 is set, use as the value software would like to override
+                                                                 on the lane3 reset signals going into the phy. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_phy_lane_rst_ctl_s cn; */
+};
+typedef union cavm_gserpx_phy_lane_rst_ctl cavm_gserpx_phy_lane_rst_ctl_t;
+
+static inline uint64_t CAVM_GSERPX_PHY_LANE_RST_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_PHY_LANE_RST_CTL(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0900200e8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_PHY_LANE_RST_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_PHY_LANE_RST_CTL(a) cavm_gserpx_phy_lane_rst_ctl_t
+#define bustype_CAVM_GSERPX_PHY_LANE_RST_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_PHY_LANE_RST_CTL(a) "GSERPX_PHY_LANE_RST_CTL"
+#define device_bar_CAVM_GSERPX_PHY_LANE_RST_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_PHY_LANE_RST_CTL(a) (a)
+#define arguments_CAVM_GSERPX_PHY_LANE_RST_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_phytest_oob_ctrl
@@ -61689,6 +62480,559 @@ static inline uint64_t CAVM_GSERPX_PROCESSMON_REG1(uint64_t a)
 #define device_bar_CAVM_GSERPX_PROCESSMON_REG1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_PROCESSMON_REG1(a) (a)
 #define arguments_CAVM_GSERPX_PROCESSMON_REG1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_refclk_ctl1
+ *
+ * GSERP Reference Clock Control1 Register
+ * This register contains control inputs going to the REF_CLK IP module.
+ * Only the GSERP0 instance of GSERP is expected to make the connections.
+ *
+ * This register is asynchronously reset on rst__pll_dcok.
+ */
+union cavm_gserpx_refclk_ctl1
+{
+    uint64_t u;
+    struct cavm_gserpx_refclk_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t pu                    : 1;  /**< [ 62: 62](R/W) Power up control for REF_CLK IP block.  Must be powered down if
+                                                                 there are no input clocks.  So async reset to 0 and software
+                                                                 must set this bit when appropriate during chip bring-up.  Also,
+                                                                 after setting this bit, software must also wait at least 12usec
+                                                                 and then set [RX_EN] within this register.
+                                                                 0x0: powered down
+                                                                 0x1: powered up */
+        uint64_t pu_osc                : 1;  /**< [ 61: 61](R/W) Power Up for Free-Running Ring Oscillator.
+                                                                 0x0: powered down
+                                                                 0x1: powered up */
+        uint64_t speed_osc             : 2;  /**< [ 60: 59](R/W) Speed Select for the Oscillator Clock Out Frequency.
+                                                                 This signal is used to select the oscillator clock out frequency.
+                                                                 0x0: 7.37 MHz to 8.32 MHz
+                                                                 0x1: 8.62 MHz to 9.73 MHz
+                                                                 0x2: 10.8 MHz to 12.1 MHz
+                                                                 0x3: 13.8 MHz to 15.4 MHz */
+        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 58: 57](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 56: 55](R/W) CLKOUT_ANA1 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA2 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_DIG1 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG2 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t refclkc1_div_sel      : 2;  /**< [ 48: 47](R/W) REFCLKC1 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t refclkc2_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC2 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t refclk_out_rx_en      : 1;  /**< [ 44: 44](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
+                                                                 0x0: Disable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG
+                                                                 0x1: Enable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG */
+        uint64_t clkout_ana1_en        : 1;  /**< [ 43: 43](R/W) CLKOUT_ANA1 clock enable
+                                                                 0x0: Disable CLKOUT_ANA1
+                                                                 0x1: Enable CLKOUT_ANA1 */
+        uint64_t clkout_ana2_en        : 1;  /**< [ 42: 42](R/W) CLKOUT_ANA2 clock enable
+                                                                 0x0: Disable CLKOUT_ANA2
+                                                                 0x1: Enable CLKOUT_ANA2 */
+        uint64_t clkout_dig1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_DIG1 clock enable
+                                                                 0x0: Disable CLKOUT_DIG1
+                                                                 0x1: Enable CLKOUT_DIG1 */
+        uint64_t clkout_dig2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_DIG2 clock enable
+                                                                 0x0: Disable CLKOUT_DIG2
+                                                                 0x1: Enable CLKOUT_DIG2 */
+        uint64_t refclkc1_en           : 1;  /**< [ 39: 39](R/W) REFCLKC1 clock enable
+                                                                 0x0: Disable REFCLKC1
+                                                                 0x1: Enable REFCLKC1 */
+        uint64_t refclkc2_en           : 1;  /**< [ 38: 38](R/W) REFCLKC2 clock enable
+                                                                 0x0: Disable REFCLKC2
+                                                                 0x1: Enable REFCLKC2 */
+        uint64_t clkout_dig_div_sel    : 2;  /**< [ 37: 36](R/W) Select Clock Out Digital Divider.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) Reserved Input Register Pins.
+                                                                 Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
+                                                                 RESERVE_IN[2], see GSERP_REFCLK_CTL2[DIV_RX] description.
+                                                                 RESERVE_IN[0], see GSERP_REFCLK_CTL1[RX_HYSTERSIS_EN] description. */
+        uint64_t rx_en                 : 1;  /**< [ 27: 27](R/W) Enable/Disable Rx.  If there are no input clocks, RX_EN must be set to 0.
+                                                                 Set RX_EN=1 only after PU=1 for 12 usec.  To disable Rx without glitch,
+                                                                 set RX=0 while maintaining PU=1 for at least 5 falling edges.
+                                                                 0x0: Disable Rx
+                                                                 0x1: Enable Rx */
+        uint64_t rx_hystersis_en       : 1;  /**< [ 26: 26](R/W) Enable/Disable Hysteresis.  This IP has 2 cirtcuits for generating hysteresis,
+                                                                 one of which is controlled by this signal.  The other is controlled by RESERVE_IN[0].
+                                                                 0x0: Disable hysteresis
+                                                                 0x1: Enable hysteresis */
+        uint64_t rx_lowoffset_mode     : 1;  /**< [ 25: 25](R/W) Set Low Offset Value
+                                                                 0x0: High inherent offset value
+                                                                 0x1: Low inherent offset value */
+        uint64_t rx_offset_en          : 1;  /**< [ 24: 24](R/W) Enable/Disable Inherent Offset.
+                                                                 0x0: Disable inherent offset
+                                                                 0x1: Enable inherent offset */
+        uint64_t rx_offset_polarity    : 1;  /**< [ 23: 23](R/W) Select Rx Inherent Offset Polarity.
+                                                                 Selects polarity in order to overcome inherent offset selected by RX_OFFSET_EN.
+                                                                 0x0: Input has negative polarity
+                                                                 0x1: Input has positive polarity */
+        uint64_t sel_ext               : 1;  /**< [ 22: 22](R/W) Enable/Disable Input Termination.
+                                                                 Internal 50-ohm termination is used only for external current mode driver. For
+                                                                 external voltage mode driver, set SEL_EXT to 1 and use of the on-board
+                                                                 termination is recommended.
+                                                                 0x0: Enable internal 50-ohm termination
+                                                                 0x1: Disable internal 50-ohm termination */
+        uint64_t refclk_logic_sel      : 2;  /**< [ 21: 20](R/W) Input Clock Mode Select
+                                                                 0x0: PCIE mode
+                                                                 0x1: MCI mode or PECL AC mode
+                                                                 0x2: PECL DC mode
+                                                                 0x3: CMOS logic */
+        uint64_t vcm_sel               : 1;  /**< [ 19: 19](R/W) Internal Receiver Input Common Mode voltage range select:
+                                                                 0x0: 360mV~420mV.
+                                                                 0x1: 580mV~640mV. */
+        uint64_t rx_lowpower_mode      : 2;  /**< [ 18: 17](R/W) Internal Receiver Power Mode select:
+                                                                 0x0: default current branches
+                                                                 0x1: reduce 25 percent of the current branches
+                                                                 0x2: reduce 50 percent of the current branches
+                                                                 0x3: reduce 62.5 percent of the current branches */
+        uint64_t bias_cur_sel          : 2;  /**< [ 16: 15](R/W) Internal Receiver Bias Current select:
+                                                                 0x0: select ICC current
+                                                                 0x1: select IPP current.
+                                                                 0x2: select internal generated current
+                                                                 0x3: select internal generated current */
+        uint64_t pecl_ac_cm_sel        : 2;  /**< [ 14: 13](R/W) Internal Receiver Common Mode voltage select:
+                                                                 when VCM_SEL=0:
+                                                                 0x0: 360mV
+                                                                 0x1: 380mV
+                                                                 0x2: 400mV
+                                                                 0x3: 420mV
+                                                                 when VCM_SEL=1:
+                                                                 0x0: 580mV
+                                                                 0x1: 600mV
+                                                                 0x2: 620mV
+                                                                 0x3: 640mV */
+        uint64_t test_ana              : 3;  /**< [ 12: 10](R/W) Analog Test Point Selection:
+                                                                 0x0: High-Z
+
+                                                                 Internal:
+                                                                 encodings for analog observe
+                                                                 0x1: VDDR_LV    = 0.8V
+                                                                 0x2: DVDD
+                                                                 0x3: PU_RX_CORE = 0.9V
+                                                                 0x4: VDD_RING   = 0.58V to 0.76V
+                                                                 0x5: NBIAS_CORE = 0.58V to 0.68V
+                                                                 0x6: RX_OFFSET_INTERNAL = 0
+                                                                 0x7: AVDD1815 */
+        uint64_t test_en               : 1;  /**< [  9:  9](R/W) Enable/Disable Test Point Monitor.
+                                                                 0x0: Disable internal test point monitor.  Put TP into high-Z state
+                                                                 0x1: Enable internal test point monitor */
+        uint64_t clkdet_en             : 1;  /**< [  8:  8](R/W) Clock Detection Block enable:
+                                                                 0x0: disable clock detection.
+                                                                 0x1: enable clock detection. */
+        uint64_t adder_rx_sel          : 1;  /**< [  7:  7](R/W) Adder Tolerance select.
+                                                                 When ADDER_RX_SEL = 0, it indicates the previous counter number differs
+                                                                 from the present counter number by 2.
+                                                                 When ADDER_RX_SEL = 1, it indicates the previous counter number differs
+                                                                 from the present counter number by 3.
+                                                                 0x0: Tolerance adder sum +/- 2
+                                                                 0x1: Tolerance adder sum +/- 3 */
+        uint64_t delay_rx_sel          : 2;  /**< [  6:  5](R/W) Clock Ready delay.  Enables a certain delay time after the clock is ready.
+                                                                 T = N / Frequency of CLKOUT_OSC where N = DIV_RX[5:0] ratio.
+                                                                 0x0: 8T after ready
+                                                                 0x1: 16T after ready
+                                                                 0x2: 32T after ready
+                                                                 0x3: 64T after ready */
+        uint64_t det_rx_mode           : 1;  /**< [  4:  4](R/W) Enable/Disable Rx Detector.
+                                                                 0x0: Detector always enabled.
+                                                                 0x1: Detector disabled when GSERP_REFCLK_STATUS[CK_RX_RDY] = 1 */
+        uint64_t glitch_rx_sel         : 2;  /**< [  3:  2](R/W) Glitch Filter select.  Enables glitch removal in the Rx signals by enabling a
+                                                                 filter that is a multiple of the refined CLKOUT_OSC signal.
+                                                                 T = N / Frequency of CLKOUT_OSC where N = DIV_RX[5:0] ratio.
+                                                                 0x0: 1T filter
+                                                                 0x1: 2T filter
+                                                                 0x2: 4T filter
+                                                                 0x3: No filter */
+        uint64_t range_rx_sel          : 1;  /**< [  1:  1](R/W) Rx Output Clock Counter Range select.
+                                                                 To obtain the Rx output clock counter, divide Rx Output frequency
+                                                                 (REFCLK_OUT_RX_DIG) by the result of CLKOUT_OSC / DIV_RX[5:0].
+
+                                                                 For example, if Rx Output frequency (REFCLK_OUT_RX_DIG) is 25 MHz,
+                                                                 CLKOUT_OSC = 9.175 MHz, and DIV_RX[5:0] = 16
+                                                                 25 MHz / (9.175 MHz / 16) = 43.6
+                                                                 This value is between 32 and 63, so CK_RX_RDY = 1.
+
+                                                                 When RX_CLKDET_MODE = 0:
+                                                                 0x0: 16 to 63 code
+                                                                 0x1: 32 to 63 code
+                                                                 When RX_CLKDET_MODE = 1:
+                                                                 0x0: 8 to 63 code
+                                                                 0x1: 8 to 63 code */
+        uint64_t rx_clkdet_mode        : 1;  /**< [  0:  0](R/W) Select Rx Clock Detector frequency.
+                                                                 Indicates whether frequency of the detector is fixed or variable.
+                                                                 0x0: Fixed detector frequency at one of the following values--25, 26, 40, 50, or 100 MHz.
+                                                                 0x1: Variable detector frequency within range of 20 MHz to 50 MHz or is at 100 MHz */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_clkdet_mode        : 1;  /**< [  0:  0](R/W) Select Rx Clock Detector frequency.
+                                                                 Indicates whether frequency of the detector is fixed or variable.
+                                                                 0x0: Fixed detector frequency at one of the following values--25, 26, 40, 50, or 100 MHz.
+                                                                 0x1: Variable detector frequency within range of 20 MHz to 50 MHz or is at 100 MHz */
+        uint64_t range_rx_sel          : 1;  /**< [  1:  1](R/W) Rx Output Clock Counter Range select.
+                                                                 To obtain the Rx output clock counter, divide Rx Output frequency
+                                                                 (REFCLK_OUT_RX_DIG) by the result of CLKOUT_OSC / DIV_RX[5:0].
+
+                                                                 For example, if Rx Output frequency (REFCLK_OUT_RX_DIG) is 25 MHz,
+                                                                 CLKOUT_OSC = 9.175 MHz, and DIV_RX[5:0] = 16
+                                                                 25 MHz / (9.175 MHz / 16) = 43.6
+                                                                 This value is between 32 and 63, so CK_RX_RDY = 1.
+
+                                                                 When RX_CLKDET_MODE = 0:
+                                                                 0x0: 16 to 63 code
+                                                                 0x1: 32 to 63 code
+                                                                 When RX_CLKDET_MODE = 1:
+                                                                 0x0: 8 to 63 code
+                                                                 0x1: 8 to 63 code */
+        uint64_t glitch_rx_sel         : 2;  /**< [  3:  2](R/W) Glitch Filter select.  Enables glitch removal in the Rx signals by enabling a
+                                                                 filter that is a multiple of the refined CLKOUT_OSC signal.
+                                                                 T = N / Frequency of CLKOUT_OSC where N = DIV_RX[5:0] ratio.
+                                                                 0x0: 1T filter
+                                                                 0x1: 2T filter
+                                                                 0x2: 4T filter
+                                                                 0x3: No filter */
+        uint64_t det_rx_mode           : 1;  /**< [  4:  4](R/W) Enable/Disable Rx Detector.
+                                                                 0x0: Detector always enabled.
+                                                                 0x1: Detector disabled when GSERP_REFCLK_STATUS[CK_RX_RDY] = 1 */
+        uint64_t delay_rx_sel          : 2;  /**< [  6:  5](R/W) Clock Ready delay.  Enables a certain delay time after the clock is ready.
+                                                                 T = N / Frequency of CLKOUT_OSC where N = DIV_RX[5:0] ratio.
+                                                                 0x0: 8T after ready
+                                                                 0x1: 16T after ready
+                                                                 0x2: 32T after ready
+                                                                 0x3: 64T after ready */
+        uint64_t adder_rx_sel          : 1;  /**< [  7:  7](R/W) Adder Tolerance select.
+                                                                 When ADDER_RX_SEL = 0, it indicates the previous counter number differs
+                                                                 from the present counter number by 2.
+                                                                 When ADDER_RX_SEL = 1, it indicates the previous counter number differs
+                                                                 from the present counter number by 3.
+                                                                 0x0: Tolerance adder sum +/- 2
+                                                                 0x1: Tolerance adder sum +/- 3 */
+        uint64_t clkdet_en             : 1;  /**< [  8:  8](R/W) Clock Detection Block enable:
+                                                                 0x0: disable clock detection.
+                                                                 0x1: enable clock detection. */
+        uint64_t test_en               : 1;  /**< [  9:  9](R/W) Enable/Disable Test Point Monitor.
+                                                                 0x0: Disable internal test point monitor.  Put TP into high-Z state
+                                                                 0x1: Enable internal test point monitor */
+        uint64_t test_ana              : 3;  /**< [ 12: 10](R/W) Analog Test Point Selection:
+                                                                 0x0: High-Z
+
+                                                                 Internal:
+                                                                 encodings for analog observe
+                                                                 0x1: VDDR_LV    = 0.8V
+                                                                 0x2: DVDD
+                                                                 0x3: PU_RX_CORE = 0.9V
+                                                                 0x4: VDD_RING   = 0.58V to 0.76V
+                                                                 0x5: NBIAS_CORE = 0.58V to 0.68V
+                                                                 0x6: RX_OFFSET_INTERNAL = 0
+                                                                 0x7: AVDD1815 */
+        uint64_t pecl_ac_cm_sel        : 2;  /**< [ 14: 13](R/W) Internal Receiver Common Mode voltage select:
+                                                                 when VCM_SEL=0:
+                                                                 0x0: 360mV
+                                                                 0x1: 380mV
+                                                                 0x2: 400mV
+                                                                 0x3: 420mV
+                                                                 when VCM_SEL=1:
+                                                                 0x0: 580mV
+                                                                 0x1: 600mV
+                                                                 0x2: 620mV
+                                                                 0x3: 640mV */
+        uint64_t bias_cur_sel          : 2;  /**< [ 16: 15](R/W) Internal Receiver Bias Current select:
+                                                                 0x0: select ICC current
+                                                                 0x1: select IPP current.
+                                                                 0x2: select internal generated current
+                                                                 0x3: select internal generated current */
+        uint64_t rx_lowpower_mode      : 2;  /**< [ 18: 17](R/W) Internal Receiver Power Mode select:
+                                                                 0x0: default current branches
+                                                                 0x1: reduce 25 percent of the current branches
+                                                                 0x2: reduce 50 percent of the current branches
+                                                                 0x3: reduce 62.5 percent of the current branches */
+        uint64_t vcm_sel               : 1;  /**< [ 19: 19](R/W) Internal Receiver Input Common Mode voltage range select:
+                                                                 0x0: 360mV~420mV.
+                                                                 0x1: 580mV~640mV. */
+        uint64_t refclk_logic_sel      : 2;  /**< [ 21: 20](R/W) Input Clock Mode Select
+                                                                 0x0: PCIE mode
+                                                                 0x1: MCI mode or PECL AC mode
+                                                                 0x2: PECL DC mode
+                                                                 0x3: CMOS logic */
+        uint64_t sel_ext               : 1;  /**< [ 22: 22](R/W) Enable/Disable Input Termination.
+                                                                 Internal 50-ohm termination is used only for external current mode driver. For
+                                                                 external voltage mode driver, set SEL_EXT to 1 and use of the on-board
+                                                                 termination is recommended.
+                                                                 0x0: Enable internal 50-ohm termination
+                                                                 0x1: Disable internal 50-ohm termination */
+        uint64_t rx_offset_polarity    : 1;  /**< [ 23: 23](R/W) Select Rx Inherent Offset Polarity.
+                                                                 Selects polarity in order to overcome inherent offset selected by RX_OFFSET_EN.
+                                                                 0x0: Input has negative polarity
+                                                                 0x1: Input has positive polarity */
+        uint64_t rx_offset_en          : 1;  /**< [ 24: 24](R/W) Enable/Disable Inherent Offset.
+                                                                 0x0: Disable inherent offset
+                                                                 0x1: Enable inherent offset */
+        uint64_t rx_lowoffset_mode     : 1;  /**< [ 25: 25](R/W) Set Low Offset Value
+                                                                 0x0: High inherent offset value
+                                                                 0x1: Low inherent offset value */
+        uint64_t rx_hystersis_en       : 1;  /**< [ 26: 26](R/W) Enable/Disable Hysteresis.  This IP has 2 cirtcuits for generating hysteresis,
+                                                                 one of which is controlled by this signal.  The other is controlled by RESERVE_IN[0].
+                                                                 0x0: Disable hysteresis
+                                                                 0x1: Enable hysteresis */
+        uint64_t rx_en                 : 1;  /**< [ 27: 27](R/W) Enable/Disable Rx.  If there are no input clocks, RX_EN must be set to 0.
+                                                                 Set RX_EN=1 only after PU=1 for 12 usec.  To disable Rx without glitch,
+                                                                 set RX=0 while maintaining PU=1 for at least 5 falling edges.
+                                                                 0x0: Disable Rx
+                                                                 0x1: Enable Rx */
+        uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) Reserved Input Register Pins.
+                                                                 Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
+                                                                 RESERVE_IN[2], see GSERP_REFCLK_CTL2[DIV_RX] description.
+                                                                 RESERVE_IN[0], see GSERP_REFCLK_CTL1[RX_HYSTERSIS_EN] description. */
+        uint64_t clkout_dig_div_sel    : 2;  /**< [ 37: 36](R/W) Select Clock Out Digital Divider.
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t refclkc2_en           : 1;  /**< [ 38: 38](R/W) REFCLKC2 clock enable
+                                                                 0x0: Disable REFCLKC2
+                                                                 0x1: Enable REFCLKC2 */
+        uint64_t refclkc1_en           : 1;  /**< [ 39: 39](R/W) REFCLKC1 clock enable
+                                                                 0x0: Disable REFCLKC1
+                                                                 0x1: Enable REFCLKC1 */
+        uint64_t clkout_dig2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_DIG2 clock enable
+                                                                 0x0: Disable CLKOUT_DIG2
+                                                                 0x1: Enable CLKOUT_DIG2 */
+        uint64_t clkout_dig1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_DIG1 clock enable
+                                                                 0x0: Disable CLKOUT_DIG1
+                                                                 0x1: Enable CLKOUT_DIG1 */
+        uint64_t clkout_ana2_en        : 1;  /**< [ 42: 42](R/W) CLKOUT_ANA2 clock enable
+                                                                 0x0: Disable CLKOUT_ANA2
+                                                                 0x1: Enable CLKOUT_ANA2 */
+        uint64_t clkout_ana1_en        : 1;  /**< [ 43: 43](R/W) CLKOUT_ANA1 clock enable
+                                                                 0x0: Disable CLKOUT_ANA1
+                                                                 0x1: Enable CLKOUT_ANA1 */
+        uint64_t refclk_out_rx_en      : 1;  /**< [ 44: 44](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
+                                                                 0x0: Disable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG
+                                                                 0x1: Enable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG */
+        uint64_t refclkc2_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC2 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t refclkc1_div_sel      : 2;  /**< [ 48: 47](R/W) REFCLKC1 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG2 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_DIG1 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA2 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 56: 55](R/W) CLKOUT_ANA1 clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 58: 57](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
+                                                                 0x0: Divided by 1
+                                                                 0x1: Divided by 2
+                                                                 0x2: Divided by 4
+                                                                 0x3: Divided by 8 */
+        uint64_t speed_osc             : 2;  /**< [ 60: 59](R/W) Speed Select for the Oscillator Clock Out Frequency.
+                                                                 This signal is used to select the oscillator clock out frequency.
+                                                                 0x0: 7.37 MHz to 8.32 MHz
+                                                                 0x1: 8.62 MHz to 9.73 MHz
+                                                                 0x2: 10.8 MHz to 12.1 MHz
+                                                                 0x3: 13.8 MHz to 15.4 MHz */
+        uint64_t pu_osc                : 1;  /**< [ 61: 61](R/W) Power Up for Free-Running Ring Oscillator.
+                                                                 0x0: powered down
+                                                                 0x1: powered up */
+        uint64_t pu                    : 1;  /**< [ 62: 62](R/W) Power up control for REF_CLK IP block.  Must be powered down if
+                                                                 there are no input clocks.  So async reset to 0 and software
+                                                                 must set this bit when appropriate during chip bring-up.  Also,
+                                                                 after setting this bit, software must also wait at least 12usec
+                                                                 and then set [RX_EN] within this register.
+                                                                 0x0: powered down
+                                                                 0x1: powered up */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_refclk_ctl1_s cn; */
+};
+typedef union cavm_gserpx_refclk_ctl1 cavm_gserpx_refclk_ctl1_t;
+
+static inline uint64_t CAVM_GSERPX_REFCLK_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_REFCLK_CTL1(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0900200d0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_REFCLK_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_REFCLK_CTL1(a) cavm_gserpx_refclk_ctl1_t
+#define bustype_CAVM_GSERPX_REFCLK_CTL1(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_REFCLK_CTL1(a) "GSERPX_REFCLK_CTL1"
+#define device_bar_CAVM_GSERPX_REFCLK_CTL1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_REFCLK_CTL1(a) (a)
+#define arguments_CAVM_GSERPX_REFCLK_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_refclk_ctl2
+ *
+ * GSERP Reference Clock Control2 Register
+ * This register contains control inputs going to the REF_CLK IP module.
+ * Only the GSERP0 instance of GSERP is expected to make the connections.
+ *
+ * This register is asynchronously reset on rst__pll_dcok.
+ */
+union cavm_gserpx_refclk_ctl2
+{
+    uint64_t u;
+    struct cavm_gserpx_refclk_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t div_rx                : 6;  /**< [  5:  0](R/W) Rx Divider Ratio select.
+
+                                                                 When RX_CLKDET_MODE = 0 and RANGE_RX_SEL = 1, set DIV_RX to the
+                                                                 following values to detect the relevant REFCLK frequency.
+                                                                 0x08: 50 MHz or 100MHz
+                                                                 0x0A: 40 MHz
+                                                                 0x0F: 26 MHz
+                                                                 0x10: 25 MHz
+
+                                                                 When RX_CLKDET_MODE = 0 and RANGE_RX_SEL = 0, set DIV_RX to the
+                                                                 following values to detect the relevant REFCLK frequency.
+                                                                 0x06: 50 MHz or 100MHz
+                                                                 0x08: 40 MHz
+                                                                 0x0C: 26 MHz
+                                                                 0x0D: 25 MHz
+
+                                                                 When RX_CLKDET_MODE = 1:
+                                                                 0x06: always use this value when RX_CLKDET_MODE = 1
+
+                                                                 All other encodings not called out above are reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t div_rx                : 6;  /**< [  5:  0](R/W) Rx Divider Ratio select.
+
+                                                                 When RX_CLKDET_MODE = 0 and RANGE_RX_SEL = 1, set DIV_RX to the
+                                                                 following values to detect the relevant REFCLK frequency.
+                                                                 0x08: 50 MHz or 100MHz
+                                                                 0x0A: 40 MHz
+                                                                 0x0F: 26 MHz
+                                                                 0x10: 25 MHz
+
+                                                                 When RX_CLKDET_MODE = 0 and RANGE_RX_SEL = 0, set DIV_RX to the
+                                                                 following values to detect the relevant REFCLK frequency.
+                                                                 0x06: 50 MHz or 100MHz
+                                                                 0x08: 40 MHz
+                                                                 0x0C: 26 MHz
+                                                                 0x0D: 25 MHz
+
+                                                                 When RX_CLKDET_MODE = 1:
+                                                                 0x06: always use this value when RX_CLKDET_MODE = 1
+
+                                                                 All other encodings not called out above are reserved. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_refclk_ctl2_s cn; */
+};
+typedef union cavm_gserpx_refclk_ctl2 cavm_gserpx_refclk_ctl2_t;
+
+static inline uint64_t CAVM_GSERPX_REFCLK_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_REFCLK_CTL2(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0900200d8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_REFCLK_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_REFCLK_CTL2(a) cavm_gserpx_refclk_ctl2_t
+#define bustype_CAVM_GSERPX_REFCLK_CTL2(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_REFCLK_CTL2(a) "GSERPX_REFCLK_CTL2"
+#define device_bar_CAVM_GSERPX_REFCLK_CTL2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_REFCLK_CTL2(a) (a)
+#define arguments_CAVM_GSERPX_REFCLK_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_refclk_status
+ *
+ * GSERP Reference Clock Status Register
+ * This register contains status values coming from the REF_CLK IP module.
+ * Only the GSERP0 instance of GSERP is expected to make the connections.
+ */
+union cavm_gserpx_refclk_status
+{
+    uint64_t u;
+    struct cavm_gserpx_refclk_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t reserve_out           : 8;  /**< [  8:  1](RO/H) Reserved Output Register Pins. */
+        uint64_t ck_rx_rdy             : 1;  /**< [  0:  0](RO/H) Clock Ready Indicator.
+                                                                 0x0: CK not in the target range
+                                                                 0x1: CK ready */
+#else /* Word 0 - Little Endian */
+        uint64_t ck_rx_rdy             : 1;  /**< [  0:  0](RO/H) Clock Ready Indicator.
+                                                                 0x0: CK not in the target range
+                                                                 0x1: CK ready */
+        uint64_t reserve_out           : 8;  /**< [  8:  1](RO/H) Reserved Output Register Pins. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_refclk_status_s cn; */
+};
+typedef union cavm_gserpx_refclk_status cavm_gserpx_refclk_status_t;
+
+static inline uint64_t CAVM_GSERPX_REFCLK_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_REFCLK_STATUS(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0900200e0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_REFCLK_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_REFCLK_STATUS(a) cavm_gserpx_refclk_status_t
+#define bustype_CAVM_GSERPX_REFCLK_STATUS(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_REFCLK_STATUS(a) "GSERPX_REFCLK_STATUS"
+#define device_bar_CAVM_GSERPX_REFCLK_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_REFCLK_STATUS(a) (a)
+#define arguments_CAVM_GSERPX_REFCLK_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_reg_sft_rst_ctl0

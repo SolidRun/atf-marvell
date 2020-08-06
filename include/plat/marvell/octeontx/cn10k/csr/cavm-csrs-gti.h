@@ -1286,9 +1286,11 @@ union cavm_gti_cc_cntracc
     struct cavm_gti_cc_cntracc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cntracc               : 32; /**< [ 31:  0](SRO/H) Fractional bits of the system counter, GTI_RD_CNTCV. */
+        uint32_t reserved_24_31        : 8;
+        uint32_t cntracc               : 24; /**< [ 23:  0](SRO/H) Fractional bits of the system counter, GTI_RD_CNTCV. */
 #else /* Word 0 - Little Endian */
-        uint32_t cntracc               : 32; /**< [ 31:  0](SRO/H) Fractional bits of the system counter, GTI_RD_CNTCV. */
+        uint32_t cntracc               : 24; /**< [ 23:  0](SRO/H) Fractional bits of the system counter, GTI_RD_CNTCV. */
+        uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cc_cntracc_s cn; */
@@ -1321,11 +1323,9 @@ union cavm_gti_cc_cntrate
     struct cavm_gti_cc_cntrate_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cntrate               : 32; /**< [ 31:  0](SR/W) Sets the system counter count rate. A 32-bit fraction that is added to
-                                                                 GTI_CC_CNTRACC every source clock. */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t cntrate               : 32; /**< [ 31:  0](SR/W) Sets the system counter count rate. A 32-bit fraction that is added to
-                                                                 GTI_CC_CNTRACC every source clock. */
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cc_cntrate_s cn; */

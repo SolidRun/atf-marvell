@@ -1022,6 +1022,387 @@ static inline uint64_t CAVM_DSSX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define arguments_CAVM_DSSX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) dss#_perf_cnt_cfg#
+ *
+ * Performance counters configuration Register
+ * This register defines the events that the counter will count.
+ */
+union cavm_dssx_perf_cnt_cfgx
+{
+    uint64_t u;
+    struct cavm_dssx_perf_cnt_cfgx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0- This counter is disabled.
+                                                                 1- This counter is enabled. */
+        uint64_t reserved_55_62        : 8;
+        uint64_t s_op_is_zqlatch       : 1;  /**< [ 54: 54](SR/W) Count every ZQcal latch Short command that is issued by the
+                                                                 controller after initialization is complete (that is, when STAT.operating_mode != 0). */
+        uint64_t s_op_is_zqstart       : 1;  /**< [ 53: 53](SR/W) Count every ZQcal start command that is issued by the controller
+                                                                 after initialization is complete (that is, when STAT.operating_mode != 0). */
+        uint64_t s_op_is_tcr_mrr       : 1;  /**< [ 52: 52](SR/W) Count every TCR MRR command issued by the controller. */
+        uint64_t s_op_is_dqsosc_mrr    : 1;  /**< [ 51: 51](SR/W) Count every DQSOSC MRR command issued by the controller. */
+        uint64_t s_op_is_dqsosc_mpc    : 1;  /**< [ 50: 50](SR/W) Count every DQSOSC MPC command issued by the controller. */
+        uint64_t s_visible_win_limit_reached_wr : 1;/**< [ 49: 49](SR/W) Indicates that at least one WR CAM entry reaches visible window limit
+                                                                 at this cycle. */
+        uint64_t s_visible_win_limit_reached_rd : 1;/**< [ 48: 48](SR/W) Indicates that at least one RD CAM entry reaches visible window limit at
+                                                                 this cycle. */
+        uint64_t s_bsm_starvation      : 1;  /**< [ 47: 47](SR/W) Count every BSM starvation that happens in the controller. */
+        uint64_t s_bsm_alloc           : 1;  /**< [ 46: 46](SR/W) Count every BSM allocation that happens in the controller. */
+        uint64_t s_lpr_req_with_nocredit : 1;/**< [ 45: 45](SR/W) Count when there is a Low Priority Read (LPR) request
+                                                                 (from XPI to PA) not served due to no available credit. */
+        uint64_t s_hpr_req_with_nocredit : 1;/**< [ 44: 44](SR/W) Count when there is a High Priority Read (HPR) request
+                                                                 (from XPI to PA) not served due to no available credit */
+        uint64_t s_op_is_zqcs          : 1;  /**< [ 43: 43](SR/W) Count every ZQ Calib Short command that is issued by the
+                                                                 controller after initialization is complete (that is, when
+                                                                 STAT.operating_mode != 0). */
+        uint64_t s_op_is_zqcl          : 1;  /**< [ 42: 42](SR/W) Count every ZQ Calib Long command that is issued by the
+                                                                 controller after initialization is complete (that is, when
+                                                                 STAT.operating_mode != 0). */
+        uint64_t s_op_is_load_mode     : 1;  /**< [ 41: 41](SR/W) Count every Load Mode operation (MRW or MRR) that is issued by
+                                                                 the controller after initialization is complete (that is, when
+                                                                 STAT.operating_mode != 0). */
+        uint64_t s_op_is_spec_ref      : 1;  /**< [ 40: 40](SR/W) Count every speculative Refresh command that is issued by the controller. */
+        uint64_t s_op_is_crit_ref      : 1;  /**< [ 39: 39](SR/W) Count every critical Refresh command that is issued by the controller. */
+        uint64_t s_op_is_refresh       : 1;  /**< [ 38: 38](SR/W) Count every Refresh command that is issued by the controller after
+                                                                 initialization is complete (that is, when STAT.operating_mode != 0). */
+        uint64_t s_op_is_enter_mpsm    : 4;  /**< [ 37: 34](SR/W) Count every entry into Maximum Power Saving mode. */
+        uint64_t s_op_is_enter_powerdown : 4;/**< [ 33: 30](SR/W) Count every entry into Power Down mode. */
+        uint64_t s_op_is_enter_selfref : 4;  /**< [ 29: 26](SR/W) Count every entry into Self-Refresh mode */
+        uint64_t s_waw_hazard          : 1;  /**< [ 25: 25](SR/W) Count every Write-after-Write collision that happens in the controller.
+                                                                 Valid only when Write Combine is turned off. */
+        uint64_t s_raw_hazard          : 1;  /**< [ 24: 24](SR/W) Count  every Read-after-Write collision that happens in the controller. */
+        uint64_t s_war_hazard          : 1;  /**< [ 23: 23](SR/W) Count every Write-after-Read collision that happens in the controller. */
+        uint64_t s_write_combine       : 1;  /**< [ 22: 22](SR/W) Count every Write Combine operation that happens in the controller. */
+        uint64_t s_rdwr_transitions    : 1;  /**< [ 21: 21](SR/W) Count every Read to Write and Write to Read bus-turn-around that
+                                                                 happens in the controller. */
+        uint64_t s_precharge_for_other : 1;  /**< [ 20: 20](SR/W) Count  every Precharge that is issued due to requests other than
+                                                                 Read or Write (for eg: Refresh, ZQ Calib, MRW, MRR, tRAS(max)). */
+        uint64_t s_precharge_for_rdwr  : 1;  /**< [ 19: 19](SR/W) Count every Precharge that is issued for Read or Write commands. */
+        uint64_t s_op_is_precharge     : 1;  /**< [ 18: 18](SR/W) Count every Precharge that is issued by the controller. */
+        uint64_t s_op_is_mwr           : 1;  /**< [ 17: 17](SR/W) Count every Masked Write that is issued for commands going through CAM.
+                                                                 Not Applicable for DDR4 DRAM. */
+        uint64_t s_op_is_wr            : 1;  /**< [ 16: 16](SR/W) Count every Write that is issued for commands going through CAM. */
+        uint64_t s_op_is_rd            : 1;  /**< [ 15: 15](SR/W) Count every Read that is issued for commands going through CAM. */
+        uint64_t s_op_is_rd_activate   : 1;  /**< [ 14: 14](SR/W) Count every Read Activate that is issued for commands going through CAM. */
+        uint64_t s_op_is_rd_or_wr      : 1;  /**< [ 13: 13](SR/W) Count every Read or Write that is issued for commands going through CAM. */
+        uint64_t s_op_is_activate      : 1;  /**< [ 12: 12](SR/W) Count every Activate that is issued for commands going through CAM. */
+        uint64_t s_wr_xact_when_critical : 1;/**< [ 11: 11](SR/W) Count every Write transaction that is scheduled when the Write
+                                                                 Queue is in Critical state. */
+        uint64_t s_lpr_xact_when_critical : 1;/**< [ 10: 10](SR/W) Count every Low Priority Read transaction that is scheduled when
+                                                                 the Low Priority Queue is in Critical state. */
+        uint64_t s_hpr_xact_when_critical : 1;/**< [  9:  9](SR/W) Count every High Priority Read transaction that is scheduled when
+                                                                 the High Priority Queue is in Critical state. */
+        uint64_t s_dfi_rd_data_cycles  : 1;  /**< [  8:  8](SR/W) Count every read data beat transfer on the DFI interface coming from DRAM */
+        uint64_t s_dfi_wr_data_cycles  : 1;  /**< [  7:  7](SR/W) Count every write data beat transfer on the DFI interface going to DRAM. */
+        uint64_t s_act_bypass          : 1;  /**< [  6:  6](SR/W) Count every Activate command that is send through the Bypass path. */
+        uint64_t s_read_bypass         : 1;  /**< [  5:  5](SR/W) Count every Read command that is send through the Bypass path. */
+        uint64_t s_hif_hi_pri_rd       : 1;  /**< [  4:  4](SR/W) Count every High-Priority Read command send to DDRC. */
+        uint64_t s_hif_rmw             : 1;  /**< [  3:  3](SR/W) Count every RMW command send to DDRC. */
+        uint64_t s_hif_rd              : 1;  /**< [  2:  2](SR/W) Count every Read command send to DDRC. */
+        uint64_t s_hif_wr              : 1;  /**< [  1:  1](SR/W) Count every Write command send to DDRC. */
+        uint64_t s_hif_rd_or_wr        : 1;  /**< [  0:  0](SR/W) Count every Read or Write command send to DDRC. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_hif_rd_or_wr        : 1;  /**< [  0:  0](SR/W) Count every Read or Write command send to DDRC. */
+        uint64_t s_hif_wr              : 1;  /**< [  1:  1](SR/W) Count every Write command send to DDRC. */
+        uint64_t s_hif_rd              : 1;  /**< [  2:  2](SR/W) Count every Read command send to DDRC. */
+        uint64_t s_hif_rmw             : 1;  /**< [  3:  3](SR/W) Count every RMW command send to DDRC. */
+        uint64_t s_hif_hi_pri_rd       : 1;  /**< [  4:  4](SR/W) Count every High-Priority Read command send to DDRC. */
+        uint64_t s_read_bypass         : 1;  /**< [  5:  5](SR/W) Count every Read command that is send through the Bypass path. */
+        uint64_t s_act_bypass          : 1;  /**< [  6:  6](SR/W) Count every Activate command that is send through the Bypass path. */
+        uint64_t s_dfi_wr_data_cycles  : 1;  /**< [  7:  7](SR/W) Count every write data beat transfer on the DFI interface going to DRAM. */
+        uint64_t s_dfi_rd_data_cycles  : 1;  /**< [  8:  8](SR/W) Count every read data beat transfer on the DFI interface coming from DRAM */
+        uint64_t s_hpr_xact_when_critical : 1;/**< [  9:  9](SR/W) Count every High Priority Read transaction that is scheduled when
+                                                                 the High Priority Queue is in Critical state. */
+        uint64_t s_lpr_xact_when_critical : 1;/**< [ 10: 10](SR/W) Count every Low Priority Read transaction that is scheduled when
+                                                                 the Low Priority Queue is in Critical state. */
+        uint64_t s_wr_xact_when_critical : 1;/**< [ 11: 11](SR/W) Count every Write transaction that is scheduled when the Write
+                                                                 Queue is in Critical state. */
+        uint64_t s_op_is_activate      : 1;  /**< [ 12: 12](SR/W) Count every Activate that is issued for commands going through CAM. */
+        uint64_t s_op_is_rd_or_wr      : 1;  /**< [ 13: 13](SR/W) Count every Read or Write that is issued for commands going through CAM. */
+        uint64_t s_op_is_rd_activate   : 1;  /**< [ 14: 14](SR/W) Count every Read Activate that is issued for commands going through CAM. */
+        uint64_t s_op_is_rd            : 1;  /**< [ 15: 15](SR/W) Count every Read that is issued for commands going through CAM. */
+        uint64_t s_op_is_wr            : 1;  /**< [ 16: 16](SR/W) Count every Write that is issued for commands going through CAM. */
+        uint64_t s_op_is_mwr           : 1;  /**< [ 17: 17](SR/W) Count every Masked Write that is issued for commands going through CAM.
+                                                                 Not Applicable for DDR4 DRAM. */
+        uint64_t s_op_is_precharge     : 1;  /**< [ 18: 18](SR/W) Count every Precharge that is issued by the controller. */
+        uint64_t s_precharge_for_rdwr  : 1;  /**< [ 19: 19](SR/W) Count every Precharge that is issued for Read or Write commands. */
+        uint64_t s_precharge_for_other : 1;  /**< [ 20: 20](SR/W) Count  every Precharge that is issued due to requests other than
+                                                                 Read or Write (for eg: Refresh, ZQ Calib, MRW, MRR, tRAS(max)). */
+        uint64_t s_rdwr_transitions    : 1;  /**< [ 21: 21](SR/W) Count every Read to Write and Write to Read bus-turn-around that
+                                                                 happens in the controller. */
+        uint64_t s_write_combine       : 1;  /**< [ 22: 22](SR/W) Count every Write Combine operation that happens in the controller. */
+        uint64_t s_war_hazard          : 1;  /**< [ 23: 23](SR/W) Count every Write-after-Read collision that happens in the controller. */
+        uint64_t s_raw_hazard          : 1;  /**< [ 24: 24](SR/W) Count  every Read-after-Write collision that happens in the controller. */
+        uint64_t s_waw_hazard          : 1;  /**< [ 25: 25](SR/W) Count every Write-after-Write collision that happens in the controller.
+                                                                 Valid only when Write Combine is turned off. */
+        uint64_t s_op_is_enter_selfref : 4;  /**< [ 29: 26](SR/W) Count every entry into Self-Refresh mode */
+        uint64_t s_op_is_enter_powerdown : 4;/**< [ 33: 30](SR/W) Count every entry into Power Down mode. */
+        uint64_t s_op_is_enter_mpsm    : 4;  /**< [ 37: 34](SR/W) Count every entry into Maximum Power Saving mode. */
+        uint64_t s_op_is_refresh       : 1;  /**< [ 38: 38](SR/W) Count every Refresh command that is issued by the controller after
+                                                                 initialization is complete (that is, when STAT.operating_mode != 0). */
+        uint64_t s_op_is_crit_ref      : 1;  /**< [ 39: 39](SR/W) Count every critical Refresh command that is issued by the controller. */
+        uint64_t s_op_is_spec_ref      : 1;  /**< [ 40: 40](SR/W) Count every speculative Refresh command that is issued by the controller. */
+        uint64_t s_op_is_load_mode     : 1;  /**< [ 41: 41](SR/W) Count every Load Mode operation (MRW or MRR) that is issued by
+                                                                 the controller after initialization is complete (that is, when
+                                                                 STAT.operating_mode != 0). */
+        uint64_t s_op_is_zqcl          : 1;  /**< [ 42: 42](SR/W) Count every ZQ Calib Long command that is issued by the
+                                                                 controller after initialization is complete (that is, when
+                                                                 STAT.operating_mode != 0). */
+        uint64_t s_op_is_zqcs          : 1;  /**< [ 43: 43](SR/W) Count every ZQ Calib Short command that is issued by the
+                                                                 controller after initialization is complete (that is, when
+                                                                 STAT.operating_mode != 0). */
+        uint64_t s_hpr_req_with_nocredit : 1;/**< [ 44: 44](SR/W) Count when there is a High Priority Read (HPR) request
+                                                                 (from XPI to PA) not served due to no available credit */
+        uint64_t s_lpr_req_with_nocredit : 1;/**< [ 45: 45](SR/W) Count when there is a Low Priority Read (LPR) request
+                                                                 (from XPI to PA) not served due to no available credit. */
+        uint64_t s_bsm_alloc           : 1;  /**< [ 46: 46](SR/W) Count every BSM allocation that happens in the controller. */
+        uint64_t s_bsm_starvation      : 1;  /**< [ 47: 47](SR/W) Count every BSM starvation that happens in the controller. */
+        uint64_t s_visible_win_limit_reached_rd : 1;/**< [ 48: 48](SR/W) Indicates that at least one RD CAM entry reaches visible window limit at
+                                                                 this cycle. */
+        uint64_t s_visible_win_limit_reached_wr : 1;/**< [ 49: 49](SR/W) Indicates that at least one WR CAM entry reaches visible window limit
+                                                                 at this cycle. */
+        uint64_t s_op_is_dqsosc_mpc    : 1;  /**< [ 50: 50](SR/W) Count every DQSOSC MPC command issued by the controller. */
+        uint64_t s_op_is_dqsosc_mrr    : 1;  /**< [ 51: 51](SR/W) Count every DQSOSC MRR command issued by the controller. */
+        uint64_t s_op_is_tcr_mrr       : 1;  /**< [ 52: 52](SR/W) Count every TCR MRR command issued by the controller. */
+        uint64_t s_op_is_zqstart       : 1;  /**< [ 53: 53](SR/W) Count every ZQcal start command that is issued by the controller
+                                                                 after initialization is complete (that is, when STAT.operating_mode != 0). */
+        uint64_t s_op_is_zqlatch       : 1;  /**< [ 54: 54](SR/W) Count every ZQcal latch Short command that is issued by the
+                                                                 controller after initialization is complete (that is, when STAT.operating_mode != 0). */
+        uint64_t reserved_55_62        : 8;
+        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0- This counter is disabled.
+                                                                 1- This counter is enabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_perf_cnt_cfgx_s cn; */
+};
+typedef union cavm_dssx_perf_cnt_cfgx cavm_dssx_perf_cnt_cfgx_t;
+
+static inline uint64_t CAVM_DSSX_PERF_CNT_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_PERF_CNT_CFGX(uint64_t a, uint64_t b)
+{
+    if ((a<=3) && (b<=7))
+        return 0x87e03c008040ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    __cavm_csr_fatal("DSSX_PERF_CNT_CFGX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_PERF_CNT_CFGX(a,b) cavm_dssx_perf_cnt_cfgx_t
+#define bustype_CAVM_DSSX_PERF_CNT_CFGX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_PERF_CNT_CFGX(a,b) "DSSX_PERF_CNT_CFGX"
+#define device_bar_CAVM_DSSX_PERF_CNT_CFGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_PERF_CNT_CFGX(a,b) (a)
+#define arguments_CAVM_DSSX_PERF_CNT_CFGX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dss#_perf_cnt_end_op_ctrl
+ *
+ * Performance counters end operation control Register
+ * DSS performance counters control,
+ * this register controls end of counters operation for manual mode.
+ * Can be used also to stop counting in timer mode.
+ */
+union cavm_dssx_perf_cnt_end_op_ctrl
+{
+    uint64_t u;
+    struct cavm_dssx_perf_cnt_end_op_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t s_manual_mode_end     : 1;  /**< [  0:  0](SR/W1S/H) SW writes this bit to one to stop counting in manual mode.
+                                                                 For timer mode, this bit can be used to stop counting before the timer finish. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_manual_mode_end     : 1;  /**< [  0:  0](SR/W1S/H) SW writes this bit to one to stop counting in manual mode.
+                                                                 For timer mode, this bit can be used to stop counting before the timer finish. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_perf_cnt_end_op_ctrl_s cn; */
+};
+typedef union cavm_dssx_perf_cnt_end_op_ctrl cavm_dssx_perf_cnt_end_op_ctrl_t;
+
+static inline uint64_t CAVM_DSSX_PERF_CNT_END_OP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_PERF_CNT_END_OP_CTRL(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c008030ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSSX_PERF_CNT_END_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_PERF_CNT_END_OP_CTRL(a) cavm_dssx_perf_cnt_end_op_ctrl_t
+#define bustype_CAVM_DSSX_PERF_CNT_END_OP_CTRL(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_PERF_CNT_END_OP_CTRL(a) "DSSX_PERF_CNT_END_OP_CTRL"
+#define device_bar_CAVM_DSSX_PERF_CNT_END_OP_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_PERF_CNT_END_OP_CTRL(a) (a)
+#define arguments_CAVM_DSSX_PERF_CNT_END_OP_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dss#_perf_cnt_end_status
+ *
+ * Performance counters end status Register
+ * DSS performance counters control,
+ * this register controls end of counters operation status for default mode.
+ */
+union cavm_dssx_perf_cnt_end_status
+{
+    uint64_t u;
+    struct cavm_dssx_perf_cnt_end_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t s_timer_mode_end      : 1;  /**< [  0:  0](SR/W1C/H) One bit indication that the timer is done in timer mode,
+                                                                 SW writes one to clear this bit to start new count. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_timer_mode_end      : 1;  /**< [  0:  0](SR/W1C/H) One bit indication that the timer is done in timer mode,
+                                                                 SW writes one to clear this bit to start new count. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_perf_cnt_end_status_s cn; */
+};
+typedef union cavm_dssx_perf_cnt_end_status cavm_dssx_perf_cnt_end_status_t;
+
+static inline uint64_t CAVM_DSSX_PERF_CNT_END_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_PERF_CNT_END_STATUS(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c008038ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSSX_PERF_CNT_END_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_PERF_CNT_END_STATUS(a) cavm_dssx_perf_cnt_end_status_t
+#define bustype_CAVM_DSSX_PERF_CNT_END_STATUS(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_PERF_CNT_END_STATUS(a) "DSSX_PERF_CNT_END_STATUS"
+#define device_bar_CAVM_DSSX_PERF_CNT_END_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_PERF_CNT_END_STATUS(a) (a)
+#define arguments_CAVM_DSSX_PERF_CNT_END_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dss#_perf_cnt_op_mode_ctrl
+ *
+ * Performance counters operating mode control Register
+ * DSS performance counters control,
+ * this register configures the operating mode of the counters.
+ */
+union cavm_dssx_perf_cnt_op_mode_ctrl
+{
+    uint64_t u;
+    struct cavm_dssx_perf_cnt_op_mode_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t s_timer_value         : 6;  /**< [  9:  4](SR/W) In timer mode, the count time period will be 2^(timer value). */
+        uint64_t reserved_1_3          : 3;
+        uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0- Timer (default mode), the end of the operation based on timer.
+                                                                 1- Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
+#else /* Word 0 - Little Endian */
+        uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0- Timer (default mode), the end of the operation based on timer.
+                                                                 1- Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
+        uint64_t reserved_1_3          : 3;
+        uint64_t s_timer_value         : 6;  /**< [  9:  4](SR/W) In timer mode, the count time period will be 2^(timer value). */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_perf_cnt_op_mode_ctrl_s cn; */
+};
+typedef union cavm_dssx_perf_cnt_op_mode_ctrl cavm_dssx_perf_cnt_op_mode_ctrl_t;
+
+static inline uint64_t CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c008020ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSSX_PERF_CNT_OP_MODE_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(a) cavm_dssx_perf_cnt_op_mode_ctrl_t
+#define bustype_CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(a) "DSSX_PERF_CNT_OP_MODE_CTRL"
+#define device_bar_CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(a) (a)
+#define arguments_CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dss#_perf_cnt_start_op_ctrl
+ *
+ * Performance counters start operation control Register
+ * DSS performance counters control,
+ * this register controls the start of counters operation.
+ */
+union cavm_dssx_perf_cnt_start_op_ctrl
+{
+    uint64_t u;
+    struct cavm_dssx_perf_cnt_start_op_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t s_ongoing_cnt_op      : 1;  /**< [  1:  1](SRO/H) This bit will be high when the counters are active.
+                                                                 This bit can be used to indicate the SW if counting operation is in progress. */
+        uint64_t s_start               : 1;  /**< [  0:  0](SR/W1S/H) Start the manual / timer mode operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_start               : 1;  /**< [  0:  0](SR/W1S/H) Start the manual / timer mode operation. */
+        uint64_t s_ongoing_cnt_op      : 1;  /**< [  1:  1](SRO/H) This bit will be high when the counters are active.
+                                                                 This bit can be used to indicate the SW if counting operation is in progress. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_perf_cnt_start_op_ctrl_s cn; */
+};
+typedef union cavm_dssx_perf_cnt_start_op_ctrl cavm_dssx_perf_cnt_start_op_ctrl_t;
+
+static inline uint64_t CAVM_DSSX_PERF_CNT_START_OP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_PERF_CNT_START_OP_CTRL(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c008028ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSSX_PERF_CNT_START_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_PERF_CNT_START_OP_CTRL(a) cavm_dssx_perf_cnt_start_op_ctrl_t
+#define bustype_CAVM_DSSX_PERF_CNT_START_OP_CTRL(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_PERF_CNT_START_OP_CTRL(a) "DSSX_PERF_CNT_START_OP_CTRL"
+#define device_bar_CAVM_DSSX_PERF_CNT_START_OP_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_PERF_CNT_START_OP_CTRL(a) (a)
+#define arguments_CAVM_DSSX_PERF_CNT_START_OP_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dss#_perf_cnt_value#
+ *
+ * Performance counters value Register
+ * Count of enabled events that occurred when the counter is enabled.
+ */
+union cavm_dssx_perf_cnt_valuex
+{
+    uint64_t u;
+    struct cavm_dssx_perf_cnt_valuex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t s_counter_value       : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of events happened when the counter is enabled.i */
+#else /* Word 0 - Little Endian */
+        uint64_t s_counter_value       : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of events happened when the counter is enabled.i */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_perf_cnt_valuex_s cn; */
+};
+typedef union cavm_dssx_perf_cnt_valuex cavm_dssx_perf_cnt_valuex_t;
+
+static inline uint64_t CAVM_DSSX_PERF_CNT_VALUEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_PERF_CNT_VALUEX(uint64_t a, uint64_t b)
+{
+    if ((a<=3) && (b<=7))
+        return 0x87e03c008080ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    __cavm_csr_fatal("DSSX_PERF_CNT_VALUEX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_PERF_CNT_VALUEX(a,b) cavm_dssx_perf_cnt_valuex_t
+#define bustype_CAVM_DSSX_PERF_CNT_VALUEX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_PERF_CNT_VALUEX(a,b) "DSSX_PERF_CNT_VALUEX"
+#define device_bar_CAVM_DSSX_PERF_CNT_VALUEX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_PERF_CNT_VALUEX(a,b) (a)
+#define arguments_CAVM_DSSX_PERF_CNT_VALUEX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) dss#_phy_apb_reset_n
  *
  * DSS phy apb clock domain reset Register

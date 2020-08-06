@@ -6900,9 +6900,9 @@ static inline uint64_t CAVM_USBHX_UAHC_GUSB2RHBCTL(uint64_t a)
 #define arguments_CAVM_USBHX_UAHC_GUSB2RHBCTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gusb3pipectl#
+ * Register (NCB32b) usbh#_uahc_gusb31pipectl#
  *
- * USB UAHC USB3 Pipe-Control Register
+ * USB UAHC USB31 Pipe-Control Register
  * This register is used to configure the core after power-on. It contains USB 3.1 and USB 3.1
  * PHY-related configuration parameters. The application must program this register before
  * starting any transactions on either the SoC bus or the USB. Per-port registers are
@@ -6915,10 +6915,10 @@ static inline uint64_t CAVM_USBHX_UAHC_GUSB2RHBCTL(uint64_t a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
  */
-union cavm_usbhx_uahc_gusb3pipectlx
+union cavm_usbhx_uahc_gusb31pipectlx
 {
     uint32_t u;
-    struct cavm_usbhx_uahc_gusb3pipectlx_s
+    struct cavm_usbhx_uahc_gusb31pipectlx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
@@ -7248,24 +7248,24 @@ union cavm_usbhx_uahc_gusb3pipectlx
                                                                  this bit to 1, the software needs to clear this bit. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_usbhx_uahc_gusb3pipectlx_s cn; */
+    /* struct cavm_usbhx_uahc_gusb31pipectlx_s cn; */
 };
-typedef union cavm_usbhx_uahc_gusb3pipectlx cavm_usbhx_uahc_gusb3pipectlx_t;
+typedef union cavm_usbhx_uahc_gusb31pipectlx cavm_usbhx_uahc_gusb31pipectlx_t;
 
-static inline uint64_t CAVM_USBHX_UAHC_GUSB3PIPECTLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_USBHX_UAHC_GUSB3PIPECTLX(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_USBHX_UAHC_GUSB31PIPECTLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UAHC_GUSB31PIPECTLX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
         return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
-    __cavm_csr_fatal("USBHX_UAHC_GUSB3PIPECTLX", 2, a, b, 0, 0, 0, 0);
+    __cavm_csr_fatal("USBHX_UAHC_GUSB31PIPECTLX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_USBHX_UAHC_GUSB3PIPECTLX(a,b) cavm_usbhx_uahc_gusb3pipectlx_t
-#define bustype_CAVM_USBHX_UAHC_GUSB3PIPECTLX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_USBHX_UAHC_GUSB3PIPECTLX(a,b) "USBHX_UAHC_GUSB3PIPECTLX"
-#define device_bar_CAVM_USBHX_UAHC_GUSB3PIPECTLX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_USBHX_UAHC_GUSB3PIPECTLX(a,b) (a)
-#define arguments_CAVM_USBHX_UAHC_GUSB3PIPECTLX(a,b) (a),(b),-1,-1
+#define typedef_CAVM_USBHX_UAHC_GUSB31PIPECTLX(a,b) cavm_usbhx_uahc_gusb31pipectlx_t
+#define bustype_CAVM_USBHX_UAHC_GUSB31PIPECTLX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_USBHX_UAHC_GUSB31PIPECTLX(a,b) "USBHX_UAHC_GUSB31PIPECTLX"
+#define device_bar_CAVM_USBHX_UAHC_GUSB31PIPECTLX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UAHC_GUSB31PIPECTLX(a,b) (a)
+#define arguments_CAVM_USBHX_UAHC_GUSB31PIPECTLX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) usbh#_uahc_hccparams1
@@ -12194,9 +12194,35 @@ union cavm_usbhx_uctl_portx_cfg_ss_pls
         uint64_t lane0_ext_pclk_req    : 1;  /**< [ 57: 57](R/W) When asserted, this signal enables the pipe0_pclk output regardless of power state (along
                                                                  with the associated increase in power consumption). You can use this input to enable
                                                                  pipe0_pclk in the P3 state without going through a complete boot sequence. */
-        uint64_t lane0_tx2rx_loopbk    : 1;  /**< [ 56: 56](R/W) When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
+        uint64_t piep_lane0_tx2rx_loopbk : 1;/**< [ 56: 56](R/W) When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
                                                                  based on the tx0_en input so that rx0_los = !tx_data_en. */
-        uint64_t reserved_42_55        : 14;
+        uint64_t pipe_rx0_cmn_reflk_mode : 1;/**< [ 55: 55](R/W) This mode should be enabled only when the far-end and near-end devices are running
+                                                                 with a common reference clock.When asserted,this input configures the elastic buffer
+                                                                 to operate in the lowest latency mode.
+                                                                 Note:SKP symbol manipulation is disabled in this mode, because SKP symbol manipulation
+                                                                 is not needed when the reference clock is common between near-end and far-end (that is,
+                                                                 local clock and recovered clock have the same frequency).
+                                                                 Any change to this input must be followed by phy_reset assertion. */
+        uint64_t pipe_rx_cdr_legacy_en : 1;  /**< [ 54: 54](R/W) This control signal selects between legacy mode CDR logic and the
+                                                                 new implementation. */
+        uint64_t pipe_rx_recal_cont_en : 1;  /**< [ 53: 53](R/W) This pin (pcs_rxX_recal_cont_en) enables re-locking when alignment
+                                                                 is lost in non-8B10 mode. */
+        uint64_t phy0_mplla_force_en   : 1;  /**< [ 52: 52](R/W) This signal is combined with internal PCS logic to drive phyN_mplla_force_en_ovrd,
+                                                                 which connects to the mplla_force_en signal on PHYN.The PCS overrides the PHY
+                                                                 signal high in PHY aggregation cases to ensure that the master clock source remains
+                                                                 operational for the entire link when in Mission mode. */
+        uint64_t phy0_mplla_ssc_en     : 1;  /**< [ 51: 51](R/W) Enable spread spectrum clock generation on mplla_div_clk output.If the reference
+                                                                 clock has already applied spread spectrum then this bit should be 0.Ca nbe changed only when
+                                                                 all txX_mplla_en are de-asserted. */
+        uint64_t phy_res_req_en        : 1;  /**< [ 50: 50](R/W) Arbitration lines for sharing single resistor among multiple ores that are connected to
+                                                                 single set of pads. */
+        uint64_t phy_lane0_rx2tx_par_lb_en : 1;/**< [ 49: 49](R/W) Parallel loopback enable. */
+        uint64_t upcs_pipe_config      : 1;  /**< [ 48: 48](R/W) When upcs_pipe_config[0] is set to 1, the PCS ignores lane-off via PIPE specification
+                                                                 method (TxElecIdle = 1 and TxCompliance = 1) and responds to power-down/rate/width changes.
+                                                                 Otherwise, until the MAC deasserts the "turned off" signaling, the PCS ignores any commands
+                                                                 to change power-down/rate/width after being turned off.Any change to this input must be
+                                                                 followed by phy_reset assertion. */
+        uint64_t reserved_42_47        : 6;
         uint64_t pcs_rx_los_mask_val   : 10; /**< [ 41: 32](R/W) Configurable loss-of-signal mask width. Sets the number of reference clock cycles to mask
                                                                  the incoming LFPS in U3 and U2 states. Masks the incoming LFPS for the number of reference
                                                                  clock cycles equal to the value of pcs_rx_los_mask_val\<9:0\>. This control filters out
@@ -12368,8 +12394,34 @@ union cavm_usbhx_uctl_portx_cfg_ss_pls
 
                                                                  Setting this bus to 0x0 disables masking. The value should be defined when the PHY is in
                                                                  reset. Changing this value during operation might disrupt normal operation of the link. */
-        uint64_t reserved_42_55        : 14;
-        uint64_t lane0_tx2rx_loopbk    : 1;  /**< [ 56: 56](R/W) When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
+        uint64_t reserved_42_47        : 6;
+        uint64_t upcs_pipe_config      : 1;  /**< [ 48: 48](R/W) When upcs_pipe_config[0] is set to 1, the PCS ignores lane-off via PIPE specification
+                                                                 method (TxElecIdle = 1 and TxCompliance = 1) and responds to power-down/rate/width changes.
+                                                                 Otherwise, until the MAC deasserts the "turned off" signaling, the PCS ignores any commands
+                                                                 to change power-down/rate/width after being turned off.Any change to this input must be
+                                                                 followed by phy_reset assertion. */
+        uint64_t phy_lane0_rx2tx_par_lb_en : 1;/**< [ 49: 49](R/W) Parallel loopback enable. */
+        uint64_t phy_res_req_en        : 1;  /**< [ 50: 50](R/W) Arbitration lines for sharing single resistor among multiple ores that are connected to
+                                                                 single set of pads. */
+        uint64_t phy0_mplla_ssc_en     : 1;  /**< [ 51: 51](R/W) Enable spread spectrum clock generation on mplla_div_clk output.If the reference
+                                                                 clock has already applied spread spectrum then this bit should be 0.Ca nbe changed only when
+                                                                 all txX_mplla_en are de-asserted. */
+        uint64_t phy0_mplla_force_en   : 1;  /**< [ 52: 52](R/W) This signal is combined with internal PCS logic to drive phyN_mplla_force_en_ovrd,
+                                                                 which connects to the mplla_force_en signal on PHYN.The PCS overrides the PHY
+                                                                 signal high in PHY aggregation cases to ensure that the master clock source remains
+                                                                 operational for the entire link when in Mission mode. */
+        uint64_t pipe_rx_recal_cont_en : 1;  /**< [ 53: 53](R/W) This pin (pcs_rxX_recal_cont_en) enables re-locking when alignment
+                                                                 is lost in non-8B10 mode. */
+        uint64_t pipe_rx_cdr_legacy_en : 1;  /**< [ 54: 54](R/W) This control signal selects between legacy mode CDR logic and the
+                                                                 new implementation. */
+        uint64_t pipe_rx0_cmn_reflk_mode : 1;/**< [ 55: 55](R/W) This mode should be enabled only when the far-end and near-end devices are running
+                                                                 with a common reference clock.When asserted,this input configures the elastic buffer
+                                                                 to operate in the lowest latency mode.
+                                                                 Note:SKP symbol manipulation is disabled in this mode, because SKP symbol manipulation
+                                                                 is not needed when the reference clock is common between near-end and far-end (that is,
+                                                                 local clock and recovered clock have the same frequency).
+                                                                 Any change to this input must be followed by phy_reset assertion. */
+        uint64_t piep_lane0_tx2rx_loopbk : 1;/**< [ 56: 56](R/W) When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
                                                                  based on the tx0_en input so that rx0_los = !tx_data_en. */
         uint64_t lane0_ext_pclk_req    : 1;  /**< [ 57: 57](R/W) When asserted, this signal enables the pipe0_pclk output regardless of power state (along
                                                                  with the associated increase in power consumption). You can use this input to enable

@@ -234,7 +234,8 @@ union cavm_tad_cmn_ctl
         uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
-        uint64_t reserved_8_48         : 41;
+        uint64_t reserved_13_48        : 36;
+        uint64_t maxifb                : 5;  /**< [ 12:  8](R/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as expected). */
         uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
         uint64_t disstashonce          : 1;  /**< [  6:  6](R/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
         uint64_t discor                : 1;  /**< [  5:  5](R/W) Disable correction in the mesh ECC checkers/generators. */
@@ -252,7 +253,8 @@ union cavm_tad_cmn_ctl
         uint64_t discor                : 1;  /**< [  5:  5](R/W) Disable correction in the mesh ECC checkers/generators. */
         uint64_t disstashonce          : 1;  /**< [  6:  6](R/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
         uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
-        uint64_t reserved_8_48         : 41;
+        uint64_t maxifb                : 5;  /**< [ 12:  8](R/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as expected). */
+        uint64_t reserved_13_48        : 36;
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
@@ -320,8 +322,8 @@ typedef union cavm_tad_cmn_mpamx_mask cavm_tad_cmn_mpamx_mask_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
 {
-    if (a<=255)
-        return 0x87e053001000ll + 8ll * ((a) & 0xff);
+    if (a<=127)
+        return 0x87e053002000ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("TAD_CMN_MPAMX_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -331,6 +333,308 @@ static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
 #define device_bar_CAVM_TAD_CMN_MPAMX_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TAD_CMN_MPAMX_MASK(a) (a)
 #define arguments_CAVM_TAD_CMN_MPAMX_MASK(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mpamf_aidr
+ *
+ * MPAM Architecture Identification Register
+ * Identifies the version of the MPAM architecture that this MSC implements.
+ * Note: The following values are defined for bits [7:0]:
+ * * 0x01 = MPAM architecture v0.1
+ * * 0x10 = MPAM architecture v1.0
+ * * 0x11 = MPAM architecture v1.1
+ */
+union cavm_tad_cmn_mpamf_aidr
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mpamf_aidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t archmajorrev          : 4;  /**< [  7:  4](RO) Major revision of the MPAM architecture implemented by the MSC.
+                                                                 This table shows the only valid combinations of MPAM version numbers in an MSC. FORCE_NS
+                                                                 functionality is only available in MPAM v0.1.
+                                                                 --------------------------------------------------------------
+                                                                 ArchMajorRev ArchMinorRev MPAMv Available
+                                                                 --------------------------------------------------------------
+                                                                 0            0                  None
+                                                                 --------------------------------------------------------------
+                                                                 0            1            v0.1  MPAMv1.0 + MPAMv1.1 + FORCE_NS
+                                                                 --------------------------------------------------------------
+                                                                 1            0            v1.0  MPAMv1.0
+                                                                 --------------------------------------------------------------
+                                                                 1            1            v1.1  MPAMv1.0 + MPAMv1.1 - FORCE_NS
+                                                                 -------------------------------------------------------------- */
+        uint64_t archminorrev          : 4;  /**< [  3:  0](RO) Minor revision of the MPAM architecture implemented by the MSC.
+                                                                 See the table in the description of the ArchMajorRev field in this register. */
+#else /* Word 0 - Little Endian */
+        uint64_t archminorrev          : 4;  /**< [  3:  0](RO) Minor revision of the MPAM architecture implemented by the MSC.
+                                                                 See the table in the description of the ArchMajorRev field in this register. */
+        uint64_t archmajorrev          : 4;  /**< [  7:  4](RO) Major revision of the MPAM architecture implemented by the MSC.
+                                                                 This table shows the only valid combinations of MPAM version numbers in an MSC. FORCE_NS
+                                                                 functionality is only available in MPAM v0.1.
+                                                                 --------------------------------------------------------------
+                                                                 ArchMajorRev ArchMinorRev MPAMv Available
+                                                                 --------------------------------------------------------------
+                                                                 0            0                  None
+                                                                 --------------------------------------------------------------
+                                                                 0            1            v0.1  MPAMv1.0 + MPAMv1.1 + FORCE_NS
+                                                                 --------------------------------------------------------------
+                                                                 1            0            v1.0  MPAMv1.0
+                                                                 --------------------------------------------------------------
+                                                                 1            1            v1.1  MPAMv1.0 + MPAMv1.1 - FORCE_NS
+                                                                 -------------------------------------------------------------- */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mpamf_aidr_s cn; */
+};
+typedef union cavm_tad_cmn_mpamf_aidr cavm_tad_cmn_mpamf_aidr_t;
+
+#define CAVM_TAD_CMN_MPAMF_AIDR CAVM_TAD_CMN_MPAMF_AIDR_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_FUNC(void)
+{
+    return 0x87e053001020ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MPAMF_AIDR cavm_tad_cmn_mpamf_aidr_t
+#define bustype_CAVM_TAD_CMN_MPAMF_AIDR CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMF_AIDR "TAD_CMN_MPAMF_AIDR"
+#define device_bar_CAVM_TAD_CMN_MPAMF_AIDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMF_AIDR 0
+#define arguments_CAVM_TAD_CMN_MPAMF_AIDR -1,-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mpamf_idr
+ *
+ * MPAM Features Identification Register
+ * Indicates which memory partitioning and monitoring features are present on this MSC.
+ * MPAMF_IDR_s indicates the MPAM features accessed from the Secure MPAM feature page.
+ * MPAMF_IDR_ns indicates the MPAM features accessed from the Non-secure MPAM feature page.
+ */
+union cavm_tad_cmn_mpamf_idr
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mpamf_idr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
+                                                                 0b0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
+                                                                 intPARTID mapping support.
+                                                                 0b1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
+        uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
+                                                                 0b0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
+                                                                 0b1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
+                                                                 MPAMF_MSMON_IDR. */
+        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
+                                                                 features register, MPAMF_IMPL_IDR.
+                                                                 0b0 = Does not have MPAMF_IMPL_IDR.
+                                                                 0b1 = Has MPAMF_IMPL_IDR. */
+        uint64_t ext                   : 1;  /**< [ 28: 28](RO) From ARMv8.6:
+                                                                 Extended MPAMF_IDR.
+                                                                 0b0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
+                                                                 0b1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
+                                                                 Otherwise:
+                                                                 Reserved, RES0. */
+        uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
+                                                                 MPAMF_PRI_IDR.
+                                                                 0b0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
+                                                                 0b1 = Has MPAMF_PRI_IDR. */
+        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
+                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
+                                                                 0b0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
+                                                                 register.
+                                                                 0b1 = Has MPAMF_MBW_IDR register. */
+        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
+                                                                 partitioning and MPAMF_CPOR_IDR.
+                                                                 0b0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
+                                                                 MPAMCFG_CPBM registers.
+                                                                 0b1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
+        uint64_t has_cap_part          : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
+                                                                 partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
+                                                                 0b0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
+                                                                 MPAMCFG_CMAX registers.
+                                                                 0b1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
+        uint64_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
+        uint64_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
+#else /* Word 0 - Little Endian */
+        uint64_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
+        uint64_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
+        uint64_t has_cap_part          : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
+                                                                 partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
+                                                                 0b0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
+                                                                 MPAMCFG_CMAX registers.
+                                                                 0b1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
+        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
+                                                                 partitioning and MPAMF_CPOR_IDR.
+                                                                 0b0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
+                                                                 MPAMCFG_CPBM registers.
+                                                                 0b1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
+        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
+                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
+                                                                 0b0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
+                                                                 register.
+                                                                 0b1 = Has MPAMF_MBW_IDR register. */
+        uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
+                                                                 MPAMF_PRI_IDR.
+                                                                 0b0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
+                                                                 0b1 = Has MPAMF_PRI_IDR. */
+        uint64_t ext                   : 1;  /**< [ 28: 28](RO) From ARMv8.6:
+                                                                 Extended MPAMF_IDR.
+                                                                 0b0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
+                                                                 0b1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
+                                                                 Otherwise:
+                                                                 Reserved, RES0. */
+        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
+                                                                 features register, MPAMF_IMPL_IDR.
+                                                                 0b0 = Does not have MPAMF_IMPL_IDR.
+                                                                 0b1 = Has MPAMF_IMPL_IDR. */
+        uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
+                                                                 0b0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
+                                                                 0b1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
+                                                                 MPAMF_MSMON_IDR. */
+        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
+                                                                 0b0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
+                                                                 intPARTID mapping support.
+                                                                 0b1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mpamf_idr_s cn; */
+};
+typedef union cavm_tad_cmn_mpamf_idr cavm_tad_cmn_mpamf_idr_t;
+
+#define CAVM_TAD_CMN_MPAMF_IDR CAVM_TAD_CMN_MPAMF_IDR_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_FUNC(void)
+{
+    return 0x87e053001000ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MPAMF_IDR cavm_tad_cmn_mpamf_idr_t
+#define bustype_CAVM_TAD_CMN_MPAMF_IDR CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMF_IDR "TAD_CMN_MPAMF_IDR"
+#define device_bar_CAVM_TAD_CMN_MPAMF_IDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMF_IDR 0
+#define arguments_CAVM_TAD_CMN_MPAMF_IDR -1,-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mpamf_iidr
+ *
+ * MPAM Implementation Identification Register
+ * Uniquely identifies the MSC implementation by the combination of implementer, product ID,
+ * variant and revision.
+ */
+union cavm_tad_cmn_mpamf_iidr
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mpamf_iidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED.
+                                                                 IMPLEMENTATION DEFINED value identifying the MPAM MSC.
+                                                                 The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
+                                                                 product has a unique ProductID from any other with the same Implementer value. */
+        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED.
+                                                                 IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
+                                                                 product.
+                                                                 --- Note ---
+                                                                 Implementations of ProductID with differing software interfaces are expected to have different
+                                                                 values in the MPAMF_IIDR. Variant field. */
+        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED.
+                                                                 IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
+                                                                 --- Note ---
+                                                                 This field is intended to differentiate product revisions that are minor changes and are largely
+                                                                 software compatible with previous revisions. */
+        uint64_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the MPAM MSC.
+                                                                 [11:8] must contain the JEP106 continuation code of the implementer.
+                                                                 [7] must always be 0.
+                                                                 [6:0] must contain the JEP106 identity code of the implementer.
+                                                                 For an Arm implementation, bits[11:0] are 0x43B. */
+#else /* Word 0 - Little Endian */
+        uint64_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the MPAM MSC.
+                                                                 [11:8] must contain the JEP106 continuation code of the implementer.
+                                                                 [7] must always be 0.
+                                                                 [6:0] must contain the JEP106 identity code of the implementer.
+                                                                 For an Arm implementation, bits[11:0] are 0x43B. */
+        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED.
+                                                                 IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
+                                                                 --- Note ---
+                                                                 This field is intended to differentiate product revisions that are minor changes and are largely
+                                                                 software compatible with previous revisions. */
+        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED.
+                                                                 IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
+                                                                 product.
+                                                                 --- Note ---
+                                                                 Implementations of ProductID with differing software interfaces are expected to have different
+                                                                 values in the MPAMF_IIDR. Variant field. */
+        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED.
+                                                                 IMPLEMENTATION DEFINED value identifying the MPAM MSC.
+                                                                 The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
+                                                                 product has a unique ProductID from any other with the same Implementer value. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mpamf_iidr_s cn; */
+};
+typedef union cavm_tad_cmn_mpamf_iidr cavm_tad_cmn_mpamf_iidr_t;
+
+#define CAVM_TAD_CMN_MPAMF_IIDR CAVM_TAD_CMN_MPAMF_IIDR_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_FUNC(void)
+{
+    return 0x87e053001018ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MPAMF_IIDR cavm_tad_cmn_mpamf_iidr_t
+#define bustype_CAVM_TAD_CMN_MPAMF_IIDR CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMF_IIDR "TAD_CMN_MPAMF_IIDR"
+#define device_bar_CAVM_TAD_CMN_MPAMF_IIDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMF_IIDR 0
+#define arguments_CAVM_TAD_CMN_MPAMF_IIDR -1,-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mpamf_sidr
+ *
+ * MPAM Features Secure Identification Register
+ * The MPAMF_SIDR is a 32-bit read-only register that indicates the maximum Secure PARTID and
+ * Secure PMG on this MSC.
+ */
+union cavm_tad_cmn_mpamf_sidr
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mpamf_sidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t s_pmg_max             : 8;  /**< [ 23: 16](SRO) Maximum value of Secure PMG supported by this component. */
+        uint64_t s_partid_max          : 16; /**< [ 15:  0](SRO) Maximum value of Secure PARTID supported by this component. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_partid_max          : 16; /**< [ 15:  0](SRO) Maximum value of Secure PARTID supported by this component. */
+        uint64_t s_pmg_max             : 8;  /**< [ 23: 16](SRO) Maximum value of Secure PMG supported by this component. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mpamf_sidr_s cn; */
+};
+typedef union cavm_tad_cmn_mpamf_sidr cavm_tad_cmn_mpamf_sidr_t;
+
+#define CAVM_TAD_CMN_MPAMF_SIDR CAVM_TAD_CMN_MPAMF_SIDR_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMF_SIDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMF_SIDR_FUNC(void)
+{
+    return 0x87e053001008ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MPAMF_SIDR cavm_tad_cmn_mpamf_sidr_t
+#define bustype_CAVM_TAD_CMN_MPAMF_SIDR CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMF_SIDR "TAD_CMN_MPAMF_SIDR"
+#define device_bar_CAVM_TAD_CMN_MPAMF_SIDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMF_SIDR 0
+#define arguments_CAVM_TAD_CMN_MPAMF_SIDR -1,-1,-1,-1
 
 /**
  * Register (RSL) tad_cmn_req_retry

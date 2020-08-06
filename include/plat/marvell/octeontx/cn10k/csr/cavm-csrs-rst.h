@@ -369,17 +369,7 @@ union cavm_rst_boot
                                                                  The length of the CHIPKILL timer is specified by RST_CKILL[TIMER].
                                                                  This feature is effectively a delayed reset.
                                                                  This field is reinitialized with a chip domain reset. */
-        uint64_t reserved_56_62        : 7;
-        uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S/H) Disable scan.
-                                                                    0 = Scan operations allowed.
-                                                                    1 = Scan operations disabled.
-
-                                                                 This bit is typically set during secure boot operations.
-
-                                                                 Internal:
-                                                                 The field is actually reset only after DCOK has been left
-                                                                 deasserted for an extended period of time. */
-        uint64_t reserved_2_54         : 53;
+        uint64_t reserved_2_62         : 61;
         uint64_t rboot                 : 1;  /**< [  1:  1](R/W/H) Remote boot. If set, indicates that SCP will require a write to
                                                                  RST_SCP_DOMAIN_W1C to bring it out of reset.  Otherwise it
                                                                  will automatically come out of reset once the reset source has
@@ -405,17 +395,7 @@ union cavm_rst_boot
 
                                                                  Internal:
                                                                  This field is cleared when jtg__rst_disable_remote is active. */
-        uint64_t reserved_2_54         : 53;
-        uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S/H) Disable scan.
-                                                                    0 = Scan operations allowed.
-                                                                    1 = Scan operations disabled.
-
-                                                                 This bit is typically set during secure boot operations.
-
-                                                                 Internal:
-                                                                 The field is actually reset only after DCOK has been left
-                                                                 deasserted for an extended period of time. */
-        uint64_t reserved_56_62        : 7;
+        uint64_t reserved_2_62         : 61;
         uint64_t chipkill              : 1;  /**< [ 63: 63](R/W1S) A zero-to-one transition of CHIPKILL starts the CHIPKILL timer. When set and the timer
                                                                  expires, chip domain reset is asserted.
                                                                  The length of the CHIPKILL timer is specified by RST_CKILL[TIMER].

@@ -356,8 +356,8 @@
  * NIX Inline IPSEC SA algorithm Enumeration
  * Enumerates Inline IPSEC SA algorithm.
  */
-#define CAVM_NIX_SA_ALG_E_MS_CISCO (1)
-#define CAVM_NIX_SA_ALG_E_MS_VIPTELA (2)
+#define CAVM_NIX_SA_ALG_E_MS_27_25 (2)
+#define CAVM_NIX_SA_ALG_E_MS_31_28 (1)
 #define CAVM_NIX_SA_ALG_E_NON_MS (0)
 
 /**
@@ -1076,12 +1076,12 @@ union cavm_nix_band_prof_s
                                                                  Valid only on leaf bandwidth profile. */
         uint64_t gc_action             : 2;  /**< [ 97: 96] Green color action, enumerated by NIX_RX_BAND_PROF_ACTIONRESULT_E,
                                                                  Valid only on leaf bandwidth profile. */
-        uint64_t adjust_mantissa       : 9;  /**< [ 95: 87] (LMODE) ? 0 : (packet_length-LXPTR)] + (ADJUST_MANTISSA/256-1)*2^ADJUST_EXPONENT
-
+        uint64_t adjust_mantissa       : 9;  /**< [ 95: 87] See [ADJUST_EXPONENT].
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
         uint64_t reserved_85_86        : 2;
         uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + (ADJUST_MANTISSA/256-1)*2^ADJUST_EXPONENT
+                                                                 Maximum valid value is 22.
 
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
@@ -1121,12 +1121,12 @@ union cavm_nix_band_prof_s
         uint64_t rdiv                  : 4;  /**< [ 79: 76] Rate divider.
                                                                  Profile Time unit is policer time unit *2^(-[RDIV]). */
         uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + (ADJUST_MANTISSA/256-1)*2^ADJUST_EXPONENT
+                                                                 Maximum valid value is 22.
 
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
         uint64_t reserved_85_86        : 2;
-        uint64_t adjust_mantissa       : 9;  /**< [ 95: 87] (LMODE) ? 0 : (packet_length-LXPTR)] + (ADJUST_MANTISSA/256-1)*2^ADJUST_EXPONENT
-
+        uint64_t adjust_mantissa       : 9;  /**< [ 95: 87] See [ADJUST_EXPONENT].
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
         uint64_t gc_action             : 2;  /**< [ 97: 96] Green color action, enumerated by NIX_RX_BAND_PROF_ACTIONRESULT_E,
@@ -2053,7 +2053,7 @@ union cavm_nix_rq_ctx_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry buffers.
-                                                                 Valid when [SSO_ENA] is set and [ENA_WQWD] is clear. */
+                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set). */
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] Outer L4 length error check disable. */
         uint64_t len_il3_dis           : 1;  /**< [ 41: 41] Inner L3 length error check disable. */
@@ -2105,7 +2105,7 @@ union cavm_nix_rq_ctx_s
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry buffers.
-                                                                 Valid when [SSO_ENA] is set and [ENA_WQWD] is clear. */
+                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set). */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_125_127      : 3;
@@ -2345,7 +2345,6 @@ union cavm_nix_rq_ctx_s
                                                                  1 = Use a single small packet buffer from [SPB_AURA] when a receive packet
                                                                  fits within that buffer.
 
-                                                                 Must be clear when [ENA_WQWD] is set.
                                                                  See [SPB_AURA]. */
         uint64_t reserved_150          : 1;
         uint64_t spb_high_sizem1       : 2;  /**< [149:148] Two MSB bits of SPB_SIZEM1 */
@@ -2388,7 +2387,6 @@ union cavm_nix_rq_ctx_s
                                                                  1 = Use a single small packet buffer from [SPB_AURA] when a receive packet
                                                                  fits within that buffer.
 
-                                                                 Must be clear when [ENA_WQWD] is set.
                                                                  See [SPB_AURA]. */
         uint64_t lpb_sizem1            : 12; /**< [163:152] Large packet buffer size minus one. The number of eight-byte words (minus
                                                                  one) between the start of a buffer from [LPB_AURA] and the last word that
@@ -5414,6 +5412,45 @@ union cavm_nix_tx_vtag_action_s
 };
 
 /**
+ * Structure nix_vwqe_hdr_s
+ *
+ * NIX Vectro Work Queue Entry Header Structure
+ * This 64-bit structure defines the first word of every receive VWQE generated by
+ * NIX. It is immediately followed by a list of NIX_IOVA_S structures each one points to a single WQE.
+ */
+union cavm_nix_vwqe_hdr_s
+{
+    uint64_t u;
+    struct cavm_nix_vwqe_hdr_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wqe_type              : 4;  /**< [ 63: 60] WQE type. Enumerated by NIX_XQE_TYPE_E. */
+        uint64_t q                     : 14; /**< [ 59: 46] Lower 14 bits of RQ within VF/PF. */
+        uint64_t node                  : 2;  /**< [ 45: 44] Node number on which the packet was received or transmitted.
+                                                                 Internal:
+                                                                 This is needed by software; do not remove on single-node parts. */
+        uint64_t grp                   : 10; /**< [ 43: 34] The SSO guest-group number used for the packet's add work from
+                                                                 NIX_RQ_CTX_S[SSO_GRP]. [GRP]\<9:8\> is always zero. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t vwqe_size             : 12; /**< [ 31: 20] Number of WQE pointers in the VWQE. */
+        uint64_t vwqe_aura             : 20; /**< [ 19:  0] The AURA that the VWQE buffer belongs to. */
+#else /* Word 0 - Little Endian */
+        uint64_t vwqe_aura             : 20; /**< [ 19:  0] The AURA that the VWQE buffer belongs to. */
+        uint64_t vwqe_size             : 12; /**< [ 31: 20] Number of WQE pointers in the VWQE. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t grp                   : 10; /**< [ 43: 34] The SSO guest-group number used for the packet's add work from
+                                                                 NIX_RQ_CTX_S[SSO_GRP]. [GRP]\<9:8\> is always zero. */
+        uint64_t node                  : 2;  /**< [ 45: 44] Node number on which the packet was received or transmitted.
+                                                                 Internal:
+                                                                 This is needed by software; do not remove on single-node parts. */
+        uint64_t q                     : 14; /**< [ 59: 46] Lower 14 bits of RQ within VF/PF. */
+        uint64_t wqe_type              : 4;  /**< [ 63: 60] WQE type. Enumerated by NIX_XQE_TYPE_E. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nix_vwqe_hdr_s_s cn; */
+};
+
+/**
  * Structure nix_wqe_hdr_s
  *
  * NIX Work Queue Entry Header Structure
@@ -8337,14 +8374,15 @@ union cavm_nixx_af_lfx_rss_grpx
 
                                                                  where:
 
-                                                                 _ rss_adder\<7:0\> = flow_tag\<7:0\> ^ flow_tag\<15:8\> ^ flow_tag\<23:16\> ^ flow_tag\<31:24\>
-
-                                                                 The AF IOVA of the packet's final NIX_RSSE_S structure is computed as follows:
-                                                                 \<pre\>
                                                                  if (NIX_AF_LF()_RSS_CFG[ADDER_IS_TAG_LSB])
                                                                     rss_adder\<7:0\> = flow_tag\<7:0\>;
                                                                  else
                                                                     rss_adder\<7:0\> = flow_tag\<7:0\> ^ flow_tag\<15:8\> ^ flow_tag\<23:16\> ^ flow_tag\<31:24\>;
+
+                                                                 The AF IOVA of the packet's final NIX_RSSE_S structure is computed as follows:
+                                                                 \<pre\>
+                                                                 rsse_offset = ([OFFSET] + rss_adder[\<[SIZEM1]:0\>]) % (1 \<\< (NIX_AF_LF(0..127)_RSS_CFG[SIZE] + 8));
+                                                                 rsse_iova = NIX_AF_LF(0..127)_RSS_BASE;
                                                                  \</pre\> */
         uint64_t reserved_11_15        : 5;
         uint64_t offset                : 11; /**< [ 10:  0](R/W) Offset (number of four-byte NIX_RSSE_S structures) into RSS table from
@@ -8365,14 +8403,15 @@ union cavm_nixx_af_lfx_rss_grpx
 
                                                                  where:
 
-                                                                 _ rss_adder\<7:0\> = flow_tag\<7:0\> ^ flow_tag\<15:8\> ^ flow_tag\<23:16\> ^ flow_tag\<31:24\>
-
-                                                                 The AF IOVA of the packet's final NIX_RSSE_S structure is computed as follows:
-                                                                 \<pre\>
                                                                  if (NIX_AF_LF()_RSS_CFG[ADDER_IS_TAG_LSB])
                                                                     rss_adder\<7:0\> = flow_tag\<7:0\>;
                                                                  else
                                                                     rss_adder\<7:0\> = flow_tag\<7:0\> ^ flow_tag\<15:8\> ^ flow_tag\<23:16\> ^ flow_tag\<31:24\>;
+
+                                                                 The AF IOVA of the packet's final NIX_RSSE_S structure is computed as follows:
+                                                                 \<pre\>
+                                                                 rsse_offset = ([OFFSET] + rss_adder[\<[SIZEM1]:0\>]) % (1 \<\< (NIX_AF_LF(0..127)_RSS_CFG[SIZE] + 8));
+                                                                 rsse_iova = NIX_AF_LF(0..127)_RSS_BASE;
                                                                  \</pre\> */
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
