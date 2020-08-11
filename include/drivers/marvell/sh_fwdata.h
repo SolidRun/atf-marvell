@@ -49,7 +49,9 @@ struct eth_lmac_fwdata_s {
 	/* Only applicable if SFP/QSFP slot is present */
 	struct sfp_eeprom_s sfp_eeprom;
 	struct phy_s phy;
-#define LMAC_FWDATA_RESERVED_MEM 1021
+	/* LMAC type updated with CSR macro CAVM_RPM_LMAC_TYPES_E_* */
+	uint64_t lmac_type;
+#define LMAC_FWDATA_RESERVED_MEM 1020
 	uint64_t reserved[LMAC_FWDATA_RESERVED_MEM];
 
 };

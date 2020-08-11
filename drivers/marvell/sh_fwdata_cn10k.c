@@ -38,11 +38,28 @@
 #endif
 #define RST_REF_CLK 50
 
+static struct eth_lmac_fwdata_s *get_sh_rpm_fwdata_ptr(int rpm_id, int lmac_id)
+{
+	struct sh_fwdata *fw_data;
+	struct eth_lmac_fwdata_s *sh_rpm_fwdata;
+
+	fw_data = (struct sh_fwdata *)get_sh_fwdata_base();
+	sh_rpm_fwdata = &fw_data->eth_fw_data[rpm_id][lmac_id];
+
+	debug_shmem_mgmt("%s: %d:%d fw_data %p rpm_fw_data %p\n",
+					__func__, rpm_id,
+					lmac_id, fw_data,
+					sh_rpm_fwdata);
+	return sh_rpm_fwdata;
+}
+
 void sh_fwdata_init(void)
 {
 	cavm_rst_core_pll_t rst_core_pll;
 	cavm_rst_pnr_pll_t rst_pnr_pll;
 	struct sh_fwdata *fwdata;
+	struct eth_lmac_fwdata_s *lmac_fwdata;
+	rpm_lmac_config_t *lmac_cfg;
 	int i, pf_mac_num;
 	uint64_t pf_mac;
 
@@ -79,6 +96,15 @@ void sh_fwdata_init(void)
 	fwdata->rclk = rst_core_pll.s.cur_mul * RST_REF_CLK;
 	fwdata->sclk = rst_pnr_pll.s.cur_mul * RST_REF_CLK;
 	fwdata->rvu_af_msixtr_base = CSR_READ(CAVM_RVU_AF_MSIXTR_BASE);
+
+	/* Update LMAC type in sh FW data for each LMAC */
+	for (int rpm_id = 0; rpm_id < MAX_RPM; rpm_id++) {
+		for (int lmac_id = 0; lmac_id < MAX_LMAC_PER_RPM; lmac_id++) {
+			lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+			lmac_fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+			lmac_fwdata->lmac_type = lmac_cfg->mode;
+		}
+	}
 }
 
 void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)
