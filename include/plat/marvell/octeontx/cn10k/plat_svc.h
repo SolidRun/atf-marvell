@@ -96,8 +96,22 @@
  */
 #define PLAT_OCTEONTX_SPI_SECURE_UPDATE		0xc2000b05
 
+/*
+ * x1 - super_image_buffer_pointer
+ * x2 - cm3_image_buffer_pointer
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *		-2 -- SPI_CONFIG_ERR
+ *		-3 -- SPI_MMAP_ERR
+ *		-5 -- EIO
+ */
+#define PLAT_OCTEONTX_SPI_SWITCH_FW		0xc2000b06
+
 /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			12
+#define OTX3_NUM_SMC_CALLS			13
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,

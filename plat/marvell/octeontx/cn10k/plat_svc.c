@@ -16,6 +16,7 @@
 #include <plat_board_cfg.h>
 #include <plat_scmi.h>
 #include <spi_smc_update.h>
+#include <spi_smc_switch.h>
 #include <octeontx_dram.h>
 
 extern void *scmi_handle;
@@ -42,13 +43,30 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					void *handle,
 					u_register_t flags)
 {
-	uintptr_t size, user_buf;
+	uintptr_t size, user_buf, user_buf1;
 	uint64_t bus = 0, cs = 0, dram_end = 0;
 	int ret = 0;
 
 	switch (smc_fid) {
 	case PLAT_OCTEONTX_DISABLE_RVU_LFS:
 		ret = octeontx_clear_lf_to_pf_mapping();
+		SMC_RET1(handle, ret);
+		break;
+
+	case PLAT_OCTEONTX_SPI_SWITCH_FW:
+		user_buf = x1;
+		user_buf1 = x2;
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if ((NULL == (void *)user_buf) ||
+		    (NULL == (void *)user_buf1)) {
+			ret = -1;
+			goto err1;
+		}
+
+		/* Perform Switch firmware load */
+		ret = spi_smc_switch_fw(user_buf, user_buf1);
+err1:
 		SMC_RET1(handle, ret);
 		break;
 
