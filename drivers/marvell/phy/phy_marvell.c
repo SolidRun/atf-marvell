@@ -13,7 +13,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <smi.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <cgx.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>

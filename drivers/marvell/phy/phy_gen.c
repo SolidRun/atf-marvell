@@ -17,7 +17,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <cgx.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <phy_mgmt.h>
 #include <smi.h>
 #include <octeontx_utils.h>
@@ -51,14 +51,14 @@
  * 0 0 0 1 = 10PASS-TS/2BASE-TL
  * 0 0 0 0 = 10 Gb/s
  */
-static int cgx_speed[PHY_CLAUSE45_MAX_SPEED_SEL] = {CGX_LINK_10G,
-				CGX_LINK_NONE,
-				CGX_LINK_40G,
-				CGX_LINK_100G,
-				CGX_LINK_25G,
-				CGX_LINK_50G,
-				CGX_LINK_2HG,
-				CGX_LINK_5G};
+static int cgx_speed[PHY_CLAUSE45_MAX_SPEED_SEL] = {ETH_LINK_10G,
+				ETH_LINK_NONE,
+				ETH_LINK_40G,
+				ETH_LINK_100G,
+				ETH_LINK_25G,
+				ETH_LINK_50G,
+				ETH_LINK_2HG,
+				ETH_LINK_5G};
 
 void phy_generic_c22_get_link_status(int cgx_id, int lmac_id, link_state_t *link)
 {
@@ -102,13 +102,13 @@ void phy_generic_c22_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 		link_partner_abil &= an_adv;
 
 		if (ms_status & 0xC00) {
-			link->s.speed = CGX_LINK_1G;
+			link->s.speed = ETH_LINK_1G;
 			link->s.full_duplex = !!(ms_status & 0x800);
 		} else if (link_partner_abil & 0x0180) {
-			link->s.speed = CGX_LINK_100M;
+			link->s.speed = ETH_LINK_100M;
 			link->s.full_duplex = !!(link_partner_abil & 0x100);
 		} else if (link_partner_abil & 0x0060) {
-			link->s.speed = CGX_LINK_10M;
+			link->s.speed = ETH_LINK_10M;
 			link->s.full_duplex = !!(link_partner_abil & 0x0040);
 		}
 	} else {
@@ -117,11 +117,11 @@ void phy_generic_c22_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 		link->s.full_duplex = !!(control & (1 << 8));
 
 		if (control & (1 << 6))
-			link->s.speed = CGX_LINK_1G;
+			link->s.speed = ETH_LINK_1G;
 		else if (control & (1 << 13))
-			link->s.speed = CGX_LINK_100M;
+			link->s.speed = ETH_LINK_100M;
 		else
-			link->s.speed = CGX_LINK_10M;
+			link->s.speed = ETH_LINK_10M;
 	}
 }
 
@@ -160,13 +160,13 @@ void phy_generic_c45_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 	 */
 	switch (pma_ctrl1 & PHY_CLAUSE45_SPEED_SEL_MASK) {
 	case PHY_CLAUSE45_SPEED_10M:
-		link->s.speed = CGX_LINK_10M;
+		link->s.speed = ETH_LINK_10M;
 		break;
 	case PHY_CLAUSE45_SPEED_100M:
-		link->s.speed = CGX_LINK_100M;
+		link->s.speed = ETH_LINK_100M;
 		break;
 	case PHY_CLAUSE45_SPEED_1G:
-		link->s.speed = CGX_LINK_1G;
+		link->s.speed = ETH_LINK_1G;
 		break;
 	case PHY_CLAUSE45_SPEED_BITS_2_5_SEL:
 		/* If bits 6 & 13 are set to 1, then bits 5:2 selects speed */
@@ -174,10 +174,10 @@ void phy_generic_c45_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 		if ((speed_sel >= 0x0) && (speed_sel < PHY_CLAUSE45_MAX_SPEED_SEL))
 			link->s.speed = cgx_speed[speed_sel];
 		else
-			link->s.speed = CGX_LINK_NONE;
+			link->s.speed = ETH_LINK_NONE;
 		break;
 	default:
-		link->s.speed = CGX_LINK_NONE;
+		link->s.speed = ETH_LINK_NONE;
 		break;
 	}
 	/* PMA/PMD status reg
@@ -243,13 +243,13 @@ void phy_generic_set_supported_modes(int cgx_id, int lmac_id)
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->type == PHY_GENERIC_8023_C22)
-		phy->supported_link_modes = ((1 << CGX_MODE_SGMII_BIT) |
-			(1 << CGX_MODE_1000_BASEX_BIT) |
-			(1 << CGX_MODE_QSGMII_BIT));
+		phy->supported_link_modes = ((1 << ETH_MODE_SGMII_BIT) |
+			(1 << ETH_MODE_1000_BASEX_BIT) |
+			(1 << ETH_MODE_QSGMII_BIT));
 	else if (phy->type == PHY_GENERIC_8023_C45)
 		/* FIXME: For now, set it only as 10G XFI */
-		phy->supported_link_modes = ((1 << CGX_MODE_10G_C2C_BIT) |
-				(1 << CGX_MODE_10G_C2M_BIT));
+		phy->supported_link_modes = ((1 << ETH_MODE_10G_C2C_BIT) |
+				(1 << ETH_MODE_10G_C2M_BIT));
 }
 
 void phy_generic_shutdown(int cgx_id, int lmac_id)

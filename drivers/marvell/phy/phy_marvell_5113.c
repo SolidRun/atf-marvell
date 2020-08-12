@@ -13,7 +13,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <cgx.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>
 #include <smi.h>
@@ -691,22 +691,22 @@ void phy_marvell_5113_get_link_status(int cgx_id, int lmac_id,
 		if (speed_bits & 0x0008) {
 			/* 10GB-KR = 0x0008 */
 			link->s.full_duplex = 1;
-			link->s.speed = CGX_LINK_10G;
+			link->s.speed = ETH_LINK_10G;
 		} else if (speed_bits & 0x0060) {
 			/* 40GB-KR4 = 0x0020 */
 			/* 40GB-CR4 = 0x0040 */
 			link->s.full_duplex = 1;
-			link->s.speed = CGX_LINK_40G;
+			link->s.speed = ETH_LINK_40G;
 		} else if (speed_bits & 0x0c00) {
 			/* 100GB-KR4 = 0x0400 */
 			/* 100GB-CR4 = 0x0800 */
 			link->s.full_duplex = 1;
-			link->s.speed = CGX_LINK_100G;
+			link->s.speed = ETH_LINK_100G;
 		} else if (speed_bits & 0x3000) {
 			/* 25GB-KR-S/CR-S = 0x1000 */
 			/* 25GB-KR/CR     = 0x2000 */
 			link->s.full_duplex = 1;
-			link->s.speed = CGX_LINK_25G;
+			link->s.speed = ETH_LINK_25G;
 		} else
 			link->s.link_up = 0;
 	} else {
@@ -744,16 +744,16 @@ void phy_marvell_5113_get_link_status(int cgx_id, int lmac_id,
 
 		switch (speed) {
 		case MXD_1GB:
-			link->s.speed = CGX_LINK_1G;
+			link->s.speed = ETH_LINK_1G;
 		break;
 		case MXD_10GB:
-			link->s.speed = CGX_LINK_10G;
+			link->s.speed = ETH_LINK_10G;
 		break;
 		case MXD_40GB:
-			link->s.speed = CGX_LINK_40G;
+			link->s.speed = ETH_LINK_40G;
 		break;
 		case MXD_25GB:
-			link->s.speed = CGX_LINK_25G;
+			link->s.speed = ETH_LINK_25G;
 			/* FIXME to get speed for 20G */
 			reg = 0xf005 + port;
 			mxd_read_mdio(&marvell_5113_priv[cgx_id].mxddev,
@@ -762,25 +762,25 @@ void phy_marvell_5113_get_link_status(int cgx_id, int lmac_id,
 			if (value == 0x8084) {
 				debug_phy_driver("%s(%d): Report 20G speed\n",
 						__func__, port);
-				link->s.speed = CGX_LINK_20G;
+				link->s.speed = ETH_LINK_20G;
 			}
-			link->s.speed = CGX_LINK_25G;
+			link->s.speed = ETH_LINK_25G;
 			if (marvell_5113_priv[cgx_id].port[port].repeater_mode) {
 				if (marvell_5113_priv[cgx_id].port[port].num_slices == 2)
-					link->s.speed = CGX_LINK_40G;
+					link->s.speed = ETH_LINK_40G;
 				else if (marvell_5113_priv[cgx_id].port[port].num_slices == 4)
-					link->s.speed = CGX_LINK_80G;
+					link->s.speed = ETH_LINK_80G;
 			}
 		break;
 		/* FIXME for other modes : 50/100G - 40/80G */
 		case MXD_50GB:
-			link->s.speed = CGX_LINK_50G;
+			link->s.speed = ETH_LINK_50G;
 		break;
 		case MXD_100GB:
-			link->s.speed = CGX_LINK_100G;
+			link->s.speed = ETH_LINK_100G;
 		break;
 		default:
-			link->s.speed = CGX_LINK_NONE;
+			link->s.speed = ETH_LINK_NONE;
 		break;
 		}
 	}
@@ -798,16 +798,16 @@ void phy_marvell_5113_supported_modes(int cgx_id, int lmac_id)
 	 * Don't add to the supported modes yet
 	 * will be added with C0
 	 */
-	phy->supported_link_modes = ((1 << CGX_MODE_SGMII_BIT) |
-			(1 << CGX_MODE_1000_BASEX_BIT) |
-			(1 << CGX_MODE_10G_C2C_BIT) |
-			(1 << CGX_MODE_10G_C2M_BIT) |
-			(1 << CGX_MODE_10G_KR_BIT) |
-			(1 << CGX_MODE_20G_C2C_BIT) |
-			(1 << CGX_MODE_40G_C2C_BIT) |
-			(1 << CGX_MODE_40G_C2M_BIT) |
-			(1 << CGX_MODE_40GAUI_C2C_BIT) |
-			(1 << CGX_MODE_80GAUI_C2C_BIT));
+	phy->supported_link_modes = ((1 << ETH_MODE_SGMII_BIT) |
+			(1 << ETH_MODE_1000_BASEX_BIT) |
+			(1 << ETH_MODE_10G_C2C_BIT) |
+			(1 << ETH_MODE_10G_C2M_BIT) |
+			(1 << ETH_MODE_10G_KR_BIT) |
+			(1 << ETH_MODE_20G_C2C_BIT) |
+			(1 << ETH_MODE_40G_C2C_BIT) |
+			(1 << ETH_MODE_40G_C2M_BIT) |
+			(1 << ETH_MODE_40GAUI_C2C_BIT) |
+			(1 << ETH_MODE_80GAUI_C2C_BIT));
 }
 
 #ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS

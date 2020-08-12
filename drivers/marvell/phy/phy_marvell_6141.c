@@ -13,7 +13,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <cgx.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>
 #include <smi.h>
@@ -519,36 +519,36 @@ void phy_marvell_6141_get_link_status(int cgx_id, int lmac_id,
 	myd_mode_config = &myd_dev->lineConfig[0][lane];
 	switch (myd_mode_config->opMode) {
 	case MYD_P10LN:
-		link->s.speed = CGX_LINK_10G;
+		link->s.speed = ETH_LINK_10G;
 		link->s.fec = CGX_FEC_NONE;
 		break;
 	case MYD_P10KF:
-		link->s.speed = CGX_LINK_10G;
+		link->s.speed = ETH_LINK_10G;
 		link->s.fec = CGX_FEC_BASE_R;
 		break;
 	case MYD_P25LN:
-		link->s.speed = CGX_LINK_25G;
+		link->s.speed = ETH_LINK_25G;
 		link->s.fec = CGX_FEC_NONE;
 		break;
 	case MYD_P25LR:
-		link->s.speed = CGX_LINK_25G;
+		link->s.speed = ETH_LINK_25G;
 		link->s.fec = CGX_FEC_RS;
 		break;
 	case MYD_P25LF:
-		link->s.speed = CGX_LINK_25G;
+		link->s.speed = ETH_LINK_25G;
 		link->s.fec = CGX_FEC_BASE_R;
 		break;
 	case MYD_P50MN:
-		link->s.speed = CGX_LINK_50G;
+		link->s.speed = ETH_LINK_50G;
 		link->s.fec = CGX_FEC_NONE;
 		break;
 	case MYD_P50MF:
-		link->s.speed = CGX_LINK_50G;
+		link->s.speed = ETH_LINK_50G;
 		link->s.fec = CGX_FEC_BASE_R;
 		break;
 	case MYD_P50MR:
 	case MYD_P50UP:
-		link->s.speed = CGX_LINK_50G;
+		link->s.speed = ETH_LINK_50G;
 		link->s.fec = CGX_FEC_RS;
 		break;
 	default:
@@ -558,7 +558,7 @@ void phy_marvell_6141_get_link_status(int cgx_id, int lmac_id,
 		break;
 	}
 
-	if (link->s.speed == CGX_LINK_50G &&
+	if (link->s.speed == ETH_LINK_50G &&
 	    myd_mode_config->opMode !=MYD_P50UP) {
 		int val, err_blks_counter, ber_counter;
 
@@ -589,13 +589,13 @@ void phy_marvell_6141_supported_modes(int cgx_id, int lmac_id)
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 
-	phy->supported_link_modes = ((1 << CGX_MODE_10G_KR_BIT) |
-			(1 << CGX_MODE_10G_C2C_BIT) |
-			(1 << CGX_MODE_10G_C2M_BIT) |
-			(1 << CGX_MODE_25G_C2C_BIT) |
-			(1 << CGX_MODE_25G_2_C2C_BIT) |
-			(1 << CGX_MODE_50G_C2C_BIT) |
-			(1 << CGX_MODE_50G_4_C2C_BIT));
+	phy->supported_link_modes = ((1 << ETH_MODE_10G_KR_BIT) |
+			(1 << ETH_MODE_10G_C2C_BIT) |
+			(1 << ETH_MODE_10G_C2M_BIT) |
+			(1 << ETH_MODE_25G_C2C_BIT) |
+			(1 << ETH_MODE_25G_2_C2C_BIT) |
+			(1 << ETH_MODE_50G_C2C_BIT) |
+			(1 << ETH_MODE_50G_4_C2C_BIT));
 }
 
 static int phy_marvell_6141_get_fec_stats(int cgx_id, int lmac_id)

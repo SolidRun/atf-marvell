@@ -18,7 +18,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <cgx.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <qlm/qlm.h>
 #include <octeontx_utils.h>
 #include <gser_internal.h>
@@ -36,7 +36,7 @@
 #endif
 
 /* table to map speed in Mbps with cgx_link_speed enum */
-static int cgx_link_speed_mbps[CGX_LINK_MAX] = {
+static int cgx_link_speed_mbps[ETH_LINK_MAX] = {
 		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000,
 		40000, 50000, 80000, 100000 };
 
@@ -54,14 +54,14 @@ static usxgmii_type_t usxgmii_type[MAX_USXGMII_TYPES] = {
 
 /* table to map the LINK_SPEED with USXGMII rate */
 static usxgmii_rate_map_t usxgmii_rate_map[MAX_USXGMII_RATE_TYPES] = {
-	{CGX_LINK_10M, CAVM_CGX_USXGMII_RATE_E_RATE_10M, 10},
-	{CGX_LINK_100M, CAVM_CGX_USXGMII_RATE_E_RATE_100M, 100},
-	{CGX_LINK_1G, CAVM_CGX_USXGMII_RATE_E_RATE_1G, 1000},
-	{CGX_LINK_2HG, CAVM_CGX_USXGMII_RATE_E_RATE_2HG, 2500},
-	{CGX_LINK_5G, CAVM_CGX_USXGMII_RATE_E_RATE_5G, 5000},
-	{CGX_LINK_10G, CAVM_CGX_USXGMII_RATE_E_RATE_10G, 10000},
-	{CGX_LINK_20G, CAVM_CGX_USXGMII_RATE_E_RATE_20G, 20000},
-	{CGX_LINK_NONE, CAVM_CGX_USXGMII_RATE_E_RSV_RATE, 0}
+	{ETH_LINK_10M, CAVM_CGX_USXGMII_RATE_E_RATE_10M, 10},
+	{ETH_LINK_100M, CAVM_CGX_USXGMII_RATE_E_RATE_100M, 100},
+	{ETH_LINK_1G, CAVM_CGX_USXGMII_RATE_E_RATE_1G, 1000},
+	{ETH_LINK_2HG, CAVM_CGX_USXGMII_RATE_E_RATE_2HG, 2500},
+	{ETH_LINK_5G, CAVM_CGX_USXGMII_RATE_E_RATE_5G, 5000},
+	{ETH_LINK_10G, CAVM_CGX_USXGMII_RATE_E_RATE_10G, 10000},
+	{ETH_LINK_20G, CAVM_CGX_USXGMII_RATE_E_RATE_20G, 20000},
+	{ETH_LINK_NONE, CAVM_CGX_USXGMII_RATE_E_RSV_RATE, 0}
 };
 
 static int cgx_poll_for_csr(uint64_t addr, uint64_t mask,
@@ -1055,7 +1055,7 @@ int cgx_an_lmac_serdes_reinit(int cgx_id, int lmac_id, int lmac_type_req,
 		debug_cgx("%s: %d:%d SPUX reset not complete\n",
 			__func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
-			CGX_ERR_SPUX_RESET_FAIL);
+			ETH_ERR_SPUX_RESET_FAIL);
 		return -1;
 	}
 
@@ -1100,7 +1100,7 @@ int cgx_an_lmac_serdes_reinit(int cgx_id, int lmac_id, int lmac_type_req,
 		debug_cgx("%s: %d:%d SPUX reset not complete\n",
 			__func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
-			CGX_ERR_SPUX_RESET_FAIL);
+			ETH_ERR_SPUX_RESET_FAIL);
 		return -1;
 	}
 
@@ -1126,7 +1126,7 @@ int cgx_an_lmac_serdes_reinit(int cgx_id, int lmac_id, int lmac_type_req,
 				"complete\n",
 				__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SPUX_AN_RESET_FAIL);
+					ETH_ERR_SPUX_AN_RESET_FAIL);
 			return -1;
 		}
 	}
@@ -1612,29 +1612,29 @@ AN_failure:
 			debug_cgx("%s: %d:%d No signal detected during AN\n",
 				__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SERDES_RX_NO_SIGNAL);
+					ETH_ERR_SERDES_RX_NO_SIGNAL);
 		} else {
 			debug_cgx("%s: %d:%d AN timed out\n",
 				__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_AN_CPT_FAIL);
+				ETH_ERR_AN_CPT_FAIL);
 		}
 	} else {
 		if (!signal_detect) {
 			debug_cgx("%s: %d:%d No signal detected during AN\n",
 				__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SERDES_RX_NO_SIGNAL);
+					ETH_ERR_SERDES_RX_NO_SIGNAL);
 		} else if (!anpage_rcvd) {
 			debug_cgx("%s: %d:%d Did not receive AN page\n",
 				__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_AN_CPT_FAIL);
+				ETH_ERR_AN_CPT_FAIL);
 		} else {
 			debug_cgx("%s: %d:%d AN timed out\n",
 				__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_AN_CPT_FAIL);
+				ETH_ERR_AN_CPT_FAIL);
 		}
 
 		/* Print AN page data if any pages received */
@@ -1706,7 +1706,7 @@ static int cgx_get_usxgmii_rate_from_link_speed(int link_speed)
 
 static int cgx_get_usxgmii_speed_mbps_from_rate(int rate)
 {
-	int speed = CGX_LINK_NONE;
+	int speed = ETH_LINK_NONE;
 
 	for (int i = 0; i < MAX_USXGMII_RATE_TYPES; i++) {
 		if (usxgmii_rate_map[i].rate == rate)
@@ -1944,7 +1944,7 @@ int cgx_sgmii_check_an_cpt(int cgx_id, int lmac_id)
 				CAVM_CGXX_GMP_PCS_MRX_CONTROL(cgx_id, lmac_id),
 				rst_an, 1);
 			cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_AN_CPT_FAIL);
+				ETH_ERR_AN_CPT_FAIL);
 				return -1;
 		}
 	}
@@ -1976,7 +1976,7 @@ int cgx_sgmii_set_link_speed(int cgx_id, int lmac_id,
 				CGX_GMP_TX_IDLE_MASK, 1, -1)) {
 		debug_cgx("%s: %d:%d CGX GMP Tx not Idle\n",
 				__func__, cgx_id, lmac_id);
-		cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_TX_NOT_IDLE);
+		cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_TX_NOT_IDLE);
 		return -1;
 	}
 	if (cgx_poll_for_csr(CAVM_CGXX_GMP_GMI_PRTX_CFG(
@@ -1984,7 +1984,7 @@ int cgx_sgmii_set_link_speed(int cgx_id, int lmac_id,
 				CGX_GMP_RX_IDLE_MASK, 1, -1)) {
 		debug_cgx("%s: %d:%d CGX GMP Rx not Idle\n",
 				__func__, cgx_id, lmac_id);
-		cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_RX_NOT_IDLE);
+		cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_RX_NOT_IDLE);
 		return -1;
 	}
 
@@ -2012,7 +2012,7 @@ int cgx_sgmii_set_link_speed(int cgx_id, int lmac_id,
 	txx_burst.s.burst = 0;
 
 	switch (link->s.speed) {
-	case CGX_LINK_10M:
+	case ETH_LINK_10M:
 		prtx_cfg.s.speed = 0;
 		prtx_cfg.s.speed_msb = 1;
 		prtx_cfg.s.slottime = 0;
@@ -2023,7 +2023,7 @@ int cgx_sgmii_set_link_speed(int cgx_id, int lmac_id,
 		CSR_WRITE(CAVM_CGXX_GMP_GMI_TXX_BURST(cgx_id, lmac_id),
 					txx_burst.u);
 		break;
-	case CGX_LINK_100M:
+	case ETH_LINK_100M:
 		prtx_cfg.s.speed = 0;
 		prtx_cfg.s.speed_msb = 0;
 		prtx_cfg.s.slottime = 0;
@@ -2034,7 +2034,7 @@ int cgx_sgmii_set_link_speed(int cgx_id, int lmac_id,
 		CSR_WRITE(CAVM_CGXX_GMP_GMI_TXX_BURST(cgx_id, lmac_id),
 					txx_burst.u);
 		break;
-	case CGX_LINK_1G:
+	case ETH_LINK_1G:
 		prtx_cfg.s.speed = 1;
 		prtx_cfg.s.speed_msb = 0;
 		prtx_cfg.s.slottime = 1;
@@ -2079,7 +2079,7 @@ static int cgx_usxgmii_spux_reset(int cgx_id, int lmac_id, int an_en)
 					"complete\n",
 					__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_SPUX_USX_AN_RESET_FAIL);
+				ETH_ERR_SPUX_USX_AN_RESET_FAIL);
 			return -1;
 		}
 	} else { /* AN disabled */
@@ -2092,7 +2092,7 @@ static int cgx_usxgmii_spux_reset(int cgx_id, int lmac_id, int an_en)
 			debug_cgx("%s: %d:%d SPUX reset not complete\n",
 					__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_SPUX_RESET_FAIL);
+				ETH_ERR_SPUX_RESET_FAIL);
 			return -1;
 		}
 	}
@@ -2339,7 +2339,7 @@ int cgx_fec_change(int cgx_id, int lmac_id, int new_fec)
 			ERROR("%s: %d:%d SPUX AN reset not complete\n",
 						__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-						CGX_ERR_SPUX_AN_RESET_FAIL);
+						ETH_ERR_SPUX_AN_RESET_FAIL);
 			return -1;
 		}
 
@@ -2411,7 +2411,7 @@ static int cgx_complete_sw_an_with_mcp(int cgx_id, int lmac_id, cgx_lmac_context
 						goto an_lt_link_up;
 					else if (status == AN_LT_STATE_AN_FAIL) {
 						cgx_set_error_type(cgx_id, lmac_id,
-							   CGX_ERR_AN_CPT_FAIL);
+							   ETH_ERR_AN_CPT_FAIL);
 						/* Reset signal detect timeout after AN failure */
 						an_signal_timeout = gser_clock_get_count(GSER_CLOCK_TIME) +
 							CGX_POLL_AN_RX_SIGNAL2 * gser_clock_get_rate(GSER_CLOCK_TIME)/1000000;
@@ -2428,7 +2428,7 @@ static int cgx_complete_sw_an_with_mcp(int cgx_id, int lmac_id, cgx_lmac_context
 					if (!signal_detect &&
 						(gser_clock_get_count(GSERN_CLOCK_TIME)
 						 > an_signal_timeout)) {
-						cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_SERDES_RX_NO_SIGNAL);
+						cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_SERDES_RX_NO_SIGNAL);
 						break;
 					}
 					mdelay(1);
@@ -2483,17 +2483,17 @@ an_lt_link_failure:
 		debug_cgx("%s: %d:%d Link Up or Training failed several times.  Failed to get fail type.\n",
 				__func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
-			   CGX_ERR_PCS_LINK_FAIL);
+			   ETH_ERR_PCS_LINK_FAIL);
 	} else if (ret == 1) {
 		debug_cgx("%s: %d:%d Failed Link Up several times.\n",
 				__func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
-			   CGX_ERR_PCS_LINK_FAIL);
+			   ETH_ERR_PCS_LINK_FAIL);
 	} else {
 		debug_cgx("%s: %d:%d Failed Link Training several times.\n",
 				__func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
-			   CGX_ERR_TRAINING_FAIL);
+			   ETH_ERR_TRAINING_FAIL);
 	}
 	/* Set state to AN_LT_NO_STATE */
 	if (mcp_set_an_lt_state(cgx_id, lmac_id, AN_LT_NO_STATE)) {
@@ -2598,7 +2598,7 @@ static int cgx_complete_sw_an(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_
 				debug_cgx("%s:%d:%d: Link training failed, Restarting AN.\n",
 					__func__, cgx_id, lmac_id);
 				cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_TRAINING_FAIL);
+					ETH_ERR_TRAINING_FAIL);
 				goto restart_an;
 			}
 		} else {
@@ -2612,7 +2612,7 @@ static int cgx_complete_sw_an(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_
 				debug_cgx("%s:%d:%d: Link training failed, Restarting AN.\n",
 					__func__, cgx_id, lmac_id);
 				cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_TRAINING_FAIL);
+					ETH_ERR_TRAINING_FAIL);
 				goto restart_an;
 			}
 		}
@@ -2744,7 +2744,7 @@ int cgx_sgmii_set_link_up(int cgx_id, int lmac_id)
 		debug_cgx("%s: %d:%d PCS reset not completed\n",
 				__func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_PCS_RESET_FAIL);
+				ETH_ERR_PCS_RESET_FAIL);
 		return -1;
 	}
 
@@ -2796,7 +2796,7 @@ int cgx_sgmii_check_link(int cgx_id, int lmac_id)
 					CAVM_CGXX_GMP_PCS_MRX_CONTROL(cgx_id, lmac_id),
 					rst_an, 1);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_PCS_LINK_FAIL);
+					ETH_ERR_PCS_LINK_FAIL);
 			return -1;
 		}
 	} else {
@@ -2807,7 +2807,7 @@ int cgx_sgmii_check_link(int cgx_id, int lmac_id)
 			CSR_READ(CAVM_CGXX_GMP_PCS_RXX_SYNC(
 					cgx_id, lmac_id)));
 			cgx_set_error_type(cgx_id, lmac_id,
-						CGX_ERR_PCS_LINK_FAIL);
+						ETH_ERR_PCS_LINK_FAIL);
 			return -1;
 		}
 	}
@@ -2928,7 +2928,7 @@ int cgx_xaui_init_link(int cgx_id, int lmac_id)
 				debug_cgx("%s: %d:%d SPUX reset not complete\n",
 					__func__, cgx_id, lmac_id);
 				cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SPUX_RESET_FAIL);
+					ETH_ERR_SPUX_RESET_FAIL);
 				return -1;
 			} else {
 				debug_cgx("%s: %d:%d Training not done\n",
@@ -2945,7 +2945,7 @@ int cgx_xaui_init_link(int cgx_id, int lmac_id)
 					"complete\n",
 					__func__, cgx_id, lmac_id);
 				cgx_set_error_type(cgx_id, lmac_id,
-						CGX_ERR_SPUX_AN_RESET_FAIL);
+						ETH_ERR_SPUX_AN_RESET_FAIL);
 				return -1;
 			}
 		}
@@ -2992,7 +2992,7 @@ int cgx_xaui_init_link(int cgx_id, int lmac_id)
 					"training\n", __func__, cgx_id,
 					lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_TRAINING_FAIL);
+					ETH_ERR_TRAINING_FAIL);
 			return -1;
 		}
 		/* FIXME : not mentioned in HRM. Is this HW errata?
@@ -3175,7 +3175,7 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 			debug_cgx("%s: %d:%d No SERDES Rx signal detected\n",
 					  __func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SERDES_RX_NO_SIGNAL);
+					ETH_ERR_SERDES_RX_NO_SIGNAL);
 			return -1;
 		}
 
@@ -3212,7 +3212,7 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 						debug_cgx("%s:RX EQU failed %d:%d\n",
 							__func__, qlm, lane);
 						cgx_set_error_type(cgx_id, lmac_id,
-							CGX_ERR_RX_EQU_FAIL);
+							ETH_ERR_RX_EQU_FAIL);
 						return -1;
 					}
 				}
@@ -3235,7 +3235,7 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 			debug_cgx("%s: %d:%d SPUX RX ALIGN not completed\n",
 					__func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SPUX_RX_ALIGN_FAIL);
+					ETH_ERR_SPUX_RX_ALIGN_FAIL);
 			return -1;
 		}
 	}
@@ -3408,9 +3408,9 @@ int cgx_xaui_get_link(int cgx_id, int lmac_id,
 			spux_status1.u, smux_tx_ctl.u, smux_rx_ctl.u);
 		debug_cgx("%s: %d:%d speed obtained %d\n", __func__,
 			cgx_id, lmac_id, speed);
-		result->s.speed = CGX_LINK_NONE;
+		result->s.speed = ETH_LINK_NONE;
 		/* obtain the speed enum based on the speed in Mbps */
-		for (int i = CGX_LINK_NONE; i < CGX_LINK_MAX; i++) {
+		for (int i = ETH_LINK_NONE; i < ETH_LINK_MAX; i++) {
 			if (speed == cgx_link_speed_mbps[i]) {
 				result->s.speed = i;
 				break;

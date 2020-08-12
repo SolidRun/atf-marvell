@@ -17,7 +17,7 @@
 #include <octeontx_common.h>
 #include <drivers/delay_timer.h>
 #include <plat_board_cfg.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <cgx.h>
 #include <qlm/qlm.h>
 #include <plat_scfg.h>
@@ -53,37 +53,37 @@ static cgx_lmac_timers_t
 		lmac_timers[MAX_CGX][MAX_LMAC_PER_CGX];
 
 static const cgx_speed_mode_map speed_mode_map[] = {
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << CGX_MODE_SGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << CGX_MODE_SGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << CGX_MODE_SGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_1G_X, CGX_FEC_NONE, 1250, (1 << CGX_MODE_1000_BASEX_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 0, QLM_MODE_QSGMII, CGX_FEC_NONE, 1250, (1 << CGX_MODE_QSGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_SFI, CGX_FEC_BASE_R, 10312, (1 << CGX_MODE_10G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_XFI, CGX_FEC_BASE_R, 10312, (1 << CGX_MODE_10G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 1, QLM_MODE_10G_KR, CGX_FEC_BASE_R, 10312, (1 << CGX_MODE_10G_KR_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_20GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 20625, (1 << CGX_MODE_20G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_25GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << CGX_MODE_25G_2_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_25G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_25G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25G_CR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_25G_CR_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 1, QLM_MODE_25G_KR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_25G_KR_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI, (CGX_FEC_BASE_R), 10312, (1 << CGX_MODE_40G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI_C2M, (CGX_FEC_BASE_R), 10312, (1 << CGX_MODE_40G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_40G_CR4, (CGX_FEC_BASE_R), 10312, (1 << CGX_MODE_40G_CR4_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_KR4, (CGX_FEC_BASE_R), 10312, (1 << CGX_MODE_40G_KR4_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_40GAUI_2_C2C, (CGX_FEC_BASE_R), 20625, (1 << CGX_MODE_40GAUI_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_50G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_50G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50G_CR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_50G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_KR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << CGX_MODE_50G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_50GAUI_4_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << CGX_MODE_50G_4_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_80GAUI_4_C2C, (CGX_FEC_RS), 20625, (1 << CGX_MODE_80GAUI_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2C, (CGX_FEC_RS), 25781, (1 << CGX_MODE_100G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2M, (CGX_FEC_RS), 25781, (1 << CGX_MODE_100G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_100G_CR4, (CGX_FEC_RS), 25781, (1 << CGX_MODE_100G_CR4_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_100G_KR4, (CGX_FEC_RS), 25781, (1 << CGX_MODE_100G_KR4_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_1G_X, CGX_FEC_NONE, 1250, (1 << ETH_MODE_1000_BASEX_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 0, QLM_MODE_QSGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_QSGMII_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_SFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_XFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 1, QLM_MODE_10G_KR, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_KR_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_20GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 20625, (1 << ETH_MODE_20G_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_25GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << ETH_MODE_25G_2_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25G_CR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_CR_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 1, QLM_MODE_25G_KR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_KR_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI_C2M, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_40G_CR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_CR4_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_KR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_KR4_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_40GAUI_2_C2C, (CGX_FEC_BASE_R), 20625, (1 << ETH_MODE_40GAUI_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50G_CR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_KR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_50GAUI_4_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << ETH_MODE_50G_4_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_80GAUI_4_C2C, (CGX_FEC_RS), 20625, (1 << ETH_MODE_80GAUI_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2C, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2M, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_100G_CR4, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_CR4_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_100G_KR4, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_KR4_BIT)},
 	/* add new modes here */
-	{CGX_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
 };
 
 static int cgx_get_error_type(int cgx_id, int lmac_id)
@@ -145,9 +145,9 @@ static void cgx_release_csr_lock(int cgx_id, int lmac_id)
 
 static void cgx_release_own_status(int cgx_id, int lmac_id)
 {
-	CAVM_MODIFY_CGX_CSR(union cgx_scratchx1,
+	CAVM_MODIFY_CGX_CSR(union eth_scratchx1,
 			CAVM_CGXX_CMRX_SCRATCHX(cgx_id, lmac_id, 1),
-			own_status, CGX_OWN_NON_SECURE_SW); /* released the ownership */
+			own_status, ETH_OWN_NON_SECURE_SW); /* released the ownership */
 }
 
 static int cgx_sfp_obtain_capabilities(int cgx_id, int lmac_id)
@@ -167,7 +167,7 @@ static int cgx_sfp_obtain_capabilities(int cgx_id, int lmac_id)
 
 	debug_cgx_intf("%s: %d:%d Valid transceiver not identified\n",
 		__func__, cgx_id, lmac_id);
-	cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_MODULE_INVALID);
+	cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_MODULE_INVALID);
 	return 0;
 }
 
@@ -191,7 +191,7 @@ static int cgx_get_mode_for_qlm_mode(int qlm_mode)
 
 static void cgx_set_link_mode(int cgx_id, int lmac_id, int qlm_mode)
 {
-	union cgx_scratchx0 scratchx0;
+	union eth_scratchx0 scratchx0;
 
 	scratchx0.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(cgx_id, lmac_id, 0));
 	scratchx0.s.link_sts.mode = cgx_get_mode_for_qlm_mode(qlm_mode);
@@ -202,7 +202,7 @@ static void cgx_set_link_mode(int cgx_id, int lmac_id, int qlm_mode)
 static void cgx_set_link_state(int cgx_id, int lmac_id,
 					link_state_t *link, int err_type)
 {
-	union cgx_scratchx0 scratchx0;
+	union eth_scratchx0 scratchx0;
 
 	debug_cgx_intf("%s %d:%d link_up %d speed %d duplex %d\t"
 			"err_type %d fec %d\n",
@@ -227,7 +227,7 @@ static int cgx_link_change_req(int cgx_id, int lmac_id)
 
 {
 	int ret = 0, err_type = 0;
-	union cgx_scratchx0 scratchx0;
+	union eth_scratchx0 scratchx0;
 	link_state_t link;
 	cgx_lmac_config_t *lmac_cfg;
 	cgx_lmac_context_t *lmac_ctx;
@@ -272,7 +272,7 @@ static int cgx_link_change_req(int cgx_id, int lmac_id)
 	if (ret == -1) {
 		link.s.link_up = 0;
 		link.s.full_duplex = 0;
-		link.s.speed = CGX_LINK_NONE;
+		link.s.speed = ETH_LINK_NONE;
 		err_type = cgx_get_error_type(cgx_id, lmac_id);
 		debug_cgx_intf("%s: %d:%d CGX error %d\n", __func__,
 					cgx_id, lmac_id, err_type);
@@ -288,12 +288,12 @@ static int cgx_link_change_req(int cgx_id, int lmac_id)
 	/* update the event status to evt_sts struct to notify kernel */
 	scratchx0.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(cgx_id, lmac_id, 0));
 	if (err_type & CGX_ERR_MASK)
-		scratchx0.s.evt_sts.stat = CGX_STAT_FAIL;
+		scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
 	else
-		scratchx0.s.evt_sts.stat = CGX_STAT_SUCCESS;
+		scratchx0.s.evt_sts.stat = ETH_STAT_SUCCESS;
 
-	scratchx0.s.evt_sts.id = CGX_EVT_LINK_CHANGE;
-	scratchx0.s.evt_sts.evt_type = CGX_EVT_ASYNC;
+	scratchx0.s.evt_sts.id = ETH_EVT_LINK_CHANGE;
+	scratchx0.s.evt_sts.evt_type = ETH_EVT_ASYNC;
 	scratchx0.s.evt_sts.ack = 1; /* set ack */
 	CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(cgx_id, lmac_id, 0), scratchx0.u);
 
@@ -445,7 +445,7 @@ retry_mod_stat1:
 						debug_cgx_intf("%s: %d:%d Module not present\n",
 							__func__, cgx_id, lmac_id);
 						cgx_set_error_type(cgx_id, lmac_id,
-							CGX_ERR_MODULE_NOT_PRESENT);
+							ETH_ERR_MODULE_NOT_PRESENT);
 					}
 					goto sfp_err1;
 				}
@@ -464,7 +464,7 @@ retry_link1:
 				(lmac_cfg->phy_mode)) {
 			link.s.link_up = 1;
 			link.s.full_duplex = 1;
-			link.s.speed = CGX_LINK_1G;
+			link.s.speed = ETH_LINK_1G;
 		} else {
 			/* Get the link status */
 			phy_get_link_status(cgx_id, lmac_id, &link);
@@ -475,7 +475,7 @@ retry_link1:
 			if (cgx_sgmii_set_link_speed(cgx_id, lmac_id, &link) != 0) {
 				link.s.link_up = 0;
 				link.s.full_duplex = 0;
-				link.s.speed = CGX_LINK_NONE;
+				link.s.speed = ETH_LINK_NONE;
 				goto cgx_err;
 			}
 
@@ -483,7 +483,7 @@ retry_link1:
 			if (cgx_sgmii_check_an_cpt(cgx_id, lmac_id) != 0) {
 				link.s.link_up = 0;
 				link.s.full_duplex = 0;
-				link.s.speed = CGX_LINK_NONE;
+				link.s.speed = ETH_LINK_NONE;
 				goto cgx_err;	/* Poll timer to retry */
 			}
 
@@ -491,7 +491,7 @@ retry_link1:
 			if (cgx_sgmii_check_link(cgx_id, lmac_id) != 0) {
 				link.s.link_up = 0;
 				link.s.full_duplex = 0;
-				link.s.speed = CGX_LINK_NONE;
+				link.s.speed = ETH_LINK_NONE;
 				goto cgx_err;	/* Poll timer to retry */
 			}
 
@@ -535,7 +535,7 @@ retry_mod_stat:
 						debug_cgx_intf("%s: %d:%d Module not present\n",
 							__func__, cgx_id, lmac_id);
 						cgx_set_error_type(cgx_id, lmac_id,
-							CGX_ERR_MODULE_NOT_PRESENT);
+							ETH_ERR_MODULE_NOT_PRESENT);
 					}
 					goto sfp_err;
 				}
@@ -563,7 +563,7 @@ retry_link:
 				/* PHY link is down */
 				link.s.link_up = 0;
 				link.s.full_duplex = 0;
-				link.s.speed = CGX_LINK_NONE;
+				link.s.speed = ETH_LINK_NONE;
 				link.s.fec = lmac_cfg->fec;
 				phy_fail_count = 0; /* reset the counter */
 				goto cgx_err; /* To poll for the link */
@@ -578,7 +578,7 @@ retry_link:
 				 * for an AN restart
 				 */
 				if (cgx_get_error_type(cgx_id, lmac_id) ==
-					CGX_ERR_SERDES_RX_NO_SIGNAL) {
+					ETH_ERR_SERDES_RX_NO_SIGNAL) {
 					if (sig_fail_count++ < SIG_FAIL_RETRIES) {
 						debug_cgx_intf("%s: %d:%d Signal Detect failed,\t"
 							"retrying link\n", __func__,
@@ -588,7 +588,7 @@ retry_link:
 						goto retry_link;
 					}
 				} else if (cgx_get_error_type(cgx_id, lmac_id) ==
-					CGX_ERR_AN_CPT_FAIL) {
+					ETH_ERR_AN_CPT_FAIL) {
 					if (an_lt_fail_count++ < AN_LT_FAIL_RETRIES) {
 						debug_cgx_intf("%s: %d:%d AN Init failed,\t"
 						"retrying link\n", __func__,
@@ -598,7 +598,7 @@ retry_link:
 					goto retry_link;
 				}
 				} else if (cgx_get_error_type(cgx_id, lmac_id) ==
-					CGX_ERR_TRAINING_FAIL) {
+					ETH_ERR_TRAINING_FAIL) {
 					if (an_lt_fail_count++ < AN_LT_FAIL_RETRIES) {
 						debug_cgx_intf("%s: %d:%d Link Training failed,\t"
 							"retrying link\n", __func__,
@@ -657,7 +657,7 @@ retry_link:
 			" cannot initialize link\n",
 			__func__, cgx_id, lmac_id, lmac_cfg->mode);
 		cgx_set_error_type(cgx_id, lmac_id,
-			CGX_ERR_LMAC_MODE_INVALID);
+			ETH_ERR_LMAC_MODE_INVALID);
 		return -1;
 	}
 
@@ -732,7 +732,7 @@ static int cgx_link_bringdown(int cgx_id, int lmac_id)
 			" cannot bring down the link\n",
 			__func__, lmac_id, lmac_cfg->mode);
 		cgx_set_error_type(cgx_id, lmac_id,
-			CGX_ERR_LMAC_MODE_INVALID);
+			ETH_ERR_LMAC_MODE_INVALID);
 		return -1;
 	}
 
@@ -1121,7 +1121,7 @@ static int cpri_set_tx_control(struct cpri_mode_tx_ctrl_args *args)
 #endif
 
 int cgx_handle_mode_change(int cgx_id, int lmac_id,
-				struct cgx_mode_change_args *args)
+				struct eth_mode_change_args *args)
 {
 	int req_speed, valid, lmac_type, ret = 0;
 	cgx_lmac_config_t *lmac;
@@ -1148,7 +1148,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 				__func__, cgx_id, lmac_id, lmac_ctx->s.speed,
 					req_speed, req_an, req_duplex, req_mode);
 
-	if ((!req_mode) && (req_speed == CGX_LINK_NONE)) {
+	if ((!req_mode) && (req_speed == ETH_LINK_NONE)) {
 		invalid_req = 1;
 		/* If speed change is not requested, check for
 		 * other parameters
@@ -1167,7 +1167,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 			debug_cgx_intf("%s: %d: %d Invalid speed/AN/mode request\n",
 					 __func__, cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SPEED_CHANGE_INVALID);
+					ETH_ERR_SPEED_CHANGE_INVALID);
 			goto mode_err;
 		}
 	}
@@ -1180,7 +1180,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 		debug_cgx_intf("%s: %d: %d Invalid speed/AN/mode request\n",
 				 __func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
-				CGX_ERR_SPEED_CHANGE_INVALID);
+				ETH_ERR_SPEED_CHANGE_INVALID);
 		goto mode_err;
 	}
 
@@ -1304,7 +1304,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 			debug_cgx_intf("%s: %d: %d Invalid speed change request\n", __func__,
 				cgx_id, lmac_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_SPEED_CHANGE_INVALID);
+					ETH_ERR_SPEED_CHANGE_INVALID);
 			goto mode_err;
 		}
 	}
@@ -1336,7 +1336,7 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 	    req_fec != CGX_FEC_RS) {
 		ERROR("%s: %d:%d PAM4 requires RS-FEC.  No other FEC setting is allowed.\n",
 		      __func__, cgx_id, lmac_id);
-		cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_SET_FEC_INVALID);
+		cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
 		return -1;
 	}
 
@@ -1344,7 +1344,7 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 			(lmac->mode == CAVM_CGX_LMAC_TYPES_E_QSGMII)) {
 		ERROR("%s: %d: %d FEC is not applicable for this mode %d\n",
 				__func__, cgx_id, lmac_id, lmac->mode);
-		cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_SET_FEC_INVALID);
+		cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
 		return -1;
 	}
 
@@ -1357,7 +1357,7 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 	/* Validate FEC based on LMAC mode, QLM mode, and PHY mod type */
 	ret = cgx_validate_fec_config(cgx_id, lmac_id, req_fec);
 	if (ret == -1) {
-		cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_SET_FEC_INVALID);
+		cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
 		return -1;
 	}
 
@@ -1387,7 +1387,7 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 	ret = cgx_fec_change(cgx_id, lmac_id, lmac->fec);
 	if (ret == -1) {
 		ERROR("%s: FEC type could not be changed\n", __func__);
-		cgx_set_error_type(cgx_id, lmac_id, CGX_ERR_SET_FEC_FAIL);
+		cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_SET_FEC_FAIL);
 		return -1;
 	}
 
@@ -1523,8 +1523,8 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 	int enable = 0; /* read from scratch1 - cmd_args */
 	int request_id = 0, err_type = 0, req_fec, phy_mod_type, ignore;
 	int mode;
-	union cgx_scratchx0 scratchx0;
-	union cgx_scratchx1 scratchx1;
+	union eth_scratchx0 scratchx0;
+	union eth_scratchx1 scratchx1;
 	link_state_t link;
 	cgx_lmac_context_t *lmac_ctx;
 	cgx_lmac_config_t *lmac;
@@ -1543,26 +1543,26 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 	/* always reset the error bits when processing new
 	 * command except when obtaining current status
 	 */
-	if (request_id != CGX_CMD_GET_LINK_STS)
+	if (request_id != ETH_CMD_GET_LINK_STS)
 		cgx_set_error_type(cgx_id, lmac_id, 0);
 
 	/* some of the commands like below should be handled independent
 	 * of whether LMAC is enabled or not
 	 */
-	if ((request_id == CGX_CMD_INTF_SHUTDOWN) ||
+	if ((request_id == ETH_CMD_INTF_SHUTDOWN) ||
 #ifdef NT_FW_CONFIG
-		(request_id == CGX_CMD_GET_MKEX_SIZE) ||
-		(request_id == CGX_CMD_GET_MKEX_PROFILE) ||
+		(request_id == ETH_CMD_GET_MKEX_SIZE) ||
+		(request_id == ETH_CMD_GET_MKEX_PROFILE) ||
 #endif
-		(request_id == CGX_CMD_SET_MAC_ADDR) ||
-		(request_id == CGX_CMD_GET_FWD_BASE) ||
-		(request_id == CGX_CMD_LOOP_SERDES) ||
-		(request_id == CGX_CMD_TUNE_SERDES) ||
-		(request_id == CGX_CMD_LEQ_ADAPT_SERDES) ||
-		(request_id == CGX_CMD_DFE_ADAPT_SERDES) ||
-		(request_id == CGX_CMD_GET_FW_VER)) {
+		(request_id == ETH_CMD_SET_MAC_ADDR) ||
+		(request_id == ETH_CMD_GET_FWD_BASE) ||
+		(request_id == ETH_CMD_LOOP_SERDES) ||
+		(request_id == ETH_CMD_TUNE_SERDES) ||
+		(request_id == ETH_CMD_LEQ_ADAPT_SERDES) ||
+		(request_id == ETH_CMD_DFE_ADAPT_SERDES) ||
+		(request_id == ETH_CMD_GET_FW_VER)) {
 		switch (request_id) {
-		case CGX_CMD_INTF_SHUTDOWN:
+		case ETH_CMD_INTF_SHUTDOWN:
 			cgx_fw_intf_shutdown();
 			/* in case of shutdown, clear all other
 			 * bits and set only ack bit to indicate
@@ -1574,15 +1574,15 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 			CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
 				cgx_id, lmac_id, 0), scratchx0.u);
 			return 0;
-		case CGX_CMD_GET_FW_VER:
+		case ETH_CMD_GET_FW_VER:
 			scratchx0.u = 0;
-			scratchx0.s.ver.major_ver = CGX_FIRMWARE_MAJOR_VER;
-			scratchx0.s.ver.minor_ver = CGX_FIRMWARE_MINOR_VER;
+			scratchx0.s.ver.major_ver = ETH_FIRMWARE_MAJOR_VER;
+			scratchx0.s.ver.minor_ver = ETH_FIRMWARE_MINOR_VER;
 			CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
 				cgx_id, lmac_id, 0), scratchx0.u);
 			break;
 #ifdef NT_FW_CONFIG
-		case CGX_CMD_GET_MKEX_PROFILE:
+		case ETH_CMD_GET_MKEX_PROFILE:
 			scratchx0.u = 0;
 			scratchx0.s.prfl_addr.mcam_addr = otx2_get_npc_profile_addr(0);
 			CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
@@ -1592,7 +1592,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				(unsigned int)scratchx0.s.prfl_addr.mcam_addr);
 			break;
 
-		case CGX_CMD_GET_MKEX_SIZE:
+		case ETH_CMD_GET_MKEX_SIZE:
 			scratchx0.u = 0;
 			scratchx0.s.prfl_sz.mcam_sz = otx2_get_npc_profile_size(0);
 			CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
@@ -1602,29 +1602,29 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				(unsigned int)scratchx0.s.prfl_sz.mcam_sz);
 			break;
 #endif
-		case CGX_CMD_GET_FWD_BASE:
+		case ETH_CMD_GET_FWD_BASE:
 			scratchx0.u = 0;
 			scratchx0.s.fwd_base_s.addr = get_sh_fwdata_base();
 			CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(cgx_id, lmac_id, 0),
 				scratchx0.u);
 			break;
 
-		case CGX_CMD_SET_MAC_ADDR:
+		case ETH_CMD_SET_MAC_ADDR:
 			sh_fwdata_update_mac_addr(scratchx1.s.mac_args.addr,
 						  scratchx1.s.mac_args.pf_id);
 			break;
-		case CGX_CMD_LOOP_SERDES:
+		case ETH_CMD_LOOP_SERDES:
 			cgx_set_serdes_loop(cgx_id, lmac_id,
 				 scratchx1.s.gser_loop.flags);
 			break;
-		case CGX_CMD_TUNE_SERDES:
+		case ETH_CMD_TUNE_SERDES:
 			cgx_set_serdes_tune(cgx_id,
 				 scratchx1.s.gser_tune.lane_mask,
 				 scratchx1.s.gser_tune.tx_swing,
 				 scratchx1.s.gser_tune.tx_pre,
 				 scratchx1.s.gser_tune.tx_post);
 			break;
-		case CGX_CMD_LEQ_ADAPT_SERDES:
+		case ETH_CMD_LEQ_ADAPT_SERDES:
 			cgx_set_serdes_rx_leq_adaptation(cgx_id, lmac_id,
 				scratchx1.s.leq_adt.ifg_start,
 				scratchx1.s.leq_adt.hfg_sqi_start,
@@ -1632,7 +1632,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				scratchx1.s.leq_adt.mbg_start,
 				scratchx1.s.leq_adt.apg_start);
 			break;
-		case CGX_CMD_DFE_ADAPT_SERDES:
+		case ETH_CMD_DFE_ADAPT_SERDES:
 			cgx_set_serdes_rx_dfe_adaptation(cgx_id, lmac_id);
 			break;
 
@@ -1643,21 +1643,21 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 		 */
 		if (lmac->lmac_enable) {
 			switch (request_id) {
-			case CGX_CMD_LINK_BRING_UP:
+			case ETH_CMD_LINK_BRING_UP:
 				ret = cgx_link_bringup(cgx_id, lmac_id);
 				break;
-			case CGX_CMD_LINK_BRING_DOWN:
+			case ETH_CMD_LINK_BRING_DOWN:
 				ret = cgx_link_bringdown(cgx_id, lmac_id);
 				break;
-			case CGX_CMD_INTERNAL_LBK:
+			case ETH_CMD_INTERNAL_LBK:
 				lmac_ctx->s.lbk1_enable = enable;
 				cgx_set_internal_loopback(cgx_id, lmac_id, enable);
 				break;
-			case CGX_CMD_EXTERNAL_LBK:
+			case ETH_CMD_EXTERNAL_LBK:
 				cgx_set_external_loopback(cgx_id, lmac_id,
 							enable);
 				break;
-			case CGX_CMD_AN_LOOPBACK:
+			case ETH_CMD_AN_LOOPBACK:
 				if (lmac->autoneg_dis) {
 					WARN("%s: %d:%d command not applicable for AN disabled LMAC,ignoring enabling loopback mode\n",
 						__func__, cgx_id, lmac_id);
@@ -1665,7 +1665,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				} else
 					lmac->an_loopback = enable;
 				break;
-			case CGX_CMD_GET_LINK_STS:
+			case ETH_CMD_GET_LINK_STS:
 				CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
 						cgx_id, lmac_id, 0), 0); /* reset */
 				link.s.link_up = lmac_ctx->s.link_up;
@@ -1677,7 +1677,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				cgx_set_link_mode(cgx_id, lmac_id,
 						  lmac->mode_idx);
 				break;
-			case CGX_CMD_GET_MAC_ADDR:
+			case ETH_CMD_GET_MAC_ADDR:
 				scratchx0.u = 0;
 				scratchx0.s.mac_s.addr_0 = lmac->local_mac_address[0];
 				scratchx0.s.mac_s.addr_1 = lmac->local_mac_address[1];
@@ -1695,7 +1695,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
 						cgx_id, lmac_id, 0), scratchx0.u);
 				break;
-			case CGX_CMD_GET_SUPPORTED_FEC:
+			case ETH_CMD_GET_SUPPORTED_FEC:
 				scratchx0.u = 0;
 				/* SFP EEPROM info will be available only when
 				 * link is brought UP. If the link_enable is set
@@ -1718,7 +1718,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 						cgx_id, lmac_id, 0),
 						scratchx0.u);
 			break;
-			case CGX_CMD_SET_FEC:
+			case ETH_CMD_SET_FEC:
 				/* Read the command arguments from SCRATCH(1) */
 				scratchx1.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(
 							cgx_id, lmac_id, 1));
@@ -1735,12 +1735,12 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 						"Flash update fec failed\n");
 				}
 			break;
-			case CGX_CMD_SET_PHY_MOD_TYPE:
+			case ETH_CMD_SET_PHY_MOD_TYPE:
 				phy_mod_type = scratchx1.s.phy_mod_args.mod;
 				ret = cgx_set_phy_mod_type(cgx_id, lmac_id,
 							   phy_mod_type);
 			break;
-			case CGX_CMD_GET_PHY_MOD_TYPE:
+			case ETH_CMD_GET_PHY_MOD_TYPE:
 				scratchx0.u = 0;
 				scratchx0.s.phy_mod_type.mod =
 					lmac->phy_config.mod_type;
@@ -1748,13 +1748,13 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 						cgx_id, lmac_id, 0),
 						scratchx0.u);
 			break;
-			case CGX_CMD_SET_PERSIST_IGNORE:
+			case ETH_CMD_SET_PERSIST_IGNORE:
 				ignore = scratchx1.s.persist_args.ignore;
 				ret = cgx_update_flash_ignore_param(cgx_id,
 								    lmac_id,
 								    ignore);
 			break;
-			case CGX_CMD_GET_PERSIST_IGNORE:
+			case ETH_CMD_GET_PERSIST_IGNORE:
 				scratchx0.u = 0;
 				ret = cgx_read_flash_ignore(cgx_id, lmac_id,
 							    &ignore);
@@ -1764,13 +1764,13 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 						cgx_id, lmac_id, 0),
 						scratchx0.u);
 			break;
-			case CGX_CMD_GET_PHY_FEC_STATS:
+			case ETH_CMD_GET_PHY_FEC_STATS:
 				ret = phy_get_fec_stats(cgx_id, lmac_id);
 				if (!ret)
 					sh_fwdata_update_phy_fec_stats(cgx_id,
 								       lmac_id);
 			break;
-			case CGX_CMD_MODE_CHANGE:
+			case ETH_CMD_MODE_CHANGE:
 				/* Read the command arguments from SCRATCH(1) */
 				scratchx1.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(
 							cgx_id, lmac_id, 1));
@@ -1784,14 +1784,14 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 						"Flash update mode failed\n");
 				}
 			break;
-			case CGX_CMD_HIGIG:
+			case ETH_CMD_HIGIG:
 				ret = cgx_control_higig2(cgx_id, lmac_id, enable);
 			break;
-			case CGX_CMD_SET_PTP_MODE:
+			case ETH_CMD_SET_PTP_MODE:
 				ret = cgx_set_ptp_mode(cgx_id, lmac_id, enable);
 			break;
 #if defined(PLAT_loki)
-			case CGX_CMD_CPRI_MODE_CHANGE:
+			case ETH_CMD_CPRI_MODE_CHANGE:
 				/* CGX and LMAC index can be passed as any
 				 * valid CGX (other than CGX0 mapped to NIX
 				 * and LMAC index for LOKI platform
@@ -1803,9 +1803,9 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 						&scratchx1.s.cpri_change_args);
 				if (ret == -1)
 					cgx_set_error_type(cgx_id, lmac_id,
-						CGX_ERR_SPEED_CHANGE_INVALID);
+						ETH_ERR_SPEED_CHANGE_INVALID);
 			break;
-			case CGX_CMD_CPRI_TX_CONTROL:
+			case ETH_CMD_CPRI_TX_CONTROL:
 				scratchx1.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(
 							cgx_id, lmac_id, 1));
 				ret = cpri_set_tx_control(
@@ -1814,7 +1814,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 					ERROR("%s: %d:%d invalid request\n",
 						__func__, cgx_id, lmac_id);
 					cgx_set_error_type(cgx_id, lmac_id,
-						CGX_ERR_SERDES_CPRI_PARAM_INVALID);
+						ETH_ERR_SERDES_CPRI_PARAM_INVALID);
 				}
 			break;
 #endif
@@ -1823,7 +1823,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				debug_cgx_intf("%s: %d:%d Invalid request %d\n",
 					__func__, cgx_id, lmac_id, request_id);
 				cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_REQUEST_ID_INVALID);
+					ETH_ERR_REQUEST_ID_INVALID);
 				break;
 			}
 		} else {
@@ -1831,7 +1831,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 					"Req %d ignored\n", __func__, cgx_id,
 					lmac_id, request_id);
 			cgx_set_error_type(cgx_id, lmac_id,
-					CGX_ERR_LMAC_NOT_ENABLED);
+					ETH_ERR_LMAC_NOT_ENABLED);
 		}
 	}
 
@@ -1841,20 +1841,20 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 	scratchx0.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(cgx_id, lmac_id, 0));
 	err_type = cgx_get_error_type(cgx_id, lmac_id);
 	if (err_type & CGX_ERR_MASK)
-		scratchx0.s.evt_sts.stat = CGX_STAT_FAIL;
+		scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
 	else
-		scratchx0.s.evt_sts.stat = CGX_STAT_SUCCESS;
+		scratchx0.s.evt_sts.stat = ETH_STAT_SUCCESS;
 
 	/* For all requests, update the command status, ID and
 	 * set event type
 	 */
 	scratchx0.s.evt_sts.id = request_id;
-	scratchx0.s.evt_sts.evt_type = CGX_EVT_CMD_RESP;
-	if ((request_id != CGX_CMD_LINK_BRING_UP) &&
-		(request_id != CGX_CMD_LINK_BRING_DOWN) &&
-		(request_id != CGX_CMD_SET_FEC) &&
-		(request_id != CGX_CMD_GET_LINK_STS) &&
-		(request_id != CGX_CMD_MODE_CHANGE)) {
+	scratchx0.s.evt_sts.evt_type = ETH_EVT_CMD_RESP;
+	if ((request_id != ETH_CMD_LINK_BRING_UP) &&
+		(request_id != ETH_CMD_LINK_BRING_DOWN) &&
+		(request_id != ETH_CMD_SET_FEC) &&
+		(request_id != ETH_CMD_GET_LINK_STS) &&
+		(request_id != ETH_CMD_MODE_CHANGE)) {
 		/* in case of LINK_UP/DOWN, error type is updated
 		 * as part of link status struct
 		 */
@@ -1873,18 +1873,18 @@ static int cgx_handle_link_reqs(int cgx_id, int lmac_id,
 			link_state_t *new_link)
 {
 	int timeout = 10; /* check the moderate val */;
-	union cgx_scratchx0 cgx_scratch0;
+	union eth_scratchx0 eth_scratch0;
 	cgx_lmac_context_t *lmac_ctx;
 
 	debug_cgx_intf("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
 	/* check for the ack bit to be clear and post the command */
 	do {
-		cgx_scratch0.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(
+		eth_scratch0.u = CSR_READ(CAVM_CGXX_CMRX_SCRATCHX(
 					cgx_id, lmac_id, 0));
 		debug_cgx_intf("%s, waiting for prev ack %d to be clear\n",
-				__func__, cgx_scratch0.s.evt_sts.ack);
-		if (!cgx_scratch0.s.evt_sts.ack)
+				__func__, eth_scratch0.s.evt_sts.ack);
+		if (!eth_scratch0.s.evt_sts.ack)
 			break;
 		udelay(1);
 	} while (--timeout);
@@ -1976,7 +1976,7 @@ static int cgx_get_link_status(int cgx_id, int lmac_id,
 		if (cgx_sgmii_check_link(cgx_id, lmac_id) != -1) {
 			link->s.link_up = 1;
 			link->s.full_duplex = 1;
-			link->s.speed = CGX_LINK_1G;
+			link->s.speed = ETH_LINK_1G;
 		}
 		return 0;
 	}
@@ -2072,8 +2072,8 @@ static int cgx_poll_for_link_cb(int timer)
 /* Timer callback to process CGX requests */
 static int cgx_handle_requests_cb(int timer)
 {
-	union cgx_scratchx1 scratch1;
-	union cgx_scratchx0 scratch0;
+	union eth_scratchx1 scratch1;
+	union eth_scratchx0 scratch0;
 	cgx_lmac_context_t *lmac_ctx;
 
 	/* Go through all active LMACs and check
@@ -2111,13 +2111,13 @@ static int cgx_handle_requests_cb(int timer)
 			/* poll on ownership to be set as OWN_FW to
 			 * process any new requests
 			 */
-			if (scratch1.s.own_status == CGX_OWN_FIRMWARE) {
+			if (scratch1.s.own_status == ETH_OWN_FIRMWARE) {
 				if (scratch0.s.evt_sts.ack) {
 					debug_cgx_intf("%s Req ignored,"
 						" status not cleared\n",
 						__func__);
 					cgx_set_error_type(cgx, lmac,
-					CGX_ERR_PREV_ACK_NOT_CLEAR);
+					ETH_ERR_PREV_ACK_NOT_CLEAR);
 					cgx_release_own_status(cgx, lmac);
 					cgx_release_csr_lock(cgx, lmac);
 					/* skip to next LMAC */
@@ -2141,7 +2141,7 @@ static int cgx_handle_requests_cb(int timer)
 
 void cgx_get_link_state(int cgx_id, int lmac_id, link_state_t *link)
 {
-	union cgx_scratchx0 scratchx0;
+	union eth_scratchx0 scratchx0;
 
 	debug_cgx_intf("%s:%d:%d\n", __func__, cgx_id, lmac_id);
 
@@ -2174,7 +2174,7 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 		 * default all modes as supported (loopback module
 		 * or internally connected)
 		 */
-		lmac_cfg->supported_link_modes = CGX_ALL_SUPPORTED_MODES;
+		lmac_cfg->supported_link_modes = ETH_ALL_SUPPORTED_MODES;
 	}
 
 	if (lmac_cfg->phy_present)
@@ -2185,16 +2185,16 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 	if (lmac_cfg->sfp_slot) {
 		if (lmac_cfg->sfp_info.is_sfp) {
 			lmac_cfg->supported_link_modes |=
-				((1 << CGX_MODE_1000_BASEX_BIT) |
-				(1 << CGX_MODE_SGMII_BIT) |
-				(1 << CGX_MODE_10G_C2C_BIT) |
-				(1 << CGX_MODE_10G_C2M_BIT) |
-				(1 << CGX_MODE_10G_KR_BIT) |
-				(1 << CGX_MODE_25G_C2C_BIT) |
-				(1 << CGX_MODE_25G_C2M_BIT) |
-				(1 << CGX_MODE_20G_C2C_BIT));
+				((1 << ETH_MODE_1000_BASEX_BIT) |
+				(1 << ETH_MODE_SGMII_BIT) |
+				(1 << ETH_MODE_10G_C2C_BIT) |
+				(1 << ETH_MODE_10G_C2M_BIT) |
+				(1 << ETH_MODE_10G_KR_BIT) |
+				(1 << ETH_MODE_25G_C2C_BIT) |
+				(1 << ETH_MODE_25G_C2M_BIT) |
+				(1 << ETH_MODE_20G_C2C_BIT));
 		} else if (lmac_cfg->sfp_info.is_qsfp) {
-			lmac_cfg->supported_link_modes = CGX_ALL_SUPPORTED_MODES;
+			lmac_cfg->supported_link_modes = ETH_ALL_SUPPORTED_MODES;
 		}
 	}
 
@@ -2205,19 +2205,19 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 	if ((lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_SGMII) ||
 		(lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R)) {
-		uint64_t modes_allowed = ((1 << CGX_MODE_1000_BASEX_BIT) |
-					 (1 << CGX_MODE_SGMII_BIT) |
-					 (1 << CGX_MODE_10G_C2C_BIT) |
-					 (1 << CGX_MODE_10G_C2M_BIT) |
-					 (1 << CGX_MODE_10G_KR_BIT) |
-					 (1 << CGX_MODE_20G_C2C_BIT) |
-					(1 << CGX_MODE_25G_C2C_BIT) |
-					(1 << CGX_MODE_25G_C2M_BIT));
+		uint64_t modes_allowed = ((1 << ETH_MODE_1000_BASEX_BIT) |
+					 (1 << ETH_MODE_SGMII_BIT) |
+					 (1 << ETH_MODE_10G_C2C_BIT) |
+					 (1 << ETH_MODE_10G_C2M_BIT) |
+					 (1 << ETH_MODE_10G_KR_BIT) |
+					 (1 << ETH_MODE_20G_C2C_BIT) |
+					(1 << ETH_MODE_25G_C2C_BIT) |
+					(1 << ETH_MODE_25G_C2M_BIT));
 
 		if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "cn33", 4))
-			modes_allowed |= (1 << CGX_MODE_25G_2_C2C_BIT) |
-					 (1 << CGX_MODE_50G_C2C_BIT)   |
-					 (1 << CGX_MODE_50G_4_C2C_BIT);
+			modes_allowed |= (1 << ETH_MODE_25G_2_C2C_BIT) |
+					 (1 << ETH_MODE_50G_C2C_BIT)   |
+					 (1 << ETH_MODE_50G_4_C2C_BIT);
 
 		lmac_cfg->supported_link_modes &= modes_allowed;
 
@@ -2229,43 +2229,43 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 		case QLM_MODE_40G_CR4:
 		case QLM_MODE_40G_KR4:
 			lmac_cfg->supported_link_modes &=
-				((1 << CGX_MODE_40G_C2C_BIT) |
-				(1 << CGX_MODE_40G_C2M_BIT) |
-				(1 << CGX_MODE_40G_CR4_BIT) |
-				(1 << CGX_MODE_40G_KR4_BIT) |
-				(1 << CGX_MODE_80GAUI_C2C_BIT) |
-				(1 << CGX_MODE_100G_C2C_BIT) |
-				(1 << CGX_MODE_100G_C2M_BIT) |
-				(1 << CGX_MODE_100G_CR4_BIT) |
-				(1 << CGX_MODE_100G_KR4_BIT));
+				((1 << ETH_MODE_40G_C2C_BIT) |
+				(1 << ETH_MODE_40G_C2M_BIT) |
+				(1 << ETH_MODE_40G_CR4_BIT) |
+				(1 << ETH_MODE_40G_KR4_BIT) |
+				(1 << ETH_MODE_80GAUI_C2C_BIT) |
+				(1 << ETH_MODE_100G_C2C_BIT) |
+				(1 << ETH_MODE_100G_C2M_BIT) |
+				(1 << ETH_MODE_100G_CR4_BIT) |
+				(1 << ETH_MODE_100G_KR4_BIT));
 		break;
 		case QLM_MODE_50GAUI_4_C2C:
 		case QLM_MODE_25GAUI_2_C2C:
 			lmac_cfg->supported_link_modes &=
-				((1 << CGX_MODE_25G_2_C2C_BIT) |
-			(1 << CGX_MODE_50G_4_C2C_BIT) |
-			(1 << CGX_MODE_50G_C2C_BIT) |
-			(1 << CGX_MODE_10G_C2C_BIT) |
-			(1 << CGX_MODE_10G_C2M_BIT) |
-			(1 << CGX_MODE_10G_KR_BIT));
+				((1 << ETH_MODE_25G_2_C2C_BIT) |
+			(1 << ETH_MODE_50G_4_C2C_BIT) |
+			(1 << ETH_MODE_50G_C2C_BIT) |
+			(1 << ETH_MODE_10G_C2C_BIT) |
+			(1 << ETH_MODE_10G_C2M_BIT) |
+			(1 << ETH_MODE_10G_KR_BIT));
 		break;
 		default:
 		break;
 		}
 	} else if (lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_QSGMII)
 		lmac_cfg->supported_link_modes &=
-			(1 << CGX_MODE_QSGMII_BIT);
+			(1 << ETH_MODE_QSGMII_BIT);
 	else if (lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R)
 		lmac_cfg->supported_link_modes &=
-				((1 << CGX_MODE_40G_C2C_BIT) |
-				(1 << CGX_MODE_40G_C2M_BIT) |
-				(1 << CGX_MODE_40G_CR4_BIT) |
-				(1 << CGX_MODE_40G_KR4_BIT) |
-				(1 << CGX_MODE_80GAUI_C2C_BIT) |
-				(1 << CGX_MODE_100G_C2C_BIT) |
-				(1 << CGX_MODE_100G_C2M_BIT) |
-				(1 << CGX_MODE_100G_CR4_BIT) |
-				(1 << CGX_MODE_100G_KR4_BIT));
+				((1 << ETH_MODE_40G_C2C_BIT) |
+				(1 << ETH_MODE_40G_C2M_BIT) |
+				(1 << ETH_MODE_40G_CR4_BIT) |
+				(1 << ETH_MODE_40G_KR4_BIT) |
+				(1 << ETH_MODE_80GAUI_C2C_BIT) |
+				(1 << ETH_MODE_100G_C2C_BIT) |
+				(1 << ETH_MODE_100G_C2M_BIT) |
+				(1 << ETH_MODE_100G_CR4_BIT) |
+				(1 << ETH_MODE_100G_KR4_BIT));
 	else
 		lmac_cfg->supported_link_modes = 0;
 

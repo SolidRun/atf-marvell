@@ -17,7 +17,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <cgx.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <phy_mgmt.h>
 #include <smi.h>
 
@@ -447,9 +447,9 @@ void phy_vitesse_set_supported_modes(int cgx_id, int lmac_id)
 	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
-	phy->supported_link_modes = ((1 << CGX_MODE_SGMII_BIT) |
-			(1 << CGX_MODE_1000_BASEX_BIT) |
-			(1 << CGX_MODE_QSGMII_BIT));
+	phy->supported_link_modes = ((1 << ETH_MODE_SGMII_BIT) |
+			(1 << ETH_MODE_1000_BASEX_BIT) |
+			(1 << ETH_MODE_QSGMII_BIT));
 }
 
 /* Table of Vitesse PHY driver list */

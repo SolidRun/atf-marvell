@@ -13,7 +13,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <cgx.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>
 #include <smi.h>
@@ -34,8 +34,8 @@ static void marvell_set_22_page(phy_config_t *phy, int page)
 }
 
 /* Maps link speed bits to QLM link speed */
-static const enum cgx_link_speed mv_1g_link_speed[4] = {
-	CGX_LINK_10M, CGX_LINK_100M, CGX_LINK_1G, CGX_LINK_NONE,
+static const enum eth_link_speed mv_1g_link_speed[4] = {
+	ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G, ETH_LINK_NONE,
 };
 
 void phy_marvell_1548_probe(int cgx_id, int lmac_id)
@@ -124,7 +124,7 @@ void phy_marvell_1548_get_fiber_link_status(phy_config_t *phy,
 		return;
 
 	link->s.speed = mv_1g_link_speed[(status >> 14) & 0x3];
-	if (link->s.speed == CGX_LINK_NONE)
+	if (link->s.speed == ETH_LINK_NONE)
 		return;
 
 	link->s.full_duplex = 1;
@@ -237,9 +237,9 @@ void phy_marvell_1548_supported_modes(int cgx_id, int lmac_id)
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 
-	phy->supported_link_modes = ((1 << CGX_MODE_SGMII_BIT) |
-			(1 << CGX_MODE_1000_BASEX_BIT) |
-			(1 << CGX_MODE_QSGMII_BIT));
+	phy->supported_link_modes = ((1 << ETH_MODE_SGMII_BIT) |
+			(1 << ETH_MODE_1000_BASEX_BIT) |
+			(1 << ETH_MODE_QSGMII_BIT));
 }
 
 void phy_marvell_1548_set_an(int cgx_id, int lmac_id)

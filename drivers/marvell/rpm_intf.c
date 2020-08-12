@@ -17,7 +17,7 @@
 #include <octeontx_common.h>
 #include <drivers/delay_timer.h>
 #include <plat_board_cfg.h>
-#include <rpm_intf.h>
+#include <eth_intf.h>
 #include <rpm.h>
 #include <qlm/qlm_cn10k.h>
 #include <plat_scfg.h>
@@ -97,15 +97,15 @@ static void rpm_release_csr_lock(int rpm_id, int lmac_id)
 
 static void rpm_release_own_status(int rpm_id, int lmac_id)
 {
-	CAVM_MODIFY_RPM_CSR(union rpm_scratchx1,
+	CAVM_MODIFY_RPM_CSR(union eth_scratchx1,
 			CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 1),
-			own_status, RPM_OWN_NON_SECURE_SW); /* released the ownership */
+			own_status, ETH_OWN_NON_SECURE_SW); /* released the ownership */
 }
 
 static void rpm_set_link_state(int rpm_id, int lmac_id,
 					rpm_link_state_t *link, int err_type)
 {
-	union rpm_scratchx0 scratchx0;
+	union eth_scratchx0 scratchx0;
 
 	debug_rpm_intf("%s %d:%d link_up %d speed %d duplex %d\t"
 			"err_type %d\n",
@@ -208,7 +208,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 			" cannot bring down the link\n",
 			__func__, lmac_id, lmac_cfg->mode);
 		rpm_set_error_type(rpm_id, lmac_id,
-			RPM_ERR_LMAC_MODE_INVALID);
+			ETH_ERR_LMAC_MODE_INVALID);
 		return -1;
 	}
 
@@ -239,8 +239,8 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 {
 	int ret = 0;
 	int request_id = 0, err_type = 0;
-	union rpm_scratchx0 scratchx0;
-	union rpm_scratchx1 scratchx1;
+	union eth_scratchx0 scratchx0;
+	union eth_scratchx1 scratchx1;
 	rpm_link_state_t link;
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_lmac_config_t *lmac;
@@ -258,18 +258,18 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	/* Always reset the error bits when processing new
 	 * command except when obtaining current status
 	 */
-	if (request_id != RPM_CMD_GET_LINK_STS)
+	if (request_id != ETH_CMD_GET_LINK_STS)
 		rpm_set_error_type(rpm_id, lmac_id, 0);
 
 	/* some of the commands like below should be handled independent
 	 * of whether LMAC is enabled or not
 	 */
-	if ((request_id == RPM_CMD_INTF_SHUTDOWN) ||
-		(request_id == RPM_CMD_SET_MAC_ADDR) ||
-		(request_id == RPM_CMD_GET_FWD_BASE) ||
-		(request_id == RPM_CMD_GET_FW_VER)) {
+	if ((request_id == ETH_CMD_INTF_SHUTDOWN) ||
+		(request_id == ETH_CMD_SET_MAC_ADDR) ||
+		(request_id == ETH_CMD_GET_FWD_BASE) ||
+		(request_id == ETH_CMD_GET_FW_VER)) {
 		switch (request_id) {
-		case RPM_CMD_INTF_SHUTDOWN:
+		case ETH_CMD_INTF_SHUTDOWN:
 			rpm_fw_intf_shutdown();
 			/* in case of shutdown, clear all other
 			 * bits and set only ack bit to indicate
@@ -281,21 +281,21 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 			CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
 				rpm_id, lmac_id, 0), scratchx0.u);
 			return 0;
-		case RPM_CMD_GET_FW_VER:
+		case ETH_CMD_GET_FW_VER:
 			scratchx0.u = 0;
-			scratchx0.s.ver.major_ver = RPM_FIRMWARE_MAJOR_VER;
-			scratchx0.s.ver.minor_ver = RPM_FIRMWARE_MINOR_VER;
+			scratchx0.s.ver.major_ver = ETH_FIRMWARE_MAJOR_VER;
+			scratchx0.s.ver.minor_ver = ETH_FIRMWARE_MINOR_VER;
 			CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
 				rpm_id, lmac_id, 0), scratchx0.u);
 			break;
-		case RPM_CMD_GET_FWD_BASE:
+		case ETH_CMD_GET_FWD_BASE:
 			scratchx0.u = 0;
 			scratchx0.s.fwd_base_s.addr = get_sh_fwdata_base();
 			CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0),
 				scratchx0.u);
 			break;
 
-		case RPM_CMD_SET_MAC_ADDR:
+		case ETH_CMD_SET_MAC_ADDR:
 			sh_fwdata_update_mac_addr(scratchx1.s.mac_args.addr,
 						  scratchx1.s.mac_args.pf_id);
 			break;
@@ -306,13 +306,13 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		 */
 		if (lmac->lmac_enable) {
 			switch (request_id) {
-			case RPM_CMD_LINK_BRING_UP:
+			case ETH_CMD_LINK_BRING_UP:
 				ret = rpm_link_bringup(rpm_id, lmac_id);
 				break;
-			case RPM_CMD_LINK_BRING_DOWN:
+			case ETH_CMD_LINK_BRING_DOWN:
 				ret = rpm_link_bringdown(rpm_id, lmac_id);
 				break;
-			case RPM_CMD_GET_LINK_STS:
+			case ETH_CMD_GET_LINK_STS:
 				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
 						rpm_id, lmac_id, 0), 0); /* reset */
 				link.s.link_up = lmac_ctx->s.link_up;
@@ -323,7 +323,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				//rpm_set_link_mode(rpm_id, lmac_id,
 				//		  lmac->mode_idx);
 				break;
-			case RPM_CMD_GET_MAC_ADDR:
+			case ETH_CMD_GET_MAC_ADDR:
 				scratchx0.u = 0;
 				scratchx0.s.mac_s.addr_0 = lmac->local_mac_address[0];
 				scratchx0.s.mac_s.addr_1 = lmac->local_mac_address[1];
@@ -346,7 +346,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				debug_rpm_intf("%s: %d:%d Invalid request %d\n",
 					__func__, rpm_id, lmac_id, request_id);
 				rpm_set_error_type(rpm_id, lmac_id,
-					RPM_ERR_REQUEST_ID_INVALID);
+					ETH_ERR_REQUEST_ID_INVALID);
 				break;
 			}
 		} else {
@@ -354,7 +354,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 					"Req %d ignored\n", __func__, rpm_id,
 					lmac_id, request_id);
 			rpm_set_error_type(rpm_id, lmac_id,
-					RPM_ERR_LMAC_NOT_ENABLED);
+					ETH_ERR_LMAC_NOT_ENABLED);
 		}
 	}
 
@@ -364,17 +364,17 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	err_type = rpm_get_error_type(rpm_id, lmac_id);
 	if (err_type & RPM_ERR_MASK)
-		scratchx0.s.evt_sts.stat = RPM_STAT_FAIL;
+		scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
 	else
-		scratchx0.s.evt_sts.stat = RPM_STAT_SUCCESS;
+		scratchx0.s.evt_sts.stat = ETH_STAT_SUCCESS;
 
 	/* For all requests, update the command status, ID and
 	 * set event type
 	 */
 	scratchx0.s.evt_sts.id = request_id;
-	scratchx0.s.evt_sts.evt_type = RPM_EVT_CMD_RESP;
-	if ((request_id != RPM_CMD_LINK_BRING_UP) &&
-		(request_id != RPM_CMD_LINK_BRING_DOWN)) {
+	scratchx0.s.evt_sts.evt_type = ETH_EVT_CMD_RESP;
+	if ((request_id != ETH_CMD_LINK_BRING_UP) &&
+		(request_id != ETH_CMD_LINK_BRING_DOWN)) {
 		/* in case of LINK_UP/DOWN, error type is updated
 		 * as part of link status struct
 		 */
@@ -392,8 +392,8 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 /* Timer callback to process RPM requests */
 static int rpm_handle_requests_cb(int timer)
 {
-	union rpm_scratchx1 scratch1;
-	union rpm_scratchx0 scratch0;
+	union eth_scratchx1 scratch1;
+	union eth_scratchx0 scratch0;
 
 	/* Go through all active LMACs and check
 	 * if there are any new message requests by reading
@@ -416,13 +416,13 @@ static int rpm_handle_requests_cb(int timer)
 			/* poll on ownership to be set as OWN_FW to
 			 * process any new requests
 			 */
-			if (scratch1.s.own_status == RPM_OWN_FIRMWARE) {
+			if (scratch1.s.own_status == ETH_OWN_FIRMWARE) {
 				if (scratch0.s.evt_sts.ack) {
 					debug_rpm_intf("%s Req ignored,"
 						" status not cleared\n",
 						__func__);
 					rpm_set_error_type(rpm, lmac,
-					RPM_ERR_PREV_ACK_NOT_CLEAR);
+					ETH_ERR_PREV_ACK_NOT_CLEAR);
 					rpm_release_own_status(rpm, lmac);
 					rpm_release_csr_lock(rpm, lmac);
 					/* skip to next LMAC */

@@ -13,7 +13,7 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <cgx.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>
 #include <smi.h>
@@ -392,35 +392,35 @@ void phy_marvell_5123_get_link_status(int cgx_id, int lmac_id,
 
 		switch (speed)	{
 		case MCD_NEG_1000KX:
-			link->s.speed = CGX_LINK_1G;
+			link->s.speed = ETH_LINK_1G;
 		break;
 		case MCD_NEG_100CR10:
 		case MCD_NEG_100KP4:
 		case MCD_NEG_100KR4:
 		case MCD_NEG_100CR4:
-			link->s.speed = CGX_LINK_100G;
+			link->s.speed = ETH_LINK_100G;
 		break;
 		case MCD_NEG_10KR:
-			link->s.speed = CGX_LINK_10G;
+			link->s.speed = ETH_LINK_10G;
 		break;
 		case MCD_NEG_40KR4:
 		case MCD_NEG_40CR4:
-			link->s.speed = CGX_LINK_40G;
+			link->s.speed = ETH_LINK_40G;
 		break;
 		case MCD_NEG_25KR_CONSORTIUM:
 		case MCD_NEG_25CR_CONSORTIUM:
 		case MCD_NEG_25KRCS:
 		case MCD_NEG_25KCR:
-			link->s.speed = CGX_LINK_25G;
+			link->s.speed = ETH_LINK_25G;
 		break;
 		case MCD_NEG_50KR_CONSORTIUM:
 		case MCD_NEG_50CR_CONSORTIUM:
-			link->s.speed = CGX_LINK_50G;
+			link->s.speed = ETH_LINK_50G;
 		break;
 		/* FIXME for 20G/80G modes */
 		case MCD_NEG_NONE:
 		default:
-			link->s.speed = CGX_LINK_NONE;
+			link->s.speed = ETH_LINK_NONE;
 			link->s.link_up = 0;
 			link->s.full_duplex = 0;
 		break;
@@ -443,40 +443,40 @@ void phy_marvell_5123_get_link_status(int cgx_id, int lmac_id,
 		 */
 		switch (lmac_cfg->mode_idx) {
 		case QLM_MODE_1G_X:
-			link->s.speed = CGX_LINK_1G;
+			link->s.speed = ETH_LINK_1G;
 		break;
 		case QLM_MODE_XFI:
 		case QLM_MODE_SFI:
-			link->s.speed = CGX_LINK_10G;
+			link->s.speed = ETH_LINK_10G;
 		break;
 		case QLM_MODE_20GAUI_C2C:
-			link->s.speed = CGX_LINK_20G;
+			link->s.speed = ETH_LINK_20G;
 		break;
 		case QLM_MODE_25GAUI_C2C:
 		case QLM_MODE_25GAUI_C2M:
-			link->s.speed = CGX_LINK_25G;
+			link->s.speed = ETH_LINK_25G;
 		break;
 		case QLM_MODE_XLAUI:
 		case QLM_MODE_XLAUI_C2M:
-			link->s.speed = CGX_LINK_40G;
+			link->s.speed = ETH_LINK_40G;
 		break;
 		case QLM_MODE_40GAUI_2_C2C:
-			link->s.speed = CGX_LINK_40G;
+			link->s.speed = ETH_LINK_40G;
 		break;
 		case QLM_MODE_50GAUI_2_C2C:
 		case QLM_MODE_50GAUI_2_C2M:
-			link->s.speed = CGX_LINK_50G;
+			link->s.speed = ETH_LINK_50G;
 		break;
 		case QLM_MODE_80GAUI_4_C2C:
-			link->s.speed = CGX_LINK_80G;
+			link->s.speed = ETH_LINK_80G;
 		break;
 		case QLM_MODE_CAUI_4_C2C:
 		case QLM_MODE_CAUI_4_C2M:
-			link->s.speed = CGX_LINK_100G;
+			link->s.speed = ETH_LINK_100G;
 		break;
 		/* FIXME for other modes */
 		default:
-			link->s.speed = CGX_LINK_NONE;
+			link->s.speed = ETH_LINK_NONE;
 			link->s.link_up = 0;
 			link->s.full_duplex = 0;
 		break;
@@ -492,20 +492,20 @@ void phy_marvell_5123_supported_modes(int cgx_id, int lmac_id)
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 
-	phy->supported_link_modes = ((1 << CGX_MODE_1000_BASEX_BIT) |
-			(1 << CGX_MODE_10G_C2C_BIT) |
-			(1 << CGX_MODE_10G_C2M_BIT) |
-			(1 << CGX_MODE_20G_C2C_BIT) |
-			(1 << CGX_MODE_25G_C2C_BIT) |
-			(1 << CGX_MODE_25G_C2M_BIT) |
-			(1 << CGX_MODE_40G_C2C_BIT) |
-			(1 << CGX_MODE_40G_C2M_BIT) |
-			(1 << CGX_MODE_50G_C2C_BIT) |
-			(1 << CGX_MODE_50G_C2M_BIT) |
-			(1 << CGX_MODE_40GAUI_C2C_BIT) |
-			(1 << CGX_MODE_80GAUI_C2C_BIT) |
-			(1 << CGX_MODE_100G_C2C_BIT) |
-			(1 << CGX_MODE_100G_C2M_BIT));
+	phy->supported_link_modes = ((1 << ETH_MODE_1000_BASEX_BIT) |
+			(1 << ETH_MODE_10G_C2C_BIT) |
+			(1 << ETH_MODE_10G_C2M_BIT) |
+			(1 << ETH_MODE_20G_C2C_BIT) |
+			(1 << ETH_MODE_25G_C2C_BIT) |
+			(1 << ETH_MODE_25G_C2M_BIT) |
+			(1 << ETH_MODE_40G_C2C_BIT) |
+			(1 << ETH_MODE_40G_C2M_BIT) |
+			(1 << ETH_MODE_50G_C2C_BIT) |
+			(1 << ETH_MODE_50G_C2M_BIT) |
+			(1 << ETH_MODE_40GAUI_C2C_BIT) |
+			(1 << ETH_MODE_80GAUI_C2C_BIT) |
+			(1 << ETH_MODE_100G_C2C_BIT) |
+			(1 << ETH_MODE_100G_C2M_BIT));
 }
 
 #ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS

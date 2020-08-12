@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <platform_def.h>
 #include <octeontx_common.h>
-#include <cgx_intf.h>
+#include <eth_intf.h>
 #include <cgx.h>
 #include <plat/common/platform.h>
 #include <plat_pwrc.h>
