@@ -24,7 +24,7 @@
 #include "cavm-csrs-rpm.h"
 
 /* define DEBUG_ATF_RPM to enable debug logs */
-#define DEBUG_ATF_RPM
+#undef DEBUG_ATF_RPM
 
 #ifdef DEBUG_ATF_RPM
 #define debug_rpm printf
