@@ -33,19 +33,14 @@ ARM_ARCH_MINOR		:=	2
 # Allow to use armv8.2 specific instructions
 TF_CFLAGS_aarch64	:=	$(patsubst -march=%, -march=armv8.2-a, $(TF_CFLAGS_aarch64))
 
-LIBTIM_DIR		:=	lib/../../libtim
-include ${LIBTIM_DIR}/libtim.mk
-
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k			\
 				-Iplat/marvell/octeontx/cn10k/t106/include		\
-				-I${LIBTIM_DIR}				\
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/t106/plat_t106_setup.c		\
 				plat/marvell/octeontx/cn10k/plat_non_fip_image.c		\
 				plat/marvell/octeontx/cn10k/plat_security.c		\
 				plat/marvell/octeontx/cn10k/plat_bcfg_init.c		\
 				plat/marvell/octeontx/cn10k/plat_setup.c		\
-				plat/marvell/octeontx/cn10k/plat_tim.c		\
 				plat/marvell/octeontx/cn10k/aarch64/plat_octeontx_common.S	\
 				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S		\
 				drivers/marvell/qlm/qlm_cn10k.c			\
@@ -58,7 +53,6 @@ BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/t106/plat_t106_ecam.c		\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn10k/plat_scfg.c		\
 				plat/marvell/octeontx/cn10k/plat_cn10k_iobn.c			\
-				${LIBTIM_SRCS}
 
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\
