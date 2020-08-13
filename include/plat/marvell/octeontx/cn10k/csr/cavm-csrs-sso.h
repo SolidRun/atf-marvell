@@ -59,14 +59,12 @@
 #define CAVM_SSO_OP_E_GWC_INVAL (0xc)
 #define CAVM_SSO_OP_E_NOP (0)
 #define CAVM_SSO_OP_E_RST (0xb)
-#define CAVM_SSO_OP_E_SWITCH_ACTIVE (0xf)
+#define CAVM_SSO_OP_E_SWITCH_ACTIVE (0xd)
 #define CAVM_SSO_OP_E_SWTAG (1)
 #define CAVM_SSO_OP_E_SWTAG_DESCH (4)
 #define CAVM_SSO_OP_E_SWTAG_FLUSH (3)
 #define CAVM_SSO_OP_E_SWTAG_FULL (2)
 #define CAVM_SSO_OP_E_SWTAG_UNTAG (5)
-#define CAVM_SSO_OP_E_SWTP_CLR (0xd)
-#define CAVM_SSO_OP_E_SWTP_SET (0xe)
 #define CAVM_SSO_OP_E_UPD_GRP (8)
 #define CAVM_SSO_OP_E_UPD_WQP (9)
 #define CAVM_SSO_OP_E_UPD_WQP_GRP (0xa)
@@ -2110,17 +2108,25 @@ union cavm_sso_af_gws_inv
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t pf_func               : 16; /**< [ 31: 16](WO) PF_FUNC of GWS to be invalidated. */
+        uint64_t pf_func               : 16; /**< [ 31: 16](R/W) PF_FUNC of GWS to be invalidated. */
         uint64_t reserved_12_15        : 4;
-        uint64_t slot                  : 8;  /**< [ 11:  4](WO) Slot of GWS to be invalidated. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t sai_inval             : 1;  /**< [  0:  0](WO) When written to one, invalidate any GW cache entries associated with this HWS. */
+        uint64_t slot                  : 8;  /**< [ 11:  4](R/W) Slot of GWS to be invalidated. */
+        uint64_t reserved_3            : 1;
+        uint64_t inval_err             : 1;  /**< [  2:  2](RO/H) When set, the invalidation of any GW cache entries associated with this GWS
+                                                                 encountered an error. */
+        uint64_t inval_pend            : 1;  /**< [  1:  1](RO/H) When set, the invalidation of any GW cache entries associated with
+                                                                 this GWS is pending. */
+        uint64_t sai_inval             : 1;  /**< [  0:  0](R/W) When written to one, invalidate any GW cache entries associated with this GWS. */
 #else /* Word 0 - Little Endian */
-        uint64_t sai_inval             : 1;  /**< [  0:  0](WO) When written to one, invalidate any GW cache entries associated with this HWS. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t slot                  : 8;  /**< [ 11:  4](WO) Slot of GWS to be invalidated. */
+        uint64_t sai_inval             : 1;  /**< [  0:  0](R/W) When written to one, invalidate any GW cache entries associated with this GWS. */
+        uint64_t inval_pend            : 1;  /**< [  1:  1](RO/H) When set, the invalidation of any GW cache entries associated with
+                                                                 this GWS is pending. */
+        uint64_t inval_err             : 1;  /**< [  2:  2](RO/H) When set, the invalidation of any GW cache entries associated with this GWS
+                                                                 encountered an error. */
+        uint64_t reserved_3            : 1;
+        uint64_t slot                  : 8;  /**< [ 11:  4](R/W) Slot of GWS to be invalidated. */
         uint64_t reserved_12_15        : 4;
-        uint64_t pf_func               : 16; /**< [ 31: 16](WO) PF_FUNC of GWS to be invalidated. */
+        uint64_t pf_func               : 16; /**< [ 31: 16](R/W) PF_FUNC of GWS to be invalidated. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -3157,13 +3163,21 @@ union cavm_sso_af_hwsx_inv
     struct cavm_sso_af_hwsx_inv_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t sai_inval             : 1;  /**< [  0:  0](WO) When written to one, invalidate any GW cache entries associated with
+        uint64_t reserved_3_63         : 61;
+        uint64_t inval_err             : 1;  /**< [  2:  2](RO/H) When set, the invalidation of any GW cache entries associated with this HWS
+                                                                 encountered an error. */
+        uint64_t inval_pend            : 1;  /**< [  1:  1](RO/H) When set, the invalidation of any GW cache entries associated with
+                                                                 this HWS is pending. */
+        uint64_t sai_inval             : 1;  /**< [  0:  0](R/W) When written to one, invalidate any GW cache entries associated with
                                                                  this HWS. */
 #else /* Word 0 - Little Endian */
-        uint64_t sai_inval             : 1;  /**< [  0:  0](WO) When written to one, invalidate any GW cache entries associated with
+        uint64_t sai_inval             : 1;  /**< [  0:  0](R/W) When written to one, invalidate any GW cache entries associated with
                                                                  this HWS. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t inval_pend            : 1;  /**< [  1:  1](RO/H) When set, the invalidation of any GW cache entries associated with
+                                                                 this HWS is pending. */
+        uint64_t inval_err             : 1;  /**< [  2:  2](RO/H) When set, the invalidation of any GW cache entries associated with this HWS
+                                                                 encountered an error. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_hwsx_inv_s cn; */
@@ -5227,7 +5241,11 @@ union cavm_sso_af_ws_cfg
                                                                  0x5 = 1024 cycles.
                                                                  0x6 = 2048 cycles.
                                                                  0x7 = 4096 cycles. */
-        uint64_t reserved_10_27        : 18;
+        uint64_t reserved_20_27        : 8;
+        uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after SAI_FLUSH. When SAI_FLUSH
+                                                                 gets set the counter will reset and start counting the number of INVAL
+                                                                 responses. Counter will max at 128. */
+        uint64_t reserved_10_11        : 2;
         uint64_t dq_opt_ena            : 1;  /**< [  9:  9](R/W) Enable early DQ push optimization. */
         uint64_t force_ncbi_clk_en     : 1;  /**< [  8:  8](R/W) Force NCBI conditional clocks on. For diagnostic use only. */
         uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the GW cache
@@ -5251,7 +5269,11 @@ union cavm_sso_af_ws_cfg
                                                                  inside the cores.  Reads as zero. For diagnostic use only. */
         uint64_t force_ncbi_clk_en     : 1;  /**< [  8:  8](R/W) Force NCBI conditional clocks on. For diagnostic use only. */
         uint64_t dq_opt_ena            : 1;  /**< [  9:  9](R/W) Enable early DQ push optimization. */
-        uint64_t reserved_10_27        : 18;
+        uint64_t reserved_10_11        : 2;
+        uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after SAI_FLUSH. When SAI_FLUSH
+                                                                 gets set the counter will reset and start counting the number of INVAL
+                                                                 responses. Counter will max at 128. */
+        uint64_t reserved_20_27        : 8;
         uint64_t bp_interval           : 3;  /**< [ 30: 28](R/W) Coprocessor-clock cycles between each 16 cycle interval of HWS backpressure.
                                                                  For diagnostic use only.
                                                                  0x0 = Disable this backpressure mechanism.

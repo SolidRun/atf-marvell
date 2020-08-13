@@ -29,51 +29,6 @@
 #define CAVM_TSN_BAR_E_TSNX_PF_BAR0_SIZE 0x10000ull
 
 /**
- * Register (RSL) tsn#_alt_fuse
- *
- * TSN Alternative Fuse Register
- */
-union cavm_tsnx_alt_fuse
-{
-    uint64_t u;
-    struct cavm_tsnx_alt_fuse_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t tran_temp             : 8;  /**< [ 39: 32](R/W) Transition temperature for V calculation. */
-        uint64_t max_step              : 8;  /**< [ 31: 24](R/W) V step. */
-        uint64_t slope                 : 8;  /**< [ 23: 16](R/W) Slope. */
-        uint64_t v_base                : 8;  /**< [ 15:  8](R/W) Base voltage. Minimum voltage that gets written to voltage regulator. */
-        uint64_t v_max                 : 8;  /**< [  7:  0](R/W) Max voltage. Maximum voltage that gets written to voltage regulator. */
-#else /* Word 0 - Little Endian */
-        uint64_t v_max                 : 8;  /**< [  7:  0](R/W) Max voltage. Maximum voltage that gets written to voltage regulator. */
-        uint64_t v_base                : 8;  /**< [ 15:  8](R/W) Base voltage. Minimum voltage that gets written to voltage regulator. */
-        uint64_t slope                 : 8;  /**< [ 23: 16](R/W) Slope. */
-        uint64_t max_step              : 8;  /**< [ 31: 24](R/W) V step. */
-        uint64_t tran_temp             : 8;  /**< [ 39: 32](R/W) Transition temperature for V calculation. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tsnx_alt_fuse_s cn; */
-};
-typedef union cavm_tsnx_alt_fuse cavm_tsnx_alt_fuse_t;
-
-static inline uint64_t CAVM_TSNX_ALT_FUSE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_ALT_FUSE(uint64_t a)
-{
-    if (a<=15)
-        return 0x87e0c0000018ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_ALT_FUSE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TSNX_ALT_FUSE(a) cavm_tsnx_alt_fuse_t
-#define bustype_CAVM_TSNX_ALT_FUSE(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_ALT_FUSE(a) "TSNX_ALT_FUSE"
-#define device_bar_CAVM_TSNX_ALT_FUSE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_ALT_FUSE(a) (a)
-#define arguments_CAVM_TSNX_ALT_FUSE(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) tsn#_const
  *
  * TSN Constants Register
@@ -98,7 +53,7 @@ static inline uint64_t CAVM_TSNX_CONST(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_TSNX_CONST(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000008ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0c0000000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -108,6 +63,82 @@ static inline uint64_t CAVM_TSNX_CONST(uint64_t a)
 #define device_bar_CAVM_TSNX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TSNX_CONST(a) (a)
 #define arguments_CAVM_TSNX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tsn#_data
+ *
+ * TSN Output Data Register
+ */
+union cavm_tsnx_data
+{
+    uint64_t u;
+    struct cavm_tsnx_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t valid                 : 1;  /**< [ 12: 12](RO/H) Asserted when data in [RESULT] is ready to be read. */
+        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by [VALID]. */
+#else /* Word 0 - Little Endian */
+        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by [VALID]. */
+        uint64_t valid                 : 1;  /**< [ 12: 12](RO/H) Asserted when data in [RESULT] is ready to be read. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tsnx_data_s cn; */
+};
+typedef union cavm_tsnx_data cavm_tsnx_data_t;
+
+static inline uint64_t CAVM_TSNX_DATA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TSNX_DATA(uint64_t a)
+{
+    if (a<=15)
+        return 0x87e0c0000018ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("TSNX_DATA", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TSNX_DATA(a) cavm_tsnx_data_t
+#define bustype_CAVM_TSNX_DATA(a) CSR_TYPE_RSL
+#define basename_CAVM_TSNX_DATA(a) "TSNX_DATA"
+#define device_bar_CAVM_TSNX_DATA(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TSNX_DATA(a) (a)
+#define arguments_CAVM_TSNX_DATA(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tsn#_dbg_data
+ *
+ * TSN Digital Output Debug Data Register
+ */
+union cavm_tsnx_dbg_data
+{
+    uint64_t u;
+    struct cavm_tsnx_dbg_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t raw_data              : 12; /**< [ 11:  0](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw_data              : 12; /**< [ 11:  0](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tsnx_dbg_data_s cn; */
+};
+typedef union cavm_tsnx_dbg_data cavm_tsnx_dbg_data_t;
+
+static inline uint64_t CAVM_TSNX_DBG_DATA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TSNX_DBG_DATA(uint64_t a)
+{
+    if (a<=15)
+        return 0x87e0c0000020ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("TSNX_DBG_DATA", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TSNX_DBG_DATA(a) cavm_tsnx_dbg_data_t
+#define bustype_CAVM_TSNX_DBG_DATA(a) CSR_TYPE_RSL
+#define basename_CAVM_TSNX_DBG_DATA(a) "TSNX_DBG_DATA"
+#define device_bar_CAVM_TSNX_DBG_DATA(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TSNX_DBG_DATA(a) (a)
+#define arguments_CAVM_TSNX_DBG_DATA(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tsn#_eco
@@ -135,7 +166,7 @@ static inline uint64_t CAVM_TSNX_ECO(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_TSNX_ECO(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c00000c8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0c0000038ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -147,327 +178,235 @@ static inline uint64_t CAVM_TSNX_ECO(uint64_t a)
 #define arguments_CAVM_TSNX_ECO(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tsn#_fuse_bypass
+ * Register (RSL) tsn#_fsm_ctl
  *
- * TSN Fuse Bypass Register
+ * TSN Finite State Machine Control Register
  */
-union cavm_tsnx_fuse_bypass
+union cavm_tsnx_fsm_ctl
 {
     uint64_t u;
-    struct cavm_tsnx_fuse_bypass_s
+    struct cavm_tsnx_fsm_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t ctl_hw_bypass         : 1;  /**< [  2:  2](R/W) If set, bypass TSN control hardware responsible for controlling external voltage
-                                                                 regulator so software can send commands to the regulator. */
-        uint64_t ctl_fuse_bypass       : 1;  /**< [  1:  1](R/W) If set, bypass loaded TSN fuses. */
-        uint64_t ts_fuse_bypass        : 1;  /**< [  0:  0](R/W) If set, bypass MC and NOFF fuses which feed the temperature sensor. */
+        uint64_t tsen_reset            : 1;  /**< [  2:  2](R/W) TSEN_ADC_RESET pin control.  Must de-assert before asserting TSEN_EN.  Active high. */
+        uint64_t tsen_start            : 1;  /**< [  1:  1](RAZ) TSEN_ADC_START pin control.  Assert to initiate conversion.  Must not be
+                                                                 asserted before [TSEN_EN], but can be simultaneously asserted. */
+        uint64_t tsen_en               : 1;  /**< [  0:  0](R/W) TSEN_ADC_EN pin control. */
 #else /* Word 0 - Little Endian */
-        uint64_t ts_fuse_bypass        : 1;  /**< [  0:  0](R/W) If set, bypass MC and NOFF fuses which feed the temperature sensor. */
-        uint64_t ctl_fuse_bypass       : 1;  /**< [  1:  1](R/W) If set, bypass loaded TSN fuses. */
-        uint64_t ctl_hw_bypass         : 1;  /**< [  2:  2](R/W) If set, bypass TSN control hardware responsible for controlling external voltage
-                                                                 regulator so software can send commands to the regulator. */
+        uint64_t tsen_en               : 1;  /**< [  0:  0](R/W) TSEN_ADC_EN pin control. */
+        uint64_t tsen_start            : 1;  /**< [  1:  1](RAZ) TSEN_ADC_START pin control.  Assert to initiate conversion.  Must not be
+                                                                 asserted before [TSEN_EN], but can be simultaneously asserted. */
+        uint64_t tsen_reset            : 1;  /**< [  2:  2](R/W) TSEN_ADC_RESET pin control.  Must de-assert before asserting TSEN_EN.  Active high. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tsnx_fuse_bypass_s cn; */
+    /* struct cavm_tsnx_fsm_ctl_s cn; */
 };
-typedef union cavm_tsnx_fuse_bypass cavm_tsnx_fuse_bypass_t;
+typedef union cavm_tsnx_fsm_ctl cavm_tsnx_fsm_ctl_t;
 
-static inline uint64_t CAVM_TSNX_FUSE_BYPASS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_FUSE_BYPASS(uint64_t a)
-{
-    if (a<=15)
-        return 0x87e0c0000098ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_FUSE_BYPASS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TSNX_FUSE_BYPASS(a) cavm_tsnx_fuse_bypass_t
-#define bustype_CAVM_TSNX_FUSE_BYPASS(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_FUSE_BYPASS(a) "TSNX_FUSE_BYPASS"
-#define device_bar_CAVM_TSNX_FUSE_BYPASS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_FUSE_BYPASS(a) (a)
-#define arguments_CAVM_TSNX_FUSE_BYPASS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) tsn#_pdb
- *
- * TSN Power Down Register
- * This register controls software-programmable power down.
- */
-union cavm_tsnx_pdb
-{
-    uint64_t u;
-    struct cavm_tsnx_pdb_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pdb                   : 1;  /**< [  0:  0](R/W) Software writes a zero to power down the TSENSE module. */
-#else /* Word 0 - Little Endian */
-        uint64_t pdb                   : 1;  /**< [  0:  0](R/W) Software writes a zero to power down the TSENSE module. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tsnx_pdb_s cn; */
-};
-typedef union cavm_tsnx_pdb cavm_tsnx_pdb_t;
-
-static inline uint64_t CAVM_TSNX_PDB(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_PDB(uint64_t a)
+static inline uint64_t CAVM_TSNX_FSM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TSNX_FSM_CTL(uint64_t a)
 {
     if (a<=15)
         return 0x87e0c0000010ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_PDB", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("TSNX_FSM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_TSNX_PDB(a) cavm_tsnx_pdb_t
-#define bustype_CAVM_TSNX_PDB(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_PDB(a) "TSNX_PDB"
-#define device_bar_CAVM_TSNX_PDB(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_PDB(a) (a)
-#define arguments_CAVM_TSNX_PDB(a) (a),-1,-1,-1
+#define typedef_CAVM_TSNX_FSM_CTL(a) cavm_tsnx_fsm_ctl_t
+#define bustype_CAVM_TSNX_FSM_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_TSNX_FSM_CTL(a) "TSNX_FSM_CTL"
+#define device_bar_CAVM_TSNX_FSM_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TSNX_FSM_CTL(a) (a)
+#define arguments_CAVM_TSNX_FSM_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tsn#_trip
+ * Register (RSL) tsn#_sw_cal
  *
- * TSN Thermal Trip Register
+ * TSN Calibration Software Override Register
  */
-union cavm_tsnx_trip
+union cavm_tsnx_sw_cal
 {
     uint64_t u;
-    struct cavm_tsnx_trip_s
+    struct cavm_tsnx_sw_cal_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t trip_level            : 8;  /**< [  7:  0](R/W) If temperature sensed is greater than this value RST_THERMAL_ALERT[TRIP] is set,
-                                                                 and the THERMAL_TRIP_L pin asserts. */
+        uint64_t reserved_6_63         : 58;
+        uint64_t bg_trim               : 5;  /**< [  5:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
+        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
+                                                                 other fields in this register will take effect only if this bit is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t trip_level            : 8;  /**< [  7:  0](R/W) If temperature sensed is greater than this value RST_THERMAL_ALERT[TRIP] is set,
-                                                                 and the THERMAL_TRIP_L pin asserts. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
+                                                                 other fields in this register will take effect only if this bit is set. */
+        uint64_t bg_trim               : 5;  /**< [  5:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tsnx_trip_s cn; */
+    /* struct cavm_tsnx_sw_cal_s cn; */
 };
-typedef union cavm_tsnx_trip cavm_tsnx_trip_t;
+typedef union cavm_tsnx_sw_cal cavm_tsnx_sw_cal_t;
 
-static inline uint64_t CAVM_TSNX_TRIP(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_TRIP(uint64_t a)
+static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c00000b8ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_TRIP", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e0c0000028ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("TSNX_SW_CAL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_TSNX_TRIP(a) cavm_tsnx_trip_t
-#define bustype_CAVM_TSNX_TRIP(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_TRIP(a) "TSNX_TRIP"
-#define device_bar_CAVM_TSNX_TRIP(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_TRIP(a) (a)
-#define arguments_CAVM_TSNX_TRIP(a) (a),-1,-1,-1
+#define typedef_CAVM_TSNX_SW_CAL(a) cavm_tsnx_sw_cal_t
+#define bustype_CAVM_TSNX_SW_CAL(a) CSR_TYPE_RSL
+#define basename_CAVM_TSNX_SW_CAL(a) "TSNX_SW_CAL"
+#define device_bar_CAVM_TSNX_SW_CAL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TSNX_SW_CAL(a) (a)
+#define arguments_CAVM_TSNX_SW_CAL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tsn#_ts_temp_conv_coeff_fsm
+ * Register (RSL) tsn#_therm_trip
  *
- * TSN Temp Sensor Conversion Coefficient and FSM Register
+ * TSN Thermal Trip Control Register
  */
-union cavm_tsnx_ts_temp_conv_coeff_fsm
+union cavm_tsnx_therm_trip
 {
     uint64_t u;
-    struct cavm_tsnx_ts_temp_conv_coeff_fsm_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t t_fsm                 : 10; /**< [ 57: 48](R/W) Sets time interval for FSM update. */
-        uint64_t reserved_38_47        : 10;
-        uint64_t coeff_a               : 6;  /**< [ 37: 32](R/W) Coefficient A value for polynomial fit.
-                                                                 _ \<37\> is a sign bit to flip the shifted results.
-                                                                 _ \<36:32\> dictates the amount of right shift. */
-        uint64_t reserved_25_31        : 7;
-        uint64_t coeff_b               : 9;  /**< [ 24: 16](R/W) Coefficient B value for polynomial fit. It should be a positive number and between 1 and
-                                                                 2.
-                                                                 _ \<24\> is the integer part should always be one.
-                                                                 _ \<23:16\> form the fractional part. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t coeff_c               : 12; /**< [ 11:  0](R/W) Coefficient C value for polynomial fit.
-                                                                 A 2's complement number. */
-#else /* Word 0 - Little Endian */
-        uint64_t coeff_c               : 12; /**< [ 11:  0](R/W) Coefficient C value for polynomial fit.
-                                                                 A 2's complement number. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t coeff_b               : 9;  /**< [ 24: 16](R/W) Coefficient B value for polynomial fit. It should be a positive number and between 1 and
-                                                                 2.
-                                                                 _ \<24\> is the integer part should always be one.
-                                                                 _ \<23:16\> form the fractional part. */
-        uint64_t reserved_25_31        : 7;
-        uint64_t coeff_a               : 6;  /**< [ 37: 32](R/W) Coefficient A value for polynomial fit.
-                                                                 _ \<37\> is a sign bit to flip the shifted results.
-                                                                 _ \<36:32\> dictates the amount of right shift. */
-        uint64_t reserved_38_47        : 10;
-        uint64_t t_fsm                 : 10; /**< [ 57: 48](R/W) Sets time interval for FSM update. */
-        uint64_t reserved_58_63        : 6;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tsnx_ts_temp_conv_coeff_fsm_s cn; */
-};
-typedef union cavm_tsnx_ts_temp_conv_coeff_fsm cavm_tsnx_ts_temp_conv_coeff_fsm_t;
-
-static inline uint64_t CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(uint64_t a)
-{
-    if (a<=15)
-        return 0x87e0c0000078ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_TS_TEMP_CONV_COEFF_FSM", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(a) cavm_tsnx_ts_temp_conv_coeff_fsm_t
-#define bustype_CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(a) "TSNX_TS_TEMP_CONV_COEFF_FSM"
-#define device_bar_CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(a) (a)
-#define arguments_CAVM_TSNX_TS_TEMP_CONV_COEFF_FSM(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) tsn#_ts_temp_conv_ctl
- *
- * TSN Temp Sensor Analog Alternate Conversion Register
- */
-union cavm_tsnx_ts_temp_conv_ctl
-{
-    uint64_t u;
-    struct cavm_tsnx_ts_temp_conv_ctl_s
+    struct cavm_tsnx_therm_trip_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t reset_sm              : 1;  /**< [ 12: 12](R/W) This will force the temperature conversion state machine into the reset state until
-                                                                 [RESET_SM] is cleared. */
-        uint64_t sw_access             : 1;  /**< [ 11: 11](R/W) If set, software controls inputs of analog temperature sensor. */
-        uint64_t ts_switch             : 9;  /**< [ 10:  2](R/W) Alternate software access to control temperature sensor switches. */
-        uint64_t ts_curr2en            : 1;  /**< [  1:  1](R/W) Controls curr2_en pin on analog temperature sensor block. */
-        uint64_t strobe                : 1;  /**< [  0:  0](R/W) Controls strobe pin on analog temperature sensor block. */
+        uint64_t en                    : 1;  /**< [ 12: 12](R/W) Enables therm_alert checking. */
+        uint64_t limit                 : 12; /**< [ 11:  0](R/W) When [EN] is set, assert thermal alert if a temperature reading breaches this limit. */
 #else /* Word 0 - Little Endian */
-        uint64_t strobe                : 1;  /**< [  0:  0](R/W) Controls strobe pin on analog temperature sensor block. */
-        uint64_t ts_curr2en            : 1;  /**< [  1:  1](R/W) Controls curr2_en pin on analog temperature sensor block. */
-        uint64_t ts_switch             : 9;  /**< [ 10:  2](R/W) Alternate software access to control temperature sensor switches. */
-        uint64_t sw_access             : 1;  /**< [ 11: 11](R/W) If set, software controls inputs of analog temperature sensor. */
-        uint64_t reset_sm              : 1;  /**< [ 12: 12](R/W) This will force the temperature conversion state machine into the reset state until
-                                                                 [RESET_SM] is cleared. */
+        uint64_t limit                 : 12; /**< [ 11:  0](R/W) When [EN] is set, assert thermal alert if a temperature reading breaches this limit. */
+        uint64_t en                    : 1;  /**< [ 12: 12](R/W) Enables therm_alert checking. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tsnx_ts_temp_conv_ctl_s cn; */
+    /* struct cavm_tsnx_therm_trip_s cn; */
 };
-typedef union cavm_tsnx_ts_temp_conv_ctl cavm_tsnx_ts_temp_conv_ctl_t;
+typedef union cavm_tsnx_therm_trip cavm_tsnx_therm_trip_t;
 
-static inline uint64_t CAVM_TSNX_TS_TEMP_CONV_CTL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_TS_TEMP_CONV_CTL(uint64_t a)
+static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000058ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_TS_TEMP_CONV_CTL", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e0c0000030ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("TSNX_THERM_TRIP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_TSNX_TS_TEMP_CONV_CTL(a) cavm_tsnx_ts_temp_conv_ctl_t
-#define bustype_CAVM_TSNX_TS_TEMP_CONV_CTL(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_TS_TEMP_CONV_CTL(a) "TSNX_TS_TEMP_CONV_CTL"
-#define device_bar_CAVM_TSNX_TS_TEMP_CONV_CTL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_TS_TEMP_CONV_CTL(a) (a)
-#define arguments_CAVM_TSNX_TS_TEMP_CONV_CTL(a) (a),-1,-1,-1
+#define typedef_CAVM_TSNX_THERM_TRIP(a) cavm_tsnx_therm_trip_t
+#define bustype_CAVM_TSNX_THERM_TRIP(a) CSR_TYPE_RSL
+#define basename_CAVM_TSNX_THERM_TRIP(a) "TSNX_THERM_TRIP"
+#define device_bar_CAVM_TSNX_THERM_TRIP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TSNX_THERM_TRIP(a) (a)
+#define arguments_CAVM_TSNX_THERM_TRIP(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tsn#_ts_temp_conv_result
+ * Register (RSL) tsn#_tsene_ctl
  *
- * TSN Temp Sensor Result Register
+ * TSN Temp Sensor Static Input Control Register
  */
-union cavm_tsnx_ts_temp_conv_result
+union cavm_tsnx_tsene_ctl
 {
     uint64_t u;
-    struct cavm_tsnx_ts_temp_conv_result_s
+    struct cavm_tsnx_tsene_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t n_valid               : 1;  /**< [ 23: 23](RO/H) When set [N_VALUE] is valid. */
-        uint64_t n_value               : 11; /**< [ 22: 12](RO/H) N cycle count values after calibration initiated. Qualified by [N_VALID]. */
-        uint64_t temp_valid            : 1;  /**< [ 11: 11](RO/H) When set [TEMP_CORRECTED] is valid.
-                                                                 This bit is pulsed on each conversion, and as such software may not be able to observe the
-                                                                 cycle in which [TEMP_VALID] is set. */
-        uint64_t temp_corrected        : 11; /**< [ 10:  0](RO/H) Corrected temperature read out from the temp sensor module, in quarter degrees C
-                                                                 (two bits of fraction). Twos-complement if negative temperature. Unpredictable
-                                                                 due to incomplete reading unless [TEMP_VALID] is set. Unpredictable due to lack
-                                                                 of calibration if TSN()_TS_TEMP_NOFF_MC[NOFF] = 0x0. */
+        uint64_t reserved_20_63        : 44;
+        uint64_t bg_rpc_en             : 1;  /**< [ 19: 19](R/W) Bandgap Ripple Cancelling Enable Select.  Defaults to enabled. */
+        uint64_t fg_cal_sel            : 2;  /**< [ 18: 17](R/W) ADC foreground calibration select.
+                                                                 0x0 = Automatic self-offset-cal skipped, TSENE_ADC in normal mode.
+                                                                 0x1 = Automatic self-offset-cal skipped, TSENE_ADC in ADC gain cal mode.
+                                                                 0x2 = Automatic self-offset-cal enforced, TSENE_ADC in normal mode (default).
+                                                                 0x3 = Automatic self-offset-cal enforced, TSENE_ADC in ADC gain cal mode. */
+        uint64_t capswp_en             : 1;  /**< [ 16: 16](R/W) Sampling cap swap enable select. */
+        uint64_t dem_en                : 1;  /**< [ 15: 15](R/W) Dynamic element matching (DEM), used to reduce the error that results from
+                                                                 current-source mismatches. */
+        uint64_t raw_sel               : 2;  /**< [ 14: 13](R/W) Digital raw data select.
+                                                                 0x0 = 12-b post-avg post_cal TSENE_ADC measurement data in code (Raw1 reg).
+                                                                 0x1 = 12-b post-avg but pre-cal measurement data in code (Raw2 reg).
+                                                                 0x2 = 12-b self cal data in code (Raw3 reg) (default).
+                                                                 0x3 = 12-b pre-avg measurement data in code (Raw4 reg). */
+        uint64_t chop_sel              : 2;  /**< [ 12: 11](R/W) ADC chopper frequency select.
+                                                                 0x0 = TSEN_ADC_CLK/4 (default).
+                                                                 0x1 = TSEN_ADC_CLK/8.
+                                                                 0x2 = TSEN_ADC_CLK/16.
+                                                                 0x3 = TSEN_ADC_CLK/32 (only available for OSR = 256 and 512). */
+        uint64_t chop_en               : 2;  /**< [ 10:  9](R/W) Chopper enable select.
+                                                                 0x0 = All choppers are disabled.
+                                                                 0x1 = ADC chopper is enabled, bandgap chopper is disabled.
+                                                                 0x2 = ADC chopper is disabled, bandgap chopper is enabled.
+                                                                 0x3 = All choppers are enabled (default). */
+        uint64_t osr                   : 2;  /**< [  8:  7](R/W) Over sample rate select.
+                                                                   0x0 = 64.
+                                                                   0x1 = 128.
+                                                                   0x2 = 256.
+                                                                   0x3 = 512 (default). */
+        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output */
+        uint64_t mode                  : 2;  /**< [  5:  4](R/W) External/internal sensor mode control.
+                                                                 0x0 = Internal sensor.
+                                                                 0x1 = On-chip remote ADC input.
+                                                                 0x2 = On-chip remote sensor.
+                                                                 0x3 = Unused. */
+        uint64_t avg                   : 1;  /**< [  3:  3](R/W) TSEN internal average enable.  A setting of 0 averages four consecutive results. */
+        uint64_t ch_sel                : 3;  /**< [  2:  0](R/W) External thermal diode channel select. */
 #else /* Word 0 - Little Endian */
-        uint64_t temp_corrected        : 11; /**< [ 10:  0](RO/H) Corrected temperature read out from the temp sensor module, in quarter degrees C
-                                                                 (two bits of fraction). Twos-complement if negative temperature. Unpredictable
-                                                                 due to incomplete reading unless [TEMP_VALID] is set. Unpredictable due to lack
-                                                                 of calibration if TSN()_TS_TEMP_NOFF_MC[NOFF] = 0x0. */
-        uint64_t temp_valid            : 1;  /**< [ 11: 11](RO/H) When set [TEMP_CORRECTED] is valid.
-                                                                 This bit is pulsed on each conversion, and as such software may not be able to observe the
-                                                                 cycle in which [TEMP_VALID] is set. */
-        uint64_t n_value               : 11; /**< [ 22: 12](RO/H) N cycle count values after calibration initiated. Qualified by [N_VALID]. */
-        uint64_t n_valid               : 1;  /**< [ 23: 23](RO/H) When set [N_VALUE] is valid. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t ch_sel                : 3;  /**< [  2:  0](R/W) External thermal diode channel select. */
+        uint64_t avg                   : 1;  /**< [  3:  3](R/W) TSEN internal average enable.  A setting of 0 averages four consecutive results. */
+        uint64_t mode                  : 2;  /**< [  5:  4](R/W) External/internal sensor mode control.
+                                                                 0x0 = Internal sensor.
+                                                                 0x1 = On-chip remote ADC input.
+                                                                 0x2 = On-chip remote sensor.
+                                                                 0x3 = Unused. */
+        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output */
+        uint64_t osr                   : 2;  /**< [  8:  7](R/W) Over sample rate select.
+                                                                   0x0 = 64.
+                                                                   0x1 = 128.
+                                                                   0x2 = 256.
+                                                                   0x3 = 512 (default). */
+        uint64_t chop_en               : 2;  /**< [ 10:  9](R/W) Chopper enable select.
+                                                                 0x0 = All choppers are disabled.
+                                                                 0x1 = ADC chopper is enabled, bandgap chopper is disabled.
+                                                                 0x2 = ADC chopper is disabled, bandgap chopper is enabled.
+                                                                 0x3 = All choppers are enabled (default). */
+        uint64_t chop_sel              : 2;  /**< [ 12: 11](R/W) ADC chopper frequency select.
+                                                                 0x0 = TSEN_ADC_CLK/4 (default).
+                                                                 0x1 = TSEN_ADC_CLK/8.
+                                                                 0x2 = TSEN_ADC_CLK/16.
+                                                                 0x3 = TSEN_ADC_CLK/32 (only available for OSR = 256 and 512). */
+        uint64_t raw_sel               : 2;  /**< [ 14: 13](R/W) Digital raw data select.
+                                                                 0x0 = 12-b post-avg post_cal TSENE_ADC measurement data in code (Raw1 reg).
+                                                                 0x1 = 12-b post-avg but pre-cal measurement data in code (Raw2 reg).
+                                                                 0x2 = 12-b self cal data in code (Raw3 reg) (default).
+                                                                 0x3 = 12-b pre-avg measurement data in code (Raw4 reg). */
+        uint64_t dem_en                : 1;  /**< [ 15: 15](R/W) Dynamic element matching (DEM), used to reduce the error that results from
+                                                                 current-source mismatches. */
+        uint64_t capswp_en             : 1;  /**< [ 16: 16](R/W) Sampling cap swap enable select. */
+        uint64_t fg_cal_sel            : 2;  /**< [ 18: 17](R/W) ADC foreground calibration select.
+                                                                 0x0 = Automatic self-offset-cal skipped, TSENE_ADC in normal mode.
+                                                                 0x1 = Automatic self-offset-cal skipped, TSENE_ADC in ADC gain cal mode.
+                                                                 0x2 = Automatic self-offset-cal enforced, TSENE_ADC in normal mode (default).
+                                                                 0x3 = Automatic self-offset-cal enforced, TSENE_ADC in ADC gain cal mode. */
+        uint64_t bg_rpc_en             : 1;  /**< [ 19: 19](R/W) Bandgap Ripple Cancelling Enable Select.  Defaults to enabled. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tsnx_ts_temp_conv_result_s cn; */
+    /* struct cavm_tsnx_tsene_ctl_s cn; */
 };
-typedef union cavm_tsnx_ts_temp_conv_result cavm_tsnx_ts_temp_conv_result_t;
+typedef union cavm_tsnx_tsene_ctl cavm_tsnx_tsene_ctl_t;
 
-static inline uint64_t CAVM_TSNX_TS_TEMP_CONV_RESULT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_TS_TEMP_CONV_RESULT(uint64_t a)
+static inline uint64_t CAVM_TSNX_TSENE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TSNX_TSENE_CTL(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000068ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_TS_TEMP_CONV_RESULT", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e0c0000008ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("TSNX_TSENE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_TSNX_TS_TEMP_CONV_RESULT(a) cavm_tsnx_ts_temp_conv_result_t
-#define bustype_CAVM_TSNX_TS_TEMP_CONV_RESULT(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_TS_TEMP_CONV_RESULT(a) "TSNX_TS_TEMP_CONV_RESULT"
-#define device_bar_CAVM_TSNX_TS_TEMP_CONV_RESULT(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_TS_TEMP_CONV_RESULT(a) (a)
-#define arguments_CAVM_TSNX_TS_TEMP_CONV_RESULT(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) tsn#_ts_temp_noff_mc
- *
- * TSN Temp Sensor Noff Coefficient Register
- */
-union cavm_tsnx_ts_temp_noff_mc
-{
-    uint64_t u;
-    struct cavm_tsnx_ts_temp_noff_mc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t mc                    : 12; /**< [ 27: 16](R/W) MC value, default is 3000 decimal. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t noff                  : 11; /**< [ 10:  0](R/W) N cycle count offset, used to subtract the appropriate count from N cycle.
-                                                                 It should be such that at 0 degrees C, the difference between NOFF and NCYCLE is 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t noff                  : 11; /**< [ 10:  0](R/W) N cycle count offset, used to subtract the appropriate count from N cycle.
-                                                                 It should be such that at 0 degrees C, the difference between NOFF and NCYCLE is 0. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t mc                    : 12; /**< [ 27: 16](R/W) MC value, default is 3000 decimal. */
-        uint64_t reserved_28_63        : 36;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tsnx_ts_temp_noff_mc_s cn; */
-};
-typedef union cavm_tsnx_ts_temp_noff_mc cavm_tsnx_ts_temp_noff_mc_t;
-
-static inline uint64_t CAVM_TSNX_TS_TEMP_NOFF_MC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_TS_TEMP_NOFF_MC(uint64_t a)
-{
-    if (a<=15)
-        return 0x87e0c0000088ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_TS_TEMP_NOFF_MC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TSNX_TS_TEMP_NOFF_MC(a) cavm_tsnx_ts_temp_noff_mc_t
-#define bustype_CAVM_TSNX_TS_TEMP_NOFF_MC(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_TS_TEMP_NOFF_MC(a) "TSNX_TS_TEMP_NOFF_MC"
-#define device_bar_CAVM_TSNX_TS_TEMP_NOFF_MC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_TS_TEMP_NOFF_MC(a) (a)
-#define arguments_CAVM_TSNX_TS_TEMP_NOFF_MC(a) (a),-1,-1,-1
+#define typedef_CAVM_TSNX_TSENE_CTL(a) cavm_tsnx_tsene_ctl_t
+#define bustype_CAVM_TSNX_TSENE_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_TSNX_TSENE_CTL(a) "TSNX_TSENE_CTL"
+#define device_bar_CAVM_TSNX_TSENE_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TSNX_TSENE_CTL(a) (a)
+#define arguments_CAVM_TSNX_TSENE_CTL(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_TSN_H__ */

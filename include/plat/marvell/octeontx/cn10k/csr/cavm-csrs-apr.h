@@ -33,27 +33,27 @@ union cavm_apr_lmt_arg_s
         uint64_t size_vec              : 45; /**< [ 63: 19] Vector of sizes for each LMTST in the burst, except the first. Every 3 bits
                                                                  represents the size-1 of one LMTST, in units of 128 bits. The size of the first
                                                                  LMTST is excluded, so there are 15 LMTSTs x 3 bits each = 45 bits in total in
-                                                                 the vector. LSB ordering is used, the second LMTST uses SIZE_VEC[21:19], the
-                                                                 third uses SIZE_VEC[24:22] and the sixteenth uses SIZE_VEC[63:61]. The size of
-                                                                 the first LMTST in the burst is specified in bits [6:4] of the physical
+                                                                 the vector. LSB ordering is used, the second LMTST uses [SIZE_VEC]\<21:19\>, the
+                                                                 third uses [SIZE_VEC]\<24:22\> and the sixteenth uses [SIZE_VEC]\<63:61\>. The size of
+                                                                 the first LMTST in the burst is specified in bits \<6:4\> of the physical
                                                                  address of the atomic instruction triggering the LMTST. */
         uint64_t reserved_16_18        : 3;
         uint64_t cntm1                 : 4;  /**< [ 15: 12] Count minus one of LMTSTs in the burst. Maximum legal burst size is 16 LMTLINEs. */
         uint64_t reserved_11           : 1;
-        uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST
-                                                                 in the burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE]+(128xLMT_ID). */
+        uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST in the
+                                                                 burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] + (128 * [LMT_ID]). */
 #else /* Word 0 - Little Endian */
-        uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST
-                                                                 in the burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE]+(128xLMT_ID). */
+        uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST in the
+                                                                 burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] + (128 * [LMT_ID]). */
         uint64_t reserved_11           : 1;
         uint64_t cntm1                 : 4;  /**< [ 15: 12] Count minus one of LMTSTs in the burst. Maximum legal burst size is 16 LMTLINEs. */
         uint64_t reserved_16_18        : 3;
         uint64_t size_vec              : 45; /**< [ 63: 19] Vector of sizes for each LMTST in the burst, except the first. Every 3 bits
                                                                  represents the size-1 of one LMTST, in units of 128 bits. The size of the first
                                                                  LMTST is excluded, so there are 15 LMTSTs x 3 bits each = 45 bits in total in
-                                                                 the vector. LSB ordering is used, the second LMTST uses SIZE_VEC[21:19], the
-                                                                 third uses SIZE_VEC[24:22] and the sixteenth uses SIZE_VEC[63:61]. The size of
-                                                                 the first LMTST in the burst is specified in bits [6:4] of the physical
+                                                                 the vector. LSB ordering is used, the second LMTST uses [SIZE_VEC]\<21:19\>, the
+                                                                 third uses [SIZE_VEC]\<24:22\> and the sixteenth uses [SIZE_VEC]\<63:61\>. The size of
+                                                                 the first LMTST in the burst is specified in bits \<6:4\> of the physical
                                                                  address of the atomic instruction triggering the LMTST. */
 #endif /* Word 0 - End */
     } s;
@@ -504,7 +504,7 @@ union cavm_apr_af_lmt_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_39_63        : 25;
         uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](R/W) Limit the number of outstanding WriteNoSnoop transactions issued
-                                                                 by APA as part of an LMTST, to LMTST_THROTTLE-1. */
+                                                                 by APA as part of an LMTST, to [LMTST_THROTTLE]-1. */
         uint64_t dis_eng               : 2;  /**< [ 34: 33](R/W) When set, disables use of LMTST Engines. Bit 33 set=disable engine 0. Bit 34 set=
                                                                  disable engine 1. Debug only. At most one bit must be set at any time. */
         uint64_t shrink_lpc            : 1;  /**< [ 32: 32](R/W) When set decreases the size of the physical address cache to two entries. Debug only. */
@@ -523,9 +523,9 @@ union cavm_apr_af_lmt_cfg
         uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts.
                                                                  Internal:
                                                                  Sends CHI NDErr=1. */
-        uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, LMTLINE_BASE will not be cached in the LPC. LPC will not be updated or
-                                                                 looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is issued with each
-                                                                 STEOR/STSMAX. */
+        uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] will not be cached in the LPC. LPC
+                                                                 will not be updated or looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is
+                                                                 issued with each STEOR/STSMAX. */
         uint64_t gbl_dis_line_pref     : 1;  /**< [  9:  9](R/W) When set disables prefetching of LMTLINE before receiving store data. */
         uint64_t gbl_dis_sched_early_comp : 1;/**< [  8:  8](R/W) When set disables early completion for scheduled LMTSTs. */
         uint64_t reserved_7            : 1;
@@ -565,9 +565,9 @@ union cavm_apr_af_lmt_cfg
         uint64_t reserved_7            : 1;
         uint64_t gbl_dis_sched_early_comp : 1;/**< [  8:  8](R/W) When set disables early completion for scheduled LMTSTs. */
         uint64_t gbl_dis_line_pref     : 1;  /**< [  9:  9](R/W) When set disables prefetching of LMTLINE before receiving store data. */
-        uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, LMTLINE_BASE will not be cached in the LPC. LPC will not be updated or
-                                                                 looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is issued with each
-                                                                 STEOR/STSMAX. */
+        uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] will not be cached in the LPC. LPC
+                                                                 will not be updated or looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is
+                                                                 issued with each STEOR/STSMAX. */
         uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts.
                                                                  Internal:
                                                                  Sends CHI NDErr=1. */
@@ -587,7 +587,7 @@ union cavm_apr_af_lmt_cfg
         uint64_t dis_eng               : 2;  /**< [ 34: 33](R/W) When set, disables use of LMTST Engines. Bit 33 set=disable engine 0. Bit 34 set=
                                                                  disable engine 1. Debug only. At most one bit must be set at any time. */
         uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](R/W) Limit the number of outstanding WriteNoSnoop transactions issued
-                                                                 by APA as part of an LMTST, to LMTST_THROTTLE-1. */
+                                                                 by APA as part of an LMTST, to [LMTST_THROTTLE]-1. */
         uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } s;

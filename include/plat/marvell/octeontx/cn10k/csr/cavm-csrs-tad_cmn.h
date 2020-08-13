@@ -421,42 +421,43 @@ union cavm_tad_cmn_mpamf_idr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
-                                                                 0b0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
+                                                                 0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
                                                                  intPARTID mapping support.
-                                                                 0b1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
+                                                                 1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
         uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
-                                                                 0b0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
-                                                                 0b1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
+                                                                 0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
+                                                                 1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
                                                                  MPAMF_MSMON_IDR. */
         uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
                                                                  features register, MPAMF_IMPL_IDR.
-                                                                 0b0 = Does not have MPAMF_IMPL_IDR.
-                                                                 0b1 = Has MPAMF_IMPL_IDR. */
+                                                                 0 = Does not have MPAMF_IMPL_IDR.
+                                                                 1 = Has MPAMF_IMPL_IDR. */
         uint64_t ext                   : 1;  /**< [ 28: 28](RO) From ARMv8.6:
                                                                  Extended MPAMF_IDR.
-                                                                 0b0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
-                                                                 0b1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
+                                                                 0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
+                                                                 1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
+
                                                                  Otherwise:
                                                                  Reserved, RES0. */
         uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
                                                                  MPAMF_PRI_IDR.
-                                                                 0b0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
-                                                                 0b1 = Has MPAMF_PRI_IDR. */
+                                                                 0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
+                                                                 1 = Has MPAMF_PRI_IDR. */
         uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
                                                                  bandwidth partitioning and MPAMF_MBW_IDR.
-                                                                 0b0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
+                                                                 0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
                                                                  register.
-                                                                 0b1 = Has MPAMF_MBW_IDR register. */
+                                                                 1 = Has MPAMF_MBW_IDR register. */
         uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
                                                                  partitioning and MPAMF_CPOR_IDR.
-                                                                 0b0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
+                                                                 0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
                                                                  MPAMCFG_CPBM registers.
-                                                                 0b1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
+                                                                 1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
         uint64_t has_cap_part          : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
                                                                  partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
-                                                                 0b0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
+                                                                 0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
                                                                  MPAMCFG_CMAX registers.
-                                                                 0b1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
+                                                                 1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
         uint64_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
         uint64_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
 #else /* Word 0 - Little Endian */
@@ -464,41 +465,42 @@ union cavm_tad_cmn_mpamf_idr
         uint64_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
         uint64_t has_cap_part          : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
                                                                  partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
-                                                                 0b0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
+                                                                 0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
                                                                  MPAMCFG_CMAX registers.
-                                                                 0b1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
+                                                                 1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
         uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
                                                                  partitioning and MPAMF_CPOR_IDR.
-                                                                 0b0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
+                                                                 0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
                                                                  MPAMCFG_CPBM registers.
-                                                                 0b1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
+                                                                 1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
         uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
                                                                  bandwidth partitioning and MPAMF_MBW_IDR.
-                                                                 0b0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
+                                                                 0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
                                                                  register.
-                                                                 0b1 = Has MPAMF_MBW_IDR register. */
+                                                                 1 = Has MPAMF_MBW_IDR register. */
         uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
                                                                  MPAMF_PRI_IDR.
-                                                                 0b0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
-                                                                 0b1 = Has MPAMF_PRI_IDR. */
+                                                                 0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
+                                                                 1 = Has MPAMF_PRI_IDR. */
         uint64_t ext                   : 1;  /**< [ 28: 28](RO) From ARMv8.6:
                                                                  Extended MPAMF_IDR.
-                                                                 0b0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
-                                                                 0b1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
+                                                                 0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
+                                                                 1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
+
                                                                  Otherwise:
                                                                  Reserved, RES0. */
         uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
                                                                  features register, MPAMF_IMPL_IDR.
-                                                                 0b0 = Does not have MPAMF_IMPL_IDR.
-                                                                 0b1 = Has MPAMF_IMPL_IDR. */
+                                                                 0 = Does not have MPAMF_IMPL_IDR.
+                                                                 1 = Has MPAMF_IMPL_IDR. */
         uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
-                                                                 0b0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
-                                                                 0b1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
+                                                                 0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
+                                                                 1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
                                                                  MPAMF_MSMON_IDR. */
         uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
-                                                                 0b0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
+                                                                 0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
                                                                  intPARTID mapping support.
-                                                                 0b1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
+                                                                 1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -534,18 +536,15 @@ union cavm_tad_cmn_mpamf_iidr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED.
-                                                                 IMPLEMENTATION DEFINED value identifying the MPAM MSC.
+        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
                                                                  The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
                                                                  product has a unique ProductID from any other with the same Implementer value. */
-        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED.
-                                                                 IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
+        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
                                                                  product.
                                                                  --- Note ---
                                                                  Implementations of ProductID with differing software interfaces are expected to have different
                                                                  values in the MPAMF_IIDR. Variant field. */
-        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED.
-                                                                 IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
+        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
                                                                  --- Note ---
                                                                  This field is intended to differentiate product revisions that are minor changes and are largely
                                                                  software compatible with previous revisions. */
@@ -560,19 +559,16 @@ union cavm_tad_cmn_mpamf_iidr
                                                                  [7] must always be 0.
                                                                  [6:0] must contain the JEP106 identity code of the implementer.
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
-        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED.
-                                                                 IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
+        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
                                                                  --- Note ---
                                                                  This field is intended to differentiate product revisions that are minor changes and are largely
                                                                  software compatible with previous revisions. */
-        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED.
-                                                                 IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
+        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
                                                                  product.
                                                                  --- Note ---
                                                                  Implementations of ProductID with differing software interfaces are expected to have different
                                                                  values in the MPAMF_IIDR. Variant field. */
-        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED.
-                                                                 IMPLEMENTATION DEFINED value identifying the MPAM MSC.
+        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
                                                                  The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
                                                                  product has a unique ProductID from any other with the same Implementer value. */
         uint64_t reserved_32_63        : 32;

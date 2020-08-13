@@ -58,7 +58,7 @@ union cavm_ecam_cfg_addr_s
                                                                  boot-time initialization. Treated as 0 unless in secure mode.
 
                                                                  PEM also uses this flag to write certain CS2 registers, e.g. PCIEEP_BAR0_MASKL,
-                                                                 but software should be using PEM()_CFG_WR instead of the ECAM for that. */
+                                                                 but software should be using PEM()_PF()_CS()_PFCFG() instead of the ECAM for that. */
         uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ.
                                                                  Internal:
                                                                  Reserved for future use - Broadcast. Write to all PCC
@@ -92,7 +92,7 @@ union cavm_ecam_cfg_addr_s
                                                                  boot-time initialization. Treated as 0 unless in secure mode.
 
                                                                  PEM also uses this flag to write certain CS2 registers, e.g. PCIEEP_BAR0_MASKL,
-                                                                 but software should be using PEM()_CFG_WR instead of the ECAM for that. */
+                                                                 but software should be using PEM()_PF()_CS()_PFCFG() instead of the ECAM for that. */
         uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0) DID. 0x78.
                                                                  Internal:
                                                                  Use id_defs::ECAM0_78_8ID. */
@@ -323,7 +323,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_DEVX_PERMIT(uint64_t a, uint64_t b, uint6
 /**
  * Register (RSL) ecam#_dom#_rsl#_permit
  *
- * ECAM Domain Device Permit Registers
+ * ECAM Domain RSL Permit Registers
  * This register sets the permissions for an ECAM access to an RSL device.
  * This register is used when the domain and bus point to RSL; i.e.
  * address's ECAM_CFG_ADDR_S[DOMAIN]=PCC_DEV_CON_E::MRML\<21:16\>,

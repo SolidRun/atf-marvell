@@ -39,44 +39,6 @@
 #define CAVM_TAD_PF_INT_VEC_E_TAD_INT (0)
 
 /**
- * Register (RSL) tad#_asc_err
- *
- * TAD ASC Error Info Register
- * ASC errors
- * Internal:
- * FIXME: Needs to be architected. Compare with T9X CCU_TAD_NXM_ERR.
- */
-union cavm_tadx_asc_err
-{
-    uint64_t u;
-    struct cavm_tadx_asc_err_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_asc_err_s cn; */
-};
-typedef union cavm_tadx_asc_err cavm_tadx_asc_err_t;
-
-static inline uint64_t CAVM_TADX_ASC_ERR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_ASC_ERR(uint64_t a)
-{
-    if (a<=127)
-        return 0x87e200000040ll + 0x1000000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("TADX_ASC_ERR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_ASC_ERR(a) cavm_tadx_asc_err_t
-#define bustype_CAVM_TADX_ASC_ERR(a) CSR_TYPE_RSL
-#define basename_CAVM_TADX_ASC_ERR(a) "TADX_ASC_ERR"
-#define device_bar_CAVM_TADX_ASC_ERR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_ASC_ERR(a) (a)
-#define arguments_CAVM_TADX_ASC_ERR(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) tad#_bp_test1
  *
  * INTERNAL: TAD Backpressure Test Register
@@ -482,46 +444,6 @@ static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 #define arguments_CAVM_TADX_CACHE_FLUSH_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tad#_dat_err
- *
- * TAD DAT Error Info Register
- * TAD DAT errors
- * Internal:
- * FIXME: Needs to be architected. Compare with T9X CCU_TAD_DAT_ERR.
- * Will there be a separate TAD_XBF_ERR?
- * Will there be a separate TAD_TAG_ERR?
- */
-union cavm_tadx_dat_err
-{
-    uint64_t u;
-    struct cavm_tadx_dat_err_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_dat_err_s cn; */
-};
-typedef union cavm_tadx_dat_err cavm_tadx_dat_err_t;
-
-static inline uint64_t CAVM_TADX_DAT_ERR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_DAT_ERR(uint64_t a)
-{
-    if (a<=127)
-        return 0x87e200000048ll + 0x1000000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("TADX_DAT_ERR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_DAT_ERR(a) cavm_tadx_dat_err_t
-#define bustype_CAVM_TADX_DAT_ERR(a) CSR_TYPE_RSL
-#define basename_CAVM_TADX_DAT_ERR(a) "TADX_DAT_ERR"
-#define device_bar_CAVM_TADX_DAT_ERR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_DAT_ERR(a) (a)
-#define arguments_CAVM_TADX_DAT_ERR(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) tad#_dbe_dbg_cnt
  *
  * INTERNAL: TAD DBE Detection Counter Registers
@@ -568,6 +490,72 @@ static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a)
 #define device_bar_CAVM_TADX_DBE_DBG_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TADX_DBE_DBG_CNT(a) (a)
 #define arguments_CAVM_TADX_DBE_DBG_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad#_derr_addr
+ *
+ * TAD DAT Error Address Register
+ * This register records error address for Data Error interrupts occuring in data read
+ * from the LLC, FBF or SBF. The first [DATMBE, FBFMBE, SBFMBE] error will lock the
+ * register until the logged error type is cleared; [DATSBE, FBFSBE, SBFSBE] errors
+ * lock the register until either the logged error type is cleared or a [DATMBE,
+ * FBFMBE, SBFMBE] error is logged. Only one of [*MBE, *SBE] should be set at a
+ * time. In the event the register is read with all [*MBE] and [*SBE] equal to 0 during
+ * interrupt handling that is an indication that, due to a register set/clear race,
+ * information about one or more errors was lost while processing an earlier
+ * error. [DISCUSSION OF HOW TO SCRUB ERRORS]
+ */
+union cavm_tadx_derr_addr
+{
+    uint64_t u;
+    struct cavm_tadx_derr_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 58: 58](RO/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t reserved_53_57        : 5;
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t addr                  : 42; /**< [ 47:  6](RO/H) The physical address of the 64B sub-block the error was detected in. */
+        uint64_t ow                    : 2;  /**< [  5:  4](RO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t ow                    : 2;  /**< [  5:  4](RO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
+        uint64_t addr                  : 42; /**< [ 47:  6](RO/H) The physical address of the 64B sub-block the error was detected in. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
+        uint64_t reserved_53_57        : 5;
+        uint64_t sbfsbe                : 1;  /**< [ 58: 58](RO/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_derr_addr_s cn; */
+};
+typedef union cavm_tadx_derr_addr cavm_tadx_derr_addr_t;
+
+static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a)
+{
+    if (a<=127)
+        return 0x87e200000218ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("TADX_DERR_ADDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_DERR_ADDR(a) cavm_tadx_derr_addr_t
+#define bustype_CAVM_TADX_DERR_ADDR(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_DERR_ADDR(a) "TADX_DERR_ADDR"
+#define device_bar_CAVM_TADX_DERR_ADDR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_DERR_ADDR(a) (a)
+#define arguments_CAVM_TADX_DERR_ADDR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tad#_ecc_dbg_en
@@ -666,13 +654,19 @@ union cavm_tadx_int_ena_w1c
     struct cavm_tadx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_int_ena_w1c_s cn; */
@@ -706,13 +700,19 @@ union cavm_tadx_int_ena_w1s
     struct cavm_tadx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_int_ena_w1s_s cn; */
@@ -746,13 +746,19 @@ union cavm_tadx_int_w1c
     struct cavm_tadx_int_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Data parity error bit TBD */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Response parity error bit TBD */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Request parity error bit TBD */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) TBD */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) TBD */
 #else /* Word 0 - Little Endian */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) TBD */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) TBD */
-        uint64_t reserved_2_63         : 62;
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Request parity error bit TBD */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Response parity error bit TBD */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Data parity error bit TBD */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_int_w1c_s cn; */
@@ -786,13 +792,19 @@ union cavm_tadx_int_w1s
     struct cavm_tadx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[REQ_PERR]. */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
         uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
         uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_int_w1s_s cn; */
@@ -973,6 +985,116 @@ static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_TADX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_TADX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_TADX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) tad#_nderr_addr
+ *
+ * TAD Non-Data Error Address Register
+ * This register records the error address for Non-Data Error interrupts triggered from
+ * the REQ mesh [RDNXM, WRNXM, REQ_PERR]. The first [WRNXM, REQ_PERR] error will lock
+ * the register until the logged error type is cleared; [RDNXM] errors lock the
+ * register until either the logged error type is cleared or a [WRNXM, REQ_PERR] error
+ * is logged. See TAD_NDERR_INFO for error opcode and srcid logging.
+ */
+union cavm_tadx_nderr_addr
+{
+    uint64_t u;
+    struct cavm_tadx_nderr_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the NS bit. */
+        uint64_t addr                  : 52; /**< [ 51:  0](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 52; /**< [ 51:  0](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address. */
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the NS bit. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_nderr_addr_s cn; */
+};
+typedef union cavm_tadx_nderr_addr cavm_tadx_nderr_addr_t;
+
+static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a)
+{
+    if (a<=127)
+        return 0x87e200000208ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("TADX_NDERR_ADDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_NDERR_ADDR(a) cavm_tadx_nderr_addr_t
+#define bustype_CAVM_TADX_NDERR_ADDR(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_NDERR_ADDR(a) "TADX_NDERR_ADDR"
+#define device_bar_CAVM_TADX_NDERR_ADDR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_NDERR_ADDR(a) (a)
+#define arguments_CAVM_TADX_NDERR_ADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad#_nderr_info
+ *
+ * TAD Non-Data Error Info Register
+ * This register records error information for Non-Data Error interrupts [RDNXM, WRNXM,
+ * REQ_PERR, RSP_PERR, DAT_PERR]. The first [WRNXM, REQ_PERR, RSP_PERR, DAT_PERR] error
+ * will lock the register until the logged error type is cleared; [RDNXM] errors lock
+ * the register until either the logged error type is cleared or a [WRNXM, REQ_PERR,
+ * RSP_PERR, DAT_PERR] error is logged. See TAD_NDERR_ADDR for error address logging.
+ */
+union cavm_tadx_nderr_info
+{
+    uint64_t u;
+    struct cavm_tadx_nderr_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t reserved_18_58        : 41;
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR]. */
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 srcid. */
+#else /* Word 0 - Little Endian */
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 srcid. */
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR]. */
+        uint64_t reserved_18_58        : 41;
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tadx_nderr_info_s cn; */
+};
+typedef union cavm_tadx_nderr_info cavm_tadx_nderr_info_t;
+
+static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a)
+{
+    if (a<=127)
+        return 0x87e200000200ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("TADX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TADX_NDERR_INFO(a) cavm_tadx_nderr_info_t
+#define bustype_CAVM_TADX_NDERR_INFO(a) CSR_TYPE_RSL
+#define basename_CAVM_TADX_NDERR_INFO(a) "TADX_NDERR_INFO"
+#define device_bar_CAVM_TADX_NDERR_INFO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_NDERR_INFO(a) (a)
+#define arguments_CAVM_TADX_NDERR_INFO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tad#_pfc#

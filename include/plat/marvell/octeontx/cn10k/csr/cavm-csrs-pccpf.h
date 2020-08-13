@@ -77,6 +77,7 @@
 #define CAVM_PCC_DEV_CON_E_SMMU0 (0x18)
 #define CAVM_PCC_DEV_CON_E_SPIX(a) (0x30 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_TADX(a) (0x380 + (a))
+#define CAVM_PCC_DEV_CON_E_TSNX(a) (0x2a0 + (a))
 #define CAVM_PCC_DEV_CON_E_UAAX(a) (0x1d8 + (a))
 #define CAVM_PCC_DEV_CON_E_USBHX(a) (0x10060 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_XCPX(a) (0xe0 + 8 * (a))

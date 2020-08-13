@@ -482,26 +482,26 @@ union cavm_pemx_bdnum
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
         uint64_t dnum                  : 5;  /**< [ 12:  8](R/W) For downstream ports, this is the device number in the Requester ID.
-                                                                 It initializes to PCC_DEV_CON_E__PCIERC0_M.func[7:3].
+                                                                 It initializes to PCC_DEV_CON_E::PCIERC(0).func[7:3].
 
                                                                  This register is for diagnostic purposes only to aid full chip
                                                                  pipe-loopback tests the ability to control the NCBI stream_id.
                                                                  This register must not be changed for normal operation. */
         uint64_t bnum                  : 8;  /**< [  7:  0](R/W) For downstream ports, this is the bus number in the Requester ID.
-                                                                 It initializes to PCC_DEV_CON_E__PCIERC0_M.bus[7:0].
+                                                                 It initializes to PCC_DEV_CON_E::PCIERC(0).bus[7:0].
 
                                                                  This register is for diagnostic purposes only to aid full chip
                                                                  pipe-loopback tests the ability to control the NCBI stream_id.
                                                                  This register must not be changed for normal operation. */
 #else /* Word 0 - Little Endian */
         uint64_t bnum                  : 8;  /**< [  7:  0](R/W) For downstream ports, this is the bus number in the Requester ID.
-                                                                 It initializes to PCC_DEV_CON_E__PCIERC0_M.bus[7:0].
+                                                                 It initializes to PCC_DEV_CON_E::PCIERC(0).bus[7:0].
 
                                                                  This register is for diagnostic purposes only to aid full chip
                                                                  pipe-loopback tests the ability to control the NCBI stream_id.
                                                                  This register must not be changed for normal operation. */
         uint64_t dnum                  : 5;  /**< [ 12:  8](R/W) For downstream ports, this is the device number in the Requester ID.
-                                                                 It initializes to PCC_DEV_CON_E__PCIERC0_M.func[7:3].
+                                                                 It initializes to PCC_DEV_CON_E::PCIERC(0).func[7:3].
 
                                                                  This register is for diagnostic purposes only to aid full chip
                                                                  pipe-loopback tests the ability to control the NCBI stream_id.

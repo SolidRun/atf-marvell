@@ -920,11 +920,11 @@ union cavm_rvu_af_pfx_bar4_cfg
         uint64_t reserved_6_63         : 58;
         uint64_t barbits               : 6;  /**< [  5:  0](R/W/H) Programmable size of PF region in DRAM, should be a equal to ((1 +
                                                                  num_of_VFs)*64KB + PF_LMTLINE) region size. Any size which is smaller than 64KB
-                                                                 will be chnaged to 64KB by HW. */
+                                                                 will be changed to 64KB by hardware. */
 #else /* Word 0 - Little Endian */
         uint64_t barbits               : 6;  /**< [  5:  0](R/W/H) Programmable size of PF region in DRAM, should be a equal to ((1 +
                                                                  num_of_VFs)*64KB + PF_LMTLINE) region size. Any size which is smaller than 64KB
-                                                                 will be chnaged to 64KB by HW. */
+                                                                 will be changed to 64KB by hardware. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -1935,11 +1935,11 @@ union cavm_rvu_af_smmu_addr_rsp_sts
         uint64_t zero                  : 1;  /**< [  2:  2](RO/H) Translation returned zero. */
         uint64_t abrt                  : 1;  /**< [  1:  1](RO/H) Translation returned abort. */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Translation done indication - set after RVUM updates translation result in
-                                                                 RVU_AF_SMMU_ADDR_TRN[PA].  After a new trigger is recived
+                                                                 RVU_AF_SMMU_ADDR_TRN[PA].  After a new trigger is received
                                                                  (RVU_AF_SMMU_TXN_REQ[TRG]) done bit is zeroed immediately by hardware. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Translation done indication - set after RVUM updates translation result in
-                                                                 RVU_AF_SMMU_ADDR_TRN[PA].  After a new trigger is recived
+                                                                 RVU_AF_SMMU_ADDR_TRN[PA].  After a new trigger is received
                                                                  (RVU_AF_SMMU_TXN_REQ[TRG]) done bit is zeroed immediately by hardware. */
         uint64_t abrt                  : 1;  /**< [  1:  1](RO/H) Translation returned abort. */
         uint64_t zero                  : 1;  /**< [  2:  2](RO/H) Translation returned zero. */
@@ -3514,7 +3514,7 @@ union cavm_rvu_priv_const
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address transaltion interface with SMMU. */
+        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address translation interface with SMMU. */
         uint64_t dram_mbox             : 1;  /**< [ 48: 48](RO) VF SW reads/writes BAR2 address range defined by RVU_MBOX_E_RVU_PF()_FUNC()_MBOX,
                                                                  the RVU hardware translates it to a read/write to the
                                                                  VF-PF mailbox region for the given VF within the PF BAR4 region. */
@@ -3580,7 +3580,7 @@ union cavm_rvu_priv_const
         uint64_t dram_mbox             : 1;  /**< [ 48: 48](RO) VF SW reads/writes BAR2 address range defined by RVU_MBOX_E_RVU_PF()_FUNC()_MBOX,
                                                                  the RVU hardware translates it to a read/write to the
                                                                  VF-PF mailbox region for the given VF within the PF BAR4 region. */
-        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address transaltion interface with SMMU. */
+        uint64_t smmu                  : 1;  /**< [ 49: 49](RO) RVUM has address translation interface with SMMU. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;

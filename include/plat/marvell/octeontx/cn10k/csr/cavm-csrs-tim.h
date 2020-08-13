@@ -1151,13 +1151,13 @@ union cavm_tim_af_capture_timers
                                                                  TIM_AF_CAPTURE_* register including 2 external timers.
                                                                  When cleared, all TIM_AF_CAPTURE_* contains the free running values of corresponding timers.
                                                                  If [EXT_ARM] is set an external input may also set this bit. see [EXT_ARM].
-                                                                 If [EXT_ARM] is set and SW will set also this bit the last capture will be apply. */
+                                                                 If [EXT_ARM] is set and SW will set also this bit the first capture will be apply. */
 #else /* Word 0 - Little Endian */
         uint64_t capture_timers        : 1;  /**< [  0:  0](R/W/H) When set, all respective TIM_AF_FR_RN_* values are capture into
                                                                  TIM_AF_CAPTURE_* register including 2 external timers.
                                                                  When cleared, all TIM_AF_CAPTURE_* contains the free running values of corresponding timers.
                                                                  If [EXT_ARM] is set an external input may also set this bit. see [EXT_ARM].
-                                                                 If [EXT_ARM] is set and SW will set also this bit the last capture will be apply. */
+                                                                 If [EXT_ARM] is set and SW will set also this bit the first capture will be apply. */
         uint64_t ext_arm               : 1;  /**< [  1:  1](R/W/H) When set, arms hardware so that the next rising edge on the GPIO virtual pin
                                                                  GPIO_PIN_SEL_E::PTP_TSTMP signal will cause [CAPTURE_TIMERS] to be set, and
                                                                  hardware will clear [EXT_ARM]. */

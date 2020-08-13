@@ -125,16 +125,16 @@
  * SDP MSI-X Vector to Remote Host Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_DMA_RINT (9)
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_DMA_VF_RINTX(a) (0xa + (a))
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_DMA_RINT (7)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_DMA_VF_RINTX(a) (8 + (a))
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_IRE_RINT (0)
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_MBOX_RINT (6)
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_MISC_RINT (0xe)
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_OEI_RINT (8)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_MISC_RINT (0xc)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_OEI_RINTX(a) (0x10 + (a))
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_ORE_RINT (1)
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_PP_VF_RINTX(a) (0xc + (a))
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RX_CNTS(a) (0x10 + (a))
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD (0xf)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_PP_VF_RINTX(a) (0xa + (a))
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RX_CNTS(a) (0x20 + (a))
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVDX(a) (0xd + (a))
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_VFIRE_RINTX(a) (2 + (a))
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_VFORE_RINTX(a) (4 + (a))
 
@@ -5464,7 +5464,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_CNTX(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_SDPX_EPFX_DMA_CNTX(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020460ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020860ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_CNTX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -5512,7 +5512,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_INT_LEVELX(uint64_t a, uint64_t b, uin
 static inline uint64_t CAVM_SDPX_EPFX_DMA_INT_LEVELX(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020440ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020840ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_INT_LEVELX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -5578,7 +5578,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e080020400ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e080020800ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -5620,7 +5620,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e080020420ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e080020820ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -5662,7 +5662,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e080020430ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e080020830ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -5704,7 +5704,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_W1S(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_W1S(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e080020410ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e080020810ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -5748,7 +5748,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020480ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020880ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_TIMX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -5794,7 +5794,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX(uint64_t a, uint64_t b, uint6
 static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800204e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e0800208e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -5830,7 +5830,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(uint64_t a, uint64_t 
 static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020520ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020920ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX_ENA_W1C", 3, a, b, c, 0, 0, 0);
 }
 
@@ -5866,7 +5866,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(uint64_t a, uint64_t 
 static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020540ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020940ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX_ENA_W1S", 3, a, b, c, 0, 0, 0);
 }
 
@@ -5902,7 +5902,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(uint64_t a, uint64_t b, u
 static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020500ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020900ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX_W1S", 3, a, b, c, 0, 0, 0);
 }
 
@@ -6091,7 +6091,7 @@ static inline uint64_t CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e080020600ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e080020a00ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_ISM_MSIX_RECOVERY", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6155,7 +6155,7 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e0800204a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e0800208a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6203,7 +6203,7 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e0800204c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e0800208c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6251,7 +6251,7 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e0800204d0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e0800208d0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6299,7 +6299,7 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e0800204b0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e0800208b0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6311,7 +6311,7 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b)
 #define arguments_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint
+ * Register (PEXP_NCB) sdp#_epf#_oei_rint#
  *
  * SDP Output Endpoint Interrupt Register
  * Interrupt data for interrupts sent to remote hosts.
@@ -6319,10 +6319,10 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b)
  *
  * Note: EPF(0..1) are mapped to MAC0, EPF(2..3) are mapped to MAC2.
  */
-union cavm_sdpx_epfx_oei_rint
+union cavm_sdpx_epfx_oei_rintx
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_oei_rint_s
+    struct cavm_sdpx_epfx_oei_rintx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W1C/H) Data for remote host. */
@@ -6330,135 +6330,135 @@ union cavm_sdpx_epfx_oei_rint
         uint64_t data                  : 64; /**< [ 63:  0](R/W1C/H) Data for remote host. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_oei_rint_s cn; */
+    /* struct cavm_sdpx_epfx_oei_rintx_s cn; */
 };
-typedef union cavm_sdpx_epfx_oei_rint cavm_sdpx_epfx_oei_rint_t;
+typedef union cavm_sdpx_epfx_oei_rintx cavm_sdpx_epfx_oei_rintx_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINTX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINTX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=3))
-        return 0x86e080020360ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SDPX_EPFX_OEI_RINT", 2, a, b, 0, 0, 0, 0);
+    if ((a==0) && (b<=3) && (c<=15))
+        return 0x86e080020400ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0xf);
+    __cavm_csr_fatal("SDPX_EPFX_OEI_RINTX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_OEI_RINT(a,b) cavm_sdpx_epfx_oei_rint_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINT(a,b) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_OEI_RINT(a,b) "SDPX_EPFX_OEI_RINT"
-#define device_bar_CAVM_SDPX_EPFX_OEI_RINT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_OEI_RINT(a,b) (a)
-#define arguments_CAVM_SDPX_EPFX_OEI_RINT(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) cavm_sdpx_epfx_oei_rintx_t
+#define bustype_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) "SDPX_EPFX_OEI_RINTX"
+#define device_bar_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) (a)
+#define arguments_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint_ena_w1c
+ * Register (PEXP_NCB) sdp#_epf#_oei_rint_ena_w1c#
  *
  * SDP Output Endpoint Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-union cavm_sdpx_epfx_oei_rint_ena_w1c
+union cavm_sdpx_epfx_oei_rint_ena_w1cx
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_oei_rint_ena_w1c_s
+    struct cavm_sdpx_epfx_oei_rint_ena_w1cx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_OEI_RINT[DATA]. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_OEI_RINT(0..15)[DATA]. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_OEI_RINT[DATA]. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_OEI_RINT(0..15)[DATA]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_oei_rint_ena_w1c_s cn; */
+    /* struct cavm_sdpx_epfx_oei_rint_ena_w1cx_s cn; */
 };
-typedef union cavm_sdpx_epfx_oei_rint_ena_w1c cavm_sdpx_epfx_oei_rint_ena_w1c_t;
+typedef union cavm_sdpx_epfx_oei_rint_ena_w1cx cavm_sdpx_epfx_oei_rint_ena_w1cx_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=3))
-        return 0x86e080020380ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
+    if ((a==0) && (b<=3) && (c<=15))
+        return 0x86e080020600ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0xf);
+    __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1CX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_oei_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(a,b) "SDPX_EPFX_OEI_RINT_ENA_W1C"
-#define device_bar_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(a,b) (a)
-#define arguments_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1C(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) cavm_sdpx_epfx_oei_rint_ena_w1cx_t
+#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) "SDPX_EPFX_OEI_RINT_ENA_W1CX"
+#define device_bar_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) (a)
+#define arguments_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint_ena_w1s
+ * Register (PEXP_NCB) sdp#_epf#_oei_rint_ena_w1s#
  *
  * SDP Output Endpoint Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-union cavm_sdpx_epfx_oei_rint_ena_w1s
+union cavm_sdpx_epfx_oei_rint_ena_w1sx
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_oei_rint_ena_w1s_s
+    struct cavm_sdpx_epfx_oei_rint_ena_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_OEI_RINT[DATA]. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_OEI_RINT(0..15)[DATA]. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_OEI_RINT[DATA]. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_OEI_RINT(0..15)[DATA]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_oei_rint_ena_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_oei_rint_ena_w1sx_s cn; */
 };
-typedef union cavm_sdpx_epfx_oei_rint_ena_w1s cavm_sdpx_epfx_oei_rint_ena_w1s_t;
+typedef union cavm_sdpx_epfx_oei_rint_ena_w1sx cavm_sdpx_epfx_oei_rint_ena_w1sx_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=3))
-        return 0x86e080020390ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
+    if ((a==0) && (b<=3) && (c<=15))
+        return 0x86e080020700ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0xf);
+    __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1SX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_oei_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(a,b) "SDPX_EPFX_OEI_RINT_ENA_W1S"
-#define device_bar_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(a,b) (a)
-#define arguments_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1S(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) cavm_sdpx_epfx_oei_rint_ena_w1sx_t
+#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) "SDPX_EPFX_OEI_RINT_ENA_W1SX"
+#define device_bar_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) (a)
+#define arguments_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint_w1s
+ * Register (PEXP_NCB) sdp#_epf#_oei_rint_w1s#
  *
  * SDP Output Endpoint Interrupt Set Register
  * This register sets interrupt bits.
  */
-union cavm_sdpx_epfx_oei_rint_w1s
+union cavm_sdpx_epfx_oei_rint_w1sx
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_oei_rint_w1s_s
+    struct cavm_sdpx_epfx_oei_rint_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_OEI_RINT[DATA]. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_OEI_RINT(0..15)[DATA]. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_OEI_RINT[DATA]. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_OEI_RINT(0..15)[DATA]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_oei_rint_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_oei_rint_w1sx_s cn; */
 };
-typedef union cavm_sdpx_epfx_oei_rint_w1s cavm_sdpx_epfx_oei_rint_w1s_t;
+typedef union cavm_sdpx_epfx_oei_rint_w1sx cavm_sdpx_epfx_oei_rint_w1sx_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1S(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=3))
-        return 0x86e080020370ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_W1S", 2, a, b, 0, 0, 0, 0);
+    if ((a==0) && (b<=3) && (c<=15))
+        return 0x86e080020500ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0xf);
+    __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_W1SX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_OEI_RINT_W1S(a,b) cavm_sdpx_epfx_oei_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_OEI_RINT_W1S(a,b) "SDPX_EPFX_OEI_RINT_W1S"
-#define device_bar_CAVM_SDPX_EPFX_OEI_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_OEI_RINT_W1S(a,b) (a)
-#define arguments_CAVM_SDPX_EPFX_OEI_RINT_W1S(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) cavm_sdpx_epfx_oei_rint_w1sx_t
+#define bustype_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) "SDPX_EPFX_OEI_RINT_W1SX"
+#define device_bar_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) (a)
+#define arguments_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) sdp#_epf#_oei_trig
+ * Register (NCB) sdp#_epf#_oei_trig#
  *
  * SDP Output Endpoint Interrupt Trigger Register
  * This trigger register can be used to generate outbound interrupts to the remote host
@@ -6473,20 +6473,20 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1S(uint64_t a, uint64_t b)
  * Internal:
  * These registers must be on a dedicated 64KB page to isolate guests from changing other CSRs.
  */
-union cavm_sdpx_epfx_oei_trig
+union cavm_sdpx_epfx_oei_trigx
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_oei_trig_s
+    struct cavm_sdpx_epfx_oei_trigx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t set                   : 1;  /**< [ 19: 19](WO/H) When written with a 1, bit number [BIT_NUM] will be set in
-                                                                 SDP()_EPF()_OEI_RINT_W1S. If the outbound interrupt is enabled in
-                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S, an MSI-X message will be generated to the remote
+                                                                 SDP()_EPF()_OEI_RINT_W1S(). If the outbound interrupt is enabled in
+                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S(), an MSI-X message will be generated to the remote
                                                                  host. If [CLR] is also being written with 1, the operation will be ignored. */
         uint64_t clr                   : 1;  /**< [ 18: 18](WO/H) When written with a 1, bit number [BIT_NUM] will be cleared in
-                                                                 SDP()_EPF()_OEI_RINT_W1S. If the outbound interrupt is enabled in
-                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S, an MSI-X message will be generated to the remote
+                                                                 SDP()_EPF()_OEI_RINT_W1S(). If the outbound interrupt is enabled in
+                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S(), an MSI-X message will be generated to the remote
                                                                  host. If [SET] is also being written with 1, the operation will be ignored. */
         uint64_t reserved_6_17         : 12;
         uint64_t bit_num               : 6;  /**< [  5:  0](WO/H) Which bit number is to be set or cleared. */
@@ -6494,34 +6494,34 @@ union cavm_sdpx_epfx_oei_trig
         uint64_t bit_num               : 6;  /**< [  5:  0](WO/H) Which bit number is to be set or cleared. */
         uint64_t reserved_6_17         : 12;
         uint64_t clr                   : 1;  /**< [ 18: 18](WO/H) When written with a 1, bit number [BIT_NUM] will be cleared in
-                                                                 SDP()_EPF()_OEI_RINT_W1S. If the outbound interrupt is enabled in
-                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S, an MSI-X message will be generated to the remote
+                                                                 SDP()_EPF()_OEI_RINT_W1S(). If the outbound interrupt is enabled in
+                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S(), an MSI-X message will be generated to the remote
                                                                  host. If [SET] is also being written with 1, the operation will be ignored. */
         uint64_t set                   : 1;  /**< [ 19: 19](WO/H) When written with a 1, bit number [BIT_NUM] will be set in
-                                                                 SDP()_EPF()_OEI_RINT_W1S. If the outbound interrupt is enabled in
-                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S, an MSI-X message will be generated to the remote
+                                                                 SDP()_EPF()_OEI_RINT_W1S(). If the outbound interrupt is enabled in
+                                                                 SDP()_EPF()_OEI_RINT_ENA_W1S(), an MSI-X message will be generated to the remote
                                                                  host. If [CLR] is also being written with 1, the operation will be ignored. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_oei_trig_s cn; */
+    /* struct cavm_sdpx_epfx_oei_trigx_s cn; */
 };
-typedef union cavm_sdpx_epfx_oei_trig cavm_sdpx_epfx_oei_trig_t;
+typedef union cavm_sdpx_epfx_oei_trigx cavm_sdpx_epfx_oei_trigx_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIG(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIGX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIGX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=3))
-        return 0x86e0c0000000ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SDPX_EPFX_OEI_TRIG", 2, a, b, 0, 0, 0, 0);
+    if ((a==0) && (b<=3) && (c<=15))
+        return 0x86e0c0000000ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0xf);
+    __cavm_csr_fatal("SDPX_EPFX_OEI_TRIGX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_OEI_TRIG(a,b) cavm_sdpx_epfx_oei_trig_t
-#define bustype_CAVM_SDPX_EPFX_OEI_TRIG(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SDPX_EPFX_OEI_TRIG(a,b) "SDPX_EPFX_OEI_TRIG"
-#define device_bar_CAVM_SDPX_EPFX_OEI_TRIG(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_OEI_TRIG(a,b) (a)
-#define arguments_CAVM_SDPX_EPFX_OEI_TRIG(a,b) (a),(b),-1,-1
+#define typedef_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) cavm_sdpx_epfx_oei_trigx_t
+#define bustype_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) "SDPX_EPFX_OEI_TRIGX"
+#define device_bar_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) (a)
+#define arguments_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (PEXP_NCB) sdp#_epf#_ore_rint
@@ -6706,7 +6706,7 @@ static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX(uint64_t a, uint64_t b, uint64
 static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020560ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020960ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -6742,7 +6742,7 @@ static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(uint64_t a, uint64_t b
 static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800205a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e0800209a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX_ENA_W1C", 3, a, b, c, 0, 0, 0);
 }
 
@@ -6778,7 +6778,7 @@ static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(uint64_t a, uint64_t b
 static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800205c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e0800209c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX_ENA_W1S", 3, a, b, c, 0, 0, 0);
 }
 
@@ -6814,7 +6814,7 @@ static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(uint64_t a, uint64_t b, ui
 static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020580ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
+        return 0x86e080020980ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX_W1S", 3, a, b, c, 0, 0, 0);
 }
 
@@ -6903,7 +6903,7 @@ static inline uint64_t CAVM_SDPX_EPFX_RINFO(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_SDPX_EPFX_RINFO(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e0800205f0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e0800209f0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_RINFO", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6986,7 +6986,7 @@ typedef union cavm_sdpx_epfx_rmt_msix_vecx_addr cavm_sdpx_epfx_rmt_msix_vecx_add
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=3) && (c<=79))
+    if ((a==0) && (b<=3) && (c<=95))
         return 0x86e080000000ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x7f);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_VECX_ADDR", 3, a, b, c, 0, 0, 0);
 }
@@ -7037,7 +7037,7 @@ typedef union cavm_sdpx_epfx_rmt_msix_vecx_ctl cavm_sdpx_epfx_rmt_msix_vecx_ctl_
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=3) && (c<=79))
+    if ((a==0) && (b<=3) && (c<=95))
         return 0x86e080000008ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x7f);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_VECX_CTL", 3, a, b, c, 0, 0, 0);
 }
@@ -7074,7 +7074,7 @@ static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=3))
-        return 0x86e0800205e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+        return 0x86e0800209e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_EPFX_SCRATCH", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -8946,54 +8946,6 @@ static inline uint64_t CAVM_SDPX_OUT_MCAST_CTL(uint64_t a)
 #define arguments_CAVM_SDPX_OUT_MCAST_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) sdp#_out_wmark
- *
- * SDP Output Packet Watermark Register
- * This register defines a minimum pointer pair threshold required in order to send output
- * packets to the SDP. If the port's DBELL count is less than this threshold,
- * the corresponding bit in SDP()_OUT_DROP_STATE() is clear, and
- * the corresponding bit in SDP()_OUT_BP_EN()_W1S is set, back-pressure is
- * indicated to NIX TX.
- *
- * In the event that a packet arrives at SDP while the corresponding bit in
- * SDP()_OUT_DROP_STATE() is 0 and there are no buffers available to store it,
- * SDP will set the corresponding bit in SDP()_OUT_DROP_STATE()
- * to 1 and discard remaining packets destined for the port.
- * This should not happen except for a mis-programmed threshold value.
- */
-union cavm_sdpx_out_wmark
-{
-    uint64_t u;
-    struct cavm_sdpx_out_wmark_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t wmark                 : 32; /**< [ 31:  0](R/W) Threshold value in pointer-pairs. */
-#else /* Word 0 - Little Endian */
-        uint64_t wmark                 : 32; /**< [ 31:  0](R/W) Threshold value in pointer-pairs. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sdpx_out_wmark_s cn; */
-};
-typedef union cavm_sdpx_out_wmark cavm_sdpx_out_wmark_t;
-
-static inline uint64_t CAVM_SDPX_OUT_WMARK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_OUT_WMARK(uint64_t a)
-{
-    if (a==0)
-        return 0x86e0c0060000ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("SDPX_OUT_WMARK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SDPX_OUT_WMARK(a) cavm_sdpx_out_wmark_t
-#define bustype_CAVM_SDPX_OUT_WMARK(a) CSR_TYPE_NCB
-#define basename_CAVM_SDPX_OUT_WMARK(a) "SDPX_OUT_WMARK"
-#define device_bar_CAVM_SDPX_OUT_WMARK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_OUT_WMARK(a) (a)
-#define arguments_CAVM_SDPX_OUT_WMARK(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) sdp#_pkind_valid
  *
  * SDP Packet PKIND Valid Register
@@ -10738,7 +10690,7 @@ static inline uint64_t CAVM_SDPX_RX_OUT_ENABLE(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_RX_OUT_ENABLE(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=127))
-        return 0x86e080010160ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0x86e080010170ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_ENABLE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11201,6 +11153,54 @@ static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_RSIZE(uint64_t a, uint64_t b)
 #define device_bar_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) (a),(b),-1,-1
+
+/**
+ * Register (PEXP_NCB) sdp#_r#_out_wmark
+ *
+ * SDP Output Packet Watermark Register
+ * This register defines a minimum pointer pair threshold required in order to send output
+ * packets to the SDP. If the port's DBELL count is less than this threshold,
+ * the corresponding bit in SDP()_OUT_DROP_STATE() is clear, and
+ * the corresponding bit in SDP()_OUT_BP_EN()_W1S is set, back-pressure is
+ * indicated to NIX TX.
+ *
+ * In the event that a packet arrives at SDP while the corresponding bit in
+ * SDP()_OUT_DROP_STATE() is 0 and there are no buffers available to store it,
+ * SDP will set the corresponding bit in SDP()_OUT_DROP_STATE()
+ * to 1 and discard remaining packets destined for the port.
+ * This should not happen except for a mis-programmed threshold value.
+ */
+union cavm_sdpx_rx_out_wmark
+{
+    uint64_t u;
+    struct cavm_sdpx_rx_out_wmark_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t wmark                 : 32; /**< [ 31:  0](R/W) Threshold value in pointer-pairs. */
+#else /* Word 0 - Little Endian */
+        uint64_t wmark                 : 32; /**< [ 31:  0](R/W) Threshold value in pointer-pairs. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sdpx_rx_out_wmark_s cn; */
+};
+typedef union cavm_sdpx_rx_out_wmark cavm_sdpx_rx_out_wmark_t;
+
+static inline uint64_t CAVM_SDPX_RX_OUT_WMARK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_RX_OUT_WMARK(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e080010160ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+    __cavm_csr_fatal("SDPX_RX_OUT_WMARK", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SDPX_RX_OUT_WMARK(a,b) cavm_sdpx_rx_out_wmark_t
+#define bustype_CAVM_SDPX_RX_OUT_WMARK(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_RX_OUT_WMARK(a,b) "SDPX_RX_OUT_WMARK"
+#define device_bar_CAVM_SDPX_RX_OUT_WMARK(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_RX_OUT_WMARK(a,b) (a)
+#define arguments_CAVM_SDPX_RX_OUT_WMARK(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) sdp#_sctl

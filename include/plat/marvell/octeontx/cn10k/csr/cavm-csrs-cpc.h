@@ -427,16 +427,16 @@ union cavm_cpc_boot_rom_limit
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
-        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
-                                                                 access to a ROM_MEM() address at or above this address will return a "br -1"
+        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in CPC_ROM_MEM();
+                                                                 access to a CPC_ROM_MEM() address at or above this address will return a "br -1"
                                                                  (branch-to-self) instruction opcode. Writes to this register which attempt to
                                                                  set an [ADDR] greater than the previous [ADDR] setting are ignored.
                                                                  Address is word aligned. */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in ROM_MEM();
-                                                                 access to a ROM_MEM() address at or above this address will return a "br -1"
+        uint32_t addr                  : 15; /**< [ 16:  2](R/W) End of ROM address. This field specifies the first invalid address in CPC_ROM_MEM();
+                                                                 access to a CPC_ROM_MEM() address at or above this address will return a "br -1"
                                                                  (branch-to-self) instruction opcode. Writes to this register which attempt to
                                                                  set an [ADDR] greater than the previous [ADDR] setting are ignored.
                                                                  Address is word aligned. */

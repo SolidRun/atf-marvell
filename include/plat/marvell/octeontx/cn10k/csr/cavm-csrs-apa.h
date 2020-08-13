@@ -1163,10 +1163,10 @@ union cavm_apax_lsax_diag_lmtmap
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t dis_sched_early_comp  : 1;  /**< [ 60: 60](SRO/H) DIS_SCHED_EARLY_COMP field in the map entry. */
-        uint64_t sched_ena             : 1;  /**< [ 59: 59](SRO/H) SCHED_ENA field in the map entry. */
-        uint64_t dis_line_pref         : 1;  /**< [ 58: 58](SRO/H) DIS_LINE_PREF field in the map entry. */
-        uint64_t lmt_ena               : 1;  /**< [ 57: 57](SRO/H) LMT_ENA field in the map entry. */
+        uint64_t dis_sched_early_comp  : 1;  /**< [ 60: 60](SRO/H) Captured APR_LMT_MAP_ENTRY_S::DIS_SCHED_EARLY_COMP. */
+        uint64_t sched_ena             : 1;  /**< [ 59: 59](SRO/H) Captured APR_LMT_MAP_ENTRY_S::SCHED_ENA. */
+        uint64_t dis_line_pref         : 1;  /**< [ 58: 58](SRO/H) Captured APR_LMT_MAP_ENTRY_S::DIS_LINE_PREF. */
+        uint64_t lmt_ena               : 1;  /**< [ 57: 57](SRO/H) Captured APR_LMT_MAP_ENTRY_S::LMT_ENA. */
         uint64_t num_lmtlines          : 3;  /**< [ 56: 54](SRO/H) The maximum number of supported LMTLINES for the PF, FUNC pair. */
         uint64_t ssow_pf_func          : 13; /**< [ 53: 41](SRO/H) The SSOW_PF_FUNC field used to order an LMTST with SSO. */
         uint64_t lmtline_base          : 41; /**< [ 40:  0](SRO/H) The base address of the for LMTLINES for a PF, FUNC pair. */
@@ -1174,10 +1174,10 @@ union cavm_apax_lsax_diag_lmtmap
         uint64_t lmtline_base          : 41; /**< [ 40:  0](SRO/H) The base address of the for LMTLINES for a PF, FUNC pair. */
         uint64_t ssow_pf_func          : 13; /**< [ 53: 41](SRO/H) The SSOW_PF_FUNC field used to order an LMTST with SSO. */
         uint64_t num_lmtlines          : 3;  /**< [ 56: 54](SRO/H) The maximum number of supported LMTLINES for the PF, FUNC pair. */
-        uint64_t lmt_ena               : 1;  /**< [ 57: 57](SRO/H) LMT_ENA field in the map entry. */
-        uint64_t dis_line_pref         : 1;  /**< [ 58: 58](SRO/H) DIS_LINE_PREF field in the map entry. */
-        uint64_t sched_ena             : 1;  /**< [ 59: 59](SRO/H) SCHED_ENA field in the map entry. */
-        uint64_t dis_sched_early_comp  : 1;  /**< [ 60: 60](SRO/H) DIS_SCHED_EARLY_COMP field in the map entry. */
+        uint64_t lmt_ena               : 1;  /**< [ 57: 57](SRO/H) Captured APR_LMT_MAP_ENTRY_S::LMT_ENA. */
+        uint64_t dis_line_pref         : 1;  /**< [ 58: 58](SRO/H) Captured APR_LMT_MAP_ENTRY_S::DIS_LINE_PREF. */
+        uint64_t sched_ena             : 1;  /**< [ 59: 59](SRO/H) Captured APR_LMT_MAP_ENTRY_S::SCHED_ENA. */
+        uint64_t dis_sched_early_comp  : 1;  /**< [ 60: 60](SRO/H) Captured APR_LMT_MAP_ENTRY_S::DIS_SCHED_EARLY_COMP. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;

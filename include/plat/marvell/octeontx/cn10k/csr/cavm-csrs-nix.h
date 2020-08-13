@@ -549,6 +549,7 @@
 #define CAVM_NIX_STAT_LF_RX_E_RX_GC_OCTS_PASSED (0xc)
 #define CAVM_NIX_STAT_LF_RX_E_RX_GC_PKTS_DROP (0x13)
 #define CAVM_NIX_STAT_LF_RX_E_RX_GC_PKTS_PASSED (0xd)
+#define CAVM_NIX_STAT_LF_RX_E_RX_IPSECD_DROP_PKTS (0x19)
 #define CAVM_NIX_STAT_LF_RX_E_RX_MCAST (3)
 #define CAVM_NIX_STAT_LF_RX_E_RX_OCTS (0)
 #define CAVM_NIX_STAT_LF_RX_E_RX_RC_OCTS_DROP (0x16)
@@ -1089,7 +1090,7 @@ union cavm_nix_band_prof_s
                                                                  Profile Time unit is policer time unit *2^(-[RDIV]). */
         uint64_t l_sellect             : 3;  /**< [ 75: 73] Layer select (valid only if [LMODE] = 0).
                                                                  Selects which layer to reduce from packet length.
-                                                                 0 = Packet length - LAPTR.
+                                                                 0 = Packet length.
                                                                  1 = Packet length - LBPTR.
                                                                  2 = Packet length - LCPTR.
                                                                  3 = Packet length - LDPTR.
@@ -1110,7 +1111,7 @@ union cavm_nix_band_prof_s
                                                                  1 = packet. packet length is treated as 0. */
         uint64_t l_sellect             : 3;  /**< [ 75: 73] Layer select (valid only if [LMODE] = 0).
                                                                  Selects which layer to reduce from packet length.
-                                                                 0 = Packet length - LAPTR.
+                                                                 0 = Packet length.
                                                                  1 = Packet length - LBPTR.
                                                                  2 = Packet length - LCPTR.
                                                                  3 = Packet length - LDPTR.
@@ -1847,9 +1848,13 @@ union cavm_nix_rq_ctx_hw_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_125_127      : 3;
-        uint64_t chi_ena               : 1;  /**< [124:124] See NIX_RQ_CTX_S[CHI_ENA] */
+        uint64_t chi_ena               : 1;  /**< [124:124] Reserved.
+                                                                 Internal:
+                                                                 See NIX_RQ_CTX_S[CHI_ENA] */
         uint64_t ipsecd_drop_en        : 1;  /**< [123:123] See NIX_RQ_CTX_S[IPSECD_DROP_EN]. */
-        uint64_t pb_stashing           : 1;  /**< [122:122] See NIX_RQ_CTX_S[PB_STASHING]. */
+        uint64_t pb_stashing           : 1;  /**< [122:122] Reserved.
+                                                                 Internal:
+                                                                 See NIX_RQ_CTX_S[PB_STASHING]. */
         uint64_t lpb_drop_ena          : 1;  /**< [121:121] See NIX_RQ_CTX_S[LPB_DROP_ENA]. */
         uint64_t spb_drop_ena          : 1;  /**< [120:120] See NIX_RQ_CTX_S[SPB_DROP_ENA]. */
         uint64_t xqe_drop_ena          : 1;  /**< [119:119] See NIX_RQ_CTX_S[XQE_DROP_ENA]. */
@@ -1869,9 +1874,13 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t xqe_drop_ena          : 1;  /**< [119:119] See NIX_RQ_CTX_S[XQE_DROP_ENA]. */
         uint64_t spb_drop_ena          : 1;  /**< [120:120] See NIX_RQ_CTX_S[SPB_DROP_ENA]. */
         uint64_t lpb_drop_ena          : 1;  /**< [121:121] See NIX_RQ_CTX_S[LPB_DROP_ENA]. */
-        uint64_t pb_stashing           : 1;  /**< [122:122] See NIX_RQ_CTX_S[PB_STASHING]. */
+        uint64_t pb_stashing           : 1;  /**< [122:122] Reserved.
+                                                                 Internal:
+                                                                 See NIX_RQ_CTX_S[PB_STASHING]. */
         uint64_t ipsecd_drop_en        : 1;  /**< [123:123] See NIX_RQ_CTX_S[IPSECD_DROP_EN]. */
-        uint64_t chi_ena               : 1;  /**< [124:124] See NIX_RQ_CTX_S[CHI_ENA] */
+        uint64_t chi_ena               : 1;  /**< [124:124] Reserved.
+                                                                 Internal:
+                                                                 See NIX_RQ_CTX_S[CHI_ENA] */
         uint64_t reserved_125_127      : 3;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
@@ -2109,10 +2118,14 @@ union cavm_nix_rq_ctx_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_125_127      : 3;
-        uint64_t chi_ena               : 1;  /**< [124:124] RFoE/CHI enable. When CHI_ENA=1, both LPB_AURA and SPB_AURA, must be configured
+        uint64_t chi_ena               : 1;  /**< [124:124] Reserved.
+                                                                 Internal:
+                                                                 RFoE/CHI enable. When CHI_ENA=1, both LPB_AURA and SPB_AURA, must be configured
                                                                  to have invalid NPA AURA. */
         uint64_t ipsecd_drop_en        : 1;  /**< [123:123] IPsecD packets are dropped. */
-        uint64_t pb_stashing           : 1;  /**< [122:122] Do stashing of packet data instead of caching for the cases defined  by
+        uint64_t pb_stashing           : 1;  /**< [122:122] Reserved.
+                                                                 Internal:
+                                                                 Do stashing of packet data instead of caching for the cases defined  by
                                                                  PB_CACHING and for STASH_THRESH in the associated CQ. */
         uint64_t lpb_drop_ena          : 1;  /**< [121:121] Request NPA to do DROP processing on [LPB_AURA] if a first LPB is requested
                                                                  for a packet. See NPA_AURA_S[AURA_DROP] and NPA_AURA_S[POOL_DROP]. If
@@ -2125,8 +2138,8 @@ union cavm_nix_rq_ctx_s
                                                                  NPA_AURA_S[POOL_DROP]. When [SSO_ENA] is clear, request CQ DROP processing;
                                                                  see NIX_CQ_CTX_S[DROP], and NIX_CQ_CTX_S[DROP_ENA]. */
         uint64_t wqe_caching           : 1;  /**< [118:118] WQE caching. Selects the style of work-queue entry write to LLC/DRAM.
-                                                                 0 = Writes of WQE data will not allocate into LLC.
-                                                                 1 = Writes of WQE data are allocated into LLC.
+                                                                 0 = Writes of WQE/VWQE data will not allocate into LLC.
+                                                                 1 = Writes of WQE/VWQE data are allocated into LLC.
 
                                                                  Valid when [SSO_ENA] is set. */
         uint64_t pb_caching            : 2;  /**< [117:116] Packet buffer caching. Selects the style of packet buffer write to LLC/DRAM packet.
@@ -2263,8 +2276,8 @@ union cavm_nix_rq_ctx_s
                                                                  0x3 = First two aligned cache blocks are allocated into the LLC. All remaining
                                                                  cache blocks are not allocated. */
         uint64_t wqe_caching           : 1;  /**< [118:118] WQE caching. Selects the style of work-queue entry write to LLC/DRAM.
-                                                                 0 = Writes of WQE data will not allocate into LLC.
-                                                                 1 = Writes of WQE data are allocated into LLC.
+                                                                 0 = Writes of WQE/VWQE data will not allocate into LLC.
+                                                                 1 = Writes of WQE/VWQE data are allocated into LLC.
 
                                                                  Valid when [SSO_ENA] is set. */
         uint64_t xqe_drop_ena          : 1;  /**< [119:119] WQE/CQE drop enable. When [SSO_ENA] is set and [ENA_WQWD] is clear, request
@@ -2277,10 +2290,14 @@ union cavm_nix_rq_ctx_s
                                                                  for a packet. See NPA_AURA_S[AURA_DROP] and NPA_AURA_S[POOL_DROP]. If
                                                                  multiple LPBs are requested for a packet, DROP processing is never
                                                                  requested for the second and subsequent LPBs. */
-        uint64_t pb_stashing           : 1;  /**< [122:122] Do stashing of packet data instead of caching for the cases defined  by
+        uint64_t pb_stashing           : 1;  /**< [122:122] Reserved.
+                                                                 Internal:
+                                                                 Do stashing of packet data instead of caching for the cases defined  by
                                                                  PB_CACHING and for STASH_THRESH in the associated CQ. */
         uint64_t ipsecd_drop_en        : 1;  /**< [123:123] IPsecD packets are dropped. */
-        uint64_t chi_ena               : 1;  /**< [124:124] RFoE/CHI enable. When CHI_ENA=1, both LPB_AURA and SPB_AURA, must be configured
+        uint64_t chi_ena               : 1;  /**< [124:124] Reserved.
+                                                                 Internal:
+                                                                 RFoE/CHI enable. When CHI_ENA=1, both LPB_AURA and SPB_AURA, must be configured
                                                                  to have invalid NPA AURA. */
         uint64_t reserved_125_127      : 3;
 #endif /* Word 1 - End */
@@ -6613,33 +6630,37 @@ union cavm_nixx_af_const
     struct cavm_nixx_af_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_61_63        : 3;
+        uint64_t reserved_62_63        : 2;
+        uint64_t policer               : 1;  /**< [ 61: 61](RO) Policer is supported. */
         uint64_t prog_chan             : 1;  /**< [ 60: 60](RO) Programmable channel numbers are supported. */
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
-        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Number of Replay CPT. */
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX may be smaller. */
         uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
-        uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Number of SDP links enumerated in NIX_LINK_E. */
-        uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Number of LBK links enumerated in NIX_LINK_E. */
+        uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Maximal number of SDPs. The actual number of SDPs attached to NIX may be smaller. */
+        uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Maximal number of LBKs. The actual number of LBKs attached to NIX may be smaller. */
         uint64_t lbk_channels          : 8;  /**< [ 23: 16](RO) Number of channels per LBK interface/link. */
-        uint64_t num_rpm               : 4;  /**< [ 15: 12](RO) Number of RPM interfaces enumerated in NIX_LINK_E. */
+        uint64_t num_rpm               : 4;  /**< [ 15: 12](RO) Maximum number of RPM interfaces enumerated in NIX_LINK_E. The actual number of
+                                                                 RPMs attached to NIX may be smaller. */
         uint64_t rpm_lmacs             : 4;  /**< [ 11:  8](RO) Number of LMACs (links) per RPM. */
         uint64_t rpm_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels per RPM link/LMAC. */
 #else /* Word 0 - Little Endian */
         uint64_t rpm_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels per RPM link/LMAC. */
         uint64_t rpm_lmacs             : 4;  /**< [ 11:  8](RO) Number of LMACs (links) per RPM. */
-        uint64_t num_rpm               : 4;  /**< [ 15: 12](RO) Number of RPM interfaces enumerated in NIX_LINK_E. */
+        uint64_t num_rpm               : 4;  /**< [ 15: 12](RO) Maximum number of RPM interfaces enumerated in NIX_LINK_E. The actual number of
+                                                                 RPMs attached to NIX may be smaller. */
         uint64_t lbk_channels          : 8;  /**< [ 23: 16](RO) Number of channels per LBK interface/link. */
-        uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Number of LBK links enumerated in NIX_LINK_E. */
-        uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Number of SDP links enumerated in NIX_LINK_E. */
+        uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Maximal number of LBKs. The actual number of LBKs attached to NIX may be smaller. */
+        uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Maximal number of SDPs. The actual number of SDPs attached to NIX may be smaller. */
         uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
-        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Number of Replay CPT. */
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX may be smaller. */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
         uint64_t prog_chan             : 1;  /**< [ 60: 60](RO) Programmable channel numbers are supported. */
-        uint64_t reserved_61_63        : 3;
+        uint64_t policer               : 1;  /**< [ 61: 61](RO) Policer is supported. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const_s cn; */
@@ -7430,11 +7451,11 @@ union cavm_nixx_af_expr_tx_fifo_status
     struct cavm_nixx_af_expr_tx_fifo_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t count                 : 12; /**< [ 11:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
+        uint64_t reserved_13_63        : 51;
+        uint64_t count                 : 13; /**< [ 12:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 12; /**< [ 11:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t count                 : 13; /**< [ 12:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_expr_tx_fifo_status_s cn; */
@@ -8966,7 +8987,7 @@ typedef union cavm_nixx_af_lfx_rx_statx cavm_nixx_af_lfx_rx_statx_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_STATX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_STATX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=127) && (c<=24))
+    if ((a<=1) && (b<=127) && (c<=25))
         return 0x840040004500ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_STATX", 3, a, b, c, 0, 0, 0);
 }
@@ -9588,12 +9609,16 @@ union cavm_nixx_af_linkx_cfg
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
                                                                  For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
                                                                  the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
-                                                                 0x15C, 0x15D, 0x15E, 0x15F. */
+                                                                 0x15C, 0x15D, 0x15E, 0x15F.
+                                                                 Overlapping of ranges is not a valid configuration.
+                                                                 The configiuration is identcally applied to the ingress and egress traffic. */
 #else /* Word 0 - Little Endian */
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
                                                                  For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
                                                                  the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
-                                                                 0x15C, 0x15D, 0x15E, 0x15F. */
+                                                                 0x15C, 0x15D, 0x15E, 0x15F.
+                                                                 Overlapping of ranges is not a valid configuration.
+                                                                 The configiuration is identcally applied to the ingress and egress traffic. */
         uint64_t reserved_12_15        : 4;
         uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) The range=2^LOG2_RANGE, where LOG2_RANGE==0 means the link is not valid.
                                                                  For example, if [LOG2_RANGE]=3, number of channels for the link is 8.
@@ -9619,6 +9644,66 @@ static inline uint64_t CAVM_NIXX_AF_LINKX_CFG(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NIXX_AF_LINKX_CFG(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_LINKX_CFG(a,b) (a)
 #define arguments_CAVM_NIXX_AF_LINKX_CFG(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_link_cdt_adj_err
+ *
+ * NIX AF Transmit Link Overflow underflow Register
+ * This register keeps error condition for all the links and both unit cnt and pkt cnt.
+ */
+union cavm_nixx_af_link_cdt_adj_err
+{
+    uint64_t u;
+    struct cavm_nixx_af_link_cdt_adj_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t cc_cnt_overflow       : 1;  /**< [  1:  1](R/W1C/H) This field is used to indicate configuration error. If either of Unit cnt or Pkt
+                                                                 cnt overflows when applying adjustment
+                                                                 this flag would be set. It's one overflow bit for all the links. SW should read
+                                                                 and then write 1 to clear.
+                                                                 This would occur on positive
+                                                                 adjustment such that the total posible credits that can be stored in PSE
+                                                                 overflows.
+                                                                 For e.g. Initial Pkt credits programmed were 369 then max possible positive
+                                                                 adjustment is (511-369)=142 and if the first adjustment applied is +42 then the
+                                                                 next time only +100 adjustment could be applied. */
+        uint64_t cc_cnt_underflow      : 1;  /**< [  0:  0](R/W1C/H) This field is used to indicate configuration error. Software when programming
+                                                                 negative adjustment can only program Max of -ve(2^19-1) + Max_possible_MTU. */
+#else /* Word 0 - Little Endian */
+        uint64_t cc_cnt_underflow      : 1;  /**< [  0:  0](R/W1C/H) This field is used to indicate configuration error. Software when programming
+                                                                 negative adjustment can only program Max of -ve(2^19-1) + Max_possible_MTU. */
+        uint64_t cc_cnt_overflow       : 1;  /**< [  1:  1](R/W1C/H) This field is used to indicate configuration error. If either of Unit cnt or Pkt
+                                                                 cnt overflows when applying adjustment
+                                                                 this flag would be set. It's one overflow bit for all the links. SW should read
+                                                                 and then write 1 to clear.
+                                                                 This would occur on positive
+                                                                 adjustment such that the total posible credits that can be stored in PSE
+                                                                 overflows.
+                                                                 For e.g. Initial Pkt credits programmed were 369 then max possible positive
+                                                                 adjustment is (511-369)=142 and if the first adjustment applied is +42 then the
+                                                                 next time only +100 adjustment could be applied. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_link_cdt_adj_err_s cn; */
+};
+typedef union cavm_nixx_af_link_cdt_adj_err cavm_nixx_af_link_cdt_adj_err_t;
+
+static inline uint64_t CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(uint64_t a)
+{
+    if (a<=1)
+        return 0x840040000aa0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_LINK_CDT_ADJ_ERR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(a) cavm_nixx_af_link_cdt_adj_err_t
+#define bustype_CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(a) "NIXX_AF_LINK_CDT_ADJ_ERR"
+#define device_bar_CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(a) (a)
+#define arguments_CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_lso_cfg
@@ -10999,11 +11084,11 @@ union cavm_nixx_af_norm_tx_fifo_status
     struct cavm_nixx_af_norm_tx_fifo_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t count                 : 12; /**< [ 11:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
+        uint64_t reserved_13_63        : 51;
+        uint64_t count                 : 13; /**< [ 12:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 12; /**< [ 11:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t count                 : 13; /**< [ 12:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_norm_tx_fifo_status_s cn; */
@@ -14835,8 +14920,7 @@ union cavm_nixx_af_rx_linkx_cfg
         uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check on packets received from this link.
                                                                  See NIX_RE_OPCODE_E::OVERSIZE. This length must include any Vtags
                                                                  which may be stripped and optional timestamp inserted by RPM. FCS bytes
-                                                                 stripped by RPM are not included. Must not exceed 9212 bytes (9216 minus 4
-                                                                 byte FCS) for RPM and LBK links. */
+                                                                 stripped by RPM are not included. */
         uint64_t minlen                : 16; /**< [ 15:  0](R/W) Byte count for min-sized frame check on packets received from this link,
                                                                  excluding FCS potentially stripped outside NIX by RPM.
                                                                  See NIX_RE_OPCODE_E::UNDERSIZE. Zero disables the check.
@@ -14851,8 +14935,7 @@ union cavm_nixx_af_rx_linkx_cfg
         uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check on packets received from this link.
                                                                  See NIX_RE_OPCODE_E::OVERSIZE. This length must include any Vtags
                                                                  which may be stripped and optional timestamp inserted by RPM. FCS bytes
-                                                                 stripped by RPM are not included. Must not exceed 9212 bytes (9216 minus 4
-                                                                 byte FCS) for RPM and LBK links. */
+                                                                 stripped by RPM are not included. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -15956,11 +16039,11 @@ union cavm_nixx_af_sdp_tx_fifo_status
     struct cavm_nixx_af_sdp_tx_fifo_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t count                 : 12; /**< [ 11:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
+        uint64_t reserved_13_63        : 51;
+        uint64_t count                 : 13; /**< [ 12:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 12; /**< [ 11:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t count                 : 13; /**< [ 12:  0](RO/H) Number of 128-bit entries in the TX FIFO. */
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_sdp_tx_fifo_status_s cn; */
@@ -16006,8 +16089,8 @@ typedef union cavm_nixx_af_seb_active_cycles_pcx cavm_nixx_af_seb_active_cycles_
 static inline uint64_t CAVM_NIXX_AF_SEB_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SEB_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x8400400006c0ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    if ((a<=1) && (b<=1))
+        return 0x8400400006c0ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SEB_ACTIVE_CYCLES_PCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16296,8 +16379,8 @@ typedef union cavm_nixx_af_seb_pipe_bp_testx cavm_nixx_af_seb_pipe_bp_testx_t;
 static inline uint64_t CAVM_NIXX_AF_SEB_PIPE_BP_TESTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SEB_PIPE_BP_TESTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x840040000600ll + 0x10000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=1))
+        return 0x840040000600ll + 0x10000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SEB_PIPE_BP_TESTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16391,8 +16474,8 @@ typedef union cavm_nixx_af_seb_pipeb_bp_testx cavm_nixx_af_seb_pipeb_bp_testx_t;
 static inline uint64_t CAVM_NIXX_AF_SEB_PIPEB_BP_TESTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SEB_PIPEB_BP_TESTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
-        return 0x840040000608ll + 0x10000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=1))
+        return 0x840040000608ll + 0x10000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SEB_PIPEB_BP_TESTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25323,7 +25406,7 @@ typedef union cavm_nixx_lf_rx_statx cavm_nixx_lf_rx_statx_t;
 static inline uint64_t CAVM_NIXX_LF_RX_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=17))
+    if ((a<=1) && (b<=25))
         return 0x840200400400ll + 0x100000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_LF_RX_STATX", 2, a, b, 0, 0, 0, 0);
 }

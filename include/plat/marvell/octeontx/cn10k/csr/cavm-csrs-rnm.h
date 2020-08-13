@@ -396,9 +396,7 @@ union cavm_rnm_ebg_ctl
                                                                  0x2 = downsample by 2.
                                                                  0x3 = downsample by 3.
                                                                  0xFF = downsample by 255. */
-        uint64_t rng_slow_div_val      : 8;  /**< [ 23: 16](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input DIV_VAL[8:0]
-                                                                 Decimate value of noisy oscillator (slow OSC) before sampling the fast
+        uint64_t rng_slow_div_val      : 8;  /**< [ 23: 16](SR/W/H) Decimate value of noisy oscillator (slow OSC) before sampling the fast
                                                                  OSC. Dividing ratio is 2X of the value in this field. Minimum Value is 2.
                                                                  Recommend to leave it as default 0x21 to have sufficient noise (at least
                                                                  0x1E).
@@ -406,10 +404,14 @@ union cavm_rnm_ebg_ctl
                                                                  Examples
                                                                  0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
                                                                  0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
-                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32. */
+                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input DIV_VAL[8:0] */
         uint64_t entropy_mode          : 1;  /**< [ 15: 15](SR/W/H) Entropy mode. Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
-                                                                 0x0 = Internal entropy mode.
-                                                                 0x1 = External entropy mode. */
+                                                                 0 = Internal entropy mode.
+                                                                 1 = External entropy mode. */
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
                                                                  Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
 
@@ -432,69 +434,83 @@ union cavm_rnm_ebg_ctl
                                                                  1 = Clean clock is the CPU register clock. */
         uint64_t rng_rstn              : 1;  /**< [ 10: 10](SR/W/H) RNG analog reset.
                                                                  Active low reset to the digital RNG structure.
-                                                                 0x0 = Reset.
-                                                                 0x1 = Normal. */
+                                                                 0 = Reset.
+                                                                 1 = Normal. */
         uint64_t rng_pu_bias           : 1;  /**< [  9:  9](SR/W/H) Enable signal of the analog bias circuit.
-                                                                 0x1 = Provide Power for slow oscillator and its bias circuit
-                                                                 0x0 = disable. */
-        uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input FAST_OSC_ENA.
-                                                                 Enable signal of the fast oscillator in the digital RNG structure. It is the
-                                                                 clean oscillator
-                                                                 0x1 = RNG Fast (Free Running) OSC Enable
-                                                                 0x0 = Disable. */
-        uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input SLOW_OSC_ENA.
-                                                                 Enable signal of the slow oscillator in the digital RNG structure. It is the
-                                                                 noisy oscillator
-                                                                 0x1 = RNG Slow OSC Enable
-                                                                 0x0 = Disable. */
+                                                                 0 = Disable.
+                                                                 1 = Provide Power for slow oscillator and its bias circuit. */
+        uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) Enable signal of the fast oscillator in the digital RNG structure. It is the
+                                                                 clean oscillator.
+                                                                 0 = Disable.
+                                                                 1 = RNG Fast (Free Running) OSC Enable.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input fast_osc_ena. */
+        uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) Enable signal of the slow oscillator in the digital RNG structure. It is the
+                                                                 noisy oscillator.
+                                                                 0 = Disable.
+                                                                 1 = RNG Slow OSC Enable.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input slow_osc_ena. */
         uint64_t pp_ena                : 1;  /**< [  6:  6](SR/W/H) Enable signal of the post processor.
                                                                  Disabling the post processor will allow raw entropy to be extracted from the
                                                                  ana_rng macro. Note that it is still subject to downsamping, depending
-                                                                 upon the value programmed into the DS_RATIO [31:24] bits.
-                                                                 0x1 = Post Processor enable
-                                                                 0x0 = Disable
-                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0. */
-        uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input PU_BIAS2.
-                                                                 Enable signal of the analog bias circuit.
+                                                                 upon the value programmed into the [DS_RATIO]\<31:24\> bits.
                                                                  0 = Disable.
-                                                                 1 = Provide power for slow oscillator and its bias circuit. */
+                                                                 1 = Post Processor enable.
+
+                                                                 Should only be changed when [RNG_RSTN] and [ENTROPY_REQ] are 0. */
+        uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) Enable signal of the analog bias circuit.
+                                                                 0 = Disable.
+                                                                 1 = Provide power for slow oscillator and its bias circuit.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input pu_bias2. */
         uint64_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_4          : 5;
-        uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input PU_BIAS2.
-                                                                 Enable signal of the analog bias circuit.
+        uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) Enable signal of the analog bias circuit.
                                                                  0 = Disable.
-                                                                 1 = Provide power for slow oscillator and its bias circuit. */
+                                                                 1 = Provide power for slow oscillator and its bias circuit.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input pu_bias2. */
         uint64_t pp_ena                : 1;  /**< [  6:  6](SR/W/H) Enable signal of the post processor.
                                                                  Disabling the post processor will allow raw entropy to be extracted from the
                                                                  ana_rng macro. Note that it is still subject to downsamping, depending
-                                                                 upon the value programmed into the DS_RATIO [31:24] bits.
-                                                                 0x1 = Post Processor enable
-                                                                 0x0 = Disable
-                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0. */
-        uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input SLOW_OSC_ENA.
-                                                                 Enable signal of the slow oscillator in the digital RNG structure. It is the
-                                                                 noisy oscillator
-                                                                 0x1 = RNG Slow OSC Enable
-                                                                 0x0 = Disable. */
-        uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input FAST_OSC_ENA.
-                                                                 Enable signal of the fast oscillator in the digital RNG structure. It is the
-                                                                 clean oscillator
-                                                                 0x1 = RNG Fast (Free Running) OSC Enable
-                                                                 0x0 = Disable. */
+                                                                 upon the value programmed into the [DS_RATIO]\<31:24\> bits.
+                                                                 0 = Disable.
+                                                                 1 = Post Processor enable.
+
+                                                                 Should only be changed when [RNG_RSTN] and [ENTROPY_REQ] are 0. */
+        uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) Enable signal of the slow oscillator in the digital RNG structure. It is the
+                                                                 noisy oscillator.
+                                                                 0 = Disable.
+                                                                 1 = RNG Slow OSC Enable.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input slow_osc_ena. */
+        uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) Enable signal of the fast oscillator in the digital RNG structure. It is the
+                                                                 clean oscillator.
+                                                                 0 = Disable.
+                                                                 1 = RNG Fast (Free Running) OSC Enable.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input fast_osc_ena. */
         uint64_t rng_pu_bias           : 1;  /**< [  9:  9](SR/W/H) Enable signal of the analog bias circuit.
-                                                                 0x1 = Provide Power for slow oscillator and its bias circuit
-                                                                 0x0 = disable. */
+                                                                 0 = Disable.
+                                                                 1 = Provide Power for slow oscillator and its bias circuit. */
         uint64_t rng_rstn              : 1;  /**< [ 10: 10](SR/W/H) RNG analog reset.
                                                                  Active low reset to the digital RNG structure.
-                                                                 0x0 = Reset.
-                                                                 0x1 = Normal. */
+                                                                 0 = Reset.
+                                                                 1 = Normal. */
         uint64_t rng_clk_sel           : 1;  /**< [ 11: 11](SR/W/H) Selects the source of the clean clock inside the ring oscillator block. The
                                                                  clean clock is to be sampled by the noisy oscillator output.
                                                                  0 = Clean clock is the Fast (free running) oscillator inside analog.
@@ -516,11 +532,9 @@ union cavm_rnm_ebg_ctl
                                                                  0x2 = RNG clock latched by APB clock.
                                                                  0x3 = Reserved. */
         uint64_t entropy_mode          : 1;  /**< [ 15: 15](SR/W/H) Entropy mode. Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
-                                                                 0x0 = Internal entropy mode.
-                                                                 0x1 = External entropy mode. */
-        uint64_t rng_slow_div_val      : 8;  /**< [ 23: 16](SR/W/H) This register is directly connected to analog (analog random number
-                                                                 generator) input DIV_VAL[8:0]
-                                                                 Decimate value of noisy oscillator (slow OSC) before sampling the fast
+                                                                 0 = Internal entropy mode.
+                                                                 1 = External entropy mode. */
+        uint64_t rng_slow_div_val      : 8;  /**< [ 23: 16](SR/W/H) Decimate value of noisy oscillator (slow OSC) before sampling the fast
                                                                  OSC. Dividing ratio is 2X of the value in this field. Minimum Value is 2.
                                                                  Recommend to leave it as default 0x21 to have sufficient noise (at least
                                                                  0x1E).
@@ -528,7 +542,11 @@ union cavm_rnm_ebg_ctl
                                                                  Examples
                                                                  0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
                                                                  0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
-                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32. */
+                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32.
+
+                                                                 Internal:
+                                                                 This register is directly connected to analog (analog random number
+                                                                 generator) input DIV_VAL[8:0] */
         uint64_t ds_ratio              : 8;  /**< [ 31: 24](SR/W/H) Down sampling ratio in hex in the EBG downsampling circuit, which further
                                                                  downsamples the RNG slow (Noisy) oscillator output. This downsampling is
                                                                  done outside of the RNG macro.
@@ -858,14 +876,14 @@ union cavm_rnm_vf_ebg_health
         uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
         uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](RO/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
         uint64_t c_adp                 : 11; /**< [ 10:  0](RO/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
 #else /* Word 0 - Little Endian */
         uint64_t c_adp                 : 11; /**< [ 10:  0](RO/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](RO/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
         uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
         uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
         uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
