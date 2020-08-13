@@ -34,24 +34,6 @@
 
 static int rpm_link_speed_mbps[ETH_LINK_MAX] = {
 		0, 10000, 25000 };
-/*
- * LMAC 0 - PCS100 LANE 0
- * LMAC 1 : PCS100 LANE 1
- * LMAC 2 - PCS100 LANE 2
- * LMAC 3 : PCS100 LANE 3
- */
-static const rpm_lmac_pcs_config_t pcs_config_10g[MAX_MTI_PCS_REG] = {
-	{MTI_PCS100_VL0_0, 0x68C1},
-	{MTI_PCS100_VL0_1, 0x21},
-	{MTI_PCS100_VL1_0, 0xC4F0},
-	{MTI_PCS100_VL1_1, 0xE6},
-	{MTI_PCS100_VL2_0, 0x65C5},
-	{MTI_PCS100_VL2_1, 0x9B},
-	{MTI_PCS100_VL3_0, 0x79A2},
-	{MTI_PCS100_VL3_1, 0x3D},
-	/* Reset value  + disable_md bit 1 */
-	{MTI_PCS100_VENDOR_PCS_MODE, 0x301},
-};
 
 static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uint64_t val)
 {
@@ -64,22 +46,25 @@ static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uin
 static void rpm_lmac_hrpcs_config(int rpm_id, int lmac_id)
 {
 	rpm_lmac_config_t *lmac;
+	rpm_lmac_pcs_config_t *pcs;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 	debug_rpm("%s %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
 
+	pcs = rpm_obtain_pcs_config_per_mode(lmac->mode);
 	for (int i = 0; i < MAX_MTI_PCS_REG; i++)  {
-		if (lmac->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) {
-			if (pcs_config_10g[i].offset == 0)
-				break;
-			rpm_lmac_write_pcs_csr(rpm_id, lmac_id,
-					pcs_config_10g[i].offset,
-					pcs_config_10g[i].val);
-		} else {
-			/* FIXME for other modes */
+		if (pcs == NULL) {
+			debug_rpm("%s: %d:%d PCS config not valid i %d\n",
+				__func__, rpm_id, lmac_id, i);
+			break;
 		}
-
+		if (pcs->offset == 0)
+			break;
+		rpm_lmac_write_pcs_csr(rpm_id, lmac_id,
+				pcs->offset,
+				pcs->val);
+		pcs++;
 	}
 }
 
@@ -114,10 +99,10 @@ static void rpm_lmac_mac_config(int rpm_id, int lmac_id)
 	CSR_WRITE(CAVM_RPMX_MTI_MAC100_X_XIF_MODE(rpm_id, lmac_id),
 				xif_mode.u);
 	/* FIXME: pause quanta CSRs */
-	/* FIXME : Configure Frame Length */
+	/* Configure Frame Length */
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100_x_frm_length_t,
 			CAVM_RPMX_MTI_MAC100_X_FRM_LENGTH(rpm_id, lmac_id),
-			frm_length, 9232);
+			frm_length, RPM_MAX_FRAME_LENGTH);
 }
 
 static int rpm_get_lane_speed(int rpm_id, int lmac_id)

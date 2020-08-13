@@ -25,6 +25,9 @@
  */
 #define RPM_BP_PACKET_DATA_DEPTH	16
 
+/* Max packset size as recommended by design */
+#define RPM_MAX_FRAME_LENGTH		16384
+
 #define MAX_MTI_PCS_REG	 50
 
 typedef enum mti_pcsconfig_reg {
@@ -155,5 +158,6 @@ int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *link_sts
 void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable);
 int rpm_lmac_port_enable(int rpm_id, int lmac_id);
 int rpm_lmac_port_disable(int rpm_id, int lmac_id);
+rpm_lmac_pcs_config_t *rpm_obtain_pcs_config_per_mode(int mode);
 
 #endif
