@@ -300,8 +300,8 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	}
 }
 
-#if !defined(PLAT_t106)
-static void init_pem(uint64_t config_base, uint64_t config_size)
+#if defined(PLAT_t106)
+static void init_pem5(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
 	uint8_t cap_pointer = pconfig->cap_pointer;
@@ -310,8 +310,11 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 	uint64_t vector_base = 0;
 	int i;
 	uint64_t msg;
+	uint32_t *sctl = (uint32_t *) (config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
+	if (vsec_ctl.s.inst_num > 3)
+		return;
 
 	debug_io("PEM(%d) init called config_base:%llx size:%llx\n",
 		 vsec_ctl.s.inst_num, config_base, config_size);
@@ -326,6 +329,8 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 
 		/* configure interrupt vectors first */
 		for (i = 0; i < table_size; i++) {
+			debug_io("MSI-X vector base[%llx]<=%llx\n", vector_base,
+				 (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
 			octeontx_write64(vector_base, (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
 			vector_base += 8;
 			if (i >= PEM_INT_VEC_E_INTA && i < PEM_INT_VEC_E_INT_SUM)
@@ -333,6 +338,7 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 						(i - PEM_INT_VEC_E_INTA) / 2);
 			else
 				msg = 0x100000000ull;	/* Masked */
+			debug_io("MSI-X vector base[%llx]<=%llx\n", vector_base, msg);
 			octeontx_write64(vector_base, msg);
 			vector_base += 8;
 			debug_io
@@ -342,6 +348,11 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 			     msg);
 		}
 	}
+	/* Bypass SMMU translation for MSIx delivery in PEM
+	 * This helps legacy INT support for Switch as endpoint
+	 * Other PEM endpoints generally use MSI/MSI-X.
+	 */
+	*sctl |= 0x1;
 }
 #endif
 
@@ -419,6 +430,8 @@ struct ecam_init_callback init_callbacks[] = {
 #if !defined(PLAT_t106)
 	{0xa008, 0x177d, init_smmu},
 	{0xa020, 0x177d, init_pem},
+#else
+	{0xa06c, 0x177d, init_pem5},
 #endif
 	{0xa00f, 0x177d, init_uaa},
 	{0xa017, 0x177d, init_gti},

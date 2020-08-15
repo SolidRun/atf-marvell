@@ -47,7 +47,7 @@
 /*
  * T96 has 4 PEMs
  */
-#define PEM_SPI_IRQ_DEVS		0x4
+#define PEM_SPI_IRQ_DEVS		0x8
 
 /*
  * Each of PEM has 4 interrupts
