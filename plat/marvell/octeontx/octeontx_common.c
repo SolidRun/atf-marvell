@@ -10,11 +10,13 @@
 #include <lib/xlat_tables/xlat_tables_v2.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <strtol.h>
 #include <libfdt.h>
 #include <octeontx_utils.h>
 #include <octeontx_common.h>
 #include <octeontx_mmap_utils.h>
 #include <plat_board_cfg.h>
+#include <assert.h>
 
 #include "cavm-csrs-rst.h"
 
@@ -194,3 +196,80 @@ void plat_initialize_os_persistent_area(void)
 		     resize_prop, *resize_val, new_size);
 }
 
+#ifdef MRVL_TF_LOG_MODULE
+unsigned long mrvl_tf_log_modules;
+
+/*
+ * initialize_tf_logging()
+ *
+ * This initializes the global state for ATF Runtime Logging from
+ * device tree entries (configued by EBF).
+ */
+void initialize_tf_logging(void)
+{
+	const void *fdt = fdt_ptr;
+	const char *propstr;
+	int fdt_off, len;
+	int32_t val32, internal_mods;
+
+	fdt_off = fdt_path_offset(fdt, "/cavium,bdk");
+	if (fdt_off < 0) {
+		printf("WARNING: FDT node not found\n");
+		return;
+	}
+
+	internal_mods = MRVL_TF_LOG_MODULE_BLX |
+			MRVL_TF_LOG_MODULE_COMMON |
+			MRVL_TF_LOG_MODULE_DRIVERS |
+			MRVL_TF_LOG_MODULE_LIB |
+			MRVL_TF_LOG_MODULE_PLAT |
+			MRVL_TF_LOG_MODULE_SERVICES |
+			MRVL_TF_LOG_MODULE_LIBTIM;
+
+	propstr = fdt_getprop(fdt, fdt_off,
+			      "EBF-CONFIG-ATF-TRACE-MODULES", &len);
+	if (propstr) {
+		val32 = strtol(propstr, NULL, 16);
+		val32 |= internal_mods;
+#ifdef MRVL_TF_LOG_SETTING_OVERRIDE
+		val32 = MRVL_TF_LOG_MODULES_DEFAULT;
+#endif
+		if (val32) {
+			mrvl_tf_log_modules = val32;
+#if DEBUG
+			printf("ATF trace modules: 0x%lx\n",
+			       mrvl_tf_log_modules);
+#endif
+		}
+	} else {
+		/* If not explicitly set, use a default */
+		val32 = MRVL_TF_LOG_MODULES_DEFAULT;
+		val32 |= internal_mods;
+		mrvl_tf_log_modules = val32;
+		tf_log_set_max_level(MRVL_TF_LOG_LEVEL_DEFAULT);
+	}
+
+	propstr = fdt_getprop(fdt, fdt_off, "EBF-CONFIG-ATF-TRACE-LEVEL",
+			      &len);
+	if (propstr) {
+		val32 = strtol(propstr, NULL, 16);
+		if (val32 == LOG_LEVEL_NONE)
+			val32 = LOG_LEVEL_NOTICE;
+#ifdef MRVL_TF_LOG_SETTING_OVERRIDE
+		val32 = MRVL_TF_LOG_LEVEL_DEFAULT;
+#endif
+		if (val32 % 10)
+			printf("Error: invalid ATF-TRACE-LEVEL %u\n",
+			       val32);
+		else {
+#if DEBUG
+			printf("Setting max logging level to %u\n", val32);
+#endif
+			tf_log_set_max_level(val32);
+		}
+	} else {
+		/* If not explicitly set, use a default */
+		tf_log_set_max_level(MRVL_TF_LOG_LEVEL_DEFAULT);
+	}
+}
+#endif // MRVL_TF_LOG_MODULE

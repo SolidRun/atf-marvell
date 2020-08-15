@@ -137,4 +137,8 @@ void plat_octeontx_set_nt_fw_config_size(uint64_t nt_fw_config_size);
 
 void l2c_flush(void);
 
+#ifdef MRVL_TF_LOG_MODULE
+void initialize_tf_logging(void);
+#endif
+
 #endif /* __OCTEONTX_COMMON_H__ */

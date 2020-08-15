@@ -12,6 +12,9 @@ GIC_ENABLE_V4_EXTN      :=       1
 # override default platform CSR include path
 PLAT_CSR_INCLUDE        :=       include/plat/marvell/octeontx/cn10k/csr
 
+# enable Marvel ATF Runtime Logging
+USE_MRVL_TF_LOGGING     :=       1
+
 # Include common Marvell platform's makefile helper
 include plat/marvell/octeontx/platform.mk
 

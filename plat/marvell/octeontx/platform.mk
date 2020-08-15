@@ -159,3 +159,22 @@ ifeq (${TRUSTED_BOARD_BOOT},1)
     $(info Including ${IMG_PARSER_LIB_MK})
     include ${IMG_PARSER_LIB_MK}
 endif
+
+ifeq (${USE_MRVL_TF_LOGGING},1)
+DEF_LOG_MODULES ?= DUMMY_bl?_common_drivers_lib_plat_services_libtim
+MRVL_OTX_DEBUG_H ?= octeontx_debug.h
+# MRVL_TF_LOG_DEF constructs cmd-line options for ATF Runtime Logging feature
+#
+#   $(1) = source file (%.c)
+#   $(2) = BL stage (2, 2u, 30, 31, 32, 33)
+define MRVL_TF_LOG_DEF
+$(eval LOG_MODULES := $(subst ?,$(2),$(DEF_LOG_MODULES)))
+$(eval SRC_MOD := $(subst ..//,,$(1)))
+$(eval LOG_MOD := $(word 1,$(subst /, ,$(SRC_MOD))))
+$(eval $(if $(findstring $(LOG_MOD),$(LOG_MODULES)),,$(error "Unknown logging module '$(LOG_MOD)' ($(1)) (missing from $(LOG_MODULES))")))
+$(eval LOG_MOD_SPLIT_LIST := $(firstword $(subst $(LOG_MOD), ,$(LOG_MODULES))))
+$(eval LOG_MOD_INDEX := $(shell echo $$(($(words $(subst _, ,$(LOG_MOD_SPLIT_LIST)))-1))))
+$(eval LOG_MOD_MASK := $(shell echo $$((2 ** $(LOG_MOD_INDEX)))))
+$(eval MRVL_TF_LOGGING := -DMRVL_TF_LOG_MODULE=$(LOG_MOD_MASK) -include $(MRVL_OTX_DEBUG_H))
+endef
+endif

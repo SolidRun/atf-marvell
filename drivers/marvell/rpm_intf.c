@@ -27,10 +27,15 @@
 
 #include "cavm-csrs-rpm.h"
 
-/* define DEBUG_ATF_RPM_INTF to enable debug logs */
+/* for LEGACY logging, define DEBUG_ATF_RPM_INTF to enable debug logs */
 #undef DEBUG_ATF_RPM_INTF
 
-#ifdef DEBUG_ATF_RPM_INTF
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_ETH
+#  define debug_rpm_intf(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+			       tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#elif DEBUG_ATF_RPM_INTF
 #define debug_rpm_intf printf
 #else
 #define debug_rpm_intf(...) ((void) (0))

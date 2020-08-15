@@ -25,10 +25,15 @@
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-rst.h"
 
-/* define DEBUG_ATF_DTS to enable debug logs */
+/* for LEGACY logging, define DEBUG_ATF_DTS to enable debug logs */
 #undef DEBUG_ATF_DTS
 
-#ifdef DEBUG_ATF_DTS
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_PARSE
+#  define debug_dts(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+				tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#elif DEBUG_ATF_DTS
 #define debug_dts printf
 #else
 #define debug_dts(...) ((void) (0))

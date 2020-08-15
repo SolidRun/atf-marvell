@@ -304,7 +304,6 @@ $(OBJ): $(2) $(filter-out %.d,$(MAKEFILE_LIST)) | lib$(3)_dirs
 
 endef
 
-
 # MAKE_C builds a C source file and generates the dependency file
 #   $(1) = output directory
 #   $(2) = source file (%.c)
@@ -315,10 +314,11 @@ $(eval OBJ := $(1)/$(patsubst %.c,%.o,$(notdir $(2))))
 $(eval DEP := $(patsubst %.o,%.d,$(OBJ)))
 $(eval BL_CPPFLAGS := $($(call uppercase,$(3))_CPPFLAGS) -DIMAGE_$(call uppercase,$(3)))
 $(eval BL_CFLAGS := $($(call uppercase,$(3))_CFLAGS))
+$(eval $(call MRVL_TF_LOG_DEF,$(2),$(3)))
 
 $(OBJ): $(2) $(filter-out %.d,$(MAKEFILE_LIST)) | $(3)_dirs
 	$$(ECHO) "  CC      $$<"
-	$$(Q)$$(CC) $$(LTO_CFLAGS) $$(TF_CFLAGS) $$(CFLAGS) $(BL_CPPFLAGS) $(BL_CFLAGS) $(MAKE_DEP) -c $$< -o $$@
+	$$(Q)$$(CC) $$(LTO_CFLAGS) $$(TF_CFLAGS) $$(CFLAGS) $(BL_CPPFLAGS) $(BL_CFLAGS) $(MAKE_DEP) $(MRVL_TF_LOGGING) -c $$< -o $$@
 
 -include $(DEP)
 

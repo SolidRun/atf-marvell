@@ -38,7 +38,15 @@
 #include "cavm-csrs-ree.h"
 #endif
 
-#ifdef DEBUG_ATF_RVU
+/* for LEGACY logging, define DEBUG_ATF_RVU to enable debug logs */
+#undef DEBUG_ATF_RVU
+
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_RVU
+#  define debug_rvu(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+			  tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#elif DEBUG_ATF_RVU
 #define debug_rvu printf
 #else
 #define debug_rvu(...) ((void) (0))

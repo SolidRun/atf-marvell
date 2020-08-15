@@ -498,6 +498,10 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	/* Allow BL1 to see the whole Trusted RAM */
 	bl2_tzram_layout.total_base = TZDRAM_BASE;
 	bl2_tzram_layout.total_size = TZDRAM_SIZE;
+
+#ifdef MRVL_TF_LOG_MODULE
+	initialize_tf_logging();
+#endif
 }
 
 /*******************************************************************************
