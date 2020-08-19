@@ -96,6 +96,11 @@ int octeontx_fill_board_details(int info)
 	const char *name;
 	int offset, len, config, rc;
 
+	/* Initialize the board config mem to zero before
+	 * updating them with the details from device tree
+	 */
+	memset(plat_octeontx_bcfg, 0, sizeof(plat_octeontx_board_cfg_t));
+
 	if (fdt_check_header(fdt)) {
 		printf("WARNING: Invalid device tree\n");
 		return -1;
@@ -179,8 +184,7 @@ int octeontx_fill_board_details(int info)
 #endif /* CRYPTO_BOARD_BOOT */
 
 #endif /* TRUSTED_BOARD_BOOT */
-
-  rc = plat_octeontx_fill_board_details();
+	rc = plat_octeontx_fill_board_details();
 	if (rc) {
 		INFO("Processing family FDT failed\n");
 		return rc;

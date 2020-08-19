@@ -24,6 +24,11 @@ static void fill_qlm_max_lane_num(void)
 
 int plat_octeontx_fill_soc_details(void)
 {
+	/* Initialize the system config mem to zero before
+	 * updating them with the system info
+	 */
+	memset(plat_octeontx_scfg, 0, sizeof(plat_octeontx_scfg_t));
+
 	plat_octeontx_scfg->iobn_count = plat_octeontx_get_iobn_count();
 	plat_octeontx_scfg->cgx_count = plat_octeontx_get_cgx_count();
 	assert(plat_octeontx_scfg->cgx_count <= MAX_CGX);
