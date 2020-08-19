@@ -211,6 +211,10 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id)
 {
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
+	/* Enable LMAC */
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+			enable, 1);
 	/* FIXME: PCS configi based on port-speed call either
 	 * HRPCS or LRPCS
 	 */
@@ -300,6 +304,10 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id)
 	fec_control.s.gc_fec91_ena_in &= ~(1 << lmac_id);
 	CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id),
 				fec_control.u);
+	/* Disable LMAC */
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+			enable, 0);
 
 	return 0;
 }
@@ -359,11 +367,6 @@ void rpm_init(int rpm_id)
 		CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_PMA_CONTROL(rpm_id),
 				global_pma_ctrl.u);
 
-		/* 1.2 Clock configuration */
-		/*FIXME: CSR bit fields issues */
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_clock_enable_t,
-				CAVM_RPMX_EXT_MTI_GLOBAL_CLOCK_ENABLE(rpm_id),
-				pcs_clken_ovrd, 1);
 		/* Clear FC-FEC/RS-FEc for all LMACs */
 		CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id),
 				0x0);
