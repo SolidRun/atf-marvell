@@ -68,7 +68,8 @@ enum mrvl_tf_log_module_e {
 	MRVL_TF_LOG_MODULE_ETH = 1 << 9,
 	MRVL_TF_LOG_MODULE_RVU = 1 << 10,
 	MRVL_TF_LOG_MODULE_PARSE = 1 << 11,
-	MRVL_TF_LOG_MODULE_ECAM = 1 << 12,
+	MRVL_TF_LOG_MODULE_PLAT_ECAM = 1 << 12, /* platform-specific */
+	MRVL_TF_LOG_MODULE_GEN_ECAM = 1 << 13, /* generic */
 };
 
 /*
