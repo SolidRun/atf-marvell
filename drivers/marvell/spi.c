@@ -74,23 +74,22 @@ static int spi_config_cn9xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	uint64_t sclk;
 #if !defined(PLAT_t106)
 	union cavm_rst_boot rst_boot;
-#else
-	cavm_rst_pnr_pll_t rst_pnr_pll;
 #endif
 	union cavm_mpix_cfg mpi_cfg;
 	mpi_cfg.u = CSR_READ(CAVM_MPIX_CFG(spi_con));
 
 	if (mode & SPI_FORCE_LEGACY_MODE) {
-#if defined(PLAT_t106)
-		rst_pnr_pll.u = CSR_READ(CAVM_RST_PNR_PLL);
-		sclk = rst_pnr_pll.s.cur_mul * PLL_REF_CLK_CN9XXX;
-#else
+#if !defined(PLAT_t106)
 		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 		sclk = PLL_REF_CLK_CN9XXX * rst_boot.s.pnr_mul;
 #endif
 		mpi_cfg.s.legacy_dis = 0; /* Use legacy mode */
 	} else {
+#if defined(PLAT_t106)
+		sclk = PLL_REF_CLK_CN10K; /* IOCLK of fixed frequency - 800Mhz */
+#else
 		sclk = PLL_REF_CLK_CN9XXX; /* With tb100_en use always 100Mhz */
+#endif
 		mpi_cfg.s.legacy_dis = 1; /* We don't use legacy mode */
 		mpi_cfg.s.tb100_en = 1; /* Use 100Mhz main reference */
 		mpi_cfg.s.cs_espi_en = 0; /* Not using eSPI mode */

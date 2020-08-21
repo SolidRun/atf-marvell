@@ -68,8 +68,8 @@ struct sh_fwdata {
 #define VF_MACNUM_MAX	256
 	uint64_t pf_macs[PF_MACNUM_MAX];
 	uint64_t vf_macs[VF_MACNUM_MAX];
-	uint64_t sclk;
-	uint64_t rclk;
+	uint64_t sclk;	/* In MHZ */
+	uint64_t coreclk; /* In MHZ */
 	uint64_t mcam_addr;
 	uint64_t mcam_sz;
 	uint64_t rvu_af_msixtr_base;

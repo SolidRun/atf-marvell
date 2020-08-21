@@ -18,6 +18,7 @@
 
 #define PLL_REF_CLK_CN8XXX	50000000	/* 50 MHz */
 #define PLL_REF_CLK_CN9XXX	100000000	/* 100 MHz */
+#define PLL_REF_CLK_CN10K	800000000	/* 800 MHz */
 
 /* Max data per one transfer in legacy mode (CN8xxx) */
 #define MPI_MAX_DATA	8

@@ -55,8 +55,7 @@ static struct eth_lmac_fwdata_s *get_sh_rpm_fwdata_ptr(int rpm_id, int lmac_id)
 
 void sh_fwdata_init(void)
 {
-	cavm_rst_core_pll_t rst_core_pll;
-	cavm_rst_pnr_pll_t rst_pnr_pll;
+	cavm_rst_pllx_t rst_pll;
 	struct sh_fwdata *fwdata;
 	struct eth_lmac_fwdata_s *lmac_fwdata;
 	rpm_lmac_config_t *lmac_cfg;
@@ -91,10 +90,10 @@ void sh_fwdata_init(void)
 		fwdata->pf_macs[i] = pf_mac;
 		pf_mac++;
 	}
-	rst_core_pll.u = CSR_READ(CAVM_RST_CORE_PLL);
-	rst_pnr_pll.u = CSR_READ(CAVM_RST_PNR_PLL);
-	fwdata->rclk = rst_core_pll.s.cur_mul * RST_REF_CLK;
-	fwdata->sclk = rst_pnr_pll.s.cur_mul * RST_REF_CLK;
+	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_MESHCLK));
+	fwdata->coreclk = rst_pll.s.cur_mul * RST_REF_CLK;
+	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_SCLK));
+	fwdata->sclk = rst_pll.s.cur_mul * RST_REF_CLK;
 	fwdata->rvu_af_msixtr_base = CSR_READ(CAVM_RVU_AF_MSIXTR_BASE);
 
 	/* Update LMAC type in sh FW data for each LMAC */
