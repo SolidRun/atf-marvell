@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1155,8 +1155,8 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FLUSH_FUNC(void)
  * SSO Workslot LF Switch Tag Full Operation Register 0
  * A write to this register performs a switch tag.
  *
- * A 128-bit store (STP) must be used to SSOW_LF_GWS_OP_SWTAG_FULL0 and
- * SSOW_LF_GWS_OP_SWTAG_FULL1.
+ * A 128-bit atomic compare and swap (CASP) must be used to SSOW_LF_GWS_OP_SWTAG_FULL0
+ * and SSOW_LF_GWS_OP_SWTAG_FULL1.
  */
 union cavm_ssow_lf_gws_op_swtag_full0
 {

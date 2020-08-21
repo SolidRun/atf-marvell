@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1313,6 +1313,50 @@ static inline uint64_t CAVM_BTS_PD_SLICEX_CTL(uint64_t a)
 #define arguments_CAVM_BTS_PD_SLICEX_CTL(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) bts_pd_slice#_oneshot_res
+ *
+ * BTS PD Bank Slice Status One Shot Result Register
+ * This register captures phase difference for each PD bank upon capture request.
+ */
+union cavm_bts_pd_slicex_oneshot_res
+{
+    uint64_t u;
+    struct cavm_bts_pd_slicex_oneshot_res_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t done                  : 1;  /**< [ 33: 33](RO/H) Phase difference capturing done indication - this bit is set after hardwarestores
+                                                                 captured value at [CAP_VAL].
+                                                                 Hardware zeros this bit upon each capture requst. */
+        uint64_t cap_val               : 33; /**< [ 32:  0](RO/H) Captured value of PD bank(a). */
+#else /* Word 0 - Little Endian */
+        uint64_t cap_val               : 33; /**< [ 32:  0](RO/H) Captured value of PD bank(a). */
+        uint64_t done                  : 1;  /**< [ 33: 33](RO/H) Phase difference capturing done indication - this bit is set after hardwarestores
+                                                                 captured value at [CAP_VAL].
+                                                                 Hardware zeros this bit upon each capture requst. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bts_pd_slicex_oneshot_res_s cn; */
+};
+typedef union cavm_bts_pd_slicex_oneshot_res cavm_bts_pd_slicex_oneshot_res_t;
+
+static inline uint64_t CAVM_BTS_PD_SLICEX_ONESHOT_RES(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BTS_PD_SLICEX_ONESHOT_RES(uint64_t a)
+{
+    if (a<=5)
+        return 0x87e012000500ll + 8ll * ((a) & 0x7);
+    __cavm_csr_fatal("BTS_PD_SLICEX_ONESHOT_RES", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_BTS_PD_SLICEX_ONESHOT_RES(a) cavm_bts_pd_slicex_oneshot_res_t
+#define bustype_CAVM_BTS_PD_SLICEX_ONESHOT_RES(a) CSR_TYPE_RSL
+#define basename_CAVM_BTS_PD_SLICEX_ONESHOT_RES(a) "BTS_PD_SLICEX_ONESHOT_RES"
+#define device_bar_CAVM_BTS_PD_SLICEX_ONESHOT_RES(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_BTS_PD_SLICEX_ONESHOT_RES(a) (a)
+#define arguments_CAVM_BTS_PD_SLICEX_ONESHOT_RES(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) bts_pd_slice#_status
  *
  * BTS PD Bank Slice Status Register
@@ -1360,6 +1404,64 @@ static inline uint64_t CAVM_BTS_PD_SLICEX_STATUS(uint64_t a)
 #define device_bar_CAVM_BTS_PD_SLICEX_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_BTS_PD_SLICEX_STATUS(a) (a)
 #define arguments_CAVM_BTS_PD_SLICEX_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) bts_pd_slice_oneshot_mode
+ *
+ * BTS PD Bank Slice Status One Shot Mode Register
+ * This register triggers capturing phase difference for each PD bank at
+ * BTS_PD_SLICE(0..5)_ONE_SHOT_MODE_RES upon capture request.
+ */
+union cavm_bts_pd_slice_oneshot_mode
+{
+    uint64_t u;
+    struct cavm_bts_pd_slice_oneshot_mode_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t capture_pd            : 6;  /**< [  5:  0](R/W/H) SW triggers phase difference capturing request of PD_bank({a}) by writing 1 to
+                                                                 [CAPTURE_PD]\<{a}\>. Captured value is stored at
+                                                                 BTS_PD_SLICE(0..5)_ONE_SHOT_MODE_RES[CAP_VAL] accordingly.
+                                                                 Once value was captured and stored, HW zeros appropriate CAPTURE_PD bit and sets
+                                                                 BTS_PD_SLICE(0..5)_ONE_SHOT_MODE[DONE] bit accordingly.
+                                                                 \<0\> = Capture PD bank 0.
+                                                                 \<1\> = Capture PD bank 1.
+                                                                 \<2\> = Capture PD bank 2.
+                                                                 \<3\> = Capture PD bank 3.
+                                                                 \<4\> = Capture PD bank 4.
+                                                                 \<5\> = Capture PD bank 5. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_pd            : 6;  /**< [  5:  0](R/W/H) SW triggers phase difference capturing request of PD_bank({a}) by writing 1 to
+                                                                 [CAPTURE_PD]\<{a}\>. Captured value is stored at
+                                                                 BTS_PD_SLICE(0..5)_ONE_SHOT_MODE_RES[CAP_VAL] accordingly.
+                                                                 Once value was captured and stored, HW zeros appropriate CAPTURE_PD bit and sets
+                                                                 BTS_PD_SLICE(0..5)_ONE_SHOT_MODE[DONE] bit accordingly.
+                                                                 \<0\> = Capture PD bank 0.
+                                                                 \<1\> = Capture PD bank 1.
+                                                                 \<2\> = Capture PD bank 2.
+                                                                 \<3\> = Capture PD bank 3.
+                                                                 \<4\> = Capture PD bank 4.
+                                                                 \<5\> = Capture PD bank 5. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bts_pd_slice_oneshot_mode_s cn; */
+};
+typedef union cavm_bts_pd_slice_oneshot_mode cavm_bts_pd_slice_oneshot_mode_t;
+
+#define CAVM_BTS_PD_SLICE_ONESHOT_MODE CAVM_BTS_PD_SLICE_ONESHOT_MODE_FUNC()
+static inline uint64_t CAVM_BTS_PD_SLICE_ONESHOT_MODE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BTS_PD_SLICE_ONESHOT_MODE_FUNC(void)
+{
+    return 0x87e012000540ll;
+}
+
+#define typedef_CAVM_BTS_PD_SLICE_ONESHOT_MODE cavm_bts_pd_slice_oneshot_mode_t
+#define bustype_CAVM_BTS_PD_SLICE_ONESHOT_MODE CSR_TYPE_RSL
+#define basename_CAVM_BTS_PD_SLICE_ONESHOT_MODE "BTS_PD_SLICE_ONESHOT_MODE"
+#define device_bar_CAVM_BTS_PD_SLICE_ONESHOT_MODE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_BTS_PD_SLICE_ONESHOT_MODE 0
+#define arguments_CAVM_BTS_PD_SLICE_ONESHOT_MODE -1,-1,-1,-1
 
 /**
  * Register (RSL) bts_pdbfn_div_cfg0

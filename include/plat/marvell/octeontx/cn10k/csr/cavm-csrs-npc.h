@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -576,7 +576,12 @@ union cavm_npc_af_cfg
     struct cavm_npc_af_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
+        uint64_t dis_csr_ffp           : 1;  /**< [  4:  4](R/W) When set, disable a force forward progress on CSR handling when there is a
+                                                                 resource contention with packet parsing.
+
+                                                                 Internal:
+                                                                 This changes the NIFI CSR arbitration mode. */
         uint64_t force_intf_clk_en     : 1;  /**< [  3:  3](R/W) Force conditional clocks active on buses between blocks. For diagnostic use only. */
         uint64_t cclk_force            : 1;  /**< [  2:  2](R/W) Force conditional clocks to be always enabled. For diagnostic use only. */
         uint64_t reserved_0_1          : 2;
@@ -584,7 +589,12 @@ union cavm_npc_af_cfg
         uint64_t reserved_0_1          : 2;
         uint64_t cclk_force            : 1;  /**< [  2:  2](R/W) Force conditional clocks to be always enabled. For diagnostic use only. */
         uint64_t force_intf_clk_en     : 1;  /**< [  3:  3](R/W) Force conditional clocks active on buses between blocks. For diagnostic use only. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t dis_csr_ffp           : 1;  /**< [  4:  4](R/W) When set, disable a force forward progress on CSR handling when there is a
+                                                                 resource contention with packet parsing.
+
+                                                                 Internal:
+                                                                 This changes the NIFI CSR arbitration mode. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_cfg_s cn; */
@@ -823,7 +833,10 @@ union cavm_npc_af_const2
                                                                  - NPC_RESULT_S[CTYPE].
                                                                  - NPC_AF_LKUP_CTL[CTYPE].
                                                                  - NPC_AF_MCAME()_BANK()_CAM()_INTF_EXT[CTYPE]. */
-        uint64_t reserved_32_60        : 29;
+        uint64_t reserved_56_60        : 5;
+        uint64_t ptypes                : 4;  /**< [ 55: 52](RO) Number of port kinds enumerated by NPC_PTYPE_E. */
+        uint64_t ctypes                : 4;  /**< [ 51: 48](RO) Number of channel types enumerated by NPC_CTYPE_E. */
+        uint64_t reserved_32_47        : 16;
         uint64_t match_stats_ext       : 16; /**< [ 31: 16](RO) Number of MCAM extended NPC_AF_MATCH_STAT_EXT() counters.  Use extended MCAM
                                                                  register set (list below) when value is non-zero.
                                                                  * NPC_AF_MATCH_STAT_EXT().
@@ -867,7 +880,10 @@ union cavm_npc_af_const2
                                                                  max value 0x10000 which does not fit.  If support for full 64k stats, will not
                                                                  require an indirect lookup.  Could control that with another CONST field or
                                                                  encode 0 to mean full 64k. */
-        uint64_t reserved_32_60        : 29;
+        uint64_t reserved_32_47        : 16;
+        uint64_t ctypes                : 4;  /**< [ 51: 48](RO) Number of channel types enumerated by NPC_CTYPE_E. */
+        uint64_t ptypes                : 4;  /**< [ 55: 52](RO) Number of port kinds enumerated by NPC_PTYPE_E. */
+        uint64_t reserved_56_60        : 5;
         uint64_t have_ctype            : 1;  /**< [ 61: 61](RO) CTYPE functionality is present.  CTYPE will be visible in the following:
                                                                  - NPC_MCAM_KEY_X1_S[CTYPE].
                                                                  - NPC_MCAM_KEY_X2_S[CTYPE].
@@ -912,9 +928,15 @@ union cavm_npc_af_const3
     struct cavm_npc_af_const3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t have_const4           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST4 is present. */
+        uint64_t have_exact_match      : 1;  /**< [ 62: 62](RO) Exact Match functionality is present. */
+        uint64_t have_sa_lookup        : 1;  /**< [ 61: 61](RO) SPI -\> SA Lookup functionality is present. */
+        uint64_t reserved_0_60         : 61;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_0_60         : 61;
+        uint64_t have_sa_lookup        : 1;  /**< [ 61: 61](RO) SPI -\> SA Lookup functionality is present. */
+        uint64_t have_exact_match      : 1;  /**< [ 62: 62](RO) Exact Match functionality is present. */
+        uint64_t have_const4           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST4 is present. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_const3_s cn; */
@@ -1728,7 +1750,7 @@ union cavm_npc_af_kcam_scrub_ctl
         uint64_t toth                  : 4;  /**< [ 19: 16](R/W) CAM scrubber timeout threshold. The timeout timer increments by one each
                                                                  coprocessor-clock cycle, and a single scrub cycle is issued to all CAMs as soon
                                                                  as a timeout occurs when the timer reaches the threshold 2^([TOTH]).
-                                                                 The maximum timeout threshold is 2^15 and minimum is every cycle. */
+                                                                 The maximum timeout threshold is 2^15 and minimum is 2^4 cycles. */
         uint64_t reserved_9_15         : 7;
         uint64_t lp_dis                : 1;  /**< [  8:  8](R/W) Low power mode disable. Skip disabled CAM entries when this bit is cleared. Scrub
                                                                  all CAM entries when this bit is set. */
@@ -1743,7 +1765,7 @@ union cavm_npc_af_kcam_scrub_ctl
         uint64_t toth                  : 4;  /**< [ 19: 16](R/W) CAM scrubber timeout threshold. The timeout timer increments by one each
                                                                  coprocessor-clock cycle, and a single scrub cycle is issued to all CAMs as soon
                                                                  as a timeout occurs when the timer reaches the threshold 2^([TOTH]).
-                                                                 The maximum timeout threshold is 2^15 and minimum is every cycle. */
+                                                                 The maximum timeout threshold is 2^15 and minimum is 2^4 cycles. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -2784,7 +2806,7 @@ union cavm_npc_af_mcam_scrub_ctl
         uint64_t toth                  : 4;  /**< [ 19: 16](R/W) CAM scrubber timeout threshold. The timeout timer increments by one each
                                                                  coprocessor-clock cycle, and a single scrub cycle is issued to all CAMs as soon
                                                                  as a timeout occurs when the timer reaches the threshold 2^([TOTH]).
-                                                                 The maximum timeout threshold is 2^15 and minimum is every cycle. */
+                                                                 The maximum timeout threshold is 2^15 and minimum is 2^4 cycles. */
         uint64_t reserved_9_15         : 7;
         uint64_t lp_dis                : 1;  /**< [  8:  8](R/W) Low power mode disable. Skip disabled CAM entries when this bit is cleared. Scrub
                                                                  all CAM entries when this bit is set. */
@@ -2799,7 +2821,7 @@ union cavm_npc_af_mcam_scrub_ctl
         uint64_t toth                  : 4;  /**< [ 19: 16](R/W) CAM scrubber timeout threshold. The timeout timer increments by one each
                                                                  coprocessor-clock cycle, and a single scrub cycle is issued to all CAMs as soon
                                                                  as a timeout occurs when the timer reaches the threshold 2^([TOTH]).
-                                                                 The maximum timeout threshold is 2^15 and minimum is every cycle. */
+                                                                 The maximum timeout threshold is 2^15 and minimum is 2^4 cycles. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

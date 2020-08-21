@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -37,6 +37,790 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_EHSM_INT_VEC_E_EHSM_HST_INTX(a) (0 + (a))
+
+/**
+ * Register (NCB32b) ehsm_abus_cfg
+ *
+ * EHSM Abus Cfg Register
+ */
+union cavm_ehsm_abus_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_abus_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](R/W) Reserved. */
+        uint32_t groupc_sel            : 2;  /**< [ 13: 12](R/W) Group C acclerators are able to randome access (read/write memory with
+                                                                 particualr address) the Scratch Pad. This field connects one of the accelerators
+                                                                 in Group C to the Scratch Pad's random access port.
+                                                                 0h= AMC (Asymmetric Cipher Engine)
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 When the Scratch Pad is not in the random access mode, this field is ignored.
+                                                                 Above selection is based on the default EHSM hardware configuration. The actual
+                                                                 section may be diiferent when configuration is changed.
+                                                                 AMC is the engine that handles RSA and Elliptic Curve algorithm
+                                                                 ? */
+        uint32_t sp_rsvd1              : 2;  /**< [ 11: 10](R/W) Reserved. */
+        uint32_t groupb_sel            : 2;  /**< [  9:  8](R/W) Group B acclerators sequential access (using valid and ready signal to transfer
+                                                                 data) the Scratch Pad and/or DMA. This field connects one of the accelerators in
+                                                                 Group B to the Scratch Pad and/or DMA.
+                                                                 0h= AES
+                                                                 1h= DES/TDES
+                                                                 2h= Bypass
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 The corss bar configuration decides how the data flows in and out of the Group B accelerator.
+                                                                 Above selection is based on the default EHSM hardware configuration. The actual
+                                                                 section may be diiferent when configuration is changed. */
+        uint32_t sp_rsvd2              : 2;  /**< [  7:  6](R/W) Reserved. */
+        uint32_t groupa_sel            : 2;  /**< [  5:  4](R/W) Group A acclerators sequential access (using valid and ready signal to transfer
+                                                                 data) the Scratch Pad and/or DMA. This field connects one of the accelerators in
+                                                                 Group A to the Scratch Pad and/or DMA.
+                                                                 0h= Hash
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 The corss bar configuration decides how the data flows in and out of the Group A accelerator.
+                                                                 Above selection is based on the default EHSM hardware configuration. The actual
+                                                                 section may be diiferent when configuration is changed. */
+        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint32_t wrcrossbar_sel        : 1;  /**< [  2:  2](R/W) This field connects the sequential access's output port of Group A and B to
+                                                                 sequential access's input port of Scratch Pad and DMA.
+                                                                 0h= Straight connection. Data flows from Group A accelrator to Scratch Pad. Data
+                                                                 flows from Group B Accelrator to DMA output buffer
+                                                                 1h= Cross connection. Data flows from Group B accelrator to Scratch Pad. Data
+                                                                 flows from Group A accelrator to DMA output buffer */
+        uint32_t sp_rsvd4              : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint32_t rdcrossbar_sel        : 1;  /**< [  0:  0](R/W) This field connects the sequential access's output port of Scratch Pad and DMA
+                                                                 to sequential access's input port of Group A and B.
+                                                                 0h= Straight connection. Data flows from Scratch Pad to Group A accelrator. Data
+                                                                 flows from DMA input buffer to Group B accelrator.
+                                                                 1h= Cross connection. Data flows from Scratch Pad to Group B accelrator. Data
+                                                                 flows from DMA's input buffer to Group A accelerator. */
+#else /* Word 0 - Little Endian */
+        uint32_t rdcrossbar_sel        : 1;  /**< [  0:  0](R/W) This field connects the sequential access's output port of Scratch Pad and DMA
+                                                                 to sequential access's input port of Group A and B.
+                                                                 0h= Straight connection. Data flows from Scratch Pad to Group A accelrator. Data
+                                                                 flows from DMA input buffer to Group B accelrator.
+                                                                 1h= Cross connection. Data flows from Scratch Pad to Group B accelrator. Data
+                                                                 flows from DMA's input buffer to Group A accelerator. */
+        uint32_t sp_rsvd4              : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint32_t wrcrossbar_sel        : 1;  /**< [  2:  2](R/W) This field connects the sequential access's output port of Group A and B to
+                                                                 sequential access's input port of Scratch Pad and DMA.
+                                                                 0h= Straight connection. Data flows from Group A accelrator to Scratch Pad. Data
+                                                                 flows from Group B Accelrator to DMA output buffer
+                                                                 1h= Cross connection. Data flows from Group B accelrator to Scratch Pad. Data
+                                                                 flows from Group A accelrator to DMA output buffer */
+        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint32_t groupa_sel            : 2;  /**< [  5:  4](R/W) Group A acclerators sequential access (using valid and ready signal to transfer
+                                                                 data) the Scratch Pad and/or DMA. This field connects one of the accelerators in
+                                                                 Group A to the Scratch Pad and/or DMA.
+                                                                 0h= Hash
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 The corss bar configuration decides how the data flows in and out of the Group A accelerator.
+                                                                 Above selection is based on the default EHSM hardware configuration. The actual
+                                                                 section may be diiferent when configuration is changed. */
+        uint32_t sp_rsvd2              : 2;  /**< [  7:  6](R/W) Reserved. */
+        uint32_t groupb_sel            : 2;  /**< [  9:  8](R/W) Group B acclerators sequential access (using valid and ready signal to transfer
+                                                                 data) the Scratch Pad and/or DMA. This field connects one of the accelerators in
+                                                                 Group B to the Scratch Pad and/or DMA.
+                                                                 0h= AES
+                                                                 1h= DES/TDES
+                                                                 2h= Bypass
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 The corss bar configuration decides how the data flows in and out of the Group B accelerator.
+                                                                 Above selection is based on the default EHSM hardware configuration. The actual
+                                                                 section may be diiferent when configuration is changed. */
+        uint32_t sp_rsvd1              : 2;  /**< [ 11: 10](R/W) Reserved. */
+        uint32_t groupc_sel            : 2;  /**< [ 13: 12](R/W) Group C acclerators are able to randome access (read/write memory with
+                                                                 particualr address) the Scratch Pad. This field connects one of the accelerators
+                                                                 in Group C to the Scratch Pad's random access port.
+                                                                 0h= AMC (Asymmetric Cipher Engine)
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 When the Scratch Pad is not in the random access mode, this field is ignored.
+                                                                 Above selection is based on the default EHSM hardware configuration. The actual
+                                                                 section may be diiferent when configuration is changed.
+                                                                 AMC is the engine that handles RSA and Elliptic Curve algorithm
+                                                                 ? */
+        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_abus_cfg_s cn; */
+};
+typedef union cavm_ehsm_abus_cfg cavm_ehsm_abus_cfg_t;
+
+#define CAVM_EHSM_ABUS_CFG CAVM_EHSM_ABUS_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_ABUS_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_ABUS_CFG_FUNC(void)
+{
+    return 0x80b000000c00ll;
+}
+
+#define typedef_CAVM_EHSM_ABUS_CFG cavm_ehsm_abus_cfg_t
+#define bustype_CAVM_EHSM_ABUS_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_ABUS_CFG "EHSM_ABUS_CFG"
+#define device_bar_CAVM_EHSM_ABUS_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_ABUS_CFG 0
+#define arguments_CAVM_EHSM_ABUS_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_acc_addr
+ *
+ * EHSM Amc Acc Addr Register
+ */
+union cavm_ehsm_amc_acc_addr
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_acc_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 24; /**< [ 31:  8](R/W) Missing register field description. */
+        uint32_t offset                : 8;  /**< [  7:  0](R/W) This field shows the current DWord offset (0's base) of the operand. This field
+                                                                 is shared by all operands. It is automatically increased by one after each
+                                                                 read/write to any of the operand in the AMC_ACC_ZMP_DATA or AMC_ACC_ECP_DATA
+                                                                 registers. The values loops around when it reaches the operand size defined by
+                                                                 AMC_SIZE register. For example, if the operand size is 67 bits (3 DWords), the
+                                                                 maximum value of this field is 2. The offset value returns to zero after 3
+                                                                 read/write to the AMC_ACC_ZMP_DATA or AMC_ACC_ECP_DATA registers.
+                                                                 Notes:
+                                                                 The AMC_CFG and AMC_SIZE registers must be configured correctly before
+                                                                 loading/unloading the operand.
+                                                                 Programming an operand with invalid offset (i.e. exceed the operand size) will
+                                                                 corrupt other operands. */
+#else /* Word 0 - Little Endian */
+        uint32_t offset                : 8;  /**< [  7:  0](R/W) This field shows the current DWord offset (0's base) of the operand. This field
+                                                                 is shared by all operands. It is automatically increased by one after each
+                                                                 read/write to any of the operand in the AMC_ACC_ZMP_DATA or AMC_ACC_ECP_DATA
+                                                                 registers. The values loops around when it reaches the operand size defined by
+                                                                 AMC_SIZE register. For example, if the operand size is 67 bits (3 DWords), the
+                                                                 maximum value of this field is 2. The offset value returns to zero after 3
+                                                                 read/write to the AMC_ACC_ZMP_DATA or AMC_ACC_ECP_DATA registers.
+                                                                 Notes:
+                                                                 The AMC_CFG and AMC_SIZE registers must be configured correctly before
+                                                                 loading/unloading the operand.
+                                                                 Programming an operand with invalid offset (i.e. exceed the operand size) will
+                                                                 corrupt other operands. */
+        uint32_t sp_rsvd0              : 24; /**< [ 31:  8](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_acc_addr_s cn; */
+};
+typedef union cavm_ehsm_amc_acc_addr cavm_ehsm_amc_acc_addr_t;
+
+#define CAVM_EHSM_AMC_ACC_ADDR CAVM_EHSM_AMC_ACC_ADDR_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_ACC_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_ACC_ADDR_FUNC(void)
+{
+    return 0x80b0000014fcll;
+}
+
+#define typedef_CAVM_EHSM_AMC_ACC_ADDR cavm_ehsm_amc_acc_addr_t
+#define bustype_CAVM_EHSM_AMC_ACC_ADDR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_ACC_ADDR "EHSM_AMC_ACC_ADDR"
+#define device_bar_CAVM_EHSM_AMC_ACC_ADDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_ACC_ADDR 0
+#define arguments_CAVM_EHSM_AMC_ACC_ADDR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_acc_ecp_data
+ *
+ * EHSM Amc Acc Ecp Data Register
+ * ECP Operands
+ * Prime (APB Byte Address Offset: 200h)- Prime for all ECP operations.
+ * Parameter A (APB Byte Address Offset: 204h)- Elliptic Curve parameter a- Used for
+ * Point Multiplication and Point Doubling
+ * Parameter B (APB Byte Address Offset: 208h)- Elliptic Curve parameter b- Used for
+ * Point Multiplication
+ * Point 0 - X Coordinate (APB Byte Address Offset: 20Ch)- X coordinate of point 0 on
+ * the Elliptic Curve for all ECP operations except Point Additive Inverse.
+ * Point 0 - Y Coordinate (APB Byte Address Offset: 210h)- Y coordinate of point 0 on
+ * the Elliptic Curve for all ECP operation
+ * Point 1 - X Coordinate (APB Byte Address Offset: 214h)- X coordinate of point 1 on
+ * the Elliptic Curve for Point Addition and Point Subtraction.- A random number for
+ * Point Multiplication. The random number must be less than the prime. This is used to
+ * prevent security attack during the Point Multiplication.
+ * Point 1 - Y Coordinate (APB Byte Address Offset: 218h)- Y coordinate of point 1 on
+ * the Elliptic Curve for Point Addition and Point Subtraction- Scalar (Key) for Point
+ * Multiplication. Its bit length shall not be larger than prime's bit length.
+ * Point Z - X Coordinate (APB Byte Address Offset: 21Ch)- X coordinate of computation
+ * result point (Z) on the Elliptic Curve for all ECP operations
+ * Point Z - Y Coordinate (APB Byte Address Offset: 220h)- Y coordinate of computation
+ * result point (Z) on the Elliptic Curve for all ECP operation
+ * Notes:
+ * Operand should be programmed from LSB to MSB.
+ */
+union cavm_ehsm_amc_acc_ecp_data
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_acc_ecp_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t amc_acc_ecp_data      : 32; /**< [ 31:  0](R/W) ECP Operands
+                                                                 Prime (APB Byte Address Offset: 200h)- Prime for all ECP operations.
+                                                                 Parameter A (APB Byte Address Offset: 204h)- Elliptic Curve parameter a- Used
+                                                                 for Point Multiplication and Point Doubling
+                                                                 Parameter B (APB Byte Address Offset: 208h)- Elliptic Curve parameter b- Used
+                                                                 for Point Multiplication
+                                                                 Point 0 - X Coordinate (APB Byte Address Offset: 20Ch)- X coordinate of point 0
+                                                                 on the Elliptic Curve for all ECP operations except Point Additive Inverse.
+                                                                 Point 0 - Y Coordinate (APB Byte Address Offset: 210h)- Y coordinate of point 0
+                                                                 on the Elliptic Curve for all ECP operation
+                                                                 Point 1 - X Coordinate (APB Byte Address Offset: 214h)- X coordinate of point 1
+                                                                 on the Elliptic Curve for Point Addition and Point Subtraction.- A random number
+                                                                 for Point Multiplication. The random number must be less than the prime. This is
+                                                                 used to prevent security attack during the Point Multiplication.
+                                                                 Point 1 - Y Coordinate (APB Byte Address Offset: 218h)- Y coordinate of point 1
+                                                                 on the Elliptic Curve for Point Addition and Point Subtraction- Scalar (Key) for
+                                                                 Point Multiplication. Its bit length shall not be larger than prime's bit
+                                                                 length.
+                                                                 Point Z - X Coordinate (APB Byte Address Offset: 21Ch)- X coordinate of
+                                                                 computation result point (Z) on the Elliptic Curve for all ECP operations
+                                                                 Point Z - Y Coordinate (APB Byte Address Offset: 220h)- Y coordinate of
+                                                                 computation result point (Z) on the Elliptic Curve for all ECP operation
+                                                                 Notes:
+                                                                 Operand should be programmed from LSB to MSB. */
+#else /* Word 0 - Little Endian */
+        uint32_t amc_acc_ecp_data      : 32; /**< [ 31:  0](R/W) ECP Operands
+                                                                 Prime (APB Byte Address Offset: 200h)- Prime for all ECP operations.
+                                                                 Parameter A (APB Byte Address Offset: 204h)- Elliptic Curve parameter a- Used
+                                                                 for Point Multiplication and Point Doubling
+                                                                 Parameter B (APB Byte Address Offset: 208h)- Elliptic Curve parameter b- Used
+                                                                 for Point Multiplication
+                                                                 Point 0 - X Coordinate (APB Byte Address Offset: 20Ch)- X coordinate of point 0
+                                                                 on the Elliptic Curve for all ECP operations except Point Additive Inverse.
+                                                                 Point 0 - Y Coordinate (APB Byte Address Offset: 210h)- Y coordinate of point 0
+                                                                 on the Elliptic Curve for all ECP operation
+                                                                 Point 1 - X Coordinate (APB Byte Address Offset: 214h)- X coordinate of point 1
+                                                                 on the Elliptic Curve for Point Addition and Point Subtraction.- A random number
+                                                                 for Point Multiplication. The random number must be less than the prime. This is
+                                                                 used to prevent security attack during the Point Multiplication.
+                                                                 Point 1 - Y Coordinate (APB Byte Address Offset: 218h)- Y coordinate of point 1
+                                                                 on the Elliptic Curve for Point Addition and Point Subtraction- Scalar (Key) for
+                                                                 Point Multiplication. Its bit length shall not be larger than prime's bit
+                                                                 length.
+                                                                 Point Z - X Coordinate (APB Byte Address Offset: 21Ch)- X coordinate of
+                                                                 computation result point (Z) on the Elliptic Curve for all ECP operations
+                                                                 Point Z - Y Coordinate (APB Byte Address Offset: 220h)- Y coordinate of
+                                                                 computation result point (Z) on the Elliptic Curve for all ECP operation
+                                                                 Notes:
+                                                                 Operand should be programmed from LSB to MSB. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_acc_ecp_data_s cn; */
+};
+typedef union cavm_ehsm_amc_acc_ecp_data cavm_ehsm_amc_acc_ecp_data_t;
+
+#define CAVM_EHSM_AMC_ACC_ECP_DATA CAVM_EHSM_AMC_ACC_ECP_DATA_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_ACC_ECP_DATA_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_ACC_ECP_DATA_FUNC(void)
+{
+    return 0x80b000001600ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_ACC_ECP_DATA cavm_ehsm_amc_acc_ecp_data_t
+#define bustype_CAVM_EHSM_AMC_ACC_ECP_DATA CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_ACC_ECP_DATA "EHSM_AMC_ACC_ECP_DATA"
+#define device_bar_CAVM_EHSM_AMC_ACC_ECP_DATA 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_ACC_ECP_DATA 0
+#define arguments_CAVM_EHSM_AMC_ACC_ECP_DATA -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_acc_zmp_data
+ *
+ * EHSM Amc Acc Zmp Data Register
+ * ZMP Operands
+ * M (APB Byte Address Offset: 100h)- Moduli for all ZMP operations.- Its value must be
+ * a prime (or odd) number.- M operand shall be larger than all other operands.
+ * X (APB Byte Address Offset: 104h)- Multiplicand for Montgomery Multipliciation and
+ * Modular Multiplication.- Base of exponentiation for Modular Exponentiation and
+ * Modular Inverse.- Addend for Modular Addition- Minuend for Modular Subtraction
+ * Y (APB Byte Address Offset: 108h)- Multiplicand for Montgomery Multiplication and
+ * Modular Multiplication..- Summand for Modular Addition- Subtrahend for Modular
+ * Subtraction
+ * Z (APB Byte Address Offset: 10Ch)- Montgomery domain conversion parameter (R=2^2n
+ * Mod M) for all ZMP operations, except Montgomery Multiplication and Pre-
+ * Computation.- Computation Result for all ZMP operations
+ * EXP (APB Byte Address Offset: 110h)- Exponent for Modular Exponentiation.
+ * Notes:
+ * Operand should be programmed from LSB to MSB.
+ * If a ZMP operation is performed right after the Pre-Computation and that operation
+ * requires the R, it is ok to not to unload/load the R after Pre-Computation because
+ * the Z and R are sharing the same memory space.
+ * ?
+ */
+union cavm_ehsm_amc_acc_zmp_data
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_acc_zmp_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t amc_acc_zmp_data      : 32; /**< [ 31:  0](R/W) ZMP Operands
+                                                                 M (APB Byte Address Offset: 100h)- Moduli for all ZMP operations.- Its value
+                                                                 must be a prime (or odd) number.- M operand shall be larger than all other
+                                                                 operands.
+                                                                 X (APB Byte Address Offset: 104h)- Multiplicand for Montgomery Multipliciation
+                                                                 and Modular Multiplication.- Base of exponentiation for Modular Exponentiation
+                                                                 and Modular Inverse.- Addend for Modular Addition- Minuend for Modular
+                                                                 Subtraction
+                                                                 Y (APB Byte Address Offset: 108h)- Multiplicand for Montgomery Multiplication
+                                                                 and Modular Multiplication..- Summand for Modular Addition- Subtrahend for
+                                                                 Modular Subtraction
+                                                                 Z (APB Byte Address Offset: 10Ch)- Montgomery domain conversion parameter
+                                                                 (R=2^2n Mod M) for all ZMP operations, except Montgomery Multiplication and Pre-
+                                                                 Computation.- Computation Result for all ZMP operations
+                                                                 EXP (APB Byte Address Offset: 110h)- Exponent for Modular Exponentiation.
+                                                                 Notes:
+                                                                 Operand should be programmed from LSB to MSB.
+                                                                 If a ZMP operation is performed right after the Pre-Computation and that
+                                                                 operation requires the R, it is ok to not to unload/load the R after Pre-
+                                                                 Computation because the Z and R are sharing the same memory space.
+                                                                 ? */
+#else /* Word 0 - Little Endian */
+        uint32_t amc_acc_zmp_data      : 32; /**< [ 31:  0](R/W) ZMP Operands
+                                                                 M (APB Byte Address Offset: 100h)- Moduli for all ZMP operations.- Its value
+                                                                 must be a prime (or odd) number.- M operand shall be larger than all other
+                                                                 operands.
+                                                                 X (APB Byte Address Offset: 104h)- Multiplicand for Montgomery Multipliciation
+                                                                 and Modular Multiplication.- Base of exponentiation for Modular Exponentiation
+                                                                 and Modular Inverse.- Addend for Modular Addition- Minuend for Modular
+                                                                 Subtraction
+                                                                 Y (APB Byte Address Offset: 108h)- Multiplicand for Montgomery Multiplication
+                                                                 and Modular Multiplication..- Summand for Modular Addition- Subtrahend for
+                                                                 Modular Subtraction
+                                                                 Z (APB Byte Address Offset: 10Ch)- Montgomery domain conversion parameter
+                                                                 (R=2^2n Mod M) for all ZMP operations, except Montgomery Multiplication and Pre-
+                                                                 Computation.- Computation Result for all ZMP operations
+                                                                 EXP (APB Byte Address Offset: 110h)- Exponent for Modular Exponentiation.
+                                                                 Notes:
+                                                                 Operand should be programmed from LSB to MSB.
+                                                                 If a ZMP operation is performed right after the Pre-Computation and that
+                                                                 operation requires the R, it is ok to not to unload/load the R after Pre-
+                                                                 Computation because the Z and R are sharing the same memory space.
+                                                                 ? */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_acc_zmp_data_s cn; */
+};
+typedef union cavm_ehsm_amc_acc_zmp_data cavm_ehsm_amc_acc_zmp_data_t;
+
+#define CAVM_EHSM_AMC_ACC_ZMP_DATA CAVM_EHSM_AMC_ACC_ZMP_DATA_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_ACC_ZMP_DATA_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_ACC_ZMP_DATA_FUNC(void)
+{
+    return 0x80b000001500ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_ACC_ZMP_DATA cavm_ehsm_amc_acc_zmp_data_t
+#define bustype_CAVM_EHSM_AMC_ACC_ZMP_DATA CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_ACC_ZMP_DATA "EHSM_AMC_ACC_ZMP_DATA"
+#define device_bar_CAVM_EHSM_AMC_ACC_ZMP_DATA 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_ACC_ZMP_DATA 0
+#define arguments_CAVM_EHSM_AMC_ACC_ZMP_DATA -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_cfg
+ *
+ * EHSM Amc Cfg Register
+ */
+union cavm_ehsm_amc_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 2;  /**< [ 31: 30](R/W) Missing register field description. */
+        uint32_t rkek                  : 1;  /**< [ 29: 29](R/W) This field determines whether RKEK (root key) should be used in the following
+                                                                 operations. When this bit is set, hardware directly uses the RKEK to replace a
+                                                                 particular operand (see below) during the operation.
+                                                                 ZMP - Montgomery Multiplication (X operand)
+                                                                 ZMP - Modular Multiplication (X operand)
+                                                                 ECP - Point (Scalar) Multiplication (Y1 operand)
+                                                                 Notes:
+                                                                 Do not set this bit if the programmed operation mode is not one of the operations listed above.
+                                                                 Currently the max size of RKEK is 521-bit. If RKEK is used, the operand bitwidth
+                                                                 shall be less than or equal to 521 in the AMC_SIZE register. */
+        uint32_t securemode            : 1;  /**< [ 28: 28](R/W) This field determines the operational sequence when performing ZMP-Modular
+                                                                 Exponentiation computation.
+                                                                 0h= Use unsecured sequence (faster computation)
+                                                                 1h= Use secured sequence against Power Analysis attack (slower computation)
+                                                                 Notes:
+                                                                 If this field is programmed to one, the internal hardware ensures all
+                                                                 calculations (such as multiplication) that appear in the operational sequence
+                                                                 take exactly the same number of cycle to complete regardless the value of
+                                                                 operands. Otherwise, the internal hardware tires to take the cycle as less as
+                                                                 possible to complete the calculation (Applied to all ZMP and ECP operations).
+                                                                 ? */
+        uint32_t sp_rsvd1              : 23; /**< [ 27:  5](R/W) Missing register field description. */
+        uint32_t opmode                : 5;  /**< [  4:  0](R/W) The engine supports two algorithms. The various modular operations (ZMP) are
+                                                                 used to support RSA. The various point calculations (ECP) are used to support
+                                                                 Elliptic Curve. This field determins the operation mode:
+                                                                 00h= ZMP - Montgomery Multiplication
+                                                                 01h= ZMP - Modular Multiplication
+                                                                 02h= ZMP - Modular Exponentiation
+                                                                 03h= ZMP - Modular Inverse
+                                                                 04h= ZMP - Pre-Computation (R=2^2n Mod M)
+                                                                 05h= ZMP - Modular Addition
+                                                                 06h= ZMP - Modular Subtraction
+                                                                 10h= ECP - Point (Scalar) Multiplication
+                                                                 11h= ECP - Point Addition
+                                                                 12h= ECP - Point Subtraction
+                                                                 13h= ECP - Point Doubling
+                                                                 14h= ECP - Point Additive Inverse
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 ZMP's Modular Inverse requires the operands to be in a finite field. */
+#else /* Word 0 - Little Endian */
+        uint32_t opmode                : 5;  /**< [  4:  0](R/W) The engine supports two algorithms. The various modular operations (ZMP) are
+                                                                 used to support RSA. The various point calculations (ECP) are used to support
+                                                                 Elliptic Curve. This field determins the operation mode:
+                                                                 00h= ZMP - Montgomery Multiplication
+                                                                 01h= ZMP - Modular Multiplication
+                                                                 02h= ZMP - Modular Exponentiation
+                                                                 03h= ZMP - Modular Inverse
+                                                                 04h= ZMP - Pre-Computation (R=2^2n Mod M)
+                                                                 05h= ZMP - Modular Addition
+                                                                 06h= ZMP - Modular Subtraction
+                                                                 10h= ECP - Point (Scalar) Multiplication
+                                                                 11h= ECP - Point Addition
+                                                                 12h= ECP - Point Subtraction
+                                                                 13h= ECP - Point Doubling
+                                                                 14h= ECP - Point Additive Inverse
+                                                                 Else= Reserved
+                                                                 Notes:
+                                                                 ZMP's Modular Inverse requires the operands to be in a finite field. */
+        uint32_t sp_rsvd1              : 23; /**< [ 27:  5](R/W) Missing register field description. */
+        uint32_t securemode            : 1;  /**< [ 28: 28](R/W) This field determines the operational sequence when performing ZMP-Modular
+                                                                 Exponentiation computation.
+                                                                 0h= Use unsecured sequence (faster computation)
+                                                                 1h= Use secured sequence against Power Analysis attack (slower computation)
+                                                                 Notes:
+                                                                 If this field is programmed to one, the internal hardware ensures all
+                                                                 calculations (such as multiplication) that appear in the operational sequence
+                                                                 take exactly the same number of cycle to complete regardless the value of
+                                                                 operands. Otherwise, the internal hardware tires to take the cycle as less as
+                                                                 possible to complete the calculation (Applied to all ZMP and ECP operations).
+                                                                 ? */
+        uint32_t rkek                  : 1;  /**< [ 29: 29](R/W) This field determines whether RKEK (root key) should be used in the following
+                                                                 operations. When this bit is set, hardware directly uses the RKEK to replace a
+                                                                 particular operand (see below) during the operation.
+                                                                 ZMP - Montgomery Multiplication (X operand)
+                                                                 ZMP - Modular Multiplication (X operand)
+                                                                 ECP - Point (Scalar) Multiplication (Y1 operand)
+                                                                 Notes:
+                                                                 Do not set this bit if the programmed operation mode is not one of the operations listed above.
+                                                                 Currently the max size of RKEK is 521-bit. If RKEK is used, the operand bitwidth
+                                                                 shall be less than or equal to 521 in the AMC_SIZE register. */
+        uint32_t sp_rsvd0              : 2;  /**< [ 31: 30](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_cfg_s cn; */
+};
+typedef union cavm_ehsm_amc_cfg cavm_ehsm_amc_cfg_t;
+
+#define CAVM_EHSM_AMC_CFG CAVM_EHSM_AMC_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_CFG_FUNC(void)
+{
+    return 0x80b000001400ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_CFG cavm_ehsm_amc_cfg_t
+#define bustype_CAVM_EHSM_AMC_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_CFG "EHSM_AMC_CFG"
+#define device_bar_CAVM_EHSM_AMC_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_CFG 0
+#define arguments_CAVM_EHSM_AMC_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_cmd
+ *
+ * EHSM Amc Cmd Register
+ */
+union cavm_ehsm_amc_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 30; /**< [ 31:  2](R/W) Missing register field description. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset the engine */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start the operation. This bit will be automatically cleared once it is set. */
+#else /* Word 0 - Little Endian */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start the operation. This bit will be automatically cleared once it is set. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset the engine */
+        uint32_t sp_rsvd0              : 30; /**< [ 31:  2](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_cmd_s cn; */
+};
+typedef union cavm_ehsm_amc_cmd cavm_ehsm_amc_cmd_t;
+
+#define CAVM_EHSM_AMC_CMD CAVM_EHSM_AMC_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_CMD_FUNC(void)
+{
+    return 0x80b000001408ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_CMD cavm_ehsm_amc_cmd_t
+#define bustype_CAVM_EHSM_AMC_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_CMD "EHSM_AMC_CMD"
+#define device_bar_CAVM_EHSM_AMC_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_CMD 0
+#define arguments_CAVM_EHSM_AMC_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_intp
+ *
+ * EHSM Amc Intp Register
+ */
+union cavm_ehsm_amc_intp
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_intp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectable data error during memory access.
+                                                                 This includes the firmware access through AMC_ACC_XXX_DATA registers and
+                                                                 hardware access during the operation. Write one to clear this bit. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t operr                 : 1;  /**< [  1:  1](R/W) This bit is set when engine detects invalid operand(s) value that can cause
+                                                                 unexpected result. When the error occurs, the engine stops the operation. All
+                                                                 given operands are lost. Write one to clear this bit. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when engine has finished the given task. Write one to clear this bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when engine has finished the given task. Write one to clear this bit. */
+        uint32_t operr                 : 1;  /**< [  1:  1](R/W) This bit is set when engine detects invalid operand(s) value that can cause
+                                                                 unexpected result. When the error occurs, the engine stops the operation. All
+                                                                 given operands are lost. Write one to clear this bit. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectable data error during memory access.
+                                                                 This includes the firmware access through AMC_ACC_XXX_DATA registers and
+                                                                 hardware access during the operation. Write one to clear this bit. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_intp_s cn; */
+};
+typedef union cavm_ehsm_amc_intp cavm_ehsm_amc_intp_t;
+
+#define CAVM_EHSM_AMC_INTP CAVM_EHSM_AMC_INTP_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_INTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_INTP_FUNC(void)
+{
+    return 0x80b000001410ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_INTP cavm_ehsm_amc_intp_t
+#define bustype_CAVM_EHSM_AMC_INTP CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_INTP "EHSM_AMC_INTP"
+#define device_bar_CAVM_EHSM_AMC_INTP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_INTP 0
+#define arguments_CAVM_EHSM_AMC_INTP -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_intp_en
+ *
+ * EHSM Amc Intp En Register
+ */
+union cavm_ehsm_amc_intp_en
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_intp_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the TxErr interrupt in the AMC_INTP register. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t operr                 : 1;  /**< [  1:  1](R/W) Set this bit to enable the OpErr interrupt in the AMC_INTP register. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the Done interrupt in the AMC_INTP register. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the Done interrupt in the AMC_INTP register. */
+        uint32_t operr                 : 1;  /**< [  1:  1](R/W) Set this bit to enable the OpErr interrupt in the AMC_INTP register. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the TxErr interrupt in the AMC_INTP register. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_intp_en_s cn; */
+};
+typedef union cavm_ehsm_amc_intp_en cavm_ehsm_amc_intp_en_t;
+
+#define CAVM_EHSM_AMC_INTP_EN CAVM_EHSM_AMC_INTP_EN_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_INTP_EN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_INTP_EN_FUNC(void)
+{
+    return 0x80b000001414ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_INTP_EN cavm_ehsm_amc_intp_en_t
+#define bustype_CAVM_EHSM_AMC_INTP_EN CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_INTP_EN "EHSM_AMC_INTP_EN"
+#define device_bar_CAVM_EHSM_AMC_INTP_EN 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_INTP_EN 0
+#define arguments_CAVM_EHSM_AMC_INTP_EN -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_rsvd0_rsvd
+ *
+ * INTERNAL: EHSM Amc Rsvd0 Register
+ */
+union cavm_ehsm_amc_rsvd0_rsvd
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_rsvd0_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_rsvd0_rsvd_s cn; */
+};
+typedef union cavm_ehsm_amc_rsvd0_rsvd cavm_ehsm_amc_rsvd0_rsvd_t;
+
+#define CAVM_EHSM_AMC_RSVD0_RSVD CAVM_EHSM_AMC_RSVD0_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_RSVD0_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_RSVD0_RSVD_FUNC(void)
+{
+    return 0x80b000001404ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_RSVD0_RSVD cavm_ehsm_amc_rsvd0_rsvd_t
+#define bustype_CAVM_EHSM_AMC_RSVD0_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_RSVD0_RSVD "EHSM_AMC_RSVD0_RSVD"
+#define device_bar_CAVM_EHSM_AMC_RSVD0_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_RSVD0_RSVD 0
+#define arguments_CAVM_EHSM_AMC_RSVD0_RSVD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_rsvd1_rsvd
+ *
+ * INTERNAL: EHSM Amc Rsvd1 Register
+ */
+union cavm_ehsm_amc_rsvd1_rsvd
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_rsvd1_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_rsvd1_rsvd_s cn; */
+};
+typedef union cavm_ehsm_amc_rsvd1_rsvd cavm_ehsm_amc_rsvd1_rsvd_t;
+
+#define CAVM_EHSM_AMC_RSVD1_RSVD CAVM_EHSM_AMC_RSVD1_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_RSVD1_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_RSVD1_RSVD_FUNC(void)
+{
+    return 0x80b00000141cll;
+}
+
+#define typedef_CAVM_EHSM_AMC_RSVD1_RSVD cavm_ehsm_amc_rsvd1_rsvd_t
+#define bustype_CAVM_EHSM_AMC_RSVD1_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_RSVD1_RSVD "EHSM_AMC_RSVD1_RSVD"
+#define device_bar_CAVM_EHSM_AMC_RSVD1_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_RSVD1_RSVD 0
+#define arguments_CAVM_EHSM_AMC_RSVD1_RSVD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_size
+ *
+ * EHSM Amc Size Register
+ */
+union cavm_ehsm_amc_size
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](R/W) Missing register field description. */
+        uint32_t bitwidth              : 14; /**< [ 13:  0](R/W) The bit length of the operands (1's base). Input zero to this field may hang the
+                                                                 engine. It cannot excced 8192.
+                                                                 Notes:
+                                                                 The maximum value (MAX) of this field depends on the memory/Scratch Pad DWord
+                                                                 (32-bit) size (MemDW). In general, the MAX=2*floor(MemDW/12) in ZMP case and
+                                                                 MAX=2*floor(MemDW/34) in ECP case. For example, the memory size is 512 DWords
+                                                                 (2K Bytes). It can support up to 84 DWords (2688-bit) ZMP operand size and up to
+                                                                 30 DWords (960-bit) ECP operand size. */
+#else /* Word 0 - Little Endian */
+        uint32_t bitwidth              : 14; /**< [ 13:  0](R/W) The bit length of the operands (1's base). Input zero to this field may hang the
+                                                                 engine. It cannot excced 8192.
+                                                                 Notes:
+                                                                 The maximum value (MAX) of this field depends on the memory/Scratch Pad DWord
+                                                                 (32-bit) size (MemDW). In general, the MAX=2*floor(MemDW/12) in ZMP case and
+                                                                 MAX=2*floor(MemDW/34) in ECP case. For example, the memory size is 512 DWords
+                                                                 (2K Bytes). It can support up to 84 DWords (2688-bit) ZMP operand size and up to
+                                                                 30 DWords (960-bit) ECP operand size. */
+        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_size_s cn; */
+};
+typedef union cavm_ehsm_amc_size cavm_ehsm_amc_size_t;
+
+#define CAVM_EHSM_AMC_SIZE CAVM_EHSM_AMC_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_SIZE_FUNC(void)
+{
+    return 0x80b000001418ll;
+}
+
+#define typedef_CAVM_EHSM_AMC_SIZE cavm_ehsm_amc_size_t
+#define bustype_CAVM_EHSM_AMC_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_SIZE "EHSM_AMC_SIZE"
+#define device_bar_CAVM_EHSM_AMC_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_SIZE 0
+#define arguments_CAVM_EHSM_AMC_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_amc_status
+ *
+ * EHSM Amc Status Register
+ */
+union cavm_ehsm_amc_status
+{
+    uint32_t u;
+    struct cavm_ehsm_amc_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](R/W) Missing register field description. */
+        uint32_t cpustate              : 3;  /**< [  6:  4](RO) Process Unit State (Debug purpose) */
+        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when engine is busy */
+#else /* Word 0 - Little Endian */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when engine is busy */
+        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t cpustate              : 3;  /**< [  6:  4](RO) Process Unit State (Debug purpose) */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_amc_status_s cn; */
+};
+typedef union cavm_ehsm_amc_status cavm_ehsm_amc_status_t;
+
+#define CAVM_EHSM_AMC_STATUS CAVM_EHSM_AMC_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_AMC_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_AMC_STATUS_FUNC(void)
+{
+    return 0x80b00000140cll;
+}
+
+#define typedef_CAVM_EHSM_AMC_STATUS cavm_ehsm_amc_status_t
+#define bustype_CAVM_EHSM_AMC_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_AMC_STATUS "EHSM_AMC_STATUS"
+#define device_bar_CAVM_EHSM_AMC_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_AMC_STATUS 0
+#define arguments_CAVM_EHSM_AMC_STATUS -1,-1,-1,-1
 
 /**
  * Register (NCB32b) ehsm_eco
@@ -73,6 +857,234 @@ static inline uint64_t CAVM_EHSM_ECO_FUNC(void)
 #define device_bar_CAVM_EHSM_ECO 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EHSM_ECO 0
 #define arguments_CAVM_EHSM_ECO -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_ehsm_apb_access_rsvd
+ *
+ * INTERNAL: EHSM Ehsm Apb Access Register
+ *
+ * This address space
+ *                         is used to access the external APB buses. 128
+ *                         32-bit        words can be direct addressed.
+ *                         Note that the APB_BASE register can be
+ *                         used to increase the addressable space.
+ */
+union cavm_ehsm_ehsm_apb_access_rsvd
+{
+    uint32_t u;
+    struct cavm_ehsm_ehsm_apb_access_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_ehsm_apb_access_rsvd_s cn; */
+};
+typedef union cavm_ehsm_ehsm_apb_access_rsvd cavm_ehsm_ehsm_apb_access_rsvd_t;
+
+#define CAVM_EHSM_EHSM_APB_ACCESS_RSVD CAVM_EHSM_EHSM_APB_ACCESS_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_EHSM_APB_ACCESS_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EHSM_APB_ACCESS_RSVD_FUNC(void)
+{
+    return 0x80b000003800ll;
+}
+
+#define typedef_CAVM_EHSM_EHSM_APB_ACCESS_RSVD cavm_ehsm_ehsm_apb_access_rsvd_t
+#define bustype_CAVM_EHSM_EHSM_APB_ACCESS_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EHSM_APB_ACCESS_RSVD "EHSM_EHSM_APB_ACCESS_RSVD"
+#define device_bar_CAVM_EHSM_EHSM_APB_ACCESS_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EHSM_APB_ACCESS_RSVD 0
+#define arguments_CAVM_EHSM_EHSM_APB_ACCESS_RSVD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_ehsm_apb_base
+ *
+ * EHSM Ehsm Apb Base Register
+ */
+union cavm_ehsm_ehsm_apb_base
+{
+    uint32_t u;
+    struct cavm_ehsm_ehsm_apb_base_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t apb_base              : 30; /**< [ 29:  0](RAZ) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t apb_base              : 30; /**< [ 29:  0](RAZ) Missing register field description. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_ehsm_apb_base_s cn; */
+};
+typedef union cavm_ehsm_ehsm_apb_base cavm_ehsm_ehsm_apb_base_t;
+
+#define CAVM_EHSM_EHSM_APB_BASE CAVM_EHSM_EHSM_APB_BASE_FUNC()
+static inline uint64_t CAVM_EHSM_EHSM_APB_BASE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EHSM_APB_BASE_FUNC(void)
+{
+    return 0x80b000003a00ll;
+}
+
+#define typedef_CAVM_EHSM_EHSM_APB_BASE cavm_ehsm_ehsm_apb_base_t
+#define bustype_CAVM_EHSM_EHSM_APB_BASE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EHSM_APB_BASE "EHSM_EHSM_APB_BASE"
+#define device_bar_CAVM_EHSM_EHSM_APB_BASE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EHSM_APB_BASE 0
+#define arguments_CAVM_EHSM_EHSM_APB_BASE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_ehsm_apb_int_mask
+ *
+ * EHSM Ehsm Apb Int Mask Register
+ * These bits apply a
+ *                         mask to the associated interrupt bits in
+ *                         register        APB_INT_STATUS.
+ */
+union cavm_ehsm_ehsm_apb_int_mask
+{
+    uint32_t u;
+    struct cavm_ehsm_ehsm_apb_int_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t apb_int_mask          : 8;  /**< [  7:  0](RAZ) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t apb_int_mask          : 8;  /**< [  7:  0](RAZ) Missing register field description. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_ehsm_apb_int_mask_s cn; */
+};
+typedef union cavm_ehsm_ehsm_apb_int_mask cavm_ehsm_ehsm_apb_int_mask_t;
+
+#define CAVM_EHSM_EHSM_APB_INT_MASK CAVM_EHSM_EHSM_APB_INT_MASK_FUNC()
+static inline uint64_t CAVM_EHSM_EHSM_APB_INT_MASK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EHSM_APB_INT_MASK_FUNC(void)
+{
+    return 0x80b000003a0cll;
+}
+
+#define typedef_CAVM_EHSM_EHSM_APB_INT_MASK cavm_ehsm_ehsm_apb_int_mask_t
+#define bustype_CAVM_EHSM_EHSM_APB_INT_MASK CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EHSM_APB_INT_MASK "EHSM_EHSM_APB_INT_MASK"
+#define device_bar_CAVM_EHSM_EHSM_APB_INT_MASK 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EHSM_APB_INT_MASK 0
+#define arguments_CAVM_EHSM_EHSM_APB_INT_MASK -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_ehsm_apb_int_status
+ *
+ * EHSM Ehsm Apb Int Status Register
+ */
+union cavm_ehsm_ehsm_apb_int_status
+{
+    uint32_t u;
+    struct cavm_ehsm_ehsm_apb_int_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t apb_int_status        : 8;  /**< [  7:  0](RAZ) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t apb_int_status        : 8;  /**< [  7:  0](RAZ) Missing register field description. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_ehsm_apb_int_status_s cn; */
+};
+typedef union cavm_ehsm_ehsm_apb_int_status cavm_ehsm_ehsm_apb_int_status_t;
+
+#define CAVM_EHSM_EHSM_APB_INT_STATUS CAVM_EHSM_EHSM_APB_INT_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_EHSM_APB_INT_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EHSM_APB_INT_STATUS_FUNC(void)
+{
+    return 0x80b000003a08ll;
+}
+
+#define typedef_CAVM_EHSM_EHSM_APB_INT_STATUS cavm_ehsm_ehsm_apb_int_status_t
+#define bustype_CAVM_EHSM_EHSM_APB_INT_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EHSM_APB_INT_STATUS "EHSM_EHSM_APB_INT_STATUS"
+#define device_bar_CAVM_EHSM_EHSM_APB_INT_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EHSM_APB_INT_STATUS 0
+#define arguments_CAVM_EHSM_EHSM_APB_INT_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_ehsm_apb_intf
+ *
+ * EHSM Ehsm Apb Intf Register
+ */
+union cavm_ehsm_ehsm_apb_intf
+{
+    uint32_t u;
+    struct cavm_ehsm_ehsm_apb_intf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t apb_intf              : 2;  /**< [  1:  0](RAZ) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t apb_intf              : 2;  /**< [  1:  0](RAZ) Missing register field description. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_ehsm_apb_intf_s cn; */
+};
+typedef union cavm_ehsm_ehsm_apb_intf cavm_ehsm_ehsm_apb_intf_t;
+
+#define CAVM_EHSM_EHSM_APB_INTF CAVM_EHSM_EHSM_APB_INTF_FUNC()
+static inline uint64_t CAVM_EHSM_EHSM_APB_INTF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EHSM_APB_INTF_FUNC(void)
+{
+    return 0x80b000003a04ll;
+}
+
+#define typedef_CAVM_EHSM_EHSM_APB_INTF cavm_ehsm_ehsm_apb_intf_t
+#define bustype_CAVM_EHSM_EHSM_APB_INTF CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EHSM_APB_INTF "EHSM_EHSM_APB_INTF"
+#define device_bar_CAVM_EHSM_EHSM_APB_INTF 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EHSM_APB_INTF 0
+#define arguments_CAVM_EHSM_EHSM_APB_INTF -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_ehsm_apb_rst
+ *
+ * EHSM Ehsm Apb Rst Register
+ * These bits when
+ *                         active will apply a reset over the associated
+ *                         APB bus.         A high value indicates reset is
+ *                         applied.  Bit 0 applies the reset to APB
+ *                         bus0, bit 1 applies the reset to APB bus 1, etc.
+ */
+union cavm_ehsm_ehsm_apb_rst
+{
+    uint32_t u;
+    struct cavm_ehsm_ehsm_apb_rst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t apb_rst               : 4;  /**< [  3:  0](RAZ) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t apb_rst               : 4;  /**< [  3:  0](RAZ) Missing register field description. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_ehsm_apb_rst_s cn; */
+};
+typedef union cavm_ehsm_ehsm_apb_rst cavm_ehsm_ehsm_apb_rst_t;
+
+#define CAVM_EHSM_EHSM_APB_RST CAVM_EHSM_EHSM_APB_RST_FUNC()
+static inline uint64_t CAVM_EHSM_EHSM_APB_RST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EHSM_APB_RST_FUNC(void)
+{
+    return 0x80b000003a10ll;
+}
+
+#define typedef_CAVM_EHSM_EHSM_APB_RST cavm_ehsm_ehsm_apb_rst_t
+#define bustype_CAVM_EHSM_EHSM_APB_RST CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EHSM_APB_RST "EHSM_EHSM_APB_RST"
+#define device_bar_CAVM_EHSM_EHSM_APB_RST 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EHSM_APB_RST 0
+#define arguments_CAVM_EHSM_EHSM_APB_RST -1,-1,-1,-1
 
 /**
  * Register (NCB) ehsm_hst#_int_ena_w1c
@@ -225,42 +1237,6 @@ static inline uint64_t CAVM_EHSM_HSTX_INT_W1S(uint64_t a)
 #define device_bar_CAVM_EHSM_HSTX_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EHSM_HSTX_INT_W1S(a) (a)
 #define arguments_CAVM_EHSM_HSTX_INT_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ehsm_ip_regs#
- *
- * EHSM IP Internal Registers
- * These registers access the EHSM register space.
- */
-union cavm_ehsm_ip_regsx
-{
-    uint32_t u;
-    struct cavm_ehsm_ip_regsx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t dat                   : 32; /**< [ 31:  0](R/W) EHSM registers. */
-#else /* Word 0 - Little Endian */
-        uint32_t dat                   : 32; /**< [ 31:  0](R/W) EHSM registers. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ehsm_ip_regsx_s cn; */
-};
-typedef union cavm_ehsm_ip_regsx cavm_ehsm_ip_regsx_t;
-
-static inline uint64_t CAVM_EHSM_IP_REGSX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EHSM_IP_REGSX(uint64_t a)
-{
-    if (a<=2047)
-        return 0x80b000000000ll + 4ll * ((a) & 0x7ff);
-    __cavm_csr_fatal("EHSM_IP_REGSX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EHSM_IP_REGSX(a) cavm_ehsm_ip_regsx_t
-#define bustype_CAVM_EHSM_IP_REGSX(a) CSR_TYPE_NCB32b
-#define basename_CAVM_EHSM_IP_REGSX(a) "EHSM_IP_REGSX"
-#define device_bar_CAVM_EHSM_IP_REGSX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EHSM_IP_REGSX(a) (a)
-#define arguments_CAVM_EHSM_IP_REGSX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ehsm_msix_pba#
@@ -513,6 +1489,3525 @@ static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_CYCLE_FUNC(void)
 #define arguments_CAVM_EHSM_S_REFCLK_CHECK_CYCLE -1,-1,-1,-1
 
 /**
+ * Register (NCB32b) ehsm_smc_aes_aad_size
+ *
+ * EHSM Smc Aes Aad Size Register
+ * AES?Additional Authenticated Data Size (in Byte)
+ * - Non-GCM Mode
+ * The field is ignored
+ * - GCM mode
+ * There is no limitation on the size
+ */
+union cavm_ehsm_smc_aes_aad_size
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_aad_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t aes_aad_size          : 32; /**< [ 31:  0](R/W) AES?Additional Authenticated Data Size (in Byte)
+                                                                 - Non-GCM Mode
+                                                                 The field is ignored
+                                                                 - GCM mode
+                                                                 There is no limitation on the size */
+#else /* Word 0 - Little Endian */
+        uint32_t aes_aad_size          : 32; /**< [ 31:  0](R/W) AES?Additional Authenticated Data Size (in Byte)
+                                                                 - Non-GCM Mode
+                                                                 The field is ignored
+                                                                 - GCM mode
+                                                                 There is no limitation on the size */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_aad_size_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_aad_size cavm_ehsm_smc_aes_aad_size_t;
+
+#define CAVM_EHSM_SMC_AES_AAD_SIZE CAVM_EHSM_SMC_AES_AAD_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_AAD_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_AAD_SIZE_FUNC(void)
+{
+    return 0x80b00000101cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_AAD_SIZE cavm_ehsm_smc_aes_aad_size_t
+#define bustype_CAVM_EHSM_SMC_AES_AAD_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_AAD_SIZE "EHSM_SMC_AES_AAD_SIZE"
+#define device_bar_CAVM_EHSM_SMC_AES_AAD_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_AAD_SIZE 0
+#define arguments_CAVM_EHSM_SMC_AES_AAD_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_cfg
+ *
+ * EHSM Smc Aes Cfg Register
+ */
+union cavm_ehsm_smc_aes_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t gcmivsrc              : 1;  /**< [ 31: 31](R/W) AES expects that the IV will be delievred on data bus (as part of the data
+                                                                 stream) in stead of feeding from the AES IV?registers in GCM mode. It is becasue
+                                                                 GCM requires special handling on the IV and the IV size can be very large.
+                                                                 However, when the IV is 12 bytes (a special case in GCM mode), the IV?can be
+                                                                 provided from the AES IV?register. This field determines the source of the IV.
+                                                                 It is only valid when IV is 12 bytes in GCM mode.
+                                                                 0h= IV is provided from AES IV registers.
+                                                                 1h= IV is provided through data bus.
+                                                                 Notes:
+                                                                 When this field is set, AES expects data is coming with the following order on
+                                                                 the data bus in GCM mode: "IV -\> AAD -\> P -\> Tag (decryption only)" */
+        uint32_t sp_rsvd0              : 12; /**< [ 30: 19](R/W) Missing register field description. */
+        uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as AES key. When
+                                                                 it is non-zero value, side loaded key is loaded into AES KEY1 register.
+                                                                 Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
+                                                                 0: Side loaded key will be disabled. AES engine will use programmed key
+                                                                 1: RKEK is selected as side loaded key to AES KEY1 register
+                                                                 2: UDS is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 3: L0_FW_AES_KEY0 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 4: L0_FW_AES_KEY1 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 5: L0_FW_AES_KEY2 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 6: L0_FW_AES_KEY3 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 Notes:
+                                                                 Resume feature is not allowed if side loaded key is used.
+                                                                 Read operation on KEY1 while this bit is set will return all 1's.
+                                                                 AES clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared
+                                                                 Internal: |
+                                                                  EHSM-17. It is valid for Vail, Antman. It is partially reserved for MW400 */
+        uint32_t sp_rsvd1              : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in AES CTR mode. The coutner increment
+                                                                 (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
+                                                                 active counter bitwidth is limited by this field.
+                                                                 0h~Fh= 128-bit (max counter bitwidth)
+                                                                 Else= Programmed value is the counter bitwidth.
+                                                                 Notes:
+                                                                 AES switches to 32-bit counter (m=32) automatically in GCM mode. This field is ignored. */
+        uint32_t sp_rsvd2              : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the AES operation mode
+                                                                 0h= EBC mode
+                                                                 1h= CBC mode
+                                                                 2h= CTR mode
+                                                                 3h= XTS mode
+                                                                 4h= Key Wrap mode
+                                                                 5h= CFB mode
+                                                                 6h= OFB mode
+                                                                 7h= GCM mode
+                                                                 Notes:
+                                                                 CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling
+                                                                 ? */
+        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t keylen                : 2;  /**< [  2:  1](R/W) The field determines the AES key length
+                                                                 0h= 128-Bit Key Size
+                                                                 1h= 256-Bit Key Size
+                                                                 2h= 192-Bit Key Size
+                                                                 Else reserved */
+        uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the AES operation
+                                                                 0h= Encryption
+                                                                 1h= Decryption */
+#else /* Word 0 - Little Endian */
+        uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the AES operation
+                                                                 0h= Encryption
+                                                                 1h= Decryption */
+        uint32_t keylen                : 2;  /**< [  2:  1](R/W) The field determines the AES key length
+                                                                 0h= 128-Bit Key Size
+                                                                 1h= 256-Bit Key Size
+                                                                 2h= 192-Bit Key Size
+                                                                 Else reserved */
+        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the AES operation mode
+                                                                 0h= EBC mode
+                                                                 1h= CBC mode
+                                                                 2h= CTR mode
+                                                                 3h= XTS mode
+                                                                 4h= Key Wrap mode
+                                                                 5h= CFB mode
+                                                                 6h= OFB mode
+                                                                 7h= GCM mode
+                                                                 Notes:
+                                                                 CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling
+                                                                 ? */
+        uint32_t sp_rsvd2              : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in AES CTR mode. The coutner increment
+                                                                 (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
+                                                                 active counter bitwidth is limited by this field.
+                                                                 0h~Fh= 128-bit (max counter bitwidth)
+                                                                 Else= Programmed value is the counter bitwidth.
+                                                                 Notes:
+                                                                 AES switches to 32-bit counter (m=32) automatically in GCM mode. This field is ignored. */
+        uint32_t sp_rsvd1              : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as AES key. When
+                                                                 it is non-zero value, side loaded key is loaded into AES KEY1 register.
+                                                                 Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
+                                                                 0: Side loaded key will be disabled. AES engine will use programmed key
+                                                                 1: RKEK is selected as side loaded key to AES KEY1 register
+                                                                 2: UDS is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 3: L0_FW_AES_KEY0 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 4: L0_FW_AES_KEY1 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 5: L0_FW_AES_KEY2 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 6: L0_FW_AES_KEY3 is selected as side loaded key to AES KEY1 register(reserved for MW400)
+                                                                 Notes:
+                                                                 Resume feature is not allowed if side loaded key is used.
+                                                                 Read operation on KEY1 while this bit is set will return all 1's.
+                                                                 AES clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared
+                                                                 Internal: |
+                                                                  EHSM-17. It is valid for Vail, Antman. It is partially reserved for MW400 */
+        uint32_t sp_rsvd0              : 12; /**< [ 30: 19](R/W) Missing register field description. */
+        uint32_t gcmivsrc              : 1;  /**< [ 31: 31](R/W) AES expects that the IV will be delievred on data bus (as part of the data
+                                                                 stream) in stead of feeding from the AES IV?registers in GCM mode. It is becasue
+                                                                 GCM requires special handling on the IV and the IV size can be very large.
+                                                                 However, when the IV is 12 bytes (a special case in GCM mode), the IV?can be
+                                                                 provided from the AES IV?register. This field determines the source of the IV.
+                                                                 It is only valid when IV is 12 bytes in GCM mode.
+                                                                 0h= IV is provided from AES IV registers.
+                                                                 1h= IV is provided through data bus.
+                                                                 Notes:
+                                                                 When this field is set, AES expects data is coming with the following order on
+                                                                 the data bus in GCM mode: "IV -\> AAD -\> P -\> Tag (decryption only)" */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_cfg_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_cfg cavm_ehsm_smc_aes_cfg_t;
+
+#define CAVM_EHSM_SMC_AES_CFG CAVM_EHSM_SMC_AES_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_CFG_FUNC(void)
+{
+    return 0x80b000001000ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_CFG cavm_ehsm_smc_aes_cfg_t
+#define bustype_CAVM_EHSM_SMC_AES_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_CFG "EHSM_SMC_AES_CFG"
+#define device_bar_CAVM_EHSM_SMC_AES_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_CFG 0
+#define arguments_CAVM_EHSM_SMC_AES_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_cmd
+ *
+ * EHSM Smc Aes Cmd Register
+ */
+union cavm_ehsm_smc_aes_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Missing register field description. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset AES. */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start AES. This bit will be automatically cleared once it is set. */
+#else /* Word 0 - Little Endian */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start AES. This bit will be automatically cleared once it is set. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset AES. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_cmd_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_cmd cavm_ehsm_smc_aes_cmd_t;
+
+#define CAVM_EHSM_SMC_AES_CMD CAVM_EHSM_SMC_AES_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_CMD_FUNC(void)
+{
+    return 0x80b000001008ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_CMD cavm_ehsm_smc_aes_cmd_t
+#define bustype_CAVM_EHSM_SMC_AES_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_CMD "EHSM_SMC_AES_CMD"
+#define device_bar_CAVM_EHSM_SMC_AES_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_CMD 0
+#define arguments_CAVM_EHSM_SMC_AES_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_ctrl
+ *
+ * EHSM Smc Aes Ctrl Register
+ */
+union cavm_ehsm_smc_aes_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](R/W) Missing register field description. */
+        uint32_t outputdis             : 1;  /**< [  2:  2](R/W) Set this bit to stop AES from outputting data on data bus. Some applications,
+                                                                 such as DRBG BCC function, are only interested in the last ciphertext (CTX) of
+                                                                 encryption result. Since he current design always saves the last CTX in the AES
+                                                                 IV register, it is unnecessary to output the entire encryption result on data
+                                                                 bus (save power and memory space).
+                                                                 Notes:
+                                                                 The input date stream must be multiple of 128-bits (no partial codeword allowed)
+                                                                 Resume operation is supported. */
+        uint32_t resume                : 1;  /**< [  1:  1](R/W) Set this bit to resume previous operation.
+                                                                 Notes:
+                                                                 User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
+                                                                 Resume operation is not supported in Key Wrap and GCM mode.
+                                                                 Refer to AES_STR_SIZE register for data size limitation */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t resume                : 1;  /**< [  1:  1](R/W) Set this bit to resume previous operation.
+                                                                 Notes:
+                                                                 User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
+                                                                 Resume operation is not supported in Key Wrap and GCM mode.
+                                                                 Refer to AES_STR_SIZE register for data size limitation */
+        uint32_t outputdis             : 1;  /**< [  2:  2](R/W) Set this bit to stop AES from outputting data on data bus. Some applications,
+                                                                 such as DRBG BCC function, are only interested in the last ciphertext (CTX) of
+                                                                 encryption result. Since he current design always saves the last CTX in the AES
+                                                                 IV register, it is unnecessary to output the entire encryption result on data
+                                                                 bus (save power and memory space).
+                                                                 Notes:
+                                                                 The input date stream must be multiple of 128-bits (no partial codeword allowed)
+                                                                 Resume operation is supported. */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_ctrl_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_ctrl cavm_ehsm_smc_aes_ctrl_t;
+
+#define CAVM_EHSM_SMC_AES_CTRL CAVM_EHSM_SMC_AES_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_CTRL_FUNC(void)
+{
+    return 0x80b000001004ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_CTRL cavm_ehsm_smc_aes_ctrl_t
+#define bustype_CAVM_EHSM_SMC_AES_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_CTRL "EHSM_SMC_AES_CTRL"
+#define device_bar_CAVM_EHSM_SMC_AES_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_CTRL 0
+#define arguments_CAVM_EHSM_SMC_AES_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_intp
+ *
+ * EHSM Smc Aes Intp Register
+ * Only CPU can clear the Interrupt bits
+ */
+union cavm_ehsm_smc_aes_intp
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_intp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
+                                                                 transfer. When the error occurs, the engine contiues the current operation based
+                                                                 on corrupted data. As soon as the engine finishes the operation (by checking
+                                                                 either busy bit or done interrupt bit), firmware can clear this bit by writing
+                                                                 one to this bit or or trigger the start of the next operation. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t tagerr                : 1;  /**< [  2:  2](R/W) This bit is set when GCM tag mismatch occurs in GCM decryption. Write one to
+                                                                 clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
+                                                                 - ECB Mode
+                                                                 AES_STR_SIZE register is not multiple of 16 bytes
+                                                                 AES_STR_SIZE regsiter is 0 byte.
+                                                                 - CBC Mode
+                                                                 AES_STR_SIZE register is less than 16 bytes
+                                                                 - CTR Mode
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - XTS Mode
+                                                                 AES_STR_SIZE register is less than 16 bytes
+                                                                 - Key Wrap Mode
+                                                                 AES_STR_SIZE register is not multiple of 8 bytes.
+                                                                 AES_STR_SIZE?register is more than Scratch Pad can handle
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - CFB Mode
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - OFB Mode
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - GCM Mode
+                                                                 AES_IV_SIZE register is 0 byte
+                                                                 AES_TAG_SIZE register is 0 byte
+                                                                 Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when AES has finished the given task. Write one to clear this
+                                                                 bit. Triggering the start of the next operation also clears this bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when AES has finished the given task. Write one to clear this
+                                                                 bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
+                                                                 - ECB Mode
+                                                                 AES_STR_SIZE register is not multiple of 16 bytes
+                                                                 AES_STR_SIZE regsiter is 0 byte.
+                                                                 - CBC Mode
+                                                                 AES_STR_SIZE register is less than 16 bytes
+                                                                 - CTR Mode
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - XTS Mode
+                                                                 AES_STR_SIZE register is less than 16 bytes
+                                                                 - Key Wrap Mode
+                                                                 AES_STR_SIZE register is not multiple of 8 bytes.
+                                                                 AES_STR_SIZE?register is more than Scratch Pad can handle
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - CFB Mode
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - OFB Mode
+                                                                 AES_STR_SIZE register is 0 byte.
+                                                                 - GCM Mode
+                                                                 AES_IV_SIZE register is 0 byte
+                                                                 AES_TAG_SIZE register is 0 byte
+                                                                 Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t tagerr                : 1;  /**< [  2:  2](R/W) This bit is set when GCM tag mismatch occurs in GCM decryption. Write one to
+                                                                 clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
+                                                                 transfer. When the error occurs, the engine contiues the current operation based
+                                                                 on corrupted data. As soon as the engine finishes the operation (by checking
+                                                                 either busy bit or done interrupt bit), firmware can clear this bit by writing
+                                                                 one to this bit or or trigger the start of the next operation. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_intp_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_intp cavm_ehsm_smc_aes_intp_t;
+
+#define CAVM_EHSM_SMC_AES_INTP CAVM_EHSM_SMC_AES_INTP_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_INTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_INTP_FUNC(void)
+{
+    return 0x80b000001010ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_INTP cavm_ehsm_smc_aes_intp_t
+#define bustype_CAVM_EHSM_SMC_AES_INTP CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_INTP "EHSM_SMC_AES_INTP"
+#define device_bar_CAVM_EHSM_SMC_AES_INTP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_INTP 0
+#define arguments_CAVM_EHSM_SMC_AES_INTP -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_intp_en
+ *
+ * EHSM Smc Aes Intp En Register
+ */
+union cavm_ehsm_smc_aes_intp_en
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_intp_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t tagerr                : 1;  /**< [  2:  2](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+        uint32_t tagerr                : 1;  /**< [  2:  2](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_intp_en_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_intp_en cavm_ehsm_smc_aes_intp_en_t;
+
+#define CAVM_EHSM_SMC_AES_INTP_EN CAVM_EHSM_SMC_AES_INTP_EN_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_INTP_EN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_INTP_EN_FUNC(void)
+{
+    return 0x80b000001014ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_INTP_EN cavm_ehsm_smc_aes_intp_en_t
+#define bustype_CAVM_EHSM_SMC_AES_INTP_EN CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_INTP_EN "EHSM_SMC_AES_INTP_EN"
+#define device_bar_CAVM_EHSM_SMC_AES_INTP_EN 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_INTP_EN 0
+#define arguments_CAVM_EHSM_SMC_AES_INTP_EN -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_iv_size
+ *
+ * EHSM Smc Aes Iv Size Register
+ * Initialization Vector (IV) Size (in Byte)
+ * - Non-GCM Mode
+ * The field is ignored because AES always uses 16 bytes IV in non-GCM mode automatically.
+ * - GCM mode
+ * The size must be larger than 0 byte.
+ */
+union cavm_ehsm_smc_aes_iv_size
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_iv_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t aes_iv_size           : 32; /**< [ 31:  0](R/W) Initialization Vector (IV) Size (in Byte)
+                                                                 - Non-GCM Mode
+                                                                 The field is ignored because AES always uses 16 bytes IV in non-GCM mode automatically.
+                                                                 - GCM mode
+                                                                 The size must be larger than 0 byte. */
+#else /* Word 0 - Little Endian */
+        uint32_t aes_iv_size           : 32; /**< [ 31:  0](R/W) Initialization Vector (IV) Size (in Byte)
+                                                                 - Non-GCM Mode
+                                                                 The field is ignored because AES always uses 16 bytes IV in non-GCM mode automatically.
+                                                                 - GCM mode
+                                                                 The size must be larger than 0 byte. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_iv_size_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_iv_size cavm_ehsm_smc_aes_iv_size_t;
+
+#define CAVM_EHSM_SMC_AES_IV_SIZE CAVM_EHSM_SMC_AES_IV_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_IV_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_IV_SIZE_FUNC(void)
+{
+    return 0x80b000001020ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_IV_SIZE cavm_ehsm_smc_aes_iv_size_t
+#define bustype_CAVM_EHSM_SMC_AES_IV_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_IV_SIZE "EHSM_SMC_AES_IV_SIZE"
+#define device_bar_CAVM_EHSM_SMC_AES_IV_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_IV_SIZE 0
+#define arguments_CAVM_EHSM_SMC_AES_IV_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_status
+ *
+ * EHSM Smc Aes Status Register
+ */
+union cavm_ehsm_smc_aes_status
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](R/W) Missing register field description. */
+        uint32_t engstate              : 3;  /**< [ 14: 12](RO) AES main state */
+        uint32_t sp_rsvd1              : 4;  /**< [ 11:  8](R/W) Missing register field description. */
+        uint32_t corestate             : 4;  /**< [  7:  4](RO) AES core state */
+        uint32_t sp_rsvd2              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when AES is busy */
+#else /* Word 0 - Little Endian */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when AES is busy */
+        uint32_t sp_rsvd2              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t corestate             : 4;  /**< [  7:  4](RO) AES core state */
+        uint32_t sp_rsvd1              : 4;  /**< [ 11:  8](R/W) Missing register field description. */
+        uint32_t engstate              : 3;  /**< [ 14: 12](RO) AES main state */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_status_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_status cavm_ehsm_smc_aes_status_t;
+
+#define CAVM_EHSM_SMC_AES_STATUS CAVM_EHSM_SMC_AES_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_STATUS_FUNC(void)
+{
+    return 0x80b00000100cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_STATUS cavm_ehsm_smc_aes_status_t
+#define bustype_CAVM_EHSM_SMC_AES_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_STATUS "EHSM_SMC_AES_STATUS"
+#define device_bar_CAVM_EHSM_SMC_AES_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_STATUS 0
+#define arguments_CAVM_EHSM_SMC_AES_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_str_size
+ *
+ * EHSM Smc Aes Str Size Register
+ * Plaintext/Ciphertext/Stream Size (in Byte)
+ * - ECB, CBC or XTS Mode
+ * The size must be no less than 16 bytes (ECB requires data to be multiple of 16 bytes).
+ * If the stream is divided to multiple segments (Resume Operation), all segments must
+ * be multiple of 16 bytes. If it is not ECB, the last segment allowes partial
+ * codeword.
+ * - CTR, CFB or OFB Mode
+ * The size must be larger than 0 byte.
+ * If the stream is divided to multiple segments (Resume Operation), all segments must
+ * be multiple of 16 bytes. The last segment allowes partial codeword.
+ * - Key Wrap Mode
+ * The size must be multiple of 8 bytes, no less than 8 bytes, and no more than Scratch Pad can handle
+ * The input data stream must be 64-bit reversed order during unwrapping. After
+ * unwrapped, the output data stream has to be reversed (64-bit) again to restore the
+ * data format. EX: "ABCD" is the plaintext to AES for Key Wrapping and the ciphertext
+ * is "WXYZ". Each character represents 32 bits (1 DWord). When the ciphertext is fed
+ * back to AES for unwrapping, the order must be "YZWX". The output of the unwrapping
+ * process is "CDAB". User then needs to restore the order back to "ABCD".
+ * - GCM Mode
+ * There is no limitation on the size
+ */
+union cavm_ehsm_smc_aes_str_size
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_str_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t aes_str_size          : 32; /**< [ 31:  0](R/W) Plaintext/Ciphertext/Stream Size (in Byte)
+                                                                 - ECB, CBC or XTS Mode
+                                                                 The size must be no less than 16 bytes (ECB requires data to be multiple of 16 bytes).
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. If it is not ECB, the last segment allowes partial
+                                                                 codeword.
+                                                                 - CTR, CFB or OFB Mode
+                                                                 The size must be larger than 0 byte.
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. The last segment allowes partial codeword.
+                                                                 - Key Wrap Mode
+                                                                 The size must be multiple of 8 bytes, no less than 8 bytes, and no more than Scratch Pad can handle
+                                                                 The input data stream must be 64-bit reversed order during unwrapping. After
+                                                                 unwrapped, the output data stream has to be reversed (64-bit) again to restore
+                                                                 the data format. EX: "ABCD" is the plaintext to AES for Key Wrapping and the
+                                                                 ciphertext is "WXYZ". Each character represents 32 bits (1 DWord). When the
+                                                                 ciphertext is fed back to AES for unwrapping, the order must be "YZWX". The
+                                                                 output of the unwrapping process is "CDAB". User then needs to restore the order
+                                                                 back to "ABCD".
+                                                                 - GCM Mode
+                                                                 There is no limitation on the size */
+#else /* Word 0 - Little Endian */
+        uint32_t aes_str_size          : 32; /**< [ 31:  0](R/W) Plaintext/Ciphertext/Stream Size (in Byte)
+                                                                 - ECB, CBC or XTS Mode
+                                                                 The size must be no less than 16 bytes (ECB requires data to be multiple of 16 bytes).
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. If it is not ECB, the last segment allowes partial
+                                                                 codeword.
+                                                                 - CTR, CFB or OFB Mode
+                                                                 The size must be larger than 0 byte.
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. The last segment allowes partial codeword.
+                                                                 - Key Wrap Mode
+                                                                 The size must be multiple of 8 bytes, no less than 8 bytes, and no more than Scratch Pad can handle
+                                                                 The input data stream must be 64-bit reversed order during unwrapping. After
+                                                                 unwrapped, the output data stream has to be reversed (64-bit) again to restore
+                                                                 the data format. EX: "ABCD" is the plaintext to AES for Key Wrapping and the
+                                                                 ciphertext is "WXYZ". Each character represents 32 bits (1 DWord). When the
+                                                                 ciphertext is fed back to AES for unwrapping, the order must be "YZWX". The
+                                                                 output of the unwrapping process is "CDAB". User then needs to restore the order
+                                                                 back to "ABCD".
+                                                                 - GCM Mode
+                                                                 There is no limitation on the size */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_str_size_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_str_size cavm_ehsm_smc_aes_str_size_t;
+
+#define CAVM_EHSM_SMC_AES_STR_SIZE CAVM_EHSM_SMC_AES_STR_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_STR_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_STR_SIZE_FUNC(void)
+{
+    return 0x80b000001018ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_STR_SIZE cavm_ehsm_smc_aes_str_size_t
+#define bustype_CAVM_EHSM_SMC_AES_STR_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_STR_SIZE "EHSM_SMC_AES_STR_SIZE"
+#define device_bar_CAVM_EHSM_SMC_AES_STR_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_STR_SIZE 0
+#define arguments_CAVM_EHSM_SMC_AES_STR_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_aes_tag_size
+ *
+ * EHSM Smc Aes Tag Size Register
+ */
+union cavm_ehsm_smc_aes_tag_size
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_aes_tag_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](R/W) Missing register field description. */
+        uint32_t tsize                 : 5;  /**< [  4:  0](R/W) AES Authenticated Tag Size (in Byte)
+                                                                 - Non-GCM Mode
+                                                                 The field is ignored.
+                                                                 - GCM mode
+                                                                 The size must be bwtween 1 and 16 bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t tsize                 : 5;  /**< [  4:  0](R/W) AES Authenticated Tag Size (in Byte)
+                                                                 - Non-GCM Mode
+                                                                 The field is ignored.
+                                                                 - GCM mode
+                                                                 The size must be bwtween 1 and 16 bytes. */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_aes_tag_size_s cn; */
+};
+typedef union cavm_ehsm_smc_aes_tag_size cavm_ehsm_smc_aes_tag_size_t;
+
+#define CAVM_EHSM_SMC_AES_TAG_SIZE CAVM_EHSM_SMC_AES_TAG_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_AES_TAG_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_AES_TAG_SIZE_FUNC(void)
+{
+    return 0x80b000001024ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_AES_TAG_SIZE cavm_ehsm_smc_aes_tag_size_t
+#define bustype_CAVM_EHSM_SMC_AES_TAG_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_AES_TAG_SIZE "EHSM_SMC_AES_TAG_SIZE"
+#define device_bar_CAVM_EHSM_SMC_AES_TAG_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_AES_TAG_SIZE 0
+#define arguments_CAVM_EHSM_SMC_AES_TAG_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_des_cfg
+ *
+ * EHSM Smc Des Cfg Register
+ */
+union cavm_ehsm_smc_des_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_des_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](R/W) Missing register field description. */
+        uint32_t opmode                : 1;  /**< [  2:  2](R/W) The field determines the DES/TDES operation mode
+                                                                 0h= EBC mode
+                                                                 1h= CBC mode */
+        uint32_t engmode               : 1;  /**< [  1:  1](R/W) The field selcets algorithm
+                                                                 0h= DES
+                                                                 1h= TDES */
+        uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the DES/TDES operation
+                                                                 0h= Encryption
+                                                                 1h= Decryption */
+#else /* Word 0 - Little Endian */
+        uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the DES/TDES operation
+                                                                 0h= Encryption
+                                                                 1h= Decryption */
+        uint32_t engmode               : 1;  /**< [  1:  1](R/W) The field selcets algorithm
+                                                                 0h= DES
+                                                                 1h= TDES */
+        uint32_t opmode                : 1;  /**< [  2:  2](R/W) The field determines the DES/TDES operation mode
+                                                                 0h= EBC mode
+                                                                 1h= CBC mode */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_des_cfg_s cn; */
+};
+typedef union cavm_ehsm_smc_des_cfg cavm_ehsm_smc_des_cfg_t;
+
+#define CAVM_EHSM_SMC_DES_CFG CAVM_EHSM_SMC_DES_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_DES_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_DES_CFG_FUNC(void)
+{
+    return 0x80b000001040ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_DES_CFG cavm_ehsm_smc_des_cfg_t
+#define bustype_CAVM_EHSM_SMC_DES_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_DES_CFG "EHSM_SMC_DES_CFG"
+#define device_bar_CAVM_EHSM_SMC_DES_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_DES_CFG 0
+#define arguments_CAVM_EHSM_SMC_DES_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_des_cmd
+ *
+ * EHSM Smc Des Cmd Register
+ */
+union cavm_ehsm_smc_des_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_des_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Missing register field description. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset DES/TDES. */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start DES/TDES. This bit will be automatically cleared once it is set. */
+#else /* Word 0 - Little Endian */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start DES/TDES. This bit will be automatically cleared once it is set. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset DES/TDES. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_des_cmd_s cn; */
+};
+typedef union cavm_ehsm_smc_des_cmd cavm_ehsm_smc_des_cmd_t;
+
+#define CAVM_EHSM_SMC_DES_CMD CAVM_EHSM_SMC_DES_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_DES_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_DES_CMD_FUNC(void)
+{
+    return 0x80b000001048ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_DES_CMD cavm_ehsm_smc_des_cmd_t
+#define bustype_CAVM_EHSM_SMC_DES_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_DES_CMD "EHSM_SMC_DES_CMD"
+#define device_bar_CAVM_EHSM_SMC_DES_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_DES_CMD 0
+#define arguments_CAVM_EHSM_SMC_DES_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_des_intp
+ *
+ * EHSM Smc Des Intp Register
+ * Interrupt signals can only be cleared by CPU.
+ */
+union cavm_ehsm_smc_des_intp
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_des_intp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
+                                                                 transfer. When the error occurs, the engine contiues the current operation based
+                                                                 on corrupted data. As soon as the engine finishes the operation (by checking
+                                                                 either busy bit or done interrupt bit), firmware can clear this bit by writing
+                                                                 one to this bit or or trigger the start of the next operation. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
+                                                                 - ECB Mode
+                                                                 DES_STR_SIZE register is not multiple of 16 bytes
+                                                                 DES_STR_SIZE register is 0 byte.
+                                                                 - CBC Mode
+                                                                 DES_STR_SIZE register is 0 byte
+                                                                 Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when DES/TDES has finished the given task. Write one to clear
+                                                                 this bit. Triggering the start of the next operation also clears this bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when DES/TDES has finished the given task. Write one to clear
+                                                                 this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
+                                                                 - ECB Mode
+                                                                 DES_STR_SIZE register is not multiple of 16 bytes
+                                                                 DES_STR_SIZE register is 0 byte.
+                                                                 - CBC Mode
+                                                                 DES_STR_SIZE register is 0 byte
+                                                                 Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
+                                                                 transfer. When the error occurs, the engine contiues the current operation based
+                                                                 on corrupted data. As soon as the engine finishes the operation (by checking
+                                                                 either busy bit or done interrupt bit), firmware can clear this bit by writing
+                                                                 one to this bit or or trigger the start of the next operation. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_des_intp_s cn; */
+};
+typedef union cavm_ehsm_smc_des_intp cavm_ehsm_smc_des_intp_t;
+
+#define CAVM_EHSM_SMC_DES_INTP CAVM_EHSM_SMC_DES_INTP_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_DES_INTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_DES_INTP_FUNC(void)
+{
+    return 0x80b000001050ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_DES_INTP cavm_ehsm_smc_des_intp_t
+#define bustype_CAVM_EHSM_SMC_DES_INTP CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_DES_INTP "EHSM_SMC_DES_INTP"
+#define device_bar_CAVM_EHSM_SMC_DES_INTP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_DES_INTP 0
+#define arguments_CAVM_EHSM_SMC_DES_INTP -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_des_intp_en
+ *
+ * EHSM Smc Des Intp En Register
+ */
+union cavm_ehsm_smc_des_intp_en
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_des_intp_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_des_intp_en_s cn; */
+};
+typedef union cavm_ehsm_smc_des_intp_en cavm_ehsm_smc_des_intp_en_t;
+
+#define CAVM_EHSM_SMC_DES_INTP_EN CAVM_EHSM_SMC_DES_INTP_EN_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_DES_INTP_EN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_DES_INTP_EN_FUNC(void)
+{
+    return 0x80b000001054ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_DES_INTP_EN cavm_ehsm_smc_des_intp_en_t
+#define bustype_CAVM_EHSM_SMC_DES_INTP_EN CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_DES_INTP_EN "EHSM_SMC_DES_INTP_EN"
+#define device_bar_CAVM_EHSM_SMC_DES_INTP_EN 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_DES_INTP_EN 0
+#define arguments_CAVM_EHSM_SMC_DES_INTP_EN -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_des_status
+ *
+ * EHSM Smc Des Status Register
+ */
+union cavm_ehsm_smc_des_status
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_des_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t corestate             : 4;  /**< [  4:  1](RO) DES/TDES core state */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when DES/TDES is busy */
+#else /* Word 0 - Little Endian */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when DES/TDES is busy */
+        uint32_t corestate             : 4;  /**< [  4:  1](RO) DES/TDES core state */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_des_status_s cn; */
+};
+typedef union cavm_ehsm_smc_des_status cavm_ehsm_smc_des_status_t;
+
+#define CAVM_EHSM_SMC_DES_STATUS CAVM_EHSM_SMC_DES_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_DES_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_DES_STATUS_FUNC(void)
+{
+    return 0x80b00000104cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_DES_STATUS cavm_ehsm_smc_des_status_t
+#define bustype_CAVM_EHSM_SMC_DES_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_DES_STATUS "EHSM_SMC_DES_STATUS"
+#define device_bar_CAVM_EHSM_SMC_DES_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_DES_STATUS 0
+#define arguments_CAVM_EHSM_SMC_DES_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_des_str_size
+ *
+ * EHSM Smc Des Str Size Register
+ * Plaintext/Ciphertext/Stream Size (in Byte)
+ * The size must be no less than 8 bytes (ECB requires data to be multiple of 8 bytes).
+ * If the stream is divided to multiple segments (Resume Operation), all segments must
+ * be multiple of 8 bytes. If it is not ECB, the last segment allowes partial codeword.
+ */
+union cavm_ehsm_smc_des_str_size
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_des_str_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t des_str_size          : 32; /**< [ 31:  0](R/W) Plaintext/Ciphertext/Stream Size (in Byte)
+                                                                 The size must be no less than 8 bytes (ECB requires data to be multiple of 8 bytes).
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 8 bytes. If it is not ECB, the last segment allowes partial
+                                                                 codeword. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_str_size          : 32; /**< [ 31:  0](R/W) Plaintext/Ciphertext/Stream Size (in Byte)
+                                                                 The size must be no less than 8 bytes (ECB requires data to be multiple of 8 bytes).
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 8 bytes. If it is not ECB, the last segment allowes partial
+                                                                 codeword. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_des_str_size_s cn; */
+};
+typedef union cavm_ehsm_smc_des_str_size cavm_ehsm_smc_des_str_size_t;
+
+#define CAVM_EHSM_SMC_DES_STR_SIZE CAVM_EHSM_SMC_DES_STR_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_DES_STR_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_DES_STR_SIZE_FUNC(void)
+{
+    return 0x80b000001058ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_DES_STR_SIZE cavm_ehsm_smc_des_str_size_t
+#define bustype_CAVM_EHSM_SMC_DES_STR_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_DES_STR_SIZE "EHSM_SMC_DES_STR_SIZE"
+#define device_bar_CAVM_EHSM_SMC_DES_STR_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_DES_STR_SIZE 0
+#define arguments_CAVM_EHSM_SMC_DES_STR_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_eng_cfg
+ *
+ * EHSM Smc Eng Cfg Register
+ */
+union cavm_ehsm_smc_eng_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_eng_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t extctrlen             : 1;  /**< [ 31: 31](R/W) Set this bit to enable exteranl control. When external control is enabled,
+                                                                 engine takes the following information form external source and ignores the
+                                                                 configurations from the APB register.
+                                                                 Start Signal
+                                                                 Encryption/Decryption signal
+                                                                 Key length
+                                                                 Resume signal
+                                                                 Payload/stream size
+                                                                 Additional authenticated data size (GCM)
+                                                                 IV size (GCM)
+                                                                 Tag size (GCM)
+                                                                 Key1
+                                                                 Key2 (XTS)
+                                                                 IV */
+        uint32_t sp_rsvd0              : 6;  /**< [ 30: 25](R/W) Missing register field description. */
+        uint32_t dataswap              : 1;  /**< [ 24: 24](R/W) This field decides the Key1, Key2, IV, and input/output data byte ordering (endian) within a DWord.
+                                                                 0h= No swap (data feeded in as is)
+                                                                 1h= Byte swap
+                                                                 EX: Assuem a DWord data is 0x01234567
+                                                                 0h = 0x01234567.
+                                                                 1h = 0x67452301
+                                                                 Notes:
+                                                                 When External Control Enable bit is set, this field no longer has effect on the Key1, Key2, and IV.
+                                                                 This field must be programmed before programming the Key1, Key2, and IV
+                                                                 registers in order to take effect.
+                                                                 ? */
+        uint32_t sp_rsvd1              : 22; /**< [ 23:  2](R/W) Missing register field description. */
+        uint32_t select                : 2;  /**< [  1:  0](R/W) AES, DES/TDES and SM4 shares some of the registers and internal logic. The field
+                                                                 allocates the resouce to the selected engine.
+                                                                 0h=SM4 engine
+                                                                 1h=AES engine
+                                                                 2h=DES/TDES engine
+                                                                 Notes:
+                                                                 The AES's IV SM4's IV and DES/TDES's IV are mapped to IV_DW0, IV_DW1, IV_DW2,
+                                                                 and IV_DW3 registers. When write to IV_DW registers, The IV value for all modes
+                                                                 are over-written. When read from IV_DW registers, the read value (AES's or SM4
+                                                                 or DES/TDES's IV) is selected by this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t select                : 2;  /**< [  1:  0](R/W) AES, DES/TDES and SM4 shares some of the registers and internal logic. The field
+                                                                 allocates the resouce to the selected engine.
+                                                                 0h=SM4 engine
+                                                                 1h=AES engine
+                                                                 2h=DES/TDES engine
+                                                                 Notes:
+                                                                 The AES's IV SM4's IV and DES/TDES's IV are mapped to IV_DW0, IV_DW1, IV_DW2,
+                                                                 and IV_DW3 registers. When write to IV_DW registers, The IV value for all modes
+                                                                 are over-written. When read from IV_DW registers, the read value (AES's or SM4
+                                                                 or DES/TDES's IV) is selected by this field. */
+        uint32_t sp_rsvd1              : 22; /**< [ 23:  2](R/W) Missing register field description. */
+        uint32_t dataswap              : 1;  /**< [ 24: 24](R/W) This field decides the Key1, Key2, IV, and input/output data byte ordering (endian) within a DWord.
+                                                                 0h= No swap (data feeded in as is)
+                                                                 1h= Byte swap
+                                                                 EX: Assuem a DWord data is 0x01234567
+                                                                 0h = 0x01234567.
+                                                                 1h = 0x67452301
+                                                                 Notes:
+                                                                 When External Control Enable bit is set, this field no longer has effect on the Key1, Key2, and IV.
+                                                                 This field must be programmed before programming the Key1, Key2, and IV
+                                                                 registers in order to take effect.
+                                                                 ? */
+        uint32_t sp_rsvd0              : 6;  /**< [ 30: 25](R/W) Missing register field description. */
+        uint32_t extctrlen             : 1;  /**< [ 31: 31](R/W) Set this bit to enable exteranl control. When external control is enabled,
+                                                                 engine takes the following information form external source and ignores the
+                                                                 configurations from the APB register.
+                                                                 Start Signal
+                                                                 Encryption/Decryption signal
+                                                                 Key length
+                                                                 Resume signal
+                                                                 Payload/stream size
+                                                                 Additional authenticated data size (GCM)
+                                                                 IV size (GCM)
+                                                                 Tag size (GCM)
+                                                                 Key1
+                                                                 Key2 (XTS)
+                                                                 IV */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_eng_cfg_s cn; */
+};
+typedef union cavm_ehsm_smc_eng_cfg cavm_ehsm_smc_eng_cfg_t;
+
+#define CAVM_EHSM_SMC_ENG_CFG CAVM_EHSM_SMC_ENG_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_ENG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_ENG_CFG_FUNC(void)
+{
+    return 0x80b000001180ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_ENG_CFG cavm_ehsm_smc_eng_cfg_t
+#define bustype_CAVM_EHSM_SMC_ENG_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_ENG_CFG "EHSM_SMC_ENG_CFG"
+#define device_bar_CAVM_EHSM_SMC_ENG_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_ENG_CFG 0
+#define arguments_CAVM_EHSM_SMC_ENG_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_iv_dw0
+ *
+ * EHSM Smc Iv Dw0 Register
+ * IV DWord 0
+ * AES Engine
+ * - Key Wrap Mode
+ * Wrapping: Given IV [63:32] from user.
+ * Unwrapping: Saved IV[63:32] from Wrapping.
+ * - GCM Mode
+ * IV[95:64]
+ * - Other Modes
+ * IV[127:96]
+ * DES/TDES Engine
+ * IV[63:32]
+ * ?
+ */
+union cavm_ehsm_smc_iv_dw0
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_iv_dw0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t iv_dw0                : 32; /**< [ 31:  0](R/W) IV DWord 0
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Wrapping: Given IV [63:32] from user.
+                                                                 Unwrapping: Saved IV[63:32] from Wrapping.
+                                                                 - GCM Mode
+                                                                 IV[95:64]
+                                                                 - Other Modes
+                                                                 IV[127:96]
+                                                                 DES/TDES Engine
+                                                                 IV[63:32]
+                                                                 ? */
+#else /* Word 0 - Little Endian */
+        uint32_t iv_dw0                : 32; /**< [ 31:  0](R/W) IV DWord 0
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Wrapping: Given IV [63:32] from user.
+                                                                 Unwrapping: Saved IV[63:32] from Wrapping.
+                                                                 - GCM Mode
+                                                                 IV[95:64]
+                                                                 - Other Modes
+                                                                 IV[127:96]
+                                                                 DES/TDES Engine
+                                                                 IV[63:32]
+                                                                 ? */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_iv_dw0_s cn; */
+};
+typedef union cavm_ehsm_smc_iv_dw0 cavm_ehsm_smc_iv_dw0_t;
+
+#define CAVM_EHSM_SMC_IV_DW0 CAVM_EHSM_SMC_IV_DW0_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_IV_DW0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_IV_DW0_FUNC(void)
+{
+    return 0x80b000001140ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_IV_DW0 cavm_ehsm_smc_iv_dw0_t
+#define bustype_CAVM_EHSM_SMC_IV_DW0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_IV_DW0 "EHSM_SMC_IV_DW0"
+#define device_bar_CAVM_EHSM_SMC_IV_DW0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_IV_DW0 0
+#define arguments_CAVM_EHSM_SMC_IV_DW0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_iv_dw1
+ *
+ * EHSM Smc Iv Dw1 Register
+ * IV DWord 1
+ * AES Engine
+ * - Key Wrap Mode
+ * Wrapping: Given IV [31:00] from user.
+ * Unwrapping: Saved IV[31:00] from Wrapping.
+ * - GCM Mode
+ * IV[63:32]
+ * - Other Modes
+ * IV[95:64]
+ * DES/TDES Engine
+ * IV[31:00]
+ */
+union cavm_ehsm_smc_iv_dw1
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_iv_dw1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t iv_dw1                : 32; /**< [ 31:  0](R/W) IV DWord 1
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Wrapping: Given IV [31:00] from user.
+                                                                 Unwrapping: Saved IV[31:00] from Wrapping.
+                                                                 - GCM Mode
+                                                                 IV[63:32]
+                                                                 - Other Modes
+                                                                 IV[95:64]
+                                                                 DES/TDES Engine
+                                                                 IV[31:00] */
+#else /* Word 0 - Little Endian */
+        uint32_t iv_dw1                : 32; /**< [ 31:  0](R/W) IV DWord 1
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Wrapping: Given IV [31:00] from user.
+                                                                 Unwrapping: Saved IV[31:00] from Wrapping.
+                                                                 - GCM Mode
+                                                                 IV[63:32]
+                                                                 - Other Modes
+                                                                 IV[95:64]
+                                                                 DES/TDES Engine
+                                                                 IV[31:00] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_iv_dw1_s cn; */
+};
+typedef union cavm_ehsm_smc_iv_dw1 cavm_ehsm_smc_iv_dw1_t;
+
+#define CAVM_EHSM_SMC_IV_DW1 CAVM_EHSM_SMC_IV_DW1_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_IV_DW1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_IV_DW1_FUNC(void)
+{
+    return 0x80b000001144ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_IV_DW1 cavm_ehsm_smc_iv_dw1_t
+#define bustype_CAVM_EHSM_SMC_IV_DW1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_IV_DW1 "EHSM_SMC_IV_DW1"
+#define device_bar_CAVM_EHSM_SMC_IV_DW1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_IV_DW1 0
+#define arguments_CAVM_EHSM_SMC_IV_DW1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_iv_dw2
+ *
+ * EHSM Smc Iv Dw2 Register
+ * IV DWord 2
+ * AES Engine
+ * - Key Wrap Mode
+ * Counter value [63:32]. It will be set up automatically once AES is started.
+ * - GCM Mode
+ * IV[31:00]
+ * - Other Modes
+ * IV[63:32]
+ */
+union cavm_ehsm_smc_iv_dw2
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_iv_dw2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t iv_dw2                : 32; /**< [ 31:  0](R/W) IV DWord 2
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Counter value [63:32]. It will be set up automatically once AES is started.
+                                                                 - GCM Mode
+                                                                 IV[31:00]
+                                                                 - Other Modes
+                                                                 IV[63:32] */
+#else /* Word 0 - Little Endian */
+        uint32_t iv_dw2                : 32; /**< [ 31:  0](R/W) IV DWord 2
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Counter value [63:32]. It will be set up automatically once AES is started.
+                                                                 - GCM Mode
+                                                                 IV[31:00]
+                                                                 - Other Modes
+                                                                 IV[63:32] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_iv_dw2_s cn; */
+};
+typedef union cavm_ehsm_smc_iv_dw2 cavm_ehsm_smc_iv_dw2_t;
+
+#define CAVM_EHSM_SMC_IV_DW2 CAVM_EHSM_SMC_IV_DW2_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_IV_DW2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_IV_DW2_FUNC(void)
+{
+    return 0x80b000001148ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_IV_DW2 cavm_ehsm_smc_iv_dw2_t
+#define bustype_CAVM_EHSM_SMC_IV_DW2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_IV_DW2 "EHSM_SMC_IV_DW2"
+#define device_bar_CAVM_EHSM_SMC_IV_DW2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_IV_DW2 0
+#define arguments_CAVM_EHSM_SMC_IV_DW2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_iv_dw3
+ *
+ * EHSM Smc Iv Dw3 Register
+ * IV DWord 3
+ * AES Engine
+ * - Key Wrap Mode
+ * Counter value [31:00]. It will be set up automatically once AES is started
+ * - Other Modes
+ * IV[31:00]
+ */
+union cavm_ehsm_smc_iv_dw3
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_iv_dw3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t iv_dw3                : 32; /**< [ 31:  0](R/W) IV DWord 3
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Counter value [31:00]. It will be set up automatically once AES is started
+                                                                 - Other Modes
+                                                                 IV[31:00] */
+#else /* Word 0 - Little Endian */
+        uint32_t iv_dw3                : 32; /**< [ 31:  0](R/W) IV DWord 3
+                                                                 AES Engine
+                                                                 - Key Wrap Mode
+                                                                 Counter value [31:00]. It will be set up automatically once AES is started
+                                                                 - Other Modes
+                                                                 IV[31:00] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_iv_dw3_s cn; */
+};
+typedef union cavm_ehsm_smc_iv_dw3 cavm_ehsm_smc_iv_dw3_t;
+
+#define CAVM_EHSM_SMC_IV_DW3 CAVM_EHSM_SMC_IV_DW3_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_IV_DW3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_IV_DW3_FUNC(void)
+{
+    return 0x80b00000114cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_IV_DW3 cavm_ehsm_smc_iv_dw3_t
+#define bustype_CAVM_EHSM_SMC_IV_DW3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_IV_DW3 "EHSM_SMC_IV_DW3"
+#define device_bar_CAVM_EHSM_SMC_IV_DW3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_IV_DW3 0
+#define arguments_CAVM_EHSM_SMC_IV_DW3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw0
+ *
+ * EHSM Smc Key1 Dw0 Register
+ * Key1 DWord 0
+ * - 128 Key Case
+ * Key1 [127:96] (Normal operation)
+ * Last Round Key1 [127:96] (Resume decrypt operation)
+ * - 192 Key Case:
+ * Key1 [191:160] (Normal operation)
+ * Last Round Key1 [191:160] (Resume decrypt operation)
+ * - 256 Key Case:
+ * Key1 [255:224] (Normal operation)
+ * Last Round Key1 [255:224] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw0
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw0              : 32; /**< [ 31:  0](R/W) Key1 DWord 0
+                                                                 - 128 Key Case
+                                                                 Key1 [127:96] (Normal operation)
+                                                                 Last Round Key1 [127:96] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [191:160] (Normal operation)
+                                                                 Last Round Key1 [191:160] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [255:224] (Normal operation)
+                                                                 Last Round Key1 [255:224] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw0              : 32; /**< [ 31:  0](R/W) Key1 DWord 0
+                                                                 - 128 Key Case
+                                                                 Key1 [127:96] (Normal operation)
+                                                                 Last Round Key1 [127:96] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [191:160] (Normal operation)
+                                                                 Last Round Key1 [191:160] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [255:224] (Normal operation)
+                                                                 Last Round Key1 [255:224] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw0_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw0 cavm_ehsm_smc_key1_dw0_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW0 CAVM_EHSM_SMC_KEY1_DW0_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW0_FUNC(void)
+{
+    return 0x80b000001120ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW0 cavm_ehsm_smc_key1_dw0_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW0 "EHSM_SMC_KEY1_DW0"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW0 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw1
+ *
+ * EHSM Smc Key1 Dw1 Register
+ * Key1 DWord 1
+ * - 128 Key Case
+ * Key1 [95:64] (Normal operation)
+ * Last Round Key1 [95:64] (Resume decrypt operation)
+ * - 192 Key Case:
+ * Key1 [159:128] (Normal operation)
+ * Last Round Key1 [159:128] (Resume decrypt operation)
+ * - 256 Key Case:
+ * Key1 [223:192] (Normal operation)
+ * Last Round Key1 [223:192] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw1
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw1              : 32; /**< [ 31:  0](R/W) Key1 DWord 1
+                                                                 - 128 Key Case
+                                                                 Key1 [95:64] (Normal operation)
+                                                                 Last Round Key1 [95:64] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [159:128] (Normal operation)
+                                                                 Last Round Key1 [159:128] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [223:192] (Normal operation)
+                                                                 Last Round Key1 [223:192] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw1              : 32; /**< [ 31:  0](R/W) Key1 DWord 1
+                                                                 - 128 Key Case
+                                                                 Key1 [95:64] (Normal operation)
+                                                                 Last Round Key1 [95:64] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [159:128] (Normal operation)
+                                                                 Last Round Key1 [159:128] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [223:192] (Normal operation)
+                                                                 Last Round Key1 [223:192] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw1_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw1 cavm_ehsm_smc_key1_dw1_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW1 CAVM_EHSM_SMC_KEY1_DW1_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW1_FUNC(void)
+{
+    return 0x80b000001124ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW1 cavm_ehsm_smc_key1_dw1_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW1 "EHSM_SMC_KEY1_DW1"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW1 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw2
+ *
+ * EHSM Smc Key1 Dw2 Register
+ * Key1 DWord 2
+ * - 128 Key Case
+ * Key1 [63:32] (Normal operation)
+ * Last Round Key1 [63:32] (Resume decrypt operation)
+ * - 192 Key Case:
+ * Key1 [127:96] (Normal operation)
+ * Last Round Key1 [127:96] (Resume decrypt operation)
+ * - 256 Key Case:
+ * Key1 [191:160] (Normal operation)
+ * Last Round Key1 [191:160] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw2
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw2              : 32; /**< [ 31:  0](R/W) Key1 DWord 2
+                                                                 - 128 Key Case
+                                                                 Key1 [63:32] (Normal operation)
+                                                                 Last Round Key1 [63:32] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [127:96] (Normal operation)
+                                                                 Last Round Key1 [127:96] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [191:160] (Normal operation)
+                                                                 Last Round Key1 [191:160] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw2              : 32; /**< [ 31:  0](R/W) Key1 DWord 2
+                                                                 - 128 Key Case
+                                                                 Key1 [63:32] (Normal operation)
+                                                                 Last Round Key1 [63:32] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [127:96] (Normal operation)
+                                                                 Last Round Key1 [127:96] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [191:160] (Normal operation)
+                                                                 Last Round Key1 [191:160] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw2_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw2 cavm_ehsm_smc_key1_dw2_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW2 CAVM_EHSM_SMC_KEY1_DW2_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW2_FUNC(void)
+{
+    return 0x80b000001128ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW2 cavm_ehsm_smc_key1_dw2_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW2 "EHSM_SMC_KEY1_DW2"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW2 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw3
+ *
+ * EHSM Smc Key1 Dw3 Register
+ * Key1 DWord 3
+ * - 128 Key Case
+ * Key1 [31:00] (Normal operation)
+ * Last Round Key1 [31:00] (Resume decrypt operation)
+ * - 192 Key Case:
+ * Key1 [95:64] (Normal operation)
+ * Last Round Key1 [95:64] (Resume decrypt operation)
+ * - 256 Key Case:
+ * Key1 [159:128] (Normal operation)
+ * Last Round Key1 [159:128] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw3
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw3              : 32; /**< [ 31:  0](R/W) Key1 DWord 3
+                                                                 - 128 Key Case
+                                                                 Key1 [31:00] (Normal operation)
+                                                                 Last Round Key1 [31:00] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [95:64] (Normal operation)
+                                                                 Last Round Key1 [95:64] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [159:128] (Normal operation)
+                                                                 Last Round Key1 [159:128] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw3              : 32; /**< [ 31:  0](R/W) Key1 DWord 3
+                                                                 - 128 Key Case
+                                                                 Key1 [31:00] (Normal operation)
+                                                                 Last Round Key1 [31:00] (Resume decrypt operation)
+                                                                 - 192 Key Case:
+                                                                 Key1 [95:64] (Normal operation)
+                                                                 Last Round Key1 [95:64] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [159:128] (Normal operation)
+                                                                 Last Round Key1 [159:128] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw3_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw3 cavm_ehsm_smc_key1_dw3_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW3 CAVM_EHSM_SMC_KEY1_DW3_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW3_FUNC(void)
+{
+    return 0x80b00000112cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW3 cavm_ehsm_smc_key1_dw3_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW3 "EHSM_SMC_KEY1_DW3"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW3 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw4
+ *
+ * EHSM Smc Key1 Dw4 Register
+ * Key1 DWord 4
+ * - 128 Key Case
+ * Not used
+ * - 192 Key Case:
+ * Key1 [63:32] (Normal operation)
+ * Last Round Key1 [63:32] (Resume decrypt operation)
+ * - 256 Key Case:
+ * Key1 [127:96] (Normal operation)
+ * Last Round Key1 [127:96] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw4
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw4              : 32; /**< [ 31:  0](R/W) Key1 DWord 4
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Key1 [63:32] (Normal operation)
+                                                                 Last Round Key1 [63:32] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [127:96] (Normal operation)
+                                                                 Last Round Key1 [127:96] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw4              : 32; /**< [ 31:  0](R/W) Key1 DWord 4
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Key1 [63:32] (Normal operation)
+                                                                 Last Round Key1 [63:32] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [127:96] (Normal operation)
+                                                                 Last Round Key1 [127:96] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw4_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw4 cavm_ehsm_smc_key1_dw4_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW4 CAVM_EHSM_SMC_KEY1_DW4_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW4_FUNC(void)
+{
+    return 0x80b000001130ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW4 cavm_ehsm_smc_key1_dw4_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW4 "EHSM_SMC_KEY1_DW4"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW4 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw5
+ *
+ * EHSM Smc Key1 Dw5 Register
+ * Key1 DWord 5
+ * - 128 Key Case
+ * Not used
+ * - 192 Key Case:
+ * Key1 [31:00] (Normal operation)
+ * Last Round Key1 [31:00] (Resume decrypt operation)
+ * - 256 Key Case:
+ * Key1 [95:64] (Normal operation)
+ * Last Round Key1 [95:64] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw5
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw5              : 32; /**< [ 31:  0](R/W) Key1 DWord 5
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Key1 [31:00] (Normal operation)
+                                                                 Last Round Key1 [31:00] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [95:64] (Normal operation)
+                                                                 Last Round Key1 [95:64] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw5              : 32; /**< [ 31:  0](R/W) Key1 DWord 5
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Key1 [31:00] (Normal operation)
+                                                                 Last Round Key1 [31:00] (Resume decrypt operation)
+                                                                 - 256 Key Case:
+                                                                 Key1 [95:64] (Normal operation)
+                                                                 Last Round Key1 [95:64] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw5_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw5 cavm_ehsm_smc_key1_dw5_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW5 CAVM_EHSM_SMC_KEY1_DW5_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW5_FUNC(void)
+{
+    return 0x80b000001134ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW5 cavm_ehsm_smc_key1_dw5_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW5 "EHSM_SMC_KEY1_DW5"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW5 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw6
+ *
+ * EHSM Smc Key1 Dw6 Register
+ * Key1 DWord 6
+ * - 128 Key Case
+ * Not used
+ * - 192 Key Case:
+ * Not used
+ * - 256 Key Case:
+ * Key1 [63:32] (Normal operation)
+ * Last Round Key1 [63:32] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw6
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw6              : 32; /**< [ 31:  0](R/W) Key1 DWord 6
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Not used
+                                                                 - 256 Key Case:
+                                                                 Key1 [63:32] (Normal operation)
+                                                                 Last Round Key1 [63:32] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw6              : 32; /**< [ 31:  0](R/W) Key1 DWord 6
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Not used
+                                                                 - 256 Key Case:
+                                                                 Key1 [63:32] (Normal operation)
+                                                                 Last Round Key1 [63:32] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw6_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw6 cavm_ehsm_smc_key1_dw6_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW6 CAVM_EHSM_SMC_KEY1_DW6_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW6_FUNC(void)
+{
+    return 0x80b000001138ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW6 cavm_ehsm_smc_key1_dw6_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW6 "EHSM_SMC_KEY1_DW6"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW6 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key1_dw7
+ *
+ * EHSM Smc Key1 Dw7 Register
+ * Key1 DWord 7
+ * - 128 Key Case
+ * Not used
+ * - 192 Key Case:
+ * Not used
+ * - 256 Key Case:
+ * Key1 [31:00] (Normal operation)
+ * Last Round Key1 [31:00] (Resume decrypt operation)
+ */
+union cavm_ehsm_smc_key1_dw7
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key1_dw7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key1_dw7              : 32; /**< [ 31:  0](R/W) Key1 DWord 7
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Not used
+                                                                 - 256 Key Case:
+                                                                 Key1 [31:00] (Normal operation)
+                                                                 Last Round Key1 [31:00] (Resume decrypt operation) */
+#else /* Word 0 - Little Endian */
+        uint32_t key1_dw7              : 32; /**< [ 31:  0](R/W) Key1 DWord 7
+                                                                 - 128 Key Case
+                                                                 Not used
+                                                                 - 192 Key Case:
+                                                                 Not used
+                                                                 - 256 Key Case:
+                                                                 Key1 [31:00] (Normal operation)
+                                                                 Last Round Key1 [31:00] (Resume decrypt operation) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key1_dw7_s cn; */
+};
+typedef union cavm_ehsm_smc_key1_dw7 cavm_ehsm_smc_key1_dw7_t;
+
+#define CAVM_EHSM_SMC_KEY1_DW7 CAVM_EHSM_SMC_KEY1_DW7_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY1_DW7_FUNC(void)
+{
+    return 0x80b00000113cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY1_DW7 cavm_ehsm_smc_key1_dw7_t
+#define bustype_CAVM_EHSM_SMC_KEY1_DW7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY1_DW7 "EHSM_SMC_KEY1_DW7"
+#define device_bar_CAVM_EHSM_SMC_KEY1_DW7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY1_DW7 0
+#define arguments_CAVM_EHSM_SMC_KEY1_DW7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw0
+ *
+ * EHSM Smc Key2 Dw0 Register
+ * Key2 DWord 0
+ * AES Engine (XTS Mode Only)
+ * - 128 Key Case
+ * Key2 [127:96]
+ * - 192 Key Case
+ * Key2 [191:160]
+ * - 256 Key Case
+ * Key2 [255:224]
+ * DES/TDES Engine
+ * DES Key [63:32]
+ * TDES Key1 [63:32]
+ */
+union cavm_ehsm_smc_key2_dw0
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw0              : 32; /**< [ 31:  0](R/W) Key2 DWord 0
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [127:96]
+                                                                 - 192 Key Case
+                                                                 Key2 [191:160]
+                                                                 - 256 Key Case
+                                                                 Key2 [255:224]
+                                                                 DES/TDES Engine
+                                                                 DES Key [63:32]
+                                                                 TDES Key1 [63:32] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw0              : 32; /**< [ 31:  0](R/W) Key2 DWord 0
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [127:96]
+                                                                 - 192 Key Case
+                                                                 Key2 [191:160]
+                                                                 - 256 Key Case
+                                                                 Key2 [255:224]
+                                                                 DES/TDES Engine
+                                                                 DES Key [63:32]
+                                                                 TDES Key1 [63:32] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw0_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw0 cavm_ehsm_smc_key2_dw0_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW0 CAVM_EHSM_SMC_KEY2_DW0_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW0_FUNC(void)
+{
+    return 0x80b000001100ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW0 cavm_ehsm_smc_key2_dw0_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW0 "EHSM_SMC_KEY2_DW0"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW0 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw1
+ *
+ * EHSM Smc Key2 Dw1 Register
+ * Key2 DWord 1
+ * AES Engine (XTS Mode Only)
+ * - 128 Key Case
+ * Key2 [95:64]
+ * - 192 Key Case
+ * Key2 [159:128]
+ * - 256 Key Case
+ * Key2 [223:192]
+ * DES/TDES Engine
+ * DES Key [31:00]
+ * TDES Key1 [31:00]
+ */
+union cavm_ehsm_smc_key2_dw1
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw1              : 32; /**< [ 31:  0](R/W) Key2 DWord 1
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [95:64]
+                                                                 - 192 Key Case
+                                                                 Key2 [159:128]
+                                                                 - 256 Key Case
+                                                                 Key2 [223:192]
+                                                                 DES/TDES Engine
+                                                                 DES Key [31:00]
+                                                                 TDES Key1 [31:00] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw1              : 32; /**< [ 31:  0](R/W) Key2 DWord 1
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [95:64]
+                                                                 - 192 Key Case
+                                                                 Key2 [159:128]
+                                                                 - 256 Key Case
+                                                                 Key2 [223:192]
+                                                                 DES/TDES Engine
+                                                                 DES Key [31:00]
+                                                                 TDES Key1 [31:00] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw1_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw1 cavm_ehsm_smc_key2_dw1_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW1 CAVM_EHSM_SMC_KEY2_DW1_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW1_FUNC(void)
+{
+    return 0x80b000001104ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW1 cavm_ehsm_smc_key2_dw1_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW1 "EHSM_SMC_KEY2_DW1"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW1 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw2
+ *
+ * EHSM Smc Key2 Dw2 Register
+ * Key2 DWord 2
+ * AES Engine (XTS Mode Only)
+ * - 128 Key Case
+ * Key2 [63:32]
+ * - 192 Key Case
+ * Key2 [127:96]
+ * - 256 Key Case
+ * Key2 [191:160]
+ * DES/TDES Engine
+ * TDES Key2 [63:32]
+ */
+union cavm_ehsm_smc_key2_dw2
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw2              : 32; /**< [ 31:  0](R/W) Key2 DWord 2
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [63:32]
+                                                                 - 192 Key Case
+                                                                 Key2 [127:96]
+                                                                 - 256 Key Case
+                                                                 Key2 [191:160]
+                                                                 DES/TDES Engine
+                                                                 TDES Key2 [63:32] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw2              : 32; /**< [ 31:  0](R/W) Key2 DWord 2
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [63:32]
+                                                                 - 192 Key Case
+                                                                 Key2 [127:96]
+                                                                 - 256 Key Case
+                                                                 Key2 [191:160]
+                                                                 DES/TDES Engine
+                                                                 TDES Key2 [63:32] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw2_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw2 cavm_ehsm_smc_key2_dw2_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW2 CAVM_EHSM_SMC_KEY2_DW2_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW2_FUNC(void)
+{
+    return 0x80b000001108ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW2 cavm_ehsm_smc_key2_dw2_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW2 "EHSM_SMC_KEY2_DW2"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW2 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw3
+ *
+ * EHSM Smc Key2 Dw3 Register
+ * Key2 DWord 3
+ * AES Engine (XTS Mode Only)
+ * - 128 Key Case
+ * Key2 [31:00]
+ * - 192 Key Case
+ * Key2 [95:64]
+ * - 256 Key Case
+ * Key2 [159:128]
+ * DES/TDES Engine
+ * TDES Key2 [31:00]
+ */
+union cavm_ehsm_smc_key2_dw3
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw3              : 32; /**< [ 31:  0](R/W) Key2 DWord 3
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [31:00]
+                                                                 - 192 Key Case
+                                                                 Key2 [95:64]
+                                                                 - 256 Key Case
+                                                                 Key2 [159:128]
+                                                                 DES/TDES Engine
+                                                                 TDES Key2 [31:00] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw3              : 32; /**< [ 31:  0](R/W) Key2 DWord 3
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 128 Key Case
+                                                                 Key2 [31:00]
+                                                                 - 192 Key Case
+                                                                 Key2 [95:64]
+                                                                 - 256 Key Case
+                                                                 Key2 [159:128]
+                                                                 DES/TDES Engine
+                                                                 TDES Key2 [31:00] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw3_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw3 cavm_ehsm_smc_key2_dw3_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW3 CAVM_EHSM_SMC_KEY2_DW3_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW3_FUNC(void)
+{
+    return 0x80b00000110cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW3 cavm_ehsm_smc_key2_dw3_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW3 "EHSM_SMC_KEY2_DW3"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW3 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw4
+ *
+ * EHSM Smc Key2 Dw4 Register
+ * Key2 DWord 4
+ * AES Engine (XTS Mode Only)
+ * - 192 Key Case
+ * Key2 [63:32]
+ * - 256 Key Case
+ * Key2 [127:96]
+ * DES/TDES Engine
+ * TDES Key3 [63:32]
+ */
+union cavm_ehsm_smc_key2_dw4
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw4              : 32; /**< [ 31:  0](R/W) Key2 DWord 4
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 192 Key Case
+                                                                 Key2 [63:32]
+                                                                 - 256 Key Case
+                                                                 Key2 [127:96]
+                                                                 DES/TDES Engine
+                                                                 TDES Key3 [63:32] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw4              : 32; /**< [ 31:  0](R/W) Key2 DWord 4
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 192 Key Case
+                                                                 Key2 [63:32]
+                                                                 - 256 Key Case
+                                                                 Key2 [127:96]
+                                                                 DES/TDES Engine
+                                                                 TDES Key3 [63:32] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw4_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw4 cavm_ehsm_smc_key2_dw4_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW4 CAVM_EHSM_SMC_KEY2_DW4_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW4_FUNC(void)
+{
+    return 0x80b000001110ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW4 cavm_ehsm_smc_key2_dw4_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW4 "EHSM_SMC_KEY2_DW4"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW4 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw5
+ *
+ * EHSM Smc Key2 Dw5 Register
+ * Key2 DWord 5
+ * AES Engine (XTS Mode Only)
+ * - 192 Key Case
+ * Key2 [31:00]
+ * - 256 Key Case
+ * Key2 [95:64]
+ * DES/TDES Engine
+ * TDES Key3 [31:00]
+ */
+union cavm_ehsm_smc_key2_dw5
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw5              : 32; /**< [ 31:  0](R/W) Key2 DWord 5
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 192 Key Case
+                                                                 Key2 [31:00]
+                                                                 - 256 Key Case
+                                                                 Key2 [95:64]
+                                                                 DES/TDES Engine
+                                                                 TDES Key3 [31:00] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw5              : 32; /**< [ 31:  0](R/W) Key2 DWord 5
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 192 Key Case
+                                                                 Key2 [31:00]
+                                                                 - 256 Key Case
+                                                                 Key2 [95:64]
+                                                                 DES/TDES Engine
+                                                                 TDES Key3 [31:00] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw5_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw5 cavm_ehsm_smc_key2_dw5_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW5 CAVM_EHSM_SMC_KEY2_DW5_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW5_FUNC(void)
+{
+    return 0x80b000001114ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW5 cavm_ehsm_smc_key2_dw5_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW5 "EHSM_SMC_KEY2_DW5"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW5 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw6
+ *
+ * EHSM Smc Key2 Dw6 Register
+ * Key2 DWord 6
+ * AES Engine (XTS Mode Only)
+ * - 256 Key Case
+ * Key2 [63:32]
+ */
+union cavm_ehsm_smc_key2_dw6
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw6              : 32; /**< [ 31:  0](R/W) Key2 DWord 6
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 256 Key Case
+                                                                 Key2 [63:32] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw6              : 32; /**< [ 31:  0](R/W) Key2 DWord 6
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 256 Key Case
+                                                                 Key2 [63:32] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw6_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw6 cavm_ehsm_smc_key2_dw6_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW6 CAVM_EHSM_SMC_KEY2_DW6_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW6_FUNC(void)
+{
+    return 0x80b000001118ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW6 cavm_ehsm_smc_key2_dw6_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW6 "EHSM_SMC_KEY2_DW6"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW6 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_key2_dw7
+ *
+ * EHSM Smc Key2 Dw7 Register
+ * Key2 DWord 7
+ * AES Engine (XTS Mode Only)
+ * - 256 Key Case
+ * Key2 [31:00]
+ */
+union cavm_ehsm_smc_key2_dw7
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_key2_dw7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key2_dw7              : 32; /**< [ 31:  0](R/W) Key2 DWord 7
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 256 Key Case
+                                                                 Key2 [31:00] */
+#else /* Word 0 - Little Endian */
+        uint32_t key2_dw7              : 32; /**< [ 31:  0](R/W) Key2 DWord 7
+                                                                 AES Engine (XTS Mode Only)
+                                                                 - 256 Key Case
+                                                                 Key2 [31:00] */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_key2_dw7_s cn; */
+};
+typedef union cavm_ehsm_smc_key2_dw7 cavm_ehsm_smc_key2_dw7_t;
+
+#define CAVM_EHSM_SMC_KEY2_DW7 CAVM_EHSM_SMC_KEY2_DW7_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_KEY2_DW7_FUNC(void)
+{
+    return 0x80b00000111cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_KEY2_DW7 cavm_ehsm_smc_key2_dw7_t
+#define bustype_CAVM_EHSM_SMC_KEY2_DW7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_KEY2_DW7 "EHSM_SMC_KEY2_DW7"
+#define device_bar_CAVM_EHSM_SMC_KEY2_DW7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_KEY2_DW7 0
+#define arguments_CAVM_EHSM_SMC_KEY2_DW7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_rsvd_des_rsvd
+ *
+ * INTERNAL: EHSM Smc Rsvd Des Register
+ */
+union cavm_ehsm_smc_rsvd_des_rsvd
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_rsvd_des_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_rsvd_des_rsvd_s cn; */
+};
+typedef union cavm_ehsm_smc_rsvd_des_rsvd cavm_ehsm_smc_rsvd_des_rsvd_t;
+
+#define CAVM_EHSM_SMC_RSVD_DES_RSVD CAVM_EHSM_SMC_RSVD_DES_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_RSVD_DES_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_RSVD_DES_RSVD_FUNC(void)
+{
+    return 0x80b000001044ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_RSVD_DES_RSVD cavm_ehsm_smc_rsvd_des_rsvd_t
+#define bustype_CAVM_EHSM_SMC_RSVD_DES_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_RSVD_DES_RSVD "EHSM_SMC_RSVD_DES_RSVD"
+#define device_bar_CAVM_EHSM_SMC_RSVD_DES_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_RSVD_DES_RSVD 0
+#define arguments_CAVM_EHSM_SMC_RSVD_DES_RSVD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_sm4_cfg
+ *
+ * EHSM Smc Sm4 Cfg Register
+ * \<JIRA EHSM-33\>
+ */
+union cavm_ehsm_smc_sm4_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_sm4_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 1;  /**< [ 31: 31](R/W) Reverved */
+        uint32_t sp_rsvd1              : 5;  /**< [ 30: 26](R/W) Reverved */
+        uint32_t sp_rsvd2              : 7;  /**< [ 25: 19](R/W) Missing register field description. */
+        uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as SM4 key. When
+                                                                 it is non-zero value, side loaded key is loaded into SM4 KEY1 register.
+                                                                 Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
+                                                                 0: Side loaded key will be disabled. SM4 engine will use programmed key
+                                                                 1: RKEK is selected as side loaded key to SM4 KEY1 register
+                                                                 others : reserved
+                                                                 Notes:
+                                                                 Resume feature is not allowed if side loaded key is used.
+                                                                 Read operation on KEY1 while this bit is set will return all 1's.
+                                                                 SM4 clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared */
+        uint32_t sp_rsvd3              : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in SM4 CTR mode. The coutner increment
+                                                                 (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
+                                                                 active counter bitwidth is limited by this field.
+                                                                 0h~Fh= 128-bit (max counter bitwidth)
+                                                                 Else= Programmed value is the counter bitwidth. */
+        uint32_t sp_rsvd4              : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the SM4 operation mode
+                                                                 0h= EBC mode
+                                                                 1h= CBC mode
+                                                                 2h= CTR mode
+                                                                 3h= XTS mode (un-supported now)
+                                                                 4h= Key Wrap mode (un-supported now)
+                                                                 5h= CFB mode
+                                                                 6h= OFB mode
+                                                                 7h= GCM mode (un-supported now)
+                                                                 Notes:
+                                                                 CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling */
+        uint32_t sp_rsvd5              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the SM4 operation
+                                                                 0h= Encryption
+                                                                 1h= Decryption */
+#else /* Word 0 - Little Endian */
+        uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the SM4 operation
+                                                                 0h= Encryption
+                                                                 1h= Decryption */
+        uint32_t sp_rsvd5              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the SM4 operation mode
+                                                                 0h= EBC mode
+                                                                 1h= CBC mode
+                                                                 2h= CTR mode
+                                                                 3h= XTS mode (un-supported now)
+                                                                 4h= Key Wrap mode (un-supported now)
+                                                                 5h= CFB mode
+                                                                 6h= OFB mode
+                                                                 7h= GCM mode (un-supported now)
+                                                                 Notes:
+                                                                 CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling */
+        uint32_t sp_rsvd4              : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in SM4 CTR mode. The coutner increment
+                                                                 (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
+                                                                 active counter bitwidth is limited by this field.
+                                                                 0h~Fh= 128-bit (max counter bitwidth)
+                                                                 Else= Programmed value is the counter bitwidth. */
+        uint32_t sp_rsvd3              : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as SM4 key. When
+                                                                 it is non-zero value, side loaded key is loaded into SM4 KEY1 register.
+                                                                 Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
+                                                                 0: Side loaded key will be disabled. SM4 engine will use programmed key
+                                                                 1: RKEK is selected as side loaded key to SM4 KEY1 register
+                                                                 others : reserved
+                                                                 Notes:
+                                                                 Resume feature is not allowed if side loaded key is used.
+                                                                 Read operation on KEY1 while this bit is set will return all 1's.
+                                                                 SM4 clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared */
+        uint32_t sp_rsvd2              : 7;  /**< [ 25: 19](R/W) Missing register field description. */
+        uint32_t sp_rsvd1              : 5;  /**< [ 30: 26](R/W) Reverved */
+        uint32_t sp_rsvd0              : 1;  /**< [ 31: 31](R/W) Reverved */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_sm4_cfg_s cn; */
+};
+typedef union cavm_ehsm_smc_sm4_cfg cavm_ehsm_smc_sm4_cfg_t;
+
+#define CAVM_EHSM_SMC_SM4_CFG CAVM_EHSM_SMC_SM4_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_SM4_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_SM4_CFG_FUNC(void)
+{
+    return 0x80b00000105cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_SM4_CFG cavm_ehsm_smc_sm4_cfg_t
+#define bustype_CAVM_EHSM_SMC_SM4_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_SM4_CFG "EHSM_SMC_SM4_CFG"
+#define device_bar_CAVM_EHSM_SMC_SM4_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_SM4_CFG 0
+#define arguments_CAVM_EHSM_SMC_SM4_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_sm4_cmd
+ *
+ * EHSM Smc Sm4 Cmd Register
+ * \<JIRA EHSM-33\>
+ */
+union cavm_ehsm_smc_sm4_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_sm4_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Missing register field description. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset SM4. */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start SM4. This bit will be automatically cleared once it is set. */
+#else /* Word 0 - Little Endian */
+        uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start SM4. This bit will be automatically cleared once it is set. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset SM4. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_sm4_cmd_s cn; */
+};
+typedef union cavm_ehsm_smc_sm4_cmd cavm_ehsm_smc_sm4_cmd_t;
+
+#define CAVM_EHSM_SMC_SM4_CMD CAVM_EHSM_SMC_SM4_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_SM4_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_SM4_CMD_FUNC(void)
+{
+    return 0x80b000001064ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_SM4_CMD cavm_ehsm_smc_sm4_cmd_t
+#define bustype_CAVM_EHSM_SMC_SM4_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_SM4_CMD "EHSM_SMC_SM4_CMD"
+#define device_bar_CAVM_EHSM_SMC_SM4_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_SM4_CMD 0
+#define arguments_CAVM_EHSM_SMC_SM4_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_sm4_ctrl
+ *
+ * EHSM Smc Sm4 Ctrl Register
+ * \<JIRA EHSM-33\>
+ */
+union cavm_ehsm_smc_sm4_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_sm4_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](R/W) Missing register field description. */
+        uint32_t outputdis             : 1;  /**< [  2:  2](R/W) Set this bit to stop SM4 from outputting data on data bus. Some applications,
+                                                                 such as DRBG BCC function, are only interested in the last ciphertext (CTX) of
+                                                                 encryption result. Since he current design always saves the last CTX in the SM4
+                                                                 IV register, it is unnecessary to output the entire encryption result on data
+                                                                 bus (save power and memory space).
+                                                                 Notes:
+                                                                 The input date stream must be multiple of 128-bits (no partial codeword allowed)
+                                                                 Resume operation is supported. */
+        uint32_t resume                : 1;  /**< [  1:  1](R/W) Set this bit to resume previous operation.
+                                                                 Notes:
+                                                                 User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
+                                                                 Refer to SM4_STR_SIZE register for data size limitation */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t resume                : 1;  /**< [  1:  1](R/W) Set this bit to resume previous operation.
+                                                                 Notes:
+                                                                 User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
+                                                                 Refer to SM4_STR_SIZE register for data size limitation */
+        uint32_t outputdis             : 1;  /**< [  2:  2](R/W) Set this bit to stop SM4 from outputting data on data bus. Some applications,
+                                                                 such as DRBG BCC function, are only interested in the last ciphertext (CTX) of
+                                                                 encryption result. Since he current design always saves the last CTX in the SM4
+                                                                 IV register, it is unnecessary to output the entire encryption result on data
+                                                                 bus (save power and memory space).
+                                                                 Notes:
+                                                                 The input date stream must be multiple of 128-bits (no partial codeword allowed)
+                                                                 Resume operation is supported. */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_sm4_ctrl_s cn; */
+};
+typedef union cavm_ehsm_smc_sm4_ctrl cavm_ehsm_smc_sm4_ctrl_t;
+
+#define CAVM_EHSM_SMC_SM4_CTRL CAVM_EHSM_SMC_SM4_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_SM4_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_SM4_CTRL_FUNC(void)
+{
+    return 0x80b000001060ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_SM4_CTRL cavm_ehsm_smc_sm4_ctrl_t
+#define bustype_CAVM_EHSM_SMC_SM4_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_SM4_CTRL "EHSM_SMC_SM4_CTRL"
+#define device_bar_CAVM_EHSM_SMC_SM4_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_SM4_CTRL 0
+#define arguments_CAVM_EHSM_SMC_SM4_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_sm4_intp
+ *
+ * EHSM Smc Sm4 Intp Register
+ * \<JIRA EHSM-33\> Only CPU can clear the Interrupt bits
+ */
+union cavm_ehsm_smc_sm4_intp
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_sm4_intp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](R/W) Missing register field description. */
+        uint32_t modeerr               : 1;  /**< [  6:  6](R/W) This bit is set the SM4_CFG.OpMode chose an un-supported mode */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
+                                                                 transfer. When the error occurs, the engine contiues the current operation based
+                                                                 on corrupted data. As soon as the engine finishes the operation (by checking
+                                                                 either busy bit or done interrupt bit), firmware can clear this bit by writing
+                                                                 one to this bit or or trigger the start of the next operation. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
+                                                                 - ECB Mode
+                                                                 SM4_STR_SIZE register is not multiple of 16 bytes
+                                                                 SM4_STR_SIZE regsiter is 0 byte.
+                                                                 - CBC Mode
+                                                                 SM4_STR_SIZE register is less than 16 bytes
+                                                                 - CTR Mode
+                                                                 SM4_STR_SIZE register is 0 byte.
+                                                                 - CFB Mode
+                                                                 SM4_STR_SIZE register is 0 byte.
+                                                                 - OFB Mode
+                                                                 SM4_STR_SIZE register is 0 byte.
+                                                                 Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when SM4 has finished the given task. Write one to clear this
+                                                                 bit. Triggering the start of the next operation also clears this bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) This bit is set when SM4 has finished the given task. Write one to clear this
+                                                                 bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
+                                                                 - ECB Mode
+                                                                 SM4_STR_SIZE register is not multiple of 16 bytes
+                                                                 SM4_STR_SIZE regsiter is 0 byte.
+                                                                 - CBC Mode
+                                                                 SM4_STR_SIZE register is less than 16 bytes
+                                                                 - CTR Mode
+                                                                 SM4_STR_SIZE register is 0 byte.
+                                                                 - CFB Mode
+                                                                 SM4_STR_SIZE register is 0 byte.
+                                                                 - OFB Mode
+                                                                 SM4_STR_SIZE register is 0 byte.
+                                                                 Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
+                                                                 transfer. When the error occurs, the engine contiues the current operation based
+                                                                 on corrupted data. As soon as the engine finishes the operation (by checking
+                                                                 either busy bit or done interrupt bit), firmware can clear this bit by writing
+                                                                 one to this bit or or trigger the start of the next operation. */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t modeerr               : 1;  /**< [  6:  6](R/W) This bit is set the SM4_CFG.OpMode chose an un-supported mode */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_sm4_intp_s cn; */
+};
+typedef union cavm_ehsm_smc_sm4_intp cavm_ehsm_smc_sm4_intp_t;
+
+#define CAVM_EHSM_SMC_SM4_INTP CAVM_EHSM_SMC_SM4_INTP_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_SM4_INTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_SM4_INTP_FUNC(void)
+{
+    return 0x80b00000106cll;
+}
+
+#define typedef_CAVM_EHSM_SMC_SM4_INTP cavm_ehsm_smc_sm4_intp_t
+#define bustype_CAVM_EHSM_SMC_SM4_INTP CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_SM4_INTP "EHSM_SMC_SM4_INTP"
+#define device_bar_CAVM_EHSM_SMC_SM4_INTP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_SM4_INTP 0
+#define arguments_CAVM_EHSM_SMC_SM4_INTP -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_sm4_intp_en
+ *
+ * EHSM Smc Sm4 Intp En Register
+ * \<JIRA EHSM-33\>
+ */
+union cavm_ehsm_smc_sm4_intp_en
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_sm4_intp_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](R/W) Missing register field description. */
+        uint32_t modeerr               : 1;  /**< [  6:  6](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+#else /* Word 0 - Little Endian */
+        uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+        uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t modeerr               : 1;  /**< [  6:  6](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_sm4_intp_en_s cn; */
+};
+typedef union cavm_ehsm_smc_sm4_intp_en cavm_ehsm_smc_sm4_intp_en_t;
+
+#define CAVM_EHSM_SMC_SM4_INTP_EN CAVM_EHSM_SMC_SM4_INTP_EN_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_SM4_INTP_EN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_SM4_INTP_EN_FUNC(void)
+{
+    return 0x80b000001070ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_SM4_INTP_EN cavm_ehsm_smc_sm4_intp_en_t
+#define bustype_CAVM_EHSM_SMC_SM4_INTP_EN CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_SM4_INTP_EN "EHSM_SMC_SM4_INTP_EN"
+#define device_bar_CAVM_EHSM_SMC_SM4_INTP_EN 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_SM4_INTP_EN 0
+#define arguments_CAVM_EHSM_SMC_SM4_INTP_EN -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_sm4_status
+ *
+ * EHSM Smc Sm4 Status Register
+ * \<JIRA EHSM-33\>
+ */
+union cavm_ehsm_smc_sm4_status
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_sm4_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](R/W) Missing register field description. */
+        uint32_t sp_rsvd1              : 3;  /**< [ 14: 12](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 4;  /**< [ 11:  8](R/W) Missing register field description. */
+        uint32_t corestate             : 4;  /**< [  7:  4](RO) SM4 core state */
+        uint32_t sp_rsvd3              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when SM4 is busy */
+#else /* Word 0 - Little Endian */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when SM4 is busy */
+        uint32_t sp_rsvd3              : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t corestate             : 4;  /**< [  7:  4](RO) SM4 core state */
+        uint32_t sp_rsvd2              : 4;  /**< [ 11:  8](R/W) Missing register field description. */
+        uint32_t sp_rsvd1              : 3;  /**< [ 14: 12](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_sm4_status_s cn; */
+};
+typedef union cavm_ehsm_smc_sm4_status cavm_ehsm_smc_sm4_status_t;
+
+#define CAVM_EHSM_SMC_SM4_STATUS CAVM_EHSM_SMC_SM4_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_SM4_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_SM4_STATUS_FUNC(void)
+{
+    return 0x80b000001068ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_SM4_STATUS cavm_ehsm_smc_sm4_status_t
+#define bustype_CAVM_EHSM_SMC_SM4_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_SM4_STATUS "EHSM_SMC_SM4_STATUS"
+#define device_bar_CAVM_EHSM_SMC_SM4_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_SM4_STATUS 0
+#define arguments_CAVM_EHSM_SMC_SM4_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_smc_sm4_str_size
+ *
+ * EHSM Smc Sm4 Str Size Register
+ * \<JIRA EHSM-33\> Plaintext/Ciphertext/Stream Size (in Byte)
+ * - ECB or CBC Mode
+ * The size must be no less than 16 bytes (ECB requires data to be multiple of 16 bytes).
+ * If the stream is divided to multiple segments (Resume Operation), all segments must
+ * be multiple of 16 bytes. If it is not ECB, the last segment allowes partial
+ * codeword.
+ * - CTR, CFB or OFB Mode
+ * The size must be larger than 0 byte.
+ * If the stream is divided to multiple segments (Resume Operation), all segments must
+ * be multiple of 16 bytes. The last segment allowes partial codeword.
+ */
+union cavm_ehsm_smc_sm4_str_size
+{
+    uint32_t u;
+    struct cavm_ehsm_smc_sm4_str_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sm4_str_size          : 32; /**< [ 31:  0](R/W) \<JIRA EHSM-33\> Plaintext/Ciphertext/Stream Size (in Byte)
+                                                                 - ECB or CBC Mode
+                                                                 The size must be no less than 16 bytes (ECB requires data to be multiple of 16 bytes).
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. If it is not ECB, the last segment allowes partial
+                                                                 codeword.
+                                                                 - CTR, CFB or OFB Mode
+                                                                 The size must be larger than 0 byte.
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. The last segment allowes partial codeword. */
+#else /* Word 0 - Little Endian */
+        uint32_t sm4_str_size          : 32; /**< [ 31:  0](R/W) \<JIRA EHSM-33\> Plaintext/Ciphertext/Stream Size (in Byte)
+                                                                 - ECB or CBC Mode
+                                                                 The size must be no less than 16 bytes (ECB requires data to be multiple of 16 bytes).
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. If it is not ECB, the last segment allowes partial
+                                                                 codeword.
+                                                                 - CTR, CFB or OFB Mode
+                                                                 The size must be larger than 0 byte.
+                                                                 If the stream is divided to multiple segments (Resume Operation), all segments
+                                                                 must be multiple of 16 bytes. The last segment allowes partial codeword. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_smc_sm4_str_size_s cn; */
+};
+typedef union cavm_ehsm_smc_sm4_str_size cavm_ehsm_smc_sm4_str_size_t;
+
+#define CAVM_EHSM_SMC_SM4_STR_SIZE CAVM_EHSM_SMC_SM4_STR_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_SMC_SM4_STR_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SMC_SM4_STR_SIZE_FUNC(void)
+{
+    return 0x80b000001074ll;
+}
+
+#define typedef_CAVM_EHSM_SMC_SM4_STR_SIZE cavm_ehsm_smc_sm4_str_size_t
+#define bustype_CAVM_EHSM_SMC_SM4_STR_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SMC_SM4_STR_SIZE "EHSM_SMC_SM4_STR_SIZE"
+#define device_bar_CAVM_EHSM_SMC_SM4_STR_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SMC_SM4_STR_SIZE 0
+#define arguments_CAVM_EHSM_SMC_SM4_STR_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_acc_addr
+ *
+ * EHSM Spad Acc Addr Register
+ * The field is the address that is used during the CPU access mode. It is only valid
+ * in CPU access mode. The stadnard procedure for reading/writing the Scratch Pad is
+ * the following.
+ * Program SPAD_ACC_ADDR.
+ * Read/Program SPAD_ACC_DATA.
+ * The step 2 triggers the hardware to perform requested operation. The hardware is
+ * implemented with an auto-increment feature which automatically increases the
+ * SPAD_ACC_ADDR register by one after step 2. When the firmware wants to read/write a
+ * contiguous memory space, it can provide the initial address to SPAD_ACC_ADDR
+ * register and keeps reading/writing SPAD_ACC_DATA regsiter.
+ */
+union cavm_ehsm_spad_acc_addr
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_acc_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t spad_acc_addr         : 32; /**< [ 31:  0](R/W) The field is the address that is used during the CPU access mode. It is only
+                                                                 valid in CPU access mode. The stadnard procedure for reading/writing the Scratch
+                                                                 Pad is the following.
+                                                                 Program SPAD_ACC_ADDR.
+                                                                 Read/Program SPAD_ACC_DATA.
+                                                                 The step 2 triggers the hardware to perform requested operation. The hardware is
+                                                                 implemented with an auto-increment feature which automatically increases the
+                                                                 SPAD_ACC_ADDR register by one after step 2. When the firmware wants to
+                                                                 read/write a contiguous memory space, it can provide the initial address to
+                                                                 SPAD_ACC_ADDR register and keeps reading/writing SPAD_ACC_DATA regsiter. */
+#else /* Word 0 - Little Endian */
+        uint32_t spad_acc_addr         : 32; /**< [ 31:  0](R/W) The field is the address that is used during the CPU access mode. It is only
+                                                                 valid in CPU access mode. The stadnard procedure for reading/writing the Scratch
+                                                                 Pad is the following.
+                                                                 Program SPAD_ACC_ADDR.
+                                                                 Read/Program SPAD_ACC_DATA.
+                                                                 The step 2 triggers the hardware to perform requested operation. The hardware is
+                                                                 implemented with an auto-increment feature which automatically increases the
+                                                                 SPAD_ACC_ADDR register by one after step 2. When the firmware wants to
+                                                                 read/write a contiguous memory space, it can provide the initial address to
+                                                                 SPAD_ACC_ADDR register and keeps reading/writing SPAD_ACC_DATA regsiter. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_acc_addr_s cn; */
+};
+typedef union cavm_ehsm_spad_acc_addr cavm_ehsm_spad_acc_addr_t;
+
+#define CAVM_EHSM_SPAD_ACC_ADDR CAVM_EHSM_SPAD_ACC_ADDR_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_ACC_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_ACC_ADDR_FUNC(void)
+{
+    return 0x80b000001c50ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_ACC_ADDR cavm_ehsm_spad_acc_addr_t
+#define bustype_CAVM_EHSM_SPAD_ACC_ADDR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_ACC_ADDR "EHSM_SPAD_ACC_ADDR"
+#define device_bar_CAVM_EHSM_SPAD_ACC_ADDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_ACC_ADDR 0
+#define arguments_CAVM_EHSM_SPAD_ACC_ADDR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_acc_data
+ *
+ * EHSM Spad Acc Data Register
+ * The field is the read/write data in CPU access mode. It is only valid in CPU access
+ * mode. The stadnard procedure for reading/writing the Scratch Pad is the following.
+ * Program SPAD_ACC_ADDR.
+ * Read/Program SPAD_ACC_DATA.
+ * The step 2 triggers the hardware to perform requested operation. The hardware is
+ * implemented with an auto-increment feature which automatically increases the
+ * SPAD_ACC_ADDR register by one after step 2. If the firmware wants to read/write a
+ * contiguous memory space, it just needs to provide the initial address to
+ * SPAD_ACC_ADDR register and then keeps reading/writing SPAD_ACC_DATA regsiter.
+ */
+union cavm_ehsm_spad_acc_data
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_acc_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t spad_acc_data         : 32; /**< [ 31:  0](R/W) The field is the read/write data in CPU access mode. It is only valid in CPU
+                                                                 access mode. The stadnard procedure for reading/writing the Scratch Pad is the
+                                                                 following.
+                                                                 Program SPAD_ACC_ADDR.
+                                                                 Read/Program SPAD_ACC_DATA.
+                                                                 The step 2 triggers the hardware to perform requested operation. The hardware is
+                                                                 implemented with an auto-increment feature which automatically increases the
+                                                                 SPAD_ACC_ADDR register by one after step 2. If the firmware wants to read/write
+                                                                 a contiguous memory space, it just needs to provide the initial address to
+                                                                 SPAD_ACC_ADDR register and then keeps reading/writing SPAD_ACC_DATA regsiter. */
+#else /* Word 0 - Little Endian */
+        uint32_t spad_acc_data         : 32; /**< [ 31:  0](R/W) The field is the read/write data in CPU access mode. It is only valid in CPU
+                                                                 access mode. The stadnard procedure for reading/writing the Scratch Pad is the
+                                                                 following.
+                                                                 Program SPAD_ACC_ADDR.
+                                                                 Read/Program SPAD_ACC_DATA.
+                                                                 The step 2 triggers the hardware to perform requested operation. The hardware is
+                                                                 implemented with an auto-increment feature which automatically increases the
+                                                                 SPAD_ACC_ADDR register by one after step 2. If the firmware wants to read/write
+                                                                 a contiguous memory space, it just needs to provide the initial address to
+                                                                 SPAD_ACC_ADDR register and then keeps reading/writing SPAD_ACC_DATA regsiter. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_acc_data_s cn; */
+};
+typedef union cavm_ehsm_spad_acc_data cavm_ehsm_spad_acc_data_t;
+
+#define CAVM_EHSM_SPAD_ACC_DATA CAVM_EHSM_SPAD_ACC_DATA_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_ACC_DATA_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_ACC_DATA_FUNC(void)
+{
+    return 0x80b000001c54ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_ACC_DATA cavm_ehsm_spad_acc_data_t
+#define bustype_CAVM_EHSM_SPAD_ACC_DATA CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_ACC_DATA "EHSM_SPAD_ACC_DATA"
+#define device_bar_CAVM_EHSM_SPAD_ACC_DATA 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_ACC_DATA 0
+#define arguments_CAVM_EHSM_SPAD_ACC_DATA -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_cfg
+ *
+ * EHSM Spad Cfg Register
+ */
+union cavm_ehsm_spad_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](R/W) Reserved. */
+        uint32_t accmode               : 3;  /**< [  2:  0](R/W) Scratch Pad Access Mode
+                                                                 0h: CPU Access Mode
+                                                                 1h: Random Access Mode
+                                                                 2h: Sequential Access (FIFO) Mode
+                                                                 3h: 8-Byte Reverse Write Access Mode
+                                                                 4h: 8-Byte Reverse Read Access Mode
+                                                                 -CPU Access Mode
+                                                                 Access any memory location through APB.
+                                                                 -Sequential Access (FIFO) Mode
+                                                                 Access memory through Ready/Valid Interface
+                                                                 Each input/output data transfer changes FIFO read/write poitner value. The
+                                                                 initial pointer values can be programmed through APB.
+                                                                 -Random Access Mode
+                                                                 Access any memory location through Memory Interface.
+                                                                 -8-Byte Reverse Write Access Mode
+                                                                 A special Sequential Access mode that reverses the entire data stream in 8-byte boundary.
+                                                                 Data is inputted through Ready/Valid Interface. No data will be outputted.
+                                                                 Programmed FIFO read pinter is ignored. Its value changes according to the number of data transfer.
+                                                                 Programmed FIFO?write pointer determines the start location of data transfer.
+                                                                 Its value remains throughout the entire operation.
+                                                                 The FIFO is assumed to be empty when the operation starts. FIFO full status is
+                                                                 valid, but the empty status is invalid.
+                                                                 Data size must be multiple of 8 bytes. Maximum data size must be less than
+                                                                 Scratch Pad's size. Minimum size is 8 bytes.
+                                                                 -8-Byte Reverse Read Access Mode
+                                                                 A special Sequential Access mode that reverses the entire data stream in 8-byte boundary.
+                                                                 Data is outputted through Ready/Valid Interface. No input data will be taken.
+                                                                 Programmed FIFO read and write pointer determins the number of data in the FIFO.
+                                                                 FIFO empty status is valid, but the full status is invalid.
+                                                                 Data size must be multiple of 8 bytes. Maximum data size must be less than
+                                                                 Scratch Pad's size. Minimum size is 8 bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t accmode               : 3;  /**< [  2:  0](R/W) Scratch Pad Access Mode
+                                                                 0h: CPU Access Mode
+                                                                 1h: Random Access Mode
+                                                                 2h: Sequential Access (FIFO) Mode
+                                                                 3h: 8-Byte Reverse Write Access Mode
+                                                                 4h: 8-Byte Reverse Read Access Mode
+                                                                 -CPU Access Mode
+                                                                 Access any memory location through APB.
+                                                                 -Sequential Access (FIFO) Mode
+                                                                 Access memory through Ready/Valid Interface
+                                                                 Each input/output data transfer changes FIFO read/write poitner value. The
+                                                                 initial pointer values can be programmed through APB.
+                                                                 -Random Access Mode
+                                                                 Access any memory location through Memory Interface.
+                                                                 -8-Byte Reverse Write Access Mode
+                                                                 A special Sequential Access mode that reverses the entire data stream in 8-byte boundary.
+                                                                 Data is inputted through Ready/Valid Interface. No data will be outputted.
+                                                                 Programmed FIFO read pinter is ignored. Its value changes according to the number of data transfer.
+                                                                 Programmed FIFO?write pointer determines the start location of data transfer.
+                                                                 Its value remains throughout the entire operation.
+                                                                 The FIFO is assumed to be empty when the operation starts. FIFO full status is
+                                                                 valid, but the empty status is invalid.
+                                                                 Data size must be multiple of 8 bytes. Maximum data size must be less than
+                                                                 Scratch Pad's size. Minimum size is 8 bytes.
+                                                                 -8-Byte Reverse Read Access Mode
+                                                                 A special Sequential Access mode that reverses the entire data stream in 8-byte boundary.
+                                                                 Data is outputted through Ready/Valid Interface. No input data will be taken.
+                                                                 Programmed FIFO read and write pointer determins the number of data in the FIFO.
+                                                                 FIFO empty status is valid, but the full status is invalid.
+                                                                 Data size must be multiple of 8 bytes. Maximum data size must be less than
+                                                                 Scratch Pad's size. Minimum size is 8 bytes. */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_cfg_s cn; */
+};
+typedef union cavm_ehsm_spad_cfg cavm_ehsm_spad_cfg_t;
+
+#define CAVM_EHSM_SPAD_CFG CAVM_EHSM_SPAD_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_CFG_FUNC(void)
+{
+    return 0x80b000001c00ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_CFG cavm_ehsm_spad_cfg_t
+#define bustype_CAVM_EHSM_SPAD_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_CFG "EHSM_SPAD_CFG"
+#define device_bar_CAVM_EHSM_SPAD_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_CFG 0
+#define arguments_CAVM_EHSM_SPAD_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_cmd
+ *
+ * EHSM Spad Cmd Register
+ */
+union cavm_ehsm_spad_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Reserved. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset Scratch Pad */
+        uint32_t zerostart             : 1;  /**< [  0:  0](R/W) Set this bit to zerorize the Scartch Pad internal SRAM. This bit is cleared
+                                                                 automatically after it is set. The zerorize feature shall only be used when
+                                                                 Scratch Pad is in CPU access mode. */
+#else /* Word 0 - Little Endian */
+        uint32_t zerostart             : 1;  /**< [  0:  0](R/W) Set this bit to zerorize the Scartch Pad internal SRAM. This bit is cleared
+                                                                 automatically after it is set. The zerorize feature shall only be used when
+                                                                 Scratch Pad is in CPU access mode. */
+        uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset Scratch Pad */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_cmd_s cn; */
+};
+typedef union cavm_ehsm_spad_cmd cavm_ehsm_spad_cmd_t;
+
+#define CAVM_EHSM_SPAD_CMD CAVM_EHSM_SPAD_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_CMD_FUNC(void)
+{
+    return 0x80b000001c08ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_CMD cavm_ehsm_spad_cmd_t
+#define bustype_CAVM_EHSM_SPAD_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_CMD "EHSM_SPAD_CMD"
+#define device_bar_CAVM_EHSM_SPAD_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_CMD 0
+#define arguments_CAVM_EHSM_SPAD_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_ctrl
+ *
+ * EHSM Spad Ctrl Register
+ */
+union cavm_ehsm_spad_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+        uint32_t ignperr               : 1;  /**< [  4:  4](R/W) Scratch Pad is equipped with an ECC module (1-bit correction and 2-bit
+                                                                 detection). When this bit is set, the hardware discards the 1-bit error when it
+                                                                 occurs (no error signal will be sent to the CPU or hardware engines that use the
+                                                                 Scratch Pad). */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Reserved. */
+        uint32_t frcperr               : 2;  /**< [  1:  0](R/W) Program this field to inject error into the parity bits during a read/pop operation.
+                                                                 2'b00 = No Error Injection
+                                                                 2'b01 = 1-bit error injection
+                                                                 2'b10 = 2-bit error injection
+                                                                 2'b11 = Reserved */
+#else /* Word 0 - Little Endian */
+        uint32_t frcperr               : 2;  /**< [  1:  0](R/W) Program this field to inject error into the parity bits during a read/pop operation.
+                                                                 2'b00 = No Error Injection
+                                                                 2'b01 = 1-bit error injection
+                                                                 2'b10 = 2-bit error injection
+                                                                 2'b11 = Reserved */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Reserved. */
+        uint32_t ignperr               : 1;  /**< [  4:  4](R/W) Scratch Pad is equipped with an ECC module (1-bit correction and 2-bit
+                                                                 detection). When this bit is set, the hardware discards the 1-bit error when it
+                                                                 occurs (no error signal will be sent to the CPU or hardware engines that use the
+                                                                 Scratch Pad). */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_ctrl_s cn; */
+};
+typedef union cavm_ehsm_spad_ctrl cavm_ehsm_spad_ctrl_t;
+
+#define CAVM_EHSM_SPAD_CTRL CAVM_EHSM_SPAD_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_CTRL_FUNC(void)
+{
+    return 0x80b000001c04ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_CTRL cavm_ehsm_spad_ctrl_t
+#define bustype_CAVM_EHSM_SPAD_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_CTRL "EHSM_SPAD_CTRL"
+#define device_bar_CAVM_EHSM_SPAD_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_CTRL 0
+#define arguments_CAVM_EHSM_SPAD_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_eng_status
+ *
+ * EHSM Spad Eng Status Register
+ */
+union cavm_ehsm_spad_eng_status
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_eng_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 31; /**< [ 31:  1](RO) Reserved. */
+        uint32_t zerodone              : 1;  /**< [  0:  0](RO) This bit is set when zerorize operation is completed. */
+#else /* Word 0 - Little Endian */
+        uint32_t zerodone              : 1;  /**< [  0:  0](RO) This bit is set when zerorize operation is completed. */
+        uint32_t sp_rsvd               : 31; /**< [ 31:  1](RO) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_eng_status_s cn; */
+};
+typedef union cavm_ehsm_spad_eng_status cavm_ehsm_spad_eng_status_t;
+
+#define CAVM_EHSM_SPAD_ENG_STATUS CAVM_EHSM_SPAD_ENG_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_ENG_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_ENG_STATUS_FUNC(void)
+{
+    return 0x80b000001c0cll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_ENG_STATUS cavm_ehsm_spad_eng_status_t
+#define bustype_CAVM_EHSM_SPAD_ENG_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_ENG_STATUS "EHSM_SPAD_ENG_STATUS"
+#define device_bar_CAVM_EHSM_SPAD_ENG_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_ENG_STATUS 0
+#define arguments_CAVM_EHSM_SPAD_ENG_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_fct_rptr
+ *
+ * EHSM Spad Fct Rptr Register
+ * Read pointer for Sequential and 8-Byte Reverse access modes
+ * The difference between read and write pointer shall not exceed Scratch Pad's size.
+ * Read pointer always points to the address which contains the valid data for the next pop operation.
+ * Note:
+ * If firmware wants to modify the FIFO pointers, it is required to program both read
+ * and write poitners.
+ * The write pointer shall be programmed before programming the read pointer
+ * The access mode selection must be done before changing the pointer values.
+ * The read pointer may be invalid due to internal pipeline buffer (hardware
+ * automatically pops data to fill up the pipeline buffer) during Sequential or Reverse
+ * access mode. To obtain the correct read pointer value, the access mode must be
+ * changed to CPU access mode (which triggers FIFO data restore feature)
+ */
+union cavm_ehsm_spad_fct_rptr
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_fct_rptr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t spad_fct_rptr         : 32; /**< [ 31:  0](R/W) Read pointer for Sequential and 8-Byte Reverse access modes
+                                                                 The difference between read and write pointer shall not exceed Scratch Pad's size.
+                                                                 Read pointer always points to the address which contains the valid data for the next pop operation.
+                                                                 Note:
+                                                                 If firmware wants to modify the FIFO pointers, it is required to program both
+                                                                 read and write poitners.
+                                                                 The write pointer shall be programmed before programming the read pointer
+                                                                 The access mode selection must be done before changing the pointer values.
+                                                                 The read pointer may be invalid due to internal pipeline buffer (hardware
+                                                                 automatically pops data to fill up the pipeline buffer) during Sequential or
+                                                                 Reverse access mode. To obtain the correct read pointer value, the access mode
+                                                                 must be changed to CPU access mode (which triggers FIFO data restore feature) */
+#else /* Word 0 - Little Endian */
+        uint32_t spad_fct_rptr         : 32; /**< [ 31:  0](R/W) Read pointer for Sequential and 8-Byte Reverse access modes
+                                                                 The difference between read and write pointer shall not exceed Scratch Pad's size.
+                                                                 Read pointer always points to the address which contains the valid data for the next pop operation.
+                                                                 Note:
+                                                                 If firmware wants to modify the FIFO pointers, it is required to program both
+                                                                 read and write poitners.
+                                                                 The write pointer shall be programmed before programming the read pointer
+                                                                 The access mode selection must be done before changing the pointer values.
+                                                                 The read pointer may be invalid due to internal pipeline buffer (hardware
+                                                                 automatically pops data to fill up the pipeline buffer) during Sequential or
+                                                                 Reverse access mode. To obtain the correct read pointer value, the access mode
+                                                                 must be changed to CPU access mode (which triggers FIFO data restore feature) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_fct_rptr_s cn; */
+};
+typedef union cavm_ehsm_spad_fct_rptr cavm_ehsm_spad_fct_rptr_t;
+
+#define CAVM_EHSM_SPAD_FCT_RPTR CAVM_EHSM_SPAD_FCT_RPTR_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_FCT_RPTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_FCT_RPTR_FUNC(void)
+{
+    return 0x80b000001c24ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_FCT_RPTR cavm_ehsm_spad_fct_rptr_t
+#define bustype_CAVM_EHSM_SPAD_FCT_RPTR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_FCT_RPTR "EHSM_SPAD_FCT_RPTR"
+#define device_bar_CAVM_EHSM_SPAD_FCT_RPTR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_FCT_RPTR 0
+#define arguments_CAVM_EHSM_SPAD_FCT_RPTR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_fct_status0
+ *
+ * EHSM Spad Fct Status0 Register
+ */
+union cavm_ehsm_spad_fct_status0
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_fct_status0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+        uint32_t full                  : 1;  /**< [  4:  4](RO) Scratch Pad FIFO condition.
+                                                                 0h: FIFO not full
+                                                                 1h: FIFO full
+                                                                 Only valid in Sequential and 8-Byte Reverse Write access mode. */
+        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](R/W) Reserved. */
+        uint32_t empty                 : 1;  /**< [  0:  0](RO) Scratch Pad FIFO condition.
+                                                                 0h: FIFO not empty
+                                                                 1h: FIFO empty
+                                                                 Only valid in Sequential and 8-Byte Reverse Read access mode. */
+#else /* Word 0 - Little Endian */
+        uint32_t empty                 : 1;  /**< [  0:  0](RO) Scratch Pad FIFO condition.
+                                                                 0h: FIFO not empty
+                                                                 1h: FIFO empty
+                                                                 Only valid in Sequential and 8-Byte Reverse Read access mode. */
+        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](R/W) Reserved. */
+        uint32_t full                  : 1;  /**< [  4:  4](RO) Scratch Pad FIFO condition.
+                                                                 0h: FIFO not full
+                                                                 1h: FIFO full
+                                                                 Only valid in Sequential and 8-Byte Reverse Write access mode. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_fct_status0_s cn; */
+};
+typedef union cavm_ehsm_spad_fct_status0 cavm_ehsm_spad_fct_status0_t;
+
+#define CAVM_EHSM_SPAD_FCT_STATUS0 CAVM_EHSM_SPAD_FCT_STATUS0_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_FCT_STATUS0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_FCT_STATUS0_FUNC(void)
+{
+    return 0x80b000001c30ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_FCT_STATUS0 cavm_ehsm_spad_fct_status0_t
+#define bustype_CAVM_EHSM_SPAD_FCT_STATUS0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_FCT_STATUS0 "EHSM_SPAD_FCT_STATUS0"
+#define device_bar_CAVM_EHSM_SPAD_FCT_STATUS0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_FCT_STATUS0 0
+#define arguments_CAVM_EHSM_SPAD_FCT_STATUS0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_fct_status1
+ *
+ * EHSM Spad Fct Status1 Register
+ * This field shows the number of valid data in the FIFO during Sequential access mode (1's base).
+ */
+union cavm_ehsm_spad_fct_status1
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_fct_status1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t spad_fct_status1      : 32; /**< [ 31:  0](RO) This field shows the number of valid data in the FIFO during Sequential access mode (1's base). */
+#else /* Word 0 - Little Endian */
+        uint32_t spad_fct_status1      : 32; /**< [ 31:  0](RO) This field shows the number of valid data in the FIFO during Sequential access mode (1's base). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_fct_status1_s cn; */
+};
+typedef union cavm_ehsm_spad_fct_status1 cavm_ehsm_spad_fct_status1_t;
+
+#define CAVM_EHSM_SPAD_FCT_STATUS1 CAVM_EHSM_SPAD_FCT_STATUS1_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_FCT_STATUS1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_FCT_STATUS1_FUNC(void)
+{
+    return 0x80b000001c34ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_FCT_STATUS1 cavm_ehsm_spad_fct_status1_t
+#define bustype_CAVM_EHSM_SPAD_FCT_STATUS1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_FCT_STATUS1 "EHSM_SPAD_FCT_STATUS1"
+#define device_bar_CAVM_EHSM_SPAD_FCT_STATUS1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_FCT_STATUS1 0
+#define arguments_CAVM_EHSM_SPAD_FCT_STATUS1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_fct_status2
+ *
+ * EHSM Spad Fct Status2 Register
+ */
+union cavm_ehsm_spad_fct_status2
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_fct_status2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](R/W) Reserved. */
+        uint32_t bnum                  : 3;  /**< [  2:  0](RO) The Scratch Pad has pipeline buffers for the Sequential access mode. The
+                                                                 hardware always tries to fill up the buffer by poping the data from the FIFO
+                                                                 memory (data is sent out from the pipeline buffer in stead of directly from the
+                                                                 FIFO memory). When existing the Sequential access mode, the hardware
+                                                                 automatically restores the data from the pipeline buffer back to FIFO memory.
+                                                                 This feild shows the number of valid data in the pipeline buffer during
+                                                                 Sequential access mode (1's base). */
+#else /* Word 0 - Little Endian */
+        uint32_t bnum                  : 3;  /**< [  2:  0](RO) The Scratch Pad has pipeline buffers for the Sequential access mode. The
+                                                                 hardware always tries to fill up the buffer by poping the data from the FIFO
+                                                                 memory (data is sent out from the pipeline buffer in stead of directly from the
+                                                                 FIFO memory). When existing the Sequential access mode, the hardware
+                                                                 automatically restores the data from the pipeline buffer back to FIFO memory.
+                                                                 This feild shows the number of valid data in the pipeline buffer during
+                                                                 Sequential access mode (1's base). */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_fct_status2_s cn; */
+};
+typedef union cavm_ehsm_spad_fct_status2 cavm_ehsm_spad_fct_status2_t;
+
+#define CAVM_EHSM_SPAD_FCT_STATUS2 CAVM_EHSM_SPAD_FCT_STATUS2_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_FCT_STATUS2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_FCT_STATUS2_FUNC(void)
+{
+    return 0x80b000001c38ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_FCT_STATUS2 cavm_ehsm_spad_fct_status2_t
+#define bustype_CAVM_EHSM_SPAD_FCT_STATUS2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_FCT_STATUS2 "EHSM_SPAD_FCT_STATUS2"
+#define device_bar_CAVM_EHSM_SPAD_FCT_STATUS2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_FCT_STATUS2 0
+#define arguments_CAVM_EHSM_SPAD_FCT_STATUS2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_fct_wptr
+ *
+ * EHSM Spad Fct Wptr Register
+ * Write pointer for Sequential and 8-Byte Reverse access modes
+ * The difference between read and write pointer shall not exceed Scratch Pad's size.
+ * Write pointer always points to the next avaliable address space.
+ * Note:
+ * If firmware wants to modify the FIFO pointers, it is required to program both read
+ * and write poitners in Sequential access mode.
+ * The write pointer shall be programmed before programming the read pointr.
+ * The access mode selection must be done before changing the pointer values.
+ */
+union cavm_ehsm_spad_fct_wptr
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_fct_wptr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t spad_fct_wptr         : 32; /**< [ 31:  0](R/W) Write pointer for Sequential and 8-Byte Reverse access modes
+                                                                 The difference between read and write pointer shall not exceed Scratch Pad's size.
+                                                                 Write pointer always points to the next avaliable address space.
+                                                                 Note:
+                                                                 If firmware wants to modify the FIFO pointers, it is required to program both
+                                                                 read and write poitners in Sequential access mode.
+                                                                 The write pointer shall be programmed before programming the read pointr.
+                                                                 The access mode selection must be done before changing the pointer values. */
+#else /* Word 0 - Little Endian */
+        uint32_t spad_fct_wptr         : 32; /**< [ 31:  0](R/W) Write pointer for Sequential and 8-Byte Reverse access modes
+                                                                 The difference between read and write pointer shall not exceed Scratch Pad's size.
+                                                                 Write pointer always points to the next avaliable address space.
+                                                                 Note:
+                                                                 If firmware wants to modify the FIFO pointers, it is required to program both
+                                                                 read and write poitners in Sequential access mode.
+                                                                 The write pointer shall be programmed before programming the read pointr.
+                                                                 The access mode selection must be done before changing the pointer values. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_fct_wptr_s cn; */
+};
+typedef union cavm_ehsm_spad_fct_wptr cavm_ehsm_spad_fct_wptr_t;
+
+#define CAVM_EHSM_SPAD_FCT_WPTR CAVM_EHSM_SPAD_FCT_WPTR_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_FCT_WPTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_FCT_WPTR_FUNC(void)
+{
+    return 0x80b000001c20ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_FCT_WPTR cavm_ehsm_spad_fct_wptr_t
+#define bustype_CAVM_EHSM_SPAD_FCT_WPTR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_FCT_WPTR "EHSM_SPAD_FCT_WPTR"
+#define device_bar_CAVM_EHSM_SPAD_FCT_WPTR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_FCT_WPTR 0
+#define arguments_CAVM_EHSM_SPAD_FCT_WPTR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_intp
+ *
+ * EHSM Spad Intp Register
+ */
+union cavm_ehsm_spad_intp
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_intp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+        uint32_t merr                  : 1;  /**< [  4:  4](R/W) This bit is set when CPU accesses the Scratch Pad in non-CPU Access mode. Write
+                                                                 one to clear the bit.
+                                                                 1'h0 = No error
+                                                                 1'b1 = Invalid access
+                                                                 Notes:
+                                                                 Once this bit is set, only the firmware can clear it. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Reserved. */
+        uint32_t perr                  : 2;  /**< [  1:  0](R/W) This bit is set when error occurs during CPU access. Write one to clear the bit.
+                                                                 2'b00 = No error
+                                                                 2'b01 = 1-bit error has occured before
+                                                                 2'b10 = 2-bit error has occured before
+                                                                 2'b11 = Both 1-bit and 2-biti has occured before.
+                                                                 Notes:
+                                                                 If 1-bit error is detected, the read data would be corrected automatically. If
+                                                                 2-bit error is detected, the read data remains as is (error is uncorrectible).
+                                                                 Once this bit is set, only firmware can clear it. */
+#else /* Word 0 - Little Endian */
+        uint32_t perr                  : 2;  /**< [  1:  0](R/W) This bit is set when error occurs during CPU access. Write one to clear the bit.
+                                                                 2'b00 = No error
+                                                                 2'b01 = 1-bit error has occured before
+                                                                 2'b10 = 2-bit error has occured before
+                                                                 2'b11 = Both 1-bit and 2-biti has occured before.
+                                                                 Notes:
+                                                                 If 1-bit error is detected, the read data would be corrected automatically. If
+                                                                 2-bit error is detected, the read data remains as is (error is uncorrectible).
+                                                                 Once this bit is set, only firmware can clear it. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Reserved. */
+        uint32_t merr                  : 1;  /**< [  4:  4](R/W) This bit is set when CPU accesses the Scratch Pad in non-CPU Access mode. Write
+                                                                 one to clear the bit.
+                                                                 1'h0 = No error
+                                                                 1'b1 = Invalid access
+                                                                 Notes:
+                                                                 Once this bit is set, only the firmware can clear it. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_intp_s cn; */
+};
+typedef union cavm_ehsm_spad_intp cavm_ehsm_spad_intp_t;
+
+#define CAVM_EHSM_SPAD_INTP CAVM_EHSM_SPAD_INTP_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_INTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_INTP_FUNC(void)
+{
+    return 0x80b000001c10ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_INTP cavm_ehsm_spad_intp_t
+#define bustype_CAVM_EHSM_SPAD_INTP CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_INTP "EHSM_SPAD_INTP"
+#define device_bar_CAVM_EHSM_SPAD_INTP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_INTP 0
+#define arguments_CAVM_EHSM_SPAD_INTP -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_intp_en
+ *
+ * EHSM Spad Intp En Register
+ */
+union cavm_ehsm_spad_intp_en
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_intp_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+        uint32_t merr                  : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the SPAD_INTP register. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Reserved. */
+        uint32_t perr                  : 2;  /**< [  1:  0](R/W) Set this bit to enable the corresponding interrupt in the SPAD_INTP register. */
+#else /* Word 0 - Little Endian */
+        uint32_t perr                  : 2;  /**< [  1:  0](R/W) Set this bit to enable the corresponding interrupt in the SPAD_INTP register. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](R/W) Reserved. */
+        uint32_t merr                  : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the SPAD_INTP register. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_intp_en_s cn; */
+};
+typedef union cavm_ehsm_spad_intp_en cavm_ehsm_spad_intp_en_t;
+
+#define CAVM_EHSM_SPAD_INTP_EN CAVM_EHSM_SPAD_INTP_EN_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_INTP_EN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_INTP_EN_FUNC(void)
+{
+    return 0x80b000001c14ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_INTP_EN cavm_ehsm_spad_intp_en_t
+#define bustype_CAVM_EHSM_SPAD_INTP_EN CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_INTP_EN "EHSM_SPAD_INTP_EN"
+#define device_bar_CAVM_EHSM_SPAD_INTP_EN 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_INTP_EN 0
+#define arguments_CAVM_EHSM_SPAD_INTP_EN -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_rsvd0_rsvd
+ *
+ * INTERNAL: EHSM Spad Rsvd0 Register
+ */
+union cavm_ehsm_spad_rsvd0_rsvd
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_rsvd0_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_rsvd0_rsvd_s cn; */
+};
+typedef union cavm_ehsm_spad_rsvd0_rsvd cavm_ehsm_spad_rsvd0_rsvd_t;
+
+#define CAVM_EHSM_SPAD_RSVD0_RSVD CAVM_EHSM_SPAD_RSVD0_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_RSVD0_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_RSVD0_RSVD_FUNC(void)
+{
+    return 0x80b000001c18ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_RSVD0_RSVD cavm_ehsm_spad_rsvd0_rsvd_t
+#define bustype_CAVM_EHSM_SPAD_RSVD0_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_RSVD0_RSVD "EHSM_SPAD_RSVD0_RSVD"
+#define device_bar_CAVM_EHSM_SPAD_RSVD0_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_RSVD0_RSVD 0
+#define arguments_CAVM_EHSM_SPAD_RSVD0_RSVD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_rsvd1_rsvd
+ *
+ * INTERNAL: EHSM Spad Rsvd1 Register
+ */
+union cavm_ehsm_spad_rsvd1_rsvd
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_rsvd1_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_rsvd1_rsvd_s cn; */
+};
+typedef union cavm_ehsm_spad_rsvd1_rsvd cavm_ehsm_spad_rsvd1_rsvd_t;
+
+#define CAVM_EHSM_SPAD_RSVD1_RSVD CAVM_EHSM_SPAD_RSVD1_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_RSVD1_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_RSVD1_RSVD_FUNC(void)
+{
+    return 0x80b000001c28ll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_RSVD1_RSVD cavm_ehsm_spad_rsvd1_rsvd_t
+#define bustype_CAVM_EHSM_SPAD_RSVD1_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_RSVD1_RSVD "EHSM_SPAD_RSVD1_RSVD"
+#define device_bar_CAVM_EHSM_SPAD_RSVD1_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_RSVD1_RSVD 0
+#define arguments_CAVM_EHSM_SPAD_RSVD1_RSVD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_spad_rsvd2_rsvd
+ *
+ * INTERNAL: EHSM Spad Rsvd2 Register
+ */
+union cavm_ehsm_spad_rsvd2_rsvd
+{
+    uint32_t u;
+    struct cavm_ehsm_spad_rsvd2_rsvd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_spad_rsvd2_rsvd_s cn; */
+};
+typedef union cavm_ehsm_spad_rsvd2_rsvd cavm_ehsm_spad_rsvd2_rsvd_t;
+
+#define CAVM_EHSM_SPAD_RSVD2_RSVD CAVM_EHSM_SPAD_RSVD2_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_SPAD_RSVD2_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SPAD_RSVD2_RSVD_FUNC(void)
+{
+    return 0x80b000001c3cll;
+}
+
+#define typedef_CAVM_EHSM_SPAD_RSVD2_RSVD cavm_ehsm_spad_rsvd2_rsvd_t
+#define bustype_CAVM_EHSM_SPAD_RSVD2_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SPAD_RSVD2_RSVD "EHSM_SPAD_RSVD2_RSVD"
+#define device_bar_CAVM_EHSM_SPAD_RSVD2_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SPAD_RSVD2_RSVD 0
+#define arguments_CAVM_EHSM_SPAD_RSVD2_RSVD -1,-1,-1,-1
+
+/**
  * Register (NCB32b) ehsm_sw_sensor
  *
  * CPC eHSM Software Sensor Register
@@ -551,5 +5046,10716 @@ static inline uint64_t CAVM_EHSM_SW_SENSOR_FUNC(void)
 #define device_bar_CAVM_EHSM_SW_SENSOR 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EHSM_SW_SENSOR 0
 #define arguments_CAVM_EHSM_SW_SENSOR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_cfg
+ *
+ * EHSM Trupuf Cfg Register
+ * EHSM-68
+ */
+union cavm_ehsm_trupuf_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t puf_key_size          : 2;  /**< [ 31: 30](R/W) Key size to generate: 00=128b, 01=192b, 10=256b, 11=reserved */
+        uint32_t puf_margin0           : 4;  /**< [ 29: 26](R/W) Missing register field description. */
+        uint32_t puf_margin1           : 4;  /**< [ 25: 22](R/W) Missing register field description. */
+        uint32_t puf_trim              : 12; /**< [ 21: 10](R/W) Missing register field description. */
+        uint32_t puf_vreaddac          : 5;  /**< [  9:  5](R/W) TruEnt wordline voltage control */
+        uint32_t puf_margin_mode       : 2;  /**< [  4:  3](R/W) Additional TruEnt entropy tuning input */
+        uint32_t sp_rsvd               : 3;  /**< [  2:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_rsvd               : 3;  /**< [  2:  0](R/W) Missing register field description. */
+        uint32_t puf_margin_mode       : 2;  /**< [  4:  3](R/W) Additional TruEnt entropy tuning input */
+        uint32_t puf_vreaddac          : 5;  /**< [  9:  5](R/W) TruEnt wordline voltage control */
+        uint32_t puf_trim              : 12; /**< [ 21: 10](R/W) Missing register field description. */
+        uint32_t puf_margin1           : 4;  /**< [ 25: 22](R/W) Missing register field description. */
+        uint32_t puf_margin0           : 4;  /**< [ 29: 26](R/W) Missing register field description. */
+        uint32_t puf_key_size          : 2;  /**< [ 31: 30](R/W) Key size to generate: 00=128b, 01=192b, 10=256b, 11=reserved */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_cfg_s cn; */
+};
+typedef union cavm_ehsm_trupuf_cfg cavm_ehsm_trupuf_cfg_t;
+
+#define CAVM_EHSM_TRUPUF_CFG CAVM_EHSM_TRUPUF_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_CFG_FUNC(void)
+{
+    return 0x80b000002800ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_CFG cavm_ehsm_trupuf_cfg_t
+#define bustype_CAVM_EHSM_TRUPUF_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_CFG "EHSM_TRUPUF_CFG"
+#define device_bar_CAVM_EHSM_TRUPUF_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_CFG 0
+#define arguments_CAVM_EHSM_TRUPUF_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_cmd
+ *
+ * EHSM Trupuf Cmd Register
+ * EHSM-68- Only one bit to be active at a time
+ */
+union cavm_ehsm_trupuf_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t puf_instantiate       : 1;  /**< [ 31: 31](R/W) Request TruPUF to generate helper data and program the OTP memory This operation
+                                                                 will take approx.. 10.24ms
+                                                                 worst case. */
+        uint32_t puf_key_req           : 1;  /**< [ 30: 30](R/W) Read Request to generate key output. This operation will take approx.. 14us worst case */
+        uint32_t puf_health_req        : 1;  /**< [ 29: 29](R/W) Read Initiates health test: BIST through AES internal check for correctness (no key output) */
+        uint32_t puf_invalidate        : 1;  /**< [ 28: 28](R/W) Write Causes TruPUF to enter the INVALID state. All future TruPUF requests will
+                                                                 result in error status and null key output until the next reset is applied.
+                                                                 (would need OTP memory programmability to make this a permanent state) */
+        uint32_t puf_state_req         : 1;  /**< [ 27: 27](R/W) Requests PUF internal state to be output on PUF_STATE bits. Must be performed
+                                                                 after POR and any PUF_RESET */
+        uint32_t puf_zero_key          : 1;  /**< [ 26: 26](R/W) Missing register field description. */
+        uint32_t sp_rsvd               : 26; /**< [ 25:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_rsvd               : 26; /**< [ 25:  0](R/W) Missing register field description. */
+        uint32_t puf_zero_key          : 1;  /**< [ 26: 26](R/W) Missing register field description. */
+        uint32_t puf_state_req         : 1;  /**< [ 27: 27](R/W) Requests PUF internal state to be output on PUF_STATE bits. Must be performed
+                                                                 after POR and any PUF_RESET */
+        uint32_t puf_invalidate        : 1;  /**< [ 28: 28](R/W) Write Causes TruPUF to enter the INVALID state. All future TruPUF requests will
+                                                                 result in error status and null key output until the next reset is applied.
+                                                                 (would need OTP memory programmability to make this a permanent state) */
+        uint32_t puf_health_req        : 1;  /**< [ 29: 29](R/W) Read Initiates health test: BIST through AES internal check for correctness (no key output) */
+        uint32_t puf_key_req           : 1;  /**< [ 30: 30](R/W) Read Request to generate key output. This operation will take approx.. 14us worst case */
+        uint32_t puf_instantiate       : 1;  /**< [ 31: 31](R/W) Request TruPUF to generate helper data and program the OTP memory This operation
+                                                                 will take approx.. 10.24ms
+                                                                 worst case. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_cmd_s cn; */
+};
+typedef union cavm_ehsm_trupuf_cmd cavm_ehsm_trupuf_cmd_t;
+
+#define CAVM_EHSM_TRUPUF_CMD CAVM_EHSM_TRUPUF_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_CMD_FUNC(void)
+{
+    return 0x80b000002804ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_CMD cavm_ehsm_trupuf_cmd_t
+#define bustype_CAVM_EHSM_TRUPUF_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_CMD "EHSM_TRUPUF_CMD"
+#define device_bar_CAVM_EHSM_TRUPUF_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_CMD 0
+#define arguments_CAVM_EHSM_TRUPUF_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data0
+ *
+ * EHSM Trupuf Dat Puf Data0 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ * EHSM-68
+ */
+union cavm_ehsm_trupuf_dat_puf_data0
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data0  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active.
+                                                                 EHSM-68 */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data0  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active.
+                                                                 EHSM-68 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data0_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data0 cavm_ehsm_trupuf_dat_puf_data0_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA0 CAVM_EHSM_TRUPUF_DAT_PUF_DATA0_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA0_FUNC(void)
+{
+    return 0x80b00000280cll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA0 cavm_ehsm_trupuf_dat_puf_data0_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA0 "EHSM_TRUPUF_DAT_PUF_DATA0"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA0 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data1
+ *
+ * EHSM Trupuf Dat Puf Data1 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ */
+union cavm_ehsm_trupuf_dat_puf_data1
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data1  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data1  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data1_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data1 cavm_ehsm_trupuf_dat_puf_data1_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA1 CAVM_EHSM_TRUPUF_DAT_PUF_DATA1_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA1_FUNC(void)
+{
+    return 0x80b000002810ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA1 cavm_ehsm_trupuf_dat_puf_data1_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA1 "EHSM_TRUPUF_DAT_PUF_DATA1"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA1 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data2
+ *
+ * EHSM Trupuf Dat Puf Data2 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ */
+union cavm_ehsm_trupuf_dat_puf_data2
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data2  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data2  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data2_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data2 cavm_ehsm_trupuf_dat_puf_data2_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA2 CAVM_EHSM_TRUPUF_DAT_PUF_DATA2_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA2_FUNC(void)
+{
+    return 0x80b000002814ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA2 cavm_ehsm_trupuf_dat_puf_data2_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA2 "EHSM_TRUPUF_DAT_PUF_DATA2"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA2 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data3
+ *
+ * EHSM Trupuf Dat Puf Data3 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ */
+union cavm_ehsm_trupuf_dat_puf_data3
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data3  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data3  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data3_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data3 cavm_ehsm_trupuf_dat_puf_data3_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA3 CAVM_EHSM_TRUPUF_DAT_PUF_DATA3_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA3_FUNC(void)
+{
+    return 0x80b000002818ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA3 cavm_ehsm_trupuf_dat_puf_data3_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA3 "EHSM_TRUPUF_DAT_PUF_DATA3"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA3 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data4
+ *
+ * EHSM Trupuf Dat Puf Data4 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ */
+union cavm_ehsm_trupuf_dat_puf_data4
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data4  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data4  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data4_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data4 cavm_ehsm_trupuf_dat_puf_data4_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA4 CAVM_EHSM_TRUPUF_DAT_PUF_DATA4_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA4_FUNC(void)
+{
+    return 0x80b00000281cll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA4 cavm_ehsm_trupuf_dat_puf_data4_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA4 "EHSM_TRUPUF_DAT_PUF_DATA4"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA4 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data5
+ *
+ * EHSM Trupuf Dat Puf Data5 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ */
+union cavm_ehsm_trupuf_dat_puf_data5
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data5  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data5  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data5_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data5 cavm_ehsm_trupuf_dat_puf_data5_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA5 CAVM_EHSM_TRUPUF_DAT_PUF_DATA5_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA5_FUNC(void)
+{
+    return 0x80b000002820ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA5 cavm_ehsm_trupuf_dat_puf_data5_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA5 "EHSM_TRUPUF_DAT_PUF_DATA5"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA5 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data6
+ *
+ * EHSM Trupuf Dat Puf Data6 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ */
+union cavm_ehsm_trupuf_dat_puf_data6
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data6  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data6  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data6_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data6 cavm_ehsm_trupuf_dat_puf_data6_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA6 CAVM_EHSM_TRUPUF_DAT_PUF_DATA6_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA6_FUNC(void)
+{
+    return 0x80b000002824ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA6 cavm_ehsm_trupuf_dat_puf_data6_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA6 "EHSM_TRUPUF_DAT_PUF_DATA6"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA6 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_dat_puf_data7
+ *
+ * EHSM Trupuf Dat Puf Data7 Register
+ * 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+ * only valid when PUF_DATA_VALID is active.
+ */
+union cavm_ehsm_trupuf_dat_puf_data7
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_dat_puf_data7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t trupuf_dat_puf_data7  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trupuf_dat_puf_data7  : 32; /**< [ 31:  0](RO) 32 bit TruPUF output key data, or 32 bit health test result code. This output is
+                                                                 only valid when PUF_DATA_VALID is active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_dat_puf_data7_s cn; */
+};
+typedef union cavm_ehsm_trupuf_dat_puf_data7 cavm_ehsm_trupuf_dat_puf_data7_t;
+
+#define CAVM_EHSM_TRUPUF_DAT_PUF_DATA7 CAVM_EHSM_TRUPUF_DAT_PUF_DATA7_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_DAT_PUF_DATA7_FUNC(void)
+{
+    return 0x80b000002828ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_DAT_PUF_DATA7 cavm_ehsm_trupuf_dat_puf_data7_t
+#define bustype_CAVM_EHSM_TRUPUF_DAT_PUF_DATA7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_DAT_PUF_DATA7 "EHSM_TRUPUF_DAT_PUF_DATA7"
+#define device_bar_CAVM_EHSM_TRUPUF_DAT_PUF_DATA7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_DAT_PUF_DATA7 0
+#define arguments_CAVM_EHSM_TRUPUF_DAT_PUF_DATA7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_trupuf_stat
+ *
+ * EHSM Trupuf Stat Register
+ * EHSM-68
+ */
+union cavm_ehsm_trupuf_stat
+{
+    uint32_t u;
+    struct cavm_ehsm_trupuf_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t puf_ready             : 1;  /**< [ 31: 31](RO) PUF ready to accept command */
+        uint32_t puf_data_valid        : 1;  /**< [ 30: 30](RO) PUF data outputs a valid data indicator */
+        uint32_t puf_error             : 1;  /**< [ 29: 29](RO) PUF operation encountered an error and is only valid if PUF_DATA_VALID is active. */
+        uint32_t puf_state             : 3;  /**< [ 28: 26](RO) PUF operation encountered an error and is only valid if PUF_DATA_VALID is active. */
+        uint32_t puf_diag              : 8;  /**< [ 25: 18](RO) PUF diagnostic output */
+        uint32_t sp_rsvd               : 18; /**< [ 17:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_rsvd               : 18; /**< [ 17:  0](RO) Missing register field description. */
+        uint32_t puf_diag              : 8;  /**< [ 25: 18](RO) PUF diagnostic output */
+        uint32_t puf_state             : 3;  /**< [ 28: 26](RO) PUF operation encountered an error and is only valid if PUF_DATA_VALID is active. */
+        uint32_t puf_error             : 1;  /**< [ 29: 29](RO) PUF operation encountered an error and is only valid if PUF_DATA_VALID is active. */
+        uint32_t puf_data_valid        : 1;  /**< [ 30: 30](RO) PUF data outputs a valid data indicator */
+        uint32_t puf_ready             : 1;  /**< [ 31: 31](RO) PUF ready to accept command */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_trupuf_stat_s cn; */
+};
+typedef union cavm_ehsm_trupuf_stat cavm_ehsm_trupuf_stat_t;
+
+#define CAVM_EHSM_TRUPUF_STAT CAVM_EHSM_TRUPUF_STAT_FUNC()
+static inline uint64_t CAVM_EHSM_TRUPUF_STAT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_TRUPUF_STAT_FUNC(void)
+{
+    return 0x80b000002808ll;
+}
+
+#define typedef_CAVM_EHSM_TRUPUF_STAT cavm_ehsm_trupuf_stat_t
+#define bustype_CAVM_EHSM_TRUPUF_STAT CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_TRUPUF_STAT "EHSM_TRUPUF_STAT"
+#define device_bar_CAVM_EHSM_TRUPUF_STAT 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_TRUPUF_STAT 0
+#define arguments_CAVM_EHSM_TRUPUF_STAT -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_adec_acc_err_adr
+ *
+ * EHSM Wtm Adec Acc Err Adr Register
+ * This address register is used for debug purposes. It stores the 19 bit base address
+ * in term of word of the APB bus when the first bus exception occurs.
+ */
+union cavm_ehsm_wtm_adec_acc_err_adr
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_adec_acc_err_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t acc_err_adr           : 32; /**< [ 31:  0](RO) This address register is used for debug purposes. It stores the 19 bit base
+                                                                 address in term of word of the APB bus when the first bus exception occurs. */
+#else /* Word 0 - Little Endian */
+        uint32_t acc_err_adr           : 32; /**< [ 31:  0](RO) This address register is used for debug purposes. It stores the 19 bit base
+                                                                 address in term of word of the APB bus when the first bus exception occurs. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_adec_acc_err_adr_s cn; */
+};
+typedef union cavm_ehsm_wtm_adec_acc_err_adr cavm_ehsm_wtm_adec_acc_err_adr_t;
+
+#define CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR_FUNC(void)
+{
+    return 0x80b000000414ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR cavm_ehsm_wtm_adec_acc_err_adr_t
+#define bustype_CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR "EHSM_WTM_ADEC_ACC_ERR_ADR"
+#define device_bar_CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR 0
+#define arguments_CAVM_EHSM_WTM_ADEC_ACC_ERR_ADR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_adec_adec_ctrl
+ *
+ * EHSM Wtm Adec Adec Ctrl Register
+ */
+union cavm_ehsm_wtm_adec_adec_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_adec_adec_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t adec_int_mode_sel     : 1;  /**< [ 16: 16](R/W) Select interrupt generation mode. ADEC_INT_MSK must be programmed first before
+                                                                 programming this register to 1
+                                                                 0: All unmasked engine interupt are ORed together to generate interrupt to secure procossor
+                                                                 1: All unmasked engine interupt are ANDed together to generate interrupt to secure procossor
+                                                                 This is for EHSM-28 */
+        uint32_t acc_eng15_rst         : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t acc_eng14_rst         : 1;  /**< [ 14: 14](R/W) Missing register field description. */
+        uint32_t acc_eng13_rst         : 1;  /**< [ 13: 13](R/W) Missing register field description. */
+        uint32_t acc_eng12_rst         : 1;  /**< [ 12: 12](R/W) Reset to the APB interface module. It is valid for Vail and Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng11_rst         : 1;  /**< [ 11: 11](R/W) Active high reset signal for the slave AHB module.
+                                                                 It is reserved for Vail and Antman. It is valid for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng10_rst         : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t acc_eng9_rst          : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t acc_eng8_rst          : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t acc_eng7_rst          : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t acc_eng6_rst          : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t acc_eng5_rst          : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t acc_eng4_rst          : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t acc_eng3_rst          : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng2_rst          : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng1_rst          : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng0_rst          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t acc_eng0_rst          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t acc_eng1_rst          : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng2_rst          : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng3_rst          : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng4_rst          : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t acc_eng5_rst          : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t acc_eng6_rst          : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t acc_eng7_rst          : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t acc_eng8_rst          : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t acc_eng9_rst          : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t acc_eng10_rst         : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t acc_eng11_rst         : 1;  /**< [ 11: 11](R/W) Active high reset signal for the slave AHB module.
+                                                                 It is reserved for Vail and Antman. It is valid for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng12_rst         : 1;  /**< [ 12: 12](R/W) Reset to the APB interface module. It is valid for Vail and Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng13_rst         : 1;  /**< [ 13: 13](R/W) Missing register field description. */
+        uint32_t acc_eng14_rst         : 1;  /**< [ 14: 14](R/W) Missing register field description. */
+        uint32_t acc_eng15_rst         : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t adec_int_mode_sel     : 1;  /**< [ 16: 16](R/W) Select interrupt generation mode. ADEC_INT_MSK must be programmed first before
+                                                                 programming this register to 1
+                                                                 0: All unmasked engine interupt are ORed together to generate interrupt to secure procossor
+                                                                 1: All unmasked engine interupt are ANDed together to generate interrupt to secure procossor
+                                                                 This is for EHSM-28 */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_adec_adec_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_adec_adec_ctrl cavm_ehsm_wtm_adec_adec_ctrl_t;
+
+#define CAVM_EHSM_WTM_ADEC_ADEC_CTRL CAVM_EHSM_WTM_ADEC_ADEC_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_CTRL_FUNC(void)
+{
+    return 0x80b000000400ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_ADEC_ADEC_CTRL cavm_ehsm_wtm_adec_adec_ctrl_t
+#define bustype_CAVM_EHSM_WTM_ADEC_ADEC_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_ADEC_ADEC_CTRL "EHSM_WTM_ADEC_ADEC_CTRL"
+#define device_bar_CAVM_EHSM_WTM_ADEC_ADEC_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_ADEC_ADEC_CTRL 0
+#define arguments_CAVM_EHSM_WTM_ADEC_ADEC_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_adec_adec_ctrl2
+ *
+ * EHSM Wtm Adec Adec Ctrl2 Register
+ */
+union cavm_ehsm_wtm_adec_adec_ctrl2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_adec_adec_ctrl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t acc_eng20_rst         : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t acc_eng19_rst         : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng18_rst         : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng17_rst         : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng16_rst         : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t acc_eng16_rst         : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t acc_eng17_rst         : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng18_rst         : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng19_rst         : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng20_rst         : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_adec_adec_ctrl2_s cn; */
+};
+typedef union cavm_ehsm_wtm_adec_adec_ctrl2 cavm_ehsm_wtm_adec_adec_ctrl2_t;
+
+#define CAVM_EHSM_WTM_ADEC_ADEC_CTRL2 CAVM_EHSM_WTM_ADEC_ADEC_CTRL2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_CTRL2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_CTRL2_FUNC(void)
+{
+    return 0x80b000000404ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_ADEC_ADEC_CTRL2 cavm_ehsm_wtm_adec_adec_ctrl2_t
+#define bustype_CAVM_EHSM_WTM_ADEC_ADEC_CTRL2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_ADEC_ADEC_CTRL2 "EHSM_WTM_ADEC_ADEC_CTRL2"
+#define device_bar_CAVM_EHSM_WTM_ADEC_ADEC_CTRL2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_ADEC_ADEC_CTRL2 0
+#define arguments_CAVM_EHSM_WTM_ADEC_ADEC_CTRL2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_adec_adec_int
+ *
+ * EHSM Wtm Adec Adec Int Register
+ */
+union cavm_ehsm_wtm_adec_adec_int
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_adec_adec_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t axi_sl_axi_par_err    : 1;  /**< [ 28: 28](R/W) Missing register field description. */
+        uint32_t acc_eng20_int         : 1;  /**< [ 27: 27](R/W) Missing register field description. */
+        uint32_t acc_eng19_int         : 1;  /**< [ 26: 26](R/W) Missing register field description. */
+        uint32_t acc_eng18_int         : 1;  /**< [ 25: 25](R/W) Missing register field description. */
+        uint32_t acc_eng17_int         : 1;  /**< [ 24: 24](R/W) Interrupt indication from APB Interface 3.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng16_int         : 1;  /**< [ 23: 23](R/W) Interrupt indication from APB Interface 2.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng15_int         : 1;  /**< [ 22: 22](R/W) Interrupt indication from APB Interface 1.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng14_int         : 1;  /**< [ 21: 21](R/W) Interrupt indication from APB Interface 0.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng13_int         : 1;  /**< [ 20: 20](R/W) Missing register field description. */
+        uint32_t acc_eng12_int         : 1;  /**< [ 19: 19](R/W) Interrupt indication from the APB interface module.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng11_int         : 1;  /**< [ 18: 18](R/W) Interrupt indication from the slave AHB interface.
+                                                                 It is reserved for Vail, Antman. It is valid for MW400
+                                                                 Internal: | */
+        uint32_t user_int3             : 1;  /**< [ 17: 17](R/W) "This is User-Defined interrupt #3.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t user_int2             : 1;  /**< [ 16: 16](R/W) "This is User-Defined interrupt #2.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t user_int1             : 1;  /**< [ 15: 15](R/W) "This is User-Defined interrupt #1.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t user_int0             : 1;  /**< [ 14: 14](R/W) "This is User-Defined interrupt #0.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t apb_acc_err           : 1;  /**< [ 13: 13](R/W) Missing register field description. */
+        uint32_t axi_sl_bus_err        : 1;  /**< [ 12: 12](R/W) Missing register field description. */
+        uint32_t axi_sl_apb_err        : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t acc_eng10_int         : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t acc_eng9_int          : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t acc_eng8_int          : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t acc_eng7_int          : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t acc_eng6_int          : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t acc_eng5_int          : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t acc_eng4_int          : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t acc_eng3_int          : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng2_int          : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng1_int          : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng0_int          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t acc_eng0_int          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t acc_eng1_int          : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng2_int          : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng3_int          : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng4_int          : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t acc_eng5_int          : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t acc_eng6_int          : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t acc_eng7_int          : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t acc_eng8_int          : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t acc_eng9_int          : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t acc_eng10_int         : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t axi_sl_apb_err        : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t axi_sl_bus_err        : 1;  /**< [ 12: 12](R/W) Missing register field description. */
+        uint32_t apb_acc_err           : 1;  /**< [ 13: 13](R/W) Missing register field description. */
+        uint32_t user_int0             : 1;  /**< [ 14: 14](R/W) "This is User-Defined interrupt #0.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t user_int1             : 1;  /**< [ 15: 15](R/W) "This is User-Defined interrupt #1.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t user_int2             : 1;  /**< [ 16: 16](R/W) "This is User-Defined interrupt #2.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t user_int3             : 1;  /**< [ 17: 17](R/W) "This is User-Defined interrupt #3.
+                                                                 Internal: |
+                                                                  This field is reserved for Vail, Antman, MW400" */
+        uint32_t acc_eng11_int         : 1;  /**< [ 18: 18](R/W) Interrupt indication from the slave AHB interface.
+                                                                 It is reserved for Vail, Antman. It is valid for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng12_int         : 1;  /**< [ 19: 19](R/W) Interrupt indication from the APB interface module.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng13_int         : 1;  /**< [ 20: 20](R/W) Missing register field description. */
+        uint32_t acc_eng14_int         : 1;  /**< [ 21: 21](R/W) Interrupt indication from APB Interface 0.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng15_int         : 1;  /**< [ 22: 22](R/W) Interrupt indication from APB Interface 1.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng16_int         : 1;  /**< [ 23: 23](R/W) Interrupt indication from APB Interface 2.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng17_int         : 1;  /**< [ 24: 24](R/W) Interrupt indication from APB Interface 3.
+                                                                 It is valid for Vail, Antman. It is reserved for MW400
+                                                                 Internal: | */
+        uint32_t acc_eng18_int         : 1;  /**< [ 25: 25](R/W) Missing register field description. */
+        uint32_t acc_eng19_int         : 1;  /**< [ 26: 26](R/W) Missing register field description. */
+        uint32_t acc_eng20_int         : 1;  /**< [ 27: 27](R/W) Missing register field description. */
+        uint32_t axi_sl_axi_par_err    : 1;  /**< [ 28: 28](R/W) Missing register field description. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_adec_adec_int_s cn; */
+};
+typedef union cavm_ehsm_wtm_adec_adec_int cavm_ehsm_wtm_adec_adec_int_t;
+
+#define CAVM_EHSM_WTM_ADEC_ADEC_INT CAVM_EHSM_WTM_ADEC_ADEC_INT_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_INT_FUNC(void)
+{
+    return 0x80b00000040cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_ADEC_ADEC_INT cavm_ehsm_wtm_adec_adec_int_t
+#define bustype_CAVM_EHSM_WTM_ADEC_ADEC_INT CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_ADEC_ADEC_INT "EHSM_WTM_ADEC_ADEC_INT"
+#define device_bar_CAVM_EHSM_WTM_ADEC_ADEC_INT 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_ADEC_ADEC_INT 0
+#define arguments_CAVM_EHSM_WTM_ADEC_ADEC_INT -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_adec_adec_int_msk
+ *
+ * EHSM Wtm Adec Adec Int Msk Register
+ * Masks for the associated interrupts in register ADEC_INT.
+ */
+union cavm_ehsm_wtm_adec_adec_int_msk
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_adec_adec_int_msk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t axi_sl_axi_par_err_msk : 1; /**< [ 28: 28](R/W) Missing register field description. */
+        uint32_t acc_eng20_int_msk     : 1;  /**< [ 27: 27](R/W) Missing register field description. */
+        uint32_t acc_eng19_int_msk     : 1;  /**< [ 26: 26](R/W) Missing register field description. */
+        uint32_t acc_eng18_int_msk     : 1;  /**< [ 25: 25](R/W) Missing register field description. */
+        uint32_t acc_eng17_int_msk     : 1;  /**< [ 24: 24](R/W) Missing register field description. */
+        uint32_t acc_eng16_int_msk     : 1;  /**< [ 23: 23](R/W) Missing register field description. */
+        uint32_t acc_eng15_int_msk     : 1;  /**< [ 22: 22](R/W) Missing register field description. */
+        uint32_t acc_eng14_int_msk     : 1;  /**< [ 21: 21](R/W) Missing register field description. */
+        uint32_t acc_eng13_int_msk     : 1;  /**< [ 20: 20](R/W) Missing register field description. */
+        uint32_t acc_eng12_int_msk     : 1;  /**< [ 19: 19](R/W) Missing register field description. */
+        uint32_t acc_eng11_int_msk     : 1;  /**< [ 18: 18](R/W) Missing register field description. */
+        uint32_t user_int3_msk         : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t user_int2_msk         : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t user_int1_msk         : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t user_int0_msk         : 1;  /**< [ 14: 14](R/W) Missing register field description. */
+        uint32_t apb_acc_err_msk       : 1;  /**< [ 13: 13](R/W) Missing register field description. */
+        uint32_t axi_sl_bus_err_msk    : 1;  /**< [ 12: 12](R/W) Missing register field description. */
+        uint32_t axi_sl_apb_err_msk    : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t acc_eng10_int_msk     : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t acc_eng9_int_msk      : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t acc_eng8_int_msk      : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t acc_eng7_int_msk      : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t acc_eng6_int_msk      : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t acc_eng5_int_msk      : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t acc_eng4_int_msk      : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t acc_eng3_int_msk      : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng2_int_msk      : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng1_int_msk      : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng0_int_msk      : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t acc_eng0_int_msk      : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t acc_eng1_int_msk      : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t acc_eng2_int_msk      : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t acc_eng3_int_msk      : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t acc_eng4_int_msk      : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t acc_eng5_int_msk      : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t acc_eng6_int_msk      : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t acc_eng7_int_msk      : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t acc_eng8_int_msk      : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t acc_eng9_int_msk      : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t acc_eng10_int_msk     : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t axi_sl_apb_err_msk    : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t axi_sl_bus_err_msk    : 1;  /**< [ 12: 12](R/W) Missing register field description. */
+        uint32_t apb_acc_err_msk       : 1;  /**< [ 13: 13](R/W) Missing register field description. */
+        uint32_t user_int0_msk         : 1;  /**< [ 14: 14](R/W) Missing register field description. */
+        uint32_t user_int1_msk         : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t user_int2_msk         : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t user_int3_msk         : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t acc_eng11_int_msk     : 1;  /**< [ 18: 18](R/W) Missing register field description. */
+        uint32_t acc_eng12_int_msk     : 1;  /**< [ 19: 19](R/W) Missing register field description. */
+        uint32_t acc_eng13_int_msk     : 1;  /**< [ 20: 20](R/W) Missing register field description. */
+        uint32_t acc_eng14_int_msk     : 1;  /**< [ 21: 21](R/W) Missing register field description. */
+        uint32_t acc_eng15_int_msk     : 1;  /**< [ 22: 22](R/W) Missing register field description. */
+        uint32_t acc_eng16_int_msk     : 1;  /**< [ 23: 23](R/W) Missing register field description. */
+        uint32_t acc_eng17_int_msk     : 1;  /**< [ 24: 24](R/W) Missing register field description. */
+        uint32_t acc_eng18_int_msk     : 1;  /**< [ 25: 25](R/W) Missing register field description. */
+        uint32_t acc_eng19_int_msk     : 1;  /**< [ 26: 26](R/W) Missing register field description. */
+        uint32_t acc_eng20_int_msk     : 1;  /**< [ 27: 27](R/W) Missing register field description. */
+        uint32_t axi_sl_axi_par_err_msk : 1; /**< [ 28: 28](R/W) Missing register field description. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_adec_adec_int_msk_s cn; */
+};
+typedef union cavm_ehsm_wtm_adec_adec_int_msk cavm_ehsm_wtm_adec_adec_int_msk_t;
+
+#define CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK_FUNC(void)
+{
+    return 0x80b000000410ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK cavm_ehsm_wtm_adec_adec_int_msk_t
+#define bustype_CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK "EHSM_WTM_ADEC_ADEC_INT_MSK"
+#define device_bar_CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK 0
+#define arguments_CAVM_EHSM_WTM_ADEC_ADEC_INT_MSK -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_adec_axi_sl_ctrl
+ *
+ * EHSM Wtm Adec Axi Sl Ctrl Register
+ */
+union cavm_ehsm_wtm_adec_axi_sl_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_adec_axi_sl_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t axi_data_par_en       : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t axi_data_par_even     : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t ahb_wr_seq_allow      : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t axi_sl_rd_prot        : 3;  /**< [ 14: 12](R/W) Missing register field description. */
+        uint32_t reserved_11           : 1;
+        uint32_t axi_sl_wr_prot        : 3;  /**< [ 10:  8](R/W) Missing register field description. */
+        uint32_t reserved_7            : 1;
+        uint32_t axi_sl_bypass_fifo    : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t axi_sl_rd_qena        : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t axi_sl_bus_sz         : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t out_axi_sl_word_swp   : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t out_axi_sl_byte_swp   : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t in_axi_sl_word_swp    : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t in_axi_sl_byte_swp    : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_axi_sl_byte_swp    : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t in_axi_sl_word_swp    : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t out_axi_sl_byte_swp   : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t out_axi_sl_word_swp   : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t axi_sl_bus_sz         : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t axi_sl_rd_qena        : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t axi_sl_bypass_fifo    : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t reserved_7            : 1;
+        uint32_t axi_sl_wr_prot        : 3;  /**< [ 10:  8](R/W) Missing register field description. */
+        uint32_t reserved_11           : 1;
+        uint32_t axi_sl_rd_prot        : 3;  /**< [ 14: 12](R/W) Missing register field description. */
+        uint32_t ahb_wr_seq_allow      : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t axi_data_par_even     : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t axi_data_par_en       : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_adec_axi_sl_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_adec_axi_sl_ctrl cavm_ehsm_wtm_adec_axi_sl_ctrl_t;
+
+#define CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL_FUNC(void)
+{
+    return 0x80b000000408ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL cavm_ehsm_wtm_adec_axi_sl_ctrl_t
+#define bustype_CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL "EHSM_WTM_ADEC_AXI_SL_CTRL"
+#define device_bar_CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL 0
+#define arguments_CAVM_EHSM_WTM_ADEC_AXI_SL_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_adec_mp_fifo_err_adr
+ *
+ * EHSM Wtm Adec Mp Fifo Err Adr Register
+ * This address register is used for debug purposes. It stores the 4 bit FIFO read
+ * pointer when the FIFO Read Data parity occurs.
+ */
+union cavm_ehsm_wtm_adec_mp_fifo_err_adr
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_adec_mp_fifo_err_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mp_fifo_err_adr       : 32; /**< [ 31:  0](RO) This address register is used for debug purposes. It stores the 4 bit FIFO read
+                                                                 pointer when the FIFO Read Data parity occurs. */
+#else /* Word 0 - Little Endian */
+        uint32_t mp_fifo_err_adr       : 32; /**< [ 31:  0](RO) This address register is used for debug purposes. It stores the 4 bit FIFO read
+                                                                 pointer when the FIFO Read Data parity occurs. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_adec_mp_fifo_err_adr_s cn; */
+};
+typedef union cavm_ehsm_wtm_adec_mp_fifo_err_adr cavm_ehsm_wtm_adec_mp_fifo_err_adr_t;
+
+#define CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR_FUNC(void)
+{
+    return 0x80b000000418ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR cavm_ehsm_wtm_adec_mp_fifo_err_adr_t
+#define bustype_CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR "EHSM_WTM_ADEC_MP_FIFO_ERR_ADR"
+#define device_bar_CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR 0
+#define arguments_CAVM_EHSM_WTM_ADEC_MP_FIFO_ERR_ADR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_bootrom_config_status
+ *
+ * EHSM Wtm Biu Bootrom Config Status Register
+ * This is for EHSM-27
+ */
+union cavm_ehsm_wtm_biu_bootrom_config_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_bootrom_config_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_20_31        : 12;
+        uint32_t aes_scheme_id         : 4;  /**< [ 19: 16](RO) This is the shadow register for aes_scheme_id field from OTP. */
+        uint32_t dsa_scheme_id         : 3;  /**< [ 15: 13](RO) This is the shadow register for dsa_scheme_id field from OTP. */
+        uint32_t measured_boot_lock    : 1;  /**< [ 12: 12](RO) This is the shadow register for measured_boot_lock field from OTP. */
+        uint32_t encrypted_boot_lock   : 1;  /**< [ 11: 11](RO) This is the shadow register for encrypted_boot_lock field from OTP. */
+        uint32_t secure_boot_lock      : 1;  /**< [ 10: 10](RO) This is the shadow register for secure_boot_lock field from OTP. */
+        uint32_t measured_boot         : 1;  /**< [  9:  9](RO) This is the shadow register for measured_boot field from OTP. */
+        uint32_t encrypted_boot        : 1;  /**< [  8:  8](RO) This is the shadow register for encrypted_boot field from OTP. */
+        uint32_t secure_boot           : 1;  /**< [  7:  7](RO) This is the shadow register for secure_boot field from OTP. */
+        uint32_t disable_boot_strap6   : 1;  /**< [  6:  6](RO) This is the shadow register for disable_boot_strap6 field from OTP. */
+        uint32_t disable_boot_strap5   : 1;  /**< [  5:  5](RO) This is the shadow register for disable_boot_strap5 field from OTP. */
+        uint32_t disable_boot_strap4   : 1;  /**< [  4:  4](RO) This is the shadow register for disable_boot_strap4 field from OTP. */
+        uint32_t disable_boot_strap3   : 1;  /**< [  3:  3](RO) This is the shadow register for disable_boot_strap3 field from OTP. */
+        uint32_t disable_boot_strap2   : 1;  /**< [  2:  2](RO) This is the shadow register for disable_boot_strap2 field from OTP. */
+        uint32_t disable_boot_strap1   : 1;  /**< [  1:  1](RO) This is the shadow register for disable_boot_strap1 field from OTP. */
+        uint32_t disable_boot_strap0   : 1;  /**< [  0:  0](RO) This is the shadow register for disable_boot_strap0 field from OTP. */
+#else /* Word 0 - Little Endian */
+        uint32_t disable_boot_strap0   : 1;  /**< [  0:  0](RO) This is the shadow register for disable_boot_strap0 field from OTP. */
+        uint32_t disable_boot_strap1   : 1;  /**< [  1:  1](RO) This is the shadow register for disable_boot_strap1 field from OTP. */
+        uint32_t disable_boot_strap2   : 1;  /**< [  2:  2](RO) This is the shadow register for disable_boot_strap2 field from OTP. */
+        uint32_t disable_boot_strap3   : 1;  /**< [  3:  3](RO) This is the shadow register for disable_boot_strap3 field from OTP. */
+        uint32_t disable_boot_strap4   : 1;  /**< [  4:  4](RO) This is the shadow register for disable_boot_strap4 field from OTP. */
+        uint32_t disable_boot_strap5   : 1;  /**< [  5:  5](RO) This is the shadow register for disable_boot_strap5 field from OTP. */
+        uint32_t disable_boot_strap6   : 1;  /**< [  6:  6](RO) This is the shadow register for disable_boot_strap6 field from OTP. */
+        uint32_t secure_boot           : 1;  /**< [  7:  7](RO) This is the shadow register for secure_boot field from OTP. */
+        uint32_t encrypted_boot        : 1;  /**< [  8:  8](RO) This is the shadow register for encrypted_boot field from OTP. */
+        uint32_t measured_boot         : 1;  /**< [  9:  9](RO) This is the shadow register for measured_boot field from OTP. */
+        uint32_t secure_boot_lock      : 1;  /**< [ 10: 10](RO) This is the shadow register for secure_boot_lock field from OTP. */
+        uint32_t encrypted_boot_lock   : 1;  /**< [ 11: 11](RO) This is the shadow register for encrypted_boot_lock field from OTP. */
+        uint32_t measured_boot_lock    : 1;  /**< [ 12: 12](RO) This is the shadow register for measured_boot_lock field from OTP. */
+        uint32_t dsa_scheme_id         : 3;  /**< [ 15: 13](RO) This is the shadow register for dsa_scheme_id field from OTP. */
+        uint32_t aes_scheme_id         : 4;  /**< [ 19: 16](RO) This is the shadow register for aes_scheme_id field from OTP. */
+        uint32_t reserved_20_31        : 12;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_bootrom_config_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_bootrom_config_status cavm_ehsm_wtm_biu_bootrom_config_status_t;
+
+#define CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS_FUNC(void)
+{
+    return 0x80b000000118ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS cavm_ehsm_wtm_biu_bootrom_config_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS "EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_BOOTROM_CONFIG_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_chain_of_trust_status
+ *
+ * EHSM Wtm Biu Chain Of Trust Status Register
+ * This reigster is for IROM to program runtime trust status bits.
+ */
+union cavm_ehsm_wtm_biu_chain_of_trust_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_chain_of_trust_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t chain_of_trust_status : 32; /**< [ 31:  0](R/W) This reigster is for IROM to program runtime trust status bits. */
+#else /* Word 0 - Little Endian */
+        uint32_t chain_of_trust_status : 32; /**< [ 31:  0](R/W) This reigster is for IROM to program runtime trust status bits. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_chain_of_trust_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_chain_of_trust_status cavm_ehsm_wtm_biu_chain_of_trust_status_t;
+
+#define CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS_FUNC(void)
+{
+    return 0x80b000000130ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS cavm_ehsm_wtm_biu_chain_of_trust_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS "EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_CHAIN_OF_TRUST_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_cmd_fifo_status
+ *
+ * EHSM Wtm Biu Cmd Fifo Status Register
+ */
+union cavm_ehsm_wtm_biu_cmd_fifo_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_cmd_fifo_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
+                                                                 0: The command being executed is from host processor core 1
+                                                                 1: The command being executed is from host processor core 2 */
+        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) Missing register field description. */
+        uint32_t core2_cmd_status_read_done : 1;/**< [  7:  7](RO) This bit indicates host processor core 2 has read back all CMD status for the
+                                                                 last CMD from host processor core 2. CM3 can safely overwrite the CORE2 CMD
+                                                                 status registers for current CMD from host processor core 2. */
+        uint32_t core1_cmd_status_read_done : 1;/**< [  6:  6](RO) This bit indicates host processor core 1 has read back all CMD status for the
+                                                                 last CMD from host processor core 1. CM3 can safely overwrite the CORE1 CMD
+                                                                 status registers for current CMD from host processor core 1. */
+        uint32_t core2_cmd_buffer_full : 1;  /**< [  5:  5](RO) This bit indicate command buffer for host processor core 2 is full. Host
+                                                                 processor core 2 should wait for this bit to become 0 before sending new command
+                                                                 primitive. */
+        uint32_t core1_cmd_buffer_full : 1;  /**< [  4:  4](RO) This bit indicate command buffer for host processor core 1 is full. Host
+                                                                 processor core 1 should wait for this bit to become 0 before sending new command
+                                                                 primitive. */
+        uint32_t cmd_cntr              : 4;  /**< [  3:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd_cntr              : 4;  /**< [  3:  0](RO) Missing register field description. */
+        uint32_t core1_cmd_buffer_full : 1;  /**< [  4:  4](RO) This bit indicate command buffer for host processor core 1 is full. Host
+                                                                 processor core 1 should wait for this bit to become 0 before sending new command
+                                                                 primitive. */
+        uint32_t core2_cmd_buffer_full : 1;  /**< [  5:  5](RO) This bit indicate command buffer for host processor core 2 is full. Host
+                                                                 processor core 2 should wait for this bit to become 0 before sending new command
+                                                                 primitive. */
+        uint32_t core1_cmd_status_read_done : 1;/**< [  6:  6](RO) This bit indicates host processor core 1 has read back all CMD status for the
+                                                                 last CMD from host processor core 1. CM3 can safely overwrite the CORE1 CMD
+                                                                 status registers for current CMD from host processor core 1. */
+        uint32_t core2_cmd_status_read_done : 1;/**< [  7:  7](RO) This bit indicates host processor core 2 has read back all CMD status for the
+                                                                 last CMD from host processor core 2. CM3 can safely overwrite the CORE2 CMD
+                                                                 status registers for current CMD from host processor core 2. */
+        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) Missing register field description. */
+        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
+                                                                 0: The command being executed is from host processor core 1
+                                                                 1: The command being executed is from host processor core 2 */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_cmd_fifo_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_cmd_fifo_status cavm_ehsm_wtm_biu_cmd_fifo_status_t;
+
+#define CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS_FUNC(void)
+{
+    return 0x80b0000000c4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS cavm_ehsm_wtm_biu_cmd_fifo_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS "EHSM_WTM_BIU_CMD_FIFO_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_CMD_FIFO_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_context_status
+ *
+ * EHSM Wtm Biu Context Status Register
+ */
+union cavm_ehsm_wtm_biu_context_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_context_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t context_status        : 32; /**< [ 31:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t context_status        : 32; /**< [ 31:  0](RO) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_context_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_context_status cavm_ehsm_wtm_biu_context_status_t;
+
+#define CAVM_EHSM_WTM_BIU_CONTEXT_STATUS CAVM_EHSM_WTM_BIU_CONTEXT_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CONTEXT_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CONTEXT_STATUS_FUNC(void)
+{
+    return 0x80b0000000e0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CONTEXT_STATUS cavm_ehsm_wtm_biu_context_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_CONTEXT_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CONTEXT_STATUS "EHSM_WTM_BIU_CONTEXT_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_CONTEXT_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CONTEXT_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_CONTEXT_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd
+ *
+ * EHSM Wtm Biu Core1 Cmd Register
+ */
+union cavm_ehsm_wtm_biu_core1_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t cmd                   : 16; /**< [ 15:  0](WO) This is the CMD ID value of the primitive command from host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd                   : 16; /**< [ 15:  0](WO) This is the CMD ID value of the primitive command from host processor core 1. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd cavm_ehsm_wtm_biu_core1_cmd_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD CAVM_EHSM_WTM_BIU_CORE1_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_FUNC(void)
+{
+    return 0x80b000000040ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD cavm_ehsm_wtm_biu_core1_cmd_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD "EHSM_WTM_BIU_CORE1_CMD"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param0
+ *
+ * EHSM Wtm Biu Core1 Cmd Param0 Register
+ * This register contains parameter 0 associated with a EHSM primitive command from
+ * host processor core 1. There are a total of 16 spaces for primitive command
+ * parameters. When the host processor core 1 wants to send a primitive command to
+ * EHSM, it must first write all the associated parameters (if any). The host parameter
+ * writing must start at CORE1_CMD_PARAM0, and then work towards CORE1_CMD_PARAM15.
+ * Once all the parameters associated with a primitive command have been written, the
+ * host can write the associated primitive command to the CORE1_CMD register. There is
+ * no need to write to all 16 parameter spaces, only the number associated with the
+ * primitive command need to be written.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param0
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param0      : 32; /**< [ 31:  0](WO) This register contains parameter 0 associated with a EHSM primitive command from
+                                                                 host processor core 1. There are a total of 16 spaces for primitive command
+                                                                 parameters. When the host processor core 1 wants to send a primitive command to
+                                                                 EHSM, it must first write all the associated parameters (if any). The host
+                                                                 parameter writing must start at CORE1_CMD_PARAM0, and then work towards
+                                                                 CORE1_CMD_PARAM15. Once all the parameters associated with a primitive command
+                                                                 have been written, the host can write the associated primitive command to the
+                                                                 CORE1_CMD register. There is no need to write to all 16 parameter spaces, only
+                                                                 the number associated with the primitive command need to be written. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param0      : 32; /**< [ 31:  0](WO) This register contains parameter 0 associated with a EHSM primitive command from
+                                                                 host processor core 1. There are a total of 16 spaces for primitive command
+                                                                 parameters. When the host processor core 1 wants to send a primitive command to
+                                                                 EHSM, it must first write all the associated parameters (if any). The host
+                                                                 parameter writing must start at CORE1_CMD_PARAM0, and then work towards
+                                                                 CORE1_CMD_PARAM15. Once all the parameters associated with a primitive command
+                                                                 have been written, the host can write the associated primitive command to the
+                                                                 CORE1_CMD register. There is no need to write to all 16 parameter spaces, only
+                                                                 the number associated with the primitive command need to be written. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param0_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param0 cavm_ehsm_wtm_biu_core1_cmd_param0_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0_FUNC(void)
+{
+    return 0x80b000000000ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0 cavm_ehsm_wtm_biu_core1_cmd_param0_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0 "EHSM_WTM_BIU_CORE1_CMD_PARAM0"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param1
+ *
+ * EHSM Wtm Biu Core1 Cmd Param1 Register
+ * This register contains parameter 1 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param1      : 32; /**< [ 31:  0](WO) This register contains parameter 1 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param1      : 32; /**< [ 31:  0](WO) This register contains parameter 1 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param1_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param1 cavm_ehsm_wtm_biu_core1_cmd_param1_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1_FUNC(void)
+{
+    return 0x80b000000004ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1 cavm_ehsm_wtm_biu_core1_cmd_param1_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1 "EHSM_WTM_BIU_CORE1_CMD_PARAM1"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param10
+ *
+ * EHSM Wtm Biu Core1 Cmd Param10 Register
+ * This register contains parameter 10 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param10
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param10     : 32; /**< [ 31:  0](WO) This register contains parameter 10 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param10     : 32; /**< [ 31:  0](WO) This register contains parameter 10 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param10_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param10 cavm_ehsm_wtm_biu_core1_cmd_param10_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10_FUNC(void)
+{
+    return 0x80b000000028ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10 cavm_ehsm_wtm_biu_core1_cmd_param10_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10 "EHSM_WTM_BIU_CORE1_CMD_PARAM10"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM10 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param11
+ *
+ * EHSM Wtm Biu Core1 Cmd Param11 Register
+ * This register contains parameter 11 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param11
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param11     : 32; /**< [ 31:  0](WO) This register contains parameter 11 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param11     : 32; /**< [ 31:  0](WO) This register contains parameter 11 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param11_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param11 cavm_ehsm_wtm_biu_core1_cmd_param11_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11_FUNC(void)
+{
+    return 0x80b00000002cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11 cavm_ehsm_wtm_biu_core1_cmd_param11_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11 "EHSM_WTM_BIU_CORE1_CMD_PARAM11"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM11 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param12
+ *
+ * EHSM Wtm Biu Core1 Cmd Param12 Register
+ * This register contains parameter 12 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param12
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param12     : 32; /**< [ 31:  0](WO) This register contains parameter 12 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param12     : 32; /**< [ 31:  0](WO) This register contains parameter 12 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param12_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param12 cavm_ehsm_wtm_biu_core1_cmd_param12_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12_FUNC(void)
+{
+    return 0x80b000000030ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12 cavm_ehsm_wtm_biu_core1_cmd_param12_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12 "EHSM_WTM_BIU_CORE1_CMD_PARAM12"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM12 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param13
+ *
+ * EHSM Wtm Biu Core1 Cmd Param13 Register
+ * This register contains parameter 13 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param13
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param13     : 32; /**< [ 31:  0](WO) This register contains parameter 13 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param13     : 32; /**< [ 31:  0](WO) This register contains parameter 13 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param13_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param13 cavm_ehsm_wtm_biu_core1_cmd_param13_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13_FUNC(void)
+{
+    return 0x80b000000034ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13 cavm_ehsm_wtm_biu_core1_cmd_param13_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13 "EHSM_WTM_BIU_CORE1_CMD_PARAM13"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM13 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param14
+ *
+ * EHSM Wtm Biu Core1 Cmd Param14 Register
+ * This register contains parameter 14 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param14
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param14_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param14     : 32; /**< [ 31:  0](WO) This register contains parameter 14 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param14     : 32; /**< [ 31:  0](WO) This register contains parameter 14 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param14_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param14 cavm_ehsm_wtm_biu_core1_cmd_param14_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14_FUNC(void)
+{
+    return 0x80b000000038ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14 cavm_ehsm_wtm_biu_core1_cmd_param14_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14 "EHSM_WTM_BIU_CORE1_CMD_PARAM14"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM14 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param15
+ *
+ * EHSM Wtm Biu Core1 Cmd Param15 Register
+ * This register contains parameter 15 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param15
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param15_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param15     : 32; /**< [ 31:  0](WO) This register contains parameter 15 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param15     : 32; /**< [ 31:  0](WO) This register contains parameter 15 associated with a EHSM primitive command
+                                                                 from host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param15_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param15 cavm_ehsm_wtm_biu_core1_cmd_param15_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15_FUNC(void)
+{
+    return 0x80b00000003cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15 cavm_ehsm_wtm_biu_core1_cmd_param15_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15 "EHSM_WTM_BIU_CORE1_CMD_PARAM15"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM15 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param2
+ *
+ * EHSM Wtm Biu Core1 Cmd Param2 Register
+ * This register contains parameter 2 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param2      : 32; /**< [ 31:  0](WO) This register contains parameter 2 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param2      : 32; /**< [ 31:  0](WO) This register contains parameter 2 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param2_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param2 cavm_ehsm_wtm_biu_core1_cmd_param2_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2_FUNC(void)
+{
+    return 0x80b000000008ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2 cavm_ehsm_wtm_biu_core1_cmd_param2_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2 "EHSM_WTM_BIU_CORE1_CMD_PARAM2"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param3
+ *
+ * EHSM Wtm Biu Core1 Cmd Param3 Register
+ * This register contains parameter 3 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param3
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param3      : 32; /**< [ 31:  0](WO) This register contains parameter 3 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param3      : 32; /**< [ 31:  0](WO) This register contains parameter 3 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param3_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param3 cavm_ehsm_wtm_biu_core1_cmd_param3_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3_FUNC(void)
+{
+    return 0x80b00000000cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3 cavm_ehsm_wtm_biu_core1_cmd_param3_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3 "EHSM_WTM_BIU_CORE1_CMD_PARAM3"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param4
+ *
+ * EHSM Wtm Biu Core1 Cmd Param4 Register
+ * This register contains parameter 4 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param4
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param4      : 32; /**< [ 31:  0](WO) This register contains parameter 4 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param4      : 32; /**< [ 31:  0](WO) This register contains parameter 4 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param4_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param4 cavm_ehsm_wtm_biu_core1_cmd_param4_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4_FUNC(void)
+{
+    return 0x80b000000010ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4 cavm_ehsm_wtm_biu_core1_cmd_param4_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4 "EHSM_WTM_BIU_CORE1_CMD_PARAM4"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param5
+ *
+ * EHSM Wtm Biu Core1 Cmd Param5 Register
+ * This register contains parameter 5 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param5
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param5      : 32; /**< [ 31:  0](WO) This register contains parameter 5 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param5      : 32; /**< [ 31:  0](WO) This register contains parameter 5 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param5_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param5 cavm_ehsm_wtm_biu_core1_cmd_param5_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5_FUNC(void)
+{
+    return 0x80b000000014ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5 cavm_ehsm_wtm_biu_core1_cmd_param5_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5 "EHSM_WTM_BIU_CORE1_CMD_PARAM5"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param6
+ *
+ * EHSM Wtm Biu Core1 Cmd Param6 Register
+ * This register contains parameter 6 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param6
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param6      : 32; /**< [ 31:  0](WO) This register contains parameter 6 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param6      : 32; /**< [ 31:  0](WO) This register contains parameter 6 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param6_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param6 cavm_ehsm_wtm_biu_core1_cmd_param6_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6_FUNC(void)
+{
+    return 0x80b000000018ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6 cavm_ehsm_wtm_biu_core1_cmd_param6_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6 "EHSM_WTM_BIU_CORE1_CMD_PARAM6"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param7
+ *
+ * EHSM Wtm Biu Core1 Cmd Param7 Register
+ * This register contains parameter 7 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param7
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param7      : 32; /**< [ 31:  0](WO) This register contains parameter 7 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param7      : 32; /**< [ 31:  0](WO) This register contains parameter 7 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param7_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param7 cavm_ehsm_wtm_biu_core1_cmd_param7_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7_FUNC(void)
+{
+    return 0x80b00000001cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7 cavm_ehsm_wtm_biu_core1_cmd_param7_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7 "EHSM_WTM_BIU_CORE1_CMD_PARAM7"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param8
+ *
+ * EHSM Wtm Biu Core1 Cmd Param8 Register
+ * This register contains parameter 8 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param8
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param8      : 32; /**< [ 31:  0](WO) This register contains parameter 8 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param8      : 32; /**< [ 31:  0](WO) This register contains parameter 8 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param8_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param8 cavm_ehsm_wtm_biu_core1_cmd_param8_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8_FUNC(void)
+{
+    return 0x80b000000020ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8 cavm_ehsm_wtm_biu_core1_cmd_param8_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8 "EHSM_WTM_BIU_CORE1_CMD_PARAM8"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM8 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_param9
+ *
+ * EHSM Wtm Biu Core1 Cmd Param9 Register
+ * This register contains parameter 9 associated with a EHSM primitive command from
+ * host processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_param9
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_param9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_param9      : 32; /**< [ 31:  0](WO) This register contains parameter 9 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_param9      : 32; /**< [ 31:  0](WO) This register contains parameter 9 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_param9_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_param9 cavm_ehsm_wtm_biu_core1_cmd_param9_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9 CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9_FUNC(void)
+{
+    return 0x80b000000024ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9 cavm_ehsm_wtm_biu_core1_cmd_param9_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9 "EHSM_WTM_BIU_CORE1_CMD_PARAM9"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_PARAM9 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_ret_status
+ *
+ * EHSM Wtm Biu Core1 Cmd Ret Status Register
+ * This register contains return status associated with a EHSM primitive command from
+ * host processor core 1.
+ * If it is 0, it indicates command execution success. If it is non 0, it indicates
+ * command execution failure and the value is the error code.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_ret_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_ret_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_ret_status  : 32; /**< [ 31:  0](RO) This register contains return status associated with a EHSM primitive command
+                                                                 from host processor core 1.
+                                                                 If it is 0, it indicates command execution success. If it is non 0, it indicates
+                                                                 command execution failure and the value is the error code. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_ret_status  : 32; /**< [ 31:  0](RO) This register contains return status associated with a EHSM primitive command
+                                                                 from host processor core 1.
+                                                                 If it is 0, it indicates command execution success. If it is non 0, it indicates
+                                                                 command execution failure and the value is the error code. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_ret_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_ret_status cavm_ehsm_wtm_biu_core1_cmd_ret_status_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS_FUNC(void)
+{
+    return 0x80b000000080ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS cavm_ehsm_wtm_biu_core1_cmd_ret_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS "EHSM_WTM_BIU_CORE1_CMD_RET_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_RET_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status0
+ *
+ * EHSM Wtm Biu Core1 Cmd Status0 Register
+ * This register contains status 0 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status0
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status0     : 32; /**< [ 31:  0](RO) This register contains status 0 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status0     : 32; /**< [ 31:  0](RO) This register contains status 0 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status0_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status0 cavm_ehsm_wtm_biu_core1_cmd_status0_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0_FUNC(void)
+{
+    return 0x80b000000084ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0 cavm_ehsm_wtm_biu_core1_cmd_status0_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0 "EHSM_WTM_BIU_CORE1_CMD_STATUS0"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status1
+ *
+ * EHSM Wtm Biu Core1 Cmd Status1 Register
+ * This register contains status 1 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status1     : 32; /**< [ 31:  0](RO) This register contains status 1 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status1     : 32; /**< [ 31:  0](RO) This register contains status 1 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status1_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status1 cavm_ehsm_wtm_biu_core1_cmd_status1_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1_FUNC(void)
+{
+    return 0x80b000000088ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1 cavm_ehsm_wtm_biu_core1_cmd_status1_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1 "EHSM_WTM_BIU_CORE1_CMD_STATUS1"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status10
+ *
+ * EHSM Wtm Biu Core1 Cmd Status10 Register
+ * This register contains status 10 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status10
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status10    : 32; /**< [ 31:  0](RO) This register contains status 10 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status10    : 32; /**< [ 31:  0](RO) This register contains status 10 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status10_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status10 cavm_ehsm_wtm_biu_core1_cmd_status10_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10_FUNC(void)
+{
+    return 0x80b0000000acll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10 cavm_ehsm_wtm_biu_core1_cmd_status10_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10 "EHSM_WTM_BIU_CORE1_CMD_STATUS10"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS10 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status11
+ *
+ * EHSM Wtm Biu Core1 Cmd Status11 Register
+ * This register contains status 11 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status11
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status11    : 32; /**< [ 31:  0](RO) This register contains status 11 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status11    : 32; /**< [ 31:  0](RO) This register contains status 11 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status11_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status11 cavm_ehsm_wtm_biu_core1_cmd_status11_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11_FUNC(void)
+{
+    return 0x80b0000000b0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11 cavm_ehsm_wtm_biu_core1_cmd_status11_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11 "EHSM_WTM_BIU_CORE1_CMD_STATUS11"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS11 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status12
+ *
+ * EHSM Wtm Biu Core1 Cmd Status12 Register
+ * This register contains status 12 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status12
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status12    : 32; /**< [ 31:  0](RO) This register contains status 12 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status12    : 32; /**< [ 31:  0](RO) This register contains status 12 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status12_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status12 cavm_ehsm_wtm_biu_core1_cmd_status12_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12_FUNC(void)
+{
+    return 0x80b0000000b4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12 cavm_ehsm_wtm_biu_core1_cmd_status12_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12 "EHSM_WTM_BIU_CORE1_CMD_STATUS12"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS12 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status13
+ *
+ * EHSM Wtm Biu Core1 Cmd Status13 Register
+ * This register contains status 13 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status13
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status13    : 32; /**< [ 31:  0](RO) This register contains status 13 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status13    : 32; /**< [ 31:  0](RO) This register contains status 13 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status13_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status13 cavm_ehsm_wtm_biu_core1_cmd_status13_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13_FUNC(void)
+{
+    return 0x80b0000000b8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13 cavm_ehsm_wtm_biu_core1_cmd_status13_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13 "EHSM_WTM_BIU_CORE1_CMD_STATUS13"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS13 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status14
+ *
+ * EHSM Wtm Biu Core1 Cmd Status14 Register
+ * This register contains status 14 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status14
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status14_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status14    : 32; /**< [ 31:  0](RO) This register contains status 14 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status14    : 32; /**< [ 31:  0](RO) This register contains status 14 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status14_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status14 cavm_ehsm_wtm_biu_core1_cmd_status14_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14_FUNC(void)
+{
+    return 0x80b0000000bcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14 cavm_ehsm_wtm_biu_core1_cmd_status14_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14 "EHSM_WTM_BIU_CORE1_CMD_STATUS14"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS14 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status15
+ *
+ * EHSM Wtm Biu Core1 Cmd Status15 Register
+ * This register contains status 15 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status15
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status15_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status15    : 32; /**< [ 31:  0](RO) This register contains status 15 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status15    : 32; /**< [ 31:  0](RO) This register contains status 15 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status15_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status15 cavm_ehsm_wtm_biu_core1_cmd_status15_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15_FUNC(void)
+{
+    return 0x80b0000000c0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15 cavm_ehsm_wtm_biu_core1_cmd_status15_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15 "EHSM_WTM_BIU_CORE1_CMD_STATUS15"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS15 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status2
+ *
+ * EHSM Wtm Biu Core1 Cmd Status2 Register
+ * This register contains status 2 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status2     : 32; /**< [ 31:  0](RO) This register contains status 2 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status2     : 32; /**< [ 31:  0](RO) This register contains status 2 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status2_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status2 cavm_ehsm_wtm_biu_core1_cmd_status2_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2_FUNC(void)
+{
+    return 0x80b00000008cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2 cavm_ehsm_wtm_biu_core1_cmd_status2_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2 "EHSM_WTM_BIU_CORE1_CMD_STATUS2"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status3
+ *
+ * EHSM Wtm Biu Core1 Cmd Status3 Register
+ * This register contains status 3 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status3
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status3     : 32; /**< [ 31:  0](RO) This register contains status 3 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status3     : 32; /**< [ 31:  0](RO) This register contains status 3 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status3_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status3 cavm_ehsm_wtm_biu_core1_cmd_status3_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3_FUNC(void)
+{
+    return 0x80b000000090ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3 cavm_ehsm_wtm_biu_core1_cmd_status3_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3 "EHSM_WTM_BIU_CORE1_CMD_STATUS3"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status4
+ *
+ * EHSM Wtm Biu Core1 Cmd Status4 Register
+ * This register contains status 4 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status4
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status4     : 32; /**< [ 31:  0](RO) This register contains status 4 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status4     : 32; /**< [ 31:  0](RO) This register contains status 4 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status4_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status4 cavm_ehsm_wtm_biu_core1_cmd_status4_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4_FUNC(void)
+{
+    return 0x80b000000094ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4 cavm_ehsm_wtm_biu_core1_cmd_status4_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4 "EHSM_WTM_BIU_CORE1_CMD_STATUS4"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status5
+ *
+ * EHSM Wtm Biu Core1 Cmd Status5 Register
+ * This register contains status 5 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status5
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status5     : 32; /**< [ 31:  0](RO) This register contains status 5 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status5     : 32; /**< [ 31:  0](RO) This register contains status 5 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status5_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status5 cavm_ehsm_wtm_biu_core1_cmd_status5_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5_FUNC(void)
+{
+    return 0x80b000000098ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5 cavm_ehsm_wtm_biu_core1_cmd_status5_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5 "EHSM_WTM_BIU_CORE1_CMD_STATUS5"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status6
+ *
+ * EHSM Wtm Biu Core1 Cmd Status6 Register
+ * This register contains status 6 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status6
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status6     : 32; /**< [ 31:  0](RO) This register contains status 6 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status6     : 32; /**< [ 31:  0](RO) This register contains status 6 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status6_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status6 cavm_ehsm_wtm_biu_core1_cmd_status6_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6_FUNC(void)
+{
+    return 0x80b00000009cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6 cavm_ehsm_wtm_biu_core1_cmd_status6_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6 "EHSM_WTM_BIU_CORE1_CMD_STATUS6"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status7
+ *
+ * EHSM Wtm Biu Core1 Cmd Status7 Register
+ * This register contains status 7 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status7
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status7     : 32; /**< [ 31:  0](RO) This register contains status 7 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status7     : 32; /**< [ 31:  0](RO) This register contains status 7 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status7_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status7 cavm_ehsm_wtm_biu_core1_cmd_status7_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7_FUNC(void)
+{
+    return 0x80b0000000a0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7 cavm_ehsm_wtm_biu_core1_cmd_status7_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7 "EHSM_WTM_BIU_CORE1_CMD_STATUS7"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status8
+ *
+ * EHSM Wtm Biu Core1 Cmd Status8 Register
+ * This register contains status 8 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status8
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status8     : 32; /**< [ 31:  0](RO) This register contains status 8 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status8     : 32; /**< [ 31:  0](RO) This register contains status 8 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status8_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status8 cavm_ehsm_wtm_biu_core1_cmd_status8_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8_FUNC(void)
+{
+    return 0x80b0000000a4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8 cavm_ehsm_wtm_biu_core1_cmd_status8_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8 "EHSM_WTM_BIU_CORE1_CMD_STATUS8"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS8 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_cmd_status9
+ *
+ * EHSM Wtm Biu Core1 Cmd Status9 Register
+ * This register contains status 9 associated with a EHSM primitive command from host
+ * processor core 1.
+ */
+union cavm_ehsm_wtm_biu_core1_cmd_status9
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_cmd_status9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_cmd_status9     : 32; /**< [ 31:  0](RO) This register contains status 9 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_cmd_status9     : 32; /**< [ 31:  0](RO) This register contains status 9 associated with a EHSM primitive command from
+                                                                 host processor core 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_cmd_status9_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_cmd_status9 cavm_ehsm_wtm_biu_core1_cmd_status9_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9 CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9_FUNC(void)
+{
+    return 0x80b0000000a8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9 cavm_ehsm_wtm_biu_core1_cmd_status9_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9 "EHSM_WTM_BIU_CORE1_CMD_STATUS9"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_CMD_STATUS9 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_hst_interrupt_mask
+ *
+ * EHSM Wtm Biu Core1 Hst Interrupt Mask Register
+ */
+union cavm_ehsm_wtm_biu_core1_hst_interrupt_mask
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_hst_interrupt_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core1_hst_interrupt_mask : 32;/**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t core1_hst_interrupt_mask : 32;/**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_hst_interrupt_mask_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_hst_interrupt_mask cavm_ehsm_wtm_biu_core1_hst_interrupt_mask_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK_FUNC(void)
+{
+    return 0x80b0000000ccll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK cavm_ehsm_wtm_biu_core1_hst_interrupt_mask_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK "EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_MASK -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core1_hst_interrupt_rst
+ *
+ * EHSM Wtm Biu Core1 Hst Interrupt Rst Register
+ */
+union cavm_ehsm_wtm_biu_core1_hst_interrupt_rst
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core1_hst_interrupt_rst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t cmd_buffer_full_access : 1; /**< [ 17: 17](R/W) When active, this interrupt indicates to the host that an attempt was made to
+                                                                 write the command register or the parameter register space when the command
+                                                                 buffer of host processor core 1 was full. The command or parameter written is
+                                                                 lost, but processing by the secure processor continue on the command or
+                                                                 parameter that is already queued. The host can rewrite the command or parameter
+                                                                 when CMD buffer of host processor core 1 is empty. Host can read
+                                                                 CORE1_CMD_BUFFER_FULL field in CMD_FIFO_STATUS to check if CMD buffer of host
+                                                                 processor core 1 is available to be written.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t hst_addr_range        : 1;  /**< [ 16: 16](R/W) This interrupt indicates that the host attempted to access an address to which
+                                                                 it is not allowed access. This interrupt also triggers if a write is made to a
+                                                                 read-only register, or a read to a write-only register.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t sp_cmd_cmplt          : 1;  /**< [  0:  0](R/W) When set, this interrupt indicates that the secure processor has completed a
+                                                                 primitive issued by host processor core 1.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_cmd_cmplt          : 1;  /**< [  0:  0](R/W) When set, this interrupt indicates that the secure processor has completed a
+                                                                 primitive issued by host processor core 1.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t hst_addr_range        : 1;  /**< [ 16: 16](R/W) This interrupt indicates that the host attempted to access an address to which
+                                                                 it is not allowed access. This interrupt also triggers if a write is made to a
+                                                                 read-only register, or a read to a write-only register.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t cmd_buffer_full_access : 1; /**< [ 17: 17](R/W) When active, this interrupt indicates to the host that an attempt was made to
+                                                                 write the command register or the parameter register space when the command
+                                                                 buffer of host processor core 1 was full. The command or parameter written is
+                                                                 lost, but processing by the secure processor continue on the command or
+                                                                 parameter that is already queued. The host can rewrite the command or parameter
+                                                                 when CMD buffer of host processor core 1 is empty. Host can read
+                                                                 CORE1_CMD_BUFFER_FULL field in CMD_FIFO_STATUS to check if CMD buffer of host
+                                                                 processor core 1 is available to be written.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core1_hst_interrupt_rst_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core1_hst_interrupt_rst cavm_ehsm_wtm_biu_core1_hst_interrupt_rst_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST_FUNC(void)
+{
+    return 0x80b0000000c8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST cavm_ehsm_wtm_biu_core1_hst_interrupt_rst_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST "EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE1_HST_INTERRUPT_RST -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd
+ *
+ * EHSM Wtm Biu Core2 Cmd Register
+ */
+union cavm_ehsm_wtm_biu_core2_cmd
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t cmd                   : 16; /**< [ 15:  0](WO) This is the CMD ID value of the primitive command from host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd                   : 16; /**< [ 15:  0](WO) This is the CMD ID value of the primitive command from host processor core 2. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd cavm_ehsm_wtm_biu_core2_cmd_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD CAVM_EHSM_WTM_BIU_CORE2_CMD_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_FUNC(void)
+{
+    return 0x80b000000180ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD cavm_ehsm_wtm_biu_core2_cmd_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD "EHSM_WTM_BIU_CORE2_CMD"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param0
+ *
+ * EHSM Wtm Biu Core2 Cmd Param0 Register
+ * This register contains parameter 0 associated with a EHSM primitive command from
+ * host processor core 2. There are a total of 16 spaces for primitive command
+ * parameters. When the host processor core 1 wants to send a primitive command to
+ * EHSM, it must first write all the associated parameters (if any). The host parameter
+ * writing must start at CORE2_CMD_PARAM0, and then work towards CORE2_CMD_PARAM15.
+ * Once all the parameters associated with a primitive command have been written, the
+ * host can write the associated primitive command to the CORE2_CMD register. There is
+ * no need to write to all 16 parameter spaces, only the number associated with the
+ * primitive command need to be written.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param0
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param0      : 32; /**< [ 31:  0](WO) This register contains parameter 0 associated with a EHSM primitive command from
+                                                                 host processor core 2. There are a total of 16 spaces for primitive command
+                                                                 parameters. When the host processor core 1 wants to send a primitive command to
+                                                                 EHSM, it must first write all the associated parameters (if any). The host
+                                                                 parameter writing must start at CORE2_CMD_PARAM0, and then work towards
+                                                                 CORE2_CMD_PARAM15. Once all the parameters associated with a primitive command
+                                                                 have been written, the host can write the associated primitive command to the
+                                                                 CORE2_CMD register. There is no need to write to all 16 parameter spaces, only
+                                                                 the number associated with the primitive command need to be written. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param0      : 32; /**< [ 31:  0](WO) This register contains parameter 0 associated with a EHSM primitive command from
+                                                                 host processor core 2. There are a total of 16 spaces for primitive command
+                                                                 parameters. When the host processor core 1 wants to send a primitive command to
+                                                                 EHSM, it must first write all the associated parameters (if any). The host
+                                                                 parameter writing must start at CORE2_CMD_PARAM0, and then work towards
+                                                                 CORE2_CMD_PARAM15. Once all the parameters associated with a primitive command
+                                                                 have been written, the host can write the associated primitive command to the
+                                                                 CORE2_CMD register. There is no need to write to all 16 parameter spaces, only
+                                                                 the number associated with the primitive command need to be written. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param0_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param0 cavm_ehsm_wtm_biu_core2_cmd_param0_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0_FUNC(void)
+{
+    return 0x80b000000140ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0 cavm_ehsm_wtm_biu_core2_cmd_param0_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0 "EHSM_WTM_BIU_CORE2_CMD_PARAM0"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param1
+ *
+ * EHSM Wtm Biu Core2 Cmd Param1 Register
+ * This register contains parameter 1 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param1      : 32; /**< [ 31:  0](WO) This register contains parameter 1 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param1      : 32; /**< [ 31:  0](WO) This register contains parameter 1 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param1_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param1 cavm_ehsm_wtm_biu_core2_cmd_param1_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1_FUNC(void)
+{
+    return 0x80b000000144ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1 cavm_ehsm_wtm_biu_core2_cmd_param1_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1 "EHSM_WTM_BIU_CORE2_CMD_PARAM1"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param10
+ *
+ * EHSM Wtm Biu Core2 Cmd Param10 Register
+ * This register contains parameter 10 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param10
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param10     : 32; /**< [ 31:  0](WO) This register contains parameter 10 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param10     : 32; /**< [ 31:  0](WO) This register contains parameter 10 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param10_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param10 cavm_ehsm_wtm_biu_core2_cmd_param10_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10_FUNC(void)
+{
+    return 0x80b000000168ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10 cavm_ehsm_wtm_biu_core2_cmd_param10_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10 "EHSM_WTM_BIU_CORE2_CMD_PARAM10"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM10 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param11
+ *
+ * EHSM Wtm Biu Core2 Cmd Param11 Register
+ * This register contains parameter 11 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param11
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param11     : 32; /**< [ 31:  0](WO) This register contains parameter 11 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param11     : 32; /**< [ 31:  0](WO) This register contains parameter 11 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param11_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param11 cavm_ehsm_wtm_biu_core2_cmd_param11_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11_FUNC(void)
+{
+    return 0x80b00000016cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11 cavm_ehsm_wtm_biu_core2_cmd_param11_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11 "EHSM_WTM_BIU_CORE2_CMD_PARAM11"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM11 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param12
+ *
+ * EHSM Wtm Biu Core2 Cmd Param12 Register
+ * This register contains parameter 12 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param12
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param12     : 32; /**< [ 31:  0](WO) This register contains parameter 12 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param12     : 32; /**< [ 31:  0](WO) This register contains parameter 12 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param12_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param12 cavm_ehsm_wtm_biu_core2_cmd_param12_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12_FUNC(void)
+{
+    return 0x80b000000170ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12 cavm_ehsm_wtm_biu_core2_cmd_param12_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12 "EHSM_WTM_BIU_CORE2_CMD_PARAM12"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM12 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param13
+ *
+ * EHSM Wtm Biu Core2 Cmd Param13 Register
+ * This register contains parameter 13 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param13
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param13     : 32; /**< [ 31:  0](WO) This register contains parameter 13 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param13     : 32; /**< [ 31:  0](WO) This register contains parameter 13 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param13_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param13 cavm_ehsm_wtm_biu_core2_cmd_param13_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13_FUNC(void)
+{
+    return 0x80b000000174ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13 cavm_ehsm_wtm_biu_core2_cmd_param13_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13 "EHSM_WTM_BIU_CORE2_CMD_PARAM13"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM13 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param14
+ *
+ * EHSM Wtm Biu Core2 Cmd Param14 Register
+ * This register contains parameter 14 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param14
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param14_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param14     : 32; /**< [ 31:  0](WO) This register contains parameter 14 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param14     : 32; /**< [ 31:  0](WO) This register contains parameter 14 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param14_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param14 cavm_ehsm_wtm_biu_core2_cmd_param14_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14_FUNC(void)
+{
+    return 0x80b000000178ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14 cavm_ehsm_wtm_biu_core2_cmd_param14_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14 "EHSM_WTM_BIU_CORE2_CMD_PARAM14"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM14 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param15
+ *
+ * EHSM Wtm Biu Core2 Cmd Param15 Register
+ * This register contains parameter 15 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param15
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param15_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param15     : 32; /**< [ 31:  0](WO) This register contains parameter 15 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param15     : 32; /**< [ 31:  0](WO) This register contains parameter 15 associated with a EHSM primitive command
+                                                                 from host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param15_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param15 cavm_ehsm_wtm_biu_core2_cmd_param15_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15_FUNC(void)
+{
+    return 0x80b00000017cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15 cavm_ehsm_wtm_biu_core2_cmd_param15_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15 "EHSM_WTM_BIU_CORE2_CMD_PARAM15"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM15 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param2
+ *
+ * EHSM Wtm Biu Core2 Cmd Param2 Register
+ * This register contains parameter 2 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param2      : 32; /**< [ 31:  0](WO) This register contains parameter 2 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param2      : 32; /**< [ 31:  0](WO) This register contains parameter 2 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param2_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param2 cavm_ehsm_wtm_biu_core2_cmd_param2_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2_FUNC(void)
+{
+    return 0x80b000000148ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2 cavm_ehsm_wtm_biu_core2_cmd_param2_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2 "EHSM_WTM_BIU_CORE2_CMD_PARAM2"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param3
+ *
+ * EHSM Wtm Biu Core2 Cmd Param3 Register
+ * This register contains parameter 3 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param3
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param3      : 32; /**< [ 31:  0](WO) This register contains parameter 3 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param3      : 32; /**< [ 31:  0](WO) This register contains parameter 3 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param3_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param3 cavm_ehsm_wtm_biu_core2_cmd_param3_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3_FUNC(void)
+{
+    return 0x80b00000014cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3 cavm_ehsm_wtm_biu_core2_cmd_param3_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3 "EHSM_WTM_BIU_CORE2_CMD_PARAM3"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param4
+ *
+ * EHSM Wtm Biu Core2 Cmd Param4 Register
+ * This register contains parameter 4 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param4
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param4      : 32; /**< [ 31:  0](WO) This register contains parameter 4 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param4      : 32; /**< [ 31:  0](WO) This register contains parameter 4 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param4_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param4 cavm_ehsm_wtm_biu_core2_cmd_param4_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4_FUNC(void)
+{
+    return 0x80b000000150ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4 cavm_ehsm_wtm_biu_core2_cmd_param4_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4 "EHSM_WTM_BIU_CORE2_CMD_PARAM4"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param5
+ *
+ * EHSM Wtm Biu Core2 Cmd Param5 Register
+ * This register contains parameter 5 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param5
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param5      : 32; /**< [ 31:  0](WO) This register contains parameter 5 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param5      : 32; /**< [ 31:  0](WO) This register contains parameter 5 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param5_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param5 cavm_ehsm_wtm_biu_core2_cmd_param5_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5_FUNC(void)
+{
+    return 0x80b000000154ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5 cavm_ehsm_wtm_biu_core2_cmd_param5_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5 "EHSM_WTM_BIU_CORE2_CMD_PARAM5"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param6
+ *
+ * EHSM Wtm Biu Core2 Cmd Param6 Register
+ * This register contains parameter 6 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param6
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param6      : 32; /**< [ 31:  0](WO) This register contains parameter 6 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param6      : 32; /**< [ 31:  0](WO) This register contains parameter 6 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param6_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param6 cavm_ehsm_wtm_biu_core2_cmd_param6_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6_FUNC(void)
+{
+    return 0x80b000000158ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6 cavm_ehsm_wtm_biu_core2_cmd_param6_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6 "EHSM_WTM_BIU_CORE2_CMD_PARAM6"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param7
+ *
+ * EHSM Wtm Biu Core2 Cmd Param7 Register
+ * This register contains parameter 7 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param7
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param7      : 32; /**< [ 31:  0](WO) This register contains parameter 7 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param7      : 32; /**< [ 31:  0](WO) This register contains parameter 7 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param7_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param7 cavm_ehsm_wtm_biu_core2_cmd_param7_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7_FUNC(void)
+{
+    return 0x80b00000015cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7 cavm_ehsm_wtm_biu_core2_cmd_param7_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7 "EHSM_WTM_BIU_CORE2_CMD_PARAM7"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param8
+ *
+ * EHSM Wtm Biu Core2 Cmd Param8 Register
+ * This register contains parameter 8 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param8
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param8      : 32; /**< [ 31:  0](WO) This register contains parameter 8 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param8      : 32; /**< [ 31:  0](WO) This register contains parameter 8 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param8_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param8 cavm_ehsm_wtm_biu_core2_cmd_param8_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8_FUNC(void)
+{
+    return 0x80b000000160ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8 cavm_ehsm_wtm_biu_core2_cmd_param8_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8 "EHSM_WTM_BIU_CORE2_CMD_PARAM8"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM8 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_param9
+ *
+ * EHSM Wtm Biu Core2 Cmd Param9 Register
+ * This register contains parameter 9 associated with a EHSM primitive command from
+ * host processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_param9
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_param9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_param9      : 32; /**< [ 31:  0](WO) This register contains parameter 9 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_param9      : 32; /**< [ 31:  0](WO) This register contains parameter 9 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_param9_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_param9 cavm_ehsm_wtm_biu_core2_cmd_param9_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9 CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9_FUNC(void)
+{
+    return 0x80b000000164ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9 cavm_ehsm_wtm_biu_core2_cmd_param9_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9 "EHSM_WTM_BIU_CORE2_CMD_PARAM9"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_PARAM9 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_ret_status
+ *
+ * EHSM Wtm Biu Core2 Cmd Ret Status Register
+ * This register contains return status associated with a EHSM primitive command from
+ * host processor core 2.
+ * If it is 0, it indicates command execution success. If it is non 0, it indicates
+ * command execution failure and the value is the error code.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_ret_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_ret_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_ret_status  : 32; /**< [ 31:  0](RO) This register contains return status associated with a EHSM primitive command
+                                                                 from host processor core 2.
+                                                                 If it is 0, it indicates command execution success. If it is non 0, it indicates
+                                                                 command execution failure and the value is the error code. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_ret_status  : 32; /**< [ 31:  0](RO) This register contains return status associated with a EHSM primitive command
+                                                                 from host processor core 2.
+                                                                 If it is 0, it indicates command execution success. If it is non 0, it indicates
+                                                                 command execution failure and the value is the error code. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_ret_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_ret_status cavm_ehsm_wtm_biu_core2_cmd_ret_status_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS_FUNC(void)
+{
+    return 0x80b0000001a0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS cavm_ehsm_wtm_biu_core2_cmd_ret_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS "EHSM_WTM_BIU_CORE2_CMD_RET_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_RET_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status0
+ *
+ * EHSM Wtm Biu Core2 Cmd Status0 Register
+ * This register contains status 0 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status0
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status0     : 32; /**< [ 31:  0](RO) This register contains status 0 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status0     : 32; /**< [ 31:  0](RO) This register contains status 0 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status0_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status0 cavm_ehsm_wtm_biu_core2_cmd_status0_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0_FUNC(void)
+{
+    return 0x80b0000001a4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0 cavm_ehsm_wtm_biu_core2_cmd_status0_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0 "EHSM_WTM_BIU_CORE2_CMD_STATUS0"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status1
+ *
+ * EHSM Wtm Biu Core2 Cmd Status1 Register
+ * This register contains status 1 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status1     : 32; /**< [ 31:  0](RO) This register contains status 1 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status1     : 32; /**< [ 31:  0](RO) This register contains status 1 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status1_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status1 cavm_ehsm_wtm_biu_core2_cmd_status1_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1_FUNC(void)
+{
+    return 0x80b0000001a8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1 cavm_ehsm_wtm_biu_core2_cmd_status1_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1 "EHSM_WTM_BIU_CORE2_CMD_STATUS1"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status10
+ *
+ * EHSM Wtm Biu Core2 Cmd Status10 Register
+ * This register contains status 10 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status10
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status10    : 32; /**< [ 31:  0](RO) This register contains status 10 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status10    : 32; /**< [ 31:  0](RO) This register contains status 10 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status10_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status10 cavm_ehsm_wtm_biu_core2_cmd_status10_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10_FUNC(void)
+{
+    return 0x80b0000001ccll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10 cavm_ehsm_wtm_biu_core2_cmd_status10_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10 "EHSM_WTM_BIU_CORE2_CMD_STATUS10"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS10 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status11
+ *
+ * EHSM Wtm Biu Core2 Cmd Status11 Register
+ * This register contains status 11 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status11
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status11    : 32; /**< [ 31:  0](RO) This register contains status 11 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status11    : 32; /**< [ 31:  0](RO) This register contains status 11 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status11_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status11 cavm_ehsm_wtm_biu_core2_cmd_status11_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11_FUNC(void)
+{
+    return 0x80b0000001d0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11 cavm_ehsm_wtm_biu_core2_cmd_status11_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11 "EHSM_WTM_BIU_CORE2_CMD_STATUS11"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS11 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status12
+ *
+ * EHSM Wtm Biu Core2 Cmd Status12 Register
+ * This register contains status 12 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status12
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status12    : 32; /**< [ 31:  0](RO) This register contains status 12 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status12    : 32; /**< [ 31:  0](RO) This register contains status 12 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status12_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status12 cavm_ehsm_wtm_biu_core2_cmd_status12_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12_FUNC(void)
+{
+    return 0x80b0000001d4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12 cavm_ehsm_wtm_biu_core2_cmd_status12_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12 "EHSM_WTM_BIU_CORE2_CMD_STATUS12"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS12 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status13
+ *
+ * EHSM Wtm Biu Core2 Cmd Status13 Register
+ * This register contains status 13 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status13
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status13    : 32; /**< [ 31:  0](RO) This register contains status 13 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status13    : 32; /**< [ 31:  0](RO) This register contains status 13 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status13_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status13 cavm_ehsm_wtm_biu_core2_cmd_status13_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13_FUNC(void)
+{
+    return 0x80b0000001d8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13 cavm_ehsm_wtm_biu_core2_cmd_status13_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13 "EHSM_WTM_BIU_CORE2_CMD_STATUS13"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS13 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status14
+ *
+ * EHSM Wtm Biu Core2 Cmd Status14 Register
+ * This register contains status 14 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status14
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status14_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status14    : 32; /**< [ 31:  0](RO) This register contains status 14 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status14    : 32; /**< [ 31:  0](RO) This register contains status 14 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status14_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status14 cavm_ehsm_wtm_biu_core2_cmd_status14_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14_FUNC(void)
+{
+    return 0x80b0000001dcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14 cavm_ehsm_wtm_biu_core2_cmd_status14_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14 "EHSM_WTM_BIU_CORE2_CMD_STATUS14"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS14 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status15
+ *
+ * EHSM Wtm Biu Core2 Cmd Status15 Register
+ * This register contains status 15 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status15
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status15_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status15    : 32; /**< [ 31:  0](RO) This register contains status 15 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status15    : 32; /**< [ 31:  0](RO) This register contains status 15 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status15_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status15 cavm_ehsm_wtm_biu_core2_cmd_status15_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15_FUNC(void)
+{
+    return 0x80b0000001e0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15 cavm_ehsm_wtm_biu_core2_cmd_status15_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15 "EHSM_WTM_BIU_CORE2_CMD_STATUS15"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS15 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status2
+ *
+ * EHSM Wtm Biu Core2 Cmd Status2 Register
+ * This register contains status 2 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status2     : 32; /**< [ 31:  0](RO) This register contains status 2 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status2     : 32; /**< [ 31:  0](RO) This register contains status 2 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status2_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status2 cavm_ehsm_wtm_biu_core2_cmd_status2_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2_FUNC(void)
+{
+    return 0x80b0000001acll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2 cavm_ehsm_wtm_biu_core2_cmd_status2_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2 "EHSM_WTM_BIU_CORE2_CMD_STATUS2"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status3
+ *
+ * EHSM Wtm Biu Core2 Cmd Status3 Register
+ * This register contains status 3 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status3
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status3     : 32; /**< [ 31:  0](RO) This register contains status 3 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status3     : 32; /**< [ 31:  0](RO) This register contains status 3 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status3_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status3 cavm_ehsm_wtm_biu_core2_cmd_status3_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3_FUNC(void)
+{
+    return 0x80b0000001b0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3 cavm_ehsm_wtm_biu_core2_cmd_status3_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3 "EHSM_WTM_BIU_CORE2_CMD_STATUS3"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status4
+ *
+ * EHSM Wtm Biu Core2 Cmd Status4 Register
+ * This register contains status 4 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status4
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status4     : 32; /**< [ 31:  0](RO) This register contains status 4 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status4     : 32; /**< [ 31:  0](RO) This register contains status 4 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status4_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status4 cavm_ehsm_wtm_biu_core2_cmd_status4_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4_FUNC(void)
+{
+    return 0x80b0000001b4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4 cavm_ehsm_wtm_biu_core2_cmd_status4_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4 "EHSM_WTM_BIU_CORE2_CMD_STATUS4"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status5
+ *
+ * EHSM Wtm Biu Core2 Cmd Status5 Register
+ * This register contains status 5 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status5
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status5     : 32; /**< [ 31:  0](RO) This register contains status 5 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status5     : 32; /**< [ 31:  0](RO) This register contains status 5 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status5_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status5 cavm_ehsm_wtm_biu_core2_cmd_status5_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5_FUNC(void)
+{
+    return 0x80b0000001b8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5 cavm_ehsm_wtm_biu_core2_cmd_status5_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5 "EHSM_WTM_BIU_CORE2_CMD_STATUS5"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status6
+ *
+ * EHSM Wtm Biu Core2 Cmd Status6 Register
+ * This register contains status 6 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status6
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status6     : 32; /**< [ 31:  0](RO) This register contains status 6 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status6     : 32; /**< [ 31:  0](RO) This register contains status 6 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status6_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status6 cavm_ehsm_wtm_biu_core2_cmd_status6_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6_FUNC(void)
+{
+    return 0x80b0000001bcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6 cavm_ehsm_wtm_biu_core2_cmd_status6_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6 "EHSM_WTM_BIU_CORE2_CMD_STATUS6"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status7
+ *
+ * EHSM Wtm Biu Core2 Cmd Status7 Register
+ * This register contains status 7 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status7
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status7     : 32; /**< [ 31:  0](RO) This register contains status 7 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status7     : 32; /**< [ 31:  0](RO) This register contains status 7 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status7_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status7 cavm_ehsm_wtm_biu_core2_cmd_status7_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7_FUNC(void)
+{
+    return 0x80b0000001c0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7 cavm_ehsm_wtm_biu_core2_cmd_status7_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7 "EHSM_WTM_BIU_CORE2_CMD_STATUS7"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status8
+ *
+ * EHSM Wtm Biu Core2 Cmd Status8 Register
+ * This register contains status 8 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status8
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status8     : 32; /**< [ 31:  0](RO) This register contains status 8 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status8     : 32; /**< [ 31:  0](RO) This register contains status 8 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status8_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status8 cavm_ehsm_wtm_biu_core2_cmd_status8_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8_FUNC(void)
+{
+    return 0x80b0000001c4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8 cavm_ehsm_wtm_biu_core2_cmd_status8_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8 "EHSM_WTM_BIU_CORE2_CMD_STATUS8"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS8 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_cmd_status9
+ *
+ * EHSM Wtm Biu Core2 Cmd Status9 Register
+ * This register contains status 9 associated with a EHSM primitive command from host
+ * processor core 2.
+ */
+union cavm_ehsm_wtm_biu_core2_cmd_status9
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_cmd_status9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_cmd_status9     : 32; /**< [ 31:  0](RO) This register contains status 9 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_cmd_status9     : 32; /**< [ 31:  0](RO) This register contains status 9 associated with a EHSM primitive command from
+                                                                 host processor core 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_cmd_status9_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_cmd_status9 cavm_ehsm_wtm_biu_core2_cmd_status9_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9 CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9_FUNC(void)
+{
+    return 0x80b0000001c8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9 cavm_ehsm_wtm_biu_core2_cmd_status9_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9 "EHSM_WTM_BIU_CORE2_CMD_STATUS9"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_CMD_STATUS9 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_hst_interrupt_mask
+ *
+ * EHSM Wtm Biu Core2 Hst Interrupt Mask Register
+ */
+union cavm_ehsm_wtm_biu_core2_hst_interrupt_mask
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_hst_interrupt_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t core2_hst_interrupt_mask : 32;/**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t core2_hst_interrupt_mask : 32;/**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_hst_interrupt_mask_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_hst_interrupt_mask cavm_ehsm_wtm_biu_core2_hst_interrupt_mask_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK_FUNC(void)
+{
+    return 0x80b0000001e8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK cavm_ehsm_wtm_biu_core2_hst_interrupt_mask_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK "EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_MASK -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_core2_hst_interrupt_rst
+ *
+ * EHSM Wtm Biu Core2 Hst Interrupt Rst Register
+ */
+union cavm_ehsm_wtm_biu_core2_hst_interrupt_rst
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_core2_hst_interrupt_rst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t cmd_buffer_full_access : 1; /**< [ 17: 17](R/W) When active, this interrupt indicates to the host that an attempt was made to
+                                                                 write the command register or the parameter register space when the command
+                                                                 buffer of host processor core 2 was full. The command or parameter written is
+                                                                 lost, but processing by the secure processor continue on the command or
+                                                                 parameter that is already queued. The host can rewrite the command or parameter
+                                                                 when CMD buffer of host processor core 2 is empty. Host can read
+                                                                 CORE2_CMD_BUFFER_FULL field in CMD_FIFO_STATUS to check if CMD buffer of host
+                                                                 processor core 2 is available to be written.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t hst_addr_range        : 1;  /**< [ 16: 16](R/W) This interrupt indicates that the host attempted to access an address to which
+                                                                 it is not allowed access. This interrupt also triggers if a write is made to a
+                                                                 read-only register, or a read to a write-only register.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t sp_cmd_cmplt          : 1;  /**< [  0:  0](R/W) When set, this interrupt indicates that the secure processor has completed a
+                                                                 primitive issued by host processor core 2.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_cmd_cmplt          : 1;  /**< [  0:  0](R/W) When set, this interrupt indicates that the secure processor has completed a
+                                                                 primitive issued by host processor core 2.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t hst_addr_range        : 1;  /**< [ 16: 16](R/W) This interrupt indicates that the host attempted to access an address to which
+                                                                 it is not allowed access. This interrupt also triggers if a write is made to a
+                                                                 read-only register, or a read to a write-only register.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t cmd_buffer_full_access : 1; /**< [ 17: 17](R/W) When active, this interrupt indicates to the host that an attempt was made to
+                                                                 write the command register or the parameter register space when the command
+                                                                 buffer of host processor core 2 was full. The command or parameter written is
+                                                                 lost, but processing by the secure processor continue on the command or
+                                                                 parameter that is already queued. The host can rewrite the command or parameter
+                                                                 when CMD buffer of host processor core 2 is empty. Host can read
+                                                                 CORE2_CMD_BUFFER_FULL field in CMD_FIFO_STATUS to check if CMD buffer of host
+                                                                 processor core 2 is available to be written.
+                                                                 To reset this field, write a 1 to clear the interrupt. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_core2_hst_interrupt_rst_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_core2_hst_interrupt_rst cavm_ehsm_wtm_biu_core2_hst_interrupt_rst_t;
+
+#define CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST_FUNC(void)
+{
+    return 0x80b0000001e4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST cavm_ehsm_wtm_biu_core2_hst_interrupt_rst_t
+#define bustype_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST "EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST"
+#define device_bar_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST 0
+#define arguments_CAVM_EHSM_WTM_BIU_CORE2_HST_INTERRUPT_RST -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_ehsm_id
+ *
+ * EHSM Wtm Biu Ehsm Id Register
+ * This is EHSM ID. Each project is assigned with a unique EHSM ID.
+ * Internal: |
+ *  EHSM-39. For Vail, EHSM ID is 32'h22. For Antman, EHSM ID is 32'h23. For MW400, EHSM ID is 32'h1F
+ */
+union cavm_ehsm_wtm_biu_ehsm_id
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_ehsm_id_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ehsm_id               : 32; /**< [ 31:  0](RO) This is EHSM ID. Each project is assigned with a unique EHSM ID.
+                                                                 Internal: |
+                                                                  EHSM-39. For Vail, EHSM ID is 32'h22. For Antman, EHSM ID is 32'h23. For MW400, EHSM ID is 32'h1F */
+#else /* Word 0 - Little Endian */
+        uint32_t ehsm_id               : 32; /**< [ 31:  0](RO) This is EHSM ID. Each project is assigned with a unique EHSM ID.
+                                                                 Internal: |
+                                                                  EHSM-39. For Vail, EHSM ID is 32'h22. For Antman, EHSM ID is 32'h23. For MW400, EHSM ID is 32'h1F */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_ehsm_id_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_ehsm_id cavm_ehsm_wtm_biu_ehsm_id_t;
+
+#define CAVM_EHSM_WTM_BIU_EHSM_ID CAVM_EHSM_WTM_BIU_EHSM_ID_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_EHSM_ID_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_EHSM_ID_FUNC(void)
+{
+    return 0x80b0000000d8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_EHSM_ID cavm_ehsm_wtm_biu_ehsm_id_t
+#define bustype_CAVM_EHSM_WTM_BIU_EHSM_ID CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_EHSM_ID "EHSM_WTM_BIU_EHSM_ID"
+#define device_bar_CAVM_EHSM_WTM_BIU_EHSM_ID 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_EHSM_ID 0
+#define arguments_CAVM_EHSM_WTM_BIU_EHSM_ID -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_ehsm_rev
+ *
+ * EHSM Wtm Biu Ehsm Rev Register
+ * This is EHSM revision. Current EHSM revision is 01.00.00. The hex value is 32'h0001_0000
+ * Internal: |
+ *  EHSM-39. Vail, Antman, MW400 revision are all 01.00.00
+ */
+union cavm_ehsm_wtm_biu_ehsm_rev
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_ehsm_rev_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ehsm_rev              : 32; /**< [ 31:  0](RO) This is EHSM revision. Current EHSM revision is 01.00.00. The hex value is 32'h0001_0000
+                                                                 Internal: |
+                                                                  EHSM-39. Vail, Antman, MW400 revision are all 01.00.00 */
+#else /* Word 0 - Little Endian */
+        uint32_t ehsm_rev              : 32; /**< [ 31:  0](RO) This is EHSM revision. Current EHSM revision is 01.00.00. The hex value is 32'h0001_0000
+                                                                 Internal: |
+                                                                  EHSM-39. Vail, Antman, MW400 revision are all 01.00.00 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_ehsm_rev_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_ehsm_rev cavm_ehsm_wtm_biu_ehsm_rev_t;
+
+#define CAVM_EHSM_WTM_BIU_EHSM_REV CAVM_EHSM_WTM_BIU_EHSM_REV_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_EHSM_REV_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_EHSM_REV_FUNC(void)
+{
+    return 0x80b0000000dcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_EHSM_REV cavm_ehsm_wtm_biu_ehsm_rev_t
+#define bustype_CAVM_EHSM_WTM_BIU_EHSM_REV CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_EHSM_REV "EHSM_WTM_BIU_EHSM_REV"
+#define device_bar_CAVM_EHSM_WTM_BIU_EHSM_REV 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_EHSM_REV 0
+#define arguments_CAVM_EHSM_WTM_BIU_EHSM_REV -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_fw_security_version
+ *
+ * EHSM Wtm Biu Fw Security Version Register
+ * This is for EHSM-27
+ */
+union cavm_ehsm_wtm_biu_fw_security_version
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_fw_security_version_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t main_fw_security_version : 5;/**< [  8:  4](RO) This is the shadow register for main_fw_security_version field from OTP. The value range is 0~20. */
+        uint32_t loader_fw_security_version : 4;/**< [  3:  0](RO) This is the shadow register for loader_fw_security_version field from OTP. The value range is 0~10 */
+#else /* Word 0 - Little Endian */
+        uint32_t loader_fw_security_version : 4;/**< [  3:  0](RO) This is the shadow register for loader_fw_security_version field from OTP. The value range is 0~10 */
+        uint32_t main_fw_security_version : 5;/**< [  8:  4](RO) This is the shadow register for main_fw_security_version field from OTP. The value range is 0~20. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_fw_security_version_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_fw_security_version cavm_ehsm_wtm_biu_fw_security_version_t;
+
+#define CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION_FUNC(void)
+{
+    return 0x80b000000124ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION cavm_ehsm_wtm_biu_fw_security_version_t
+#define bustype_CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION "EHSM_WTM_BIU_FW_SECURITY_VERSION"
+#define device_bar_CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION 0
+#define arguments_CAVM_EHSM_WTM_BIU_FW_SECURITY_VERSION -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_hst_except_addr
+ *
+ * EHSM Wtm Biu Hst Except Addr Register
+ */
+union cavm_ehsm_wtm_biu_hst_except_addr
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_hst_except_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t hst_except_addr       : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t hst_except_addr       : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_hst_except_addr_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_hst_except_addr cavm_ehsm_wtm_biu_hst_except_addr_t;
+
+#define CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR_FUNC(void)
+{
+    return 0x80b0000000d0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR cavm_ehsm_wtm_biu_hst_except_addr_t
+#define bustype_CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR "EHSM_WTM_BIU_HST_EXCEPT_ADDR"
+#define device_bar_CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR 0
+#define arguments_CAVM_EHSM_WTM_BIU_HST_EXCEPT_ADDR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_hst_interrupt_set
+ *
+ * EHSM Wtm Biu Hst Interrupt Set Register
+ */
+union cavm_ehsm_wtm_biu_hst_interrupt_set
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_hst_interrupt_set_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_19_31        : 13;
+        uint32_t hst_queue_full        : 1;  /**< [ 18: 18](R/W) Missing register field description. */
+        uint32_t hst_queue_full_access : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t hst_addr_range        : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t sp_cmd_cmplt          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_cmd_cmplt          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t hst_addr_range        : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t hst_queue_full_access : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t hst_queue_full        : 1;  /**< [ 18: 18](R/W) Missing register field description. */
+        uint32_t reserved_19_31        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_hst_interrupt_set_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_hst_interrupt_set cavm_ehsm_wtm_biu_hst_interrupt_set_t;
+
+#define CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET_FUNC(void)
+{
+    return 0x80b000000234ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET cavm_ehsm_wtm_biu_hst_interrupt_set_t
+#define bustype_CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET "EHSM_WTM_BIU_HST_INTERRUPT_SET"
+#define device_bar_CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET 0
+#define arguments_CAVM_EHSM_WTM_BIU_HST_INTERRUPT_SET -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_hst_trust
+ *
+ * EHSM Wtm Biu Hst Trust Register
+ */
+union cavm_ehsm_wtm_biu_hst_trust
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_hst_trust_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t hst_trust             : 32; /**< [ 31:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t hst_trust             : 32; /**< [ 31:  0](RO) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_hst_trust_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_hst_trust cavm_ehsm_wtm_biu_hst_trust_t;
+
+#define CAVM_EHSM_WTM_BIU_HST_TRUST CAVM_EHSM_WTM_BIU_HST_TRUST_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_HST_TRUST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_HST_TRUST_FUNC(void)
+{
+    return 0x80b0000000d4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_HST_TRUST cavm_ehsm_wtm_biu_hst_trust_t
+#define bustype_CAVM_EHSM_WTM_BIU_HST_TRUST CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_HST_TRUST "EHSM_WTM_BIU_HST_TRUST"
+#define device_bar_CAVM_EHSM_WTM_BIU_HST_TRUST 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_HST_TRUST 0
+#define arguments_CAVM_EHSM_WTM_BIU_HST_TRUST -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_key_revoc_status
+ *
+ * EHSM Wtm Biu Key Revoc Status Register
+ * This is for EHSM-27
+ */
+union cavm_ehsm_wtm_biu_key_revoc_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_key_revoc_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_19_31        : 13;
+        uint32_t key_revocation_control : 3; /**< [ 18: 16](RO) This is the shadow register for key_revocation_control field from OTP. */
+        uint32_t key_manifest_version_control : 16;/**< [ 15:  0](RO) This is the shadow register for key_manifest_version_control field from OTP. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_manifest_version_control : 16;/**< [ 15:  0](RO) This is the shadow register for key_manifest_version_control field from OTP. */
+        uint32_t key_revocation_control : 3; /**< [ 18: 16](RO) This is the shadow register for key_revocation_control field from OTP. */
+        uint32_t reserved_19_31        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_key_revoc_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_key_revoc_status cavm_ehsm_wtm_biu_key_revoc_status_t;
+
+#define CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS_FUNC(void)
+{
+    return 0x80b000000120ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS cavm_ehsm_wtm_biu_key_revoc_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS "EHSM_WTM_BIU_KEY_REVOC_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_KEY_REVOC_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_lcs_debug_port_status
+ *
+ * EHSM Wtm Biu Lcs Debug Port Status Register
+ * This is for EHSM-27
+ */
+union cavm_ehsm_wtm_biu_lcs_debug_port_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_lcs_debug_port_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t remaining_ehsm_jtag_config : 4;/**< [ 21: 18](RO) Remaining configuration for programming enable_disable_bcm_jtag field in OTP
+                                                                 efuse. Valid range is 0~8. User can program enable_disable_bcm_jtag for 8 times. */
+        uint32_t remaining_soc_jtag_config : 4;/**< [ 17: 14](RO) Remaining configuration for programming enable_disable_soc_jtag field in OTP
+                                                                 efuse. Valid range is 0~8. User can program enable_disable_soc_jtag for 8 times. */
+        uint32_t remaining_uart_config : 4;  /**< [ 13: 10](RO) Remaining configuration for programming enable_disable_uart field in OTP efuse.
+                                                                 Valid range is 0~8. User can program enable_disable_uartfor 8 times. */
+        uint32_t dis_ehsm_jtag_state   : 1;  /**< [  9:  9](RO) This is the shadow register for current bcm_jtag debug port access state from OTP. */
+        uint32_t dis_soc_jtag_state    : 1;  /**< [  8:  8](RO) This is the shadow register for current soc_jtag debug port access state from OTP. */
+        uint32_t dis_uart_state        : 1;  /**< [  7:  7](RO) This is the shadow register for current uart debug port access state from OTP. */
+        uint32_t permnt_dis_ehsm_jtag  : 1;  /**< [  6:  6](RO) This is the shadow register for permnt_dis_bcm_jtag field from OTP efuse. */
+        uint32_t permnt_dis_soc_jtag   : 1;  /**< [  5:  5](RO) This is the shadow register for permnt_dis_soc_jtag field from OTP efuse. */
+        uint32_t permnt_dis_uart       : 1;  /**< [  4:  4](RO) This is the shadow register for permnt_dis_uart from field OTP efuse. */
+        uint32_t life_cycle_state      : 4;  /**< [  3:  0](RO) This is the shadow register for life cycle state field from OTP efuse. */
+#else /* Word 0 - Little Endian */
+        uint32_t life_cycle_state      : 4;  /**< [  3:  0](RO) This is the shadow register for life cycle state field from OTP efuse. */
+        uint32_t permnt_dis_uart       : 1;  /**< [  4:  4](RO) This is the shadow register for permnt_dis_uart from field OTP efuse. */
+        uint32_t permnt_dis_soc_jtag   : 1;  /**< [  5:  5](RO) This is the shadow register for permnt_dis_soc_jtag field from OTP efuse. */
+        uint32_t permnt_dis_ehsm_jtag  : 1;  /**< [  6:  6](RO) This is the shadow register for permnt_dis_bcm_jtag field from OTP efuse. */
+        uint32_t dis_uart_state        : 1;  /**< [  7:  7](RO) This is the shadow register for current uart debug port access state from OTP. */
+        uint32_t dis_soc_jtag_state    : 1;  /**< [  8:  8](RO) This is the shadow register for current soc_jtag debug port access state from OTP. */
+        uint32_t dis_ehsm_jtag_state   : 1;  /**< [  9:  9](RO) This is the shadow register for current bcm_jtag debug port access state from OTP. */
+        uint32_t remaining_uart_config : 4;  /**< [ 13: 10](RO) Remaining configuration for programming enable_disable_uart field in OTP efuse.
+                                                                 Valid range is 0~8. User can program enable_disable_uartfor 8 times. */
+        uint32_t remaining_soc_jtag_config : 4;/**< [ 17: 14](RO) Remaining configuration for programming enable_disable_soc_jtag field in OTP
+                                                                 efuse. Valid range is 0~8. User can program enable_disable_soc_jtag for 8 times. */
+        uint32_t remaining_ehsm_jtag_config : 4;/**< [ 21: 18](RO) Remaining configuration for programming enable_disable_bcm_jtag field in OTP
+                                                                 efuse. Valid range is 0~8. User can program enable_disable_bcm_jtag for 8 times. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_lcs_debug_port_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_lcs_debug_port_status cavm_ehsm_wtm_biu_lcs_debug_port_status_t;
+
+#define CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS_FUNC(void)
+{
+    return 0x80b000000114ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS cavm_ehsm_wtm_biu_lcs_debug_port_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS "EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_LCS_DEBUG_PORT_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_root_of_trust_status
+ *
+ * EHSM Wtm Biu Root Of Trust Status Register
+ * This is for EHSM-27
+ */
+union cavm_ehsm_wtm_biu_root_of_trust_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_root_of_trust_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_21_31        : 11;
+        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicate whether rkek is provisioned
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
+        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicate whether uds is provisioned
+                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0
+                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0 */
+        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicate whether L0_fw_aes_key3 is provisioned
+                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0
+                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0 */
+        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicate whether L0_fw_aes_key2 is provisioned
+                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0
+                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0 */
+        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicate whether L0_fw_aes_key1 is provisioned
+                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0
+                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0 */
+        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicate whether L0_fw_aes_key0 is provisioned
+                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0
+                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0 */
+        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicate whether kak3_binding_digest is provisioned
+                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0
+                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0 */
+        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicate whether kak2_binding_digest is provisioned
+                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0
+                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0 */
+        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicate whether kak1_binding_digest is provisioned
+                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0
+                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0 */
+        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicate whether kak0_binding_digest is provisioned
+                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0
+                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0 */
+        uint32_t auth_cmd_mode         : 1;  /**< [ 10: 10](RO) This is the shadow register for auth_cmd_mode field from OTP. */
+        uint32_t disable_erom_reload   : 1;  /**< [  9:  9](RO) This is the shadow register for disable_erom_reload field from OTP. */
+        uint32_t disable_ehsm_self_test : 1; /**< [  8:  8](RO) This is the shadow register for disable_bcm_self_test field from OTP. */
+        uint32_t disable_ehsm_sram_test : 1; /**< [  7:  7](RO) This is the shadow register for disable_bcm_sram_test field from OTP. */
+        uint32_t uuid_lock             : 1;  /**< [  6:  6](RO) This is the shadow register for uuid_lock field from OTP. */
+        uint32_t rkek_lock             : 1;  /**< [  5:  5](RO) This is the shadow register for rkek_lock field from OTP. */
+        uint32_t rkek_read_disable     : 1;  /**< [  4:  4](RO) This is the shadow register for rkek_read_disable field from OTP. */
+        uint32_t uds_read_disable      : 1;  /**< [  3:  3](RO) This is the shadow register for uds_read_disable field from OTP. */
+        uint32_t l0_fw_aes_key_read_dis : 1; /**< [  2:  2](RO) This is the shadow register for L0_fw_aes_key_read_dis field from OTP. */
+        uint32_t fips_mode             : 1;  /**< [  1:  1](RO) This is the shadow register for fips_mode field from OTP. */
+        uint32_t ecp_support           : 1;  /**< [  0:  0](RO) This is the shadow register for ecp_support field from OTP. */
+#else /* Word 0 - Little Endian */
+        uint32_t ecp_support           : 1;  /**< [  0:  0](RO) This is the shadow register for ecp_support field from OTP. */
+        uint32_t fips_mode             : 1;  /**< [  1:  1](RO) This is the shadow register for fips_mode field from OTP. */
+        uint32_t l0_fw_aes_key_read_dis : 1; /**< [  2:  2](RO) This is the shadow register for L0_fw_aes_key_read_dis field from OTP. */
+        uint32_t uds_read_disable      : 1;  /**< [  3:  3](RO) This is the shadow register for uds_read_disable field from OTP. */
+        uint32_t rkek_read_disable     : 1;  /**< [  4:  4](RO) This is the shadow register for rkek_read_disable field from OTP. */
+        uint32_t rkek_lock             : 1;  /**< [  5:  5](RO) This is the shadow register for rkek_lock field from OTP. */
+        uint32_t uuid_lock             : 1;  /**< [  6:  6](RO) This is the shadow register for uuid_lock field from OTP. */
+        uint32_t disable_ehsm_sram_test : 1; /**< [  7:  7](RO) This is the shadow register for disable_bcm_sram_test field from OTP. */
+        uint32_t disable_ehsm_self_test : 1; /**< [  8:  8](RO) This is the shadow register for disable_bcm_self_test field from OTP. */
+        uint32_t disable_erom_reload   : 1;  /**< [  9:  9](RO) This is the shadow register for disable_erom_reload field from OTP. */
+        uint32_t auth_cmd_mode         : 1;  /**< [ 10: 10](RO) This is the shadow register for auth_cmd_mode field from OTP. */
+        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicate whether kak0_binding_digest is provisioned
+                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0
+                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0 */
+        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicate whether kak1_binding_digest is provisioned
+                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0
+                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0 */
+        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicate whether kak2_binding_digest is provisioned
+                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0
+                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0 */
+        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicate whether kak3_binding_digest is provisioned
+                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0
+                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0 */
+        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicate whether L0_fw_aes_key0 is provisioned
+                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0
+                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0 */
+        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicate whether L0_fw_aes_key1 is provisioned
+                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0
+                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0 */
+        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicate whether L0_fw_aes_key2 is provisioned
+                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0
+                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0 */
+        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicate whether L0_fw_aes_key3 is provisioned
+                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0
+                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0 */
+        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicate whether uds is provisioned
+                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0
+                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0 */
+        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicate whether rkek is provisioned
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
+        uint32_t reserved_21_31        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_root_of_trust_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_root_of_trust_status cavm_ehsm_wtm_biu_root_of_trust_status_t;
+
+#define CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS_FUNC(void)
+{
+    return 0x80b00000011cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS cavm_ehsm_wtm_biu_root_of_trust_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS "EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_ROOT_OF_TRUST_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_shadow_reg_status
+ *
+ * EHSM Wtm Biu Shadow Reg Status Register
+ */
+union cavm_ehsm_wtm_biu_shadow_reg_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_shadow_reg_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running
+                                                                 1: EHSM input clock was gated
+                                                                 EHSM-61 */
+        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on
+                                                                 1: VDD was off
+                                                                 EHSM-61 */
+        uint32_t cm3_sram_sd           : 1;  /**< [  4:  4](RO) 0: CM3 SRAM was in retention mode.
+                                                                 1: CM3 SRAM was in shutdown mode
+                                                                 EHSM-61 */
+        uint32_t cm3_sleepdeep         : 1;  /**< [  3:  3](RO) Connected with SLEEPDEEP output of CM3. Indicate whether CM3 is in deep sleep state
+                                                                 EHSM-42 */
+        uint32_t cm3_sleeping          : 1;  /**< [  2:  2](RO) Connected with SLEEPING output of CM3. Indicate whether CM3 is in sleep state
+                                                                 EHSM-42 */
+        uint32_t lcs_valid             : 1;  /**< [  1:  1](RO) Indication of whether LCS_DEBUG_PORT_STATUS, BOOTROM_CONFIG_STATUS,
+                                                                 ROOT_OF_TRUST_STATUS, KEY_REVOC_STATUS and FW_SECURITY_VERSION are ready to be
+                                                                 read.
+                                                                 When it is 1, user can read LCS_DEBUG_PORT_STATUS, BOOTROM_CONFIG_STATUS,
+                                                                 ROOT_OF_TRUST_STATUS, KEY_REVOC_STATUS and FW_SECURITY_VERSION. When it is 0,
+                                                                 these registers are invalid. */
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t lcs_valid             : 1;  /**< [  1:  1](RO) Indication of whether LCS_DEBUG_PORT_STATUS, BOOTROM_CONFIG_STATUS,
+                                                                 ROOT_OF_TRUST_STATUS, KEY_REVOC_STATUS and FW_SECURITY_VERSION are ready to be
+                                                                 read.
+                                                                 When it is 1, user can read LCS_DEBUG_PORT_STATUS, BOOTROM_CONFIG_STATUS,
+                                                                 ROOT_OF_TRUST_STATUS, KEY_REVOC_STATUS and FW_SECURITY_VERSION. When it is 0,
+                                                                 these registers are invalid. */
+        uint32_t cm3_sleeping          : 1;  /**< [  2:  2](RO) Connected with SLEEPING output of CM3. Indicate whether CM3 is in sleep state
+                                                                 EHSM-42 */
+        uint32_t cm3_sleepdeep         : 1;  /**< [  3:  3](RO) Connected with SLEEPDEEP output of CM3. Indicate whether CM3 is in deep sleep state
+                                                                 EHSM-42 */
+        uint32_t cm3_sram_sd           : 1;  /**< [  4:  4](RO) 0: CM3 SRAM was in retention mode.
+                                                                 1: CM3 SRAM was in shutdown mode
+                                                                 EHSM-61 */
+        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on
+                                                                 1: VDD was off
+                                                                 EHSM-61 */
+        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running
+                                                                 1: EHSM input clock was gated
+                                                                 EHSM-61 */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_shadow_reg_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_shadow_reg_status cavm_ehsm_wtm_biu_shadow_reg_status_t;
+
+#define CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS_FUNC(void)
+{
+    return 0x80b000000100ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS cavm_ehsm_wtm_biu_shadow_reg_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS "EHSM_WTM_BIU_SHADOW_REG_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_SHADOW_REG_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_control
+ *
+ * EHSM Wtm Biu Sp Control Register
+ */
+union cavm_ehsm_wtm_biu_sp_control
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t ram_write_buffer_flush : 1; /**< [  6:  6](R/W) Write 1 to flush the CM3 write buffer so that the data in write buffer will be
+                                                                 written into CM3 RAM. It will be immediately be cleared to 0 after 1 cycle
+                                                                 EHSM-83 */
+        uint32_t fpga_rom_write_en     : 1;  /**< [  5:  5](R/W) 0: Enable read and disable write to the 128KB sram used for replace ROM in FPGA
+                                                                 1: Enable write and disable read to the 128KB sram used for replace ROM in FPGA.
+                                                                 Write to the 128KB CM3 SRAM is also disabled
+                                                                 Internal: |
+                                                                  EHSM-43. This bit is internal and valid for FPGA only. Remove this bit in EHSM spec. */
+        uint32_t rst_mailbox           : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t sec_access_ctrl       : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t mask_sp_int           : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t sp_int_to_hst         : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t sp_int_to_hst         : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t mask_sp_int           : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t sec_access_ctrl       : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t rst_mailbox           : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t fpga_rom_write_en     : 1;  /**< [  5:  5](R/W) 0: Enable read and disable write to the 128KB sram used for replace ROM in FPGA
+                                                                 1: Enable write and disable read to the 128KB sram used for replace ROM in FPGA.
+                                                                 Write to the 128KB CM3 SRAM is also disabled
+                                                                 Internal: |
+                                                                  EHSM-43. This bit is internal and valid for FPGA only. Remove this bit in EHSM spec. */
+        uint32_t ram_write_buffer_flush : 1; /**< [  6:  6](R/W) Write 1 to flush the CM3 write buffer so that the data in write buffer will be
+                                                                 written into CM3 RAM. It will be immediately be cleared to 0 after 1 cycle
+                                                                 EHSM-83 */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_control_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_control cavm_ehsm_wtm_biu_sp_control_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_CONTROL CAVM_EHSM_WTM_BIU_SP_CONTROL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_CONTROL_FUNC(void)
+{
+    return 0x80b000000220ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_CONTROL cavm_ehsm_wtm_biu_sp_control_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_CONTROL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_CONTROL "EHSM_WTM_BIU_SP_CONTROL"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_CONTROL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_CONTROL 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_CONTROL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_except_addr
+ *
+ * EHSM Wtm Biu Sp Except Addr Register
+ * The address triggers exception. The exceptions are:
+ * 1. Single bit error is detected in CM3 ROM
+ * 2. Double bit error is detected in CM3 ROM
+ * 3. Parity error is detected in CM3 RAM
+ * 4. Write access to CM3 ROM
+ * 5. Read or write access beyond the 256KB from code memory interface or data memory interface
+ * 6. Read or write access beyond the valid system register address, i.e. below
+ * 0xA000_0000 or equal/larger than 0xA000_3C00
+ * 7. Invalid access within BIU, including read/write to invalid address, write to
+ * address that is read only
+ */
+union cavm_ehsm_wtm_biu_sp_except_addr
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_except_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_except_addr        : 32; /**< [ 31:  0](R/W) The address triggers exception. The exceptions are:
+                                                                 1. Single bit error is detected in CM3 ROM
+                                                                 2. Double bit error is detected in CM3 ROM
+                                                                 3. Parity error is detected in CM3 RAM
+                                                                 4. Write access to CM3 ROM
+                                                                 5. Read or write access beyond the 256KB from code memory interface or data memory interface
+                                                                 6. Read or write access beyond the valid system register address, i.e. below
+                                                                 0xA000_0000 or equal/larger than 0xA000_3C00
+                                                                 7. Invalid access within BIU, including read/write to invalid address, write to
+                                                                 address that is read only */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_except_addr        : 32; /**< [ 31:  0](R/W) The address triggers exception. The exceptions are:
+                                                                 1. Single bit error is detected in CM3 ROM
+                                                                 2. Double bit error is detected in CM3 ROM
+                                                                 3. Parity error is detected in CM3 RAM
+                                                                 4. Write access to CM3 ROM
+                                                                 5. Read or write access beyond the 256KB from code memory interface or data memory interface
+                                                                 6. Read or write access beyond the valid system register address, i.e. below
+                                                                 0xA000_0000 or equal/larger than 0xA000_3C00
+                                                                 7. Invalid access within BIU, including read/write to invalid address, write to
+                                                                 address that is read only */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_except_addr_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_except_addr cavm_ehsm_wtm_biu_sp_except_addr_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR_FUNC(void)
+{
+    return 0x80b000000224ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR cavm_ehsm_wtm_biu_sp_except_addr_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR "EHSM_WTM_BIU_SP_EXCEPT_ADDR"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_EXCEPT_ADDR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_except_data
+ *
+ * EHSM Wtm Biu Sp Except Data Register
+ * This register saves the data portion of the word from CM3 ROM or RAM when the errors below ocurs
+ * 1. Single bit error is detected in CM3 ROM
+ * 2. Double bit error is detected in CM3 ROM
+ * 3. Parity error is detected in CM3 RAM
+ */
+union cavm_ehsm_wtm_biu_sp_except_data
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_except_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_except_data        : 32; /**< [ 31:  0](R/W) This register saves the data portion of the word from CM3 ROM or RAM when the errors below ocurs
+                                                                 1. Single bit error is detected in CM3 ROM
+                                                                 2. Double bit error is detected in CM3 ROM
+                                                                 3. Parity error is detected in CM3 RAM */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_except_data        : 32; /**< [ 31:  0](R/W) This register saves the data portion of the word from CM3 ROM or RAM when the errors below ocurs
+                                                                 1. Single bit error is detected in CM3 ROM
+                                                                 2. Double bit error is detected in CM3 ROM
+                                                                 3. Parity error is detected in CM3 RAM */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_except_data_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_except_data cavm_ehsm_wtm_biu_sp_except_data_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA_FUNC(void)
+{
+    return 0x80b000000228ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA cavm_ehsm_wtm_biu_sp_except_data_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA "EHSM_WTM_BIU_SP_EXCEPT_DATA"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_EXCEPT_DATA -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_except_par
+ *
+ * EHSM Wtm Biu Sp Except Par Register
+ * This register saves the parity portion of the word from CM3 ROM or RAM when the errors below ocurs
+ * 1. Single bit error is detected in CM3 ROM. 8 bits parity are saved.
+ * 2. Double bit error is detected in CM3 ROM. 8 bits parity are saved.
+ * 3. Parity error is detected in CM3 RAM. 4 bits parity are saved.
+ */
+union cavm_ehsm_wtm_biu_sp_except_par
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_except_par_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_except_par         : 32; /**< [ 31:  0](R/W) This register saves the parity portion of the word from CM3 ROM or RAM when the errors below ocurs
+                                                                 1. Single bit error is detected in CM3 ROM. 8 bits parity are saved.
+                                                                 2. Double bit error is detected in CM3 ROM. 8 bits parity are saved.
+                                                                 3. Parity error is detected in CM3 RAM. 4 bits parity are saved. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_except_par         : 32; /**< [ 31:  0](R/W) This register saves the parity portion of the word from CM3 ROM or RAM when the errors below ocurs
+                                                                 1. Single bit error is detected in CM3 ROM. 8 bits parity are saved.
+                                                                 2. Double bit error is detected in CM3 ROM. 8 bits parity are saved.
+                                                                 3. Parity error is detected in CM3 RAM. 4 bits parity are saved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_except_par_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_except_par cavm_ehsm_wtm_biu_sp_except_par_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR_FUNC(void)
+{
+    return 0x80b00000022cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR cavm_ehsm_wtm_biu_sp_except_par_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR "EHSM_WTM_BIU_SP_EXCEPT_PAR"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_EXCEPT_PAR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_interrupt_mask
+ *
+ * EHSM Wtm Biu Sp Interrupt Mask Register
+ */
+union cavm_ehsm_wtm_biu_sp_interrupt_mask
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_interrupt_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_interrupt_mask     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_interrupt_mask     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_interrupt_mask_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_interrupt_mask cavm_ehsm_wtm_biu_sp_interrupt_mask_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK_FUNC(void)
+{
+    return 0x80b00000021cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK cavm_ehsm_wtm_biu_sp_interrupt_mask_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK "EHSM_WTM_BIU_SP_INTERRUPT_MASK"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_MASK -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_interrupt_rst
+ *
+ * EHSM Wtm Biu Sp Interrupt Rst Register
+ */
+union cavm_ehsm_wtm_biu_sp_interrupt_rst
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_interrupt_rst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset
+                                                                 bit 0 Software Interrupt
+                                                                 bit 1 Clock frequency detector
+                                                                 bit 2 Clock pulsed detector
+                                                                 bit 3 Thermal attack detector
+                                                                 bit 4 Voltage sensor for VDDC
+                                                                 bit 5 Voltage sensor for VDD_SYS
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
+                                                                 bit 7~15 Reserved
+                                                                 This is for EHSM-71 */
+        uint32_t reserved_12_15        : 4;
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) This field indicates that during an APB access to the
+                                                                 accelerator engines or the DMA, the slave asserted an APB
+                                                                 error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t trust_reg_rd          : 1;  /**< [ 10: 10](R/W) This field indicates that the host read the trust register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t hst_addr_range        : 1;  /**< [  9:  9](R/W) This field indicates that the host attempted to access a
+                                                                 disallowed address. It is also triggered if a write is made to a
+                                                                 read-only register, or a read to a write-only register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t reserved_8            : 1;
+        uint32_t wtm_id_err            : 1;  /**< [  7:  7](R/W) This field Indicates that an operation with an invalid ID from the AXI bus has been detected.
+                                                                 Write 1 to reset the interrupt.
+                                                                 Note: This interrupt is valid only on WTM configurations that use the AXI ID
+                                                                 bits to discern the processor type that accesses the WTM.
+                                                                 Internal: |
+                                                                  It is reserved for Vail, Antman, MW400 */
+        uint32_t memc_err_par          : 1;  /**< [  6:  6](R/W) This field indicates a parity error from a code memory SRAM read.
+                                                                 The address read can be found at SP_EXCEPT_ADDR (RA0000224h [31:0]), the
+                                                                 returned data at SP_EXCEPT_DATA
+                                                                 (RA0000228h [31:0]), and the returned parity at SP_EXCEPT_PAR (RA000022Ch [31:0]).
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t memc_err_dbe          : 1;  /**< [  5:  5](R/W) This field indicates that the code memory detected a double bit error within the
+                                                                 ROM that could not be corrected. The read address is stored at SP_EXCEPT_ADDR
+                                                                 (RA0000224h [31:0]). This is considered a fatal error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
+                                                                 This is for EHSM-75 */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) This field indicates that the SP attempted to access a disallowed address within
+                                                                 the code memory. This would be the range above 20K and below the range allocated
+                                                                 to the ROM. The read address is stored within the SP_EXCEPT_ADDR (RA0000224h
+                                                                 [31:0]) register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) This field indicates that the secure processor has attempted to access a
+                                                                 register that is out of its address range of 1K byte.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) This field indicates that the command and parameter registers have been loaded with a new command.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) The accelerator engine block has indicated an interrupt.
+                                                                 Write 1 to reset the interrupt. */
+#else /* Word 0 - Little Endian */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) The accelerator engine block has indicated an interrupt.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) This field indicates that the command and parameter registers have been loaded with a new command.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) This field indicates that the secure processor has attempted to access a
+                                                                 register that is out of its address range of 1K byte.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) This field indicates that the SP attempted to access a disallowed address within
+                                                                 the code memory. This would be the range above 20K and below the range allocated
+                                                                 to the ROM. The read address is stored within the SP_EXCEPT_ADDR (RA0000224h
+                                                                 [31:0]) register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
+                                                                 This is for EHSM-75 */
+        uint32_t memc_err_dbe          : 1;  /**< [  5:  5](R/W) This field indicates that the code memory detected a double bit error within the
+                                                                 ROM that could not be corrected. The read address is stored at SP_EXCEPT_ADDR
+                                                                 (RA0000224h [31:0]). This is considered a fatal error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t memc_err_par          : 1;  /**< [  6:  6](R/W) This field indicates a parity error from a code memory SRAM read.
+                                                                 The address read can be found at SP_EXCEPT_ADDR (RA0000224h [31:0]), the
+                                                                 returned data at SP_EXCEPT_DATA
+                                                                 (RA0000228h [31:0]), and the returned parity at SP_EXCEPT_PAR (RA000022Ch [31:0]).
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t wtm_id_err            : 1;  /**< [  7:  7](R/W) This field Indicates that an operation with an invalid ID from the AXI bus has been detected.
+                                                                 Write 1 to reset the interrupt.
+                                                                 Note: This interrupt is valid only on WTM configurations that use the AXI ID
+                                                                 bits to discern the processor type that accesses the WTM.
+                                                                 Internal: |
+                                                                  It is reserved for Vail, Antman, MW400 */
+        uint32_t reserved_8            : 1;
+        uint32_t hst_addr_range        : 1;  /**< [  9:  9](R/W) This field indicates that the host attempted to access a
+                                                                 disallowed address. It is also triggered if a write is made to a
+                                                                 read-only register, or a read to a write-only register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t trust_reg_rd          : 1;  /**< [ 10: 10](R/W) This field indicates that the host read the trust register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) This field indicates that during an APB access to the
+                                                                 accelerator engines or the DMA, the slave asserted an APB
+                                                                 error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset
+                                                                 bit 0 Software Interrupt
+                                                                 bit 1 Clock frequency detector
+                                                                 bit 2 Clock pulsed detector
+                                                                 bit 3 Thermal attack detector
+                                                                 bit 4 Voltage sensor for VDDC
+                                                                 bit 5 Voltage sensor for VDD_SYS
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
+                                                                 bit 7~15 Reserved
+                                                                 This is for EHSM-71 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_interrupt_rst_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_interrupt_rst cavm_ehsm_wtm_biu_sp_interrupt_rst_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST_FUNC(void)
+{
+    return 0x80b000000218ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST cavm_ehsm_wtm_biu_sp_interrupt_rst_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST "EHSM_WTM_BIU_SP_INTERRUPT_RST"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_RST -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_interrupt_set
+ *
+ * EHSM Wtm Biu Sp Interrupt Set Register
+ * Write a '1' to each bit position to set these interrupts.
+ */
+union cavm_ehsm_wtm_biu_sp_interrupt_set
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_interrupt_set_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset
+                                                                 bit 0 Software Interrupt
+                                                                 bit 1 Clock frequency detector
+                                                                 bit 2 Clock pulsed detector
+                                                                 bit 3 Thermal attack detector
+                                                                 bit 4 Voltage sensor for VDDC
+                                                                 bit 5 Voltage sensor for VDD_SYS
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
+                                                                 bit 7~15 Reserved
+                                                                 This is for EHSM-71 */
+        uint32_t reserved_12_15        : 4;
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t trust_reg_rd          : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t hst_addr_range        : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t reserved_8            : 1;
+        uint32_t wtm_id_err            : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t memc_err_par          : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t memc_err_dbe          : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
+                                                                 This is for EHSM-75 */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
+                                                                 This is for EHSM-75 */
+        uint32_t memc_err_dbe          : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t memc_err_par          : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t wtm_id_err            : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t reserved_8            : 1;
+        uint32_t hst_addr_range        : 1;  /**< [  9:  9](R/W) Missing register field description. */
+        uint32_t trust_reg_rd          : 1;  /**< [ 10: 10](R/W) Missing register field description. */
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset
+                                                                 bit 0 Software Interrupt
+                                                                 bit 1 Clock frequency detector
+                                                                 bit 2 Clock pulsed detector
+                                                                 bit 3 Thermal attack detector
+                                                                 bit 4 Voltage sensor for VDDC
+                                                                 bit 5 Voltage sensor for VDD_SYS
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
+                                                                 bit 7~15 Reserved
+                                                                 This is for EHSM-71 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_interrupt_set_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_interrupt_set cavm_ehsm_wtm_biu_sp_interrupt_set_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET_FUNC(void)
+{
+    return 0x80b000000210ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET cavm_ehsm_wtm_biu_sp_interrupt_set_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET "EHSM_WTM_BIU_SP_INTERRUPT_SET"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_INTERRUPT_SET -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_sram_ctrl
+ *
+ * EHSM Wtm Biu Sp Sram Ctrl Register
+ */
+union cavm_ehsm_wtm_biu_sp_sram_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_sram_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t memc_remap            : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t memc_remap            : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_sram_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_sram_ctrl cavm_ehsm_wtm_biu_sp_sram_ctrl_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL_FUNC(void)
+{
+    return 0x80b000000214ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL cavm_ehsm_wtm_biu_sp_sram_ctrl_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL "EHSM_WTM_BIU_SP_SRAM_CTRL"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_SRAM_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_sp_tl
+ *
+ * EHSM Wtm Biu Sp Tl Register
+ */
+union cavm_ehsm_wtm_biu_sp_tl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_sp_tl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_tl                 : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_tl                 : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_sp_tl_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_sp_tl cavm_ehsm_wtm_biu_sp_tl_t;
+
+#define CAVM_EHSM_WTM_BIU_SP_TL CAVM_EHSM_WTM_BIU_SP_TL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_TL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_SP_TL_FUNC(void)
+{
+    return 0x80b000000248ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_SP_TL cavm_ehsm_wtm_biu_sp_tl_t
+#define bustype_CAVM_EHSM_WTM_BIU_SP_TL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_SP_TL "EHSM_WTM_BIU_SP_TL"
+#define device_bar_CAVM_EHSM_WTM_BIU_SP_TL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_SP_TL 0
+#define arguments_CAVM_EHSM_WTM_BIU_SP_TL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_uuid_0
+ *
+ * EHSM Wtm Biu Uuid 0 Register
+ * This register saves the 1st word of UUID.
+ * This is for EHSM-32
+ */
+union cavm_ehsm_wtm_biu_uuid_0
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_uuid_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t uuid_0                : 32; /**< [ 31:  0](R/W) This register saves the 1st word of UUID.
+                                                                 This is for EHSM-32 */
+#else /* Word 0 - Little Endian */
+        uint32_t uuid_0                : 32; /**< [ 31:  0](R/W) This register saves the 1st word of UUID.
+                                                                 This is for EHSM-32 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_uuid_0_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_uuid_0 cavm_ehsm_wtm_biu_uuid_0_t;
+
+#define CAVM_EHSM_WTM_BIU_UUID_0 CAVM_EHSM_WTM_BIU_UUID_0_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_0_FUNC(void)
+{
+    return 0x80b000000104ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_UUID_0 cavm_ehsm_wtm_biu_uuid_0_t
+#define bustype_CAVM_EHSM_WTM_BIU_UUID_0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_UUID_0 "EHSM_WTM_BIU_UUID_0"
+#define device_bar_CAVM_EHSM_WTM_BIU_UUID_0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_UUID_0 0
+#define arguments_CAVM_EHSM_WTM_BIU_UUID_0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_uuid_1
+ *
+ * EHSM Wtm Biu Uuid 1 Register
+ * This register saves the 2nd word of UUID.
+ * This is for EHSM-32
+ */
+union cavm_ehsm_wtm_biu_uuid_1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_uuid_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t uuid_1                : 32; /**< [ 31:  0](R/W) This register saves the 2nd word of UUID.
+                                                                 This is for EHSM-32 */
+#else /* Word 0 - Little Endian */
+        uint32_t uuid_1                : 32; /**< [ 31:  0](R/W) This register saves the 2nd word of UUID.
+                                                                 This is for EHSM-32 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_uuid_1_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_uuid_1 cavm_ehsm_wtm_biu_uuid_1_t;
+
+#define CAVM_EHSM_WTM_BIU_UUID_1 CAVM_EHSM_WTM_BIU_UUID_1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_1_FUNC(void)
+{
+    return 0x80b000000108ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_UUID_1 cavm_ehsm_wtm_biu_uuid_1_t
+#define bustype_CAVM_EHSM_WTM_BIU_UUID_1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_UUID_1 "EHSM_WTM_BIU_UUID_1"
+#define device_bar_CAVM_EHSM_WTM_BIU_UUID_1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_UUID_1 0
+#define arguments_CAVM_EHSM_WTM_BIU_UUID_1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_uuid_2
+ *
+ * EHSM Wtm Biu Uuid 2 Register
+ * This register saves the 3rd word of UUID.
+ * This is for EHSM-32
+ */
+union cavm_ehsm_wtm_biu_uuid_2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_uuid_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t uuid_2                : 32; /**< [ 31:  0](R/W) This register saves the 3rd word of UUID.
+                                                                 This is for EHSM-32 */
+#else /* Word 0 - Little Endian */
+        uint32_t uuid_2                : 32; /**< [ 31:  0](R/W) This register saves the 3rd word of UUID.
+                                                                 This is for EHSM-32 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_uuid_2_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_uuid_2 cavm_ehsm_wtm_biu_uuid_2_t;
+
+#define CAVM_EHSM_WTM_BIU_UUID_2 CAVM_EHSM_WTM_BIU_UUID_2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_2_FUNC(void)
+{
+    return 0x80b00000010cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_UUID_2 cavm_ehsm_wtm_biu_uuid_2_t
+#define bustype_CAVM_EHSM_WTM_BIU_UUID_2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_UUID_2 "EHSM_WTM_BIU_UUID_2"
+#define device_bar_CAVM_EHSM_WTM_BIU_UUID_2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_UUID_2 0
+#define arguments_CAVM_EHSM_WTM_BIU_UUID_2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_uuid_ecc
+ *
+ * EHSM Wtm Biu Uuid Ecc Register
+ * This register saves the 3rd word of UUID.
+ * This is for EHSM-32
+ */
+union cavm_ehsm_wtm_biu_uuid_ecc
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_uuid_ecc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_19_31        : 13;
+        uint32_t parity                : 18; /**< [ 18:  1](RO) This is the parity bits for UUID0~2 */
+        uint32_t valid                 : 1;  /**< [  0:  0](RO) Indication of whether UUID_0, UUID_1, UUID_2 and PARITY is ready to be read.
+                                                                 When it is 1, CM3 can read UUID_0, UUID_1, UUID_2, PARITY and do BCH decoding */
+#else /* Word 0 - Little Endian */
+        uint32_t valid                 : 1;  /**< [  0:  0](RO) Indication of whether UUID_0, UUID_1, UUID_2 and PARITY is ready to be read.
+                                                                 When it is 1, CM3 can read UUID_0, UUID_1, UUID_2, PARITY and do BCH decoding */
+        uint32_t parity                : 18; /**< [ 18:  1](RO) This is the parity bits for UUID0~2 */
+        uint32_t reserved_19_31        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_uuid_ecc_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_uuid_ecc cavm_ehsm_wtm_biu_uuid_ecc_t;
+
+#define CAVM_EHSM_WTM_BIU_UUID_ECC CAVM_EHSM_WTM_BIU_UUID_ECC_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_ECC_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_ECC_FUNC(void)
+{
+    return 0x80b000000110ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_UUID_ECC cavm_ehsm_wtm_biu_uuid_ecc_t
+#define bustype_CAVM_EHSM_WTM_BIU_UUID_ECC CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_UUID_ECC "EHSM_WTM_BIU_UUID_ECC"
+#define device_bar_CAVM_EHSM_WTM_BIU_UUID_ECC 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_UUID_ECC 0
+#define arguments_CAVM_EHSM_WTM_BIU_UUID_ECC -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_biu_uuid_status
+ *
+ * EHSM Wtm Biu Uuid Status Register
+ * This register saves the status of UUID.
+ * This is for EHSM-32
+ */
+union cavm_ehsm_wtm_biu_uuid_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_biu_uuid_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t uncorrectable_error   : 1;  /**< [  1:  1](R/W) Only valid when CORRECTION_DONE is 1.
+                                                                 When it is 1, there is uncorrectable error in UUID. UUID_0~2 are invalid */
+        uint32_t correction_done       : 1;  /**< [  0:  0](R/W) When it is 1, error corrected UUID is stored in UUID_0~2 and ready to be read by host */
+#else /* Word 0 - Little Endian */
+        uint32_t correction_done       : 1;  /**< [  0:  0](R/W) When it is 1, error corrected UUID is stored in UUID_0~2 and ready to be read by host */
+        uint32_t uncorrectable_error   : 1;  /**< [  1:  1](R/W) Only valid when CORRECTION_DONE is 1.
+                                                                 When it is 1, there is uncorrectable error in UUID. UUID_0~2 are invalid */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_biu_uuid_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_biu_uuid_status cavm_ehsm_wtm_biu_uuid_status_t;
+
+#define CAVM_EHSM_WTM_BIU_UUID_STATUS CAVM_EHSM_WTM_BIU_UUID_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_BIU_UUID_STATUS_FUNC(void)
+{
+    return 0x80b0000000fcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_BIU_UUID_STATUS cavm_ehsm_wtm_biu_uuid_status_t
+#define bustype_CAVM_EHSM_WTM_BIU_UUID_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_BIU_UUID_STATUS "EHSM_WTM_BIU_UUID_STATUS"
+#define device_bar_CAVM_EHSM_WTM_BIU_UUID_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_BIU_UUID_STATUS 0
+#define arguments_CAVM_EHSM_WTM_BIU_UUID_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_axi_ctrl
+ *
+ * EHSM Wtm Dma Axi Ctrl Register
+ */
+union cavm_ehsm_wtm_dma_axi_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_axi_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_19_31        : 13;
+        uint32_t axi_xmit_resp_max     : 3;  /**< [ 18: 16](R/W) Missing register field description. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t axi_data_par_ena      : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t axi_wdata_par_even    : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t axi_rdata_par_even    : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t link_list_swap_dis    : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t dma_loop_back_en      : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t out_axi_ms_wrd_swp    : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t out_axi_ms_byte_swp   : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t in_axi_ms_wrd_swp     : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t in_axi_ms_byte_swp    : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_axi_ms_byte_swp    : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t in_axi_ms_wrd_swp     : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t out_axi_ms_byte_swp   : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t out_axi_ms_wrd_swp    : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t dma_loop_back_en      : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t link_list_swap_dis    : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t axi_rdata_par_even    : 1;  /**< [  6:  6](R/W) Missing register field description. */
+        uint32_t axi_wdata_par_even    : 1;  /**< [  7:  7](R/W) Missing register field description. */
+        uint32_t axi_data_par_ena      : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t reserved_9_15         : 7;
+        uint32_t axi_xmit_resp_max     : 3;  /**< [ 18: 16](R/W) Missing register field description. */
+        uint32_t reserved_19_31        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_axi_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_axi_ctrl cavm_ehsm_wtm_dma_axi_ctrl_t;
+
+#define CAVM_EHSM_WTM_DMA_AXI_CTRL CAVM_EHSM_WTM_DMA_AXI_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_AXI_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_AXI_CTRL_FUNC(void)
+{
+    return 0x80b000000850ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_AXI_CTRL cavm_ehsm_wtm_dma_axi_ctrl_t
+#define bustype_CAVM_EHSM_WTM_DMA_AXI_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_AXI_CTRL "EHSM_WTM_DMA_AXI_CTRL"
+#define device_bar_CAVM_EHSM_WTM_DMA_AXI_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_AXI_CTRL 0
+#define arguments_CAVM_EHSM_WTM_DMA_AXI_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_if_ram
+ *
+ * EHSM Wtm Dma If Ram Register
+ */
+union cavm_ehsm_wtm_dma_if_ram
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_if_ram_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t if_ram                : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t if_ram                : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_if_ram_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_if_ram cavm_ehsm_wtm_dma_if_ram_t;
+
+#define CAVM_EHSM_WTM_DMA_IF_RAM CAVM_EHSM_WTM_DMA_IF_RAM_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IF_RAM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IF_RAM_FUNC(void)
+{
+    return 0x80b000000900ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IF_RAM cavm_ehsm_wtm_dma_if_ram_t
+#define bustype_CAVM_EHSM_WTM_DMA_IF_RAM CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IF_RAM "EHSM_WTM_DMA_IF_RAM"
+#define device_bar_CAVM_EHSM_WTM_DMA_IF_RAM 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IF_RAM 0
+#define arguments_CAVM_EHSM_WTM_DMA_IF_RAM -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_if_rcount
+ *
+ * EHSM Wtm Dma If Rcount Register
+ */
+union cavm_ehsm_wtm_dma_if_rcount
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_if_rcount_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t if_rcount             : 32; /**< [ 31:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t if_rcount             : 32; /**< [ 31:  0](RO) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_if_rcount_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_if_rcount cavm_ehsm_wtm_dma_if_rcount_t;
+
+#define CAVM_EHSM_WTM_DMA_IF_RCOUNT CAVM_EHSM_WTM_DMA_IF_RCOUNT_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IF_RCOUNT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IF_RCOUNT_FUNC(void)
+{
+    return 0x80b000000854ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IF_RCOUNT cavm_ehsm_wtm_dma_if_rcount_t
+#define bustype_CAVM_EHSM_WTM_DMA_IF_RCOUNT CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IF_RCOUNT "EHSM_WTM_DMA_IF_RCOUNT"
+#define device_bar_CAVM_EHSM_WTM_DMA_IF_RCOUNT 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IF_RCOUNT 0
+#define arguments_CAVM_EHSM_WTM_DMA_IF_RCOUNT -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_if_rd_ptr_err
+ *
+ * EHSM Wtm Dma If Rd Ptr Err Register
+ */
+union cavm_ehsm_wtm_dma_if_rd_ptr_err
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_if_rd_ptr_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t if_rd_ptr_err         : 32; /**< [ 31:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t if_rd_ptr_err         : 32; /**< [ 31:  0](RO) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_if_rd_ptr_err_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_if_rd_ptr_err cavm_ehsm_wtm_dma_if_rd_ptr_err_t;
+
+#define CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR_FUNC(void)
+{
+    return 0x80b000000858ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR cavm_ehsm_wtm_dma_if_rd_ptr_err_t
+#define bustype_CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR "EHSM_WTM_DMA_IF_RD_PTR_ERR"
+#define device_bar_CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR 0
+#define arguments_CAVM_EHSM_WTM_DMA_IF_RD_PTR_ERR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_dma_ctrl
+ *
+ * EHSM Wtm Dma In Dma Ctrl Register
+ */
+union cavm_ehsm_wtm_dma_in_dma_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_dma_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t in_dis_rec_err_code   : 1;  /**< [ 30: 30](R/W) When this bit is asserted, the Input
+                                                                 data Transfer Error check is disabled. The error interrupt is still set, but it
+                                                                 does not affect the DMA operation. */
+        uint32_t in_dis_ll_err_code    : 1;  /**< [ 29: 29](R/W) When this bit is asserted, the Input Link List Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t in_dis_err_code       : 1;  /**< [ 28: 28](R/W) When this bit is asserted, the Input FIFO parity check is disabled. The Parity
+                                                                 interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t in_cache_mode         : 4;  /**< [ 27: 24](R/W) Missing register field description. */
+        uint32_t in_rid_ext            : 4;  /**< [ 23: 20](R/W) Missing register field description. */
+        uint32_t reserved_19           : 1;
+        uint32_t in_order_dis          : 1;  /**< [ 18: 18](R/W) Missing register field description. */
+        uint32_t in_req_algn64         : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t in_req_pause          : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t in_bus_sz             : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t in_burst_type         : 2;  /**< [ 14: 13](R/W) Missing register field description. */
+        uint32_t in_burst_len          : 5;  /**< [ 12:  8](R/W) Missing register field description. */
+        uint32_t in_rid                : 4;  /**< [  7:  4](R/W) Missing register field description. */
+        uint32_t in_prot_mode          : 3;  /**< [  3:  1](R/W) When this field is set, the PROT field of the bus is assigned w/ this value for
+                                                                 the read data tranfer. */
+        uint32_t in_dma_ena            : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_dma_ena            : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t in_prot_mode          : 3;  /**< [  3:  1](R/W) When this field is set, the PROT field of the bus is assigned w/ this value for
+                                                                 the read data tranfer. */
+        uint32_t in_rid                : 4;  /**< [  7:  4](R/W) Missing register field description. */
+        uint32_t in_burst_len          : 5;  /**< [ 12:  8](R/W) Missing register field description. */
+        uint32_t in_burst_type         : 2;  /**< [ 14: 13](R/W) Missing register field description. */
+        uint32_t in_bus_sz             : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t in_req_pause          : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t in_req_algn64         : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t in_order_dis          : 1;  /**< [ 18: 18](R/W) Missing register field description. */
+        uint32_t reserved_19           : 1;
+        uint32_t in_rid_ext            : 4;  /**< [ 23: 20](R/W) Missing register field description. */
+        uint32_t in_cache_mode         : 4;  /**< [ 27: 24](R/W) Missing register field description. */
+        uint32_t in_dis_err_code       : 1;  /**< [ 28: 28](R/W) When this bit is asserted, the Input FIFO parity check is disabled. The Parity
+                                                                 interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t in_dis_ll_err_code    : 1;  /**< [ 29: 29](R/W) When this bit is asserted, the Input Link List Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t in_dis_rec_err_code   : 1;  /**< [ 30: 30](R/W) When this bit is asserted, the Input
+                                                                 data Transfer Error check is disabled. The error interrupt is still set, but it
+                                                                 does not affect the DMA operation. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_dma_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_dma_ctrl cavm_ehsm_wtm_dma_in_dma_ctrl_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_DMA_CTRL CAVM_EHSM_WTM_DMA_IN_DMA_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_CTRL_FUNC(void)
+{
+    return 0x80b000000800ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_DMA_CTRL cavm_ehsm_wtm_dma_in_dma_ctrl_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_DMA_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_DMA_CTRL "EHSM_WTM_DMA_IN_DMA_CTRL"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_DMA_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_DMA_CTRL 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_DMA_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_dma_int1
+ *
+ * EHSM Wtm Dma In Dma Int1 Register
+ */
+union cavm_ehsm_wtm_dma_in_dma_int1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_dma_int1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t axi_data_par_err      : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t in_dma_pause_cmpl     : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t in_par_err            : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t in_ll_err             : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t in_dma_bus_err        : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t in_dma_done           : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_dma_done           : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t in_dma_bus_err        : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t in_ll_err             : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t in_par_err            : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t in_dma_pause_cmpl     : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t axi_data_par_err      : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_dma_int1_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_dma_int1 cavm_ehsm_wtm_dma_in_dma_int1_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_DMA_INT1 CAVM_EHSM_WTM_DMA_IN_DMA_INT1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_INT1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_INT1_FUNC(void)
+{
+    return 0x80b000000820ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_DMA_INT1 cavm_ehsm_wtm_dma_in_dma_int1_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_DMA_INT1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_DMA_INT1 "EHSM_WTM_DMA_IN_DMA_INT1"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_DMA_INT1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_DMA_INT1 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_DMA_INT1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_dma_int1_msk
+ *
+ * EHSM Wtm Dma In Dma Int1 Msk Register
+ */
+union cavm_ehsm_wtm_dma_in_dma_int1_msk
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_dma_int1_msk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t axi_data_par_err_msk  : 1;  /**< [  5:  5](R/W) Masking register for AXI_DATA_PAR_ERR defined in IN_DMA_INT1 */
+        uint32_t in_dma_pause_cmpl_msk : 1;  /**< [  4:  4](R/W) Masking register for IN_DMA_PAUSE_CMPL defined in IN_DMA_INT1 */
+        uint32_t in_par_err_msk        : 1;  /**< [  3:  3](R/W) Masking register for IN_PAR_ERR defined in IN_DMA_INT1 */
+        uint32_t in_ll_err_msk         : 1;  /**< [  2:  2](R/W) Masking register for IN_LL_ERR defined in IN_DMA_INT1 */
+        uint32_t in_dma_bus_err_msk    : 1;  /**< [  1:  1](R/W) Masking register for IN_DMA_BUS_ERR defined in IN_DMA_INT1 */
+        uint32_t in_dma_done_msk       : 1;  /**< [  0:  0](R/W) Masking register for IN_DMA_DONE defined in IN_DMA_INT1 */
+#else /* Word 0 - Little Endian */
+        uint32_t in_dma_done_msk       : 1;  /**< [  0:  0](R/W) Masking register for IN_DMA_DONE defined in IN_DMA_INT1 */
+        uint32_t in_dma_bus_err_msk    : 1;  /**< [  1:  1](R/W) Masking register for IN_DMA_BUS_ERR defined in IN_DMA_INT1 */
+        uint32_t in_ll_err_msk         : 1;  /**< [  2:  2](R/W) Masking register for IN_LL_ERR defined in IN_DMA_INT1 */
+        uint32_t in_par_err_msk        : 1;  /**< [  3:  3](R/W) Masking register for IN_PAR_ERR defined in IN_DMA_INT1 */
+        uint32_t in_dma_pause_cmpl_msk : 1;  /**< [  4:  4](R/W) Masking register for IN_DMA_PAUSE_CMPL defined in IN_DMA_INT1 */
+        uint32_t axi_data_par_err_msk  : 1;  /**< [  5:  5](R/W) Masking register for AXI_DATA_PAR_ERR defined in IN_DMA_INT1 */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_dma_int1_msk_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_dma_int1_msk cavm_ehsm_wtm_dma_in_dma_int1_msk_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK_FUNC(void)
+{
+    return 0x80b000000824ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK cavm_ehsm_wtm_dma_in_dma_int1_msk_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK "EHSM_WTM_DMA_IN_DMA_INT1_MSK"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_DMA_INT1_MSK -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_dma_status
+ *
+ * EHSM Wtm Dma In Dma Status Register
+ */
+union cavm_ehsm_wtm_dma_in_dma_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_dma_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t read_pending          : 1;  /**< [  6:  6](RO) Missing register field description. */
+        uint32_t pause_cmpl            : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t ll_err_code           : 2;  /**< [  4:  3](RO) Missing register field description. */
+        uint32_t par_err               : 1;  /**< [  2:  2](RO) Missing register field description. */
+        uint32_t rd_cycle_err          : 2;  /**< [  1:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t rd_cycle_err          : 2;  /**< [  1:  0](RO) Missing register field description. */
+        uint32_t par_err               : 1;  /**< [  2:  2](RO) Missing register field description. */
+        uint32_t ll_err_code           : 2;  /**< [  4:  3](RO) Missing register field description. */
+        uint32_t pause_cmpl            : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t read_pending          : 1;  /**< [  6:  6](RO) Missing register field description. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_dma_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_dma_status cavm_ehsm_wtm_dma_in_dma_status_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_DMA_STATUS CAVM_EHSM_WTM_DMA_IN_DMA_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_DMA_STATUS_FUNC(void)
+{
+    return 0x80b000000804ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_DMA_STATUS cavm_ehsm_wtm_dma_in_dma_status_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_DMA_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_DMA_STATUS "EHSM_WTM_DMA_IN_DMA_STATUS"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_DMA_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_DMA_STATUS 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_DMA_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_nx_ll_adr_high
+ *
+ * EHSM Wtm Dma In Nx Ll Adr High Register
+ */
+union cavm_ehsm_wtm_dma_in_nx_ll_adr_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_nx_ll_adr_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t in_nx_ll_adr_high     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_nx_ll_adr_high     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_nx_ll_adr_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_nx_ll_adr_high cavm_ehsm_wtm_dma_in_nx_ll_adr_high_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH_FUNC(void)
+{
+    return 0x80b000000818ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH cavm_ehsm_wtm_dma_in_nx_ll_adr_high_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH "EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_nx_ll_adr_low
+ *
+ * EHSM Wtm Dma In Nx Ll Adr Low Register
+ */
+union cavm_ehsm_wtm_dma_in_nx_ll_adr_low
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_nx_ll_adr_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t in_nx_ll_adr_low      : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_nx_ll_adr_low      : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_nx_ll_adr_low_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_nx_ll_adr_low cavm_ehsm_wtm_dma_in_nx_ll_adr_low_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW_FUNC(void)
+{
+    return 0x80b00000081cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW cavm_ehsm_wtm_dma_in_nx_ll_adr_low_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW "EHSM_WTM_DMA_IN_NX_LL_ADR_LOW"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_NX_LL_ADR_LOW -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_src_adr_high
+ *
+ * EHSM Wtm Dma In Src Adr High Register
+ */
+union cavm_ehsm_wtm_dma_in_src_adr_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_src_adr_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t in_src_adr_high       : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_src_adr_high       : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_src_adr_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_src_adr_high cavm_ehsm_wtm_dma_in_src_adr_high_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH_FUNC(void)
+{
+    return 0x80b000000808ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH cavm_ehsm_wtm_dma_in_src_adr_high_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH "EHSM_WTM_DMA_IN_SRC_ADR_HIGH"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_src_adr_low
+ *
+ * EHSM Wtm Dma In Src Adr Low Register
+ */
+union cavm_ehsm_wtm_dma_in_src_adr_low
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_src_adr_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t in_src_adr_low        : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t in_src_adr_low        : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_src_adr_low_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_src_adr_low cavm_ehsm_wtm_dma_in_src_adr_low_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW_FUNC(void)
+{
+    return 0x80b00000080cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW cavm_ehsm_wtm_dma_in_src_adr_low_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW "EHSM_WTM_DMA_IN_SRC_ADR_LOW"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_SRC_ADR_LOW -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_in_xfer_cntr
+ *
+ * EHSM Wtm Dma In Xfer Cntr Register
+ * This counter keeps track of the total input transfer count in term of 32 bit word
+ */
+union cavm_ehsm_wtm_dma_in_xfer_cntr
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_in_xfer_cntr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t in_xfer_cntr          : 32; /**< [ 31:  0](R/W) This counter keeps track of the total input transfer count in term of 32 bit word */
+#else /* Word 0 - Little Endian */
+        uint32_t in_xfer_cntr          : 32; /**< [ 31:  0](R/W) This counter keeps track of the total input transfer count in term of 32 bit word */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_in_xfer_cntr_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_in_xfer_cntr cavm_ehsm_wtm_dma_in_xfer_cntr_t;
+
+#define CAVM_EHSM_WTM_DMA_IN_XFER_CNTR CAVM_EHSM_WTM_DMA_IN_XFER_CNTR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_XFER_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_IN_XFER_CNTR_FUNC(void)
+{
+    return 0x80b000000814ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_IN_XFER_CNTR cavm_ehsm_wtm_dma_in_xfer_cntr_t
+#define bustype_CAVM_EHSM_WTM_DMA_IN_XFER_CNTR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_IN_XFER_CNTR "EHSM_WTM_DMA_IN_XFER_CNTR"
+#define device_bar_CAVM_EHSM_WTM_DMA_IN_XFER_CNTR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_IN_XFER_CNTR 0
+#define arguments_CAVM_EHSM_WTM_DMA_IN_XFER_CNTR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_of_ram
+ *
+ * EHSM Wtm Dma Of Ram Register
+ */
+union cavm_ehsm_wtm_dma_of_ram
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_of_ram_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t of_ram                : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t of_ram                : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_of_ram_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_of_ram cavm_ehsm_wtm_dma_of_ram_t;
+
+#define CAVM_EHSM_WTM_DMA_OF_RAM CAVM_EHSM_WTM_DMA_OF_RAM_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OF_RAM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OF_RAM_FUNC(void)
+{
+    return 0x80b000000b00ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OF_RAM cavm_ehsm_wtm_dma_of_ram_t
+#define bustype_CAVM_EHSM_WTM_DMA_OF_RAM CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OF_RAM "EHSM_WTM_DMA_OF_RAM"
+#define device_bar_CAVM_EHSM_WTM_DMA_OF_RAM 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OF_RAM 0
+#define arguments_CAVM_EHSM_WTM_DMA_OF_RAM -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_of_rd_ptr_err
+ *
+ * EHSM Wtm Dma Of Rd Ptr Err Register
+ */
+union cavm_ehsm_wtm_dma_of_rd_ptr_err
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_of_rd_ptr_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t of_rd_ptr_err         : 32; /**< [ 31:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t of_rd_ptr_err         : 32; /**< [ 31:  0](RO) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_of_rd_ptr_err_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_of_rd_ptr_err cavm_ehsm_wtm_dma_of_rd_ptr_err_t;
+
+#define CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR_FUNC(void)
+{
+    return 0x80b000000860ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR cavm_ehsm_wtm_dma_of_rd_ptr_err_t
+#define bustype_CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR "EHSM_WTM_DMA_OF_RD_PTR_ERR"
+#define device_bar_CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR 0
+#define arguments_CAVM_EHSM_WTM_DMA_OF_RD_PTR_ERR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_of_space
+ *
+ * EHSM Wtm Dma Of Space Register
+ */
+union cavm_ehsm_wtm_dma_of_space
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_of_space_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t of_space              : 32; /**< [ 31:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t of_space              : 32; /**< [ 31:  0](RO) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_of_space_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_of_space cavm_ehsm_wtm_dma_of_space_t;
+
+#define CAVM_EHSM_WTM_DMA_OF_SPACE CAVM_EHSM_WTM_DMA_OF_SPACE_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OF_SPACE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OF_SPACE_FUNC(void)
+{
+    return 0x80b00000085cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OF_SPACE cavm_ehsm_wtm_dma_of_space_t
+#define bustype_CAVM_EHSM_WTM_DMA_OF_SPACE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OF_SPACE "EHSM_WTM_DMA_OF_SPACE"
+#define device_bar_CAVM_EHSM_WTM_DMA_OF_SPACE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OF_SPACE 0
+#define arguments_CAVM_EHSM_WTM_DMA_OF_SPACE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_dest_adr_high
+ *
+ * EHSM Wtm Dma Out Dest Adr High Register
+ */
+union cavm_ehsm_wtm_dma_out_dest_adr_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_dest_adr_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t out_dest_adr_high     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t out_dest_adr_high     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_dest_adr_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_dest_adr_high cavm_ehsm_wtm_dma_out_dest_adr_high_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH_FUNC(void)
+{
+    return 0x80b000000830ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH cavm_ehsm_wtm_dma_out_dest_adr_high_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH "EHSM_WTM_DMA_OUT_DEST_ADR_HIGH"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_dest_adr_low
+ *
+ * EHSM Wtm Dma Out Dest Adr Low Register
+ */
+union cavm_ehsm_wtm_dma_out_dest_adr_low
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_dest_adr_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t out_dest_adr_low      : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t out_dest_adr_low      : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_dest_adr_low_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_dest_adr_low cavm_ehsm_wtm_dma_out_dest_adr_low_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW_FUNC(void)
+{
+    return 0x80b000000834ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW cavm_ehsm_wtm_dma_out_dest_adr_low_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW "EHSM_WTM_DMA_OUT_DEST_ADR_LOW"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_DEST_ADR_LOW -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_dma_ctrl
+ *
+ * EHSM Wtm Dma Out Dma Ctrl Register
+ */
+union cavm_ehsm_wtm_dma_out_dma_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_dma_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t out_dis_xmit_err_code : 1;  /**< [ 30: 30](R/W) When this bit is asserted, the Output Data Transfer Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t out_dis_ll_err_code   : 1;  /**< [ 29: 29](R/W) When this bit is asserted, the Output Link List Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t out_dis_err_code      : 1;  /**< [ 28: 28](R/W) When this bit is asserted, the Output FIFO Parity Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t out_cache_mode        : 4;  /**< [ 27: 24](R/W) Missing register field description. */
+        uint32_t out_wid_ext           : 4;  /**< [ 23: 20](R/W) This field is used to provide the upper four bit extention of the ID for write
+                                                                 transaction. The IN_RID0 thru IN_RID4 should be different from OUT_WID.
+                                                                 Internal: |
+                                                                  This filed is reserved for Vail, Antman */
+        uint32_t reserved_18_19        : 2;
+        uint32_t out_req_algn64        : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t out_req_pause         : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t out_bus_sz            : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t out_burst_type        : 2;  /**< [ 14: 13](R/W) This register control the value of EHSM output dma_awburst[1:0] */
+        uint32_t out_burst_len         : 5;  /**< [ 12:  8](R/W) Missing register field description. */
+        uint32_t out_wid               : 4;  /**< [  7:  4](R/W) Missing register field description. */
+        uint32_t out_prot_mode         : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t out_dma_ena           : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t out_dma_ena           : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t out_prot_mode         : 3;  /**< [  3:  1](R/W) Missing register field description. */
+        uint32_t out_wid               : 4;  /**< [  7:  4](R/W) Missing register field description. */
+        uint32_t out_burst_len         : 5;  /**< [ 12:  8](R/W) Missing register field description. */
+        uint32_t out_burst_type        : 2;  /**< [ 14: 13](R/W) This register control the value of EHSM output dma_awburst[1:0] */
+        uint32_t out_bus_sz            : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t out_req_pause         : 1;  /**< [ 16: 16](R/W) Missing register field description. */
+        uint32_t out_req_algn64        : 1;  /**< [ 17: 17](R/W) Missing register field description. */
+        uint32_t reserved_18_19        : 2;
+        uint32_t out_wid_ext           : 4;  /**< [ 23: 20](R/W) This field is used to provide the upper four bit extention of the ID for write
+                                                                 transaction. The IN_RID0 thru IN_RID4 should be different from OUT_WID.
+                                                                 Internal: |
+                                                                  This filed is reserved for Vail, Antman */
+        uint32_t out_cache_mode        : 4;  /**< [ 27: 24](R/W) Missing register field description. */
+        uint32_t out_dis_err_code      : 1;  /**< [ 28: 28](R/W) When this bit is asserted, the Output FIFO Parity Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t out_dis_ll_err_code   : 1;  /**< [ 29: 29](R/W) When this bit is asserted, the Output Link List Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t out_dis_xmit_err_code : 1;  /**< [ 30: 30](R/W) When this bit is asserted, the Output Data Transfer Error check is disabled. The
+                                                                 error interrupt is still set, but it does not affect the DMA operation. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_dma_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_dma_ctrl cavm_ehsm_wtm_dma_out_dma_ctrl_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL_FUNC(void)
+{
+    return 0x80b000000828ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL cavm_ehsm_wtm_dma_out_dma_ctrl_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL "EHSM_WTM_DMA_OUT_DMA_CTRL"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_DMA_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_dma_int1
+ *
+ * EHSM Wtm Dma Out Dma Int1 Register
+ */
+union cavm_ehsm_wtm_dma_out_dma_int1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_dma_int1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t axi_data_par_err      : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t out_dma_pause_cmpl    : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t out_par_err           : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t out_ll_err            : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t out_dma_bus_err       : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t out_dma_done          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t out_dma_done          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t out_dma_bus_err       : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t out_ll_err            : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t out_par_err           : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t out_dma_pause_cmpl    : 1;  /**< [  4:  4](R/W) Missing register field description. */
+        uint32_t axi_data_par_err      : 1;  /**< [  5:  5](R/W) Missing register field description. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_dma_int1_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_dma_int1 cavm_ehsm_wtm_dma_out_dma_int1_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_DMA_INT1 CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_FUNC(void)
+{
+    return 0x80b000000848ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1 cavm_ehsm_wtm_dma_out_dma_int1_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1 "EHSM_WTM_DMA_OUT_DMA_INT1"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_dma_int1_msk
+ *
+ * EHSM Wtm Dma Out Dma Int1 Msk Register
+ */
+union cavm_ehsm_wtm_dma_out_dma_int1_msk
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_dma_int1_msk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t data_par_err_msk      : 1;  /**< [  5:  5](R/W) Masking register for DATA_PAR_ERR defined in OUT_DMA_INT1 */
+        uint32_t out_dma_pause_cmpl_msk : 1; /**< [  4:  4](R/W) Masking register for OUT_DMA_PAUSE_CMPL defined in OUT_DMA_INT1 */
+        uint32_t out_par_err_msk       : 1;  /**< [  3:  3](R/W) Masking register for OUT_PAR_ERR defined in OUT_DMA_INT1 */
+        uint32_t out_ll_err_msk        : 1;  /**< [  2:  2](R/W) Masking register for OUT_LL_ERR defined in OUT_DMA_INT1 */
+        uint32_t out_dma_bus_err_msk   : 1;  /**< [  1:  1](R/W) Masking register for OUT_DMA_BUS_ERR_MSK defined in OUT_DMA_INT1 */
+        uint32_t out_dma_done_msk      : 1;  /**< [  0:  0](R/W) Masking register for OUT_DMA_DONE defined in OUT_DMA_INT1 */
+#else /* Word 0 - Little Endian */
+        uint32_t out_dma_done_msk      : 1;  /**< [  0:  0](R/W) Masking register for OUT_DMA_DONE defined in OUT_DMA_INT1 */
+        uint32_t out_dma_bus_err_msk   : 1;  /**< [  1:  1](R/W) Masking register for OUT_DMA_BUS_ERR_MSK defined in OUT_DMA_INT1 */
+        uint32_t out_ll_err_msk        : 1;  /**< [  2:  2](R/W) Masking register for OUT_LL_ERR defined in OUT_DMA_INT1 */
+        uint32_t out_par_err_msk       : 1;  /**< [  3:  3](R/W) Masking register for OUT_PAR_ERR defined in OUT_DMA_INT1 */
+        uint32_t out_dma_pause_cmpl_msk : 1; /**< [  4:  4](R/W) Masking register for OUT_DMA_PAUSE_CMPL defined in OUT_DMA_INT1 */
+        uint32_t data_par_err_msk      : 1;  /**< [  5:  5](R/W) Masking register for DATA_PAR_ERR defined in OUT_DMA_INT1 */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_dma_int1_msk_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_dma_int1_msk cavm_ehsm_wtm_dma_out_dma_int1_msk_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK_FUNC(void)
+{
+    return 0x80b00000084cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK cavm_ehsm_wtm_dma_out_dma_int1_msk_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK "EHSM_WTM_DMA_OUT_DMA_INT1_MSK"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_DMA_INT1_MSK -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_dma_status
+ *
+ * EHSM Wtm Dma Out Dma Status Register
+ */
+union cavm_ehsm_wtm_dma_out_dma_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_dma_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t pause_cmpl            : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t ll_err_code           : 2;  /**< [  4:  3](RO) Missing register field description. */
+        uint32_t par_err               : 1;  /**< [  2:  2](RO) Missing register field description. */
+        uint32_t wr_cycle_err          : 2;  /**< [  1:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t wr_cycle_err          : 2;  /**< [  1:  0](RO) Missing register field description. */
+        uint32_t par_err               : 1;  /**< [  2:  2](RO) Missing register field description. */
+        uint32_t ll_err_code           : 2;  /**< [  4:  3](RO) Missing register field description. */
+        uint32_t pause_cmpl            : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_dma_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_dma_status cavm_ehsm_wtm_dma_out_dma_status_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS_FUNC(void)
+{
+    return 0x80b00000082cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS cavm_ehsm_wtm_dma_out_dma_status_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS "EHSM_WTM_DMA_OUT_DMA_STATUS"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_DMA_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_nx_ll_adr_high
+ *
+ * EHSM Wtm Dma Out Nx Ll Adr High Register
+ */
+union cavm_ehsm_wtm_dma_out_nx_ll_adr_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_nx_ll_adr_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t out_nx_ll_adr_high    : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t out_nx_ll_adr_high    : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_nx_ll_adr_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_nx_ll_adr_high cavm_ehsm_wtm_dma_out_nx_ll_adr_high_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH_FUNC(void)
+{
+    return 0x80b000000840ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH cavm_ehsm_wtm_dma_out_nx_ll_adr_high_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH "EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_nx_ll_adr_low
+ *
+ * EHSM Wtm Dma Out Nx Ll Adr Low Register
+ */
+union cavm_ehsm_wtm_dma_out_nx_ll_adr_low
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_nx_ll_adr_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t out_nx_ll_adr_low     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t out_nx_ll_adr_low     : 32; /**< [ 31:  0](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_nx_ll_adr_low_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_nx_ll_adr_low cavm_ehsm_wtm_dma_out_nx_ll_adr_low_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW_FUNC(void)
+{
+    return 0x80b000000844ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW cavm_ehsm_wtm_dma_out_nx_ll_adr_low_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW "EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_NX_LL_ADR_LOW -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_dma_out_xfer_cntr
+ *
+ * EHSM Wtm Dma Out Xfer Cntr Register
+ * This counter keeps track of the total output transfer count in term of 32 bit data word.
+ */
+union cavm_ehsm_wtm_dma_out_xfer_cntr
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_dma_out_xfer_cntr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t out_xfer_cntr         : 32; /**< [ 31:  0](R/W) This counter keeps track of the total output transfer count in term of 32 bit data word. */
+#else /* Word 0 - Little Endian */
+        uint32_t out_xfer_cntr         : 32; /**< [ 31:  0](R/W) This counter keeps track of the total output transfer count in term of 32 bit data word. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_dma_out_xfer_cntr_s cn; */
+};
+typedef union cavm_ehsm_wtm_dma_out_xfer_cntr cavm_ehsm_wtm_dma_out_xfer_cntr_t;
+
+#define CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR_FUNC(void)
+{
+    return 0x80b00000083cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR cavm_ehsm_wtm_dma_out_xfer_cntr_t
+#define bustype_CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR "EHSM_WTM_DMA_OUT_XFER_CNTR"
+#define device_bar_CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR 0
+#define arguments_CAVM_EHSM_WTM_DMA_OUT_XFER_CNTR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_ebg_ctrl
+ *
+ * EHSM Wtm Ebg Ctrl Register
+ * EBG Control bits
+ */
+union cavm_ehsm_wtm_ebg_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_ebg_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ds_ratio              : 8;  /**< [ 31: 24](R/W) Down sampling ratio in hex in the EBG downsampling circuit, which further
+                                                                 downsamples the RNG slow (Noisy) oscillator output. This downsampling is done
+                                                                 outside of the RNG macro.
+                                                                 8'h0 or 1: no downsampling
+                                                                 8'h2: downsample by 2
+                                                                 8'h3: downsample by 3
+                                                                 8'hFF: downsample by 255
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0 */
+        uint32_t rng_slow_div_val      : 8;  /**< [ 23: 16](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input DIV_VAL[8:0]
+                                                                 Decimate value of noisy oscillator (slow OSC) before sampling the fast OSC.
+                                                                 Dividing ratio is 2X of the value in this field. Minimum Value is 2.
+                                                                 Recommend to leave it as default 8'h21 to have sufficient noise ( or at least 8'd30).
+                                                                 Examples:
+                                                                 8'h2: BRN_CK_FREQ= NOISE_CK_FREQ/4
+                                                                 8'h3: BRN_CK_FREQ= NOISE_CK_FREQ/6
+                                                                 8'h10: BRN_CK_FREQ = NOISE_CK_FREQ/32 */
+        uint32_t sp_rsvd0              : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t entropy_sel           : 2;  /**< [ 14: 13](R/W) Entropy Source Select
+                                                                 2'b00: RNG data latched by RNG clock
+                                                                 2'b01: RNG data latched by APB clock
+                                                                 2'b10: RNG clock latched by APB clock
+                                                                 2'b11: Reserved
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0 */
+        uint32_t entropy_req           : 1;  /**< [ 12: 12](R/W) 1'b1: Request new entropy bits into shift register/FIFO
+                                                                 1'b0: stop */
+        uint32_t rng_clk_sel           : 1;  /**< [ 11: 11](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input SYS_CK_SEL.
+                                                                 Selects the source of the clean clock inside the ana_rng_top block. The clean
+                                                                 clock is to be sampled by the noisy oscillator output.
+                                                                 1'b1: clean clock is the CPU register clock (APB clk)
+                                                                 1'b0: clean clock is the Fast (free running) oscillator inside ana_rng_top.
+                                                                 It is recommended to set to 1'b0. */
+        uint32_t rng_rstn              : 1;  /**< [ 10: 10](R/W) This register is directly connected to ana_rng_top (analog random number generator) input RSTN.
+                                                                 Active Low Reset to the digital RNG structure.
+                                                                 1'b0: reset
+                                                                 1'b1: normal */
+        uint32_t rng_pu_bias           : 1;  /**< [  9:  9](R/W) This register is directly connected to ana_rng_top (analog random number generator) input PU_BIAS.
+                                                                 Enable signal of the ana_rng_top bias circuit.
+                                                                 1'b1: Provide Power for slow oscillator and its bias circuit
+                                                                 1'b0: disable */
+        uint32_t rng_fast_osc_ena      : 1;  /**< [  8:  8](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input FAST_OSC_ENA.
+                                                                 Enable signal of the fast oscillator in the digital RNG structure. It is the clean oscillator
+                                                                 1'b1: RNG Fast (Free Running) OSC Enable
+                                                                 1'b0: Disable */
+        uint32_t rng_slow_osc_ena      : 1;  /**< [  7:  7](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input SLOW_OSC_ENA.
+                                                                 Enable signal of the slow oscillator in the digital RNG structure. It is the noisy oscillator
+                                                                 1'b1: RNG Slow OSC Enable.
+                                                                 1'b0: Disable */
+        uint32_t pp_ena                : 1;  /**< [  6:  6](R/W) Enable signal of the post processor.
+                                                                 Disabling the post processor will allow raw entropy to be extracted from the
+                                                                 ana_rng macro. Note that it is still subject to downsamping, depending upon the
+                                                                 value programmed into the DS_RATIO [31:24] bits.
+                                                                 1'b1: Post Processor enable
+                                                                 1'b0: Disable
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0 */
+        uint32_t rng_pu_bias2          : 1;  /**< [  5:  5](R/W) (5nm only, for other tech nodes this bit is reserved and has no functionality)
+                                                                 This register is directly connected to ana_rng_top (analog random number generator) input PU_BIAS2.
+                                                                 Enable signal of the ana_rng_top bias buffer circuit.
+                                                                 1'b1: Provide Power for bias buffer circuit
+                                                                 1'b0: disable */
+        uint32_t sp_rsvd1              : 5;  /**< [  4:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp_rsvd1              : 5;  /**< [  4:  0](R/W) Missing register field description. */
+        uint32_t rng_pu_bias2          : 1;  /**< [  5:  5](R/W) (5nm only, for other tech nodes this bit is reserved and has no functionality)
+                                                                 This register is directly connected to ana_rng_top (analog random number generator) input PU_BIAS2.
+                                                                 Enable signal of the ana_rng_top bias buffer circuit.
+                                                                 1'b1: Provide Power for bias buffer circuit
+                                                                 1'b0: disable */
+        uint32_t pp_ena                : 1;  /**< [  6:  6](R/W) Enable signal of the post processor.
+                                                                 Disabling the post processor will allow raw entropy to be extracted from the
+                                                                 ana_rng macro. Note that it is still subject to downsamping, depending upon the
+                                                                 value programmed into the DS_RATIO [31:24] bits.
+                                                                 1'b1: Post Processor enable
+                                                                 1'b0: Disable
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0 */
+        uint32_t rng_slow_osc_ena      : 1;  /**< [  7:  7](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input SLOW_OSC_ENA.
+                                                                 Enable signal of the slow oscillator in the digital RNG structure. It is the noisy oscillator
+                                                                 1'b1: RNG Slow OSC Enable.
+                                                                 1'b0: Disable */
+        uint32_t rng_fast_osc_ena      : 1;  /**< [  8:  8](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input FAST_OSC_ENA.
+                                                                 Enable signal of the fast oscillator in the digital RNG structure. It is the clean oscillator
+                                                                 1'b1: RNG Fast (Free Running) OSC Enable
+                                                                 1'b0: Disable */
+        uint32_t rng_pu_bias           : 1;  /**< [  9:  9](R/W) This register is directly connected to ana_rng_top (analog random number generator) input PU_BIAS.
+                                                                 Enable signal of the ana_rng_top bias circuit.
+                                                                 1'b1: Provide Power for slow oscillator and its bias circuit
+                                                                 1'b0: disable */
+        uint32_t rng_rstn              : 1;  /**< [ 10: 10](R/W) This register is directly connected to ana_rng_top (analog random number generator) input RSTN.
+                                                                 Active Low Reset to the digital RNG structure.
+                                                                 1'b0: reset
+                                                                 1'b1: normal */
+        uint32_t rng_clk_sel           : 1;  /**< [ 11: 11](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input SYS_CK_SEL.
+                                                                 Selects the source of the clean clock inside the ana_rng_top block. The clean
+                                                                 clock is to be sampled by the noisy oscillator output.
+                                                                 1'b1: clean clock is the CPU register clock (APB clk)
+                                                                 1'b0: clean clock is the Fast (free running) oscillator inside ana_rng_top.
+                                                                 It is recommended to set to 1'b0. */
+        uint32_t entropy_req           : 1;  /**< [ 12: 12](R/W) 1'b1: Request new entropy bits into shift register/FIFO
+                                                                 1'b0: stop */
+        uint32_t entropy_sel           : 2;  /**< [ 14: 13](R/W) Entropy Source Select
+                                                                 2'b00: RNG data latched by RNG clock
+                                                                 2'b01: RNG data latched by APB clock
+                                                                 2'b10: RNG clock latched by APB clock
+                                                                 2'b11: Reserved
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0 */
+        uint32_t sp_rsvd0              : 1;  /**< [ 15: 15](R/W) Missing register field description. */
+        uint32_t rng_slow_div_val      : 8;  /**< [ 23: 16](R/W) This register is directly connected to ana_rng_top (analog random number
+                                                                 generator) input DIV_VAL[8:0]
+                                                                 Decimate value of noisy oscillator (slow OSC) before sampling the fast OSC.
+                                                                 Dividing ratio is 2X of the value in this field. Minimum Value is 2.
+                                                                 Recommend to leave it as default 8'h21 to have sufficient noise ( or at least 8'd30).
+                                                                 Examples:
+                                                                 8'h2: BRN_CK_FREQ= NOISE_CK_FREQ/4
+                                                                 8'h3: BRN_CK_FREQ= NOISE_CK_FREQ/6
+                                                                 8'h10: BRN_CK_FREQ = NOISE_CK_FREQ/32 */
+        uint32_t ds_ratio              : 8;  /**< [ 31: 24](R/W) Down sampling ratio in hex in the EBG downsampling circuit, which further
+                                                                 downsamples the RNG slow (Noisy) oscillator output. This downsampling is done
+                                                                 outside of the RNG macro.
+                                                                 8'h0 or 1: no downsampling
+                                                                 8'h2: downsample by 2
+                                                                 8'h3: downsample by 3
+                                                                 8'hFF: downsample by 255
+                                                                 Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_ebg_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_ebg_ctrl cavm_ehsm_wtm_ebg_ctrl_t;
+
+#define CAVM_EHSM_WTM_EBG_CTRL CAVM_EHSM_WTM_EBG_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_EBG_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_EBG_CTRL_FUNC(void)
+{
+    return 0x80b000002c00ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_EBG_CTRL cavm_ehsm_wtm_ebg_ctrl_t
+#define bustype_CAVM_EHSM_WTM_EBG_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_EBG_CTRL "EHSM_WTM_EBG_CTRL"
+#define device_bar_CAVM_EHSM_WTM_EBG_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_EBG_CTRL 0
+#define arguments_CAVM_EHSM_WTM_EBG_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_ebg_entropy_value
+ *
+ * EHSM Wtm Ebg Entropy Value Register
+ * Entropy value and valid flag
+ */
+union cavm_ehsm_wtm_ebg_entropy_value
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_ebg_entropy_value_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t entropy_rdy           : 1;  /**< [ 31: 31](RO) 1: Entropy value is ready to read
+                                                                 0: Not ready */
+        uint32_t err_rep               : 1;  /**< [ 30: 30](RO) [JIRA EHSM-87] Error flag in repetition count test.
+                                                                 When this bit is 1'b1 the EBG will not produce any entropy output
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t err_adp               : 1;  /**< [ 29: 29](RO) [JIRA EHSM-87] Error flag in adaptive proportion test.
+                                                                 When this bit is 1'b1 the EBG will not produce any entropy output
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t st_done               : 1;  /**< [ 28: 28](RO) [JIRA EHSM-87] Done flag for startup health test
+                                                                 Startup test requires 1024 raw entropy bits to finish.
+                                                                 Raw entropy bits means after downsampling and before post-processing.
+                                                                 When this bit is 1'b1 the EBG will begin to ouput entropy bits.
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0. */
+        uint32_t st_err                : 1;  /**< [ 27: 27](RO) [JIRA EHSM-87] Error flag in Start-up test.
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t ct_err                : 1;  /**< [ 26: 26](RO) [JIRA EHSM-87] Error flag in Continuous test.
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t sp_rsvd               : 10; /**< [ 25: 16](R/W) Missing register field description. */
+        uint32_t entropy_value         : 16; /**< [ 15:  0](RO) Entropy value (16 bits random number) */
+#else /* Word 0 - Little Endian */
+        uint32_t entropy_value         : 16; /**< [ 15:  0](RO) Entropy value (16 bits random number) */
+        uint32_t sp_rsvd               : 10; /**< [ 25: 16](R/W) Missing register field description. */
+        uint32_t ct_err                : 1;  /**< [ 26: 26](RO) [JIRA EHSM-87] Error flag in Continuous test.
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t st_err                : 1;  /**< [ 27: 27](RO) [JIRA EHSM-87] Error flag in Start-up test.
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t st_done               : 1;  /**< [ 28: 28](RO) [JIRA EHSM-87] Done flag for startup health test
+                                                                 Startup test requires 1024 raw entropy bits to finish.
+                                                                 Raw entropy bits means after downsampling and before post-processing.
+                                                                 When this bit is 1'b1 the EBG will begin to ouput entropy bits.
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0. */
+        uint32_t err_adp               : 1;  /**< [ 29: 29](RO) [JIRA EHSM-87] Error flag in adaptive proportion test.
+                                                                 When this bit is 1'b1 the EBG will not produce any entropy output
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t err_rep               : 1;  /**< [ 30: 30](RO) [JIRA EHSM-87] Error flag in repetition count test.
+                                                                 When this bit is 1'b1 the EBG will not produce any entropy output
+                                                                 This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
+        uint32_t entropy_rdy           : 1;  /**< [ 31: 31](RO) 1: Entropy value is ready to read
+                                                                 0: Not ready */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_ebg_entropy_value_s cn; */
+};
+typedef union cavm_ehsm_wtm_ebg_entropy_value cavm_ehsm_wtm_ebg_entropy_value_t;
+
+#define CAVM_EHSM_WTM_EBG_ENTROPY_VALUE CAVM_EHSM_WTM_EBG_ENTROPY_VALUE_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_EBG_ENTROPY_VALUE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_EBG_ENTROPY_VALUE_FUNC(void)
+{
+    return 0x80b000002c04ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_EBG_ENTROPY_VALUE cavm_ehsm_wtm_ebg_entropy_value_t
+#define bustype_CAVM_EHSM_WTM_EBG_ENTROPY_VALUE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_EBG_ENTROPY_VALUE "EHSM_WTM_EBG_ENTROPY_VALUE"
+#define device_bar_CAVM_EHSM_WTM_EBG_ENTROPY_VALUE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_EBG_ENTROPY_VALUE 0
+#define arguments_CAVM_EHSM_WTM_EBG_ENTROPY_VALUE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_ebg_health_cfg
+ *
+ * EHSM Wtm Ebg Health Cfg Register
+ * [JIRA EHSM-87] Cutoff value for health tests
+ */
+union cavm_ehsm_wtm_ebg_health_cfg
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_ebg_health_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sp_rsvd0              : 7;  /**< [ 31: 25](R/W) Missing register field description. */
+        uint32_t c_rep                 : 9;  /**< [ 24: 16](R/W) The Cutoff value for Repetition Count test.
+                                                                 The default value of 35 assumes H=0.6 and alpha = 2pow(-20)
+                                                                 This register can only be updated when EBG_CTRL.RNG_RSTN is 1'b0. */
+        uint32_t sp_rsvd1              : 5;  /**< [ 15: 11](R/W) Missing register field description. */
+        uint32_t c_adp                 : 11; /**< [ 10:  0](R/W) The Cutoff value for Adaptive Proportion test.
+                                                                 The default value of 748 assumes H=0.6 and alpha = 2pow(-20)
+                                                                 This register can only be updated when EBG_CTRL.RNG_RSTN is 1'b0. */
+#else /* Word 0 - Little Endian */
+        uint32_t c_adp                 : 11; /**< [ 10:  0](R/W) The Cutoff value for Adaptive Proportion test.
+                                                                 The default value of 748 assumes H=0.6 and alpha = 2pow(-20)
+                                                                 This register can only be updated when EBG_CTRL.RNG_RSTN is 1'b0. */
+        uint32_t sp_rsvd1              : 5;  /**< [ 15: 11](R/W) Missing register field description. */
+        uint32_t c_rep                 : 9;  /**< [ 24: 16](R/W) The Cutoff value for Repetition Count test.
+                                                                 The default value of 35 assumes H=0.6 and alpha = 2pow(-20)
+                                                                 This register can only be updated when EBG_CTRL.RNG_RSTN is 1'b0. */
+        uint32_t sp_rsvd0              : 7;  /**< [ 31: 25](R/W) Missing register field description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_ebg_health_cfg_s cn; */
+};
+typedef union cavm_ehsm_wtm_ebg_health_cfg cavm_ehsm_wtm_ebg_health_cfg_t;
+
+#define CAVM_EHSM_WTM_EBG_HEALTH_CFG CAVM_EHSM_WTM_EBG_HEALTH_CFG_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_EBG_HEALTH_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_EBG_HEALTH_CFG_FUNC(void)
+{
+    return 0x80b000002c08ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_EBG_HEALTH_CFG cavm_ehsm_wtm_ebg_health_cfg_t
+#define bustype_CAVM_EHSM_WTM_EBG_HEALTH_CFG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_EBG_HEALTH_CFG "EHSM_WTM_EBG_HEALTH_CFG"
+#define device_bar_CAVM_EHSM_WTM_EBG_HEALTH_CFG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_EBG_HEALTH_CFG 0
+#define arguments_CAVM_EHSM_WTM_EBG_HEALTH_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_command
+ *
+ * EHSM Wtm Hash Command Register
+ * Set command to Hash Engine.
+ */
+union cavm_ehsm_wtm_hash_command
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_command_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t com_start             : 1;  /**< [  0:  0](R/W) Set this bit to set command start. Hash HW detect this bit's rising edge as
+                                                                 command start pulse, once Hash engine starts, hash HW will auto clear this bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t com_start             : 1;  /**< [  0:  0](R/W) Set this bit to set command start. Hash HW detect this bit's rising edge as
+                                                                 command start pulse, once Hash engine starts, hash HW will auto clear this bit. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_command_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_command cavm_ehsm_wtm_hash_command_t;
+
+#define CAVM_EHSM_WTM_HASH_COMMAND CAVM_EHSM_WTM_HASH_COMMAND_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_COMMAND_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_COMMAND_FUNC(void)
+{
+    return 0x80b000001808ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_COMMAND cavm_ehsm_wtm_hash_command_t
+#define bustype_CAVM_EHSM_WTM_HASH_COMMAND CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_COMMAND "EHSM_WTM_HASH_COMMAND"
+#define device_bar_CAVM_EHSM_WTM_HASH_COMMAND 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_COMMAND 0
+#define arguments_CAVM_EHSM_WTM_HASH_COMMAND -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_configure
+ *
+ * EHSM Wtm Hash Configure Register
+ * This register is used to configure Hash engine.
+ */
+union cavm_ehsm_wtm_hash_configure
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_configure_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t b2h_convert           : 1;  /**< [ 10: 10](R/W) EHSM-11
+                                                                 default value is 0.
+                                                                 For SHA2, this field is meaningless, and must be congigured to 0 in
+                                                                 EHSM_HMAC_LOAD_KEY when doing SHA2 HMAC .
+                                                                 For SHA3,
+                                                                 0: not convert the bit numbering of every byte of input data, treat the input
+                                                                 data as SHA3 special hex string
+                                                                 1: reverse the bit numbering of every byte of input data, treat the input data
+                                                                 as normal binary string */
+        uint32_t alg_select            : 4;  /**< [  9:  6](R/W) EHSM-11
+                                                                 Select hash algorithm be used from MD5/SHA-1/SHA-224/SHA-256/SHA512/SHA384/SHA3-
+                                                                 224/SHA3-256/SHA3-384/SHA3-512/SHAKE128/SHAKE256
+                                                                 0000: SHA1
+                                                                 0001:SHA256
+                                                                 0010:SHA224
+                                                                 0011:SM3
+                                                                 0100:SHA512
+                                                                 0101:SHA384
+                                                                 0110: SHA3_224
+                                                                 0111: SHA3_256
+                                                                 1000: SHA3_384
+                                                                 1001: SHA3_512
+                                                                 1010: SHAKE128
+                                                                 1011: SHAKE256 */
+        uint32_t byte_swap             : 1;  /**< [  5:  5](R/W) 0: Byte Swap disabled. The input data is in Big Endian format. The output digest
+                                                                 is also in Big Endian format.
+                                                                 1: Byte Swap enabled. The input data is in Little Endian format. The ouput
+                                                                 digest is also in Little Endian format. */
+        uint32_t output_data_mode      : 1;  /**< [  4:  4](R/W) 1: Hash-AES combine mode: output in-data-stream to output-data-stream
+                                                                 0: Not HASH-AES combine mode: no output in-data-stream */
+        uint32_t hash_mode             : 1;  /**< [  3:  3](R/W) 0: Simple hash mode
+                                                                 1: HMAC */
+        uint32_t reserve               : 3;  /**< [  2:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t reserve               : 3;  /**< [  2:  0](RO) Missing register field description. */
+        uint32_t hash_mode             : 1;  /**< [  3:  3](R/W) 0: Simple hash mode
+                                                                 1: HMAC */
+        uint32_t output_data_mode      : 1;  /**< [  4:  4](R/W) 1: Hash-AES combine mode: output in-data-stream to output-data-stream
+                                                                 0: Not HASH-AES combine mode: no output in-data-stream */
+        uint32_t byte_swap             : 1;  /**< [  5:  5](R/W) 0: Byte Swap disabled. The input data is in Big Endian format. The output digest
+                                                                 is also in Big Endian format.
+                                                                 1: Byte Swap enabled. The input data is in Little Endian format. The ouput
+                                                                 digest is also in Little Endian format. */
+        uint32_t alg_select            : 4;  /**< [  9:  6](R/W) EHSM-11
+                                                                 Select hash algorithm be used from MD5/SHA-1/SHA-224/SHA-256/SHA512/SHA384/SHA3-
+                                                                 224/SHA3-256/SHA3-384/SHA3-512/SHAKE128/SHAKE256
+                                                                 0000: SHA1
+                                                                 0001:SHA256
+                                                                 0010:SHA224
+                                                                 0011:SM3
+                                                                 0100:SHA512
+                                                                 0101:SHA384
+                                                                 0110: SHA3_224
+                                                                 0111: SHA3_256
+                                                                 1000: SHA3_384
+                                                                 1001: SHA3_512
+                                                                 1010: SHAKE128
+                                                                 1011: SHAKE256 */
+        uint32_t b2h_convert           : 1;  /**< [ 10: 10](R/W) EHSM-11
+                                                                 default value is 0.
+                                                                 For SHA2, this field is meaningless, and must be congigured to 0 in
+                                                                 EHSM_HMAC_LOAD_KEY when doing SHA2 HMAC .
+                                                                 For SHA3,
+                                                                 0: not convert the bit numbering of every byte of input data, treat the input
+                                                                 data as SHA3 special hex string
+                                                                 1: reverse the bit numbering of every byte of input data, treat the input data
+                                                                 as normal binary string */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_configure_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_configure cavm_ehsm_wtm_hash_configure_t;
+
+#define CAVM_EHSM_WTM_HASH_CONFIGURE CAVM_EHSM_WTM_HASH_CONFIGURE_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONFIGURE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONFIGURE_FUNC(void)
+{
+    return 0x80b000001800ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONFIGURE cavm_ehsm_wtm_hash_configure_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONFIGURE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONFIGURE "EHSM_WTM_HASH_CONFIGURE"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONFIGURE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONFIGURE 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONFIGURE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_context_access_time
+ *
+ * EHSM Wtm Hash Context Access Time Register
+ * EHSM-11
+ * Debug only.
+ * This register holds the number of SHA3_context / SHA3_hmac_context access times.
+ * 63 is the maximum SHA3 context / SHA3 access times to be recorded. It will be
+ * stucked at 63 even if the actual access times is over 63.
+ * Hash_Status_sha3_context_access_error0 == 1: the value of field SHA3_context or
+ * SHA3_hmac_context should be less than 50 but more than 0.
+ * Hash_Status_sha3_context_access_error1 == 1: the value of field SHA3_context or
+ * SHA3_hmac_context should be greater than 50.
+ */
+union cavm_ehsm_wtm_hash_context_access_time
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_context_access_time_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t sha3_hmac_context     : 6;  /**< [ 11:  6](RO) Missing register field description. */
+        uint32_t sha3_context          : 6;  /**< [  5:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sha3_context          : 6;  /**< [  5:  0](RO) Missing register field description. */
+        uint32_t sha3_hmac_context     : 6;  /**< [ 11:  6](RO) Missing register field description. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_context_access_time_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_context_access_time cavm_ehsm_wtm_hash_context_access_time_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME_FUNC(void)
+{
+    return 0x80b000001948ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME cavm_ehsm_wtm_hash_context_access_time_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME "EHSM_WTM_HASH_CONTEXT_ACCESS_TIME"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXT_ACCESS_TIME -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_a
+ *
+ * EHSM Wtm Hash Contexto A Register
+ * HMAC operation contexto A value.
+ */
+union cavm_ehsm_wtm_hash_contexto_a
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_a_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_a            : 32; /**< [ 31:  0](R/W) HMAC operation contexto A value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_a            : 32; /**< [ 31:  0](R/W) HMAC operation contexto A value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_a_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_a cavm_ehsm_wtm_hash_contexto_a_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_A CAVM_EHSM_WTM_HASH_CONTEXTO_A_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_A_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_A_FUNC(void)
+{
+    return 0x80b000001860ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_A cavm_ehsm_wtm_hash_contexto_a_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_A CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_A "EHSM_WTM_HASH_CONTEXTO_A"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_A 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_A 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_A -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_a_high
+ *
+ * EHSM Wtm Hash Contexto A High Register
+ * The high word of the HMAC operation's contexto A, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_a_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_a_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_a_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto A, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_a_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto A, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_a_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_a_high cavm_ehsm_wtm_hash_contexto_a_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH_FUNC(void)
+{
+    return 0x80b000001880ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH cavm_ehsm_wtm_hash_contexto_a_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH "EHSM_WTM_HASH_CONTEXTO_A_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_A_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_b
+ *
+ * EHSM Wtm Hash Contexto B Register
+ * HMAC operation contexto B value.
+ */
+union cavm_ehsm_wtm_hash_contexto_b
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_b_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_b            : 32; /**< [ 31:  0](R/W) HMAC operation contexto B value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_b            : 32; /**< [ 31:  0](R/W) HMAC operation contexto B value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_b_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_b cavm_ehsm_wtm_hash_contexto_b_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_B CAVM_EHSM_WTM_HASH_CONTEXTO_B_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_B_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_B_FUNC(void)
+{
+    return 0x80b000001864ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_B cavm_ehsm_wtm_hash_contexto_b_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_B CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_B "EHSM_WTM_HASH_CONTEXTO_B"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_B 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_B 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_B -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_b_high
+ *
+ * EHSM Wtm Hash Contexto B High Register
+ * The high word of the HMAC operation's contexto B, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_b_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_b_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_b_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto B, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_b_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto B, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_b_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_b_high cavm_ehsm_wtm_hash_contexto_b_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH_FUNC(void)
+{
+    return 0x80b000001884ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH cavm_ehsm_wtm_hash_contexto_b_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH "EHSM_WTM_HASH_CONTEXTO_B_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_B_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_c
+ *
+ * EHSM Wtm Hash Contexto C Register
+ * HMAC operation contexto C value.
+ */
+union cavm_ehsm_wtm_hash_contexto_c
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_c            : 32; /**< [ 31:  0](R/W) HMAC operation contexto C value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_c            : 32; /**< [ 31:  0](R/W) HMAC operation contexto C value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_c_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_c cavm_ehsm_wtm_hash_contexto_c_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_C CAVM_EHSM_WTM_HASH_CONTEXTO_C_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_C_FUNC(void)
+{
+    return 0x80b000001868ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_C cavm_ehsm_wtm_hash_contexto_c_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_C CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_C "EHSM_WTM_HASH_CONTEXTO_C"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_C 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_C 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_C -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_c_high
+ *
+ * EHSM Wtm Hash Contexto C High Register
+ * The high word of the HMAC operation's contexto C, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_c_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_c_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_c_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto C, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_c_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto C, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_c_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_c_high cavm_ehsm_wtm_hash_contexto_c_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH_FUNC(void)
+{
+    return 0x80b000001888ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH cavm_ehsm_wtm_hash_contexto_c_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH "EHSM_WTM_HASH_CONTEXTO_C_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_C_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_d
+ *
+ * EHSM Wtm Hash Contexto D Register
+ * HMAC operation contexto D value.
+ */
+union cavm_ehsm_wtm_hash_contexto_d
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_d_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_d            : 32; /**< [ 31:  0](R/W) HMAC operation contexto D value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_d            : 32; /**< [ 31:  0](R/W) HMAC operation contexto D value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_d_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_d cavm_ehsm_wtm_hash_contexto_d_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_D CAVM_EHSM_WTM_HASH_CONTEXTO_D_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_D_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_D_FUNC(void)
+{
+    return 0x80b00000186cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_D cavm_ehsm_wtm_hash_contexto_d_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_D CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_D "EHSM_WTM_HASH_CONTEXTO_D"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_D 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_D 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_D -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_d_high
+ *
+ * EHSM Wtm Hash Contexto D High Register
+ * The high word of the HMAC operation's contexto D, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_d_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_d_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_d_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto D, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_d_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto D, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_d_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_d_high cavm_ehsm_wtm_hash_contexto_d_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH_FUNC(void)
+{
+    return 0x80b00000188cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH cavm_ehsm_wtm_hash_contexto_d_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH "EHSM_WTM_HASH_CONTEXTO_D_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_D_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_e
+ *
+ * EHSM Wtm Hash Contexto E Register
+ * HMAC operation contexto E value.
+ */
+union cavm_ehsm_wtm_hash_contexto_e
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_e_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_e            : 32; /**< [ 31:  0](R/W) HMAC operation contexto E value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_e            : 32; /**< [ 31:  0](R/W) HMAC operation contexto E value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_e_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_e cavm_ehsm_wtm_hash_contexto_e_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_E CAVM_EHSM_WTM_HASH_CONTEXTO_E_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_E_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_E_FUNC(void)
+{
+    return 0x80b000001870ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_E cavm_ehsm_wtm_hash_contexto_e_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_E CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_E "EHSM_WTM_HASH_CONTEXTO_E"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_E 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_E 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_E -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_e_high
+ *
+ * EHSM Wtm Hash Contexto E High Register
+ * The high word of the HMAC operation's contexto E, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_e_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_e_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_e_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto E, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_e_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto E, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_e_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_e_high cavm_ehsm_wtm_hash_contexto_e_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH_FUNC(void)
+{
+    return 0x80b000001890ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH cavm_ehsm_wtm_hash_contexto_e_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH "EHSM_WTM_HASH_CONTEXTO_E_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_E_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_f
+ *
+ * EHSM Wtm Hash Contexto F Register
+ * HMAC operation contexto F value.
+ */
+union cavm_ehsm_wtm_hash_contexto_f
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_f_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_f            : 32; /**< [ 31:  0](R/W) HMAC operation contexto F value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_f            : 32; /**< [ 31:  0](R/W) HMAC operation contexto F value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_f_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_f cavm_ehsm_wtm_hash_contexto_f_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_F CAVM_EHSM_WTM_HASH_CONTEXTO_F_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_F_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_F_FUNC(void)
+{
+    return 0x80b000001874ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_F cavm_ehsm_wtm_hash_contexto_f_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_F CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_F "EHSM_WTM_HASH_CONTEXTO_F"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_F 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_F 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_F -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_f_high
+ *
+ * EHSM Wtm Hash Contexto F High Register
+ * The high word of the HMAC operation's contexto F, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_f_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_f_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_f_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto F, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_f_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto F, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_f_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_f_high cavm_ehsm_wtm_hash_contexto_f_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH_FUNC(void)
+{
+    return 0x80b000001894ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH cavm_ehsm_wtm_hash_contexto_f_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH "EHSM_WTM_HASH_CONTEXTO_F_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_F_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_g
+ *
+ * EHSM Wtm Hash Contexto G Register
+ * HMAC operation contexto G value.
+ */
+union cavm_ehsm_wtm_hash_contexto_g
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_g_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_g            : 32; /**< [ 31:  0](R/W) HMAC operation contexto G value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_g            : 32; /**< [ 31:  0](R/W) HMAC operation contexto G value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_g_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_g cavm_ehsm_wtm_hash_contexto_g_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_G CAVM_EHSM_WTM_HASH_CONTEXTO_G_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_G_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_G_FUNC(void)
+{
+    return 0x80b000001878ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_G cavm_ehsm_wtm_hash_contexto_g_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_G CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_G "EHSM_WTM_HASH_CONTEXTO_G"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_G 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_G 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_G -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_g_high
+ *
+ * EHSM Wtm Hash Contexto G High Register
+ * The high word of the HMAC operation's contexto G, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_g_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_g_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_g_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto G, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_g_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto G, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_g_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_g_high cavm_ehsm_wtm_hash_contexto_g_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH_FUNC(void)
+{
+    return 0x80b000001898ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH cavm_ehsm_wtm_hash_contexto_g_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH "EHSM_WTM_HASH_CONTEXTO_G_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_G_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_h
+ *
+ * EHSM Wtm Hash Contexto H Register
+ * HMAC operation contexto H value.
+ */
+union cavm_ehsm_wtm_hash_contexto_h
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_h_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_h            : 32; /**< [ 31:  0](R/W) HMAC operation contexto H value. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_h            : 32; /**< [ 31:  0](R/W) HMAC operation contexto H value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_h_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_h cavm_ehsm_wtm_hash_contexto_h_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_H CAVM_EHSM_WTM_HASH_CONTEXTO_H_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_H_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_H_FUNC(void)
+{
+    return 0x80b00000187cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_H cavm_ehsm_wtm_hash_contexto_h_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_H CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_H "EHSM_WTM_HASH_CONTEXTO_H"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_H 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_H 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_H -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_contexto_h_high
+ *
+ * EHSM Wtm Hash Contexto H High Register
+ * The high word of the HMAC operation's contexto H, applicable for SHA-512 and SHA-384.
+ */
+union cavm_ehsm_wtm_hash_contexto_h_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_contexto_h_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contexto_h_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto H, applicable for SHA-512 and SHA-384. */
+#else /* Word 0 - Little Endian */
+        uint32_t contexto_h_high       : 32; /**< [ 31:  0](R/W) The high word of the HMAC operation's contexto H, applicable for SHA-512 and SHA-384. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_contexto_h_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_contexto_h_high cavm_ehsm_wtm_hash_contexto_h_high_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH_FUNC(void)
+{
+    return 0x80b00000189cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH cavm_ehsm_wtm_hash_contexto_h_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH "EHSM_WTM_HASH_CONTEXTO_H_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTEXTO_H_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_control
+ *
+ * EHSM Wtm Hash Control Register
+ * Set control for each Hash operation.
+ */
+union cavm_ehsm_wtm_hash_control
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t enable_key_shaping_debug : 1;/**< [  6:  6](R/W) Only for HMAC debug. It never should be 1 when the user is using the design.
+                                                                 During debugging, if want to read out the key value, the operation sequence
+                                                                 should be: EHSM_HMAC_LOAD_KEY -\> setting this bit to 1 -\> read out the register
+                                                                 key_0 ~ key_35 -\>setting this bit to 0 -\> EHSM_HMAC_INIT or
+                                                                 EHSM_STORE_ENGINE_CONTEXT
+                                                                 0: user mode, the stored key has been shaped. The read out value of key is
+                                                                 different from the written value of key in EHSM_HMAC_LOAD_KEY.
+                                                                 1: debug mode, the stored key is unshaped. The read out value of key should be
+                                                                 same as the written value of key in EHSM_HMAC_LOAD_KEY. */
+        uint32_t context_access        : 1;  /**< [  5:  5](R/W) EHSM-11
+                                                                 It is a control bit of context read/write operation.
+                                                                 This bit must be programmed to 1 before accessing the context, and must be
+                                                                 immediately programmed to 0 after finishing the access.
+                                                                 When accessing the SHA2 context, the register digest_context_* /contexto_* can be read/written
+                                                                 When accessing the SHA3 context, the register SHA3_context/SHA3_hmac_context
+                                                                 must be read/written continuously for 50 times, no more or no less. If the
+                                                                 number of read/write times is less or more than 50 when this bit is programmed
+                                                                 to 0 from 1, error flag will rise; If the number of read/write time is 0 when
+                                                                 this bit is programmed to 0 from 1, which means no context is read/written, the
+                                                                 error flag will not rise. The error flags needs to be checked and handled after
+                                                                 the context access ends.
+                                                                 0: disable context access
+                                                                 1: enable context access */
+        uint32_t shake_trans_digest    : 1;  /**< [  4:  4](R/W) EHSM-11
+                                                                 Only for AES-SHAKE combine mode. Default value is 0.
+                                                                 After message are transfered to AES and then the Read Cross Bar of ABUS is
+                                                                 switched, this field can be set to 1and then give a Hash command start pulse to
+                                                                 transfer the SHAKE digest out.
+                                                                 0: not transfer SHAKE digest
+                                                                 1: transfer SHAKE digest out */
+        uint32_t reset                 : 1;  /**< [  3:  3](R/W) FW set this bit to reset hash module all SM and control logic, This bit do not
+                                                                 reset hash digest, key and context registers, except the context of SHA3.
+                                                                 If the hash procedure of current primitive needs to be rerun, all setting must
+                                                                 be re-programmed after the bit is set, including reloading key/context, except
+                                                                 no message was loaded when executed this primitive previously. */
+        uint32_t hardware_padded_required : 1;/**< [  2:  2](R/W) 1: Hardware padding required
+                                                                 0: Not need hardware padding */
+        uint32_t hash_op_mode          : 2;  /**< [  1:  0](R/W) For normal hash:
+                                                                 01: init, use standard constants as digest initial value
+                                                                 10: update, digest incoming message segment based on income message segment
+                                                                 size, message size for this operation is module 64 bytes.
+                                                                 11: final, digest last portion of message, if hardware padded required bit is
+                                                                 set, hash do hardware pad message. When final and hardware padding required set,
+                                                                 incoming message size can be zero, and this means hash last padding block and
+                                                                 generated digest.
+                                                                 \>
+                                                                 For HMAC:
+                                                                 01: HMAC init, process key, generated: contexto=hash (K0+opad) without padding,
+                                                                 FW need save contexto for HMAC final use. contexti=hash (K0+ipad) without
+                                                                 padding, contexti will be in digest_context register and FW can read them as
+                                                                 context for HMAC update's initial value.
+                                                                 10: HMAC update, digest incoming message
+                                                                 11: HMAC final: digest final portion of message with padding, that is contextm,
+                                                                 load contextm to digest scheduler, load contexto as initial value, digest
+                                                                 contextm, get final HMAC digest. */
+#else /* Word 0 - Little Endian */
+        uint32_t hash_op_mode          : 2;  /**< [  1:  0](R/W) For normal hash:
+                                                                 01: init, use standard constants as digest initial value
+                                                                 10: update, digest incoming message segment based on income message segment
+                                                                 size, message size for this operation is module 64 bytes.
+                                                                 11: final, digest last portion of message, if hardware padded required bit is
+                                                                 set, hash do hardware pad message. When final and hardware padding required set,
+                                                                 incoming message size can be zero, and this means hash last padding block and
+                                                                 generated digest.
+                                                                 \>
+                                                                 For HMAC:
+                                                                 01: HMAC init, process key, generated: contexto=hash (K0+opad) without padding,
+                                                                 FW need save contexto for HMAC final use. contexti=hash (K0+ipad) without
+                                                                 padding, contexti will be in digest_context register and FW can read them as
+                                                                 context for HMAC update's initial value.
+                                                                 10: HMAC update, digest incoming message
+                                                                 11: HMAC final: digest final portion of message with padding, that is contextm,
+                                                                 load contextm to digest scheduler, load contexto as initial value, digest
+                                                                 contextm, get final HMAC digest. */
+        uint32_t hardware_padded_required : 1;/**< [  2:  2](R/W) 1: Hardware padding required
+                                                                 0: Not need hardware padding */
+        uint32_t reset                 : 1;  /**< [  3:  3](R/W) FW set this bit to reset hash module all SM and control logic, This bit do not
+                                                                 reset hash digest, key and context registers, except the context of SHA3.
+                                                                 If the hash procedure of current primitive needs to be rerun, all setting must
+                                                                 be re-programmed after the bit is set, including reloading key/context, except
+                                                                 no message was loaded when executed this primitive previously. */
+        uint32_t shake_trans_digest    : 1;  /**< [  4:  4](R/W) EHSM-11
+                                                                 Only for AES-SHAKE combine mode. Default value is 0.
+                                                                 After message are transfered to AES and then the Read Cross Bar of ABUS is
+                                                                 switched, this field can be set to 1and then give a Hash command start pulse to
+                                                                 transfer the SHAKE digest out.
+                                                                 0: not transfer SHAKE digest
+                                                                 1: transfer SHAKE digest out */
+        uint32_t context_access        : 1;  /**< [  5:  5](R/W) EHSM-11
+                                                                 It is a control bit of context read/write operation.
+                                                                 This bit must be programmed to 1 before accessing the context, and must be
+                                                                 immediately programmed to 0 after finishing the access.
+                                                                 When accessing the SHA2 context, the register digest_context_* /contexto_* can be read/written
+                                                                 When accessing the SHA3 context, the register SHA3_context/SHA3_hmac_context
+                                                                 must be read/written continuously for 50 times, no more or no less. If the
+                                                                 number of read/write times is less or more than 50 when this bit is programmed
+                                                                 to 0 from 1, error flag will rise; If the number of read/write time is 0 when
+                                                                 this bit is programmed to 0 from 1, which means no context is read/written, the
+                                                                 error flag will not rise. The error flags needs to be checked and handled after
+                                                                 the context access ends.
+                                                                 0: disable context access
+                                                                 1: enable context access */
+        uint32_t enable_key_shaping_debug : 1;/**< [  6:  6](R/W) Only for HMAC debug. It never should be 1 when the user is using the design.
+                                                                 During debugging, if want to read out the key value, the operation sequence
+                                                                 should be: EHSM_HMAC_LOAD_KEY -\> setting this bit to 1 -\> read out the register
+                                                                 key_0 ~ key_35 -\>setting this bit to 0 -\> EHSM_HMAC_INIT or
+                                                                 EHSM_STORE_ENGINE_CONTEXT
+                                                                 0: user mode, the stored key has been shaped. The read out value of key is
+                                                                 different from the written value of key in EHSM_HMAC_LOAD_KEY.
+                                                                 1: debug mode, the stored key is unshaped. The read out value of key should be
+                                                                 same as the written value of key in EHSM_HMAC_LOAD_KEY. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_control_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_control cavm_ehsm_wtm_hash_control_t;
+
+#define CAVM_EHSM_WTM_HASH_CONTROL CAVM_EHSM_WTM_HASH_CONTROL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_CONTROL_FUNC(void)
+{
+    return 0x80b000001804ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_CONTROL cavm_ehsm_wtm_hash_control_t
+#define bustype_CAVM_EHSM_WTM_HASH_CONTROL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_CONTROL "EHSM_WTM_HASH_CONTROL"
+#define device_bar_CAVM_EHSM_WTM_HASH_CONTROL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_CONTROL 0
+#define arguments_CAVM_EHSM_WTM_HASH_CONTROL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_a
+ *
+ * EHSM Wtm Hash Digest Context A Register
+ * Hash digest or context A value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_a
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_a_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_a      : 32; /**< [ 31:  0](R/W) Hash digest or context A value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_a      : 32; /**< [ 31:  0](R/W) Hash digest or context A value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_a_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_a cavm_ehsm_wtm_hash_digest_context_a_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_FUNC(void)
+{
+    return 0x80b000001820ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A cavm_ehsm_wtm_hash_digest_context_a_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A "EHSM_WTM_HASH_DIGEST_CONTEXT_A"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_a_high
+ *
+ * EHSM Wtm Hash Digest Context A High Register
+ * The high word of the SHA512 and SHA384 digest or context A value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_a_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_a_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_a_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context A value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_a_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context A value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_a_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_a_high cavm_ehsm_wtm_hash_digest_context_a_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH_FUNC(void)
+{
+    return 0x80b000001840ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH cavm_ehsm_wtm_hash_digest_context_a_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_A_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_b
+ *
+ * EHSM Wtm Hash Digest Context B Register
+ * Hash digest or context B value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_b
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_b_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_b      : 32; /**< [ 31:  0](R/W) Hash digest or context B value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_b      : 32; /**< [ 31:  0](R/W) Hash digest or context B value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_b_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_b cavm_ehsm_wtm_hash_digest_context_b_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_FUNC(void)
+{
+    return 0x80b000001824ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B cavm_ehsm_wtm_hash_digest_context_b_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B "EHSM_WTM_HASH_DIGEST_CONTEXT_B"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_b_high
+ *
+ * EHSM Wtm Hash Digest Context B High Register
+ * The high word of the SHA512 and SHA384 digest or context B value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_b_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_b_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_b_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context B value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_b_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context B value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_b_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_b_high cavm_ehsm_wtm_hash_digest_context_b_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH_FUNC(void)
+{
+    return 0x80b000001844ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH cavm_ehsm_wtm_hash_digest_context_b_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_B_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_c
+ *
+ * EHSM Wtm Hash Digest Context C Register
+ * Hash digest or context C value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_c
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_c      : 32; /**< [ 31:  0](R/W) Hash digest or context C value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_c      : 32; /**< [ 31:  0](R/W) Hash digest or context C value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_c_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_c cavm_ehsm_wtm_hash_digest_context_c_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_FUNC(void)
+{
+    return 0x80b000001828ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C cavm_ehsm_wtm_hash_digest_context_c_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C "EHSM_WTM_HASH_DIGEST_CONTEXT_C"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_c_high
+ *
+ * EHSM Wtm Hash Digest Context C High Register
+ * The high word of the SHA512 and SHA384 digest or context C value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_c_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_c_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_c_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context C value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_c_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context C value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_c_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_c_high cavm_ehsm_wtm_hash_digest_context_c_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH_FUNC(void)
+{
+    return 0x80b000001848ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH cavm_ehsm_wtm_hash_digest_context_c_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_C_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_d
+ *
+ * EHSM Wtm Hash Digest Context D Register
+ * Hash digest or context D value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_d
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_d_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_d      : 32; /**< [ 31:  0](R/W) Hash digest or context D value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_d      : 32; /**< [ 31:  0](R/W) Hash digest or context D value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_d_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_d cavm_ehsm_wtm_hash_digest_context_d_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_FUNC(void)
+{
+    return 0x80b00000182cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D cavm_ehsm_wtm_hash_digest_context_d_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D "EHSM_WTM_HASH_DIGEST_CONTEXT_D"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_d_high
+ *
+ * EHSM Wtm Hash Digest Context D High Register
+ * The high word of the SHA512 and SHA384 digest or context D value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_d_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_d_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_d_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context D value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_d_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context D value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_d_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_d_high cavm_ehsm_wtm_hash_digest_context_d_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH_FUNC(void)
+{
+    return 0x80b00000184cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH cavm_ehsm_wtm_hash_digest_context_d_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_D_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_e
+ *
+ * EHSM Wtm Hash Digest Context E Register
+ * Hash digest or context E value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_e
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_e_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_e      : 32; /**< [ 31:  0](R/W) Hash digest or context E value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_e      : 32; /**< [ 31:  0](R/W) Hash digest or context E value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_e_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_e cavm_ehsm_wtm_hash_digest_context_e_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_FUNC(void)
+{
+    return 0x80b000001830ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E cavm_ehsm_wtm_hash_digest_context_e_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E "EHSM_WTM_HASH_DIGEST_CONTEXT_E"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_e_high
+ *
+ * EHSM Wtm Hash Digest Context E High Register
+ * The high word of the SHA512 and SHA384 digest or context E value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_e_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_e_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_e_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context E value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_e_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context E value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_e_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_e_high cavm_ehsm_wtm_hash_digest_context_e_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH_FUNC(void)
+{
+    return 0x80b000001850ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH cavm_ehsm_wtm_hash_digest_context_e_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_E_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_f
+ *
+ * EHSM Wtm Hash Digest Context F Register
+ * Hash digest or context F value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_f
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_f_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_f      : 32; /**< [ 31:  0](R/W) Hash digest or context F value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_f      : 32; /**< [ 31:  0](R/W) Hash digest or context F value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_f_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_f cavm_ehsm_wtm_hash_digest_context_f_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_FUNC(void)
+{
+    return 0x80b000001834ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F cavm_ehsm_wtm_hash_digest_context_f_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F "EHSM_WTM_HASH_DIGEST_CONTEXT_F"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_f_high
+ *
+ * EHSM Wtm Hash Digest Context F High Register
+ * The high word of the SHA512 and SHA384 digest or context F value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_f_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_f_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_f_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context F value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_f_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context F value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_f_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_f_high cavm_ehsm_wtm_hash_digest_context_f_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH_FUNC(void)
+{
+    return 0x80b000001854ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH cavm_ehsm_wtm_hash_digest_context_f_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_F_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_g
+ *
+ * EHSM Wtm Hash Digest Context G Register
+ * Hash digest or context G value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_g
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_g_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_g      : 32; /**< [ 31:  0](R/W) Hash digest or context G value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_g      : 32; /**< [ 31:  0](R/W) Hash digest or context G value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_g_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_g cavm_ehsm_wtm_hash_digest_context_g_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_FUNC(void)
+{
+    return 0x80b000001838ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G cavm_ehsm_wtm_hash_digest_context_g_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G "EHSM_WTM_HASH_DIGEST_CONTEXT_G"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_g_high
+ *
+ * EHSM Wtm Hash Digest Context G High Register
+ * The high word of the SHA512 and SHA384 digest or context G value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_g_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_g_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_g_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context G value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_g_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context G value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_g_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_g_high cavm_ehsm_wtm_hash_digest_context_g_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH_FUNC(void)
+{
+    return 0x80b000001858ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH cavm_ehsm_wtm_hash_digest_context_g_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_G_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_h
+ *
+ * EHSM Wtm Hash Digest Context H Register
+ * Hash digest or context H value based on the operation. If the operation is last part
+ * of message, this register holds the digest of the message. If the operation is
+ * middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_h
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_h_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_h      : 32; /**< [ 31:  0](R/W) Hash digest or context H value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_h      : 32; /**< [ 31:  0](R/W) Hash digest or context H value based on the operation. If the operation is last
+                                                                 part of message, this register holds the digest of the message. If the operation
+                                                                 is middle message segment, this register is context of the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_h_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_h cavm_ehsm_wtm_hash_digest_context_h_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_FUNC(void)
+{
+    return 0x80b00000183cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H cavm_ehsm_wtm_hash_digest_context_h_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H "EHSM_WTM_HASH_DIGEST_CONTEXT_H"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_digest_context_h_high
+ *
+ * EHSM Wtm Hash Digest Context H High Register
+ * The high word of the SHA512 and SHA384 digest or context H value. If the operation
+ * is last part of message, this register holds the digest of the message. If the
+ * operation is middle message segment, this register is context of the message.
+ */
+union cavm_ehsm_wtm_hash_digest_context_h_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_digest_context_h_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t digest_context_h_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context H value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#else /* Word 0 - Little Endian */
+        uint32_t digest_context_h_high : 32; /**< [ 31:  0](R/W) The high word of the SHA512 and SHA384 digest or context H value. If the
+                                                                 operation is last part of message, this register holds the digest of the
+                                                                 message. If the operation is middle message segment, this register is context of
+                                                                 the message. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_digest_context_h_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_digest_context_h_high cavm_ehsm_wtm_hash_digest_context_h_high_t;
+
+#define CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH_FUNC(void)
+{
+    return 0x80b00000185cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH cavm_ehsm_wtm_hash_digest_context_h_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH "EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_DIGEST_CONTEXT_H_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_hmac_configure
+ *
+ * EHSM Wtm Hash Hmac Configure Register
+ */
+union cavm_ehsm_wtm_hash_hmac_configure
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_hmac_configure_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t hmac_key_sel          : 3;  /**< [  3:  1](R/W) EHSM-17
+                                                                 This register determine whether side loaded key should be used as Hash key. When
+                                                                 it is non-zero value, side loaded key is loaded into key_0 ~ key_36 register.
+                                                                 Read/Write to key registers would be blocked until this bit is cleared to 0.
+                                                                 0: Side loaded key will be disabled. Use the processor programmed value as the HMAC key.
+                                                                 1: RKEK is selected as side loaded key to 36 key registers
+                                                                 2: UDS is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 3: L0_FW_AES_KEY0 is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 4: L0_FW_AES_KEY1 is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 5: L0_FW_AES_KEY2 is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 6: L0_FW_AES_KEY3 is selected as side loaded key to 36 key registers(reserved for MW400) */
+        uint32_t side_lock             : 1;  /**< [  0:  0](R/W) 0: This bit will allow the hmac_key_sel bit to select between using the
+                                                                 processor programmed key or the side-loaded value as the HMAC key.
+                                                                 1: The side-loaded value can no longer be used and the value of hmac_key_sel is
+                                                                 no longer relevant, the processor programmed value will always be used.
+                                                                 Note that once this is written to 1?b1, the value can no longer be changed. */
+#else /* Word 0 - Little Endian */
+        uint32_t side_lock             : 1;  /**< [  0:  0](R/W) 0: This bit will allow the hmac_key_sel bit to select between using the
+                                                                 processor programmed key or the side-loaded value as the HMAC key.
+                                                                 1: The side-loaded value can no longer be used and the value of hmac_key_sel is
+                                                                 no longer relevant, the processor programmed value will always be used.
+                                                                 Note that once this is written to 1?b1, the value can no longer be changed. */
+        uint32_t hmac_key_sel          : 3;  /**< [  3:  1](R/W) EHSM-17
+                                                                 This register determine whether side loaded key should be used as Hash key. When
+                                                                 it is non-zero value, side loaded key is loaded into key_0 ~ key_36 register.
+                                                                 Read/Write to key registers would be blocked until this bit is cleared to 0.
+                                                                 0: Side loaded key will be disabled. Use the processor programmed value as the HMAC key.
+                                                                 1: RKEK is selected as side loaded key to 36 key registers
+                                                                 2: UDS is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 3: L0_FW_AES_KEY0 is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 4: L0_FW_AES_KEY1 is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 5: L0_FW_AES_KEY2 is selected as side loaded key to 36 key registers(reserved for MW400)
+                                                                 6: L0_FW_AES_KEY3 is selected as side loaded key to 36 key registers(reserved for MW400) */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_hmac_configure_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_hmac_configure cavm_ehsm_wtm_hash_hmac_configure_t;
+
+#define CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE_FUNC(void)
+{
+    return 0x80b000001938ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE cavm_ehsm_wtm_hash_hmac_configure_t
+#define bustype_CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE "EHSM_WTM_HASH_HMAC_CONFIGURE"
+#define device_bar_CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE 0
+#define arguments_CAVM_EHSM_WTM_HASH_HMAC_CONFIGURE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_incoming_segment_size
+ *
+ * EHSM Wtm Hash Incoming Segment Size Register
+ * This register is incoming message segment size for the next hash operation. Size
+ * unit is byte. This is data transfer size for next hash operation.
+ */
+union cavm_ehsm_wtm_hash_incoming_segment_size
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_incoming_segment_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t incoming_segment_size : 32; /**< [ 31:  0](R/W) This register is incoming message segment size for the next hash operation. Size
+                                                                 unit is byte. This is data transfer size for next hash operation. */
+#else /* Word 0 - Little Endian */
+        uint32_t incoming_segment_size : 32; /**< [ 31:  0](R/W) This register is incoming message segment size for the next hash operation. Size
+                                                                 unit is byte. This is data transfer size for next hash operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_incoming_segment_size_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_incoming_segment_size cavm_ehsm_wtm_hash_incoming_segment_size_t;
+
+#define CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE_FUNC(void)
+{
+    return 0x80b000001810ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE cavm_ehsm_wtm_hash_incoming_segment_size_t
+#define bustype_CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE "EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE"
+#define device_bar_CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE 0
+#define arguments_CAVM_EHSM_WTM_HASH_INCOMING_SEGMENT_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_0
+ *
+ * EHSM Wtm Hash Key 0 Register
+ * HMAC operation Key word 0.
+ */
+union cavm_ehsm_wtm_hash_key_0
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_0                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_0                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_0_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_0 cavm_ehsm_wtm_hash_key_0_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_0 CAVM_EHSM_WTM_HASH_KEY_0_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_0_FUNC(void)
+{
+    return 0x80b0000018a8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_0 cavm_ehsm_wtm_hash_key_0_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_0 "EHSM_WTM_HASH_KEY_0"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_0 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_1
+ *
+ * EHSM Wtm Hash Key 1 Register
+ * HMAC operation Key word 1.
+ */
+union cavm_ehsm_wtm_hash_key_1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_1                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_1                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_1_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_1 cavm_ehsm_wtm_hash_key_1_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_1 CAVM_EHSM_WTM_HASH_KEY_1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_1_FUNC(void)
+{
+    return 0x80b0000018acll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_1 cavm_ehsm_wtm_hash_key_1_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_1 "EHSM_WTM_HASH_KEY_1"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_1 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_10
+ *
+ * EHSM Wtm Hash Key 10 Register
+ * HMAC operation Key word 10.
+ */
+union cavm_ehsm_wtm_hash_key_10
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_10                : 32; /**< [ 31:  0](RO) HMAC operation Key word 10. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_10                : 32; /**< [ 31:  0](RO) HMAC operation Key word 10. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_10_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_10 cavm_ehsm_wtm_hash_key_10_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_10 CAVM_EHSM_WTM_HASH_KEY_10_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_10_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_10_FUNC(void)
+{
+    return 0x80b0000018d0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_10 cavm_ehsm_wtm_hash_key_10_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_10 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_10 "EHSM_WTM_HASH_KEY_10"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_10 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_10 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_10 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_11
+ *
+ * EHSM Wtm Hash Key 11 Register
+ * HMAC operation Key word 11.
+ */
+union cavm_ehsm_wtm_hash_key_11
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_11                : 32; /**< [ 31:  0](RO) HMAC operation Key word 11. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_11                : 32; /**< [ 31:  0](RO) HMAC operation Key word 11. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_11_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_11 cavm_ehsm_wtm_hash_key_11_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_11 CAVM_EHSM_WTM_HASH_KEY_11_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_11_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_11_FUNC(void)
+{
+    return 0x80b0000018d4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_11 cavm_ehsm_wtm_hash_key_11_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_11 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_11 "EHSM_WTM_HASH_KEY_11"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_11 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_11 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_11 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_12
+ *
+ * EHSM Wtm Hash Key 12 Register
+ * HMAC operation Key word 12.
+ */
+union cavm_ehsm_wtm_hash_key_12
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_12                : 32; /**< [ 31:  0](RO) HMAC operation Key word 12. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_12                : 32; /**< [ 31:  0](RO) HMAC operation Key word 12. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_12_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_12 cavm_ehsm_wtm_hash_key_12_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_12 CAVM_EHSM_WTM_HASH_KEY_12_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_12_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_12_FUNC(void)
+{
+    return 0x80b0000018d8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_12 cavm_ehsm_wtm_hash_key_12_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_12 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_12 "EHSM_WTM_HASH_KEY_12"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_12 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_12 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_12 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_13
+ *
+ * EHSM Wtm Hash Key 13 Register
+ * HMAC operation Key word 13.
+ */
+union cavm_ehsm_wtm_hash_key_13
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_13                : 32; /**< [ 31:  0](RO) HMAC operation Key word 13. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_13                : 32; /**< [ 31:  0](RO) HMAC operation Key word 13. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_13_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_13 cavm_ehsm_wtm_hash_key_13_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_13 CAVM_EHSM_WTM_HASH_KEY_13_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_13_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_13_FUNC(void)
+{
+    return 0x80b0000018dcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_13 cavm_ehsm_wtm_hash_key_13_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_13 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_13 "EHSM_WTM_HASH_KEY_13"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_13 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_13 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_13 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_14
+ *
+ * EHSM Wtm Hash Key 14 Register
+ * HMAC operation Key word 14.
+ */
+union cavm_ehsm_wtm_hash_key_14
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_14_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_14                : 32; /**< [ 31:  0](RO) HMAC operation Key word 14. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_14                : 32; /**< [ 31:  0](RO) HMAC operation Key word 14. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_14_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_14 cavm_ehsm_wtm_hash_key_14_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_14 CAVM_EHSM_WTM_HASH_KEY_14_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_14_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_14_FUNC(void)
+{
+    return 0x80b0000018e0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_14 cavm_ehsm_wtm_hash_key_14_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_14 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_14 "EHSM_WTM_HASH_KEY_14"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_14 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_14 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_14 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_15
+ *
+ * EHSM Wtm Hash Key 15 Register
+ * HMAC operation Key word 15.
+ */
+union cavm_ehsm_wtm_hash_key_15
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_15_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_15                : 32; /**< [ 31:  0](RO) HMAC operation Key word 15. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_15                : 32; /**< [ 31:  0](RO) HMAC operation Key word 15. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_15_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_15 cavm_ehsm_wtm_hash_key_15_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_15 CAVM_EHSM_WTM_HASH_KEY_15_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_15_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_15_FUNC(void)
+{
+    return 0x80b0000018e4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_15 cavm_ehsm_wtm_hash_key_15_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_15 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_15 "EHSM_WTM_HASH_KEY_15"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_15 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_15 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_15 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_16
+ *
+ * EHSM Wtm Hash Key 16 Register
+ * HMAC operation Key word 16.
+ */
+union cavm_ehsm_wtm_hash_key_16
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_16_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_16                : 32; /**< [ 31:  0](RO) HMAC operation Key word 16. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_16                : 32; /**< [ 31:  0](RO) HMAC operation Key word 16. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_16_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_16 cavm_ehsm_wtm_hash_key_16_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_16 CAVM_EHSM_WTM_HASH_KEY_16_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_16_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_16_FUNC(void)
+{
+    return 0x80b0000018e8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_16 cavm_ehsm_wtm_hash_key_16_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_16 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_16 "EHSM_WTM_HASH_KEY_16"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_16 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_16 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_16 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_17
+ *
+ * EHSM Wtm Hash Key 17 Register
+ * HMAC operation Key word 17.
+ */
+union cavm_ehsm_wtm_hash_key_17
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_17_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_17                : 32; /**< [ 31:  0](RO) HMAC operation Key word 17. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_17                : 32; /**< [ 31:  0](RO) HMAC operation Key word 17. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_17_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_17 cavm_ehsm_wtm_hash_key_17_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_17 CAVM_EHSM_WTM_HASH_KEY_17_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_17_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_17_FUNC(void)
+{
+    return 0x80b0000018ecll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_17 cavm_ehsm_wtm_hash_key_17_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_17 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_17 "EHSM_WTM_HASH_KEY_17"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_17 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_17 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_17 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_18
+ *
+ * EHSM Wtm Hash Key 18 Register
+ * HMAC operation Key word 18.
+ */
+union cavm_ehsm_wtm_hash_key_18
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_18_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_18                : 32; /**< [ 31:  0](RO) HMAC operation Key word 18. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_18                : 32; /**< [ 31:  0](RO) HMAC operation Key word 18. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_18_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_18 cavm_ehsm_wtm_hash_key_18_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_18 CAVM_EHSM_WTM_HASH_KEY_18_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_18_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_18_FUNC(void)
+{
+    return 0x80b0000018f0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_18 cavm_ehsm_wtm_hash_key_18_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_18 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_18 "EHSM_WTM_HASH_KEY_18"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_18 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_18 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_18 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_19
+ *
+ * EHSM Wtm Hash Key 19 Register
+ * HMAC operation Key word 19.
+ */
+union cavm_ehsm_wtm_hash_key_19
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_19_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_19                : 32; /**< [ 31:  0](RO) HMAC operation Key word 19. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_19                : 32; /**< [ 31:  0](RO) HMAC operation Key word 19. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_19_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_19 cavm_ehsm_wtm_hash_key_19_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_19 CAVM_EHSM_WTM_HASH_KEY_19_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_19_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_19_FUNC(void)
+{
+    return 0x80b0000018f4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_19 cavm_ehsm_wtm_hash_key_19_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_19 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_19 "EHSM_WTM_HASH_KEY_19"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_19 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_19 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_19 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_2
+ *
+ * EHSM Wtm Hash Key 2 Register
+ * HMAC operation Key word 2.
+ */
+union cavm_ehsm_wtm_hash_key_2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_2                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_2                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 2. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_2_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_2 cavm_ehsm_wtm_hash_key_2_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_2 CAVM_EHSM_WTM_HASH_KEY_2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_2_FUNC(void)
+{
+    return 0x80b0000018b0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_2 cavm_ehsm_wtm_hash_key_2_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_2 "EHSM_WTM_HASH_KEY_2"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_2 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_20
+ *
+ * EHSM Wtm Hash Key 20 Register
+ * HMAC operation Key word 20.
+ */
+union cavm_ehsm_wtm_hash_key_20
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_20_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_20                : 32; /**< [ 31:  0](RO) HMAC operation Key word 20. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_20                : 32; /**< [ 31:  0](RO) HMAC operation Key word 20. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_20_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_20 cavm_ehsm_wtm_hash_key_20_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_20 CAVM_EHSM_WTM_HASH_KEY_20_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_20_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_20_FUNC(void)
+{
+    return 0x80b0000018f8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_20 cavm_ehsm_wtm_hash_key_20_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_20 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_20 "EHSM_WTM_HASH_KEY_20"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_20 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_20 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_20 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_21
+ *
+ * EHSM Wtm Hash Key 21 Register
+ * HMAC operation Key word 21.
+ */
+union cavm_ehsm_wtm_hash_key_21
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_21_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_21                : 32; /**< [ 31:  0](RO) HMAC operation Key word 21. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_21                : 32; /**< [ 31:  0](RO) HMAC operation Key word 21. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_21_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_21 cavm_ehsm_wtm_hash_key_21_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_21 CAVM_EHSM_WTM_HASH_KEY_21_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_21_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_21_FUNC(void)
+{
+    return 0x80b0000018fcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_21 cavm_ehsm_wtm_hash_key_21_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_21 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_21 "EHSM_WTM_HASH_KEY_21"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_21 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_21 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_21 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_22
+ *
+ * EHSM Wtm Hash Key 22 Register
+ * HMAC operation Key word 22.
+ */
+union cavm_ehsm_wtm_hash_key_22
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_22_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_22                : 32; /**< [ 31:  0](RO) HMAC operation Key word 22. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_22                : 32; /**< [ 31:  0](RO) HMAC operation Key word 22. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_22_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_22 cavm_ehsm_wtm_hash_key_22_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_22 CAVM_EHSM_WTM_HASH_KEY_22_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_22_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_22_FUNC(void)
+{
+    return 0x80b000001900ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_22 cavm_ehsm_wtm_hash_key_22_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_22 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_22 "EHSM_WTM_HASH_KEY_22"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_22 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_22 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_22 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_23
+ *
+ * EHSM Wtm Hash Key 23 Register
+ * HMAC operation Key word 23.
+ */
+union cavm_ehsm_wtm_hash_key_23
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_23_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_23                : 32; /**< [ 31:  0](RO) HMAC operation Key word 23. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_23                : 32; /**< [ 31:  0](RO) HMAC operation Key word 23. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_23_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_23 cavm_ehsm_wtm_hash_key_23_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_23 CAVM_EHSM_WTM_HASH_KEY_23_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_23_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_23_FUNC(void)
+{
+    return 0x80b000001904ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_23 cavm_ehsm_wtm_hash_key_23_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_23 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_23 "EHSM_WTM_HASH_KEY_23"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_23 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_23 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_23 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_24
+ *
+ * EHSM Wtm Hash Key 24 Register
+ * HMAC operation Key word 24.
+ */
+union cavm_ehsm_wtm_hash_key_24
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_24_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_24                : 32; /**< [ 31:  0](RO) HMAC operation Key word 24. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_24                : 32; /**< [ 31:  0](RO) HMAC operation Key word 24. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_24_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_24 cavm_ehsm_wtm_hash_key_24_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_24 CAVM_EHSM_WTM_HASH_KEY_24_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_24_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_24_FUNC(void)
+{
+    return 0x80b000001908ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_24 cavm_ehsm_wtm_hash_key_24_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_24 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_24 "EHSM_WTM_HASH_KEY_24"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_24 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_24 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_24 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_25
+ *
+ * EHSM Wtm Hash Key 25 Register
+ * HMAC operation Key word 25.
+ */
+union cavm_ehsm_wtm_hash_key_25
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_25_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_25                : 32; /**< [ 31:  0](RO) HMAC operation Key word 25. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_25                : 32; /**< [ 31:  0](RO) HMAC operation Key word 25. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_25_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_25 cavm_ehsm_wtm_hash_key_25_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_25 CAVM_EHSM_WTM_HASH_KEY_25_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_25_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_25_FUNC(void)
+{
+    return 0x80b00000190cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_25 cavm_ehsm_wtm_hash_key_25_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_25 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_25 "EHSM_WTM_HASH_KEY_25"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_25 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_25 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_25 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_26
+ *
+ * EHSM Wtm Hash Key 26 Register
+ * HMAC operation Key word 26.
+ */
+union cavm_ehsm_wtm_hash_key_26
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_26_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_26                : 32; /**< [ 31:  0](RO) HMAC operation Key word 26. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_26                : 32; /**< [ 31:  0](RO) HMAC operation Key word 26. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_26_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_26 cavm_ehsm_wtm_hash_key_26_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_26 CAVM_EHSM_WTM_HASH_KEY_26_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_26_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_26_FUNC(void)
+{
+    return 0x80b000001910ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_26 cavm_ehsm_wtm_hash_key_26_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_26 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_26 "EHSM_WTM_HASH_KEY_26"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_26 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_26 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_26 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_27
+ *
+ * EHSM Wtm Hash Key 27 Register
+ * HMAC operation Key word 27.
+ */
+union cavm_ehsm_wtm_hash_key_27
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_27_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_27                : 32; /**< [ 31:  0](RO) HMAC operation Key word 27. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_27                : 32; /**< [ 31:  0](RO) HMAC operation Key word 27. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_27_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_27 cavm_ehsm_wtm_hash_key_27_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_27 CAVM_EHSM_WTM_HASH_KEY_27_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_27_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_27_FUNC(void)
+{
+    return 0x80b000001914ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_27 cavm_ehsm_wtm_hash_key_27_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_27 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_27 "EHSM_WTM_HASH_KEY_27"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_27 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_27 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_27 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_28
+ *
+ * EHSM Wtm Hash Key 28 Register
+ * HMAC operation Key word 28.
+ */
+union cavm_ehsm_wtm_hash_key_28
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_28_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_28                : 32; /**< [ 31:  0](RO) HMAC operation Key word 28. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_28                : 32; /**< [ 31:  0](RO) HMAC operation Key word 28. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_28_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_28 cavm_ehsm_wtm_hash_key_28_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_28 CAVM_EHSM_WTM_HASH_KEY_28_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_28_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_28_FUNC(void)
+{
+    return 0x80b000001918ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_28 cavm_ehsm_wtm_hash_key_28_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_28 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_28 "EHSM_WTM_HASH_KEY_28"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_28 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_28 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_28 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_29
+ *
+ * EHSM Wtm Hash Key 29 Register
+ * HMAC operation Key word 29.
+ */
+union cavm_ehsm_wtm_hash_key_29
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_29_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_29                : 32; /**< [ 31:  0](RO) HMAC operation Key word 29. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_29                : 32; /**< [ 31:  0](RO) HMAC operation Key word 29. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_29_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_29 cavm_ehsm_wtm_hash_key_29_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_29 CAVM_EHSM_WTM_HASH_KEY_29_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_29_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_29_FUNC(void)
+{
+    return 0x80b00000191cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_29 cavm_ehsm_wtm_hash_key_29_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_29 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_29 "EHSM_WTM_HASH_KEY_29"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_29 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_29 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_29 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_3
+ *
+ * EHSM Wtm Hash Key 3 Register
+ * HMAC operation Key word 3.
+ */
+union cavm_ehsm_wtm_hash_key_3
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_3                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 3. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_3                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_3_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_3 cavm_ehsm_wtm_hash_key_3_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_3 CAVM_EHSM_WTM_HASH_KEY_3_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_3_FUNC(void)
+{
+    return 0x80b0000018b4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_3 cavm_ehsm_wtm_hash_key_3_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_3 "EHSM_WTM_HASH_KEY_3"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_3 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_30
+ *
+ * EHSM Wtm Hash Key 30 Register
+ * HMAC operation Key word 30.
+ */
+union cavm_ehsm_wtm_hash_key_30
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_30_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_30                : 32; /**< [ 31:  0](RO) HMAC operation Key word 30. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_30                : 32; /**< [ 31:  0](RO) HMAC operation Key word 30. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_30_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_30 cavm_ehsm_wtm_hash_key_30_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_30 CAVM_EHSM_WTM_HASH_KEY_30_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_30_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_30_FUNC(void)
+{
+    return 0x80b000001920ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_30 cavm_ehsm_wtm_hash_key_30_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_30 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_30 "EHSM_WTM_HASH_KEY_30"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_30 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_30 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_30 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_31
+ *
+ * EHSM Wtm Hash Key 31 Register
+ * HMAC operation Key word 31.
+ */
+union cavm_ehsm_wtm_hash_key_31
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_31_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_31                : 32; /**< [ 31:  0](RO) HMAC operation Key word 31. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_31                : 32; /**< [ 31:  0](RO) HMAC operation Key word 31. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_31_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_31 cavm_ehsm_wtm_hash_key_31_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_31 CAVM_EHSM_WTM_HASH_KEY_31_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_31_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_31_FUNC(void)
+{
+    return 0x80b000001924ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_31 cavm_ehsm_wtm_hash_key_31_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_31 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_31 "EHSM_WTM_HASH_KEY_31"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_31 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_31 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_31 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_32
+ *
+ * EHSM Wtm Hash Key 32 Register
+ * EHSM-11
+ * HMAC operation Key word 32.
+ */
+union cavm_ehsm_wtm_hash_key_32
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_32_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_32                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 32. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_32                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 32. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_32_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_32 cavm_ehsm_wtm_hash_key_32_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_32 CAVM_EHSM_WTM_HASH_KEY_32_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_32_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_32_FUNC(void)
+{
+    return 0x80b000001928ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_32 cavm_ehsm_wtm_hash_key_32_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_32 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_32 "EHSM_WTM_HASH_KEY_32"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_32 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_32 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_32 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_33
+ *
+ * EHSM Wtm Hash Key 33 Register
+ * EHSM-11
+ * HMAC operation Key word 33.
+ */
+union cavm_ehsm_wtm_hash_key_33
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_33_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_33                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 33. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_33                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 33. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_33_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_33 cavm_ehsm_wtm_hash_key_33_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_33 CAVM_EHSM_WTM_HASH_KEY_33_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_33_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_33_FUNC(void)
+{
+    return 0x80b00000192cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_33 cavm_ehsm_wtm_hash_key_33_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_33 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_33 "EHSM_WTM_HASH_KEY_33"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_33 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_33 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_33 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_34
+ *
+ * EHSM Wtm Hash Key 34 Register
+ * EHSM-11
+ * HMAC operation Key word 34.
+ */
+union cavm_ehsm_wtm_hash_key_34
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_34_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_34                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 34. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_34                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 34. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_34_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_34 cavm_ehsm_wtm_hash_key_34_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_34 CAVM_EHSM_WTM_HASH_KEY_34_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_34_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_34_FUNC(void)
+{
+    return 0x80b000001930ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_34 cavm_ehsm_wtm_hash_key_34_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_34 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_34 "EHSM_WTM_HASH_KEY_34"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_34 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_34 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_34 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_35
+ *
+ * EHSM Wtm Hash Key 35 Register
+ * EHSM-11
+ * HMAC operation Key word 35.
+ */
+union cavm_ehsm_wtm_hash_key_35
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_35_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_35                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 35. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_35                : 32; /**< [ 31:  0](RO) EHSM-11
+                                                                 HMAC operation Key word 35. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_35_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_35 cavm_ehsm_wtm_hash_key_35_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_35 CAVM_EHSM_WTM_HASH_KEY_35_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_35_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_35_FUNC(void)
+{
+    return 0x80b000001934ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_35 cavm_ehsm_wtm_hash_key_35_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_35 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_35 "EHSM_WTM_HASH_KEY_35"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_35 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_35 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_35 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_4
+ *
+ * EHSM Wtm Hash Key 4 Register
+ * HMAC operation Key word 4.
+ */
+union cavm_ehsm_wtm_hash_key_4
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_4                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 4. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_4                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 4. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_4_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_4 cavm_ehsm_wtm_hash_key_4_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_4 CAVM_EHSM_WTM_HASH_KEY_4_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_4_FUNC(void)
+{
+    return 0x80b0000018b8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_4 cavm_ehsm_wtm_hash_key_4_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_4 "EHSM_WTM_HASH_KEY_4"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_4 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_5
+ *
+ * EHSM Wtm Hash Key 5 Register
+ * HMAC operation Key word 5.
+ */
+union cavm_ehsm_wtm_hash_key_5
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_5                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 5. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_5                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 5. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_5_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_5 cavm_ehsm_wtm_hash_key_5_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_5 CAVM_EHSM_WTM_HASH_KEY_5_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_5_FUNC(void)
+{
+    return 0x80b0000018bcll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_5 cavm_ehsm_wtm_hash_key_5_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_5 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_5 "EHSM_WTM_HASH_KEY_5"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_5 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_5 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_5 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_6
+ *
+ * EHSM Wtm Hash Key 6 Register
+ * HMAC operation Key word 6.
+ */
+union cavm_ehsm_wtm_hash_key_6
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_6                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 6. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_6                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 6. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_6_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_6 cavm_ehsm_wtm_hash_key_6_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_6 CAVM_EHSM_WTM_HASH_KEY_6_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_6_FUNC(void)
+{
+    return 0x80b0000018c0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_6 cavm_ehsm_wtm_hash_key_6_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_6 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_6 "EHSM_WTM_HASH_KEY_6"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_6 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_6 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_6 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_7
+ *
+ * EHSM Wtm Hash Key 7 Register
+ * HMAC operation Key word 7.
+ */
+union cavm_ehsm_wtm_hash_key_7
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_7                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 7. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_7                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 7. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_7_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_7 cavm_ehsm_wtm_hash_key_7_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_7 CAVM_EHSM_WTM_HASH_KEY_7_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_7_FUNC(void)
+{
+    return 0x80b0000018c4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_7 cavm_ehsm_wtm_hash_key_7_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_7 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_7 "EHSM_WTM_HASH_KEY_7"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_7 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_7 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_7 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_8
+ *
+ * EHSM Wtm Hash Key 8 Register
+ * HMAC operation Key word 8.
+ */
+union cavm_ehsm_wtm_hash_key_8
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_8                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 8. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_8                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 8. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_8_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_8 cavm_ehsm_wtm_hash_key_8_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_8 CAVM_EHSM_WTM_HASH_KEY_8_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_8_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_8_FUNC(void)
+{
+    return 0x80b0000018c8ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_8 cavm_ehsm_wtm_hash_key_8_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_8 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_8 "EHSM_WTM_HASH_KEY_8"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_8 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_8 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_8 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_9
+ *
+ * EHSM Wtm Hash Key 9 Register
+ * HMAC operation Key word 9.
+ */
+union cavm_ehsm_wtm_hash_key_9
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_9                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 9. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_9                 : 32; /**< [ 31:  0](RO) HMAC operation Key word 9. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_9_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_9 cavm_ehsm_wtm_hash_key_9_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_9 CAVM_EHSM_WTM_HASH_KEY_9_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_9_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_9_FUNC(void)
+{
+    return 0x80b0000018ccll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_9 cavm_ehsm_wtm_hash_key_9_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_9 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_9 "EHSM_WTM_HASH_KEY_9"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_9 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_9 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_9 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_len
+ *
+ * EHSM Wtm Hash Key Len Register
+ * This register hold HMAC key length, size unit is byte. For SHA1/256/224/MD5, Our
+ * hash engine limits HMAC key length to not larger than 64bytes.
+ * For SHA512/384, Our hash engine limits HMAC key length to not larger than 128bytes.
+ */
+union cavm_ehsm_wtm_hash_key_len
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_len_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t len                   : 8;  /**< [  7:  0](R/W) HMAC key length, size unit is byte. For SHA1/256/224/MD5, Our hash engine limits
+                                                                 HMAC key length to not larger than 64bytes.
+                                                                 For SHA512/384, Our hash engine limits HMAC key length to not larger than 128bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t len                   : 8;  /**< [  7:  0](R/W) HMAC key length, size unit is byte. For SHA1/256/224/MD5, Our hash engine limits
+                                                                 HMAC key length to not larger than 64bytes.
+                                                                 For SHA512/384, Our hash engine limits HMAC key length to not larger than 128bytes. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_len_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_len cavm_ehsm_wtm_hash_key_len_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_LEN CAVM_EHSM_WTM_HASH_KEY_LEN_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_LEN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_LEN_FUNC(void)
+{
+    return 0x80b0000018a0ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_LEN cavm_ehsm_wtm_hash_key_len_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_LEN CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_LEN "EHSM_WTM_HASH_KEY_LEN"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_LEN 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_LEN 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_LEN -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_key_shift_in
+ *
+ * EHSM Wtm Hash Key Shift In Register
+ * Write only HMAC operation Key register.
+ * N= (key_len+3)/4.
+ * If there is N words of key, the register shoud be written N times.
+ */
+union cavm_ehsm_wtm_hash_key_shift_in
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_key_shift_in_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key_shift_in          : 32; /**< [ 31:  0](WO) Write only HMAC operation Key register.
+                                                                 N= (key_len+3)/4.
+                                                                 If there is N words of key, the register shoud be written N times. */
+#else /* Word 0 - Little Endian */
+        uint32_t key_shift_in          : 32; /**< [ 31:  0](WO) Write only HMAC operation Key register.
+                                                                 N= (key_len+3)/4.
+                                                                 If there is N words of key, the register shoud be written N times. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_key_shift_in_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_key_shift_in cavm_ehsm_wtm_hash_key_shift_in_t;
+
+#define CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN_FUNC(void)
+{
+    return 0x80b0000018a4ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN cavm_ehsm_wtm_hash_key_shift_in_t
+#define bustype_CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN "EHSM_WTM_HASH_KEY_SHIFT_IN"
+#define device_bar_CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN 0
+#define arguments_CAVM_EHSM_WTM_HASH_KEY_SHIFT_IN -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_sha3_context
+ *
+ * EHSM Wtm Hash Sha3 Context Register
+ * EHSM-11
+ * One word of the HASH operation's context, applicable for SHA3 algorithms.
+ * This register will be read/written 50 times to output/load context.
+ */
+union cavm_ehsm_wtm_hash_sha3_context
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_sha3_context_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sha3_context          : 32; /**< [ 31:  0](R/W) EHSM-11
+                                                                 One word of the HASH operation's context, applicable for SHA3 algorithms.
+                                                                 This register will be read/written 50 times to output/load context. */
+#else /* Word 0 - Little Endian */
+        uint32_t sha3_context          : 32; /**< [ 31:  0](R/W) EHSM-11
+                                                                 One word of the HASH operation's context, applicable for SHA3 algorithms.
+                                                                 This register will be read/written 50 times to output/load context. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_sha3_context_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_sha3_context cavm_ehsm_wtm_hash_sha3_context_t;
+
+#define CAVM_EHSM_WTM_HASH_SHA3_CONTEXT CAVM_EHSM_WTM_HASH_SHA3_CONTEXT_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_SHA3_CONTEXT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_SHA3_CONTEXT_FUNC(void)
+{
+    return 0x80b00000193cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_SHA3_CONTEXT cavm_ehsm_wtm_hash_sha3_context_t
+#define bustype_CAVM_EHSM_WTM_HASH_SHA3_CONTEXT CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_SHA3_CONTEXT "EHSM_WTM_HASH_SHA3_CONTEXT"
+#define device_bar_CAVM_EHSM_WTM_HASH_SHA3_CONTEXT 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_SHA3_CONTEXT 0
+#define arguments_CAVM_EHSM_WTM_HASH_SHA3_CONTEXT -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_sha3_hmac_context
+ *
+ * EHSM Wtm Hash Sha3 Hmac Context Register
+ * EHSM-11
+ * One word of the HMAC operation's context, applicable for SHA3_224/SHA3_256/SHA3_384/SHA3_512.
+ * This register will be read/written 50 times to output/load HMAC context.
+ */
+union cavm_ehsm_wtm_hash_sha3_hmac_context
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_sha3_hmac_context_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sha3_hmac_context     : 32; /**< [ 31:  0](R/W) EHSM-11
+                                                                 One word of the HMAC operation's context, applicable for SHA3_224/SHA3_256/SHA3_384/SHA3_512.
+                                                                 This register will be read/written 50 times to output/load HMAC context. */
+#else /* Word 0 - Little Endian */
+        uint32_t sha3_hmac_context     : 32; /**< [ 31:  0](R/W) EHSM-11
+                                                                 One word of the HMAC operation's context, applicable for SHA3_224/SHA3_256/SHA3_384/SHA3_512.
+                                                                 This register will be read/written 50 times to output/load HMAC context. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_sha3_hmac_context_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_sha3_hmac_context cavm_ehsm_wtm_hash_sha3_hmac_context_t;
+
+#define CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT_FUNC(void)
+{
+    return 0x80b000001940ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT cavm_ehsm_wtm_hash_sha3_hmac_context_t
+#define bustype_CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT "EHSM_WTM_HASH_SHA3_HMAC_CONTEXT"
+#define device_bar_CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT 0
+#define arguments_CAVM_EHSM_WTM_HASH_SHA3_HMAC_CONTEXT -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_shake_digest_size
+ *
+ * EHSM Wtm Hash Shake Digest Size Register
+ * EHSM-11
+ * Size of digest to be transfferred out for the next SHAKE operation. Size unit is byte.
+ */
+union cavm_ehsm_wtm_hash_shake_digest_size
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_shake_digest_size_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t shake_digest_size     : 32; /**< [ 31:  0](R/W) EHSM-11
+                                                                 Size of digest to be transfferred out for the next SHAKE operation. Size unit is byte. */
+#else /* Word 0 - Little Endian */
+        uint32_t shake_digest_size     : 32; /**< [ 31:  0](R/W) EHSM-11
+                                                                 Size of digest to be transfferred out for the next SHAKE operation. Size unit is byte. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_shake_digest_size_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_shake_digest_size cavm_ehsm_wtm_hash_shake_digest_size_t;
+
+#define CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE_FUNC(void)
+{
+    return 0x80b000001814ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE cavm_ehsm_wtm_hash_shake_digest_size_t
+#define bustype_CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE "EHSM_WTM_HASH_SHAKE_DIGEST_SIZE"
+#define device_bar_CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE 0
+#define arguments_CAVM_EHSM_WTM_HASH_SHAKE_DIGEST_SIZE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_state_debug
+ *
+ * EHSM Wtm Hash State Debug Register
+ * EHSM-11
+ * Debug only.
+ * This register holds current state of hash/hmac operation.
+ */
+union cavm_ehsm_wtm_hash_state_debug
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_state_debug_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t hmac_final_current_state : 5;/**< [ 17: 13](RO) Hmac final current state
+                                                                 00001: hmac_final_idle
+                                                                 00010: hmac_final_last_message_start
+                                                                 00100: hmac_final_last_message
+                                                                 01000: hmac_final_final_start
+                                                                 10000: hmac_final_final */
+        uint32_t hmac_init_current_state : 5;/**< [ 12:  8](RO) Hmac init current state
+                                                                 00001: hmac_init_idle
+                                                                 00010: hmac_init_start_kopad
+                                                                 00100: hmac_init_digest_kopad
+                                                                 01000: hmac_init_start_kipad
+                                                                 10000: hmac_init_digest_kipad */
+        uint32_t sha3eng_current_state : 4;  /**< [  7:  4](RO) Sha3 engine current state
+                                                                 0000: sha3eng_IDLE
+                                                                 0001: sha3eng_LOAD
+                                                                 0010: sha3eng_LAST_LOAD
+                                                                 0011: sha3eng_LAST_LOAD_FIRST_PAD
+                                                                 0100: sha3eng_LAST_LOAD_CONT_PAD
+                                                                 0101: sha3eng_LAST_LOAD_LAST_PAD
+                                                                 0110: sha3eng_ABSORB
+                                                                 0111: sha3eng_LAST_ABSORB
+                                                                 1000: sha3eng_SHAKE_DIGEST_TRANS
+                                                                 1001: sha3eng_TRUNC_ABSORB
+                                                                 1010: sha3eng_SHAKE_DIGEST_LAST_TRANS
+                                                                 1011: sha3eng_DONE */
+        uint32_t sha2eng_current_state : 4;  /**< [  3:  0](RO) Sha2 engine current state
+                                                                 hex_value state_name
+                                                                 0: state_IDLE
+                                                                 1: state_LOAD
+                                                                 2: state_LAST_LOAD
+                                                                 3: state_LAST_LOAD_PAD
+                                                                 4: state_PAD_0
+                                                                 5: state_PAD_ZERO
+                                                                 6: state_PAD_LENGTH_1
+                                                                 7: state_PAD_LENGTH_2
+                                                                 8: state_PROCESS
+                                                                 9: state_BLOCK_END
+                                                                 a: state_INIT_DONE */
+#else /* Word 0 - Little Endian */
+        uint32_t sha2eng_current_state : 4;  /**< [  3:  0](RO) Sha2 engine current state
+                                                                 hex_value state_name
+                                                                 0: state_IDLE
+                                                                 1: state_LOAD
+                                                                 2: state_LAST_LOAD
+                                                                 3: state_LAST_LOAD_PAD
+                                                                 4: state_PAD_0
+                                                                 5: state_PAD_ZERO
+                                                                 6: state_PAD_LENGTH_1
+                                                                 7: state_PAD_LENGTH_2
+                                                                 8: state_PROCESS
+                                                                 9: state_BLOCK_END
+                                                                 a: state_INIT_DONE */
+        uint32_t sha3eng_current_state : 4;  /**< [  7:  4](RO) Sha3 engine current state
+                                                                 0000: sha3eng_IDLE
+                                                                 0001: sha3eng_LOAD
+                                                                 0010: sha3eng_LAST_LOAD
+                                                                 0011: sha3eng_LAST_LOAD_FIRST_PAD
+                                                                 0100: sha3eng_LAST_LOAD_CONT_PAD
+                                                                 0101: sha3eng_LAST_LOAD_LAST_PAD
+                                                                 0110: sha3eng_ABSORB
+                                                                 0111: sha3eng_LAST_ABSORB
+                                                                 1000: sha3eng_SHAKE_DIGEST_TRANS
+                                                                 1001: sha3eng_TRUNC_ABSORB
+                                                                 1010: sha3eng_SHAKE_DIGEST_LAST_TRANS
+                                                                 1011: sha3eng_DONE */
+        uint32_t hmac_init_current_state : 5;/**< [ 12:  8](RO) Hmac init current state
+                                                                 00001: hmac_init_idle
+                                                                 00010: hmac_init_start_kopad
+                                                                 00100: hmac_init_digest_kopad
+                                                                 01000: hmac_init_start_kipad
+                                                                 10000: hmac_init_digest_kipad */
+        uint32_t hmac_final_current_state : 5;/**< [ 17: 13](RO) Hmac final current state
+                                                                 00001: hmac_final_idle
+                                                                 00010: hmac_final_last_message_start
+                                                                 00100: hmac_final_last_message
+                                                                 01000: hmac_final_final_start
+                                                                 10000: hmac_final_final */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_state_debug_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_state_debug cavm_ehsm_wtm_hash_state_debug_t;
+
+#define CAVM_EHSM_WTM_HASH_STATE_DEBUG CAVM_EHSM_WTM_HASH_STATE_DEBUG_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_STATE_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_STATE_DEBUG_FUNC(void)
+{
+    return 0x80b000001944ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_STATE_DEBUG cavm_ehsm_wtm_hash_state_debug_t
+#define bustype_CAVM_EHSM_WTM_HASH_STATE_DEBUG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_STATE_DEBUG "EHSM_WTM_HASH_STATE_DEBUG"
+#define device_bar_CAVM_EHSM_WTM_HASH_STATE_DEBUG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_STATE_DEBUG 0
+#define arguments_CAVM_EHSM_WTM_HASH_STATE_DEBUG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_status
+ *
+ * EHSM Wtm Hash Status Register
+ * This register holds status from last hash operation.
+ */
+union cavm_ehsm_wtm_hash_status
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t sha3_context_access_error1 : 1;/**< [  8:  8](R/W) EHSM-11
+                                                                 This bit is used to indicate the SHA3 context/SHA3 hmac context access error, it
+                                                                 will be 1 if the SHA3 context/SHA3 hmac context is accessed more than 50 times
+                                                                 when the Hash_control_sha3_context_access is programmed to 0 from 1. FW can
+                                                                 check the register context_access_time for more information if this bit is 1.
+                                                                 FW needs to check this bit after the context access ends, which means after
+                                                                 programming the Hash_control_sha3_context_access to 0 from 1.
+                                                                 If it is context writing and this bit is 1, FW needs clean this bit and re-write the context.
+                                                                 If it is context reading and this bit is 1, FW needs clean this bit and re-hash
+                                                                 the message then re-read the context.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t sha3_context_access_error0 : 1;/**< [  7:  7](R/W) EHSM-11
+                                                                 This bit is used to indicate the SHA3 context/SHA3 hmac context access error, it
+                                                                 will be 1 if the SHA3 context/SHA3 hmac context is accessed less than 50 times
+                                                                 when the Hash_control_sha3_context_access is programmed to 0 from 1. FW can
+                                                                 check the register context_access_time for more information if this bit is 1.
+                                                                 FW needs to check this bit after the context access ends, which means after
+                                                                 programming the Hash_control_sha3_context_access to 0 from 1.
+                                                                 If it is context writing and this bit is 1, FW needs clean this bit and re-write the context.
+                                                                 If it is context reading and this bit is 1, FW needs clean this bit and re-hash
+                                                                 the message then re-read the context.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t hmac_shake            : 1;  /**< [  6:  6](R/W) EHSM-11
+                                                                 Error flag used to indicate the invalid mode combination.
+                                                                 SHAKE is not applicable with HMAC mode.
+                                                                 FW needs to check the value of this bit when hash is done. If the value is 1, FW
+                                                                 needs clean this bit before issue next hash command.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t shake_digest_size_invalid : 1;/**< [  5:  5](R/W) EHSM-11
+                                                                 Error flag used to indicate the invalid digest size in SHAKE Final Primitive.
+                                                                 The digest size must be greater than 0.
+                                                                 FW needs to check the value of this bit when hash is done. If the value is 1, FW
+                                                                 needs clean this bit before issue next hash command.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t sha3_msg_size_invalid : 1;  /**< [  4:  4](R/W) EHSM-11
+                                                                 Error flag used to indicate the invalid message size in SHA3 normal Hash/HMAC Update Primitive.
+                                                                 The message size must be the multiple of block size of the algorithm.
+                                                                 FW needs to check the value of this bit when hash is done. If the value is 1, FW
+                                                                 needs clean this bit before issue next hash command.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t hmac_sm_busy          : 1;  /**< [  3:  3](RO) For debug. */
+        uint32_t xfer_sm_busy          : 1;  /**< [  2:  2](RO) For debug. */
+        uint32_t hash_busy             : 1;  /**< [  1:  1](RO) If this bit is 1, it means Hash engine is processing data in the operation. */
+        uint32_t hash_done             : 1;  /**< [  0:  0](R/W) If this bit is 1, it means last hash operation finished successfully. FW needs
+                                                                 clean this bit before issue next hash command. */
+#else /* Word 0 - Little Endian */
+        uint32_t hash_done             : 1;  /**< [  0:  0](R/W) If this bit is 1, it means last hash operation finished successfully. FW needs
+                                                                 clean this bit before issue next hash command. */
+        uint32_t hash_busy             : 1;  /**< [  1:  1](RO) If this bit is 1, it means Hash engine is processing data in the operation. */
+        uint32_t xfer_sm_busy          : 1;  /**< [  2:  2](RO) For debug. */
+        uint32_t hmac_sm_busy          : 1;  /**< [  3:  3](RO) For debug. */
+        uint32_t sha3_msg_size_invalid : 1;  /**< [  4:  4](R/W) EHSM-11
+                                                                 Error flag used to indicate the invalid message size in SHA3 normal Hash/HMAC Update Primitive.
+                                                                 The message size must be the multiple of block size of the algorithm.
+                                                                 FW needs to check the value of this bit when hash is done. If the value is 1, FW
+                                                                 needs clean this bit before issue next hash command.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t shake_digest_size_invalid : 1;/**< [  5:  5](R/W) EHSM-11
+                                                                 Error flag used to indicate the invalid digest size in SHAKE Final Primitive.
+                                                                 The digest size must be greater than 0.
+                                                                 FW needs to check the value of this bit when hash is done. If the value is 1, FW
+                                                                 needs clean this bit before issue next hash command.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t hmac_shake            : 1;  /**< [  6:  6](R/W) EHSM-11
+                                                                 Error flag used to indicate the invalid mode combination.
+                                                                 SHAKE is not applicable with HMAC mode.
+                                                                 FW needs to check the value of this bit when hash is done. If the value is 1, FW
+                                                                 needs clean this bit before issue next hash command.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t sha3_context_access_error0 : 1;/**< [  7:  7](R/W) EHSM-11
+                                                                 This bit is used to indicate the SHA3 context/SHA3 hmac context access error, it
+                                                                 will be 1 if the SHA3 context/SHA3 hmac context is accessed less than 50 times
+                                                                 when the Hash_control_sha3_context_access is programmed to 0 from 1. FW can
+                                                                 check the register context_access_time for more information if this bit is 1.
+                                                                 FW needs to check this bit after the context access ends, which means after
+                                                                 programming the Hash_control_sha3_context_access to 0 from 1.
+                                                                 If it is context writing and this bit is 1, FW needs clean this bit and re-write the context.
+                                                                 If it is context reading and this bit is 1, FW needs clean this bit and re-hash
+                                                                 the message then re-read the context.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t sha3_context_access_error1 : 1;/**< [  8:  8](R/W) EHSM-11
+                                                                 This bit is used to indicate the SHA3 context/SHA3 hmac context access error, it
+                                                                 will be 1 if the SHA3 context/SHA3 hmac context is accessed more than 50 times
+                                                                 when the Hash_control_sha3_context_access is programmed to 0 from 1. FW can
+                                                                 check the register context_access_time for more information if this bit is 1.
+                                                                 FW needs to check this bit after the context access ends, which means after
+                                                                 programming the Hash_control_sha3_context_access to 0 from 1.
+                                                                 If it is context writing and this bit is 1, FW needs clean this bit and re-write the context.
+                                                                 If it is context reading and this bit is 1, FW needs clean this bit and re-hash
+                                                                 the message then re-read the context.
+                                                                 This bit is reset by writing a one to it. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_status_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_status cavm_ehsm_wtm_hash_status_t;
+
+#define CAVM_EHSM_WTM_HASH_STATUS CAVM_EHSM_WTM_HASH_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_STATUS_FUNC(void)
+{
+    return 0x80b00000180cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_STATUS cavm_ehsm_wtm_hash_status_t
+#define bustype_CAVM_EHSM_WTM_HASH_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_STATUS "EHSM_WTM_HASH_STATUS"
+#define device_bar_CAVM_EHSM_WTM_HASH_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_STATUS 0
+#define arguments_CAVM_EHSM_WTM_HASH_STATUS -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_total_message_size_high
+ *
+ * EHSM Wtm Hash Total Message Size High Register
+ * This register holds the total length of message (Upper 32bit). Size unit is byte.
+ * Need set this register when hardware padding required.
+ */
+union cavm_ehsm_wtm_hash_total_message_size_high
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_total_message_size_high_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t total_message_size_high : 32;/**< [ 31:  0](R/W) This register holds the total length of message (Upper 32bit). Size unit is
+                                                                 byte. Need set this register when hardware padding required. */
+#else /* Word 0 - Little Endian */
+        uint32_t total_message_size_high : 32;/**< [ 31:  0](R/W) This register holds the total length of message (Upper 32bit). Size unit is
+                                                                 byte. Need set this register when hardware padding required. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_total_message_size_high_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_total_message_size_high cavm_ehsm_wtm_hash_total_message_size_high_t;
+
+#define CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH_FUNC(void)
+{
+    return 0x80b00000181cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH cavm_ehsm_wtm_hash_total_message_size_high_t
+#define bustype_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH "EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH"
+#define device_bar_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH 0
+#define arguments_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_HIGH -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_hash_total_message_size_low
+ *
+ * EHSM Wtm Hash Total Message Size Low Register
+ * This register holds the total length of message (lower 32bit). Size unit is byte.
+ * Need set this register when hardware padding required.
+ */
+union cavm_ehsm_wtm_hash_total_message_size_low
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_hash_total_message_size_low_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t total_message_size_low : 32;/**< [ 31:  0](R/W) This register holds the total length of message (lower 32bit). Size unit is
+                                                                 byte. Need set this register when hardware padding required. */
+#else /* Word 0 - Little Endian */
+        uint32_t total_message_size_low : 32;/**< [ 31:  0](R/W) This register holds the total length of message (lower 32bit). Size unit is
+                                                                 byte. Need set this register when hardware padding required. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_hash_total_message_size_low_s cn; */
+};
+typedef union cavm_ehsm_wtm_hash_total_message_size_low cavm_ehsm_wtm_hash_total_message_size_low_t;
+
+#define CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW_FUNC(void)
+{
+    return 0x80b000001818ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW cavm_ehsm_wtm_hash_total_message_size_low_t
+#define bustype_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW "EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW"
+#define device_bar_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW 0
+#define arguments_CAVM_EHSM_WTM_HASH_TOTAL_MESSAGE_SIZE_LOW -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_cmd_reg
+ *
+ * EHSM Wtm Mct Cmd Reg Register
+ */
+union cavm_ehsm_wtm_mct_cmd_reg
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_cmd_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t cmd_start             : 1;  /**< [  0:  0](R/W) Start MCT counter. It will automatically be cleared to 0 after user program 1 to it. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd_start             : 1;  /**< [  0:  0](R/W) Start MCT counter. It will automatically be cleared to 0 after user program 1 to it. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_cmd_reg_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_cmd_reg cavm_ehsm_wtm_mct_cmd_reg_t;
+
+#define CAVM_EHSM_WTM_MCT_CMD_REG CAVM_EHSM_WTM_MCT_CMD_REG_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_CMD_REG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_CMD_REG_FUNC(void)
+{
+    return 0x80b000002404ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_CMD_REG cavm_ehsm_wtm_mct_cmd_reg_t
+#define bustype_CAVM_EHSM_WTM_MCT_CMD_REG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_CMD_REG "EHSM_WTM_MCT_CMD_REG"
+#define device_bar_CAVM_EHSM_WTM_MCT_CMD_REG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_CMD_REG 0
+#define arguments_CAVM_EHSM_WTM_MCT_CMD_REG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_ctrl_reg
+ *
+ * EHSM Wtm Mct Ctrl Reg Register
+ */
+union cavm_ehsm_wtm_mct_ctrl_reg
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_ctrl_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t reset                 : 1;  /**< [  0:  0](R/W) Reset MCT control logic and interrupt triggering source */
+#else /* Word 0 - Little Endian */
+        uint32_t reset                 : 1;  /**< [  0:  0](R/W) Reset MCT control logic and interrupt triggering source */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_ctrl_reg_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_ctrl_reg cavm_ehsm_wtm_mct_ctrl_reg_t;
+
+#define CAVM_EHSM_WTM_MCT_CTRL_REG CAVM_EHSM_WTM_MCT_CTRL_REG_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_CTRL_REG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_CTRL_REG_FUNC(void)
+{
+    return 0x80b000002400ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_CTRL_REG cavm_ehsm_wtm_mct_ctrl_reg_t
+#define bustype_CAVM_EHSM_WTM_MCT_CTRL_REG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_CTRL_REG "EHSM_WTM_MCT_CTRL_REG"
+#define device_bar_CAVM_EHSM_WTM_MCT_CTRL_REG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_CTRL_REG 0
+#define arguments_CAVM_EHSM_WTM_MCT_CTRL_REG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_intrpt_mask_reg
+ *
+ * EHSM Wtm Mct Intrpt Mask Reg Register
+ */
+union cavm_ehsm_wtm_mct_intrpt_mask_reg
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_intrpt_mask_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t exceed_range          : 1;  /**< [  1:  1](R/W) Set this bit to mask the interruption source register bit EXCEED_RANGE (RA000240Ch [2:1]). */
+        uint32_t cmd_done_int          : 1;  /**< [  0:  0](R/W) Set this bit to mask the interruption source register bit CMD_DONE_INT (RA000240Ch [0]). */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd_done_int          : 1;  /**< [  0:  0](R/W) Set this bit to mask the interruption source register bit CMD_DONE_INT (RA000240Ch [0]). */
+        uint32_t exceed_range          : 1;  /**< [  1:  1](R/W) Set this bit to mask the interruption source register bit EXCEED_RANGE (RA000240Ch [2:1]). */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_intrpt_mask_reg_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_intrpt_mask_reg cavm_ehsm_wtm_mct_intrpt_mask_reg_t;
+
+#define CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG_FUNC(void)
+{
+    return 0x80b000002410ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG cavm_ehsm_wtm_mct_intrpt_mask_reg_t
+#define bustype_CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG "EHSM_WTM_MCT_INTRPT_MASK_REG"
+#define device_bar_CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG 0
+#define arguments_CAVM_EHSM_WTM_MCT_INTRPT_MASK_REG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_intrpt_reg
+ *
+ * EHSM Wtm Mct Intrpt Reg Register
+ */
+union cavm_ehsm_wtm_mct_intrpt_reg
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_intrpt_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t exceed_range          : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t cmd_done_int          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd_done_int          : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t exceed_range          : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_intrpt_reg_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_intrpt_reg cavm_ehsm_wtm_mct_intrpt_reg_t;
+
+#define CAVM_EHSM_WTM_MCT_INTRPT_REG CAVM_EHSM_WTM_MCT_INTRPT_REG_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_INTRPT_REG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_INTRPT_REG_FUNC(void)
+{
+    return 0x80b00000240cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_INTRPT_REG cavm_ehsm_wtm_mct_intrpt_reg_t
+#define bustype_CAVM_EHSM_WTM_MCT_INTRPT_REG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_INTRPT_REG "EHSM_WTM_MCT_INTRPT_REG"
+#define device_bar_CAVM_EHSM_WTM_MCT_INTRPT_REG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_INTRPT_REG 0
+#define arguments_CAVM_EHSM_WTM_MCT_INTRPT_REG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_status_reg
+ *
+ * EHSM Wtm Mct Status Reg Register
+ */
+union cavm_ehsm_wtm_mct_status_reg
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_status_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t mfsm_state            : 2;  /**< [  2:  1](RO) Indicate MCT state machine value */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) Indicate MCT state machine is not in IDLE state */
+#else /* Word 0 - Little Endian */
+        uint32_t busy                  : 1;  /**< [  0:  0](RO) Indicate MCT state machine is not in IDLE state */
+        uint32_t mfsm_state            : 2;  /**< [  2:  1](RO) Indicate MCT state machine value */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_status_reg_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_status_reg cavm_ehsm_wtm_mct_status_reg_t;
+
+#define CAVM_EHSM_WTM_MCT_STATUS_REG CAVM_EHSM_WTM_MCT_STATUS_REG_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_STATUS_REG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_STATUS_REG_FUNC(void)
+{
+    return 0x80b000002408ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_STATUS_REG cavm_ehsm_wtm_mct_status_reg_t
+#define bustype_CAVM_EHSM_WTM_MCT_STATUS_REG CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_STATUS_REG "EHSM_WTM_MCT_STATUS_REG"
+#define device_bar_CAVM_EHSM_WTM_MCT_STATUS_REG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_STATUS_REG 0
+#define arguments_CAVM_EHSM_WTM_MCT_STATUS_REG -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_val_w0
+ *
+ * EHSM Wtm Mct Val W0 Register
+ * MCT value word[0], i.e. MCT_VAL[031:000], the least significant word.
+ */
+union cavm_ehsm_wtm_mct_val_w0
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_val_w0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mct_val_w0            : 32; /**< [ 31:  0](R/W) MCT value word[0], i.e. MCT_VAL[031:000], the least significant word. */
+#else /* Word 0 - Little Endian */
+        uint32_t mct_val_w0            : 32; /**< [ 31:  0](R/W) MCT value word[0], i.e. MCT_VAL[031:000], the least significant word. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_val_w0_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_val_w0 cavm_ehsm_wtm_mct_val_w0_t;
+
+#define CAVM_EHSM_WTM_MCT_VAL_W0 CAVM_EHSM_WTM_MCT_VAL_W0_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W0_FUNC(void)
+{
+    return 0x80b000002414ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_VAL_W0 cavm_ehsm_wtm_mct_val_w0_t
+#define bustype_CAVM_EHSM_WTM_MCT_VAL_W0 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_VAL_W0 "EHSM_WTM_MCT_VAL_W0"
+#define device_bar_CAVM_EHSM_WTM_MCT_VAL_W0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_VAL_W0 0
+#define arguments_CAVM_EHSM_WTM_MCT_VAL_W0 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_val_w1
+ *
+ * EHSM Wtm Mct Val W1 Register
+ * MCT value word[1], i.e. MCT_VAL[063:032].
+ */
+union cavm_ehsm_wtm_mct_val_w1
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_val_w1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mct_val_w1            : 32; /**< [ 31:  0](R/W) MCT value word[1], i.e. MCT_VAL[063:032]. */
+#else /* Word 0 - Little Endian */
+        uint32_t mct_val_w1            : 32; /**< [ 31:  0](R/W) MCT value word[1], i.e. MCT_VAL[063:032]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_val_w1_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_val_w1 cavm_ehsm_wtm_mct_val_w1_t;
+
+#define CAVM_EHSM_WTM_MCT_VAL_W1 CAVM_EHSM_WTM_MCT_VAL_W1_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W1_FUNC(void)
+{
+    return 0x80b000002418ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_VAL_W1 cavm_ehsm_wtm_mct_val_w1_t
+#define bustype_CAVM_EHSM_WTM_MCT_VAL_W1 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_VAL_W1 "EHSM_WTM_MCT_VAL_W1"
+#define device_bar_CAVM_EHSM_WTM_MCT_VAL_W1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_VAL_W1 0
+#define arguments_CAVM_EHSM_WTM_MCT_VAL_W1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_val_w2
+ *
+ * EHSM Wtm Mct Val W2 Register
+ * MCT value word[2], i.e. MCT_VAL[095:064].
+ */
+union cavm_ehsm_wtm_mct_val_w2
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_val_w2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mct_val_w2            : 32; /**< [ 31:  0](R/W) MCT value word[2], i.e. MCT_VAL[095:064]. */
+#else /* Word 0 - Little Endian */
+        uint32_t mct_val_w2            : 32; /**< [ 31:  0](R/W) MCT value word[2], i.e. MCT_VAL[095:064]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_val_w2_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_val_w2 cavm_ehsm_wtm_mct_val_w2_t;
+
+#define CAVM_EHSM_WTM_MCT_VAL_W2 CAVM_EHSM_WTM_MCT_VAL_W2_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W2_FUNC(void)
+{
+    return 0x80b00000241cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_VAL_W2 cavm_ehsm_wtm_mct_val_w2_t
+#define bustype_CAVM_EHSM_WTM_MCT_VAL_W2 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_VAL_W2 "EHSM_WTM_MCT_VAL_W2"
+#define device_bar_CAVM_EHSM_WTM_MCT_VAL_W2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_VAL_W2 0
+#define arguments_CAVM_EHSM_WTM_MCT_VAL_W2 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_val_w3
+ *
+ * EHSM Wtm Mct Val W3 Register
+ * MCT value word[3], i.e. MCT_VAL[127:096].
+ */
+union cavm_ehsm_wtm_mct_val_w3
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_val_w3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mct_val_w3            : 32; /**< [ 31:  0](R/W) MCT value word[3], i.e. MCT_VAL[127:096]. */
+#else /* Word 0 - Little Endian */
+        uint32_t mct_val_w3            : 32; /**< [ 31:  0](R/W) MCT value word[3], i.e. MCT_VAL[127:096]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_val_w3_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_val_w3 cavm_ehsm_wtm_mct_val_w3_t;
+
+#define CAVM_EHSM_WTM_MCT_VAL_W3 CAVM_EHSM_WTM_MCT_VAL_W3_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W3_FUNC(void)
+{
+    return 0x80b000002420ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_VAL_W3 cavm_ehsm_wtm_mct_val_w3_t
+#define bustype_CAVM_EHSM_WTM_MCT_VAL_W3 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_VAL_W3 "EHSM_WTM_MCT_VAL_W3"
+#define device_bar_CAVM_EHSM_WTM_MCT_VAL_W3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_VAL_W3 0
+#define arguments_CAVM_EHSM_WTM_MCT_VAL_W3 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_mct_val_w4
+ *
+ * EHSM Wtm Mct Val W4 Register
+ * MCT value word[4], i.e. MCT_VAL[159:128], the most significant word.
+ */
+union cavm_ehsm_wtm_mct_val_w4
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_mct_val_w4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mct_val_w4            : 32; /**< [ 31:  0](R/W) MCT value word[4], i.e. MCT_VAL[159:128], the most significant word. */
+#else /* Word 0 - Little Endian */
+        uint32_t mct_val_w4            : 32; /**< [ 31:  0](R/W) MCT value word[4], i.e. MCT_VAL[159:128], the most significant word. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_mct_val_w4_s cn; */
+};
+typedef union cavm_ehsm_wtm_mct_val_w4 cavm_ehsm_wtm_mct_val_w4_t;
+
+#define CAVM_EHSM_WTM_MCT_VAL_W4 CAVM_EHSM_WTM_MCT_VAL_W4_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_MCT_VAL_W4_FUNC(void)
+{
+    return 0x80b000002424ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_MCT_VAL_W4 cavm_ehsm_wtm_mct_val_w4_t
+#define bustype_CAVM_EHSM_WTM_MCT_VAL_W4 CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_MCT_VAL_W4 "EHSM_WTM_MCT_VAL_W4"
+#define device_bar_CAVM_EHSM_WTM_MCT_VAL_W4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_MCT_VAL_W4 0
+#define arguments_CAVM_EHSM_WTM_MCT_VAL_W4 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_ehsm_ela_monitor
+ *
+ * EHSM Wtm Rctrl Ehsm Ela Monitor Register
+ */
+union cavm_ehsm_wtm_rctrl_ehsm_ela_monitor
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_ehsm_ela_monitor_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t qualifier             : 4;  /**< [  4:  1](R/W) It is used to drive the corresponding bit of bcm_ela_monitor_qualifier[3:0] output of bcm_top */
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) It is connected with bcm_ela_monitor_en output of bcm_top */
+#else /* Word 0 - Little Endian */
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) It is connected with bcm_ela_monitor_en output of bcm_top */
+        uint32_t qualifier             : 4;  /**< [  4:  1](R/W) It is used to drive the corresponding bit of bcm_ela_monitor_qualifier[3:0] output of bcm_top */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_ehsm_ela_monitor_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_ehsm_ela_monitor cavm_ehsm_wtm_rctrl_ehsm_ela_monitor_t;
+
+#define CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR_FUNC(void)
+{
+    return 0x80b000003010ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR cavm_ehsm_wtm_rctrl_ehsm_ela_monitor_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR "EHSM_WTM_RCTRL_EHSM_ELA_MONITOR"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_EHSM_ELA_MONITOR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_ehsm_mon_mod_sel
+ *
+ * EHSM Wtm Rctrl Ehsm Mon Mod Sel Register
+ */
+union cavm_ehsm_wtm_rctrl_ehsm_mon_mod_sel
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_ehsm_mon_mod_sel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t mod_sel               : 8;  /**< [  7:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t mod_sel               : 8;  /**< [  7:  0](R/W) Missing register field description. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_ehsm_mon_mod_sel_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_ehsm_mon_mod_sel cavm_ehsm_wtm_rctrl_ehsm_mon_mod_sel_t;
+
+#define CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL_FUNC(void)
+{
+    return 0x80b000003004ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL cavm_ehsm_wtm_rctrl_ehsm_mon_mod_sel_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL "EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_EHSM_MON_MOD_SEL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_ehsm_mon_sig_sel
+ *
+ * EHSM Wtm Rctrl Ehsm Mon Sig Sel Register
+ */
+union cavm_ehsm_wtm_rctrl_ehsm_mon_sig_sel
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_ehsm_mon_sig_sel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t mon_dis               : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t sig_sel               : 8;  /**< [  7:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t sig_sel               : 8;  /**< [  7:  0](R/W) Missing register field description. */
+        uint32_t mon_dis               : 1;  /**< [  8:  8](R/W) Missing register field description. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_ehsm_mon_sig_sel_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_ehsm_mon_sig_sel cavm_ehsm_wtm_rctrl_ehsm_mon_sig_sel_t;
+
+#define CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL_FUNC(void)
+{
+    return 0x80b000003008ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL cavm_ehsm_wtm_rctrl_ehsm_mon_sig_sel_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL "EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_EHSM_MON_SIG_SEL -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_ehsm_monitor
+ *
+ * EHSM Wtm Rctrl Ehsm Monitor Register
+ */
+union cavm_ehsm_wtm_rctrl_ehsm_monitor
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_ehsm_monitor_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t ehsm_monitor          : 16; /**< [ 15:  0](RO) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t ehsm_monitor          : 16; /**< [ 15:  0](RO) Missing register field description. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_ehsm_monitor_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_ehsm_monitor cavm_ehsm_wtm_rctrl_ehsm_monitor_t;
+
+#define CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR_FUNC(void)
+{
+    return 0x80b00000300cll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR cavm_ehsm_wtm_rctrl_ehsm_monitor_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR "EHSM_WTM_RCTRL_EHSM_MONITOR"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_EHSM_MONITOR -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_mem_ctrl_proc_rom
+ *
+ * EHSM Wtm Rctrl Mem Ctrl Proc Rom Register
+ * These are the memory timing and powerdown controls for the ROM's used by the EHSM's
+ * Cortex processor if it is using that technology.
+ * The 12nm memory has 2 instances of ROM memory, and is formated as follows:
+ * {16'h0, {2{rtsel[1:0], ptsel[1:0], trb[1:0], tm[0], 1'b0}}}
+ * This register is only valid for Vail and Antman. The default value is 32'h0000_5454.
+ * It is reserved for MW400.
+ * Internal: |
+ */
+union cavm_ehsm_wtm_rctrl_mem_ctrl_proc_rom
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_mem_ctrl_proc_rom_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mem_ctrl_proc_rom     : 32; /**< [ 31:  0](R/W) These are the memory timing and powerdown controls for the ROM's used by the
+                                                                 EHSM's Cortex processor if it is using that technology.
+                                                                 The 12nm memory has 2 instances of ROM memory, and is formated as follows:
+                                                                 {16'h0, {2{rtsel[1:0], ptsel[1:0], trb[1:0], tm[0], 1'b0}}}
+                                                                 This register is only valid for Vail and Antman. The default value is 32'h0000_5454.
+                                                                 It is reserved for MW400.
+                                                                 Internal: | */
+#else /* Word 0 - Little Endian */
+        uint32_t mem_ctrl_proc_rom     : 32; /**< [ 31:  0](R/W) These are the memory timing and powerdown controls for the ROM's used by the
+                                                                 EHSM's Cortex processor if it is using that technology.
+                                                                 The 12nm memory has 2 instances of ROM memory, and is formated as follows:
+                                                                 {16'h0, {2{rtsel[1:0], ptsel[1:0], trb[1:0], tm[0], 1'b0}}}
+                                                                 This register is only valid for Vail and Antman. The default value is 32'h0000_5454.
+                                                                 It is reserved for MW400.
+                                                                 Internal: | */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_mem_ctrl_proc_rom_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_mem_ctrl_proc_rom cavm_ehsm_wtm_rctrl_mem_ctrl_proc_rom_t;
+
+#define CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM_FUNC(void)
+{
+    return 0x80b000003030ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM cavm_ehsm_wtm_rctrl_mem_ctrl_proc_rom_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM "EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_ROM -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_mem_ctrl_proc_sram
+ *
+ * EHSM Wtm Rctrl Mem Ctrl Proc Sram Register
+ * These are the memory timing and powerdown controls for the RAM's used by the EHSM's
+ * Cortex processor if it is using that technology.
+ * The 12nm memory has 4 instances of RAM memory for Cortex processor, and is formated as follows:
+ * {12'h0, {4{rtsel[1:0], wtsel[1:0], 1'b0}}}
+ * This register is only valid for Vail and Antman. The default value is 32'h0005_294A
+ * It is reserved for MW400.
+ * Internal: |
+ */
+union cavm_ehsm_wtm_rctrl_mem_ctrl_proc_sram
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_mem_ctrl_proc_sram_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mem_ctrl_proc_sram    : 32; /**< [ 31:  0](R/W) These are the memory timing and powerdown controls for the RAM's used by the
+                                                                 EHSM's Cortex processor if it is using that technology.
+                                                                 The 12nm memory has 4 instances of RAM memory for Cortex processor, and is formated as follows:
+                                                                 {12'h0, {4{rtsel[1:0], wtsel[1:0], 1'b0}}}
+                                                                 This register is only valid for Vail and Antman. The default value is 32'h0005_294A
+                                                                 It is reserved for MW400.
+                                                                 Internal: | */
+#else /* Word 0 - Little Endian */
+        uint32_t mem_ctrl_proc_sram    : 32; /**< [ 31:  0](R/W) These are the memory timing and powerdown controls for the RAM's used by the
+                                                                 EHSM's Cortex processor if it is using that technology.
+                                                                 The 12nm memory has 4 instances of RAM memory for Cortex processor, and is formated as follows:
+                                                                 {12'h0, {4{rtsel[1:0], wtsel[1:0], 1'b0}}}
+                                                                 This register is only valid for Vail and Antman. The default value is 32'h0005_294A
+                                                                 It is reserved for MW400.
+                                                                 Internal: | */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_mem_ctrl_proc_sram_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_mem_ctrl_proc_sram cavm_ehsm_wtm_rctrl_mem_ctrl_proc_sram_t;
+
+#define CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM_FUNC(void)
+{
+    return 0x80b000003034ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM cavm_ehsm_wtm_rctrl_mem_ctrl_proc_sram_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM "EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_PROC_SRAM -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_mem_ctrl_scp_sram
+ *
+ * EHSM Wtm Rctrl Mem Ctrl Scp Sram Register
+ * These are the memory timing and powerdown controls for the RAM's used within the
+ * scratchpad if it is using that technology.
+ * The 12nm memory has 2 instances of RAM memory for scratchpad, and is formated as follows:
+ * {16'h0, {2{kpsel[2:0], rtsel[1:0], wtsel[1:0], 1'b0}}}
+ * For Vail and Antman, which is using 12nm process, the default value is 32'h0000_0808
+ * The 28nm LP memory has 2 instances of RAM memory for scratchpad, and is formated as follows:
+ * {24'h0, {2{rtc[1:0], wtc[1:0]}}}
+ * For MW400, which is using 28nm LP process, the default value is 32'h0000_0055
+ * Internal: |
+ */
+union cavm_ehsm_wtm_rctrl_mem_ctrl_scp_sram
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_mem_ctrl_scp_sram_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mem_ctrl_scp_sram     : 32; /**< [ 31:  0](R/W) These are the memory timing and powerdown controls for the RAM's used within the
+                                                                 scratchpad if it is using that technology.
+                                                                 The 12nm memory has 2 instances of RAM memory for scratchpad, and is formated as follows:
+                                                                 {16'h0, {2{kpsel[2:0], rtsel[1:0], wtsel[1:0], 1'b0}}}
+                                                                 For Vail and Antman, which is using 12nm process, the default value is 32'h0000_0808
+                                                                 The 28nm LP memory has 2 instances of RAM memory for scratchpad, and is formated as follows:
+                                                                 {24'h0, {2{rtc[1:0], wtc[1:0]}}}
+                                                                 For MW400, which is using 28nm LP process, the default value is 32'h0000_0055
+                                                                 Internal: | */
+#else /* Word 0 - Little Endian */
+        uint32_t mem_ctrl_scp_sram     : 32; /**< [ 31:  0](R/W) These are the memory timing and powerdown controls for the RAM's used within the
+                                                                 scratchpad if it is using that technology.
+                                                                 The 12nm memory has 2 instances of RAM memory for scratchpad, and is formated as follows:
+                                                                 {16'h0, {2{kpsel[2:0], rtsel[1:0], wtsel[1:0], 1'b0}}}
+                                                                 For Vail and Antman, which is using 12nm process, the default value is 32'h0000_0808
+                                                                 The 28nm LP memory has 2 instances of RAM memory for scratchpad, and is formated as follows:
+                                                                 {24'h0, {2{rtc[1:0], wtc[1:0]}}}
+                                                                 For MW400, which is using 28nm LP process, the default value is 32'h0000_0055
+                                                                 Internal: | */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_mem_ctrl_scp_sram_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_mem_ctrl_scp_sram cavm_ehsm_wtm_rctrl_mem_ctrl_scp_sram_t;
+
+#define CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM_FUNC(void)
+{
+    return 0x80b000003038ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM cavm_ehsm_wtm_rctrl_mem_ctrl_scp_sram_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM "EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_MEM_CTRL_SCP_SRAM -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_wtm_rctrl_pwr_ctrl
+ *
+ * EHSM Wtm Rctrl Pwr Ctrl Register
+ */
+union cavm_ehsm_wtm_rctrl_pwr_ctrl
+{
+    uint32_t u;
+    struct cavm_ehsm_wtm_rctrl_pwr_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t pwr_ctrl              : 7;  /**< [  7:  1](R/W) Missing register field description. */
+        uint32_t pwr_event             : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t pwr_event             : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t pwr_ctrl              : 7;  /**< [  7:  1](R/W) Missing register field description. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_wtm_rctrl_pwr_ctrl_s cn; */
+};
+typedef union cavm_ehsm_wtm_rctrl_pwr_ctrl cavm_ehsm_wtm_rctrl_pwr_ctrl_t;
+
+#define CAVM_EHSM_WTM_RCTRL_PWR_CTRL CAVM_EHSM_WTM_RCTRL_PWR_CTRL_FUNC()
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_PWR_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_WTM_RCTRL_PWR_CTRL_FUNC(void)
+{
+    return 0x80b000003014ll;
+}
+
+#define typedef_CAVM_EHSM_WTM_RCTRL_PWR_CTRL cavm_ehsm_wtm_rctrl_pwr_ctrl_t
+#define bustype_CAVM_EHSM_WTM_RCTRL_PWR_CTRL CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_WTM_RCTRL_PWR_CTRL "EHSM_WTM_RCTRL_PWR_CTRL"
+#define device_bar_CAVM_EHSM_WTM_RCTRL_PWR_CTRL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_WTM_RCTRL_PWR_CTRL 0
+#define arguments_CAVM_EHSM_WTM_RCTRL_PWR_CTRL -1,-1,-1,-1
 
 #endif /* __CAVM_CSRS_EHSM_H__ */

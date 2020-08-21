@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -176,11 +176,11 @@ union cavm_tad_cmn_const
         uint64_t ltgways               : 8;  /**< [ 35: 28](RO) Specifies the number of LTG ways in a TAD. */
         uint64_t ltgsets               : 12; /**< [ 27: 16](RO) Specifies the number of LTG sets in a TAD. */
         uint64_t num_tads              : 8;  /**< [ 15:  8](RO) Specifies the number of TADs. */
-        uint64_t num_rows              : 4;  /**< [  7:  4](RO) Specifies the number of columns of tiles. */
+        uint64_t num_rows              : 4;  /**< [  7:  4](RO) Specifies the number of row of tiles. */
         uint64_t num_cols              : 4;  /**< [  3:  0](RO) Specifies the number of columns of tiles. */
 #else /* Word 0 - Little Endian */
         uint64_t num_cols              : 4;  /**< [  3:  0](RO) Specifies the number of columns of tiles. */
-        uint64_t num_rows              : 4;  /**< [  7:  4](RO) Specifies the number of columns of tiles. */
+        uint64_t num_rows              : 4;  /**< [  7:  4](RO) Specifies the number of row of tiles. */
         uint64_t num_tads              : 8;  /**< [ 15:  8](RO) Specifies the number of TADs. */
         uint64_t ltgsets               : 12; /**< [ 27: 16](RO) Specifies the number of LTG sets in a TAD. */
         uint64_t ltgways               : 8;  /**< [ 35: 28](RO) Specifies the number of LTG ways in a TAD. */
@@ -289,6 +289,45 @@ static inline uint64_t CAVM_TAD_CMN_CTL_FUNC(void)
 #define device_bar_CAVM_TAD_CMN_CTL 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TAD_CMN_CTL 0
 #define arguments_CAVM_TAD_CMN_CTL -1,-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mn_ctl
+ *
+ * TAD Common Miscellaneous Node Control Register
+ * Controls TAD MN (DVMOps) settings.
+ */
+union cavm_tad_cmn_mn_ctl
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mn_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. */
+        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
+#else /* Word 0 - Little Endian */
+        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mn_ctl_s cn; */
+};
+typedef union cavm_tad_cmn_mn_ctl cavm_tad_cmn_mn_ctl_t;
+
+#define CAVM_TAD_CMN_MN_CTL CAVM_TAD_CMN_MN_CTL_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MN_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MN_CTL_FUNC(void)
+{
+    return 0x87e053000030ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MN_CTL cavm_tad_cmn_mn_ctl_t
+#define bustype_CAVM_TAD_CMN_MN_CTL CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MN_CTL "TAD_CMN_MN_CTL"
+#define device_bar_CAVM_TAD_CMN_MN_CTL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MN_CTL 0
+#define arguments_CAVM_TAD_CMN_MN_CTL -1,-1,-1,-1
 
 /**
  * Register (RSL) tad_cmn_mpam#_mask

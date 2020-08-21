@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -37,6 +37,17 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_TAD_PF_INT_VEC_E_TAD_INT (0)
+
+/**
+ * Enumeration tad_prf_sel_e
+ *
+ * TAD Performance Counter Select Enumeration
+ * Enumerates the different TAD performance counter selects.
+ */
+#define CAVM_TAD_PRF_SEL_E_NONE (0)
+#define CAVM_TAD_PRF_SEL_E_TAD_BAR (2)
+#define CAVM_TAD_PRF_SEL_E_TAD_BAZ (3)
+#define CAVM_TAD_PRF_SEL_E_TAD_FOO (1)
 
 /**
  * Register (RSL) tad#_bp_test1
@@ -829,7 +840,7 @@ static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 /**
  * Register (RSL) tad#_mpam#_rcnt
  *
- * TAD Memory Paritioning Resource Count Registers
+ * TAD Memory Partitioning Resource Count Registers
  */
 union cavm_tadx_mpamx_rcnt
 {
@@ -1101,8 +1112,8 @@ static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a)
  *
  * TAD Performance Counter Registers
  * Internal:
- * FIXME: TAD_PRF_SEL_E not yet defined.
- * FIXME: add attribute: rtlgen_extern: "TAD_PFC"
+ * FIXME: TAD_PRF_SEL_E not yet defined. (done)
+ * FIXME: add attribute: rtlgen_extern: "TAD_PFC" (done)
  */
 union cavm_tadx_pfcx
 {
@@ -1135,50 +1146,82 @@ static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
 #define arguments_CAVM_TADX_PFCX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) tad#_prf
+ * Register (RSL) tad#_prf#
  *
  * TAD Performance Counter Control Registers
- * All four counters are equivalent and can use any of the defined selects.
- * Internal:
- * FIXME: TAD_PRF_SEL_E not yet defined.
+ * Selects event to count for each TAD_PFC, and specifies optional
+ * filters for PMG and PARTID
  */
-union cavm_tadx_prf
+union cavm_tadx_prfx
 {
     uint64_t u;
-    struct cavm_tadx_prf_s
+    struct cavm_tadx_prfx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for TAD_PFC(3). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for TAD_PFC(2). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for TAD_PFC(1). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(0). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t reserved_28_63        : 36;
+        uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
+                                                                 [MATCH_PMG] is set. */
+        uint64_t reserved_20_26        : 7;
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
+                                                                 Only filtered if [MATCH_PARTID] is set. */
+        uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
+        uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(0). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for TAD_PFC(1). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for TAD_PFC(2). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for TAD_PFC(3). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
+        uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
+                                                                 Only filtered if [MATCH_PARTID] is set. */
+        uint64_t reserved_20_26        : 7;
+        uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
+                                                                 [MATCH_PMG] is set. */
+        uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_prf_s cn; */
+    struct cavm_tadx_prfx_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_28_34        : 7;
+        uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
+                                                                 [MATCH_PMG] is set. */
+        uint64_t reserved_20_26        : 7;
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
+                                                                 Only filtered if [MATCH_PARTID] is set. */
+        uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
+        uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
+        uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
+                                                                 Only filtered if [MATCH_PARTID] is set. */
+        uint64_t reserved_20_26        : 7;
+        uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
+                                                                 [MATCH_PMG] is set. */
+        uint64_t reserved_28_34        : 7;
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } cn;
 };
-typedef union cavm_tadx_prf cavm_tadx_prf_t;
+typedef union cavm_tadx_prfx cavm_tadx_prfx_t;
 
-static inline uint64_t CAVM_TADX_PRF(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_PRF(uint64_t a)
+static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b)
 {
-    if (a<=127)
-        return 0x87e200000068ll + 0x1000000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("TADX_PRF", 1, a, 0, 0, 0, 0, 0);
+    if ((a<=127) && (b<=3))
+        return 0x87e200000900ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("TADX_PRFX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_TADX_PRF(a) cavm_tadx_prf_t
-#define bustype_CAVM_TADX_PRF(a) CSR_TYPE_RSL
-#define basename_CAVM_TADX_PRF(a) "TADX_PRF"
-#define device_bar_CAVM_TADX_PRF(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_PRF(a) (a)
-#define arguments_CAVM_TADX_PRF(a) (a),-1,-1,-1
+#define typedef_CAVM_TADX_PRFX(a,b) cavm_tadx_prfx_t
+#define bustype_CAVM_TADX_PRFX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_TADX_PRFX(a,b) "TADX_PRFX"
+#define device_bar_CAVM_TADX_PRFX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_PRFX(a,b) (a)
+#define arguments_CAVM_TADX_PRFX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) tad#_req_rcnt

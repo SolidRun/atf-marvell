@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -366,15 +366,13 @@ union cavm_avs_io_ctl
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 16 mA. */
-        uint64_t reserved_1            : 1;
-        uint64_t slew                  : 1;  /**< [  0:  0](R/W) AVS bus pins output slew rate control.
-                                                                 0 = High slew rate.
-                                                                 1 = Low slew rate. */
+        uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
+                                                                 0x0 = Weakest
+                                                                 0x3 = Strongest */
 #else /* Word 0 - Little Endian */
-        uint64_t slew                  : 1;  /**< [  0:  0](R/W) AVS bus pins output slew rate control.
-                                                                 0 = High slew rate.
-                                                                 1 = Low slew rate. */
-        uint64_t reserved_1            : 1;
+        uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
+                                                                 0x0 = Weakest
+                                                                 0x3 = Strongest */
         uint64_t drive                 : 2;  /**< [  3:  2](R/W) AVS bus pin output drive strength.
                                                                  0x0 = 2 mA.
                                                                  0x1 = 4 mA.

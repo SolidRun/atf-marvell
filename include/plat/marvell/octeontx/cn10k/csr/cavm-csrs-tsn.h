@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -75,13 +75,15 @@ union cavm_tsnx_data
     struct cavm_tsnx_data_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t valid                 : 1;  /**< [ 12: 12](RO/H) Asserted when data in [RESULT] is ready to be read. */
-        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by [VALID]. */
+        uint64_t reserved_25_63        : 39;
+        uint64_t valid                 : 1;  /**< [ 24: 24](RO/H) Asserted when data in [RESULT] is ready to be read. */
+        uint64_t raw_result            : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA_RAW digital output */
+        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by VALID */
 #else /* Word 0 - Little Endian */
-        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by [VALID]. */
-        uint64_t valid                 : 1;  /**< [ 12: 12](RO/H) Asserted when data in [RESULT] is ready to be read. */
-        uint64_t reserved_13_63        : 51;
+        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by VALID */
+        uint64_t raw_result            : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA_RAW digital output */
+        uint64_t valid                 : 1;  /**< [ 24: 24](RO/H) Asserted when data in [RESULT] is ready to be read. */
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_data_s cn; */
@@ -102,43 +104,6 @@ static inline uint64_t CAVM_TSNX_DATA(uint64_t a)
 #define device_bar_CAVM_TSNX_DATA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TSNX_DATA(a) (a)
 #define arguments_CAVM_TSNX_DATA(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) tsn#_dbg_data
- *
- * TSN Digital Output Debug Data Register
- */
-union cavm_tsnx_dbg_data
-{
-    uint64_t u;
-    struct cavm_tsnx_dbg_data_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t raw_data              : 12; /**< [ 11:  0](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
-#else /* Word 0 - Little Endian */
-        uint64_t raw_data              : 12; /**< [ 11:  0](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tsnx_dbg_data_s cn; */
-};
-typedef union cavm_tsnx_dbg_data cavm_tsnx_dbg_data_t;
-
-static inline uint64_t CAVM_TSNX_DBG_DATA(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_DBG_DATA(uint64_t a)
-{
-    if (a<=15)
-        return 0x87e0c0000020ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("TSNX_DBG_DATA", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TSNX_DBG_DATA(a) cavm_tsnx_dbg_data_t
-#define bustype_CAVM_TSNX_DBG_DATA(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_DBG_DATA(a) "TSNX_DBG_DATA"
-#define device_bar_CAVM_TSNX_DBG_DATA(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_DBG_DATA(a) (a)
-#define arguments_CAVM_TSNX_DBG_DATA(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tsn#_eco
@@ -166,7 +131,7 @@ static inline uint64_t CAVM_TSNX_ECO(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_TSNX_ECO(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000038ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0c0000030ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -188,17 +153,31 @@ union cavm_tsnx_fsm_ctl
     struct cavm_tsnx_fsm_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t tsen_reset            : 1;  /**< [  2:  2](R/W) TSEN_ADC_RESET pin control.  Must de-assert before asserting TSEN_EN.  Active high. */
-        uint64_t tsen_start            : 1;  /**< [  1:  1](RAZ) TSEN_ADC_START pin control.  Assert to initiate conversion.  Must not be
-                                                                 asserted before [TSEN_EN], but can be simultaneously asserted. */
-        uint64_t tsen_en               : 1;  /**< [  0:  0](R/W) TSEN_ADC_EN pin control. */
+        uint64_t reserved_6_63         : 58;
+        uint64_t sw_start              : 1;  /**< [  5:  5](R/W) Directly control TSEN_ADC_START pin of the temperature sensor.  Enabled only if
+                                                                 [SW_FSM_OVERRIDE] is asserted. */
+        uint64_t sw_en                 : 1;  /**< [  4:  4](R/W) Directly control TSEN_ADC_EN pin of the temperature sensor.  Enabled only if
+                                                                 [SW_FSM_OVERRIDE] is asserted. */
+        uint64_t sw_reset              : 1;  /**< [  3:  3](R/W) Directly control TSEN_ADC_RESET pin of the temperature sensor.  Enabled only if
+                                                                 [SW_FSM_OVERRIDE] is asserted. */
+        uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Asser to allow software full control of TSENE state pins via SW_RESET, SW_START, and SW_EN */
+        uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
+                                                                 clear this bit when done. */
+        uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously to update its temperature reading.  Default is asserted.
+                                                                 Mutually exclusive with ONE_SHOT_MODE */
 #else /* Word 0 - Little Endian */
-        uint64_t tsen_en               : 1;  /**< [  0:  0](R/W) TSEN_ADC_EN pin control. */
-        uint64_t tsen_start            : 1;  /**< [  1:  1](RAZ) TSEN_ADC_START pin control.  Assert to initiate conversion.  Must not be
-                                                                 asserted before [TSEN_EN], but can be simultaneously asserted. */
-        uint64_t tsen_reset            : 1;  /**< [  2:  2](R/W) TSEN_ADC_RESET pin control.  Must de-assert before asserting TSEN_EN.  Active high. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously to update its temperature reading.  Default is asserted.
+                                                                 Mutually exclusive with ONE_SHOT_MODE */
+        uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
+                                                                 clear this bit when done. */
+        uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Asser to allow software full control of TSENE state pins via SW_RESET, SW_START, and SW_EN */
+        uint64_t sw_reset              : 1;  /**< [  3:  3](R/W) Directly control TSEN_ADC_RESET pin of the temperature sensor.  Enabled only if
+                                                                 [SW_FSM_OVERRIDE] is asserted. */
+        uint64_t sw_en                 : 1;  /**< [  4:  4](R/W) Directly control TSEN_ADC_EN pin of the temperature sensor.  Enabled only if
+                                                                 [SW_FSM_OVERRIDE] is asserted. */
+        uint64_t sw_start              : 1;  /**< [  5:  5](R/W) Directly control TSEN_ADC_START pin of the temperature sensor.  Enabled only if
+                                                                 [SW_FSM_OVERRIDE] is asserted. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_fsm_ctl_s cn; */
@@ -231,15 +210,15 @@ union cavm_tsnx_sw_cal
     struct cavm_tsnx_sw_cal_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t bg_trim               : 5;  /**< [  5:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
         uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
                                                                  other fields in this register will take effect only if this bit is set. */
 #else /* Word 0 - Little Endian */
         uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
                                                                  other fields in this register will take effect only if this bit is set. */
-        uint64_t bg_trim               : 5;  /**< [  5:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_sw_cal_s cn; */
@@ -250,7 +229,7 @@ static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000028ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0c0000020ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_SW_CAL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -272,13 +251,21 @@ union cavm_tsnx_therm_trip
     struct cavm_tsnx_therm_trip_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t en                    : 1;  /**< [ 12: 12](R/W) Enables therm_alert checking. */
-        uint64_t limit                 : 12; /**< [ 11:  0](R/W) When [EN] is set, assert thermal alert if a temperature reading breaches this limit. */
+        uint64_t reserved_26_63        : 38;
+        uint64_t alert                 : 1;  /**< [ 25: 25](RO/H) If either temperature limit is breached, this pin will assert.  Must be cleared by software. */
+        uint64_t en                    : 1;  /**< [ 24: 24](R/W) Enables therm_alert checking. */
+        uint64_t lo_limit              : 12; /**< [ 23: 12](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is lower than this.
+                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
+        uint64_t hi_limit              : 12; /**< [ 11:  0](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is higher than this.
+                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
 #else /* Word 0 - Little Endian */
-        uint64_t limit                 : 12; /**< [ 11:  0](R/W) When [EN] is set, assert thermal alert if a temperature reading breaches this limit. */
-        uint64_t en                    : 1;  /**< [ 12: 12](R/W) Enables therm_alert checking. */
-        uint64_t reserved_13_63        : 51;
+        uint64_t hi_limit              : 12; /**< [ 11:  0](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is higher than this.
+                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
+        uint64_t lo_limit              : 12; /**< [ 23: 12](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is lower than this.
+                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
+        uint64_t en                    : 1;  /**< [ 24: 24](R/W) Enables therm_alert checking. */
+        uint64_t alert                 : 1;  /**< [ 25: 25](RO/H) If either temperature limit is breached, this pin will assert.  Must be cleared by software. */
+        uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_therm_trip_s cn; */
@@ -289,7 +276,7 @@ static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000030ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0c0000028ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_THERM_TRIP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -341,7 +328,7 @@ union cavm_tsnx_tsene_ctl
                                                                    0x1 = 128.
                                                                    0x2 = 256.
                                                                    0x3 = 512 (default). */
-        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output */
+        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output. */
         uint64_t mode                  : 2;  /**< [  5:  4](R/W) External/internal sensor mode control.
                                                                  0x0 = Internal sensor.
                                                                  0x1 = On-chip remote ADC input.
@@ -357,7 +344,7 @@ union cavm_tsnx_tsene_ctl
                                                                  0x1 = On-chip remote ADC input.
                                                                  0x2 = On-chip remote sensor.
                                                                  0x3 = Unused. */
-        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output */
+        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output. */
         uint64_t osr                   : 2;  /**< [  8:  7](R/W) Over sample rate select.
                                                                    0x0 = 64.
                                                                    0x1 = 128.

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -139,31 +139,31 @@ union cavm_dro_blkx_const
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
-        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
         uint64_t blocks                : 6;  /**< [ 14:  9](RO) Number of blocks supported. */
         uint64_t rings                 : 9;  /**< [  8:  0](RO) Number of rings supported. */
 #else /* Word 0 - Little Endian */
         uint64_t rings                 : 9;  /**< [  8:  0](RO) Number of rings supported. */
         uint64_t blocks                : 6;  /**< [ 14:  9](RO) Number of blocks supported. */
-        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
-        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0-uptom4, 1-uptom10, 2-uptom11 */
+        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
+        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
@@ -398,6 +398,261 @@ static inline uint64_t CAVM_DRO_BLKX_FREEZE(uint64_t a)
 #define arguments_CAVM_DRO_BLKX_FREEZE(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) dro_blk#_gate_ring_desc
+ *
+ * INTERNAL: DRO Block Gate Ring Gate Description Register
+ *
+ * This register lists the type of gates used for each ring in the gate rings used in the DRO.
+ */
+union cavm_dro_blkx_gate_ring_desc
+{
+    uint64_t u;
+    struct cavm_dro_blkx_gate_ring_desc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t gate_r0_ring19_gate_type : 2;/**< [ 39: 38](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t gate_ro_ring18_gate_type : 2;/**< [ 37: 36](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring17_gate_type : 2;/**< [ 35: 34](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring16_gate_type : 2;/**< [ 33: 32](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring15_gate_type : 2;/**< [ 31: 30](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring14_gate_type : 2;/**< [ 29: 28](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring13_gate_type : 2;/**< [ 27: 26](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring12_gate_type : 2;/**< [ 25: 24](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring11_gate_type : 2;/**< [ 23: 22](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring10_gate_type : 2;/**< [ 21: 20](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring9_gate_type : 2;/**< [ 19: 18](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring8_gate_type : 2;/**< [ 17: 16](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring7_gate_type : 2;/**< [ 15: 14](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring6_gate_type : 2;/**< [ 13: 12](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring5_gate_type : 2;/**< [ 11: 10](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring4_gate_type : 2;/**< [  9:  8](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring3_gate_type : 2;/**< [  7:  6](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_r0_ring2_gate_type : 2;/**< [  5:  4](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t gate_ro_ring1_gate_type : 2;/**< [  3:  2](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t gate_ro_ring0_gate_type : 2;/**< [  1:  0](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+#else /* Word 0 - Little Endian */
+        uint64_t gate_ro_ring0_gate_type : 2;/**< [  1:  0](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t gate_ro_ring1_gate_type : 2;/**< [  3:  2](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t gate_r0_ring2_gate_type : 2;/**< [  5:  4](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t gate_ro_ring3_gate_type : 2;/**< [  7:  6](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring4_gate_type : 2;/**< [  9:  8](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring5_gate_type : 2;/**< [ 11: 10](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring6_gate_type : 2;/**< [ 13: 12](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring7_gate_type : 2;/**< [ 15: 14](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring8_gate_type : 2;/**< [ 17: 16](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring9_gate_type : 2;/**< [ 19: 18](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring10_gate_type : 2;/**< [ 21: 20](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring11_gate_type : 2;/**< [ 23: 22](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring12_gate_type : 2;/**< [ 25: 24](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring13_gate_type : 2;/**< [ 27: 26](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring14_gate_type : 2;/**< [ 29: 28](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring15_gate_type : 2;/**< [ 31: 30](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring16_gate_type : 2;/**< [ 33: 32](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring17_gate_type : 2;/**< [ 35: 34](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_ro_ring18_gate_type : 2;/**< [ 37: 36](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2,. */
+        uint64_t gate_r0_ring19_gate_type : 2;/**< [ 39: 38](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
+                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dro_blkx_gate_ring_desc_s cn; */
+};
+typedef union cavm_dro_blkx_gate_ring_desc cavm_dro_blkx_gate_ring_desc_t;
+
+static inline uint64_t CAVM_DRO_BLKX_GATE_RING_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DRO_BLKX_GATE_RING_DESC(uint64_t a)
+{
+    if (a<=9)
+        return 0x87e008000088ll + 0x10000ll * ((a) & 0xf);
+    __cavm_csr_fatal("DRO_BLKX_GATE_RING_DESC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DRO_BLKX_GATE_RING_DESC(a) cavm_dro_blkx_gate_ring_desc_t
+#define bustype_CAVM_DRO_BLKX_GATE_RING_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DRO_BLKX_GATE_RING_DESC(a) "DRO_BLKX_GATE_RING_DESC"
+#define busnum_CAVM_DRO_BLKX_GATE_RING_DESC(a) (a)
+#define arguments_CAVM_DRO_BLKX_GATE_RING_DESC(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dro_blk#_gate_ring_vt_desc
+ *
+ * INTERNAL: DRO Block Gate Ring Gate Description Register
+ *
+ * This register lists the type of gates used for each ring in the gate rings used in the DRO.
+ */
+union cavm_dro_blkx_gate_ring_vt_desc
+{
+    uint64_t u;
+    struct cavm_dro_blkx_gate_ring_vt_desc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t gate_r0_ring19_vt     : 3;  /**< [ 59: 57](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring18_vt     : 3;  /**< [ 56: 54](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring17_vt     : 3;  /**< [ 53: 51](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring16_vt     : 3;  /**< [ 50: 48](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring15_vt     : 3;  /**< [ 47: 45](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring14_vt     : 3;  /**< [ 44: 42](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring13_vt     : 3;  /**< [ 41: 39](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring12_vt     : 3;  /**< [ 38: 36](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring11_vt     : 3;  /**< [ 35: 33](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring10_vt     : 3;  /**< [ 32: 30](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring9_vt      : 3;  /**< [ 29: 27](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring8_vt      : 3;  /**< [ 26: 24](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring7_vt      : 3;  /**< [ 23: 21](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring6_vt      : 3;  /**< [ 20: 18](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring5_vt      : 3;  /**< [ 17: 15](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring4_vt      : 3;  /**< [ 14: 12](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring3_vt      : 3;  /**< [ 11:  9](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_r0_ring2_vt      : 3;  /**< [  8:  6](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring1_vt      : 3;  /**< [  5:  3](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring0_vt      : 3;  /**< [  2:  0](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+#else /* Word 0 - Little Endian */
+        uint64_t gate_ro_ring0_vt      : 3;  /**< [  2:  0](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring1_vt      : 3;  /**< [  5:  3](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_r0_ring2_vt      : 3;  /**< [  8:  6](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring3_vt      : 3;  /**< [ 11:  9](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring4_vt      : 3;  /**< [ 14: 12](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring5_vt      : 3;  /**< [ 17: 15](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring6_vt      : 3;  /**< [ 20: 18](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring7_vt      : 3;  /**< [ 23: 21](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring8_vt      : 3;  /**< [ 26: 24](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring9_vt      : 3;  /**< [ 29: 27](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring10_vt     : 3;  /**< [ 32: 30](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring11_vt     : 3;  /**< [ 35: 33](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring12_vt     : 3;  /**< [ 38: 36](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring13_vt     : 3;  /**< [ 41: 39](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring14_vt     : 3;  /**< [ 44: 42](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring15_vt     : 3;  /**< [ 47: 45](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring16_vt     : 3;  /**< [ 50: 48](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring17_vt     : 3;  /**< [ 53: 51](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_ro_ring18_vt     : 3;  /**< [ 56: 54](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t gate_r0_ring19_vt     : 3;  /**< [ 59: 57](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dro_blkx_gate_ring_vt_desc_s cn; */
+};
+typedef union cavm_dro_blkx_gate_ring_vt_desc cavm_dro_blkx_gate_ring_vt_desc_t;
+
+static inline uint64_t CAVM_DRO_BLKX_GATE_RING_VT_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DRO_BLKX_GATE_RING_VT_DESC(uint64_t a)
+{
+    if (a<=9)
+        return 0x87e008000090ll + 0x10000ll * ((a) & 0xf);
+    __cavm_csr_fatal("DRO_BLKX_GATE_RING_VT_DESC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) cavm_dro_blkx_gate_ring_vt_desc_t
+#define bustype_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) "DRO_BLKX_GATE_RING_VT_DESC"
+#define busnum_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) (a)
+#define arguments_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dro_blk#_metal_ring_gate_desc
+ *
+ * INTERNAL: DRO Block Gate Ring Gate Description Register
+ *
+ * This register lists the type of gates used for each ring in the metal rings used in
+ * the DRO. 0 = INVD12LVT, 1 = INVD16LVT, 2 = INVD36LVT.
+ */
+union cavm_dro_blkx_metal_ring_gate_desc
+{
+    uint64_t u;
+    struct cavm_dro_blkx_metal_ring_gate_desc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_26_63        : 38;
+        uint64_t metal_ro_ring12_type  : 2;  /**< [ 25: 24](RO) Metal RO RING12 GATE type. */
+        uint64_t metal_ro_ring11_type  : 2;  /**< [ 23: 22](RO) Metal RO RING11 GATE type. */
+        uint64_t metal_ro_ring10_type  : 2;  /**< [ 21: 20](RO) Metal RO RING10 GATE type. */
+        uint64_t metal_ro_ring9_type   : 2;  /**< [ 19: 18](RO) Metal RO RING9 GATE type. */
+        uint64_t metal_ro_ring8_type   : 2;  /**< [ 17: 16](RO) Metal RO RING8 GATE type. */
+        uint64_t metal_ro_ring7_type   : 2;  /**< [ 15: 14](RO) Metal RO RING7 GATE type. */
+        uint64_t metal_ro_ring6_type   : 2;  /**< [ 13: 12](RO) Metal RO RING6 GATE type. */
+        uint64_t metal_ro_ring5_type   : 2;  /**< [ 11: 10](RO) Metal RO RING5 GATE type. */
+        uint64_t metal_ro_ring4_type   : 2;  /**< [  9:  8](RO) Metal RO RING4 GATE type. */
+        uint64_t metal_ro_ring3_type   : 2;  /**< [  7:  6](RO) Metal RO RING3 GATE type. */
+        uint64_t metal_ro_ring2_type   : 2;  /**< [  5:  4](RO) Metal RO RING2 GATE type. */
+        uint64_t metal_ro_ring1_type   : 2;  /**< [  3:  2](RO) Metal RO RING1 GATE type. */
+        uint64_t metal_ro_ring0_type   : 2;  /**< [  1:  0](RO) Metal RO RING0 GATE type. */
+#else /* Word 0 - Little Endian */
+        uint64_t metal_ro_ring0_type   : 2;  /**< [  1:  0](RO) Metal RO RING0 GATE type. */
+        uint64_t metal_ro_ring1_type   : 2;  /**< [  3:  2](RO) Metal RO RING1 GATE type. */
+        uint64_t metal_ro_ring2_type   : 2;  /**< [  5:  4](RO) Metal RO RING2 GATE type. */
+        uint64_t metal_ro_ring3_type   : 2;  /**< [  7:  6](RO) Metal RO RING3 GATE type. */
+        uint64_t metal_ro_ring4_type   : 2;  /**< [  9:  8](RO) Metal RO RING4 GATE type. */
+        uint64_t metal_ro_ring5_type   : 2;  /**< [ 11: 10](RO) Metal RO RING5 GATE type. */
+        uint64_t metal_ro_ring6_type   : 2;  /**< [ 13: 12](RO) Metal RO RING6 GATE type. */
+        uint64_t metal_ro_ring7_type   : 2;  /**< [ 15: 14](RO) Metal RO RING7 GATE type. */
+        uint64_t metal_ro_ring8_type   : 2;  /**< [ 17: 16](RO) Metal RO RING8 GATE type. */
+        uint64_t metal_ro_ring9_type   : 2;  /**< [ 19: 18](RO) Metal RO RING9 GATE type. */
+        uint64_t metal_ro_ring10_type  : 2;  /**< [ 21: 20](RO) Metal RO RING10 GATE type. */
+        uint64_t metal_ro_ring11_type  : 2;  /**< [ 23: 22](RO) Metal RO RING11 GATE type. */
+        uint64_t metal_ro_ring12_type  : 2;  /**< [ 25: 24](RO) Metal RO RING12 GATE type. */
+        uint64_t reserved_26_63        : 38;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dro_blkx_metal_ring_gate_desc_s cn; */
+};
+typedef union cavm_dro_blkx_metal_ring_gate_desc cavm_dro_blkx_metal_ring_gate_desc_t;
+
+static inline uint64_t CAVM_DRO_BLKX_METAL_RING_GATE_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DRO_BLKX_METAL_RING_GATE_DESC(uint64_t a)
+{
+    if (a<=9)
+        return 0x87e008000098ll + 0x10000ll * ((a) & 0xf);
+    __cavm_csr_fatal("DRO_BLKX_METAL_RING_GATE_DESC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) cavm_dro_blkx_metal_ring_gate_desc_t
+#define bustype_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) "DRO_BLKX_METAL_RING_GATE_DESC"
+#define busnum_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) (a)
+#define arguments_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) dro_blk#_rg#_mask
  *
  * INTERNAL: DRO Block Mask Registers
@@ -476,6 +731,94 @@ static inline uint64_t CAVM_DRO_BLKX_RGX_READ(uint64_t a, uint64_t b)
 #define basename_CAVM_DRO_BLKX_RGX_READ(a,b) "DRO_BLKX_RGX_READ"
 #define busnum_CAVM_DRO_BLKX_RGX_READ(a,b) (a)
 #define arguments_CAVM_DRO_BLKX_RGX_READ(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dro_blk#_uptom14_desc
+ *
+ * INTERNAL: DRO Block UPTOM10 Description Register
+ *
+ * uptom10 description.
+ */
+union cavm_dro_blkx_uptom14_desc
+{
+    uint64_t u;
+    struct cavm_dro_blkx_uptom14_desc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) number of gate dros. */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) number of metal dros. */
+#else /* Word 0 - Little Endian */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) number of metal dros. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) number of gate dros. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dro_blkx_uptom14_desc_s cn; */
+};
+typedef union cavm_dro_blkx_uptom14_desc cavm_dro_blkx_uptom14_desc_t;
+
+static inline uint64_t CAVM_DRO_BLKX_UPTOM14_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DRO_BLKX_UPTOM14_DESC(uint64_t a)
+{
+    if (a<=9)
+        return 0x87e008000080ll + 0x10000ll * ((a) & 0xf);
+    __cavm_csr_fatal("DRO_BLKX_UPTOM14_DESC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DRO_BLKX_UPTOM14_DESC(a) cavm_dro_blkx_uptom14_desc_t
+#define bustype_CAVM_DRO_BLKX_UPTOM14_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DRO_BLKX_UPTOM14_DESC(a) "DRO_BLKX_UPTOM14_DESC"
+#define busnum_CAVM_DRO_BLKX_UPTOM14_DESC(a) (a)
+#define arguments_CAVM_DRO_BLKX_UPTOM14_DESC(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dro_blk#_uptom4_desc
+ *
+ * INTERNAL: DRO Block UPTOM4 Description Register
+ *
+ * uptom4 description.
+ */
+union cavm_dro_blkx_uptom4_desc
+{
+    uint64_t u;
+    struct cavm_dro_blkx_uptom4_desc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) Number of gate dros. */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) Number of metal dros. */
+#else /* Word 0 - Little Endian */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) Number of metal dros. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) Number of gate dros. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dro_blkx_uptom4_desc_s cn; */
+};
+typedef union cavm_dro_blkx_uptom4_desc cavm_dro_blkx_uptom4_desc_t;
+
+static inline uint64_t CAVM_DRO_BLKX_UPTOM4_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DRO_BLKX_UPTOM4_DESC(uint64_t a)
+{
+    if (a<=9)
+        return 0x87e008000078ll + 0x10000ll * ((a) & 0xf);
+    __cavm_csr_fatal("DRO_BLKX_UPTOM4_DESC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DRO_BLKX_UPTOM4_DESC(a) cavm_dro_blkx_uptom4_desc_t
+#define bustype_CAVM_DRO_BLKX_UPTOM4_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DRO_BLKX_UPTOM4_DESC(a) "DRO_BLKX_UPTOM4_DESC"
+#define busnum_CAVM_DRO_BLKX_UPTOM4_DESC(a) (a)
+#define arguments_CAVM_DRO_BLKX_UPTOM4_DESC(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dro_blk#_vdr_const

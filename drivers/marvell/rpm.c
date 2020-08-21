@@ -70,38 +70,38 @@ static void rpm_lmac_hrpcs_config(int rpm_id, int lmac_id)
 
 static void rpm_lmac_mac_config(int rpm_id, int lmac_id)
 {
-	cavm_rpmx_mti_mac100_x_command_config_t mac_config;
-	cavm_rpmx_mti_mac100_x_xif_mode_t xif_mode;
+	cavm_rpmx_mti_mac100x_command_config_t mac_config;
+	cavm_rpmx_mti_mac100x_xif_mode_t xif_mode;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
 	/* Section 40.20.10 MAC configuration */
-	mac_config.u = CSR_READ(CAVM_RPMX_MTI_MAC100_X_COMMAND_CONFIG(
+	mac_config.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(
 				rpm_id, lmac_id));
 	mac_config.s.cntl_frame_ena = 1;
 	mac_config.s.tx_pad_en = 1;
 	mac_config.s.crc_fwd = 0;
-	CSR_WRITE(CAVM_RPMX_MTI_MAC100_X_COMMAND_CONFIG(rpm_id, lmac_id),
+	CSR_WRITE(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id),
 			mac_config.u);
 
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100_x_rx_fifo_sections_t,
-			CAVM_RPMX_MTI_MAC100_X_RX_FIFO_SECTIONS(rpm_id, lmac_id),
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_rx_fifo_sections_t,
+			CAVM_RPMX_MTI_MAC100X_RX_FIFO_SECTIONS(rpm_id, lmac_id),
 			rx_section_empty, 3);
 
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100_x_tx_fifo_sections_t,
-			CAVM_RPMX_MTI_MAC100_X_TX_FIFO_SECTIONS(rpm_id, lmac_id),
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_tx_fifo_sections_t,
+			CAVM_RPMX_MTI_MAC100X_TX_FIFO_SECTIONS(rpm_id, lmac_id),
 			tx_section_empty, 3);
 
-	xif_mode.u = CSR_READ(CAVM_RPMX_MTI_MAC100_X_XIF_MODE(rpm_id,
+	xif_mode.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_XIF_MODE(rpm_id,
 					lmac_id));
 	xif_mode.s.xgmii = 0;
 	xif_mode.s.pausetimerx8 = 1;
-	CSR_WRITE(CAVM_RPMX_MTI_MAC100_X_XIF_MODE(rpm_id, lmac_id),
+	CSR_WRITE(CAVM_RPMX_MTI_MAC100X_XIF_MODE(rpm_id, lmac_id),
 				xif_mode.u);
 	/* FIXME: pause quanta CSRs */
 	/* Configure Frame Length */
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100_x_frm_length_t,
-			CAVM_RPMX_MTI_MAC100_X_FRM_LENGTH(rpm_id, lmac_id),
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_frm_length_t,
+			CAVM_RPMX_MTI_MAC100X_FRM_LENGTH(rpm_id, lmac_id),
 			frm_length, RPM_MAX_FRAME_LENGTH);
 }
 
@@ -142,19 +142,19 @@ static int rpm_get_lane_speed(int rpm_id, int lmac_id)
 int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *lnk_sts)
 {
 	cavm_rpmx_ext_mti_portx_status_t port_status;
-	cavm_rpmx_mti_mac100_x_status_t mac100_status;
-	cavm_rpmx_mti_pcs100_x_status1_t pcs100_status;
+	cavm_rpmx_mti_mac100x_status_t mac100_status;
+	cavm_rpmx_mti_pcs100x_status1_t pcs100_status;
 	int link_up = 0, speed = 0, ret = 0;
 
 	debug_rpm("%s: %d:%d\n", __func__, rpm_id, lmac_id);
 
 	port_status.u = CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_STATUS(rpm_id, lmac_id));
-	mac100_status.u = CSR_READ(CAVM_RPMX_MTI_MAC100_X_STATUS(rpm_id, lmac_id));
-	/* FIXME: PCS100_X_STATUS1 needs to be read twice for the pcs_receive
+	mac100_status.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_STATUS(rpm_id, lmac_id));
+	/* FIXME: PCS100X_STATUS1 needs to be read twice for the pcs_receive
 	 * link to be set
 	 */
-	CSR_READ(CAVM_RPMX_MTI_PCS100_X_STATUS1(rpm_id, lmac_id));
-	pcs100_status.u = CSR_READ(CAVM_RPMX_MTI_PCS100_X_STATUS1(rpm_id, lmac_id));
+	CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
+	pcs100_status.u = CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
 
 	if ((port_status.s.link_ok == 1) && (port_status.s.link_status == 1) &&
 		(port_status.s.hi_ber == 0) &&
@@ -180,23 +180,23 @@ int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *lnk_sts)
 	} else {
 		debug_rpm("%s: %d:%d: port_status.u 0x%llx mac100_status.u 0x%llx pcs100_status.u 0x%llx\n", __func__, rpm_id, lmac_id,
 			CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_STATUS(rpm_id, lmac_id)),
-			CSR_READ(CAVM_RPMX_MTI_MAC100_X_STATUS(rpm_id, lmac_id)),
-			CSR_READ(CAVM_RPMX_MTI_PCS100_X_STATUS1(rpm_id, lmac_id)));
+			CSR_READ(CAVM_RPMX_MTI_MAC100X_STATUS(rpm_id, lmac_id)),
+			CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id)));
 	}
 	return ret;
 }
 
 void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable)
 {
-	cavm_rpmx_mti_mac100_x_command_config_t mac100_cfg;
+	cavm_rpmx_mti_mac100x_command_config_t mac100_cfg;
 	cavm_rpmx_cmrx_config_t cmrx_cfg;
 
 	debug_rpm("%s %d:%d enable %d\n", __func__, rpm_id, lmac_id, enable);
 
-	mac100_cfg.u = CSR_READ(CAVM_RPMX_MTI_MAC100_X_COMMAND_CONFIG(rpm_id, lmac_id));
+	mac100_cfg.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id));
 	mac100_cfg.s.tx_ena = enable;
 	mac100_cfg.s.rx_ena = enable;
-	CSR_WRITE(CAVM_RPMX_MTI_MAC100_X_COMMAND_CONFIG(rpm_id, lmac_id),
+	CSR_WRITE(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id),
 			mac100_cfg.u);
 
 	cmrx_cfg.u = CSR_READ(CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id));
@@ -225,8 +225,8 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id)
 
 	/* Rest of Configuration for HRPCS */
 	/* LMAC mapped to PCS100 lanes 1:1 */
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_pcs100_x_control1_t,
-			CAVM_RPMX_MTI_PCS100_X_CONTROL1(rpm_id, lmac_id),
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_pcs100x_control1_t,
+			CAVM_RPMX_MTI_PCS100X_CONTROL1(rpm_id, lmac_id),
 				reset, 1);
 	return 0;
 }

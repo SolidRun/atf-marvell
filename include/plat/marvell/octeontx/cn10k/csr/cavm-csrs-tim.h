@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1144,23 +1144,21 @@ union cavm_tim_af_capture_timers
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t ext_arm               : 1;  /**< [  1:  1](R/W/H) When set, arms hardware so that the next rising edge on the GPIO virtual pin
-                                                                 GPIO_PIN_SEL_E::PTP_TSTMP signal will cause [CAPTURE_TIMERS] to be set, and
-                                                                 hardware will clear [EXT_ARM]. */
-        uint64_t capture_timers        : 1;  /**< [  0:  0](R/W/H) When set, all respective TIM_AF_FR_RN_* values are capture into
-                                                                 TIM_AF_CAPTURE_* register including 2 external timers.
-                                                                 When cleared, all TIM_AF_CAPTURE_* contains the free running values of corresponding timers.
-                                                                 If [EXT_ARM] is set an external input may also set this bit. see [EXT_ARM].
-                                                                 If [EXT_ARM] is set and SW will set also this bit the first capture will be apply. */
+        uint64_t ext_arm               : 1;  /**< [  1:  1](R/W/H) When set, arms hardware so that the next rising edge on the gpio__tim_tstmp pin,
+                                                                 will cause [CAPTURE_TIMERS] to be set and [EXT_ARM] to be cleared. */
+        uint64_t capture_timers        : 1;  /**< [  0:  0](R/W/H) 0 = TIM_AF_CAPTURE_* contain the free running values of the corresponding TIM_AF_FR_RN_* times.
+                                                                 1 = TIM_AF_CAPTURE_* contain the captured value of the corresponding
+                                                                 TIM_AF_FR_RN_* times, captured when this bit last transitioned from 0 to 1.
+
+                                                                 If [EXT_ARM] is set an external input may also set this bit, see [EXT_ARM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t capture_timers        : 1;  /**< [  0:  0](R/W/H) When set, all respective TIM_AF_FR_RN_* values are capture into
-                                                                 TIM_AF_CAPTURE_* register including 2 external timers.
-                                                                 When cleared, all TIM_AF_CAPTURE_* contains the free running values of corresponding timers.
-                                                                 If [EXT_ARM] is set an external input may also set this bit. see [EXT_ARM].
-                                                                 If [EXT_ARM] is set and SW will set also this bit the first capture will be apply. */
-        uint64_t ext_arm               : 1;  /**< [  1:  1](R/W/H) When set, arms hardware so that the next rising edge on the GPIO virtual pin
-                                                                 GPIO_PIN_SEL_E::PTP_TSTMP signal will cause [CAPTURE_TIMERS] to be set, and
-                                                                 hardware will clear [EXT_ARM]. */
+        uint64_t capture_timers        : 1;  /**< [  0:  0](R/W/H) 0 = TIM_AF_CAPTURE_* contain the free running values of the corresponding TIM_AF_FR_RN_* times.
+                                                                 1 = TIM_AF_CAPTURE_* contain the captured value of the corresponding
+                                                                 TIM_AF_FR_RN_* times, captured when this bit last transitioned from 0 to 1.
+
+                                                                 If [EXT_ARM] is set an external input may also set this bit, see [EXT_ARM]. */
+        uint64_t ext_arm               : 1;  /**< [  1:  1](R/W/H) When set, arms hardware so that the next rising edge on the gpio__tim_tstmp pin,
+                                                                 will cause [CAPTURE_TIMERS] to be set and [EXT_ARM] to be cleared. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;

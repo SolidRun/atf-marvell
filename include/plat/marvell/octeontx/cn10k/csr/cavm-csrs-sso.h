@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2746,7 +2746,7 @@ union cavm_sso_af_hwgrpx_pri
         uint64_t reserved_30_63        : 34;
         uint64_t wgt_left              : 6;  /**< [ 29: 24](RO/H) Arbitration credits remaining on this hardware group. */
         uint64_t reserved_22_23        : 2;
-        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Arbitration weight to apply to this hardware group. Must be \>= 0x2. */
+        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Arbitration weight to apply to this hardware group. Must be \>= 0x3. */
         uint64_t reserved_12_15        : 4;
         uint64_t affinity              : 4;  /**< [ 11:  8](R/W) Processor affinity arbitration weight to apply to this hardware group. If zero, affinity
                                                                  is disabled. A change to [AFFINITY] will not take effect until the old [AFFINITY]'s
@@ -2774,7 +2774,7 @@ union cavm_sso_af_hwgrpx_pri
                                                                  is disabled. A change to [AFFINITY] will not take effect until the old [AFFINITY]'s
                                                                  value loaded into SSO_AF_HWS()_ARB[AFF_LEFT] has drained to zero. */
         uint64_t reserved_12_15        : 4;
-        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Arbitration weight to apply to this hardware group. Must be \>= 0x2. */
+        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Arbitration weight to apply to this hardware group. Must be \>= 0x3. */
         uint64_t reserved_22_23        : 2;
         uint64_t wgt_left              : 6;  /**< [ 29: 24](RO/H) Arbitration credits remaining on this hardware group. */
         uint64_t reserved_30_63        : 34;
@@ -3213,13 +3213,13 @@ union cavm_sso_af_hwsx_lsw_cfg
         uint64_t reserved_8_63         : 56;
         uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO) Number of allocated LSW entries, range 0 to 8. */
         uint64_t reserved_3            : 1;
-        uint64_t wqe_release           : 1;  /**< [  2:  2](R/W) A one indicates SSO_WS free the WQE index immediately upon issuing the release
+        uint64_t wqe_release           : 1;  /**< [  2:  2](R/W) A one indicates SSO WS frees the WQE index immediately upon issuing the release
                                                                  to the LSW block. A zero indicates the WQE index is freed after the LSW
                                                                  acknowledge and guarantees atomicity of releases. */
-        uint64_t mode                  : 2;  /**< [  1:  0](R/W) LSW_MODE as defined by [SSO_LSW_MODE_E]. */
+        uint64_t mode                  : 2;  /**< [  1:  0](R/W) LSW mode as enumerated by SSO_LSW_MODE_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t mode                  : 2;  /**< [  1:  0](R/W) LSW_MODE as defined by [SSO_LSW_MODE_E]. */
-        uint64_t wqe_release           : 1;  /**< [  2:  2](R/W) A one indicates SSO_WS free the WQE index immediately upon issuing the release
+        uint64_t mode                  : 2;  /**< [  1:  0](R/W) LSW mode as enumerated by SSO_LSW_MODE_E. */
+        uint64_t wqe_release           : 1;  /**< [  2:  2](R/W) A one indicates SSO WS frees the WQE index immediately upon issuing the release
                                                                  to the LSW block. A zero indicates the WQE index is freed after the LSW
                                                                  acknowledge and guarantees atomicity of releases. */
         uint64_t reserved_3            : 1;

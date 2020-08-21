@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -41,6 +41,7 @@
 #define CAVM_CPT_COMP_E_INSTERR (5)
 #define CAVM_CPT_COMP_E_NOTDONE (0)
 #define CAVM_CPT_COMP_E_SWERR (3)
+#define CAVM_CPT_COMP_E_SWWARN (6)
 
 /**
  * Enumeration cpt_engine_err_type_e
@@ -170,7 +171,10 @@ union cavm_cpt_ctx_hw_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
-        uint64_t reserved_58_59        : 2;
+        uint64_t reserved_59           : 1;
+        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by HW if an
+                                                                 engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
+                                                                 be set in AOP responses. */
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
@@ -204,7 +208,10 @@ union cavm_cpt_ctx_hw_s
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
-        uint64_t reserved_58_59        : 2;
+        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by HW if an
+                                                                 engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
+                                                                 be set in AOP responses. */
+        uint64_t reserved_59           : 1;
         uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -1031,7 +1038,7 @@ union cavm_cpt_res_s
     struct cavm_cpt_res_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during NEW_WORK request. */
+        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during new work request. */
         uint64_t reserved_17_23        : 7;
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When set, CPT incremented CPT_LF_DONE[DONE] upon completing
                                                                  the CPT_INST_S, possibly causing an interrupt.
@@ -1089,7 +1096,7 @@ union cavm_cpt_res_s
 
                                                                  See also CPT_INST_S[DONEINT]. [DONEINT] may differ from CPT_INST_S[DONEINT]. */
         uint64_t reserved_17_23        : 7;
-        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during NEW_WORK request. */
+        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during new work request. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t esn                   : 64; /**< [127: 64] Extended sequence number provided to CTX via the atomic decrypt/NOP. */
@@ -4804,8 +4811,8 @@ union cavm_cptx_af_rxc_cfg2
         uint64_t l3p_ext_hdr           : 8;  /**< [  7:  0](R/W) IPv6 programmable extension header type to use when parsing the IPv6 header
                                                                  of a packet with fragment information.  Note that the IPv6 extension header
                                                                  specified must have a header extension length field.  This is required for the
-                                                                 parsing logic to correctly compute the IPv6 packet fragment size.  The L3P_EXT_HDR
-                                                                 field must be set to 0x0 when not used.
+                                                                 parsing logic to correctly compute the IPv6 packet fragment size.  [L3P_EXT_HDR]
+                                                                 must be 0x0 when not used.
 
                                                                  Internal:
                                                                  The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
@@ -4816,11 +4823,12 @@ union cavm_cptx_af_rxc_cfg2
                                                                    0x2C Fragment.
                                                                    0x3C Destination Options.
                                                                    0x87 Mobility.
-                                                                 The L3P_EXT_HDR field supports programming an additional IPv6 extension header type
+
+                                                                 The [L3P_EXT_HDR] supports programming an additional IPv6 extension header type
                                                                  to recognize during the IPv6 extension header search.  For example, programming
-                                                                 L3P_EXT_HDR=0x8B, the Host Identity Protocol extension header, would result in the L3P
+                                                                 [L3P_EXT_HDR]=0x8B, the Host Identity Protocol extension header, would result in the L3P
                                                                  IPv6 extension header search to include any found Host Identity Protocol extension
-                                                                 headers in the packet fragment size calculation.  When L3P_EXT_HDR=0x0, only the five
+                                                                 headers in the packet fragment size calculation.  When [L3P_EXT_HDR]=0x0, only the five
                                                                  IPv6 extension header types list above are included in the IPv6 extension header
                                                                  search.  These five extension header types are non-terminating in that when L3P
                                                                  encounters one of these extension headers it subtracts the extension header length
@@ -4832,8 +4840,8 @@ union cavm_cptx_af_rxc_cfg2
         uint64_t l3p_ext_hdr           : 8;  /**< [  7:  0](R/W) IPv6 programmable extension header type to use when parsing the IPv6 header
                                                                  of a packet with fragment information.  Note that the IPv6 extension header
                                                                  specified must have a header extension length field.  This is required for the
-                                                                 parsing logic to correctly compute the IPv6 packet fragment size.  The L3P_EXT_HDR
-                                                                 field must be set to 0x0 when not used.
+                                                                 parsing logic to correctly compute the IPv6 packet fragment size.  [L3P_EXT_HDR]
+                                                                 must be 0x0 when not used.
 
                                                                  Internal:
                                                                  The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
@@ -4844,11 +4852,12 @@ union cavm_cptx_af_rxc_cfg2
                                                                    0x2C Fragment.
                                                                    0x3C Destination Options.
                                                                    0x87 Mobility.
-                                                                 The L3P_EXT_HDR field supports programming an additional IPv6 extension header type
+
+                                                                 The [L3P_EXT_HDR] supports programming an additional IPv6 extension header type
                                                                  to recognize during the IPv6 extension header search.  For example, programming
-                                                                 L3P_EXT_HDR=0x8B, the Host Identity Protocol extension header, would result in the L3P
+                                                                 [L3P_EXT_HDR]=0x8B, the Host Identity Protocol extension header, would result in the L3P
                                                                  IPv6 extension header search to include any found Host Identity Protocol extension
-                                                                 headers in the packet fragment size calculation.  When L3P_EXT_HDR=0x0, only the five
+                                                                 headers in the packet fragment size calculation.  When [L3P_EXT_HDR]=0x0, only the five
                                                                  IPv6 extension header types list above are included in the IPv6 extension header
                                                                  search.  These five extension header types are non-terminating in that when L3P
                                                                  encounters one of these extension headers it subtracts the extension header length
@@ -4891,7 +4900,7 @@ union cavm_cptx_af_rxc_dfrg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
         uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
-                                                                 terminated. ZOMBIE_THRES=0 disables threshold. */
+                                                                 terminated. 0x0 disables threshold. */
         uint64_t reserved_44_47        : 4;
         uint64_t zombie_cnt            : 12; /**< [ 43: 32](R/W) Reserved. */
         uint64_t reserved_28_31        : 4;
@@ -4908,7 +4917,7 @@ union cavm_cptx_af_rxc_dfrg
         uint64_t zombie_cnt            : 12; /**< [ 43: 32](R/W) Reserved. */
         uint64_t reserved_44_47        : 4;
         uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
-                                                                 terminated. ZOMBIE_THRES=0 disables threshold. */
+                                                                 terminated. 0x0 disables threshold. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -4980,10 +4989,10 @@ union cavm_cptx_af_rxc_time_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  TIME_LIMIT=0 disables timeouts.  When the
-                                                                 age of the reassembly effort is older than (TIME_STEP*TIME_LIMIt),
-                                                                 the reassembly effort will be terminated with REAS_STS=TIMEOUT.  For example,
-                                                                 setting TIME_LIMIT=300 and TIME_STEP=200000 would specify a 60s timeout with a
+        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt. [LIMIT]=0x0 disables timeouts. When the age
+                                                                 of the reassembly effort is older than ([STEP]*[LIMIT]), the reassembly effort
+                                                                 will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT. For example, setting
+                                                                 [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
         uint64_t step                  : 20; /**< [ 19:  0](R/W) The granularity of time used to track the age of reassembly attempts.
                                                                  0x0 = Disabled.
@@ -4996,10 +5005,10 @@ union cavm_cptx_af_rxc_time_cfg
                                                                  0x1 = 1 microsecond.
                                                                  0x2 = 2 microseconds.
                                                                  _ etc. */
-        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt.  TIME_LIMIT=0 disables timeouts.  When the
-                                                                 age of the reassembly effort is older than (TIME_STEP*TIME_LIMIt),
-                                                                 the reassembly effort will be terminated with REAS_STS=TIMEOUT.  For example,
-                                                                 setting TIME_LIMIT=300 and TIME_STEP=200000 would specify a 60s timeout with a
+        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt. [LIMIT]=0x0 disables timeouts. When the age
+                                                                 of the reassembly effort is older than ([STEP]*[LIMIT]), the reassembly effort
+                                                                 will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT. For example, setting
+                                                                 [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -5022,6 +5031,51 @@ static inline uint64_t CAVM_CPTX_AF_RXC_TIME_CFG(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_RXC_TIME_CFG(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_RXC_TIME_CFG(a) (a)
 #define arguments_CAVM_CPTX_AF_RXC_TIME_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_x2p#_link_cfg
+ *
+ * CPT AF RXC X2P Link Configuration Register
+ * Each register specifies the base channel (start channel) number and the range of
+ * channels associated with the link.
+ */
+union cavm_cptx_af_x2px_link_cfg
+{
+    uint64_t u;
+    struct cavm_cptx_af_x2px_link_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
+                                                                 Reset value is 0x4, giving a range of 16 channels. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be multiple of the range. */
+#else /* Word 0 - Little Endian */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be multiple of the range. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
+                                                                 Reset value is 0x4, giving a range of 16 channels. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_x2px_link_cfg_s cn; */
+};
+typedef union cavm_cptx_af_x2px_link_cfg cavm_cptx_af_x2px_link_cfg_t;
+
+static inline uint64_t CAVM_CPTX_AF_X2PX_LINK_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_X2PX_LINK_CFG(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x8400a0050100ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_X2PX_LINK_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_X2PX_LINK_CFG(a,b) cavm_cptx_af_x2px_link_cfg_t
+#define bustype_CAVM_CPTX_AF_X2PX_LINK_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_X2PX_LINK_CFG(a,b) "CPTX_AF_X2PX_LINK_CFG"
+#define device_bar_CAVM_CPTX_AF_X2PX_LINK_CFG(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_X2PX_LINK_CFG(a,b) (a)
+#define arguments_CAVM_CPTX_AF_X2PX_LINK_CFG(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_xe#_thr

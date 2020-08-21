@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -18,6 +18,50 @@
  * This file is auto generated. Do not edit.
  *
  */
+
+/**
+ * Enumeration uctl_dma_read_cmd_e
+ *
+ * USB UCTL DMA Read Command Enumeration
+ * Enumerate NCB inbound command selections for DMA read operations.
+ */
+#define CAVM_UCTL_DMA_READ_CMD_E_LDI (0)
+#define CAVM_UCTL_DMA_READ_CMD_E_LDT (1)
+#define CAVM_UCTL_DMA_READ_CMD_E_LDY (2)
+
+/**
+ * Enumeration uctl_dma_write_cmd_e
+ *
+ * USB UCTL DMA Write Command Enumeration
+ * Enumerate NCB inbound command selections for DMA write operations.
+ */
+#define CAVM_UCTL_DMA_WRITE_CMD_E_RSTP (1)
+#define CAVM_UCTL_DMA_WRITE_CMD_E_STP (0)
+
+/**
+ * Enumeration uctl_endian_mode_e
+ *
+ * USB UCTL Endian-Mode Enumeration
+ * Enumerate endian mode selections.
+ */
+#define CAVM_UCTL_ENDIAN_MODE_E_BIG (1)
+#define CAVM_UCTL_ENDIAN_MODE_E_LITTLE (0)
+#define CAVM_UCTL_ENDIAN_MODE_E_RSVD2 (2)
+#define CAVM_UCTL_ENDIAN_MODE_E_RSVD3 (3)
+
+/**
+ * Enumeration uctl_xm_bad_dma_type_e
+ *
+ * USB UCTL XM Bad DMA Type Enumeration
+ * Enumerate type of DMA error seen.
+ */
+#define CAVM_UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB (1)
+#define CAVM_UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_16 (2)
+#define CAVM_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3)
+#define CAVM_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4)
+#define CAVM_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_QWORD (6)
+#define CAVM_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5)
+#define CAVM_UCTL_XM_BAD_DMA_TYPE_E_NONE (0)
 
 /**
  * Enumeration usbh_bar_e

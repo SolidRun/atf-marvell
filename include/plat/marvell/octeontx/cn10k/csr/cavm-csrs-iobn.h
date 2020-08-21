@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1670,7 +1670,9 @@ union cavm_iobnx_int_ena_w1c
     struct cavm_iobnx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_33_63        : 31;
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DATO_DBE]. */
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
@@ -1700,7 +1702,9 @@ union cavm_iobnx_int_ena_w1c
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..2)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_int_ena_w1c_s cn; */
@@ -1734,7 +1738,9 @@ union cavm_iobnx_int_ena_w1s
     struct cavm_iobnx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_33_63        : 31;
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DATO_DBE]. */
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
@@ -1764,7 +1770,9 @@ union cavm_iobnx_int_ena_w1s
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..2)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_int_ena_w1s_s cn; */
@@ -1799,7 +1807,9 @@ union cavm_iobnx_int_sum
     struct cavm_iobnx_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_33_63        : 31;
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) MSH data for NCBO has a SBE. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) MSH data for NCBO has a DBE. */
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) MSH to SMMU store (CSR) has poison data. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) MSH response has a checksum error. */
@@ -1831,7 +1841,9 @@ union cavm_iobnx_int_sum
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) MSH response has a checksum error. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) MSH to SMMU store (CSR) has poison data. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) MSH data for NCBO has a DBE. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) MSH data for NCBO has a SBE. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_int_sum_s cn; */
@@ -1865,7 +1877,9 @@ union cavm_iobnx_int_sum_w1s
     struct cavm_iobnx_int_sum_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_33_63        : 31;
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DATO_DBE]. */
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
@@ -1895,7 +1909,9 @@ union cavm_iobnx_int_sum_w1s
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..2)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_int_sum_w1s_s cn; */
@@ -2703,13 +2719,13 @@ static inline uint64_t CAVM_IOBNX_RPERF_INRMX(uint64_t a, uint64_t b)
  * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRML\<21:8\>
  *   (stream_id\<7:0\> + 0).
  *
- * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRML1\<21:8\>
+ * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB1\<21:8\>
  *   (stream_id\<7:0\> + 256).
  *
- * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRML2\<21:8\>
+ * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB2\<21:8\>
  *   (stream_id\<7:0\> + 512).
  *
- * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRML3\<21:8\>
+ * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB3\<21:8\>
  *   (stream_id\<7:0\> + 768).
  *
  * For each given index {a} (the RSL function number), each IOB
@@ -2831,42 +2847,5 @@ static inline uint64_t CAVM_IOBNX_SCRATCH(uint64_t a)
 #define device_bar_CAVM_IOBNX_SCRATCH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_IOBNX_SCRATCH(a) (a)
 #define arguments_CAVM_IOBNX_SCRATCH(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) iobn#_sow_ord_dis
- *
- * INTERNAL: IOBN SOW Order Disable Register
- */
-union cavm_iobnx_sow_ord_dis
-{
-    uint64_t u;
-    struct cavm_iobnx_sow_ord_dis_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t disord                : 1;  /**< [  0:  0](R/W) Disable fast ordering processing for Vxxx on SOW enabled ARBIDs. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t disord                : 1;  /**< [  0:  0](R/W) Disable fast ordering processing for Vxxx on SOW enabled ARBIDs. For diagnostic use only. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_sow_ord_dis_s cn; */
-};
-typedef union cavm_iobnx_sow_ord_dis cavm_iobnx_sow_ord_dis_t;
-
-static inline uint64_t CAVM_IOBNX_SOW_ORD_DIS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_SOW_ORD_DIS(uint64_t a)
-{
-    if (a<=2)
-        return 0x87e1200830a0ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("IOBNX_SOW_ORD_DIS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_SOW_ORD_DIS(a) cavm_iobnx_sow_ord_dis_t
-#define bustype_CAVM_IOBNX_SOW_ORD_DIS(a) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_SOW_ORD_DIS(a) "IOBNX_SOW_ORD_DIS"
-#define device_bar_CAVM_IOBNX_SOW_ORD_DIS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_SOW_ORD_DIS(a) (a)
-#define arguments_CAVM_IOBNX_SOW_ORD_DIS(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_IOBN_H__ */

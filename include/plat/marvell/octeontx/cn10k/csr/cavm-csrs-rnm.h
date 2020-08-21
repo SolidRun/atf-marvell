@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -290,7 +290,7 @@ typedef union cavm_rnm_drbg_reseed cavm_rnm_drbg_reseed_t;
 static inline uint64_t CAVM_RNM_DRBG_RESEED_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBG_RESEED_FUNC(void)
 {
-    return 0x80f000800018ll;
+    return 0x80f000800040ll;
 }
 
 #define typedef_CAVM_RNM_DRBG_RESEED cavm_rnm_drbg_reseed_t
@@ -301,9 +301,88 @@ static inline uint64_t CAVM_RNM_DRBG_RESEED_FUNC(void)
 #define arguments_CAVM_RNM_DRBG_RESEED -1,-1,-1,-1
 
 /**
+ * Register (RSL) rnm_drbg_reseed_ctr
+ *
+ * RNM DRBG Reseed Counter Register
+ * Number of DRBG engine requests services since the last reseed.
+ * If RNM_CONST.DRBGS \> 0, returns the highest reseed counter value for all engines.
+ * Read RNM_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
+ * When RESEED_CTR reaches RESEED_INTERVAL the engines will reseed themselves.
+ */
+union cavm_rnm_drbg_reseed_ctr
+{
+    uint64_t u;
+    struct cavm_rnm_drbg_reseed_ctr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbg_reseed_ctr_s cn; */
+};
+typedef union cavm_rnm_drbg_reseed_ctr cavm_rnm_drbg_reseed_ctr_t;
+
+#define CAVM_RNM_DRBG_RESEED_CTR CAVM_RNM_DRBG_RESEED_CTR_FUNC()
+static inline uint64_t CAVM_RNM_DRBG_RESEED_CTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_RESEED_CTR_FUNC(void)
+{
+    return 0x87e00f000f08ll;
+}
+
+#define typedef_CAVM_RNM_DRBG_RESEED_CTR cavm_rnm_drbg_reseed_ctr_t
+#define bustype_CAVM_RNM_DRBG_RESEED_CTR CSR_TYPE_RSL
+#define basename_CAVM_RNM_DRBG_RESEED_CTR "RNM_DRBG_RESEED_CTR"
+#define device_bar_CAVM_RNM_DRBG_RESEED_CTR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_RESEED_CTR 0
+#define arguments_CAVM_RNM_DRBG_RESEED_CTR -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_drbg_reseed_interval
+ *
+ * RNM DRBG Reseed Interval Register
+ * Number of DRBG requests to service before the DRBG engines reseed themselves.
+ * Read RNM_DRBG_RESEED_CTR for the number of requests since the last reseed.
+ * When RESEED_CTR reaches RESEED_INTERVAL the engines will reseed themselves.
+ */
+union cavm_rnm_drbg_reseed_interval
+{
+    uint64_t u;
+    struct cavm_rnm_drbg_reseed_interval_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t seedlife              : 48; /**< [ 47:  0](R/W) Number of requests to service for each DRBG true random seed. */
+#else /* Word 0 - Little Endian */
+        uint64_t seedlife              : 48; /**< [ 47:  0](R/W) Number of requests to service for each DRBG true random seed. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbg_reseed_interval_s cn; */
+};
+typedef union cavm_rnm_drbg_reseed_interval cavm_rnm_drbg_reseed_interval_t;
+
+#define CAVM_RNM_DRBG_RESEED_INTERVAL CAVM_RNM_DRBG_RESEED_INTERVAL_FUNC()
+static inline uint64_t CAVM_RNM_DRBG_RESEED_INTERVAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_RESEED_INTERVAL_FUNC(void)
+{
+    return 0x87e00f000f00ll;
+}
+
+#define typedef_CAVM_RNM_DRBG_RESEED_INTERVAL cavm_rnm_drbg_reseed_interval_t
+#define bustype_CAVM_RNM_DRBG_RESEED_INTERVAL CSR_TYPE_RSL
+#define basename_CAVM_RNM_DRBG_RESEED_INTERVAL "RNM_DRBG_RESEED_INTERVAL"
+#define device_bar_CAVM_RNM_DRBG_RESEED_INTERVAL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_RESEED_INTERVAL 0
+#define arguments_CAVM_RNM_DRBG_RESEED_INTERVAL -1,-1,-1,-1
+
+/**
  * Register (NCB) rnm_drbg_rndr
  *
- * RNM DRBG Random Register
+ * RNM DRBG Random Value Register
  */
 union cavm_rnm_drbg_rndr
 {
@@ -312,9 +391,11 @@ union cavm_rnm_drbg_rndr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
+                                                                 Read RNM_DRBG_RNDR_RESULT for result status.
                                                                  For immediate reseed see RNM_DRBG_RNDRRS. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
+                                                                 Read RNM_DRBG_RNDR_RESULT for result status.
                                                                  For immediate reseed see RNM_DRBG_RNDRRS. */
 #endif /* Word 0 - End */
     } s;
@@ -326,7 +407,7 @@ typedef union cavm_rnm_drbg_rndr cavm_rnm_drbg_rndr_t;
 static inline uint64_t CAVM_RNM_DRBG_RNDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBG_RNDR_FUNC(void)
 {
-    return 0x80f000800008ll;
+    return 0x80f000800020ll;
 }
 
 #define typedef_CAVM_RNM_DRBG_RNDR cavm_rnm_drbg_rndr_t
@@ -335,6 +416,46 @@ static inline uint64_t CAVM_RNM_DRBG_RNDR_FUNC(void)
 #define device_bar_CAVM_RNM_DRBG_RNDR 0x0 /* VF_BAR0 */
 #define busnum_CAVM_RNM_DRBG_RNDR 0
 #define arguments_CAVM_RNM_DRBG_RNDR -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_drbg_rndr_result
+ *
+ * RNM DRBG Random Result Register
+ */
+union cavm_rnm_drbg_rndr_result
+{
+    uint64_t u;
+    struct cavm_rnm_drbg_rndr_result_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNDR (DRBG Random Number) read:
+                                                                 0x1 = Success, always accompanied by data in RNM_DRBG_RNDR.
+                                                                 0x0 = Failure, RNM_DRBG_RNDR will also return 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNDR (DRBG Random Number) read:
+                                                                 0x1 = Success, always accompanied by data in RNM_DRBG_RNDR.
+                                                                 0x0 = Failure, RNM_DRBG_RNDR will also return 0x0. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbg_rndr_result_s cn; */
+};
+typedef union cavm_rnm_drbg_rndr_result cavm_rnm_drbg_rndr_result_t;
+
+#define CAVM_RNM_DRBG_RNDR_RESULT CAVM_RNM_DRBG_RNDR_RESULT_FUNC()
+static inline uint64_t CAVM_RNM_DRBG_RNDR_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_RNDR_RESULT_FUNC(void)
+{
+    return 0x80f000800028ll;
+}
+
+#define typedef_CAVM_RNM_DRBG_RNDR_RESULT cavm_rnm_drbg_rndr_result_t
+#define bustype_CAVM_RNM_DRBG_RNDR_RESULT CSR_TYPE_NCB
+#define basename_CAVM_RNM_DRBG_RNDR_RESULT "RNM_DRBG_RNDR_RESULT"
+#define device_bar_CAVM_RNM_DRBG_RNDR_RESULT 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_RNDR_RESULT 0
+#define arguments_CAVM_RNM_DRBG_RNDR_RESULT -1,-1,-1,-1
 
 /**
  * Register (NCB) rnm_drbg_rndrrs
@@ -349,10 +470,12 @@ union cavm_rnm_drbg_rndrrs
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
                                                                  DRBG is reseeded immediately on read, blocks until complete and new bits available.
+                                                                 Read RNM_DRBG_RNDRRS_RESULT for result status.
                                                                  All DRBG related CSR operations will be blocked until reseed completes. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
                                                                  DRBG is reseeded immediately on read, blocks until complete and new bits available.
+                                                                 Read RNM_DRBG_RNDRRS_RESULT for result status.
                                                                  All DRBG related CSR operations will be blocked until reseed completes. */
 #endif /* Word 0 - End */
     } s;
@@ -364,7 +487,7 @@ typedef union cavm_rnm_drbg_rndrrs cavm_rnm_drbg_rndrrs_t;
 static inline uint64_t CAVM_RNM_DRBG_RNDRRS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBG_RNDRRS_FUNC(void)
 {
-    return 0x80f000800010ll;
+    return 0x80f000800030ll;
 }
 
 #define typedef_CAVM_RNM_DRBG_RNDRRS cavm_rnm_drbg_rndrrs_t
@@ -373,6 +496,46 @@ static inline uint64_t CAVM_RNM_DRBG_RNDRRS_FUNC(void)
 #define device_bar_CAVM_RNM_DRBG_RNDRRS 0x0 /* VF_BAR0 */
 #define busnum_CAVM_RNM_DRBG_RNDRRS 0
 #define arguments_CAVM_RNM_DRBG_RNDRRS -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_drbg_rndrrs_result
+ *
+ * RNM DRBG Reseeded Random Result Register
+ */
+union cavm_rnm_drbg_rndrrs_result
+{
+    uint64_t u;
+    struct cavm_rnm_drbg_rndrrs_result_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNDRRS (DRBG Reseeded Random Number) read:
+                                                                 0x1 = Success, always accompanied by data in RNM_DRBG_RNDRRS.
+                                                                 0x0 = Failure, RNM_DRBG_RNDRRS will also return 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNDRRS (DRBG Reseeded Random Number) read:
+                                                                 0x1 = Success, always accompanied by data in RNM_DRBG_RNDRRS.
+                                                                 0x0 = Failure, RNM_DRBG_RNDRRS will also return 0x0. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_drbg_rndrrs_result_s cn; */
+};
+typedef union cavm_rnm_drbg_rndrrs_result cavm_rnm_drbg_rndrrs_result_t;
+
+#define CAVM_RNM_DRBG_RNDRRS_RESULT CAVM_RNM_DRBG_RNDRRS_RESULT_FUNC()
+static inline uint64_t CAVM_RNM_DRBG_RNDRRS_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_RNDRRS_RESULT_FUNC(void)
+{
+    return 0x80f000800038ll;
+}
+
+#define typedef_CAVM_RNM_DRBG_RNDRRS_RESULT cavm_rnm_drbg_rndrrs_result_t
+#define bustype_CAVM_RNM_DRBG_RNDRRS_RESULT CSR_TYPE_NCB
+#define basename_CAVM_RNM_DRBG_RNDRRS_RESULT "RNM_DRBG_RNDRRS_RESULT"
+#define device_bar_CAVM_RNM_DRBG_RNDRRS_RESULT 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_RNDRRS_RESULT 0
+#define arguments_CAVM_RNM_DRBG_RNDRRS_RESULT -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_ebg_ctl
@@ -898,7 +1061,7 @@ typedef union cavm_rnm_vf_ebg_health cavm_rnm_vf_ebg_health_t;
 static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void)
 {
-    return 0x80f000800020ll;
+    return 0x80f000800048ll;
 }
 
 #define typedef_CAVM_RNM_VF_EBG_HEALTH cavm_rnm_vf_ebg_health_t

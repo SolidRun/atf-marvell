@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -51,17 +51,17 @@ union cavm_dssx_clk_en
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 1- clock enabled , 0- clock disabled */
+        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 1 = clock enabled , 0 = clock disabled */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1- clock enabled , 0- clock disabled */
-        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1- clock enabled , 0- clock disabled */
+        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1 = clock enabled , 0 = clock disabled */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -97,22 +97,22 @@ union cavm_dssx_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1- forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0- Leave the KBD as is (data from MC).
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
+                                                                 0 = Leave the KBD as is (data from MC).
                                                                  This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
-        uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
+        uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1 = forcing the clock of the crypto to be the slow clock (relevant only on ddr
                                                                  1:4 mode. in 1:2 mode the slow and fast clock (dfi and phy clocks) are at the
                                                                  same ferquency) */
-        uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0- ddr type is ddr4 , 1- ddr type is ddr5 */
-        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0- ddr mode is 1:2 , 1- ddr mode is 1:4 */
+        uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0 = ddr type is ddr4 , 1 = ddr type is ddr5 */
+        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0 = ddr mode is 1:2 , 1 = ddr mode is 1:4 */
 #else /* Word 0 - Little Endian */
-        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0- ddr mode is 1:2 , 1- ddr mode is 1:4 */
-        uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0- ddr type is ddr4 , 1- ddr type is ddr5 */
-        uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (relevant only on ddr
+        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0 = ddr mode is 1:2 , 1 = ddr mode is 1:4 */
+        uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0 = ddr type is ddr4 , 1 = ddr type is ddr5 */
+        uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1 = forcing the clock of the crypto to be the slow clock (relevant only on ddr
                                                                  1:4 mode. in 1:2 mode the slow and fast clock (dfi and phy clocks) are at the
                                                                  same ferquency) */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1- forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0- Leave the KBD as is (data from MC).
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
+                                                                 0 = Leave the KBD as is (data from MC).
                                                                  This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -785,6 +785,48 @@ static inline uint64_t CAVM_DSSX_INT_W1S(uint64_t a)
 #define arguments_CAVM_DSSX_INT_W1S(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) dss#_lp_ctrl
+ *
+ * DSS Low Power control Register
+ * Low power mode configuration.
+ */
+union cavm_dssx_lp_ctrl
+{
+    uint64_t u;
+    struct cavm_dssx_lp_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t s_dfi_reset_force     : 1;  /**< [  0:  0](SR/W) When low mode is activated, control if to force the value of MC output port dfi_reset_n:
+                                                                 0 = Don't force dfi_reset_n.
+                                                                 1 = Force the value of dfi_reset_n. */
+#else /* Word 0 - Little Endian */
+        uint64_t s_dfi_reset_force     : 1;  /**< [  0:  0](SR/W) When low mode is activated, control if to force the value of MC output port dfi_reset_n:
+                                                                 0 = Don't force dfi_reset_n.
+                                                                 1 = Force the value of dfi_reset_n. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_lp_ctrl_s cn; */
+};
+typedef union cavm_dssx_lp_ctrl cavm_dssx_lp_ctrl_t;
+
+static inline uint64_t CAVM_DSSX_LP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_LP_CTRL(uint64_t a)
+{
+    if (a<=3)
+        return 0x87e03c000068ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("DSSX_LP_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_LP_CTRL(a) cavm_dssx_lp_ctrl_t
+#define bustype_CAVM_DSSX_LP_CTRL(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_LP_CTRL(a) "DSSX_LP_CTRL"
+#define device_bar_CAVM_DSSX_LP_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_LP_CTRL(a) (a)
+#define arguments_CAVM_DSSX_LP_CTRL(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) dss#_mc_core_reset_n
  *
  * DSS dfi domain reset Register
@@ -797,9 +839,9 @@ union cavm_dssx_mc_core_reset_n
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t s_mc_core_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_mc_core_reset_n     : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mc_core_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_mc_core_reset_n     : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -877,9 +919,9 @@ union cavm_dssx_mct_reset_n
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t s_mct_reset_n         : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_mct_reset_n         : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mct_reset_n         : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_mct_reset_n         : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1033,8 +1075,8 @@ union cavm_dssx_perf_cnt_cfgx
     struct cavm_dssx_perf_cnt_cfgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0- This counter is disabled.
-                                                                 1- This counter is enabled. */
+        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0 = This counter is disabled.
+                                                                 1 = This counter is enabled. */
         uint64_t reserved_55_62        : 8;
         uint64_t s_op_is_zqlatch       : 1;  /**< [ 54: 54](SR/W) Count every ZQcal latch Short command that is issued by the
                                                                  controller after initialization is complete (that is, when STAT.operating_mode != 0). */
@@ -1170,8 +1212,8 @@ union cavm_dssx_perf_cnt_cfgx
         uint64_t s_op_is_zqlatch       : 1;  /**< [ 54: 54](SR/W) Count every ZQcal latch Short command that is issued by the
                                                                  controller after initialization is complete (that is, when STAT.operating_mode != 0). */
         uint64_t reserved_55_62        : 8;
-        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0- This counter is disabled.
-                                                                 1- This counter is enabled. */
+        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0 = This counter is disabled.
+                                                                 1 = This counter is enabled. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_perf_cnt_cfgx_s cn; */
@@ -1292,11 +1334,11 @@ union cavm_dssx_perf_cnt_op_mode_ctrl
         uint64_t reserved_10_63        : 54;
         uint64_t s_timer_value         : 6;  /**< [  9:  4](SR/W) In timer mode, the count time period will be 2^(timer value). */
         uint64_t reserved_1_3          : 3;
-        uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0- Timer (default mode), the end of the operation based on timer.
-                                                                 1- Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
+        uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0 = Timer (default mode), the end of the operation based on timer.
+                                                                 1 = Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
 #else /* Word 0 - Little Endian */
-        uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0- Timer (default mode), the end of the operation based on timer.
-                                                                 1- Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
+        uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0 = Timer (default mode), the end of the operation based on timer.
+                                                                 1 = Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
         uint64_t reserved_1_3          : 3;
         uint64_t s_timer_value         : 6;  /**< [  9:  4](SR/W) In timer mode, the count time period will be 2^(timer value). */
         uint64_t reserved_10_63        : 54;
@@ -1415,9 +1457,9 @@ union cavm_dssx_phy_apb_reset_n
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t s_phy_apb_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_phy_apb_reset_n     : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
 #else /* Word 0 - Little Endian */
-        uint64_t s_phy_apb_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_phy_apb_reset_n     : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1454,9 +1496,9 @@ union cavm_dssx_phy_ctrl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) controls the value driven to the ddr_phy's PPROT_PIN input port. */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Controls the value driven to the ddr_phy's pprot_pin input port. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) controls the value driven to the ddr_phy's PPROT_PIN input port. */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Controls the value driven to the ddr_phy's pprot_pin input port. */
         uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -1493,9 +1535,9 @@ union cavm_dssx_phy_ref_reset_n
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t s_phy_ref_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_phy_ref_reset_n     : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
 #else /* Word 0 - Little Endian */
-        uint64_t s_phy_ref_reset_n     : 1;  /**< [  0:  0](SR/W) 0- reset active , 1- reset deactive */
+        uint64_t s_phy_ref_reset_n     : 1;  /**< [  0:  0](SR/W) 0 = reset active , 1 = reset deactive */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1563,23 +1605,33 @@ union cavm_dssx_sac_ctrl
                                                                  signal is asserted and when the associated write data
                                                                  is driven on the dfi_wrdata signal.
                                                                  It should be set with correlation to the same paramter defined in the PHY. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t s_dfi_data_cs_polarity : 1; /**< [  1:  1](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
+        uint64_t reserved_3            : 1;
+        uint64_t s_dfi_data_cs_polarity : 1; /**< [  2:  2](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
                                                                  1'b0 - active_low.
                                                                  1'b1 - active high. */
+        uint64_t s_ph_align_sac_en     : 1;  /**< [  1:  1](SR/W) Phase alignment Shared AC block enable :
+                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 1 = Shared AC is enabled.
+                                                                 Note: By default, this filed should have the same value of S_SAC_EN.
+                                                                 This configuration is used also as clock gating for SAC block. */
         uint64_t s_sac_en              : 1;  /**< [  0:  0](SR/W) Shared AC block enable :
-                                                                 0- Shared AC is disabled - power saving when SAC in bypass mode.
-                                                                 1- Shared AC is enabled.
+                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 1 = Shared AC is enabled.
                                                                  Note: this configuration is used also as clock gating for SAC block. */
 #else /* Word 0 - Little Endian */
         uint64_t s_sac_en              : 1;  /**< [  0:  0](SR/W) Shared AC block enable :
-                                                                 0- Shared AC is disabled - power saving when SAC in bypass mode.
-                                                                 1- Shared AC is enabled.
+                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 1 = Shared AC is enabled.
                                                                  Note: this configuration is used also as clock gating for SAC block. */
-        uint64_t s_dfi_data_cs_polarity : 1; /**< [  1:  1](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
+        uint64_t s_ph_align_sac_en     : 1;  /**< [  1:  1](SR/W) Phase alignment Shared AC block enable :
+                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 1 = Shared AC is enabled.
+                                                                 Note: By default, this filed should have the same value of S_SAC_EN.
+                                                                 This configuration is used also as clock gating for SAC block. */
+        uint64_t s_dfi_data_cs_polarity : 1; /**< [  2:  2](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
                                                                  1'b0 - active_low.
                                                                  1'b1 - active high. */
-        uint64_t reserved_2_3          : 2;
+        uint64_t reserved_3            : 1;
         uint64_t s_tphy_wrdata_phy_side : 6; /**< [  9:  4](SR/W) This parameter specifies the number of DFI PHY
                                                                  clock cycles from the time that the dfi_wrdata_en
                                                                  signal is asserted and when the associated write data
@@ -1728,11 +1780,11 @@ union cavm_dss_mctx_ctrl
                                                                  0 - ecc for current window disabled.
                                                                  1 - ecc for current window enabled. */
         uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Configure if read DBI is enabled in this window:
-                                                                 0- Read dbi for current window disabled.
-                                                                 1- Read dbi for current window enabled. */
+                                                                 0 = Read dbi for current window disabled.
+                                                                 1 = Read dbi for current window enabled. */
         uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Configure if write DBI is enabled in this window:
-                                                                 0- Write dbi for current window disabled.
-                                                                 1- Write dbi for current window enabled. */
+                                                                 0 = Write dbi for current window disabled.
+                                                                 1 = Write dbi for current window enabled. */
         uint64_t s_key_scramble        : 1;  /**< [  4:  4](SR/W) Key scramble with system address:
                                                                  1'b0 - The key is not scrambled.
                                                                  1'b1 - The key is scrambled. */
@@ -1777,11 +1829,11 @@ union cavm_dss_mctx_ctrl
                                                                  1'b0 - The key is not scrambled.
                                                                  1'b1 - The key is scrambled. */
         uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Configure if write DBI is enabled in this window:
-                                                                 0- Write dbi for current window disabled.
-                                                                 1- Write dbi for current window enabled. */
+                                                                 0 = Write dbi for current window disabled.
+                                                                 1 = Write dbi for current window enabled. */
         uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Configure if read DBI is enabled in this window:
-                                                                 0- Read dbi for current window disabled.
-                                                                 1- Read dbi for current window enabled. */
+                                                                 0 = Read dbi for current window disabled.
+                                                                 1 = Read dbi for current window enabled. */
         uint64_t s_ecc_en              : 1;  /**< [  7:  7](SR/W) Configure if ECC is enabled in this window:
                                                                  0 - ecc for current window disabled.
                                                                  1 - ecc for current window enabled. */
@@ -2216,15 +2268,15 @@ union cavm_dss_mctx_enable
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0- MCT clock is enabled.
-                                                                 1- MCT clock is disabled - power saving when MCT in bypass mode. */
-        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0- mct in bypass mode.
-                                                                 1- mct in functional mode. */
+        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0 = MCT clock is enabled.
+                                                                 1 = MCT clock is disabled - power saving when MCT in bypass mode. */
+        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0 = mct in bypass mode.
+                                                                 1 = mct in functional mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0- mct in bypass mode.
-                                                                 1- mct in functional mode. */
-        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0- MCT clock is enabled.
-                                                                 1- MCT clock is disabled - power saving when MCT in bypass mode. */
+        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0 = mct in bypass mode.
+                                                                 1 = mct in functional mode. */
+        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0 = MCT clock is enabled.
+                                                                 1 = MCT clock is disabled - power saving when MCT in bypass mode. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -2562,8 +2614,8 @@ union cavm_dss_mctx_win_ctrlx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t s_win_encryption_en   : 1;  /**< [  1:  1](SR/W) Configure if encryption / decryption is enabled in this window:
-                                                                 0- encryption / decryption for current window disabled.
-                                                                 1- encryption / decryption for current window enabled. */
+                                                                 0 = encryption / decryption for current window disabled.
+                                                                 1 = encryption / decryption for current window enabled. */
         uint64_t s_win_en              : 1;  /**< [  0:  0](SR/W) Window enable:
                                                                  0 - Window disabled.
                                                                  1 - Window enabled. */
@@ -2572,8 +2624,8 @@ union cavm_dss_mctx_win_ctrlx
                                                                  0 - Window disabled.
                                                                  1 - Window enabled. */
         uint64_t s_win_encryption_en   : 1;  /**< [  1:  1](SR/W) Configure if encryption / decryption is enabled in this window:
-                                                                 0- encryption / decryption for current window disabled.
-                                                                 1- encryption / decryption for current window enabled. */
+                                                                 0 = encryption / decryption for current window disabled.
+                                                                 1 = encryption / decryption for current window enabled. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;

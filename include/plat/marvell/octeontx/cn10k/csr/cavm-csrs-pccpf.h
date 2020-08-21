@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -28,7 +28,7 @@
  * of the devices available. The value of the enumeration is formatted as defined by
  * PCC_DEV_CON_S.
  */
-#define CAVM_PCC_DEV_CON_E_APAX(a) (0x500 + (a))
+#define CAVM_PCC_DEV_CON_E_APAX(a) (0x280 + (a))
 #define CAVM_PCC_DEV_CON_E_AVS (0xf8)
 #define CAVM_PCC_DEV_CON_E_BTS (0x168)
 #define CAVM_PCC_DEV_CON_E_CPC (0xd0)
@@ -58,7 +58,6 @@
 #define CAVM_PCC_DEV_CON_E_NCBX(a) (0x1a0 + (a))
 #define CAVM_PCC_DEV_CON_E_OCLAX(a) (0x200 + (a))
 #define CAVM_PCC_DEV_CON_E_PBUS (0x10f)
-#define CAVM_PCC_DEV_CON_E_PCCBR_APA (0x10)
 #define CAVM_PCC_DEV_CON_E_PCCBR_DPI0 (0xa0)
 #define CAVM_PCC_DEV_CON_E_PCCBR_MRML (8)
 #define CAVM_PCC_DEV_CON_E_PCCBR_MRMLB0 (0x60)
@@ -77,7 +76,7 @@
 #define CAVM_PCC_DEV_CON_E_SMMU0 (0x18)
 #define CAVM_PCC_DEV_CON_E_SPIX(a) (0x30 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_TADX(a) (0x380 + (a))
-#define CAVM_PCC_DEV_CON_E_TSNX(a) (0x2a0 + (a))
+#define CAVM_PCC_DEV_CON_E_TSNX(a) (0x270 + (a))
 #define CAVM_PCC_DEV_CON_E_UAAX(a) (0x1d8 + (a))
 #define CAVM_PCC_DEV_CON_E_USBHX(a) (0x10060 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_XCPX(a) (0xe0 + 8 * (a))
@@ -155,6 +154,7 @@
 #define CAVM_PCC_DEV_IDL_E_MIO_EMM (0x10)
 #define CAVM_PCC_DEV_IDL_E_MIO_FUS (0x31)
 #define CAVM_PCC_DEV_IDL_E_MIO_PTP (0xc)
+#define CAVM_PCC_DEV_IDL_E_MIO_PTP5 (0x9e)
 #define CAVM_PCC_DEV_IDL_E_MIO_TWS (0x12)
 #define CAVM_PCC_DEV_IDL_E_MIX (0xd)
 #define CAVM_PCC_DEV_IDL_E_ML (0x92)
@@ -209,6 +209,8 @@
 #define CAVM_PCC_DEV_IDL_E_SSO_VF (0x4b)
 #define CAVM_PCC_DEV_IDL_E_SW_RSVDX(a) (0xe0 + (a))
 #define CAVM_PCC_DEV_IDL_E_SW_RVU_AF_VF (0xf8)
+#define CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_PF (0xf2)
+#define CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_VF (0xf3)
 #define CAVM_PCC_DEV_IDL_E_SW_RVU_CPT_PF (0xfd)
 #define CAVM_PCC_DEV_IDL_E_SW_RVU_CPT_VF (0xfe)
 #define CAVM_PCC_DEV_IDL_E_SW_RVU_NPA_PF (0xfb)

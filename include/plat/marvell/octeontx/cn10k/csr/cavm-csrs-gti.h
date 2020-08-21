@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2384,8 +2384,8 @@ static inline uint64_t CAVM_GTI_CTL_PIDR7_FUNC(void)
 /**
  * Register (NCB) gti_cwd_del3t
  *
- * GTI Per-core Watchdog DEL3T Interrupt Register
- * Generic timer per-core watchdog DEL3T interrupts.
+ * GTI Per-core Watchdog SCP Interrupt Register
+ * Generic timer per-core watchdog SCP interrupts.
  */
 union cavm_gti_cwd_del3t
 {
@@ -2393,9 +2393,9 @@ union cavm_gti_cwd_del3t
     struct cavm_gti_cwd_del3t_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog SCP interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
+        uint64_t core                  : 64; /**< [ 63:  0](R/W1C/H) Per-core watchdog SCP interrupt. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cwd_del3t_s cn; */
@@ -2454,7 +2454,7 @@ static inline uint64_t CAVM_GTI_CWD_DEL3T_ENA_CLR_FUNC(void)
 /**
  * Register (NCB) gti_cwd_del3t_ena_set
  *
- * GTI Per-core Watchdog DEL3T Interrupt Enable Set Register
+ * GTI Per-core Watchdog SCP Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 union cavm_gti_cwd_del3t_ena_set
@@ -2489,7 +2489,7 @@ static inline uint64_t CAVM_GTI_CWD_DEL3T_ENA_SET_FUNC(void)
 /**
  * Register (NCB) gti_cwd_del3t_set
  *
- * GTI Per-core Watchdog DEL3T Interrupt Set Register
+ * GTI Per-core Watchdog SCP Interrupt Set Register
  * This register sets interrupt bits.
  */
 union cavm_gti_cwd_del3t_set
@@ -2690,14 +2690,14 @@ union cavm_gti_cwd_pokex
         uint64_t mode                  : 2;  /**< [  1:  0](RO/H) Watchdog mode:
                                                                  0x0 = Off.
                                                                  0x1 = Interrupt only.
-                                                                 0x2 = Interrupt + DEL3T.
-                                                                 0x3 = Interrupt + DEL3T + core domain reset. */
+                                                                 0x2 = Interrupt + SCP interrupt (DEL3T).
+                                                                 0x3 = Interrupt + SCP interrupt (DEL3T) + core domain reset. */
 #else /* Word 0 - Little Endian */
         uint64_t mode                  : 2;  /**< [  1:  0](RO/H) Watchdog mode:
                                                                  0x0 = Off.
                                                                  0x1 = Interrupt only.
-                                                                 0x2 = Interrupt + DEL3T.
-                                                                 0x3 = Interrupt + DEL3T + core domain reset. */
+                                                                 0x2 = Interrupt + SCP interrupt (DEL3T).
+                                                                 0x3 = Interrupt + SCP interrupt (DEL3T) + core domain reset. */
         uint64_t state                 : 2;  /**< [  3:  2](RO/H) Watchdog state. The number of watchdog time expirations since last core poke. Cleared on
                                                                  write to associated GTI_CWD_POKE(). */
         uint64_t len                   : 16; /**< [ 19:  4](RO/H) Watchdog time-expiration length. The most-significant 16 bits of a 24-bit value to be
@@ -2755,14 +2755,14 @@ union cavm_gti_cwd_wdogx
         uint64_t mode                  : 2;  /**< [  1:  0](R/W) Watchdog mode:
                                                                  0x0 = Off.
                                                                  0x1 = Interrupt only.
-                                                                 0x2 = Interrupt + DEL3T.
-                                                                 0x3 = Interrupt + DEL3T + core domain reset. */
+                                                                 0x2 = Interrupt + SCP interrupt (DEL3T).
+                                                                 0x3 = Interrupt + SCP interrupt (DEL3T) + core domain reset. */
 #else /* Word 0 - Little Endian */
         uint64_t mode                  : 2;  /**< [  1:  0](R/W) Watchdog mode:
                                                                  0x0 = Off.
                                                                  0x1 = Interrupt only.
-                                                                 0x2 = Interrupt + DEL3T.
-                                                                 0x3 = Interrupt + DEL3T + core domain reset. */
+                                                                 0x2 = Interrupt + SCP interrupt (DEL3T).
+                                                                 0x3 = Interrupt + SCP interrupt (DEL3T) + core domain reset. */
         uint64_t state                 : 2;  /**< [  3:  2](R/W/H) Watchdog state. The number of watchdog time expirations since last core poke. Cleared on
                                                                  write to associated GTI_CWD_POKE(). */
         uint64_t len                   : 16; /**< [ 19:  4](R/W) Watchdog time-expiration length. The most-significant 16 bits of a 24-bit value to be

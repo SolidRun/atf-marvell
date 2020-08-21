@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -25,9 +25,9 @@
  * I3C Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_I3C_BAR_E_I3C_PF_BAR0 (0x87e0d6000000ll)
+#define CAVM_I3C_BAR_E_I3C_PF_BAR0 (0x87e0d0000000ll)
 #define CAVM_I3C_BAR_E_I3C_PF_BAR0_SIZE 0x10000ull
-#define CAVM_I3C_BAR_E_I3C_PF_BAR4 (0x87e0d6f00000ll)
+#define CAVM_I3C_BAR_E_I3C_PF_BAR4 (0x87e0d0f00000ll)
 #define CAVM_I3C_BAR_E_I3C_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -76,7 +76,7 @@ typedef union cavm_i3c_bus_free_timing cavm_i3c_bus_free_timing_t;
 static inline uint64_t CAVM_I3C_BUS_FREE_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_BUS_FREE_TIMING_FUNC(void)
 {
-    return 0x87e0d6000268ll;
+    return 0x87e0d0000268ll;
 }
 
 #define typedef_CAVM_I3C_BUS_FREE_TIMING cavm_i3c_bus_free_timing_t
@@ -122,7 +122,7 @@ typedef union cavm_i3c_bus_timing_header cavm_i3c_bus_timing_header_t;
 static inline uint64_t CAVM_I3C_BUS_TIMING_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_BUS_TIMING_HEADER_FUNC(void)
 {
-    return 0x87e0d6000220ll;
+    return 0x87e0d0000220ll;
 }
 
 #define typedef_CAVM_I3C_BUS_TIMING_HEADER cavm_i3c_bus_timing_header_t
@@ -159,7 +159,7 @@ typedef union cavm_i3c_clken cavm_i3c_clken_t;
 static inline uint64_t CAVM_I3C_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_CLKEN_FUNC(void)
 {
-    return 0x87e0d6000c60ll;
+    return 0x87e0d0000c60ll;
 }
 
 #define typedef_CAVM_I3C_CLKEN cavm_i3c_clken_t
@@ -203,7 +203,7 @@ typedef union cavm_i3c_command_queue_port cavm_i3c_command_queue_port_t;
 static inline uint64_t CAVM_I3C_COMMAND_QUEUE_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMMAND_QUEUE_PORT_FUNC(void)
 {
-    return 0x87e0d6000600ll;
+    return 0x87e0d0000600ll;
 }
 
 #define typedef_CAVM_I3C_COMMAND_QUEUE_PORT cavm_i3c_command_queue_port_t
@@ -246,7 +246,7 @@ typedef union cavm_i3c_comp_manufacturer cavm_i3c_comp_manufacturer_t;
 static inline uint64_t CAVM_I3C_COMP_MANUFACTURER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMP_MANUFACTURER_FUNC(void)
 {
-    return 0x87e0d6000208ll;
+    return 0x87e0d0000208ll;
 }
 
 #define typedef_CAVM_I3C_COMP_MANUFACTURER cavm_i3c_comp_manufacturer_t
@@ -303,7 +303,7 @@ typedef union cavm_i3c_comp_type cavm_i3c_comp_type_t;
 static inline uint64_t CAVM_I3C_COMP_TYPE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMP_TYPE_FUNC(void)
 {
-    return 0x87e0d6000218ll;
+    return 0x87e0d0000218ll;
 }
 
 #define typedef_CAVM_I3C_COMP_TYPE cavm_i3c_comp_type_t
@@ -356,7 +356,7 @@ typedef union cavm_i3c_comp_version cavm_i3c_comp_version_t;
 static inline uint64_t CAVM_I3C_COMP_VERSION_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMP_VERSION_FUNC(void)
 {
-    return 0x87e0d6000210ll;
+    return 0x87e0d0000210ll;
 }
 
 #define typedef_CAVM_I3C_COMP_VERSION cavm_i3c_comp_version_t
@@ -390,7 +390,7 @@ typedef union cavm_i3c_const cavm_i3c_const_t;
 static inline uint64_t CAVM_I3C_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_CONST_FUNC(void)
 {
-    return 0x87e0d6000c48ll;
+    return 0x87e0d0000c48ll;
 }
 
 #define typedef_CAVM_I3C_CONST cavm_i3c_const_t
@@ -439,7 +439,7 @@ typedef union cavm_i3c_dat_section_offset cavm_i3c_dat_section_offset_t;
 static inline uint64_t CAVM_I3C_DAT_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DAT_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d6000060ll;
+    return 0x87e0d0000060ll;
 }
 
 #define typedef_CAVM_I3C_DAT_SECTION_OFFSET cavm_i3c_dat_section_offset_t
@@ -480,7 +480,7 @@ typedef union cavm_i3c_data_buffer_status_level cavm_i3c_data_buffer_status_leve
 static inline uint64_t CAVM_I3C_DATA_BUFFER_STATUS_LEVEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DATA_BUFFER_STATUS_LEVEL_FUNC(void)
 {
-    return 0x87e0d6000290ll;
+    return 0x87e0d0000290ll;
 }
 
 #define typedef_CAVM_I3C_DATA_BUFFER_STATUS_LEVEL cavm_i3c_data_buffer_status_level_t
@@ -692,7 +692,7 @@ typedef union cavm_i3c_data_buffer_thld_ctrl cavm_i3c_data_buffer_thld_ctrl_t;
 static inline uint64_t CAVM_I3C_DATA_BUFFER_THLD_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DATA_BUFFER_THLD_CTRL_FUNC(void)
 {
-    return 0x87e0d6000628ll;
+    return 0x87e0d0000628ll;
 }
 
 #define typedef_CAVM_I3C_DATA_BUFFER_THLD_CTRL cavm_i3c_data_buffer_thld_ctrl_t
@@ -755,7 +755,7 @@ typedef union cavm_i3c_dct_section_offset cavm_i3c_dct_section_offset_t;
 static inline uint64_t CAVM_I3C_DCT_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DCT_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d6000068ll;
+    return 0x87e0d0000068ll;
 }
 
 #define typedef_CAVM_I3C_DCT_SECTION_OFFSET cavm_i3c_dct_section_offset_t
@@ -866,7 +866,7 @@ typedef union cavm_i3c_dev_addr_table1_loc1 cavm_i3c_dev_addr_table1_loc1_t;
 static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC1_FUNC(void)
 {
-    return 0x87e0d6000800ll;
+    return 0x87e0d0000800ll;
 }
 
 #define typedef_CAVM_I3C_DEV_ADDR_TABLE1_LOC1 cavm_i3c_dev_addr_table1_loc1_t
@@ -915,7 +915,7 @@ typedef union cavm_i3c_dev_addr_table1_loc2 cavm_i3c_dev_addr_table1_loc2_t;
 static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC2_FUNC(void)
 {
-    return 0x87e0d6000808ll;
+    return 0x87e0d0000808ll;
 }
 
 #define typedef_CAVM_I3C_DEV_ADDR_TABLE1_LOC2 cavm_i3c_dev_addr_table1_loc2_t
@@ -954,7 +954,7 @@ typedef union cavm_i3c_dev_char_table1_loc1 cavm_i3c_dev_char_table1_loc1_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC1_FUNC(void)
 {
-    return 0x87e0d6000c00ll;
+    return 0x87e0d0000c00ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC1 cavm_i3c_dev_char_table1_loc1_t
@@ -993,7 +993,7 @@ typedef union cavm_i3c_dev_char_table1_loc2 cavm_i3c_dev_char_table1_loc2_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC2_FUNC(void)
 {
-    return 0x87e0d6000c08ll;
+    return 0x87e0d0000c08ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC2 cavm_i3c_dev_char_table1_loc2_t
@@ -1034,7 +1034,7 @@ typedef union cavm_i3c_dev_char_table1_loc3 cavm_i3c_dev_char_table1_loc3_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC3_FUNC(void)
 {
-    return 0x87e0d6000c10ll;
+    return 0x87e0d0000c10ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC3 cavm_i3c_dev_char_table1_loc3_t
@@ -1073,7 +1073,7 @@ typedef union cavm_i3c_dev_char_table1_loc4 cavm_i3c_dev_char_table1_loc4_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC4_FUNC(void)
 {
-    return 0x87e0d6000c18ll;
+    return 0x87e0d0000c18ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC4 cavm_i3c_dev_char_table1_loc4_t
@@ -1112,7 +1112,7 @@ typedef union cavm_i3c_dev_char_table2_loc1 cavm_i3c_dev_char_table2_loc1_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC1_FUNC(void)
 {
-    return 0x87e0d6000c20ll;
+    return 0x87e0d0000c20ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC1 cavm_i3c_dev_char_table2_loc1_t
@@ -1153,7 +1153,7 @@ typedef union cavm_i3c_dev_char_table2_loc2 cavm_i3c_dev_char_table2_loc2_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC2_FUNC(void)
 {
-    return 0x87e0d6000c28ll;
+    return 0x87e0d0000c28ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC2 cavm_i3c_dev_char_table2_loc2_t
@@ -1194,7 +1194,7 @@ typedef union cavm_i3c_dev_char_table2_loc3 cavm_i3c_dev_char_table2_loc3_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC3_FUNC(void)
 {
-    return 0x87e0d6000c30ll;
+    return 0x87e0d0000c30ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC3 cavm_i3c_dev_char_table2_loc3_t
@@ -1233,7 +1233,7 @@ typedef union cavm_i3c_dev_char_table2_loc4 cavm_i3c_dev_char_table2_loc4_t;
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC4_FUNC(void)
 {
-    return 0x87e0d6000c38ll;
+    return 0x87e0d0000c38ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC4 cavm_i3c_dev_char_table2_loc4_t
@@ -1276,7 +1276,7 @@ typedef union cavm_i3c_dev_ctx_base_hi cavm_i3c_dev_ctx_base_hi_t;
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_HI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_HI_FUNC(void)
 {
-    return 0x87e0d60000c8ll;
+    return 0x87e0d00000c8ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CTX_BASE_HI cavm_i3c_dev_ctx_base_hi_t
@@ -1321,7 +1321,7 @@ typedef union cavm_i3c_dev_ctx_base_lo cavm_i3c_dev_ctx_base_lo_t;
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_LO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_LO_FUNC(void)
 {
-    return 0x87e0d60000c0ll;
+    return 0x87e0d00000c0ll;
 }
 
 #define typedef_CAVM_I3C_DEV_CTX_BASE_LO cavm_i3c_dev_ctx_base_lo_t
@@ -1365,7 +1365,7 @@ typedef union cavm_i3c_ds_extcap_header cavm_i3c_ds_extcap_header_t;
 static inline uint64_t CAVM_I3C_DS_EXTCAP_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DS_EXTCAP_HEADER_FUNC(void)
 {
-    return 0x87e0d6000280ll;
+    return 0x87e0d0000280ll;
 }
 
 #define typedef_CAVM_I3C_DS_EXTCAP_HEADER cavm_i3c_ds_extcap_header_t
@@ -1408,7 +1408,7 @@ typedef union cavm_i3c_extcaps_section_offset cavm_i3c_extcaps_section_offset_t;
 static inline uint64_t CAVM_I3C_EXTCAPS_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_EXTCAPS_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d6000080ll;
+    return 0x87e0d0000080ll;
 }
 
 #define typedef_CAVM_I3C_EXTCAPS_SECTION_OFFSET cavm_i3c_extcaps_section_offset_t
@@ -1461,7 +1461,7 @@ typedef union cavm_i3c_hc_capabilities cavm_i3c_hc_capabilities_t;
 static inline uint64_t CAVM_I3C_HC_CAPABILITIES_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HC_CAPABILITIES_FUNC(void)
 {
-    return 0x87e0d6000018ll;
+    return 0x87e0d0000018ll;
 }
 
 #define typedef_CAVM_I3C_HC_CAPABILITIES cavm_i3c_hc_capabilities_t
@@ -1548,7 +1548,7 @@ typedef union cavm_i3c_hc_control cavm_i3c_hc_control_t;
 static inline uint64_t CAVM_I3C_HC_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HC_CONTROL_FUNC(void)
 {
-    return 0x87e0d6000008ll;
+    return 0x87e0d0000008ll;
 }
 
 #define typedef_CAVM_I3C_HC_CONTROL cavm_i3c_hc_control_t
@@ -1590,7 +1590,7 @@ typedef union cavm_i3c_hci_version cavm_i3c_hci_version_t;
 static inline uint64_t CAVM_I3C_HCI_VERSION_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HCI_VERSION_FUNC(void)
 {
-    return 0x87e0d6000000ll;
+    return 0x87e0d0000000ll;
 }
 
 #define typedef_CAVM_I3C_HCI_VERSION cavm_i3c_hci_version_t
@@ -1635,7 +1635,7 @@ typedef union cavm_i3c_hw_identification_header cavm_i3c_hw_identification_heade
 static inline uint64_t CAVM_I3C_HW_IDENTIFICATION_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HW_IDENTIFICATION_HEADER_FUNC(void)
 {
-    return 0x87e0d6000200ll;
+    return 0x87e0d0000200ll;
 }
 
 #define typedef_CAVM_I3C_HW_IDENTIFICATION_HEADER cavm_i3c_hw_identification_header_t
@@ -1686,7 +1686,7 @@ typedef union cavm_i3c_ibi_notify_ctrl cavm_i3c_ibi_notify_ctrl_t;
 static inline uint64_t CAVM_I3C_IBI_NOTIFY_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_IBI_NOTIFY_CTRL_FUNC(void)
 {
-    return 0x87e0d60000b0ll;
+    return 0x87e0d00000b0ll;
 }
 
 #define typedef_CAVM_I3C_IBI_NOTIFY_CTRL cavm_i3c_ibi_notify_ctrl_t
@@ -1739,7 +1739,7 @@ typedef union cavm_i3c_ibi_port cavm_i3c_ibi_port_t;
 static inline uint64_t CAVM_I3C_IBI_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_IBI_PORT_FUNC(void)
 {
-    return 0x87e0d6000618ll;
+    return 0x87e0d0000618ll;
 }
 
 #define typedef_CAVM_I3C_IBI_PORT cavm_i3c_ibi_port_t
@@ -1836,7 +1836,7 @@ typedef union cavm_i3c_int cavm_i3c_int_t;
 static inline uint64_t CAVM_I3C_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_FUNC(void)
 {
-    return 0x87e0d6000640ll;
+    return 0x87e0d0000640ll;
 }
 
 #define typedef_CAVM_I3C_INT cavm_i3c_int_t
@@ -1891,7 +1891,7 @@ typedef union cavm_i3c_int_ena_w1c cavm_i3c_int_ena_w1c_t;
 static inline uint64_t CAVM_I3C_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_ENA_W1C_FUNC(void)
 {
-    return 0x87e0d6000c50ll;
+    return 0x87e0d0000c50ll;
 }
 
 #define typedef_CAVM_I3C_INT_ENA_W1C cavm_i3c_int_ena_w1c_t
@@ -1944,7 +1944,7 @@ typedef union cavm_i3c_int_ena_w1s cavm_i3c_int_ena_w1s_t;
 static inline uint64_t CAVM_I3C_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_ENA_W1S_FUNC(void)
 {
-    return 0x87e0d6000648ll;
+    return 0x87e0d0000648ll;
 }
 
 #define typedef_CAVM_I3C_INT_ENA_W1S cavm_i3c_int_ena_w1s_t
@@ -1999,7 +1999,7 @@ typedef union cavm_i3c_int_w1s cavm_i3c_int_w1s_t;
 static inline uint64_t CAVM_I3C_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_W1S_FUNC(void)
 {
-    return 0x87e0d6000650ll;
+    return 0x87e0d0000650ll;
 }
 
 #define typedef_CAVM_I3C_INT_W1S cavm_i3c_int_w1s_t
@@ -2040,7 +2040,7 @@ typedef union cavm_i3c_intr_force cavm_i3c_intr_force_t;
 static inline uint64_t CAVM_I3C_INTR_FORCE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_FORCE_FUNC(void)
 {
-    return 0x87e0d6000058ll;
+    return 0x87e0d0000058ll;
 }
 
 #define typedef_CAVM_I3C_INTR_FORCE cavm_i3c_intr_force_t
@@ -2081,7 +2081,7 @@ typedef union cavm_i3c_intr_signal_enable cavm_i3c_intr_signal_enable_t;
 static inline uint64_t CAVM_I3C_INTR_SIGNAL_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_SIGNAL_ENABLE_FUNC(void)
 {
-    return 0x87e0d6000050ll;
+    return 0x87e0d0000050ll;
 }
 
 #define typedef_CAVM_I3C_INTR_SIGNAL_ENABLE cavm_i3c_intr_signal_enable_t
@@ -2125,7 +2125,7 @@ typedef union cavm_i3c_intr_status cavm_i3c_intr_status_t;
 static inline uint64_t CAVM_I3C_INTR_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_STATUS_FUNC(void)
 {
-    return 0x87e0d6000040ll;
+    return 0x87e0d0000040ll;
 }
 
 #define typedef_CAVM_I3C_INTR_STATUS cavm_i3c_intr_status_t
@@ -2166,7 +2166,7 @@ typedef union cavm_i3c_intr_status_enable cavm_i3c_intr_status_enable_t;
 static inline uint64_t CAVM_I3C_INTR_STATUS_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_STATUS_ENABLE_FUNC(void)
 {
-    return 0x87e0d6000048ll;
+    return 0x87e0d0000048ll;
 }
 
 #define typedef_CAVM_I3C_INTR_STATUS_ENABLE cavm_i3c_intr_status_enable_t
@@ -2196,15 +2196,13 @@ union cavm_i3c_io_ctl
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 16 mA. */
-        uint64_t reserved_1            : 1;
-        uint64_t slew                  : 1;  /**< [  0:  0](R/W) I3C bus pins output slew rate control.
-                                                                 0 = High slew rate.
-                                                                 1 = Low slew rate. */
+        uint64_t slew                  : 2;  /**< [  1:  0](R/W) I3C bus pins output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
-        uint64_t slew                  : 1;  /**< [  0:  0](R/W) I3C bus pins output slew rate control.
-                                                                 0 = High slew rate.
-                                                                 1 = Low slew rate. */
-        uint64_t reserved_1            : 1;
+        uint64_t slew                  : 2;  /**< [  1:  0](R/W) I3C bus pins output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 0x3 = Strongest. */
         uint64_t drive                 : 2;  /**< [  3:  2](R/W) I3C bus pin output drive strength.
                                                                  0x0 = 2 mA.
                                                                  0x1 = 4 mA.
@@ -2221,7 +2219,7 @@ typedef union cavm_i3c_io_ctl cavm_i3c_io_ctl_t;
 static inline uint64_t CAVM_I3C_IO_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_IO_CTL_FUNC(void)
 {
-    return 0x87e0d6000c58ll;
+    return 0x87e0d0000c58ll;
 }
 
 #define typedef_CAVM_I3C_IO_CTL cavm_i3c_io_ctl_t
@@ -2280,7 +2278,7 @@ typedef union cavm_i3c_master_config cavm_i3c_master_config_t;
 static inline uint64_t CAVM_I3C_MASTER_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MASTER_CONFIG_FUNC(void)
 {
-    return 0x87e0d60002b0ll;
+    return 0x87e0d00002b0ll;
 }
 
 #define typedef_CAVM_I3C_MASTER_CONFIG cavm_i3c_master_config_t
@@ -2325,7 +2323,7 @@ typedef union cavm_i3c_master_device_addr cavm_i3c_master_device_addr_t;
 static inline uint64_t CAVM_I3C_MASTER_DEVICE_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MASTER_DEVICE_ADDR_FUNC(void)
 {
-    return 0x87e0d6000010ll;
+    return 0x87e0d0000010ll;
 }
 
 #define typedef_CAVM_I3C_MASTER_DEVICE_ADDR cavm_i3c_master_device_addr_t
@@ -2369,7 +2367,7 @@ typedef union cavm_i3c_master_ext_header cavm_i3c_master_ext_header_t;
 static inline uint64_t CAVM_I3C_MASTER_EXT_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MASTER_EXT_HEADER_FUNC(void)
 {
-    return 0x87e0d60002a8ll;
+    return 0x87e0d00002a8ll;
 }
 
 #define typedef_CAVM_I3C_MASTER_EXT_HEADER cavm_i3c_master_ext_header_t
@@ -2407,7 +2405,7 @@ static inline uint64_t CAVM_I3C_MSIX_PBAX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_I3C_MSIX_PBAX(uint64_t a)
 {
     if (a==0)
-        return 0x87e0d6ff0000ll + 8ll * ((a) & 0x0);
+        return 0x87e0d0ff0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("I3C_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2493,7 +2491,7 @@ static inline uint64_t CAVM_I3C_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_I3C_MSIX_VECX_ADDR(uint64_t a)
 {
     if (a==0)
-        return 0x87e0d6f00000ll + 0x10ll * ((a) & 0x0);
+        return 0x87e0d0f00000ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("I3C_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2533,7 +2531,7 @@ static inline uint64_t CAVM_I3C_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_I3C_MSIX_VECX_CTL(uint64_t a)
 {
     if (a==0)
-        return 0x87e0d6f00008ll + 0x10ll * ((a) & 0x0);
+        return 0x87e0d0f00008ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("I3C_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2611,7 +2609,7 @@ typedef union cavm_i3c_pio_intr_force cavm_i3c_pio_intr_force_t;
 static inline uint64_t CAVM_I3C_PIO_INTR_FORCE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PIO_INTR_FORCE_FUNC(void)
 {
-    return 0x87e0d6000658ll;
+    return 0x87e0d0000658ll;
 }
 
 #define typedef_CAVM_I3C_PIO_INTR_FORCE cavm_i3c_pio_intr_force_t
@@ -2654,7 +2652,7 @@ typedef union cavm_i3c_pio_section_offset cavm_i3c_pio_section_offset_t;
 static inline uint64_t CAVM_I3C_PIO_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PIO_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d6000078ll;
+    return 0x87e0d0000078ll;
 }
 
 #define typedef_CAVM_I3C_PIO_SECTION_OFFSET cavm_i3c_pio_section_offset_t
@@ -2695,7 +2693,7 @@ typedef union cavm_i3c_present_state cavm_i3c_present_state_t;
 static inline uint64_t CAVM_I3C_PRESENT_STATE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PRESENT_STATE_FUNC(void)
 {
-    return 0x87e0d6000028ll;
+    return 0x87e0d0000028ll;
 }
 
 #define typedef_CAVM_I3C_PRESENT_STATE cavm_i3c_present_state_t
@@ -2853,7 +2851,7 @@ typedef union cavm_i3c_present_state_debug cavm_i3c_present_state_debug_t;
 static inline uint64_t CAVM_I3C_PRESENT_STATE_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PRESENT_STATE_DEBUG_FUNC(void)
 {
-    return 0x87e0d6000298ll;
+    return 0x87e0d0000298ll;
 }
 
 #define typedef_CAVM_I3C_PRESENT_STATE_DEBUG cavm_i3c_present_state_debug_t
@@ -2898,7 +2896,7 @@ typedef union cavm_i3c_queue_size_ctrl cavm_i3c_queue_size_ctrl_t;
 static inline uint64_t CAVM_I3C_QUEUE_SIZE_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_QUEUE_SIZE_CTRL_FUNC(void)
 {
-    return 0x87e0d6000630ll;
+    return 0x87e0d0000630ll;
 }
 
 #define typedef_CAVM_I3C_QUEUE_SIZE_CTRL cavm_i3c_queue_size_ctrl_t
@@ -2943,7 +2941,7 @@ typedef union cavm_i3c_queue_status_level cavm_i3c_queue_status_level_t;
 static inline uint64_t CAVM_I3C_QUEUE_STATUS_LEVEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_QUEUE_STATUS_LEVEL_FUNC(void)
 {
-    return 0x87e0d6000288ll;
+    return 0x87e0d0000288ll;
 }
 
 #define typedef_CAVM_I3C_QUEUE_STATUS_LEVEL cavm_i3c_queue_status_level_t
@@ -3042,7 +3040,7 @@ typedef union cavm_i3c_queue_thld_ctrl cavm_i3c_queue_thld_ctrl_t;
 static inline uint64_t CAVM_I3C_QUEUE_THLD_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_QUEUE_THLD_CTRL_FUNC(void)
 {
-    return 0x87e0d6000620ll;
+    return 0x87e0d0000620ll;
 }
 
 #define typedef_CAVM_I3C_QUEUE_THLD_CTRL cavm_i3c_queue_thld_ctrl_t
@@ -3093,7 +3091,7 @@ typedef union cavm_i3c_reset_control cavm_i3c_reset_control_t;
 static inline uint64_t CAVM_I3C_RESET_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_RESET_CONTROL_FUNC(void)
 {
-    return 0x87e0d6000020ll;
+    return 0x87e0d0000020ll;
 }
 
 #define typedef_CAVM_I3C_RESET_CONTROL cavm_i3c_reset_control_t
@@ -3194,7 +3192,7 @@ typedef union cavm_i3c_response_queue_port cavm_i3c_response_queue_port_t;
 static inline uint64_t CAVM_I3C_RESPONSE_QUEUE_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_RESPONSE_QUEUE_PORT_FUNC(void)
 {
-    return 0x87e0d6000608ll;
+    return 0x87e0d0000608ll;
 }
 
 #define typedef_CAVM_I3C_RESPONSE_QUEUE_PORT cavm_i3c_response_queue_port_t
@@ -3239,7 +3237,7 @@ typedef union cavm_i3c_ring_headers_section_offset cavm_i3c_ring_headers_section
 static inline uint64_t CAVM_I3C_RING_HEADERS_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_RING_HEADERS_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d6000070ll;
+    return 0x87e0d0000070ll;
 }
 
 #define typedef_CAVM_I3C_RING_HEADERS_SECTION_OFFSET cavm_i3c_ring_headers_section_offset_t
@@ -3293,7 +3291,7 @@ typedef union cavm_i3c_scl_ext_lcnt_timing cavm_i3c_scl_ext_lcnt_timing_t;
 static inline uint64_t CAVM_I3C_SCL_EXT_LCNT_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_EXT_LCNT_TIMING_FUNC(void)
 {
-    return 0x87e0d6000250ll;
+    return 0x87e0d0000250ll;
 }
 
 #define typedef_CAVM_I3C_SCL_EXT_LCNT_TIMING cavm_i3c_scl_ext_lcnt_timing_t
@@ -3342,7 +3340,7 @@ typedef union cavm_i3c_scl_ext_termn_lcnt_timing cavm_i3c_scl_ext_termn_lcnt_tim
 static inline uint64_t CAVM_I3C_SCL_EXT_TERMN_LCNT_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_EXT_TERMN_LCNT_TIMING_FUNC(void)
 {
-    return 0x87e0d6000258ll;
+    return 0x87e0d0000258ll;
 }
 
 #define typedef_CAVM_I3C_SCL_EXT_TERMN_LCNT_TIMING cavm_i3c_scl_ext_termn_lcnt_timing_t
@@ -3396,7 +3394,7 @@ typedef union cavm_i3c_scl_i2c_fm_timing cavm_i3c_scl_i2c_fm_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I2C_FM_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I2C_FM_TIMING_FUNC(void)
 {
-    return 0x87e0d6000238ll;
+    return 0x87e0d0000238ll;
 }
 
 #define typedef_CAVM_I3C_SCL_I2C_FM_TIMING cavm_i3c_scl_i2c_fm_timing_t
@@ -3452,7 +3450,7 @@ typedef union cavm_i3c_scl_i2c_fmp_timing cavm_i3c_scl_i2c_fmp_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I2C_FMP_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I2C_FMP_TIMING_FUNC(void)
 {
-    return 0x87e0d6000240ll;
+    return 0x87e0d0000240ll;
 }
 
 #define typedef_CAVM_I3C_SCL_I2C_FMP_TIMING cavm_i3c_scl_i2c_fmp_timing_t
@@ -3496,7 +3494,7 @@ typedef union cavm_i3c_scl_i2c_ss_timing cavm_i3c_scl_i2c_ss_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I2C_SS_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I2C_SS_TIMING_FUNC(void)
 {
-    return 0x87e0d6000248ll;
+    return 0x87e0d0000248ll;
 }
 
 #define typedef_CAVM_I3C_SCL_I2C_SS_TIMING cavm_i3c_scl_i2c_ss_timing_t
@@ -3542,7 +3540,7 @@ typedef union cavm_i3c_scl_i3c_od_timing cavm_i3c_scl_i3c_od_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I3C_OD_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I3C_OD_TIMING_FUNC(void)
 {
-    return 0x87e0d6000228ll;
+    return 0x87e0d0000228ll;
 }
 
 #define typedef_CAVM_I3C_SCL_I3C_OD_TIMING cavm_i3c_scl_i3c_od_timing_t
@@ -3596,7 +3594,7 @@ typedef union cavm_i3c_scl_i3c_pp_timing cavm_i3c_scl_i3c_pp_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I3C_PP_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I3C_PP_TIMING_FUNC(void)
 {
-    return 0x87e0d6000230ll;
+    return 0x87e0d0000230ll;
 }
 
 #define typedef_CAVM_I3C_SCL_I3C_PP_TIMING cavm_i3c_scl_i3c_pp_timing_t
@@ -3669,7 +3667,7 @@ typedef union cavm_i3c_sda_hold_switch_dly_timing cavm_i3c_sda_hold_switch_dly_t
 static inline uint64_t CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING_FUNC(void)
 {
-    return 0x87e0d6000260ll;
+    return 0x87e0d0000260ll;
 }
 
 #define typedef_CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING cavm_i3c_sda_hold_switch_dly_timing_t
@@ -3705,7 +3703,7 @@ typedef union cavm_i3c_spare0 cavm_i3c_spare0_t;
 static inline uint64_t CAVM_I3C_SPARE0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SPARE0_FUNC(void)
 {
-    return 0x87e0d6000c40ll;
+    return 0x87e0d0000c40ll;
 }
 
 #define typedef_CAVM_I3C_SPARE0 cavm_i3c_spare0_t
@@ -3761,7 +3759,7 @@ typedef union cavm_i3c_tx_data_port cavm_i3c_tx_data_port_t;
 static inline uint64_t CAVM_I3C_TX_DATA_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_TX_DATA_PORT_FUNC(void)
 {
-    return 0x87e0d6000610ll;
+    return 0x87e0d0000610ll;
 }
 
 #define typedef_CAVM_I3C_TX_DATA_PORT cavm_i3c_tx_data_port_t

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2399,8 +2399,8 @@ union cavm_rst_pllx
                                                                  using RST_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t reserved_14_15        : 2;
+        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
@@ -2408,14 +2408,14 @@ union cavm_rst_pllx
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_14_15        : 2;
         uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
                                                                  using RST_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
