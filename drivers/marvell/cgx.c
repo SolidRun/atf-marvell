@@ -1454,8 +1454,8 @@ static int cgx_autoneg_wait(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ct
 			/* Only increase if less than 19 (max index) */
 			if (np < (AN_NP_PRINT_MAX - 1))
 				np++;
-			}
-			udelay(1);
+		}
+		udelay(1);
 	}
 
 	if (still_negotiating)
