@@ -174,7 +174,7 @@ $(eval LOG_MOD := $(word 1,$(subst /, ,$(SRC_MOD))))
 $(eval $(if $(findstring $(LOG_MOD),$(LOG_MODULES)),,$(error "Unknown logging module '$(LOG_MOD)' ($(1)) (missing from $(LOG_MODULES))")))
 $(eval LOG_MOD_SPLIT_LIST := $(firstword $(subst $(LOG_MOD), ,$(LOG_MODULES))))
 $(eval LOG_MOD_INDEX := $(shell echo $$(($(words $(subst _, ,$(LOG_MOD_SPLIT_LIST)))-1))))
-$(eval LOG_MOD_MASK := $(shell echo $$((2 ** $(LOG_MOD_INDEX)))))
+$(eval LOG_MOD_MASK := $(shell echo $(LOG_MOD_INDEX) | awk '{ print (2 ^ $$1); }'))
 $(eval MRVL_TF_LOGGING := -DMRVL_TF_LOG_MODULE=$(LOG_MOD_MASK) -include $(MRVL_OTX_DEBUG_H))
 endef
 endif
