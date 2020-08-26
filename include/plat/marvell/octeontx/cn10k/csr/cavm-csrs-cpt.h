@@ -172,7 +172,7 @@ union cavm_cpt_ctx_hw_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
         uint64_t reserved_59           : 1;
-        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by HW if an
+        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
@@ -184,8 +184,8 @@ union cavm_cpt_ctx_hw_s
         uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output. */
         uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
         uint64_t reserved_40           : 1;
-        uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX on X2P */
-        uint64_t orig_pkt_free         : 1;  /**< [ 33: 33] Free uses ABS=1 or not */
+        uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX. */
+        uint64_t orig_pkt_free         : 1;  /**< [ 33: 33] Free uses ABS=1 or not. */
         uint64_t orig_pkt_fabs         : 1;  /**< [ 32: 32] When set, CPT will free ([DPTR]-[L2_LEN]-([ORIG_PKT_FOFF]\<\<3)) to NPA using
                                                                  PF_FUNC=RVU_PF_FUNC and aura=[PKT_AURA]. */
         uint64_t ctx_id                : 16; /**< [ 31: 16] Used by RXC (inner IP processing) along with COOKIE/SRC_IP/DST_IP/FRAG_ID to
@@ -197,8 +197,8 @@ union cavm_cpt_ctx_hw_s
                                                                  associate fragments together. */
         uint64_t orig_pkt_fabs         : 1;  /**< [ 32: 32] When set, CPT will free ([DPTR]-[L2_LEN]-([ORIG_PKT_FOFF]\<\<3)) to NPA using
                                                                  PF_FUNC=RVU_PF_FUNC and aura=[PKT_AURA]. */
-        uint64_t orig_pkt_free         : 1;  /**< [ 33: 33] Free uses ABS=1 or not */
-        uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX on X2P */
+        uint64_t orig_pkt_free         : 1;  /**< [ 33: 33] Free uses ABS=1 or not. */
+        uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX. */
         uint64_t reserved_40           : 1;
         uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
         uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output. */
@@ -208,7 +208,7 @@ union cavm_cpt_ctx_hw_s
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
-        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by HW if an
+        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
         uint64_t reserved_59           : 1;
@@ -292,19 +292,19 @@ union cavm_cpt_inst_hw_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S. */
-        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry */
+        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
         uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
         uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
-        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from X2P */
+        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from the RPM. */
         uint64_t doneint               : 1;  /**< [  3:  3] Refer to CPT_INST_S. */
         uint64_t nixtxl                : 3;  /**< [  2:  0] Refer to CPT_INST_S. */
 #else /* Word 0 - Little Endian */
         uint64_t nixtxl                : 3;  /**< [  2:  0] Refer to CPT_INST_S. */
         uint64_t doneint               : 1;  /**< [  3:  3] Refer to CPT_INST_S. */
-        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from X2P */
+        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from the RPM. */
         uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
         uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
-        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry */
+        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
         uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -328,15 +328,15 @@ union cavm_cpt_inst_hw_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t wqe_ptr               : 61; /**< [255:195] Refer to CPT_INST_S. */
         uint64_t reserved_194          : 1;
-        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable
+        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable.
                                                                  Enable over-writing Ethertype field in L2 header based on IP packet version
-                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD */
+                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD. */
         uint64_t qord                  : 1;  /**< [192:192] Refer to CPT_INST_S. */
 #else /* Word 3 - Little Endian */
         uint64_t qord                  : 1;  /**< [192:192] Refer to CPT_INST_S. */
-        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable
+        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable.
                                                                  Enable over-writing Ethertype field in L2 header based on IP packet version
-                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD */
+                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD. */
         uint64_t reserved_194          : 1;
         uint64_t wqe_ptr               : 61; /**< [255:195] Refer to CPT_INST_S. */
 #endif /* Word 3 - End */

@@ -75,15 +75,21 @@ union cavm_tsnx_data
     struct cavm_tsnx_data_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t valid                 : 1;  /**< [ 24: 24](RO/H) Asserted when data in [RESULT] is ready to be read. */
-        uint64_t raw_result            : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA_RAW digital output */
-        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by VALID */
+        uint64_t reserved_41_63        : 23;
+        uint64_t bg_trim_fuse_value    : 4;  /**< [ 40: 37](RO/H) Contains a copy of this sensor's BG_TRIM fuse value. */
+        uint64_t valid                 : 1;  /**< [ 36: 36](RO/H) Asserted when data in [RESULT] is ready to be read. */
+        uint64_t raw_data              : 12; /**< [ 35: 24](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
+        uint64_t data                  : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA digital output. */
+        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by [VALID].
+                                                                 Stored as a two's complement integer, in degrees Celsius. */
 #else /* Word 0 - Little Endian */
-        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by VALID */
-        uint64_t raw_result            : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA_RAW digital output */
-        uint64_t valid                 : 1;  /**< [ 24: 24](RO/H) Asserted when data in [RESULT] is ready to be read. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by [VALID].
+                                                                 Stored as a two's complement integer, in degrees Celsius. */
+        uint64_t data                  : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA digital output. */
+        uint64_t raw_data              : 12; /**< [ 35: 24](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
+        uint64_t valid                 : 1;  /**< [ 36: 36](RO/H) Asserted when data in [RESULT] is ready to be read. */
+        uint64_t bg_trim_fuse_value    : 4;  /**< [ 40: 37](RO/H) Contains a copy of this sensor's BG_TRIM fuse value. */
+        uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_data_s cn; */
@@ -160,17 +166,17 @@ union cavm_tsnx_fsm_ctl
                                                                  [SW_FSM_OVERRIDE] is asserted. */
         uint64_t sw_reset              : 1;  /**< [  3:  3](R/W) Directly control TSEN_ADC_RESET pin of the temperature sensor.  Enabled only if
                                                                  [SW_FSM_OVERRIDE] is asserted. */
-        uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Asser to allow software full control of TSENE state pins via SW_RESET, SW_START, and SW_EN */
+        uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Assert to allow software full control of TSENE state pins via [SW_RESET], [SW_START], and [SW_EN]. */
         uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
                                                                  clear this bit when done. */
-        uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously to update its temperature reading.  Default is asserted.
-                                                                 Mutually exclusive with ONE_SHOT_MODE */
+        uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously update its temperature reading.  Default is asserted.
+                                                                 Mutually exclusive with [ONE_SHOT_MODE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously to update its temperature reading.  Default is asserted.
-                                                                 Mutually exclusive with ONE_SHOT_MODE */
+        uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously update its temperature reading.  Default is asserted.
+                                                                 Mutually exclusive with [ONE_SHOT_MODE]. */
         uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
                                                                  clear this bit when done. */
-        uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Asser to allow software full control of TSENE state pins via SW_RESET, SW_START, and SW_EN */
+        uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Assert to allow software full control of TSENE state pins via [SW_RESET], [SW_START], and [SW_EN]. */
         uint64_t sw_reset              : 1;  /**< [  3:  3](R/W) Directly control TSEN_ADC_RESET pin of the temperature sensor.  Enabled only if
                                                                  [SW_FSM_OVERRIDE] is asserted. */
         uint64_t sw_en                 : 1;  /**< [  4:  4](R/W) Directly control TSEN_ADC_EN pin of the temperature sensor.  Enabled only if
@@ -210,15 +216,23 @@ union cavm_tsnx_sw_cal
     struct cavm_tsnx_sw_cal_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
+        uint64_t reserved_29_63        : 35;
+        uint64_t tsene_offset          : 12; /**< [ 28: 17](R/W) Temperature conversion coefficient, stored as decimal value.
+                                                                 Default value of TSENE_OFFSET is 114.5, so it is stored, rounded up, as 115. */
+        uint64_t tsene_gain_inv        : 12; /**< [ 16:  5](R/W) Temperature conversion coefficient, inverted to store as decimal value.
+                                                                 Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
+        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override. */
         uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
                                                                  other fields in this register will take effect only if this bit is set. */
 #else /* Word 0 - Little Endian */
         uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
                                                                  other fields in this register will take effect only if this bit is set. */
-        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap Single Point Trim Select.  For software override. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override. */
+        uint64_t tsene_gain_inv        : 12; /**< [ 16:  5](R/W) Temperature conversion coefficient, inverted to store as decimal value.
+                                                                 Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
+        uint64_t tsene_offset          : 12; /**< [ 28: 17](R/W) Temperature conversion coefficient, stored as decimal value.
+                                                                 Default value of TSENE_OFFSET is 114.5, so it is stored, rounded up, as 115. */
+        uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_sw_cal_s cn; */
@@ -299,7 +313,7 @@ union cavm_tsnx_tsene_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t bg_rpc_en             : 1;  /**< [ 19: 19](R/W) Bandgap Ripple Cancelling Enable Select.  Defaults to enabled. */
+        uint64_t bg_rpc_en             : 1;  /**< [ 19: 19](R/W) Bandgap Ripple Canceling Enable Select.  Defaults to enabled. */
         uint64_t fg_cal_sel            : 2;  /**< [ 18: 17](R/W) ADC foreground calibration select.
                                                                  0x0 = Automatic self-offset-cal skipped, TSENE_ADC in normal mode.
                                                                  0x1 = Automatic self-offset-cal skipped, TSENE_ADC in ADC gain cal mode.
@@ -328,7 +342,7 @@ union cavm_tsnx_tsene_ctl
                                                                    0x1 = 128.
                                                                    0x2 = 256.
                                                                    0x3 = 512 (default). */
-        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output. */
+        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature sensor low-output current selection.  Set to 1 to enable low-level current output. */
         uint64_t mode                  : 2;  /**< [  5:  4](R/W) External/internal sensor mode control.
                                                                  0x0 = Internal sensor.
                                                                  0x1 = On-chip remote ADC input.
@@ -344,7 +358,7 @@ union cavm_tsnx_tsene_ctl
                                                                  0x1 = On-chip remote ADC input.
                                                                  0x2 = On-chip remote sensor.
                                                                  0x3 = Unused. */
-        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature Sensor low output current selection.  Set to 1 to enable low level current output. */
+        uint64_t bias                  : 1;  /**< [  6:  6](R/W) Temperature sensor low-output current selection.  Set to 1 to enable low-level current output. */
         uint64_t osr                   : 2;  /**< [  8:  7](R/W) Over sample rate select.
                                                                    0x0 = 64.
                                                                    0x1 = 128.
@@ -373,7 +387,7 @@ union cavm_tsnx_tsene_ctl
                                                                  0x1 = Automatic self-offset-cal skipped, TSENE_ADC in ADC gain cal mode.
                                                                  0x2 = Automatic self-offset-cal enforced, TSENE_ADC in normal mode (default).
                                                                  0x3 = Automatic self-offset-cal enforced, TSENE_ADC in ADC gain cal mode. */
-        uint64_t bg_rpc_en             : 1;  /**< [ 19: 19](R/W) Bandgap Ripple Cancelling Enable Select.  Defaults to enabled. */
+        uint64_t bg_rpc_en             : 1;  /**< [ 19: 19](R/W) Bandgap Ripple Canceling Enable Select.  Defaults to enabled. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

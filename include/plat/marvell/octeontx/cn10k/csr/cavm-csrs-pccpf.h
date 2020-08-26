@@ -306,8 +306,10 @@
 #define CAVM_PCC_PROD_E_CN93XX (0xb2)
 #define CAVM_PCC_PROD_E_CN98XX (0xb1)
 #define CAVM_PCC_PROD_E_CN99XX (0xaf)
+#define CAVM_PCC_PROD_E_CNF105XX (0xba)
 #define CAVM_PCC_PROD_E_CNF95XX (0xb3)
 #define CAVM_PCC_PROD_E_GEN (0xa0)
+#define CAVM_PCC_PROD_E_THOR (0xbc)
 
 /**
  * Enumeration pcc_vendor_e

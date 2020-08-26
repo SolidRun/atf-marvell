@@ -374,27 +374,19 @@ union cavm_lbkx_idle_status
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t skid_fifo_lvl         : 7;  /**< [ 63: 57](RO/H) P2X SKID FIFO level. */
         uint64_t skid_fifo_full        : 1;  /**< [ 56: 56](RO/H) P2X SKID FIFO full. */
-        uint64_t mem_fifo_lvl          : 10; /**< [ 55: 46](RO/H) Data memory FIFO level. */
-        uint64_t mem_fifo_full         : 1;  /**< [ 45: 45](RO/H) Data memory FIFO full. */
-        uint64_t mem_pend_x2p_req      : 10; /**< [ 44: 35](RO/H) RAM memory entries pending to send X2P requests. */
-        uint64_t tot_pend_x2p_req      : 10; /**< [ 34: 25](RO/H) SKID & RAM entries pending to send X2P requests. */
-        uint64_t x2p_os_req_lvl        : 8;  /**< [ 24: 17](RO/H) X2P outstanding requests transmitted pending to receive grants. */
-        uint64_t credit_msg_lvl        : 9;  /**< [ 16:  8](RO/H) P2X credits return messages FIFO level. */
-        uint64_t credit_msg_os_lvl     : 5;  /**< [  7:  3](RO/H) P2X credits return messages transmitted without receiving ack. */
-        uint64_t credit_return_sm      : 2;  /**< [  2:  1](RO/H) P2X credits return messages transmitting FSM. */
-        uint64_t lbk_empty             : 1;  /**< [  0:  0](RO/H) No data is in LBK SKID FIFO, memory & buffers. No SKID read/memory
-                                                                 write/reads are taking place. This ignore BP & channel credits messages fifo. */
+        uint64_t mem_fifo_lvl          : 13; /**< [ 55: 43](RO/H) Data memory FIFO level. */
+        uint64_t mem_fifo_full         : 1;  /**< [ 42: 42](RO/H) Data memory FIFO full. */
+        uint64_t mem_pend_x2p_req      : 13; /**< [ 41: 29](RO/H) RAM memory entries pending to send X2P requests. */
+        uint64_t tot_pend_x2p_req      : 13; /**< [ 28: 16](RO/H) SKID & RAM entries pending to send X2P requests. */
+        uint64_t x2p_os_req_lvl        : 8;  /**< [ 15:  8](RO/H) X2P outstanding requests transmitted pending to receive grants. */
+        uint64_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
-        uint64_t lbk_empty             : 1;  /**< [  0:  0](RO/H) No data is in LBK SKID FIFO, memory & buffers. No SKID read/memory
-                                                                 write/reads are taking place. This ignore BP & channel credits messages fifo. */
-        uint64_t credit_return_sm      : 2;  /**< [  2:  1](RO/H) P2X credits return messages transmitting FSM. */
-        uint64_t credit_msg_os_lvl     : 5;  /**< [  7:  3](RO/H) P2X credits return messages transmitted without receiving ack. */
-        uint64_t credit_msg_lvl        : 9;  /**< [ 16:  8](RO/H) P2X credits return messages FIFO level. */
-        uint64_t x2p_os_req_lvl        : 8;  /**< [ 24: 17](RO/H) X2P outstanding requests transmitted pending to receive grants. */
-        uint64_t tot_pend_x2p_req      : 10; /**< [ 34: 25](RO/H) SKID & RAM entries pending to send X2P requests. */
-        uint64_t mem_pend_x2p_req      : 10; /**< [ 44: 35](RO/H) RAM memory entries pending to send X2P requests. */
-        uint64_t mem_fifo_full         : 1;  /**< [ 45: 45](RO/H) Data memory FIFO full. */
-        uint64_t mem_fifo_lvl          : 10; /**< [ 55: 46](RO/H) Data memory FIFO level. */
+        uint64_t reserved_0_7          : 8;
+        uint64_t x2p_os_req_lvl        : 8;  /**< [ 15:  8](RO/H) X2P outstanding requests transmitted pending to receive grants. */
+        uint64_t tot_pend_x2p_req      : 13; /**< [ 28: 16](RO/H) SKID & RAM entries pending to send X2P requests. */
+        uint64_t mem_pend_x2p_req      : 13; /**< [ 41: 29](RO/H) RAM memory entries pending to send X2P requests. */
+        uint64_t mem_fifo_full         : 1;  /**< [ 42: 42](RO/H) Data memory FIFO full. */
+        uint64_t mem_fifo_lvl          : 13; /**< [ 55: 43](RO/H) Data memory FIFO level. */
         uint64_t skid_fifo_full        : 1;  /**< [ 56: 56](RO/H) P2X SKID FIFO full. */
         uint64_t skid_fifo_lvl         : 7;  /**< [ 63: 57](RO/H) P2X SKID FIFO level. */
 #endif /* Word 0 - End */
@@ -430,13 +422,23 @@ union cavm_lbkx_idle_status_2
     struct cavm_lbkx_idle_status_2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_20_63        : 44;
+        uint64_t credit_msg_lvl        : 9;  /**< [ 19: 11](RO/H) P2X credits return messages FIFO level. */
+        uint64_t credit_msg_os_lvl     : 5;  /**< [ 10:  6](RO/H) P2X credits return messages transmitted without receiving ack. */
+        uint64_t credit_return_sm      : 2;  /**< [  5:  4](RO/H) P2X credits return messages transmitting FSM. */
+        uint64_t lbk_empty             : 1;  /**< [  3:  3](RO/H) No data is in LBK SKID FIFO, memory & buffers. No SKID read/memory
+                                                                 write/reads are taking place. This ignore BP & channel credits messages fifo. */
         uint64_t x2p_bp_sm             : 2;  /**< [  2:  1](RO/H) X2P backpressure receive FSM. */
         uint64_t p2x_bp_sm             : 1;  /**< [  0:  0](RO/H) P2X backpressure transmit FSM. */
 #else /* Word 0 - Little Endian */
         uint64_t p2x_bp_sm             : 1;  /**< [  0:  0](RO/H) P2X backpressure transmit FSM. */
         uint64_t x2p_bp_sm             : 2;  /**< [  2:  1](RO/H) X2P backpressure receive FSM. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t lbk_empty             : 1;  /**< [  3:  3](RO/H) No data is in LBK SKID FIFO, memory & buffers. No SKID read/memory
+                                                                 write/reads are taking place. This ignore BP & channel credits messages fifo. */
+        uint64_t credit_return_sm      : 2;  /**< [  5:  4](RO/H) P2X credits return messages transmitting FSM. */
+        uint64_t credit_msg_os_lvl     : 5;  /**< [ 10:  6](RO/H) P2X credits return messages transmitted without receiving ack. */
+        uint64_t credit_msg_lvl        : 9;  /**< [ 19: 11](RO/H) P2X credits return messages FIFO level. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_lbkx_idle_status_2_s cn; */

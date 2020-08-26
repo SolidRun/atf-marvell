@@ -6291,8 +6291,8 @@ union cavm_smmux_s_gbpmpam
         uint32_t reserved_17_30        : 14;
         uint32_t gbp_pmg               : 1;  /**< [ 16: 16](SR/W) "* This field determines the default PMG applied to all client transactions that
                                                                  bypass translation for the reasons described below.
-                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR.PMG_MAX, are RES0.
-                                                                 * If a value is programmed that is greater than SMMU_MPAMIDR.PMG_MAX, an UNKNOWN PMG is used." */
+                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR[PMG_MAX], are RES0.
+                                                                 * If a value is programmed that is greater than SMMU_MPAMIDR[PMG_MAX], an UNKNOWN PMG is used." */
         uint32_t reserved_9_15         : 7;
         uint32_t gbp_partid            : 9;  /**< [  8:  0](SR/W) "* This field determines the default PARTID applied to all client transactions
                                                                  that bypass translation for the reasons described below.
@@ -6308,8 +6308,8 @@ union cavm_smmux_s_gbpmpam
         uint32_t reserved_9_15         : 7;
         uint32_t gbp_pmg               : 1;  /**< [ 16: 16](SR/W) "* This field determines the default PMG applied to all client transactions that
                                                                  bypass translation for the reasons described below.
-                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR.PMG_MAX, are RES0.
-                                                                 * If a value is programmed that is greater than SMMU_MPAMIDR.PMG_MAX, an UNKNOWN PMG is used." */
+                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR[PMG_MAX], are RES0.
+                                                                 * If a value is programmed that is greater than SMMU_MPAMIDR[PMG_MAX], an UNKNOWN PMG is used." */
         uint32_t reserved_17_30        : 14;
         uint32_t update                : 1;  /**< [ 31: 31](SR/W/H) Update completion flag. */
 #endif /* Word 0 - End */
@@ -6653,7 +6653,7 @@ union cavm_smmux_s_gmpam
         uint32_t update                : 1;  /**< [ 31: 31](SRO) Update completion flag. */
         uint32_t reserved_17_30        : 14;
         uint32_t so_pmg                : 1;  /**< [ 16: 16](SR/W) "* This field determines the PMG of the SMMU-originated transactions described below.
-                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR.PMG_MAX, are RES0.
+                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR[PMG_MAX], are RES0.
                                                                  * If a value is programmed that is greater than the corresponding PMG_MAX, an UNKNOWN PMG is used." */
         uint32_t reserved_9_15         : 7;
         uint32_t so_partid             : 9;  /**< [  8:  0](SR/W) "* This field determines the PARTID of the SMMU-originated transactions described below.
@@ -6667,7 +6667,7 @@ union cavm_smmux_s_gmpam
                                                                  UNKNOWN PARTID is used." */
         uint32_t reserved_9_15         : 7;
         uint32_t so_pmg                : 1;  /**< [ 16: 16](SR/W) "* This field determines the PMG of the SMMU-originated transactions described below.
-                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR.PMG_MAX, are RES0.
+                                                                 * Bits above the supported PMG bit width, as indicated by SMMU_MPAMIDR[PMG_MAX], are RES0.
                                                                  * If a value is programmed that is greater than the corresponding PMG_MAX, an UNKNOWN PMG is used." */
         uint32_t reserved_17_30        : 14;
         uint32_t update                : 1;  /**< [ 31: 31](SRO) Update completion flag. */

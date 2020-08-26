@@ -2028,11 +2028,11 @@ union cavm_usbhx_uahc_erstbax
     struct cavm_usbhx_uahc_erstbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ers_table_bar         : 58; /**< [ 63:  6](R/W) ERS_TABLE_BAR */
+        uint64_t erstba                : 58; /**< [ 63:  6](R/W) ERS_TABLE_BAR */
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t ers_table_bar         : 58; /**< [ 63:  6](R/W) ERS_TABLE_BAR */
+        uint64_t erstba                : 58; /**< [ 63:  6](R/W) ERS_TABLE_BAR */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_usbhx_uahc_erstbax_s cn; */
@@ -11235,7 +11235,7 @@ union cavm_usbhx_uctl_ctl
         uint64_t usb2_port_perm_attach : 1;  /**< [ 20: 20](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
                                                                  only when [UPHY_RST] is asserted. */
         uint64_t reserved_19           : 1;
-        uint64_t usb3_port_disable     : 1;  /**< [ 18: 18](R/W) Disables the USB3 (SuperSpeedPlus) portion of this PHY. When set to 1, this signal stops
+        uint64_t usb31_port_disable    : 1;  /**< [ 18: 18](R/W) Disables the USB3 (SuperSpeedPlus) portion of this PHY. When set to 1, this signal stops
                                                                  reporting connect/disconnect events on the port and keeps the port in disabled state. This
                                                                  could be used for security reasons where hardware can disable a port regardless of whether
                                                                  xHCI driver enables a port or not.
@@ -11253,7 +11253,7 @@ union cavm_usbhx_uctl_ctl
                                                                  If Port0 is required to be disabled, ensure that the utmi_clk[0] is running at the normal
                                                                  speed. Also, all the enabled USB2.0 ports should have the same clock frequency as Port0. */
         uint64_t reserved_15           : 1;
-        uint64_t ss_power_en           : 1;  /**< [ 14: 14](R/W) PHY SuperSpeedPlus block power enable.
+        uint64_t ssp_power_en          : 1;  /**< [ 14: 14](R/W) PHY SuperSpeedPlus block power enable.
                                                                  This is a strap signal; it should only be modified when [UPHY_RST] is asserted. */
         uint64_t reserved_13           : 1;
         uint64_t hs_power_en           : 1;  /**< [ 12: 12](R/W) PHY high-speed block power enable.
@@ -11360,7 +11360,7 @@ union cavm_usbhx_uctl_ctl
         uint64_t hs_power_en           : 1;  /**< [ 12: 12](R/W) PHY high-speed block power enable.
                                                                  This is a strap signal; it should only be modified when [UPHY_RST] is asserted. */
         uint64_t reserved_13           : 1;
-        uint64_t ss_power_en           : 1;  /**< [ 14: 14](R/W) PHY SuperSpeedPlus block power enable.
+        uint64_t ssp_power_en          : 1;  /**< [ 14: 14](R/W) PHY SuperSpeedPlus block power enable.
                                                                  This is a strap signal; it should only be modified when [UPHY_RST] is asserted. */
         uint64_t reserved_15           : 1;
         uint64_t usb2_port_disable     : 1;  /**< [ 16: 16](R/W) Disables USB2 (high-speed/full-speed/low-speed) portion of this PHY. When set to 1, this
@@ -11373,7 +11373,7 @@ union cavm_usbhx_uctl_ctl
                                                                  If Port0 is required to be disabled, ensure that the utmi_clk[0] is running at the normal
                                                                  speed. Also, all the enabled USB2.0 ports should have the same clock frequency as Port0. */
         uint64_t reserved_17           : 1;
-        uint64_t usb3_port_disable     : 1;  /**< [ 18: 18](R/W) Disables the USB3 (SuperSpeedPlus) portion of this PHY. When set to 1, this signal stops
+        uint64_t usb31_port_disable    : 1;  /**< [ 18: 18](R/W) Disables the USB3 (SuperSpeedPlus) portion of this PHY. When set to 1, this signal stops
                                                                  reporting connect/disconnect events on the port and keeps the port in disabled state. This
                                                                  could be used for security reasons where hardware can disable a port regardless of whether
                                                                  xHCI driver enables a port or not.
@@ -11569,6 +11569,132 @@ static inline uint64_t CAVM_USBHX_UCTL_CTL(uint64_t a)
 #define device_bar_CAVM_USBHX_UCTL_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_USBHX_UCTL_CTL(a) (a)
 #define arguments_CAVM_USBHX_UCTL_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_eusb2phy_cfg0
+ *
+ * INTERNAL: USB UCTL Eusb2phy Strap Control Register
+ *
+ * This register is accessible only when USBH()_UCTL_CTL[H_CLK_EN] = 1.
+ * This register can be reset by core domain reset or with USBH()_UCTL_CTL[UCTL_RST].
+ */
+union cavm_usbhx_uctl_eusb2phy_cfg0
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_eusb2phy_cfg0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t phy_cfg_cr_clk_sel    : 1;  /**< [ 63: 63](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_cpbias_ctrl : 7;/**< [ 62: 56](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_fb_pll_div    : 12; /**< [ 55: 44](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_gmp_cntrl     : 2;  /**< [ 43: 42](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_int_cntrl : 6;  /**< [ 41: 36](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_prop_cntrl : 6; /**< [ 35: 30](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_ref_div   : 4;  /**< [ 29: 26](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_vco_cntrl : 3;  /**< [ 25: 23](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_vref_tune : 2;  /**< [ 22: 21](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_por_in_lx     : 1;  /**< [ 20: 20](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rcal_bypass   : 1;  /**< [ 19: 19](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rcal_code     : 4;  /**< [ 18: 15](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rcal_offset   : 4;  /**< [ 14: 11](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rptr_mode     : 1;  /**< [ 10: 10](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rx_eq_ctle    : 2;  /**< [  9:  8](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rx_hs_term_en : 1;  /**< [  7:  7](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rx_hs_tune    : 3;  /**< [  6:  4](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_tx_fsls_slew_tune : 1;/**< [  3:  3](R/W) Reserved for ECO usage. */
+        uint64_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_2          : 3;
+        uint64_t phy_cfg_tx_fsls_slew_tune : 1;/**< [  3:  3](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rx_hs_tune    : 3;  /**< [  6:  4](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rx_hs_term_en : 1;  /**< [  7:  7](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rx_eq_ctle    : 2;  /**< [  9:  8](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rptr_mode     : 1;  /**< [ 10: 10](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rcal_offset   : 4;  /**< [ 14: 11](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rcal_code     : 4;  /**< [ 18: 15](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_rcal_bypass   : 1;  /**< [ 19: 19](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_por_in_lx     : 1;  /**< [ 20: 20](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_vref_tune : 2;  /**< [ 22: 21](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_vco_cntrl : 3;  /**< [ 25: 23](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_ref_div   : 4;  /**< [ 29: 26](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_prop_cntrl : 6; /**< [ 35: 30](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_int_cntrl : 6;  /**< [ 41: 36](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_gmp_cntrl     : 2;  /**< [ 43: 42](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_fb_pll_div    : 12; /**< [ 55: 44](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_pll_cpbias_ctrl : 7;/**< [ 62: 56](R/W) Reserved for ECO usage. */
+        uint64_t phy_cfg_cr_clk_sel    : 1;  /**< [ 63: 63](R/W) Reserved for ECO usage. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_eusb2phy_cfg0_s cn; */
+};
+typedef union cavm_usbhx_uctl_eusb2phy_cfg0 cavm_usbhx_uctl_eusb2phy_cfg0_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG0(uint64_t a)
+{
+    if (a<=1)
+        return 0x868000100150ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_EUSB2PHY_CFG0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_EUSB2PHY_CFG0(a) cavm_usbhx_uctl_eusb2phy_cfg0_t
+#define bustype_CAVM_USBHX_UCTL_EUSB2PHY_CFG0(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_EUSB2PHY_CFG0(a) "USBHX_UCTL_EUSB2PHY_CFG0"
+#define device_bar_CAVM_USBHX_UCTL_EUSB2PHY_CFG0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_EUSB2PHY_CFG0(a) (a)
+#define arguments_CAVM_USBHX_UCTL_EUSB2PHY_CFG0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbh#_uctl_eusb2phy_cfg1
+ *
+ * INTERNAL: USB UCTL Eusbphy Strap Control Register
+ *
+ * This register is accessible only when USBH()_UCTL_CTL[H_CLK_EN] = 1.
+ * This register can be reset by core domain reset or with USBH()_UCTL_CTL[UCTL_RST].
+ */
+union cavm_usbhx_uctl_eusb2phy_cfg1
+{
+    uint32_t u;
+    struct cavm_usbhx_uctl_eusb2phy_cfg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_15_31        : 17;
+        uint32_t phy_cfg_tx_fsls_vref_tune : 2;/**< [ 14: 13](R/W) reserved for eco usage. */
+        uint32_t phy_cfg_tx_fsls_vreg_bypass : 1;/**< [ 12: 12](R/W) reserved for eco usage. */
+        uint32_t phy_cfg_tx_hs_vref_tune : 3;/**< [ 11:  9](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_xv_tune    : 2;  /**< [  8:  7](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_preemp_tune : 3; /**< [  6:  4](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_res_tune   : 2;  /**< [  3:  2](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_rise_tune  : 2;  /**< [  1:  0](R/W) Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_cfg_tx_rise_tune  : 2;  /**< [  1:  0](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_res_tune   : 2;  /**< [  3:  2](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_preemp_tune : 3; /**< [  6:  4](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_xv_tune    : 2;  /**< [  8:  7](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_hs_vref_tune : 3;/**< [ 11:  9](R/W) Reserved for ECO usage. */
+        uint32_t phy_cfg_tx_fsls_vreg_bypass : 1;/**< [ 12: 12](R/W) reserved for eco usage. */
+        uint32_t phy_cfg_tx_fsls_vref_tune : 2;/**< [ 14: 13](R/W) reserved for eco usage. */
+        uint32_t reserved_15_31        : 17;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_eusb2phy_cfg1_s cn; */
+};
+typedef union cavm_usbhx_uctl_eusb2phy_cfg1 cavm_usbhx_uctl_eusb2phy_cfg1_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG1(uint64_t a)
+{
+    if (a<=1)
+        return 0x868000100160ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_EUSB2PHY_CFG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_EUSB2PHY_CFG1(a) cavm_usbhx_uctl_eusb2phy_cfg1_t
+#define bustype_CAVM_USBHX_UCTL_EUSB2PHY_CFG1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_USBHX_UCTL_EUSB2PHY_CFG1(a) "USBHX_UCTL_EUSB2PHY_CFG1"
+#define device_bar_CAVM_USBHX_UCTL_EUSB2PHY_CFG1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_EUSB2PHY_CFG1(a) (a)
+#define arguments_CAVM_USBHX_UCTL_EUSB2PHY_CFG1(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) usbh#_uctl_host_cfg
@@ -12974,6 +13100,60 @@ static inline uint64_t CAVM_USBHX_UCTL_SPARE1(uint64_t a)
 #define device_bar_CAVM_USBHX_UCTL_SPARE1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_USBHX_UCTL_SPARE1(a) (a)
 #define arguments_CAVM_USBHX_UCTL_SPARE1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbh#_uctl_sspphy_cfg0
+ *
+ * INTERNAL: USB UCTL Sspphy Strap Control Register
+ *
+ * This register is accessible only when USBH()_UCTL_CTL[H_CLK_EN] = 1.
+ * This register can be reset by core domain reset or with USBH()_UCTL_CTL[UCTL_RST].
+ */
+union cavm_usbhx_uctl_sspphy_cfg0
+{
+    uint32_t u;
+    struct cavm_usbhx_uctl_sspphy_cfg0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t phy0_ref_repeat_clk_en : 1; /**< [ 27: 27](R/W) Reserved for ECO usage. */
+        uint32_t phy0_sup_pre_hp       : 1;  /**< [ 26: 26](R/W) Reserved for ECO usage. */
+        uint32_t phy_ext_ctrl_sel      : 1;  /**< [ 25: 25](R/W) Reserved for ECO usage. */
+        uint32_t phy_res_ack_in        : 1;  /**< [ 24: 24](R/W) Reserved for ECO usage. */
+        uint32_t phy_rese_req_in       : 1;  /**< [ 23: 23](R/W) Reserved for ECO usage. */
+        uint32_t phy_tx0_vregdrv_byp   : 1;  /**< [ 22: 22](R/W) Reserved for ECO usage. */
+        uint32_t upcs_pipe_config      : 16; /**< [ 21:  6](R/W) Reserved for ECO usage. */
+        uint32_t pipe_rx0_idle_los_cnt : 6;  /**< [  5:  0](R/W) Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint32_t pipe_rx0_idle_los_cnt : 6;  /**< [  5:  0](R/W) Reserved for ECO usage. */
+        uint32_t upcs_pipe_config      : 16; /**< [ 21:  6](R/W) Reserved for ECO usage. */
+        uint32_t phy_tx0_vregdrv_byp   : 1;  /**< [ 22: 22](R/W) Reserved for ECO usage. */
+        uint32_t phy_rese_req_in       : 1;  /**< [ 23: 23](R/W) Reserved for ECO usage. */
+        uint32_t phy_res_ack_in        : 1;  /**< [ 24: 24](R/W) Reserved for ECO usage. */
+        uint32_t phy_ext_ctrl_sel      : 1;  /**< [ 25: 25](R/W) Reserved for ECO usage. */
+        uint32_t phy0_sup_pre_hp       : 1;  /**< [ 26: 26](R/W) Reserved for ECO usage. */
+        uint32_t phy0_ref_repeat_clk_en : 1; /**< [ 27: 27](R/W) Reserved for ECO usage. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_sspphy_cfg0_s cn; */
+};
+typedef union cavm_usbhx_uctl_sspphy_cfg0 cavm_usbhx_uctl_sspphy_cfg0_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_SSPPHY_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_SSPPHY_CFG0(uint64_t a)
+{
+    if (a<=1)
+        return 0x868000100188ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_SSPPHY_CFG0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_SSPPHY_CFG0(a) cavm_usbhx_uctl_sspphy_cfg0_t
+#define bustype_CAVM_USBHX_UCTL_SSPPHY_CFG0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_USBHX_UCTL_SSPPHY_CFG0(a) "USBHX_UCTL_SSPPHY_CFG0"
+#define device_bar_CAVM_USBHX_UCTL_SSPPHY_CFG0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_SSPPHY_CFG0(a) (a)
+#define arguments_CAVM_USBHX_UCTL_SSPPHY_CFG0(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) usbh#_uctl_utmiclk_counter

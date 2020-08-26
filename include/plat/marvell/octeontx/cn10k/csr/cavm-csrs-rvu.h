@@ -959,12 +959,12 @@ union cavm_rvu_af_pfx_lmtline_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t addr                  : 48; /**< [ 63: 16](R/W) Programmable base address of PF LMTLINE region in DRAM. This register is
-                                                                 reflected to RVU_PF(0..31)_LMTLINE_ADDR. */
+                                                                 reflected to RVU_PF_LMTLINE_ADDR. */
         uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
         uint64_t addr                  : 48; /**< [ 63: 16](R/W) Programmable base address of PF LMTLINE region in DRAM. This register is
-                                                                 reflected to RVU_PF(0..31)_LMTLINE_ADDR. */
+                                                                 reflected to RVU_PF_LMTLINE_ADDR. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_pfx_lmtline_addr_s cn; */
@@ -1935,11 +1935,11 @@ union cavm_rvu_af_smmu_addr_rsp_sts
         uint64_t zero                  : 1;  /**< [  2:  2](RO/H) Translation returned zero. */
         uint64_t abrt                  : 1;  /**< [  1:  1](RO/H) Translation returned abort. */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Translation done indication - set after RVUM updates translation result in
-                                                                 RVU_AF_SMMU_ADDR_TRN[PA].  After a new trigger is received
+                                                                 RVU_AF_SMMU_ADDR_TLN[PA].  After a new trigger is received
                                                                  (RVU_AF_SMMU_TXN_REQ[TRG]) done bit is zeroed immediately by hardware. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 1;  /**< [  0:  0](RO/H) Translation done indication - set after RVUM updates translation result in
-                                                                 RVU_AF_SMMU_ADDR_TRN[PA].  After a new trigger is received
+                                                                 RVU_AF_SMMU_ADDR_TLN[PA].  After a new trigger is received
                                                                  (RVU_AF_SMMU_TXN_REQ[TRG]) done bit is zeroed immediately by hardware. */
         uint64_t abrt                  : 1;  /**< [  1:  1](RO/H) Translation returned abort. */
         uint64_t zero                  : 1;  /**< [  2:  2](RO/H) Translation returned zero. */

@@ -6371,11 +6371,12 @@ union cavm_pemx_rst_mac
     struct cavm_pemx_rst_mac_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t dis_pipe_rst          : 1;  /**< [  3:  3](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
+        uint64_t reserved_5_63         : 59;
+        uint64_t dis_pipe_rst          : 1;  /**< [  4:  4](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
                                                                  insure the pipe reset is asserted.   Setting this bit will disable this function. */
-        uint64_t diag_clr_phystatus    : 1;  /**< [  2:  2](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
-        uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When set, resets the PIPE PCS. */
+        uint64_t diag_clr_phystatus    : 1;  /**< [  3:  3](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
+        uint64_t pipe_rst_ovrd_en      : 1;  /**< [  2:  2](R/W) When set, [PIPE_RST] can be used to force the state of the reset to the PIPE PCS. */
+        uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When [PIPE_RST_OVRD_EN] is set, determines the state of the reset to the PIPE PCS. */
         uint64_t mac_rst               : 1;  /**< [  0:  0](R/W) When set, resets the PCIe Mac as well as its associated application logic.
                                                                  Internal:
                                                                  mac_rst_n. */
@@ -6383,11 +6384,12 @@ union cavm_pemx_rst_mac
         uint64_t mac_rst               : 1;  /**< [  0:  0](R/W) When set, resets the PCIe Mac as well as its associated application logic.
                                                                  Internal:
                                                                  mac_rst_n. */
-        uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When set, resets the PIPE PCS. */
-        uint64_t diag_clr_phystatus    : 1;  /**< [  2:  2](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
-        uint64_t dis_pipe_rst          : 1;  /**< [  3:  3](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
+        uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When [PIPE_RST_OVRD_EN] is set, determines the state of the reset to the PIPE PCS. */
+        uint64_t pipe_rst_ovrd_en      : 1;  /**< [  2:  2](R/W) When set, [PIPE_RST] can be used to force the state of the reset to the PIPE PCS. */
+        uint64_t diag_clr_phystatus    : 1;  /**< [  3:  3](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
+        uint64_t dis_pipe_rst          : 1;  /**< [  4:  4](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
                                                                  insure the pipe reset is asserted.   Setting this bit will disable this function. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_rst_mac_s cn; */

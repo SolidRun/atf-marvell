@@ -4195,13 +4195,15 @@ union cavm_dpix_req_err_rsp
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t qerr                  : 32; /**< [ 31:  0](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
-                                                                 Software must clear the bit before the corresponding instruction queue will continue
-                                                                 processing instructions if DPI()_REQ_ERR_RSP_EN[EN] is set. */
+        uint64_t qerr                  : 32; /**< [ 31:  0](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O
+                                                                 subsystem and also sets interrupt bit
+                                                                 DPI_REQQ()_INT[ERR_RSP].
+                                                                 Clearing this bit, clears the internal lock state for the DPI_EBUS_PORT(0..1)_ERR_INFO register. */
 #else /* Word 0 - Little Endian */
-        uint64_t qerr                  : 32; /**< [ 31:  0](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
-                                                                 Software must clear the bit before the corresponding instruction queue will continue
-                                                                 processing instructions if DPI()_REQ_ERR_RSP_EN[EN] is set. */
+        uint64_t qerr                  : 32; /**< [ 31:  0](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O
+                                                                 subsystem and also sets interrupt bit
+                                                                 DPI_REQQ()_INT[ERR_RSP].
+                                                                 Clearing this bit, clears the internal lock state for the DPI_EBUS_PORT(0..1)_ERR_INFO register. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -4237,10 +4239,12 @@ union cavm_dpix_req_err_rsp_en
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t en                    : 32; /**< [ 31:  0](R/W) Indicates which instruction queues should stop dispatching instructions when an
-                                                                 ErrorResponse is received from the I/O subsystem. */
+                                                                 ErrorResponse is received from the I/O subsystem. Software is required to disable and reset
+                                                                 the instruction queue prior to re-enabling and sending new instructions. */
 #else /* Word 0 - Little Endian */
         uint64_t en                    : 32; /**< [ 31:  0](R/W) Indicates which instruction queues should stop dispatching instructions when an
-                                                                 ErrorResponse is received from the I/O subsystem. */
+                                                                 ErrorResponse is received from the I/O subsystem. Software is required to disable and reset
+                                                                 the instruction queue prior to re-enabling and sending new instructions. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -4275,7 +4279,11 @@ union cavm_dpix_reqqx_int
     struct cavm_dpix_reqqx_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
+                                                                 Software must disable the queue and reset it if DPI_REQ_ERR_RSP_EN[EN] is set, before
+                                                                 processing further instructions on that queue. The ErrorResponse also sets the
+                                                                 DPI_REQ_ERR_RSP[QERR] bit. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1C/H) NCB poison on instruction read. This error will also disable the corresponding instruction
                                                                  queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST] before
                                                                  reenabling. */
@@ -4321,7 +4329,11 @@ union cavm_dpix_reqqx_int
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1C/H) NCB poison on instruction read. This error will also disable the corresponding instruction
                                                                  queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST] before
                                                                  reenabling. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
+                                                                 Software must disable the queue and reset it if DPI_REQ_ERR_RSP_EN[EN] is set, before
+                                                                 processing further instructions on that queue. The ErrorResponse also sets the
+                                                                 DPI_REQ_ERR_RSP[QERR] bit. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_s cn; */
@@ -4355,7 +4367,8 @@ union cavm_dpix_reqqx_int_ena_w1c
     struct cavm_dpix_reqqx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_ADDR_NULL]. */
@@ -4373,7 +4386,8 @@ union cavm_dpix_reqqx_int_ena_w1c
         uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_ADDR_NULL]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_ena_w1c_s cn; */
@@ -4407,7 +4421,8 @@ union cavm_dpix_reqqx_int_ena_w1s
     struct cavm_dpix_reqqx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_ADDR_NULL]. */
@@ -4425,7 +4440,8 @@ union cavm_dpix_reqqx_int_ena_w1s
         uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_ADDR_NULL]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_ena_w1s_s cn; */
@@ -4459,7 +4475,8 @@ union cavm_dpix_reqqx_int_w1s
     struct cavm_dpix_reqqx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_ADDR_NULL]. */
@@ -4477,7 +4494,8 @@ union cavm_dpix_reqqx_int_w1s
         uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_ADDR_NULL]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_w1s_s cn; */
@@ -4607,7 +4625,9 @@ union cavm_dpix_vdmax_cnt
                                                                  DPI()_VF()_INT bit.
 
                                                                  DPI increments the [CNT] for the corresponding request queue by one after completing
-                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
+                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction.
+
+                                                                 Software may need to clear the counter after performing an instruction queue reset. */
 #else /* Word 0 - Little Endian */
         uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) DPI DMA per-request queue instruction completion counter. DPI can increment a counter upon
                                                                  completion of a DPI DMA instruction. DPI subtracts the value written
@@ -4615,7 +4635,9 @@ union cavm_dpix_vdmax_cnt
                                                                  DPI()_VF()_INT bit.
 
                                                                  DPI increments the [CNT] for the corresponding request queue by one after completing
-                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
+                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction.
+
+                                                                 Software may need to clear the counter after performing an instruction queue reset. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

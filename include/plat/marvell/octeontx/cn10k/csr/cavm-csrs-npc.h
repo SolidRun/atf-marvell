@@ -629,7 +629,7 @@ union cavm_npc_af_const
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t match_stats           : 16; /**< [ 63: 48](RO) Number of NPC_AF_MATCH_STAT() base counters. When NPC_AF_CONST2[MATCH_STATS_EXT]
                                                                  is present and non-zero, the device supports the extended MCAM capabilities.  If
-                                                                 MATCH_STATS is zero, NPC_AF_MATCH_STAT() is not available.  Use
+                                                                 [MATCH_STATS] is zero, NPC_AF_MATCH_STAT() is not available.  Use
                                                                  NPC_AF_MATCH_STAT_EXT().
 
                                                                  Internal:
@@ -637,7 +637,7 @@ union cavm_npc_af_const
         uint64_t mcam_banks            : 4;  /**< [ 47: 44](RO) Number of MCAM banks. */
         uint64_t mcam_bank_depth       : 16; /**< [ 43: 28](RO) MCAM bank base depth. When NPC_AF_CONST2[MCAM_BANK_DEPTH_EXT] is present and
                                                                  non-zero, the device supports the extended MCAM capabilities.  If
-                                                                 MCAM_BANK_DEPTH is zero, the following registers are not available
+                                                                 [MCAM_BANK_DEPTH] is zero, the following registers are not available
                                                                  - NPC_AF_MCAME()_BANK()_CAM()_INTF.
                                                                  - NPC_AF_MCAME()_BANK()_CAM()_W0.
                                                                  - NPC_AF_MCAME()_BANK()_CAM()_W1.
@@ -679,7 +679,7 @@ union cavm_npc_af_const
         uint64_t reserved_26_27        : 2;
         uint64_t mcam_bank_depth       : 16; /**< [ 43: 28](RO) MCAM bank base depth. When NPC_AF_CONST2[MCAM_BANK_DEPTH_EXT] is present and
                                                                  non-zero, the device supports the extended MCAM capabilities.  If
-                                                                 MCAM_BANK_DEPTH is zero, the following registers are not available
+                                                                 [MCAM_BANK_DEPTH] is zero, the following registers are not available
                                                                  - NPC_AF_MCAME()_BANK()_CAM()_INTF.
                                                                  - NPC_AF_MCAME()_BANK()_CAM()_W0.
                                                                  - NPC_AF_MCAME()_BANK()_CAM()_W1.
@@ -703,7 +703,7 @@ union cavm_npc_af_const
         uint64_t mcam_banks            : 4;  /**< [ 47: 44](RO) Number of MCAM banks. */
         uint64_t match_stats           : 16; /**< [ 63: 48](RO) Number of NPC_AF_MATCH_STAT() base counters. When NPC_AF_CONST2[MATCH_STATS_EXT]
                                                                  is present and non-zero, the device supports the extended MCAM capabilities.  If
-                                                                 MATCH_STATS is zero, NPC_AF_MATCH_STAT() is not available.  Use
+                                                                 [MATCH_STATS] is zero, NPC_AF_MATCH_STAT() is not available.  Use
                                                                  NPC_AF_MATCH_STAT_EXT().
 
                                                                  Internal:

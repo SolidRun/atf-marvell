@@ -837,14 +837,15 @@ union cavm_npa_batch_alloc_compare_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t drop                  : 1;  /**< [ 63: 63] Perform DROP processing on Allocation, when set to 1. */
-        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the
-                                                                 request, the batch logic will respond immediately to the atomic request with a
-                                                                 NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT indication. If set to 0, and
-                                                                 resources not available, the request will remain pending until resources become
-                                                                 available and the request is serviced. SW can set resource levels with
-                                                                 NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The
-                                                                 request's DIS_WAIT will be ignored if NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is
-                                                                 set. */
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Request Wait Mode. If DIS_WAIT=1 and resources are not available to
+                                                                 process the request, HW will return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT.
+                                                                 No further request procesing will occur - meaning there will be no DMA response.
+                                                                 If DIS_WAIT=0 and resources not available, HW will
+                                                                 return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_ACCEPTED and the batch alloc
+                                                                 request will be placed in a service queue until it can be processed by HW. SW
+                                                                 can set resource levels with NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and
+                                                                 NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The request's DIS_WAIT will be ignored if
+                                                                 NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is set. */
         uint64_t reserved_50_61        : 12;
         uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfullment of the request.
                                                                    0x0 = Store full cache line, allocate cache (STF).
@@ -866,14 +867,15 @@ union cavm_npa_batch_alloc_compare_s
                                                                    0x2 = Store partial cache line, allocate cache (STP).
                                                                    0x3 = Store partial cache line stash, allocate cache (STSTP). */
         uint64_t reserved_50_61        : 12;
-        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Wait. If set to 1, and resources are not available to process the
-                                                                 request, the batch logic will respond immediately to the atomic request with a
-                                                                 NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT indication. If set to 0, and
-                                                                 resources not available, the request will remain pending until resources become
-                                                                 available and the request is serviced. SW can set resource levels with
-                                                                 NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The
-                                                                 request's DIS_WAIT will be ignored if NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is
-                                                                 set. */
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Request Wait Mode. If DIS_WAIT=1 and resources are not available to
+                                                                 process the request, HW will return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT.
+                                                                 No further request procesing will occur - meaning there will be no DMA response.
+                                                                 If DIS_WAIT=0 and resources not available, HW will
+                                                                 return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_ACCEPTED and the batch alloc
+                                                                 request will be placed in a service queue until it can be processed by HW. SW
+                                                                 can set resource levels with NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and
+                                                                 NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The request's DIS_WAIT will be ignored if
+                                                                 NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is set. */
         uint64_t drop                  : 1;  /**< [ 63: 63] Perform DROP processing on Allocation, when set to 1. */
 #endif /* Word 0 - End */
     } s;
@@ -2741,7 +2743,7 @@ union cavm_npa_af_batch_err_data0
     struct cavm_npa_af_batch_err_data0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W1C/H) Indicates that the contents of NPA_AF_BATCH_ERR_DATA() are
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W1C/H) Indicates that the contents of NPA_AF_BATCH_ERR_DATA0/1 are
                                                                  valid and updates. Write this bit to 1 to clear status. */
         uint64_t reserved_38_62        : 25;
         uint64_t batch_fail_code       : 2;  /**< [ 37: 36](RO/H) Batch failure code, enumerated with NPA_AF_BATCH_FAIL_E. */
@@ -2752,7 +2754,7 @@ union cavm_npa_af_batch_err_data0
         uint64_t pf_func               : 16; /**< [ 35: 20](RO/H) PF_FUNC used by operation that resulted in error. */
         uint64_t batch_fail_code       : 2;  /**< [ 37: 36](RO/H) Batch failure code, enumerated with NPA_AF_BATCH_FAIL_E. */
         uint64_t reserved_38_62        : 25;
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W1C/H) Indicates that the contents of NPA_AF_BATCH_ERR_DATA() are
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W1C/H) Indicates that the contents of NPA_AF_BATCH_ERR_DATA0/1 are
                                                                  valid and updates. Write this bit to 1 to clear status. */
 #endif /* Word 0 - End */
     } s;
@@ -4580,7 +4582,8 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
  * This register is used to batch allocate pointers from a given aura's pool. A
  * 64-bit atomic CAS operation to NPA_LF_AURA_BATCH_ALLOC allocates the pointers.
  * The atomic SWAP data format is NPA_BATCH_ALLOC_SWAP_S. The atomic COMPARE data
- * format is NPA_BATCH_ALLOC_COMPARE_S. The CAS operation will return 0 (ALLOC_RESULT_ACCEPTED) if the
+ * format is NPA_BATCH_ALLOC_COMPARE_S. The CAS operation will return 0
+ * (NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_ACCEPTED) if the
  * CAS operation was accepted, or non-zero value if not accepted as enumerated by
  * NPA_BATCH_ALLOC_RESULT_E. All other
  * accesses to this register (e.g. reads and writes) are RAZ/WI.  RSL accesses

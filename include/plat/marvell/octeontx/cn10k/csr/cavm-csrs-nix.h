@@ -982,11 +982,11 @@ union cavm_nix_band_prof_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t cir_mantissa          : 8;  /**< [ 63: 56] Committed information rate:
-                                                                 (1+CIR_MANTISSA/256)*2CIR_EXPONENT token are added to C_ACCUM every time profile unit. */
+                                                                 (1+[CIR_MANTISSA]/256)*2^[CIR_EXPONENT] token are added to C_ACCUM every time profile unit. */
         uint64_t pebs_mantissa         : 8;  /**< [ 55: 48] Peak burst size:
-                                                                 (1+PEBS_MANTISSA/256)*2^PEBS_EXPONENT maximum number of tokens in P_ACCUM. */
+                                                                 (1+[PEBS_MANTISSA]/256)*2^[PEBS_EXPONENT] maximum number of tokens in P_ACCUM. */
         uint64_t peir_mantissa         : 8;  /**< [ 47: 40] Peak/Excess information rate:
-                                                                 (1+PEIR_MANTISSA/256)*2^PEIR_EXPONENT token are added to P_ACCUM every time profile time unit. */
+                                                                 (1+[PEIR_MANTISSA]/256)*2^[PEIR_EXPONENT] token are added to P_ACCUM every time profile time unit. */
         uint64_t reserved_37_39        : 3;
         uint64_t cbs_exponent          : 5;  /**< [ 36: 32] Exponent value.
                                                                  Valid values are 0 to 22.
@@ -1049,11 +1049,11 @@ union cavm_nix_band_prof_s
                                                                  Value of 24 with mantissa value of zero is used to configure zero value. */
         uint64_t reserved_37_39        : 3;
         uint64_t peir_mantissa         : 8;  /**< [ 47: 40] Peak/Excess information rate:
-                                                                 (1+PEIR_MANTISSA/256)*2^PEIR_EXPONENT token are added to P_ACCUM every time profile time unit. */
+                                                                 (1+[PEIR_MANTISSA]/256)*2^[PEIR_EXPONENT] token are added to P_ACCUM every time profile time unit. */
         uint64_t pebs_mantissa         : 8;  /**< [ 55: 48] Peak burst size:
-                                                                 (1+PEBS_MANTISSA/256)*2^PEBS_EXPONENT maximum number of tokens in P_ACCUM. */
+                                                                 (1+[PEBS_MANTISSA]/256)*2^[PEBS_EXPONENT] maximum number of tokens in P_ACCUM. */
         uint64_t cir_mantissa          : 8;  /**< [ 63: 56] Committed information rate:
-                                                                 (1+CIR_MANTISSA/256)*2CIR_EXPONENT token are added to C_ACCUM every time profile unit. */
+                                                                 (1+[CIR_MANTISSA]/256)*2^[CIR_EXPONENT] token are added to C_ACCUM every time profile unit. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_120_127      : 8;
@@ -1081,7 +1081,7 @@ union cavm_nix_band_prof_s
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
         uint64_t reserved_85_86        : 2;
-        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + (ADJUST_MANTISSA/256-1)*2^ADJUST_EXPONENT
+        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + ([ADJUST_MANTISSA]/256-1)*2^[ADJUST_EXPONENT]
                                                                  Maximum valid value is 22.
 
                                                                  Internal:
@@ -1102,10 +1102,10 @@ union cavm_nix_band_prof_s
                                                                  0 = byte.
                                                                  1 = packet. packet length is treated as 0. */
         uint64_t cbs_mantissa          : 8;  /**< [ 71: 64] Committed burst size:
-                                                                 (1+CBS_MANTISSA/256)*2^CBS_EXPONENT maximum number of tokens in C_ACCUM. */
+                                                                 (1+[CBS_MANTISSA]/256)*2^[CBS_EXPONENT] maximum number of tokens in C_ACCUM. */
 #else /* Word 1 - Little Endian */
         uint64_t cbs_mantissa          : 8;  /**< [ 71: 64] Committed burst size:
-                                                                 (1+CBS_MANTISSA/256)*2^CBS_EXPONENT maximum number of tokens in C_ACCUM. */
+                                                                 (1+[CBS_MANTISSA]/256)*2^[CBS_EXPONENT] maximum number of tokens in C_ACCUM. */
         uint64_t lmode                 : 1;  /**< [ 72: 72] Length mode:
                                                                  0 = byte.
                                                                  1 = packet. packet length is treated as 0. */
@@ -1121,7 +1121,7 @@ union cavm_nix_band_prof_s
                                                                  7 = Packet length - LHPTR. */
         uint64_t rdiv                  : 4;  /**< [ 79: 76] Rate divider.
                                                                  Profile Time unit is policer time unit *2^(-[RDIV]). */
-        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + (ADJUST_MANTISSA/256-1)*2^ADJUST_EXPONENT
+        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + ([ADJUST_MANTISSA]/256-1)*2^[ADJUST_EXPONENT]
                                                                  Maximum valid value is 22.
 
                                                                  Internal:
@@ -1893,8 +1893,7 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t first_skip            : 7;  /**< [170:164] See NIX_RQ_CTX_S[FIRST_SKIP]. */
         uint64_t lpb_sizem1            : 12; /**< [163:152] See NIX_RQ_CTX_S[LPB_SIZEM1]. */
         uint64_t spb_ena               : 1;  /**< [151:151] See NIX_RQ_CTX_S[SPB_ENA]. */
-        uint64_t reserved_150          : 1;
-        uint64_t spb_high_sizem1       : 2;  /**< [149:148] See NIX_RQ_CTX_S[SPB_HIGH_SIZEM1]. */
+        uint64_t spb_high_sizem1       : 3;  /**< [150:148] See NIX_RQ_CTX_S[SPB_HIGH_SIZEM1]. */
         uint64_t wqe_skip              : 2;  /**< [147:146] See NIX_RQ_CTX_S[WQE_SKIP]. */
         uint64_t spb_sizem1            : 6;  /**< [145:140] See NIX_RQ_CTX_S[SPB_SIZEM1]. */
         uint64_t policer_ena           : 1;  /**< [139:139] See NIX_RQ_CTX_S[POLICER_ENA] */
@@ -1906,8 +1905,7 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t policer_ena           : 1;  /**< [139:139] See NIX_RQ_CTX_S[POLICER_ENA] */
         uint64_t spb_sizem1            : 6;  /**< [145:140] See NIX_RQ_CTX_S[SPB_SIZEM1]. */
         uint64_t wqe_skip              : 2;  /**< [147:146] See NIX_RQ_CTX_S[WQE_SKIP]. */
-        uint64_t spb_high_sizem1       : 2;  /**< [149:148] See NIX_RQ_CTX_S[SPB_HIGH_SIZEM1]. */
-        uint64_t reserved_150          : 1;
+        uint64_t spb_high_sizem1       : 3;  /**< [150:148] See NIX_RQ_CTX_S[SPB_HIGH_SIZEM1]. */
         uint64_t spb_ena               : 1;  /**< [151:151] See NIX_RQ_CTX_S[SPB_ENA]. */
         uint64_t lpb_sizem1            : 12; /**< [163:152] See NIX_RQ_CTX_S[LPB_SIZEM1]. */
         uint64_t first_skip            : 7;  /**< [170:164] See NIX_RQ_CTX_S[FIRST_SKIP]. */
@@ -2120,7 +2118,7 @@ union cavm_nix_rq_ctx_s
         uint64_t reserved_125_127      : 3;
         uint64_t chi_ena               : 1;  /**< [124:124] Reserved.
                                                                  Internal:
-                                                                 RFoE/CHI enable. When CHI_ENA=1, both LPB_AURA and SPB_AURA, must be configured
+                                                                 RFoE/CHI enable. When [CHI_ENA]=1, both [LPB_AURA] and [SPB_AURA] must be configured
                                                                  to have invalid NPA AURA. */
         uint64_t ipsecd_drop_en        : 1;  /**< [123:123] IPsecD packets are dropped. */
         uint64_t pb_stashing           : 1;  /**< [122:122] Reserved.
@@ -2297,7 +2295,7 @@ union cavm_nix_rq_ctx_s
         uint64_t ipsecd_drop_en        : 1;  /**< [123:123] IPsecD packets are dropped. */
         uint64_t chi_ena               : 1;  /**< [124:124] Reserved.
                                                                  Internal:
-                                                                 RFoE/CHI enable. When CHI_ENA=1, both LPB_AURA and SPB_AURA, must be configured
+                                                                 RFoE/CHI enable. When [CHI_ENA]=1, both [LPB_AURA] and [SPB_AURA] must be configured
                                                                  to have invalid NPA AURA. */
         uint64_t reserved_125_127      : 3;
 #endif /* Word 1 - End */
@@ -2363,8 +2361,7 @@ union cavm_nix_rq_ctx_s
                                                                  fits within that buffer.
 
                                                                  See [SPB_AURA]. */
-        uint64_t reserved_150          : 1;
-        uint64_t spb_high_sizem1       : 2;  /**< [149:148] Two MSB bits of SPB_SIZEM1 */
+        uint64_t spb_high_sizem1       : 3;  /**< [150:148] Two MSB bits of [SPB_SIZEM1]. */
         uint64_t wqe_skip              : 2;  /**< [147:146] WQE start offset. The number of 128-byte cache lines to skip from the WQE
                                                                  buffer pointer (from [LPB_AURA] when [ENA_WQWD] is set and [WQE_AURA]
                                                                  otherwise) to the first WQE byte stored in the buffer. */
@@ -2394,8 +2391,7 @@ union cavm_nix_rq_ctx_s
         uint64_t wqe_skip              : 2;  /**< [147:146] WQE start offset. The number of 128-byte cache lines to skip from the WQE
                                                                  buffer pointer (from [LPB_AURA] when [ENA_WQWD] is set and [WQE_AURA]
                                                                  otherwise) to the first WQE byte stored in the buffer. */
-        uint64_t spb_high_sizem1       : 2;  /**< [149:148] Two MSB bits of SPB_SIZEM1 */
-        uint64_t reserved_150          : 1;
+        uint64_t spb_high_sizem1       : 3;  /**< [150:148] Two MSB bits of [SPB_SIZEM1]. */
         uint64_t spb_ena               : 1;  /**< [151:151] Small packet buffer enable:
 
                                                                  0 = Do not use small packet buffers. All receive packets are stored in
@@ -2709,7 +2705,9 @@ union cavm_nix_rq_ctx_s
         uint64_t vwqe_skip             : 2;  /**< [381:380] VWQE start offset. The number of 128-byte cache lines to skip from the VWQE
                                                                  buffer pointer (from [WQE_AURA] ) to the first WQE byte stored in the buffer. */
         uint64_t max_vsize_exp         : 4;  /**< [379:376] Maximal Vector Size exponent. Is limited to [0..10] to provide for 12bit Maximal Vector size.
-                                                                 Maximal Vector size is (2^(MAX_VSIZE_EXP+2)-1). */
+                                                                 Maximal Vector size is (2^(MAX_VSIZE_EXP+2)-1).
+                                                                 For IPsec Vector the size is (2^([MAX_VSIZE_EXP]+2)-3) since the last 16 bytes are
+                                                                 reserved for CPT inst submition result which always succeeds. */
         uint64_t vtime_wait            : 8;  /**< [375:368] Vector time wait.
                                                                  Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds. */
         uint64_t vwqe_ena              : 1;  /**< [367:367] VWQE enable */
@@ -2790,7 +2788,9 @@ union cavm_nix_rq_ctx_s
         uint64_t vtime_wait            : 8;  /**< [375:368] Vector time wait.
                                                                  Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds. */
         uint64_t max_vsize_exp         : 4;  /**< [379:376] Maximal Vector Size exponent. Is limited to [0..10] to provide for 12bit Maximal Vector size.
-                                                                 Maximal Vector size is (2^(MAX_VSIZE_EXP+2)-1). */
+                                                                 Maximal Vector size is (2^(MAX_VSIZE_EXP+2)-1).
+                                                                 For IPsec Vector the size is (2^([MAX_VSIZE_EXP]+2)-3) since the last 16 bytes are
+                                                                 reserved for CPT inst submition result which always succeeds. */
         uint64_t vwqe_skip             : 2;  /**< [381:380] VWQE start offset. The number of 128-byte cache lines to skip from the VWQE
                                                                  buffer pointer (from [WQE_AURA] ) to the first WQE byte stored in the buffer. */
         uint64_t reserved_382_383      : 2;
@@ -3573,7 +3573,7 @@ union cavm_nix_rx_vtag_action_s
     struct cavm_nix_rx_vtag_action_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_hi                 : 16; /**< [ 63: 48] When [SA_OVRD]=1, the XORed SPI\<31:16\> value. */
+        uint64_t sa_hi                 : 16; /**< [ 63: 48] When [SA_XOR]=1, [SA_HI] is XORed with SPI\<31:16\> value. */
         uint64_t vtag1_valid           : 1;  /**< [ 47: 47] Vtag 1 valid. Remaining [VTAG1_*] fields are valid when set. Must be zero when
                                                                  using VTAG1_LID as SA_ALG, and should typically be zero for all new software
                                                                  when using NIX_RX_ACTION_S[OP] == UCAST_IPSEC (using [VTAG1_VALID] = 1 with
@@ -3585,7 +3585,7 @@ union cavm_nix_rx_vtag_action_s
                                                                  selection as SA_ALG when NIX_RX_ACTION_S[OP] == UCAST_IPSEC and
                                                                  NIX_RX_VTAG_ACTION_S[VTAG1_VALID] = 0. */
         uint64_t vtag1_relptr          : 8;  /**< [ 39: 32] Vtag 1 relative pointer. See [VTAG0_RELPTR]. */
-        uint64_t sa_lo                 : 16; /**< [ 31: 16] When [SA_OVRD]=1, the XORed SPI\<15:0\> value. */
+        uint64_t sa_lo                 : 16; /**< [ 31: 16] When [SA_XOR]=1, [SA_LOW] is XORed SPI\<15:0\> value. */
         uint64_t vtag0_valid           : 1;  /**< [ 15: 15] Vtag 0 valid. Remaining [VTAG0_*] fields are valid when set. */
         uint64_t vtag0_type            : 3;  /**< [ 14: 12] Vtag 0 type. Index to NIX_AF_LF()_RX_VTAG_TYPE() entry for the receive
                                                                  packet's VF/PF. The selected entry specifies the tag size and optional tag
@@ -3595,8 +3595,9 @@ union cavm_nix_rx_vtag_action_s
                                                                  NIX_RX_ACTION_S[OP] != NIX_RX_ACTIONOP_E::MCAST or
                                                                  NIX_RX_ACTIONOP_E::MIRROR, and by the NIX RX multicast/mirror replication
                                                                  list entries otherwise. */
-        uint64_t sa_xor                : 1;  /**< [ 11: 11] When NIX_RX_ACTION_S[OP] == UCAST_IPSEC, if set [SA_HI], [SA_LO] will XOR into
-                                                                 the SA index calculation. Must be zero if NIX_RX_ACTION_S[OP] != UCAST_IPSEC. */
+        uint64_t sa_xor                : 1;  /**< [ 11: 11] When NIX_RX_ACTION_S[OP] == NIX_RX_ACTIONOP_E::UCAST_IPSEC, if set [SA_HI],
+                                                                 [SA_LO] will XOR into the SA index calculation. Must be zero if
+                                                                 NIX_RX_ACTION_S[OP] != NIX_RX_ACTIONOP_E::UCAST_IPSEC. */
         uint64_t vtag0_lid             : 3;  /**< [ 10:  8] Vtag 0 layer ID enumerated by NPC_LID_E. */
         uint64_t vtag0_relptr          : 8;  /**< [  7:  0] Vtag 0 relative pointer. Byte offset from start of selected layer to first
                                                                  tag 0 byte. Must be even. For example, if [VTAG0_LID] = NPC_LID_E::LB, then
@@ -3608,8 +3609,9 @@ union cavm_nix_rx_vtag_action_s
                                                                  the byte offset from packet start to the first tag 0 byte is
                                                                  NPC_RESULT_S[LB[LPTR]] + [VTAG0_RELPTR]. */
         uint64_t vtag0_lid             : 3;  /**< [ 10:  8] Vtag 0 layer ID enumerated by NPC_LID_E. */
-        uint64_t sa_xor                : 1;  /**< [ 11: 11] When NIX_RX_ACTION_S[OP] == UCAST_IPSEC, if set [SA_HI], [SA_LO] will XOR into
-                                                                 the SA index calculation. Must be zero if NIX_RX_ACTION_S[OP] != UCAST_IPSEC. */
+        uint64_t sa_xor                : 1;  /**< [ 11: 11] When NIX_RX_ACTION_S[OP] == NIX_RX_ACTIONOP_E::UCAST_IPSEC, if set [SA_HI],
+                                                                 [SA_LO] will XOR into the SA index calculation. Must be zero if
+                                                                 NIX_RX_ACTION_S[OP] != NIX_RX_ACTIONOP_E::UCAST_IPSEC. */
         uint64_t vtag0_type            : 3;  /**< [ 14: 12] Vtag 0 type. Index to NIX_AF_LF()_RX_VTAG_TYPE() entry for the receive
                                                                  packet's VF/PF. The selected entry specifies the tag size and optional tag
                                                                  strip/capture actions.
@@ -3619,7 +3621,7 @@ union cavm_nix_rx_vtag_action_s
                                                                  NIX_RX_ACTIONOP_E::MIRROR, and by the NIX RX multicast/mirror replication
                                                                  list entries otherwise. */
         uint64_t vtag0_valid           : 1;  /**< [ 15: 15] Vtag 0 valid. Remaining [VTAG0_*] fields are valid when set. */
-        uint64_t sa_lo                 : 16; /**< [ 31: 16] When [SA_OVRD]=1, the XORed SPI\<15:0\> value. */
+        uint64_t sa_lo                 : 16; /**< [ 31: 16] When [SA_XOR]=1, [SA_LOW] is XORed SPI\<15:0\> value. */
         uint64_t vtag1_relptr          : 8;  /**< [ 39: 32] Vtag 1 relative pointer. See [VTAG0_RELPTR]. */
         uint64_t vtag1_lid             : 3;  /**< [ 42: 40] Vtag 1 layer ID enumerated by NPC_LID_E. Field is used for SA algorithm
                                                                  selection as SA_ALG when NIX_RX_ACTION_S[OP] == UCAST_IPSEC and
@@ -3631,7 +3633,7 @@ union cavm_nix_rx_vtag_action_s
                                                                  when using NIX_RX_ACTION_S[OP] == UCAST_IPSEC (using [VTAG1_VALID] = 1 with
                                                                  NIX_RX_ACTION_S[OP] == UCAST_IPSEC is only supported for backwards
                                                                  compatibility.). Enumerated by [SA_ALG] */
-        uint64_t sa_hi                 : 16; /**< [ 63: 48] When [SA_OVRD]=1, the XORed SPI\<31:16\> value. */
+        uint64_t sa_hi                 : 16; /**< [ 63: 48] When [SA_XOR]=1, [SA_HI] is XORed with SPI\<31:16\> value. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nix_rx_vtag_action_s_s cn; */
@@ -5049,7 +5051,7 @@ union cavm_nix_sq_ctx_s
                                                                  NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU] or
                                                                  NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_SDP_MTU[MTU]
 
-                                                                 The recommended value of SMQ_RR_WEIGHT should be such that:
+                                                                 The recommended value of [SMQ_RR_WEIGHT] should be such that:
                                                                  (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU]) should be equal
                                                                  or greater than the larger of the MTU size or
                                                                  NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
@@ -5084,7 +5086,7 @@ union cavm_nix_sq_ctx_s
                                                                  NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU] or
                                                                  NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_SDP_MTU[MTU]
 
-                                                                 The recommended value of SMQ_RR_WEIGHT should be such that:
+                                                                 The recommended value of [SMQ_RR_WEIGHT] should be such that:
                                                                  (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU]) should be equal
                                                                  or greater than the larger of the MTU size or
                                                                  NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */

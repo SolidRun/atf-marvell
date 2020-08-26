@@ -985,7 +985,7 @@ static inline uint64_t CAVM_DSSX_MSIX_PBAX(uint64_t a, uint64_t b)
  * Register (RSL) dss#_msix_vec#_addr
  *
  * DSS MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the DSS_PF_INT_VEC_E enumeration.
+ * This register is the MSI-X vector table, indexed by the DSS_INT_VEC_E enumeration.
  */
 union cavm_dssx_msix_vecx_addr
 {
@@ -1027,7 +1027,7 @@ static inline uint64_t CAVM_DSSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
  * Register (RSL) dss#_msix_vec#_ctl
  *
  * DSS MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the DSS_PF_INT_VEC_E enumeration.
+ * This register is the MSI-X vector table, indexed by the DSS_INT_VEC_E enumeration.
  */
 union cavm_dssx_msix_vecx_ctl
 {
@@ -1335,10 +1335,10 @@ union cavm_dssx_perf_cnt_op_mode_ctrl
         uint64_t s_timer_value         : 6;  /**< [  9:  4](SR/W) In timer mode, the count time period will be 2^(timer value). */
         uint64_t reserved_1_3          : 3;
         uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0 = Timer (default mode), the end of the operation based on timer.
-                                                                 1 = Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
+                                                                 1 = Manual, the end of operation based on writing 1 to PERF_CNT_CTRL[MANUAL_MODE_END]. */
 #else /* Word 0 - Little Endian */
         uint64_t s_operating_mode      : 1;  /**< [  0:  0](SR/W) 0 = Timer (default mode), the end of the operation based on timer.
-                                                                 1 = Manual, the end of operation based on writing 1 to PERF_CNT_CTRL.MANUAL_MODE_END */
+                                                                 1 = Manual, the end of operation based on writing 1 to PERF_CNT_CTRL[MANUAL_MODE_END]. */
         uint64_t reserved_1_3          : 3;
         uint64_t s_timer_value         : 6;  /**< [  9:  4](SR/W) In timer mode, the count time period will be 2^(timer value). */
         uint64_t reserved_10_63        : 54;
@@ -1691,7 +1691,7 @@ static inline uint64_t CAVM_DSSX_SAC_CTRL(uint64_t a)
  *
  * DSS MCT common control Register
  * MCT module common control register for two channels.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_cmn_ctrl
 {
@@ -1762,7 +1762,7 @@ static inline uint64_t CAVM_DSS_MCTX_CMN_CTRL(uint64_t a)
  *
  * DSS MCT control Register
  * MCT module control register.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_ctrl
 {
@@ -1771,8 +1771,8 @@ union cavm_dss_mctx_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t s_burst_chop          : 1;  /**< [ 20: 20](SR/W) When set, enable burst-chop 8 if MEMC_BURST_LENGTH=16.
-                                                                 Note: only for DDR5. Not supported in DDR4 mode! */
+        uint64_t s_burst_chop          : 1;  /**< [ 20: 20](SR/W) When set, enable burst-chop 8 if [S_BURST_LENGTH]=16.
+                                                                 Note: only for DDR5. Not supported in DDR4 mode. */
         uint64_t s_active_ranks        : 4;  /**< [ 19: 16](SR/W) Active low register indicating which ranks are functional.
                                                                  When a specific bit is low, the corresponding rank is active. */
         uint64_t reserved_8_15         : 8;
@@ -1840,8 +1840,8 @@ union cavm_dss_mctx_ctrl
         uint64_t reserved_8_15         : 8;
         uint64_t s_active_ranks        : 4;  /**< [ 19: 16](SR/W) Active low register indicating which ranks are functional.
                                                                  When a specific bit is low, the corresponding rank is active. */
-        uint64_t s_burst_chop          : 1;  /**< [ 20: 20](SR/W) When set, enable burst-chop 8 if MEMC_BURST_LENGTH=16.
-                                                                 Note: only for DDR5. Not supported in DDR4 mode! */
+        uint64_t s_burst_chop          : 1;  /**< [ 20: 20](SR/W) When set, enable burst-chop 8 if [S_BURST_LENGTH]=16.
+                                                                 Note: only for DDR5. Not supported in DDR4 mode. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -2040,11 +2040,11 @@ union cavm_dss_mctx_dbg_sw_op_cmd_ctrl
                                                                  with the same system address.
                                                                  Note: this field is valid only when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x0. */
         uint64_t reserved_2_9          : 8;
-        uint64_t s_sw_op_behavior      : 1;  /**< [  1:  1](SR/W) SW requested behaviour:
-                                                                 0x0 - traffic alike operation - MCT will encrypt/decrypt the requested data the same way
+        uint64_t s_sw_op_behavior      : 1;  /**< [  1:  1](SR/W) Software requested behaviour:
+                                                                 0 = Traffic alike operation - MCT will encrypt/decrypt the requested data the same way
                                                                  it treats a demand read/write operation with the same system address.
-                                                                 0x1 - pure software interface - MCT will encrypt/decrypt the requested data using the
-                                                                 configured debug key in MCT_SW_DBG_KEY_LOW and MCT_SW_DBG_KEY_HIGH. */
+                                                                 1 = Pure software interface - MCT will encrypt/decrypt the requested data using the
+                                                                 configured debug key in DSS_MCT()_DBG_SW_KEY_LOW and DSS_MCT()_DBG_SW_KEY_HIGH. */
         uint64_t s_sw_op_type          : 1;  /**< [  0:  0](SR/W) SW requested operation:
                                                                  0x0 - encryption operation.
                                                                  0x1 - decryption operation. */
@@ -2052,11 +2052,11 @@ union cavm_dss_mctx_dbg_sw_op_cmd_ctrl
         uint64_t s_sw_op_type          : 1;  /**< [  0:  0](SR/W) SW requested operation:
                                                                  0x0 - encryption operation.
                                                                  0x1 - decryption operation. */
-        uint64_t s_sw_op_behavior      : 1;  /**< [  1:  1](SR/W) SW requested behaviour:
-                                                                 0x0 - traffic alike operation - MCT will encrypt/decrypt the requested data the same way
+        uint64_t s_sw_op_behavior      : 1;  /**< [  1:  1](SR/W) Software requested behaviour:
+                                                                 0 = Traffic alike operation - MCT will encrypt/decrypt the requested data the same way
                                                                  it treats a demand read/write operation with the same system address.
-                                                                 0x1 - pure software interface - MCT will encrypt/decrypt the requested data using the
-                                                                 configured debug key in MCT_SW_DBG_KEY_LOW and MCT_SW_DBG_KEY_HIGH. */
+                                                                 1 = Pure software interface - MCT will encrypt/decrypt the requested data using the
+                                                                 configured debug key in DSS_MCT()_DBG_SW_KEY_LOW and DSS_MCT()_DBG_SW_KEY_HIGH. */
         uint64_t reserved_2_9          : 8;
         uint64_t s_sw_op_sys_addr      : 52; /**< [ 61: 10](SR/W) SW requested system address:
                                                                  When SW command is issued when MCT_DBG_SW_OP_CMD_CTRL.S_sw_op_behaviour == 0x0  - traffic
@@ -2217,7 +2217,7 @@ static inline uint64_t CAVM_DSS_MCTX_DBG_SW_RESP_LOW(uint64_t a)
  *
  * DSS MCT default window configuration Register
  * Defines the default window configuration.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_default_win_cfg
 {
@@ -2376,7 +2376,7 @@ static inline uint64_t CAVM_DSS_MCTX_KEY_LO(uint64_t a)
  *
  * DSS MCT timing parameters - MC side Register
  * Timing parameters configured in the memory controller.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_tmg_param_mc_side
 {
@@ -2451,7 +2451,7 @@ static inline uint64_t CAVM_DSS_MCTX_TMG_PARAM_MC_SIDE(uint64_t a)
  *
  * DSS MCT timing parameters - PHY side Register
  * Timing parameters towards PHY on DFI interface.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_tmg_param_phy_side
 {
@@ -2526,7 +2526,7 @@ static inline uint64_t CAVM_DSS_MCTX_TMG_PARAM_PHY_SIDE(uint64_t a)
  *
  * DSS MCT WIN ADDR HI Register
  * This register defines the crypto high address windows.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_win_addr_hix
 {
@@ -2565,7 +2565,7 @@ static inline uint64_t CAVM_DSS_MCTX_WIN_ADDR_HIX(uint64_t a, uint64_t b)
  *
  * DSS MCT WIN ADDR LO Register
  * This register defines the crypto low address windows.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_win_addr_lox
 {
@@ -2604,7 +2604,7 @@ static inline uint64_t CAVM_DSS_MCTX_WIN_ADDR_LOX(uint64_t a, uint64_t b)
  *
  * DSS MCT WINDOW CTRL Register
  * This register defines the crypto address windows attributes.
- * NOTE: This register should be configured only when (MCT_ENABLE.S_MCT_EN == 0) !
+ * This register should be configured only when (DSS_MCT()_ENABLE[S_MCT_EN] = 0).
  */
 union cavm_dss_mctx_win_ctrlx
 {

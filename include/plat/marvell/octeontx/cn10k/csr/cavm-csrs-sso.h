@@ -1076,7 +1076,7 @@ union cavm_sso_af_bp_test2
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  \<63\> = Reserved.
                                                                  \<62\> = SAI bus stall.
-                                                                 \<61\> = GWMGR unit, getwork request stall.
+                                                                 \<61\> = GWMGR unit, GET_WORK request stall.
                                                                  \<60\> = Issue unit, pipeline issue stall.
                                                                  \<59\> = ACDQ unit; cq dq stall.
                                                                  \<58\> = ACDQ unit; addwork stall.
@@ -1121,7 +1121,7 @@ union cavm_sso_af_bp_test2
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  \<63\> = Reserved.
                                                                  \<62\> = SAI bus stall.
-                                                                 \<61\> = GWMGR unit, getwork request stall.
+                                                                 \<61\> = GWMGR unit, GET_WORK request stall.
                                                                  \<60\> = Issue unit, pipeline issue stall.
                                                                  \<59\> = ACDQ unit; cq dq stall.
                                                                  \<58\> = ACDQ unit; addwork stall.
@@ -1216,7 +1216,7 @@ union cavm_sso_af_const1
         uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
         uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
         uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
-        uint64_t no_gwi                : 1;  /**< [ 33: 33](RO) Indicates that indexed getwork requests are not supported. */
+        uint64_t no_gwi                : 1;  /**< [ 33: 33](RO) Indicates that indexed GET_WORK requests are not supported. */
         uint64_t fwd                   : 1;  /**< [ 32: 32](RO) Indicates that SSO supports forwarding groups. */
         uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
         uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
@@ -1224,7 +1224,7 @@ union cavm_sso_af_const1
         uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
         uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
         uint64_t fwd                   : 1;  /**< [ 32: 32](RO) Indicates that SSO supports forwarding groups. */
-        uint64_t no_gwi                : 1;  /**< [ 33: 33](RO) Indicates that indexed getwork requests are not supported. */
+        uint64_t no_gwi                : 1;  /**< [ 33: 33](RO) Indicates that indexed GET_WORK requests are not supported. */
         uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
         uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
         uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
@@ -5252,7 +5252,7 @@ union cavm_sso_af_ws_cfg
                                                                  inside the cores.  Reads as zero. For diagnostic use only. */
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
         uint64_t gw_clk_dis            : 1;  /**< [  5:  5](R/W) Reserved. */
-        uint64_t disable_prefetch      : 1;  /**< [  4:  4](R/W) Disable GETWORK prefetching to the GWCs. */
+        uint64_t disable_prefetch      : 1;  /**< [  4:  4](R/W) Disable GET_WORK prefetching to the GWCs. */
         uint64_t issue_step_en         : 1;  /**< [  3:  3](R/W) Enable single-stepping issue unit, 1 command at a time. For diagnostic use only. */
         uint64_t ncbo_step_en          : 1;  /**< [  2:  2](R/W) Enable single-stepping commands from NCBO, once per 32 clocks. For diagnostic use only. */
         uint64_t soc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
@@ -5262,7 +5262,7 @@ union cavm_sso_af_ws_cfg
         uint64_t soc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
         uint64_t ncbo_step_en          : 1;  /**< [  2:  2](R/W) Enable single-stepping commands from NCBO, once per 32 clocks. For diagnostic use only. */
         uint64_t issue_step_en         : 1;  /**< [  3:  3](R/W) Enable single-stepping issue unit, 1 command at a time. For diagnostic use only. */
-        uint64_t disable_prefetch      : 1;  /**< [  4:  4](R/W) Disable GETWORK prefetching to the GWCs. */
+        uint64_t disable_prefetch      : 1;  /**< [  4:  4](R/W) Disable GET_WORK prefetching to the GWCs. */
         uint64_t gw_clk_dis            : 1;  /**< [  5:  5](R/W) Reserved. */
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
         uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the GW cache

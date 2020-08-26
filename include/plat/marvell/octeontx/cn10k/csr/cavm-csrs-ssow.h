@@ -22,7 +22,7 @@
 /**
  * Enumeration ssow_gw_result_e
  *
- * SSOW Getwork Result Type Enumeration
+ * SSOW GET_WORK Result Type Enumeration
  * Enumerates the MSI-X interrupt vectors.
  * Internal:
  * FIXME - Need better description here
@@ -522,7 +522,7 @@ union cavm_ssow_lf_gws_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signalled on data. Generally indicates a hardware failure. */
+        uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signaled on data. Generally indicates a hardware failure. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Received illegal Scheduled LMTST. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Received UPD_WQP_GRP/SWTAG_FULL/SWTAG_DESCH when SSO_AF_HWGRP()_AW_CFG[SWTAG_DIS] was set. */
         uint64_t illegal_ld            : 1;  /**< [ 10: 10](R/W1C/H) Received illegal load for workslot op. */
@@ -552,7 +552,7 @@ union cavm_ssow_lf_gws_int
         uint64_t illegal_ld            : 1;  /**< [ 10: 10](R/W1C/H) Received illegal load for workslot op. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Received UPD_WQP_GRP/SWTAG_FULL/SWTAG_DESCH when SSO_AF_HWGRP()_AW_CFG[SWTAG_DIS] was set. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Received illegal Scheduled LMTST. */
-        uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signalled on data. Generally indicates a hardware failure. */
+        uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signaled on data. Generally indicates a hardware failure. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
@@ -924,7 +924,7 @@ union cavm_ssow_lf_gws_op_get_work0
         uint64_t reserved_21_63        : 43;
         uint64_t prf_wfe               : 1;  /**< [ 20: 20](WO) Prefetch Wait For Event Mode if prefetch is enabled via PRF set. */
         uint64_t prf                   : 1;  /**< [ 19: 19](WO) Request a Prefetch get work to follow the original get work request. */
-        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [INDEX_GGRP_MASK]. */
+        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [GGRP_MASK]. */
         uint64_t reserved_17           : 1;
         uint64_t waitw                 : 1;  /**< [ 16: 16](WO) If set, wait for work; don't complete GET_WORK until work is available
                                                                  or timeout. */
@@ -964,7 +964,7 @@ union cavm_ssow_lf_gws_op_get_work0
         uint64_t waitw                 : 1;  /**< [ 16: 16](WO) If set, wait for work; don't complete GET_WORK until work is available
                                                                  or timeout. */
         uint64_t reserved_17           : 1;
-        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [INDEX_GGRP_MASK]. */
+        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [GGRP_MASK]. */
         uint64_t prf                   : 1;  /**< [ 19: 19](WO) Request a Prefetch get work to follow the original get work request. */
         uint64_t prf_wfe               : 1;  /**< [ 20: 20](WO) Prefetch Wait For Event Mode if prefetch is enabled via PRF set. */
         uint64_t reserved_21_63        : 43;
@@ -1588,7 +1588,7 @@ union cavm_ssow_lf_gws_prf_wqe0
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG operation. */
         uint64_t reserved_58_61        : 4;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the getwork OP for 128-bit CASP getworks.
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
                                                                  Internal:
                                                                  FIXME - we need better description here... */
         uint64_t reserved_54_55        : 2;
@@ -1614,7 +1614,7 @@ union cavm_ssow_lf_gws_prf_wqe0
         uint64_t has_lsw               : 1;  /**< [ 52: 52](RO/H) GWS has valid LSW entry assigned. */
         uint64_t lsw_used              : 1;  /**< [ 53: 53](RO/H) LSW entry has been used by a Scheduled LMTST. */
         uint64_t reserved_54_55        : 2;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the getwork OP for 128-bit CASP getworks.
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
                                                                  Internal:
                                                                  FIXME - we need better description here... */
         uint64_t reserved_58_61        : 4;
@@ -1844,7 +1844,7 @@ union cavm_ssow_lf_gws_wqe0
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG operation. */
         uint64_t reserved_58_61        : 4;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the getwork OP for 128-bit CASP getworks.
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
                                                                  Internal:
                                                                  FIXME - we need better description here... */
         uint64_t reserved_54_55        : 2;
@@ -1870,7 +1870,7 @@ union cavm_ssow_lf_gws_wqe0
         uint64_t has_lsw               : 1;  /**< [ 52: 52](RO/H) GWS has valid LSW entry assigned. */
         uint64_t lsw_used              : 1;  /**< [ 53: 53](RO/H) LSW entry has been used by a Scheduled LMTST. */
         uint64_t reserved_54_55        : 2;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the getwork OP for 128-bit CASP getworks.
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
                                                                  Internal:
                                                                  FIXME - we need better description here... */
         uint64_t reserved_58_61        : 4;

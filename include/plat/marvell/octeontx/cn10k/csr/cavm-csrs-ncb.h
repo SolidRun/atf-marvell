@@ -157,8 +157,8 @@ typedef union cavm_ncbx_arbx_crds cavm_ncbx_arbx_crds_t;
 static inline uint64_t CAVM_NCBX_ARBX_CRDS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBX_CRDS(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=15))
-        return 0x87e1400f0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if ((a<=15) && (b<=15))
+        return 0x87e1400f0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBX_CRDS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -210,8 +210,8 @@ typedef union cavm_ncbx_arbx_rwx_lat_pc cavm_ncbx_arbx_rwx_lat_pc_t;
 static inline uint64_t CAVM_NCBX_ARBX_RWX_LAT_PC(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBX_RWX_LAT_PC(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=15) && (c<=1))
-        return 0x87e1400f4000ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
+    if ((a<=15) && (b<=15) && (c<=1))
+        return 0x87e1400f4000ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NCBX_ARBX_RWX_LAT_PC", 3, a, b, c, 0, 0, 0);
 }
 
@@ -255,8 +255,8 @@ typedef union cavm_ncbx_arbx_rwx_req_pc cavm_ncbx_arbx_rwx_req_pc_t;
 static inline uint64_t CAVM_NCBX_ARBX_RWX_REQ_PC(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBX_RWX_REQ_PC(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4) && (b<=15) && (c<=1))
-        return 0x87e1400f2000ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
+    if ((a<=15) && (b<=15) && (c<=1))
+        return 0x87e1400f2000ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NCBX_ARBX_RWX_REQ_PC", 3, a, b, c, 0, 0, 0);
 }
 
@@ -295,8 +295,8 @@ typedef union cavm_ncbx_arb_iut_dis cavm_ncbx_arb_iut_dis_t;
 static inline uint64_t CAVM_NCBX_ARB_IUT_DIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARB_IUT_DIS(uint64_t a)
 {
-    if (a<=4)
-        return 0x87e140008080ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=15)
+        return 0x87e140008080ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_ARB_IUT_DIS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -451,8 +451,8 @@ typedef union cavm_ncbx_arbidx_ctl cavm_ncbx_arbidx_ctl_t;
 static inline uint64_t CAVM_NCBX_ARBIDX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBIDX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=15))
-        return 0x87e140006100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if ((a<=15) && (b<=15))
+        return 0x87e140006100ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBIDX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -494,8 +494,8 @@ typedef union cavm_ncbx_arbidx_rr_ctl cavm_ncbx_arbidx_rr_ctl_t;
 static inline uint64_t CAVM_NCBX_ARBIDX_RR_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBIDX_RR_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=15))
-        return 0x87e1400f7000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if ((a<=15) && (b<=15))
+        return 0x87e1400f7000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBIDX_RR_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -547,8 +547,8 @@ typedef union cavm_ncbx_bp_test cavm_ncbx_bp_test_t;
 static inline uint64_t CAVM_NCBX_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_BP_TEST(uint64_t a)
 {
-    if (a<=4)
-        return 0x87e1400f8000ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=15)
+        return 0x87e1400f8000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_BP_TEST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -588,8 +588,8 @@ typedef union cavm_ncbx_ctl cavm_ncbx_ctl_t;
 static inline uint64_t CAVM_NCBX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_CTL(uint64_t a)
 {
-    if (a<=4)
-        return 0x87e1400f6000ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=15)
+        return 0x87e1400f6000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -625,8 +625,8 @@ typedef union cavm_ncbx_ready cavm_ncbx_ready_t;
 static inline uint64_t CAVM_NCBX_READY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_READY(uint64_t a)
 {
-    if (a<=4)
-        return 0x87e140008100ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=15)
+        return 0x87e140008100ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_READY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -680,8 +680,8 @@ typedef union cavm_ncbx_rwx_lat_pc cavm_ncbx_rwx_lat_pc_t;
 static inline uint64_t CAVM_NCBX_RWX_LAT_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_RWX_LAT_PC(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=1))
-        return 0x87e140005000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if ((a<=15) && (b<=1))
+        return 0x87e140005000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NCBX_RWX_LAT_PC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -723,8 +723,8 @@ typedef union cavm_ncbx_rwx_req_pc cavm_ncbx_rwx_req_pc_t;
 static inline uint64_t CAVM_NCBX_RWX_REQ_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_RWX_REQ_PC(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=1))
-        return 0x87e140004000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
+    if ((a<=15) && (b<=1))
+        return 0x87e140004000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("NCBX_RWX_REQ_PC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -778,8 +778,8 @@ typedef union cavm_ncbx_rwx_smmu_lat_pc cavm_ncbx_rwx_smmu_lat_pc_t;
 static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b)
 {
-    if ((a<=4) && (b<=1))
-        return 0x87e140006000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if ((a<=15) && (b<=1))
+        return 0x87e140006000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NCBX_RWX_SMMU_LAT_PC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -813,8 +813,8 @@ typedef union cavm_ngnxt_eco cavm_ngnxt_eco_t;
 static inline uint64_t CAVM_NGNXT_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NGNXT_ECO(uint64_t a)
 {
-    if (a<=4)
-        return 0x87e1400f8100ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=15)
+        return 0x87e1400f8100ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NGNXT_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
