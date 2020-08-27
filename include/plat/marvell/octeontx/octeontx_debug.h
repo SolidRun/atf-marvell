@@ -106,8 +106,7 @@ enum mrvl_tf_log_module_e {
 # define ERROR(...)	tf_log(LOG_MARKER_ERROR __VA_ARGS__)
 # define NOTICE(...)	(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
 			 tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
-# define WARN(...)	(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
-			 tf_log(LOG_MARKER_WARNING __VA_ARGS__) : (void)0
+# define WARN(...)	tf_log(LOG_MARKER_WARNING __VA_ARGS__)
 # define INFO(...)	(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
 			 tf_log(LOG_MARKER_INFO __VA_ARGS__) : (void)0
 # define VERBOSE(...)	(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
