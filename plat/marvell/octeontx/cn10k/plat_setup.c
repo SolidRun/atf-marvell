@@ -20,6 +20,8 @@
 #include <octeontx_security.h>
 #include <sh_fwdata.h>
 #include <rpm.h>
+#include <strtol.h>
+#include <libfdt.h>
 
 #if RAS_EXTENSION
 #include <plat_ras.h>
@@ -154,3 +156,103 @@ void plat_octeontx_cpu_setup(void)
 {
 }
 
+static int ts_valid;
+
+/* Parse dts to check if timestamp is enabled or disabled. */
+static void cn10k_parse_timestamp(void)
+{
+	const void *fdt = fdt_ptr;
+	const char *str;
+	int offset, rc;
+	int len;
+
+	rc = fdt_check_header(fdt);
+	if (rc) {
+		WARN("Invalid device tree\n");
+		return;
+	}
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("FDT node not found\n");
+		return;
+	}
+
+	str = fdt_getprop(fdt, offset,
+			      "EBF-CONFIG-ATF-TIMESTAMP", &len);
+	if (str)
+		ts_valid = strtol(str, NULL, 16);
+
+	if (ts_valid <= 0)
+		ts_valid = 0;
+	else
+		ts_valid = 1;
+}
+
+/* From bdk/libbdk-hal/bdk-clock.h */
+#define GTI_RATE 100000000ull
+
+/* Print timestamp from AP CNTPCT_EL0 timer */
+static void _plat_print_timestamp(void)
+{
+	const unsigned long USECS_IN_SEC = 1000000;
+	const unsigned long USECS_IN_MIN = 60 * USECS_IN_SEC;
+	const unsigned long USECS_IN_HOUR = 60 * USECS_IN_MIN;
+	const unsigned long USECS_IN_DAY = 24 * USECS_IN_HOUR;
+
+	unsigned long clock_time = read_cntpct_el0();
+	unsigned long clock_rate = GTI_RATE;
+	unsigned long usecs = clock_time / (clock_rate / USECS_IN_SEC);
+
+	unsigned long days = usecs / USECS_IN_DAY;
+
+	usecs %= USECS_IN_DAY;
+
+	unsigned long hours = usecs / USECS_IN_HOUR;
+
+	usecs %= USECS_IN_HOUR;
+
+	unsigned long mins = usecs / USECS_IN_MIN;
+
+	usecs %= USECS_IN_MIN;
+	unsigned long secs = usecs / USECS_IN_SEC;
+
+	usecs %= USECS_IN_SEC;
+
+	printf("%lud%02luh%02lum%02lu.%06lus: ",
+			days, hours, mins, secs, usecs);
+
+}
+
+static const char * const plat_prefix_str[] = {
+	"ERROR:   ", "NOTICE:  ", "WARNING: ", "INFO:    ", "VERBOSE: "};
+
+const char *plat_log_get_prefix(unsigned int log_level)
+{
+	unsigned int level;
+
+
+	/* Print timestamp */
+	if (ts_valid)
+		_plat_print_timestamp();
+
+	if (log_level < LOG_LEVEL_ERROR)
+		level = LOG_LEVEL_ERROR;
+	else if (log_level > LOG_LEVEL_VERBOSE)
+		level = LOG_LEVEL_VERBOSE;
+	else
+		level = log_level;
+
+	return plat_prefix_str[(level / 10U) - 1U];
+}
+
+#if defined(PLAT_t106)
+void plat_cn10x_early_initialization(void)
+{
+	cn10k_parse_timestamp();
+
+#ifdef MRVL_TF_LOG_MODULE
+	initialize_tf_logging();
+#endif // MRVL_TF_LOG_MODULE
+}
+#endif

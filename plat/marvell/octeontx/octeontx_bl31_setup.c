@@ -148,8 +148,8 @@ void bl31_early_platform_setup(void *from_bl2,
 #endif
 	bl_params_node_t *bl_params = params_from_bl2->head;
 
-#ifdef MRVL_TF_LOG_MODULE
-	initialize_tf_logging();
+#if defined(PLAT_t106)
+	plat_cn10x_early_initialization();
 #endif
 
 	/*

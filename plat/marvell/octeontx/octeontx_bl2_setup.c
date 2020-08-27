@@ -499,8 +499,8 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	bl2_tzram_layout.total_base = TZDRAM_BASE;
 	bl2_tzram_layout.total_size = TZDRAM_SIZE;
 
-#ifdef MRVL_TF_LOG_MODULE
-	initialize_tf_logging();
+#if defined(PLAT_t106)
+	plat_cn10x_early_initialization();
 #endif
 }
 

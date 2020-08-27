@@ -137,8 +137,11 @@ void plat_octeontx_set_nt_fw_config_size(uint64_t nt_fw_config_size);
 
 void l2c_flush(void);
 
+#if defined(PLAT_t106)
+void plat_cn10x_early_initialization(void);
 #ifdef MRVL_TF_LOG_MODULE
 void initialize_tf_logging(void);
+#endif // MRVL_TF_LOG_MODULE
 #endif
 
 #endif /* __OCTEONTX_COMMON_H__ */
