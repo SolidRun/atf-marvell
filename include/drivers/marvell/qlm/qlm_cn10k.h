@@ -13,6 +13,8 @@
 typedef enum {
 	GSERM_MODE_DISABLED = 0,
 
+	GSERM_MODE_1G_X,       /* 1000BASE-X */
+
 	GSERM_MODE_XFI,
 	GSERM_MODE_SFI,
 

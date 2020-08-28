@@ -17,6 +17,7 @@ static const struct gserm_mode_strmap_s gsermmode_strmap[] = {
 	 */
 	{-1, 0, "DISABLED", NULL},
 	/* RPM/LMAC types. */
+	{CAVM_RPM_LMAC_TYPES_E_SGMII, 1250, "1G_X", "sgmii"},
 	{CAVM_RPM_LMAC_TYPES_E_TENG_R, 10312, "XFI", "10g"},
 	{CAVM_RPM_LMAC_TYPES_E_TENG_R, 10312, "SFI", "10g"},
 	{CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R, 25781, "25GAUI_C2C", "25g"},

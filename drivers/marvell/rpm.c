@@ -37,7 +37,7 @@
 #endif
 
 static int rpm_link_speed_mbps[ETH_LINK_MAX] = {
-		0, 10000, 25000 };
+		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000};
 
 static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uint64_t val)
 {
@@ -45,6 +45,42 @@ static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uin
 	(*(volatile uint64_t *)(CAVM_RPM_BAR_E_RPMX_PF_BAR0(rpm_id) +
 			offset + (0x100000 * ((lmac_id) & 0x3))) =
 			cavm_cpu_to_le64((val)));
+}
+
+static void rpm_lmac_lrpcs_config(int rpm_id, int lmac_id)
+{
+	int lmac_enable;
+	rpm_lmac_config_t *lmac;
+	cavm_rpmx_mti_lpcs_gmode_t lpcs_gmode;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	debug_rpm("%s %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
+
+	/* 1000 BASE-X SGMII LPCS configuration */
+	lpcs_gmode.u = CSR_READ(CAVM_RPMX_MTI_LPCS_GMODE(rpm_id));
+
+	/* LPCS_ENABLE : 0:3 1G PCS per channel */
+	lmac_enable = (lpcs_gmode.s.lpcs_enable | (1 << lmac_id)) & 0xF;
+
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcs_gmode_t,
+			CAVM_RPMX_MTI_LPCS_GMODE(rpm_id),
+			lpcs_enable, lmac_enable);
+
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcsx_if_mode_t,
+			CAVM_RPMX_MTI_LPCSX_IF_MODE(rpm_id, lmac_id),
+			sgmii_speed, 2);
+
+	/* Clear SGMII_ENA bit for 1000 BASE-X mode */
+	if (lmac->sgmii_1000x_mode) {
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcsx_if_mode_t,
+			CAVM_RPMX_MTI_LPCSX_IF_MODE(rpm_id, lmac_id),
+			sgmii_ena, 0);
+	}
+
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcsx_control_t,
+			CAVM_RPMX_MTI_LPCSX_CONTROL(rpm_id, lmac_id),
+			reset, 1);
 }
 
 static void rpm_lmac_hrpcs_config(int rpm_id, int lmac_id)
@@ -145,27 +181,42 @@ static int rpm_get_lane_speed(int rpm_id, int lmac_id)
 
 int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *lnk_sts)
 {
+	rpm_lmac_config_t *lmac;
 	cavm_rpmx_ext_mti_portx_status_t port_status;
 	cavm_rpmx_mti_mac100x_status_t mac100_status;
 	cavm_rpmx_mti_pcs100x_status1_t pcs100_status;
+	cavm_rpmx_mti_lpcsx_status_t lpcs_status;
+
 	int link_up = 0, speed = 0, ret = 0;
 
 	debug_rpm("%s: %d:%d\n", __func__, rpm_id, lmac_id);
 
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
 	port_status.u = CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_STATUS(rpm_id, lmac_id));
 	mac100_status.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_STATUS(rpm_id, lmac_id));
-	/* FIXME: PCS100X_STATUS1 needs to be read twice for the pcs_receive
-	 * link to be set
-	 */
-	CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
-	pcs100_status.u = CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
 
 	if ((port_status.s.link_ok == 1) && (port_status.s.link_status == 1) &&
 		(port_status.s.hi_ber == 0) &&
 		(mac100_status.s.rx_loc_fault == 0) &&
-		(mac100_status.s.rx_rem_fault == 0) &&
-		(pcs100_status.s.pcs_receive_link == 1)) {
-		link_up = 1;
+		(mac100_status.s.rx_rem_fault == 0)) {
+		if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
+			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+			CSR_READ(CAVM_RPMX_MTI_LPCSX_STATUS(rpm_id, lmac_id));
+			lpcs_status.u = CSR_READ(CAVM_RPMX_MTI_LPCSX_STATUS(rpm_id, lmac_id));
+			if (lpcs_status.s.link_status == 1) {
+				link_up = 1;
+				return 1;
+			}
+		} else { /* For other modes */
+			/* FIXME: PCS100X_STATUS1 needs to be read twice for the
+			 * pcs_receive link to be set
+			 */
+			CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
+			pcs100_status.u = CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
+			if (pcs100_status.s.pcs_receive_link == 1)
+				link_up = 1;
+		}
 	}
 
 	if (link_up == 1) {
@@ -182,10 +233,11 @@ int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *lnk_sts)
 			}
 		}
 	} else {
-		debug_rpm("%s: %d:%d: port_status.u 0x%llx mac100_status.u 0x%llx pcs100_status.u 0x%llx\n", __func__, rpm_id, lmac_id,
+		debug_rpm("%s: %d:%d: port_status.u 0x%llx mac100_status.u 0x%llx pcs100_status.u 0x%llx lpcs_status 0x%llx\n", __func__, rpm_id, lmac_id,
 			CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_STATUS(rpm_id, lmac_id)),
 			CSR_READ(CAVM_RPMX_MTI_MAC100X_STATUS(rpm_id, lmac_id)),
-			CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id)));
+			CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id)),
+			CSR_READ(CAVM_RPMX_MTI_LPCSX_STATUS(rpm_id, lmac_id)));
 	}
 	return ret;
 }
@@ -213,21 +265,29 @@ void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable)
 
 int rpm_lmac_port_enable(int rpm_id, int lmac_id)
 {
+	rpm_lmac_config_t *lmac;
+
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 	/* Enable LMAC */
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
 			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
 			enable, 1);
-	/* FIXME: PCS configi based on port-speed call either
+	/* PCS config based on port-speed call either
 	 * HRPCS or LRPCS
 	 */
-	rpm_lmac_hrpcs_config(rpm_id, lmac_id);
+	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII))
+		rpm_lmac_lrpcs_config(rpm_id, lmac_id);
+	else
+		rpm_lmac_hrpcs_config(rpm_id, lmac_id);
 
 	/* MAC config */
 	rpm_lmac_mac_config(rpm_id, lmac_id);
 
-	/* Rest of Configuration for HRPCS */
+	/* Rest of Configuration for PCS */
 	/* LMAC mapped to PCS100 lanes 1:1 */
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_pcs100x_control1_t,
 			CAVM_RPMX_MTI_PCS100X_CONTROL1(rpm_id, lmac_id),
@@ -297,11 +357,31 @@ int rpm_hr_init_link(int rpm_id, int lmac_id)
 
 int rpm_lmac_port_disable(int rpm_id, int lmac_id)
 {
+	int lmac_disable;
+	rpm_lmac_config_t *lmac;
+	cavm_rpmx_mti_lpcs_gmode_t lpcs_gmode;
 	cavm_rpmx_ext_mti_global_fec_control_t fec_control;
+
+	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 	/* Packet transfer disable */
 	rpm_lmac_port_packet_config(rpm_id, lmac_id, 0);
 
+	/* For LRPCS, disable LPCS_ENABLE */
+	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
+			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+		/* 1000 BASE-X SGMII LPCS configuration */
+		lpcs_gmode.u = CSR_READ(CAVM_RPMX_MTI_LPCS_GMODE(rpm_id));
+
+		/* LPCS_ENABLE : 0:3 1G PCS per channel */
+		lmac_disable = (lpcs_gmode.s.lpcs_enable & ~(1 << lmac_id)) & 0xF;
+
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcs_gmode_t,
+				CAVM_RPMX_MTI_LPCS_GMODE(rpm_id),
+				lpcs_enable, lmac_disable);
+	}
 	/* FIXME: Disable FEC based on FEC type */
 	fec_control.u = CSR_READ(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id));
 	fec_control.s.gc_fec_ena &= ~(1 << lmac_id);
@@ -312,7 +392,6 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id)
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
 			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
 			enable, 0);
-
 	return 0;
 }
 

@@ -585,6 +585,7 @@ static void cn10k_lmac_num_touse(int mode_idx, int *cnt, int *touse)
 	*cnt = 0;
 	*touse = 0;
 	switch (mode_idx) {
+	case GSERM_MODE_1G_X:
 	case GSERM_MODE_XFI:
 	case GSERM_MODE_SFI:
 	case GSERM_MODE_25GAUI_C2C:
@@ -650,7 +651,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
 
-	if ((mode_idx < GSERM_MODE_XFI) ||
+	if ((mode_idx <= GSERM_MODE_DISABLED) ||
 		(mode_idx >= GSERM_MODE_LAST)) {
 		debug_dts("GSERM%d.LANE%d: not configured for RPM, skip.\n", gser, lane);
 		return 0;
@@ -713,6 +714,11 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 
 		rpm->lmac_count++;
 		rpm->lmacs_used += lused;
+
+		/* In case of 1000 BASE-X, update the property of LMAC */
+		if (mode_idx == GSERM_MODE_1G_X) {
+			lmac->sgmii_1000x_mode = 1;
+		}
 
 	}
 

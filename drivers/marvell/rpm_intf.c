@@ -146,6 +146,45 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 
 	link_sts.u64 = 0;
 
+	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+		if (!lmac_cfg->phy_present) {
+			link_sts.s.link_up = 1;
+			link_sts.s.full_duplex = 1;
+			link_sts.s.speed = ETH_LINK_1G;
+		}
+		if (rpm_lmac_port_enable(rpm_id, lmac_id) != 0) {
+			/* FIXME: Need to retry on link failure */
+			if (rpm_get_error_type(rpm_id, lmac_id) != 0) {
+				debug_rpm_intf("%s %d:%d Link down\n",
+						__func__, rpm_id, lmac_id);
+				link_sts.s.link_up = 0;
+				link_sts.s.full_duplex = 0;
+				link_sts.s.speed = ETH_LINK_NONE;
+				goto link_err;
+			}
+		}
+		/* Get LMAC Port link status */
+		if (rpm_lmac_port_get_status(rpm_id, lmac_id, &link_sts) != 1) {
+			/* FIXME: Need to retry on link failure */
+			debug_rpm_intf("%s %d:%d Link status down,\n",
+					__func__, rpm_id, lmac_id);
+			link_sts.s.link_up = 0;
+			link_sts.s.full_duplex = 0;
+			link_sts.s.speed = ETH_LINK_NONE;
+			goto link_err;
+		}
+		if (link_sts.s.link_up == 1) {
+			/* Enable Port for packet transfer */
+			rpm_lmac_port_packet_config(rpm_id, lmac_id, 1);
+			/* Update link status */
+			lmac_ctx->s.link_up = link_sts.s.link_up;
+			lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
+			lmac_ctx->s.speed = link_sts.s.speed;
+			rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
+			return 0;
+		}
+	}
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R)) {
 		/* Enable LMAC port - PCS/MAC config */
@@ -160,11 +199,9 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 		/* Get LMAC Port link status */
 		if (rpm_lmac_port_get_status(rpm_id, lmac_id, &link_sts) != 1) {
 			/* FIXME: Need to retry on link failure */
-			if (rpm_get_error_type(rpm_id, lmac_id) != 0) {
-				debug_rpm_intf("%s %d:%d Link status down,\n",
-						__func__, rpm_id, lmac_id);
-				goto link_err;
-			}
+			debug_rpm_intf("%s %d:%d Link status down,\n",
+					__func__, rpm_id, lmac_id);
+			goto link_err;
 		}
 		if (link_sts.s.link_up == 1) {
 			/* Enable Port for packet transfer */

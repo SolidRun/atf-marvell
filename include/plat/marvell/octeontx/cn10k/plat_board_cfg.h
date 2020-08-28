@@ -118,6 +118,9 @@ typedef struct rpm_lmac_config {
 	uint64_t supported_link_modes;	/* rpm_mode_t enum */
 	uint32_t lane_mask;
 	int max_lane_count;
+	int phy_present;
+	int phy_mode;		/* MAC or PHY mode for SGMII */
+	int sgmii_1000x_mode;	/* SGMII or 1000x mode for SGMII */
 } rpm_lmac_config_t;
 
 typedef enum {

@@ -25,7 +25,7 @@ static const struct qlm_mode_strmap_s qlmmode_strmap[] = {
 	/* CGX/LMAC types. */
 	{CAVM_CGX_LMAC_TYPES_E_SGMII, 1250, "SGMII", "sgmii", 1},
 	{CAVM_CGX_LMAC_TYPES_E_SGMII, 1250, "1G_X", "sgmii", 1},
-	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 1250, "QSGMII", "qsgmii", 1},
+	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 5000, "QSGMII", "qsgmii", 1},
 	{CAVM_CGX_LMAC_TYPES_E_XAUI, 10312, "XAUI", "xaui", 10},
 	{CAVM_CGX_LMAC_TYPES_E_RXAUI, 10312, "RXAUI", "rxaui", 10},
 	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 10312, "XFI", "10g", 10},
