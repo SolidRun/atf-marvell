@@ -599,7 +599,7 @@ static void cn10k_lmac_num_touse(int mode_idx, int *cnt, int *touse)
 /* Check if it is possible to configure LMAC in the current mode. Return
  * 0 in case of success, otherwise return -1.
  */
-static int cn10k_check_qlm_lmacs(int rpm_idx,
+static int cn10k_check_gserm_lmacs(int rpm_idx,
 		int gserm, int mode_idx, int lmac_need)
 {
 	int lmac_avail;
@@ -667,7 +667,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 	debug_dts("RPM%d: mode_idx %d needs %d lanes, %d lmacs\n",
 		rpm_idx, mode_idx, lused, lcnt);
 
-	if (cn10k_check_qlm_lmacs(rpm_idx, gser, mode_idx, lcnt * lused))
+	if (cn10k_check_gserm_lmacs(rpm_idx, gser, mode_idx, lcnt * lused))
 		return 0;
 
 	if (lane % (lcnt * lused)) {

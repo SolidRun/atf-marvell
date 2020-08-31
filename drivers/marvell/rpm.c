@@ -18,7 +18,7 @@
 #include <plat_board_cfg.h>
 #include <rpm.h>
 #include <eth_intf.h>
-#include <qlm/qlm.h>
+#include <qlm/qlm_cn10k.h>
 #include <octeontx_utils.h>
 
 #include "cavm-csrs-rpm.h"
@@ -155,7 +155,7 @@ static int rpm_get_lane_speed(int rpm_id, int lmac_id)
 	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
 	lmac = &rpm->lmac_cfg[lmac_id];
 
-	debug_rpm("%s: rpm %d qlm %d mode %d\n", __func__, rpm_id,
+	debug_rpm("%s: rpm %d gserm %d mode %d\n", __func__, rpm_id,
 				lmac->gserm_idx, lmac->mode);
 
 	gserm_state = gserm_get_state(lmac->gserm_idx, lmac->lane);
