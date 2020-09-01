@@ -328,6 +328,12 @@ void plat_add_mmio()
 				CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE, attr);
 
 	/*
+	 * Map DSU UB for core power management
+	 */
+	for (int core_id = 0; core_id < 24; core_id++)
+		add_map_record(CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0(core_id),
+				CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0_SIZE, attr);
+	/*
 	 * Shared memory configuration.
 	 * Map additional memory used by RVU/SFP mgmt(shared between AP & MCP).
 	 * Do not use add_map_record, it will round size up

@@ -127,5 +127,6 @@
 #include "cavm-csrs-uaa.h"
 #include "cavm-csrs-usbh.h"
 #include "cavm-csrs-xcp.h"
+#include "cavm-csrs-dsuub.h"
 
 #endif /* __CAVM_CSRS_H__ */

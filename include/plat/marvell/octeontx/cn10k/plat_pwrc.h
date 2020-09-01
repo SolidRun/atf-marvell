@@ -10,6 +10,7 @@
 
 #include <cdefs.h>
 #include <lib/psci/psci.h>
+#include <arch_helpers.h>
 
 /* SCMI related defines */
 
@@ -43,6 +44,10 @@
 #define CAVM_SYSTEM_PWR_STATE(state)	\
 			((PLAT_MAX_PWR_LVL == CAVM_SYSTEM_PWR_DMN_LVL) ?\
 			(state)->pwr_domain_state[CAVM_SYSTEM_PWR_DMN_LVL] : 0)
+
+#undef IMP_CPUPWRCTLR_EL1
+#define IMP_CPUPWRCTLR_EL1	S3_0_C15_C2_7
+DEFINE_RENAME_SYSREG_RW_FUNCS(cpupwrctlr_el1, IMP_CPUPWRCTLR_EL1)
 
 /*
  * The SCMI power state enumeration for a power domain level

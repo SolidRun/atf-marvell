@@ -40,7 +40,7 @@
  * Function & variable prototypes
  ******************************************************************************/
 void octeontx_legacy_pwrc_write_pponr(unsigned long);
-
+void octeontx_legacy_pwrc_cpu_off(int idx);
 void octeontx_legacy_pwrc_setup(void);
 int octeontx_legacy_setup_psci_ops(uintptr_t sec_entrypoint,
 			       const plat_psci_ops_t **psci_ops);

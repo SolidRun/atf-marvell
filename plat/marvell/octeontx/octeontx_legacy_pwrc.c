@@ -11,11 +11,15 @@
 #if defined(PLAT_t106)
 #include <plat_cn10k_configuration.h>
 #endif
-#include <octeontx_legacy_pwrc.h>
+#include <context.h>
+#include <platform_def.h>
 #include <octeontx_common.h>
 #include <arch_helpers.h>
 #include <debug.h>
+#include <drivers/delay_timer.h>
 #include <octeontx_helpers.h>
+#include <plat_pwrc.h>
+#include <octeontx_legacy_pwrc.h>
 
 #include "cavm-csrs-rst.h"
 
@@ -58,93 +62,61 @@ static int wait_for_core()
 
 void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 {
+#if defined(PLAT_t106)
+	int loop;
+#endif
 	unsigned long octeontx_core_id = (unsigned long)(plat_core_pos_by_mpidr
 					((u_register_t)mpidr));
 
 #if defined(PLAT_t106)
-	cavm_apax_core_reset_t core_reset;
-	cavm_apax_clusterpch_t apax_cluster;
-	cavm_apax_corepch_t apax_corepch;
-
-	int loop = 1000000;
-	/* Poll on APA()_CLUSTERPCH[STATUS] until it becomes 0 */
-	while(loop) {
-		apax_cluster.u = CSR_READ(CAVM_APAX_CLUSTERPCH(octeontx_core_id));
-
-		if(!apax_cluster.s.status)
-			break;
-		loop--;
-	}
-
-clusterpch_state:
-	/* Write APA()_CLUSTERPCH[STATE] = APA_CLUSTERP_STATE_E__SFONLY_ON */
-	apax_cluster.u = CSR_READ(CAVM_APAX_CLUSTERPCH(octeontx_core_id));
-	apax_cluster.s.state = CAVM_APA_CLUSTERP_STATE_E_SFONLY_ON;
-	CSR_WRITE(CAVM_APAX_CLUSTERPCH(octeontx_core_id), apax_cluster.u);
-	
-	loop = 1000000;
-	/* Poll on APA()_CLUSTERPCH[STATUS] until it becomes 0 */
-	while(loop) {
-		apax_cluster.u = CSR_READ(CAVM_APAX_CLUSTERPCH(octeontx_core_id));
-
-		if(!apax_cluster.s.status)
-			break;
-		loop--;
-	}
-	/* Check value of APA()_CLUSTERPCH[ACCEPT] = 1 (else go back to step 2) */
-	apax_cluster.u = CSR_READ(CAVM_APAX_CLUSTERPCH(octeontx_core_id));
-	if (!apax_cluster.s.accept)
-		goto clusterpch_state;
-
-	loop = 1000000;
-	/* Poll on APA()_COREPCH[STATUS] until it becomes 0 */
-	while(loop) {
-		apax_corepch.u = CSR_READ(CAVM_APAX_COREPCH(octeontx_core_id));
-
-		if(!apax_corepch.s.status)
-			break;
-		loop--;
-	}
-
-corepch_state:
-	/* Write APA().COREPCH[STATE] = APA_COREP_STATE_E__ON */
-	apax_corepch.u = CSR_READ(CAVM_APAX_COREPCH(octeontx_core_id));
-	apax_corepch.s.state = CAVM_APA_COREP_STATE_E_ON;
-	CSR_WRITE(CAVM_APAX_COREPCH(octeontx_core_id), apax_corepch.u); 
-
-	loop = 1000000;
-	/* Poll on APA()_COREPCH[STATUS] until it becomes 0 */
-	while(loop) {
-		apax_corepch.u = CSR_READ(CAVM_APAX_COREPCH(octeontx_core_id));
-
-		if(!apax_corepch.s.status)
-			break;
-		loop--;
-	}
-
-	/* Check value of APA()_COREPCH[ACCEPT] = 1 (else go back to step 6) */
-	apax_cluster.u = CSR_READ(CAVM_APAX_COREPCH(octeontx_core_id));
-	if (!apax_corepch.s.accept)
-		goto corepch_state;
+	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;
+	cavm_dsuubx_core_ppu_pwpr_t core_pwpr;
+	cavm_dsuubx_cluster_ppu_pwsr_t cluster_pwsr;
+	cavm_dsuubx_core_ppu_pwsr_t core_pwsr;
 
 	/* Set RVBARADDR with entry point */
-	plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id, 
-				(uint64_t)plat_secondary_cold_boot_setup);
-	/* FIXME: Write APA()_PLL, .  Recommended settings are 
-	* (this assumes we want to use the ARO in calibration mode)
-	* ALT_REF = 0
-	* MSC_ENABLE = 0
-	* MAX_MUL = 0
-	* INIT_MUL = 40 (times refclk/2 = 2000Mhz)
-	* NEXT_MUL = 40 (times refclk/2 = 2000Mhz)
-	* NEXT_PLL_SEL = APA_PLL_SEL_E__ARO
-	* NEXT_MAN = 0
-	* NEXT_PGM = 1
-	* NEXT_SWITCH = 0
-	*/
-	core_reset.u = CSR_READ(CAVM_APAX_CORE_RESET(octeontx_core_id));
-	core_reset.s.resetn = 1;
-	CSR_WRITE(CAVM_APAX_CORE_RESET(octeontx_core_id), core_reset.u);
+	plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id,
+			(uint64_t)plat_secondary_cold_boot_setup);
+	/* Power up the cluster */
+	cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
+	cluster_pwpr.s.pwr_policy = 0x8; /* ON. Logic on with RAM on, cluster is functional */
+	cluster_pwpr.s.op_policy = 0x7; /* OPMODE_07: ALL_SLICE_FULL_RAM_ON */
+	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
+
+	/* Poll on core PPU_PWSR register until the value matches the PWPR */
+	loop = 1000000;
+	while (loop) {
+		cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
+		cluster_pwsr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWSR(octeontx_core_id));
+		if (cluster_pwsr.u == cluster_pwpr.u)
+			break;
+		udelay(1);
+		loop--;
+	}
+	if (!loop) {
+		WARN("%s: Failed to match PWSR with PWPR cluster_pwsr.u 0x%x\n", __func__, cluster_pwsr.u);
+		return;
+	}
+
+	/* Power up the core */
+	core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
+	core_pwpr.s.pwr_policy = 0x8; /* ON. Logic on with RAM on, cluster is functional */
+	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
+
+	/* Poll on core PPU_PWSR register until the value matches the PWPR */
+	loop = 1000000;
+	while(loop) {
+		core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
+		core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
+		if (core_pwsr.u == core_pwpr.u)
+			break;
+		udelay(1);
+		loop--;
+	}
+	if (!loop) {
+		WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
+		return;
+	}
 #else
 	union cavm_rst_pp_reset pp_reset;
 
@@ -174,6 +146,61 @@ corepch_state:
 	if(wait_for_core()){
 		WARN("Failed to release core:%lu\n ",
 				octeontx_core_id);
+	}
+#endif
+}
+
+void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
+{
+#if defined(PLAT_t106)
+	int loop;
+	uint64_t cpupwrctlr_el1;
+	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;
+	cavm_dsuubx_core_ppu_pwpr_t core_pwpr;
+	cavm_dsuubx_cluster_ppu_pwsr_t cluster_pwsr;
+	cavm_dsuubx_core_ppu_pwsr_t core_pwsr;
+
+	cpupwrctlr_el1 = read_cpupwrctlr_el1();
+	set_bit(cpupwrctlr_el1, 0);
+	write_cpupwrctlr_el1(cpupwrctlr_el1);
+	cpupwrctlr_el1 = read_cpupwrctlr_el1();
+
+	cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
+	cluster_pwpr.s.pwr_policy = 0x0; /* OFF */
+	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
+
+	loop = 1000000;
+	while (loop) {
+		cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
+		cluster_pwsr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWSR(octeontx_core_id));
+
+		if (cluster_pwsr.u == cluster_pwpr.u)
+			break;
+		udelay(1);
+		loop--;
+	}
+	if (!loop) {
+		WARN("%s: Failed to match PWSR with PWPR cluster_pwsr.u 0x%x\n", __func__, cluster_pwsr.u);
+		return;
+	}
+
+	/* Set the policy mode to OFF for the core/cluster */
+	core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
+	core_pwpr.s.pwr_policy = 0x0; /* OFF */
+	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
+
+	loop = 1000000;
+	while (loop) {
+		core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
+		core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
+		if (core_pwsr.u == core_pwpr.u)
+			break;
+		udelay(1);
+		loop--;
+	}
+	if (!loop) {
+		WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
+		return;
 	}
 #endif
 }

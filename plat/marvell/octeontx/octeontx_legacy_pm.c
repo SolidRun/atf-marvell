@@ -142,6 +142,16 @@ static int octeontx_legacy_pwr_domain_on(u_register_t mpidr)
 	return rc;
 }
 
+#if defined(PLAT_t106)
+__dead2 static void octeontx_legacy_pwr_domain_off_wfi(const psci_power_state_t *target_state)
+{
+	int idx = (int) plat_my_core_pos();
+
+	octeontx_legacy_pwrc_cpu_off(idx);
+	psci_power_down_wfi();
+}
+#endif
+
 /*******************************************************************************
  * FVP handler called when a power domain is about to be turned off. The
  * target_state encodes the power state that each level should transition to.
@@ -327,6 +337,9 @@ plat_psci_ops_t plat_octeontx_legacy_psci_pm_ops = {
 	.cpu_standby = octeontx_legacy_cpu_standby,
 	.pwr_domain_on = octeontx_legacy_pwr_domain_on,
 	.pwr_domain_off = octeontx_legacy_pwr_domain_off,
+#if defined(PLAT_t106)
+	.pwr_domain_pwr_down_wfi = octeontx_legacy_pwr_domain_off_wfi,
+#endif
 	.pwr_domain_suspend = octeontx_legacy_pwr_domain_suspend,
 	.pwr_domain_on_finish = octeontx_legacy_pwr_domain_on_finish,
 	.pwr_domain_suspend_finish = octeontx_legacy_pwr_domain_suspend_finish,
