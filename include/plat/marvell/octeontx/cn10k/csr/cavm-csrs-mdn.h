@@ -75,17 +75,17 @@ union cavm_mdn_active_memtype
                                                                  0x0,0x2 = BROADCAST_DISABLE remains unchanged.
                                                                  0x1 = Set BROADCAST_DISABLE to 0.
                                                                  0x3 = Set BROADCAST_DISABLE to 1. */
-        uint32_t bc_dis_action_match   : 2;  /**< [ 25: 24](WO) If ACTIVE_MEMTYPE matches MEMTYPE, following action
+        uint32_t bc_dis_action_match   : 2;  /**< [ 25: 24](WO) If [ACTIVE_MEMTYPE] matches MEMTYPE, following action
                                                                  is taken on BROADCAST_DISABLE bit depending on this field:
                                                                  0x0,0x2 = BROADCAST_DISABLE remains unchanged.
                                                                  0x1 = Set BROADCAST_DISABLE to 0.
                                                                  0x3 = Set BROADCAST_DISABLE to 1. */
-        uint32_t march_bc_dis_action_no_match : 2;/**< [ 23: 22](WO) If ACTIVE_MEMTYPE does not match MEMTYPE, following action
+        uint32_t march_bc_dis_action_no_match : 2;/**< [ 23: 22](WO) If [ACTIVE_MEMTYPE] does not match MEMTYPE, following action
                                                                  is taken on MARCH_BROADCAST_DISABLE bit depending on this field:
                                                                  0x0,0x2 = BROADCAST_DISABLE remains unchanged.
                                                                  0x1 = Set BROADCAST_DISABLE to 0.
                                                                  0x3 = Set BROADCAST_DISABLE to 1. */
-        uint32_t march_bc_dis_action_match : 2;/**< [ 21: 20](WO) If ACTIVE_MEMTYPE matches MEMTYPE, following action
+        uint32_t march_bc_dis_action_match : 2;/**< [ 21: 20](WO) If [ACTIVE_MEMTYPE] matches MEMTYPE, following action
                                                                  is taken on MARCH_BROADCAST_DISABLE bit depending on this field:
                                                                  0x0,0x2 = BROADCAST_DISABLE remains unchanged.
                                                                  0x1 = Set BROADCAST_DISABLE to 0.
@@ -101,17 +101,17 @@ union cavm_mdn_active_memtype
                                                                  disable_march_broadcast bits get set, cleared, or remain
                                                                  unchanged depending on bits 27:20 of this register. */
         uint32_t reserved_5_19         : 15;
-        uint32_t march_bc_dis_action_match : 2;/**< [ 21: 20](WO) If ACTIVE_MEMTYPE matches MEMTYPE, following action
+        uint32_t march_bc_dis_action_match : 2;/**< [ 21: 20](WO) If [ACTIVE_MEMTYPE] matches MEMTYPE, following action
                                                                  is taken on MARCH_BROADCAST_DISABLE bit depending on this field:
                                                                  0x0,0x2 = BROADCAST_DISABLE remains unchanged.
                                                                  0x1 = Set BROADCAST_DISABLE to 0.
                                                                  0x3 = Set BROADCAST_DISABLE to 1. */
-        uint32_t march_bc_dis_action_no_match : 2;/**< [ 23: 22](WO) If ACTIVE_MEMTYPE does not match MEMTYPE, following action
+        uint32_t march_bc_dis_action_no_match : 2;/**< [ 23: 22](WO) If [ACTIVE_MEMTYPE] does not match MEMTYPE, following action
                                                                  is taken on MARCH_BROADCAST_DISABLE bit depending on this field:
                                                                  0x0,0x2 = BROADCAST_DISABLE remains unchanged.
                                                                  0x1 = Set BROADCAST_DISABLE to 0.
                                                                  0x3 = Set BROADCAST_DISABLE to 1. */
-        uint32_t bc_dis_action_match   : 2;  /**< [ 25: 24](WO) If ACTIVE_MEMTYPE matches MEMTYPE, following action
+        uint32_t bc_dis_action_match   : 2;  /**< [ 25: 24](WO) If [ACTIVE_MEMTYPE] matches MEMTYPE, following action
                                                                  is taken on BROADCAST_DISABLE bit depending on this field:
                                                                  0x0,0x2 = BROADCAST_DISABLE remains unchanged.
                                                                  0x1 = Set BROADCAST_DISABLE to 0.
@@ -160,10 +160,10 @@ union cavm_mdn_active_nodes
                                                                  nodes whose node_id[4:0] is i if bit [9:5] of node_id field
                                                                  in the WRITE command match the node's node_id[9:5].
                                                                  If bit 0 of node_id field in the WRITE command is 1,
-                                                                 BROADCAST_DISABLE is set to ACTIVE_NODES bit corresponding to
+                                                                 BROADCAST_DISABLE is set to [ACTIVE_NODES] bit corresponding to
                                                                  the node, otherwise BROADCAST_DISABLE remains unchanged.
                                                                  If bit 1 of node_id field in the WRITE command is 1,
-                                                                 MARCH_BROADCAST_DISABLE is set to ACTIVE_NODES bit corresponding to
+                                                                 MARCH_BROADCAST_DISABLE is set to [ACTIVE_NODES] bit corresponding to
                                                                  the node, otherwise MARCH_BROADCAST_DISABLE remains unchanged. */
 #else /* Word 0 - Little Endian */
         uint32_t active_nodes          : 32; /**< [ 31:  0](WO) This allows BROADCAST_DISABLE and MARCH_BROADCAST_DISABLE
@@ -174,10 +174,10 @@ union cavm_mdn_active_nodes
                                                                  nodes whose node_id[4:0] is i if bit [9:5] of node_id field
                                                                  in the WRITE command match the node's node_id[9:5].
                                                                  If bit 0 of node_id field in the WRITE command is 1,
-                                                                 BROADCAST_DISABLE is set to ACTIVE_NODES bit corresponding to
+                                                                 BROADCAST_DISABLE is set to [ACTIVE_NODES] bit corresponding to
                                                                  the node, otherwise BROADCAST_DISABLE remains unchanged.
                                                                  If bit 1 of node_id field in the WRITE command is 1,
-                                                                 MARCH_BROADCAST_DISABLE is set to ACTIVE_NODES bit corresponding to
+                                                                 MARCH_BROADCAST_DISABLE is set to [ACTIVE_NODES] bit corresponding to
                                                                  the node, otherwise MARCH_BROADCAST_DISABLE remains unchanged. */
 #endif /* Word 0 - End */
     } s;
@@ -543,9 +543,9 @@ union cavm_mdn_bist_control
                                                                  of REP can be used while halted; however, it must be set back to the
                                                                  value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
                                                                  march. */
-        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now depricated. use the BIST_CONTROL_DBG_ADDR register instead now. */
+        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use the BIST_CONTROL_DBG_ADDR register instead now. */
 #else /* Word 0 - Little Endian */
-        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now depricated. use the BIST_CONTROL_DBG_ADDR register instead now. */
+        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use the BIST_CONTROL_DBG_ADDR register instead now. */
         uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
                                                                  used for a debug read.  When the [START] field is asserted this
                                                                  specifies repetition that BIST will start with.  Note that any value
@@ -886,9 +886,9 @@ union cavm_mdn_const_row
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t rows                  : 20; /**< [ 19:  0](RO) Containts the number of entries in this MDN_ID. */
+        uint32_t rows                  : 20; /**< [ 19:  0](RO) Contains the number of entries in this MDN_ID. */
 #else /* Word 0 - Little Endian */
-        uint32_t rows                  : 20; /**< [ 19:  0](RO) Containts the number of entries in this MDN_ID. */
+        uint32_t rows                  : 20; /**< [ 19:  0](RO) Contains the number of entries in this MDN_ID. */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -973,7 +973,7 @@ union cavm_mdn_debug_defect
         uint32_t multi_col_fail        : 1;  /**< [ 15: 15](RO/H) Asserted if BIST detects multiple failing columns in the same row
                                                                  of a CAM or RAM. This is asserted if multiple faults are detected in same clock.
                                                                  Wont set if multi-bits faults in same Row are of SA1 and SA0 simultaneously.
-                                                                 Only one would be detected in one cylce, due to March patterns here. */
+                                                                 Only one would be detected in one cycle, due to March patterns here. */
         uint32_t valid                 : 1;  /**< [ 14: 14](RO/H) The [DEFECT] field is valid. */
         uint32_t defect                : 14; /**< [ 13:  0](RO/H) The maximum, minimum, first or last defect column is captured here
                                                                  according to the setting of MDN_BIST_CONFIG[DEBUG_KIND] and MDN_BIST_CONFIG[DEBUG_ALGO]. */
@@ -984,7 +984,7 @@ union cavm_mdn_debug_defect
         uint32_t multi_col_fail        : 1;  /**< [ 15: 15](RO/H) Asserted if BIST detects multiple failing columns in the same row
                                                                  of a CAM or RAM. This is asserted if multiple faults are detected in same clock.
                                                                  Wont set if multi-bits faults in same Row are of SA1 and SA0 simultaneously.
-                                                                 Only one would be detected in one cylce, due to March patterns here. */
+                                                                 Only one would be detected in one cycle, due to March patterns here. */
         uint32_t cam_hit_fail          : 1;  /**< [ 16: 16](RAZ) Reserved. */
         uint32_t cam_multi_hit_fail    : 1;  /**< [ 17: 17](RAZ) Reserved. */
         uint32_t cam_hit_index_fail    : 1;  /**< [ 18: 18](RAZ) Reserved. */

@@ -140,7 +140,7 @@
 /**
  * Structure iobn_rperf_inrm_inbbp_s
  *
- * IOBN INRM Perfomance Inbound BP Control Structure
+ * IOBN INRM Performance Inbound BP Control Structure
  * This structure represents a bit-vector of BP
  * conditions. Counter will increment if any of the enabled conditions is present.
  */
@@ -222,7 +222,7 @@ union cavm_iobn_rperf_inrm_inbbp_s
 /**
  * Structure iobn_rperf_inrm_inbdat_s
  *
- * IOBN INRM Perfomance Inbound Data Control Structure
+ * IOBN INRM Performance Inbound Data Control Structure
  * This structure represents an enable
  * bit-vector of conditions. At least one bit from each category must be to trigger a
  * counter update. All fields requested must match for the performance counter to be
@@ -319,7 +319,7 @@ union cavm_iobn_rperf_inrm_inbdat_s
 /**
  * Structure iobn_rperf_inrm_inbreq_s
  *
- * IOBN INRM Perfomance Inbound Request Control Structure
+ * IOBN INRM Performance Inbound Request Control Structure
  * This structure represents an enable
  * bit-vector of conditions. At least one bit from each category must be to trigger a
  * counter update. All fields requested must match for the performance counter to be
@@ -450,7 +450,7 @@ union cavm_iobn_rperf_inrm_inbreq_s
 /**
  * Structure iobn_rperf_inrm_inbrsp_s
  *
- * IOBN INRM Perfomance Inbound Response Control Structure
+ * IOBN INRM Performance Inbound Response Control Structure
  * This structure represents an enable
  * bit-vector of conditions. At least one bit from each category must be to trigger a
  * counter update. All fields requested must match for the performance counter to be
@@ -529,7 +529,7 @@ union cavm_iobn_rperf_inrm_inbrsp_s
 /**
  * Structure iobn_rperf_inrm_outreq_s
  *
- * IOBN INRM Perfomance Outbound Request Control Structure
+ * IOBN INRM Performance Outbound Request Control Structure
  * This structure represents an enable
  * bit-vector of conditions. At least one bit from each category must be to trigger a
  * counter update. All fields requested must match for the performance counter to be
@@ -994,9 +994,9 @@ union cavm_iobnx_cfg0
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
                                                                  [5] == NCB1, [6] == NCB2, [7] == NCB3. */
         uint64_t reserved_1_3          : 3;
-        uint64_t force_sclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force on sclks. For diagnostic use only. */
+        uint64_t force_sclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force on SCLKs. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t force_sclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force on sclks. For diagnostic use only. */
+        uint64_t force_sclk_cond_clk_en : 1; /**< [  0:  0](R/W) Force on SCLKs. For diagnostic use only. */
         uint64_t reserved_1_3          : 3;
         uint64_t dis_ncbo_cr_pois      : 4;  /**< [  7:  4](R/W) When set the IOBN will not send poison on NCBO CRs. [4] == NCB0,
                                                                  [5] == NCB1, [6] == NCB2, [7] == NCB3. */

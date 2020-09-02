@@ -157,13 +157,21 @@ union cavm_fus_prog
     struct cavm_fus_prog_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_17_63        : 47;
+        uint64_t unlock                : 1;  /**< [ 16: 16](R/W) Programming Voltage Lock Control.
+                                                                 The field controls a lock on fuse programming.  To make the voltage available
+                                                                 for programming, this bit must be set and then cleared 4 times while PROG_EN=0.
+                                                                 If the voltage control is unlocked and PROG_EN=1 then the programming voltage
+                                                                 is driven to the EFUSE macros and then the VOLTAGE field will be set.
+
+                                                                 This field and the voltage control are reinitialized on cold reset. */
         uint64_t efuse                 : 1;  /**< [ 15: 15](R/W) Efuse storage. When set, the data is written directly to the efuse
                                                                  bank.  When cleared, data is soft blown to local storage.
                                                                  A soft blown fuse is subject to lockdown fuses.
                                                                  Soft blown fuses will become active after a chip domain reset
                                                                  but will not persist through a cold domain reset. */
-        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
+                                                                 Typically set only during fuse programming of EFUSE macros. */
         uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros. */
         uint64_t prog                  : 1;  /**< [ 12: 12](R/W/H) Internal:
                                                                  When written to one by software, blow the fuse bank. Hardware will
@@ -195,13 +203,21 @@ union cavm_fus_prog
                                                                  and sets [PROG].  Hardware will clear the [PROG] when the write is
                                                                  completed.  New fuses will become active after a chip domain reset. */
         uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros. */
-        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
+                                                                 Typically set only during fuse programming of EFUSE macros. */
         uint64_t efuse                 : 1;  /**< [ 15: 15](R/W) Efuse storage. When set, the data is written directly to the efuse
                                                                  bank.  When cleared, data is soft blown to local storage.
                                                                  A soft blown fuse is subject to lockdown fuses.
                                                                  Soft blown fuses will become active after a chip domain reset
                                                                  but will not persist through a cold domain reset. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t unlock                : 1;  /**< [ 16: 16](R/W) Programming Voltage Lock Control.
+                                                                 The field controls a lock on fuse programming.  To make the voltage available
+                                                                 for programming, this bit must be set and then cleared 4 times while PROG_EN=0.
+                                                                 If the voltage control is unlocked and PROG_EN=1 then the programming voltage
+                                                                 is driven to the EFUSE macros and then the VOLTAGE field will be set.
+
+                                                                 This field and the voltage control are reinitialized on cold reset. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_fus_prog_s cn; */
@@ -237,7 +253,8 @@ union cavm_fus_rcmd
         uint64_t reserved_16_63        : 48;
         uint64_t efuse                 : 1;  /**< [ 15: 15](R/W) Efuse storage. When set, the return data is from the efuse
                                                                  bank directly.  When cleared data is read from the local storage. */
-        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
+                                                                 Typically set only during fuse programming of EFUSE macros. */
         uint64_t reserved_13           : 1;
         uint64_t pend                  : 1;  /**< [ 12: 12](R/W/H) Software sets this bit to one on a write operation that starts
                                                                  the fuse read operation. Hardware clears this bit when the read
@@ -267,7 +284,8 @@ union cavm_fus_rcmd
                                                                  FUS_READ_TIMES[RDSTB_WH] determines the time for the operation
                                                                  to complete. */
         uint64_t reserved_13           : 1;
-        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
+                                                                 Typically set only during fuse programming of EFUSE macros. */
         uint64_t efuse                 : 1;  /**< [ 15: 15](R/W) Efuse storage. When set, the return data is from the efuse
                                                                  bank directly.  When cleared data is read from the local storage. */
         uint64_t reserved_16_63        : 48;
@@ -311,74 +329,38 @@ union cavm_fus_read_times
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge
-                                                                 of STROBE for read and write mode in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x0 yields 10 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing specs are th_CS = 6 ns, th_PG = 10 ns, th_LD_p = 7 ns. */
+                                                                 of STROBE for read and write mode in GSERC_REF_CLK_0 + 1 cycles.
+                                                                 Default yields 50 ns at 100 MHz. */
         uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE
                                                                  for read and write modes in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x0 yields 10 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of tsu_A_r and tsu_A_p is 3 ns min. */
+                                                                 Default yields 60 ns at 100 MHz. */
         uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x3E8 yields 10 us at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of twh_SB_p is 9.8 us max. */
-        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x3 yields 40 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of twh_SB_p is 20 ns min. */
+                                                                 Default yields approximately 6 us at 100 MHz. */
+        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*GSERC_REF_CLK0 + 1 cycles.
+                                                                 Default yields 210 ns at 100 MHz. */
         uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write
                                                                  modes in GSERC_REF_CLK0 cycles.
-                                                                 Default of 0x1 yields 10 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of tsu_A_r and tsu_A_p is 12 ns min. */
+                                                                 Default yields 50 ns at 100 MHz. */
         uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE
                                                                  in read and write modes in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x0 yields 10 ns plus ASU cycles (20nS) equals 30nS at 100 MHz.
-
-                                                                 Internal:
-                                                                 tsu_CS = 16 ns, tsu_PG = 14 ns, tsu_LD_r = 10 ns. */
+                                                                 Default yields 30 ns plus ASU cycles (50nS) equals 80nS at 100 MHz. */
 #else /* Word 0 - Little Endian */
         uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE
                                                                  in read and write modes in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x0 yields 10 ns plus ASU cycles (20nS) equals 30nS at 100 MHz.
-
-                                                                 Internal:
-                                                                 tsu_CS = 16 ns, tsu_PG = 14 ns, tsu_LD_r = 10 ns. */
+                                                                 Default yields 30 ns plus ASU cycles (50nS) equals 80nS at 100 MHz. */
         uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write
                                                                  modes in GSERC_REF_CLK0 cycles.
-                                                                 Default of 0x1 yields 10 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of tsu_A_r and tsu_A_p is 12 ns min. */
-        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x3 yields 40 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of twh_SB_p is 20 ns min. */
+                                                                 Default yields 50 ns at 100 MHz. */
+        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*GSERC_REF_CLK0 + 1 cycles.
+                                                                 Default yields 210 ns at 100 MHz. */
         uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x3E8 yields 10 us at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of twh_SB_p is 9.8 us max. */
+                                                                 Default yields approximately 6 us at 100 MHz. */
         uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE
                                                                  for read and write modes in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x0 yields 10 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing spec of tsu_A_r and tsu_A_p is 3 ns min. */
+                                                                 Default yields 60 ns at 100 MHz. */
         uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge
-                                                                 of STROBE for read and write mode in GSERC_REF_CLK0 + 1 cycles.
-                                                                 Default of 0x0 yields 10 ns at 100 MHz.
-
-                                                                 Internal:
-                                                                 Timing specs are th_CS = 6 ns, th_PG = 10 ns, th_LD_p = 7 ns. */
+                                                                 of STROBE for read and write mode in GSERC_REF_CLK_0 + 1 cycles.
+                                                                 Default yields 50 ns at 100 MHz. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;

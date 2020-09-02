@@ -38,7 +38,8 @@
  */
 #define CAVM_MIO_PTP_EXT_SEL_E_BTS_REF_CLK (1)
 #define CAVM_MIO_PTP_EXT_SEL_E_GPIO (0)
-#define CAVM_MIO_PTP_EXT_SEL_E_QLM_REFX(a) (0x10 + (a))
+#define CAVM_MIO_PTP_EXT_SEL_E_GSERM_REC_CLKX(a) (0x20 + (a))
+#define CAVM_MIO_PTP_EXT_SEL_E_REF_CLK_SRCX(a) (0x10 + (a))
 
 /**
  * Enumeration mio_ptp_int_vec_e

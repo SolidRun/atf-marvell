@@ -8598,7 +8598,9 @@ union cavm_mlx_axi_bridge_ctrlx
     struct cavm_mlx_axi_bridge_ctrlx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
+        uint64_t reserved_21_63        : 43;
+        uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read reponse will be returned. */
+        uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write reponse will be returned. */
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
         uint64_t fence                 : 1;  /**< [ 17: 17](R/W) When set, the AXI bridge stops taking new request from external master. */
         uint64_t ncb_rd_blk            : 1;  /**< [ 16: 16](R/W) NCB Read block.  When set, the read request to NCB domain will be blocked if the barrier is set. */
@@ -8634,7 +8636,9 @@ union cavm_mlx_axi_bridge_ctrlx
         uint64_t ncb_rd_blk            : 1;  /**< [ 16: 16](R/W) NCB Read block.  When set, the read request to NCB domain will be blocked if the barrier is set. */
         uint64_t fence                 : 1;  /**< [ 17: 17](R/W) When set, the AXI bridge stops taking new request from external master. */
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
-        uint64_t reserved_19_63        : 45;
+        uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write reponse will be returned. */
+        uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read reponse will be returned. */
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_axi_bridge_ctrlx_s cn; */
@@ -33929,8 +33933,10 @@ union cavm_mlx_job_mgr_ctrl
     struct cavm_mlx_job_mgr_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager is fetching a descriptor. */
+        uint64_t reserved_22_63        : 42;
+        uint64_t stall_on_idle         : 1;  /**< [ 21: 21](R/W) When set, the ACC/DMA interface will be stalled if the job manager is not BUSY.
+                                                                 No polling request from ACC will be accepted. */
+        uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager has at least one unfinished job. */
         uint64_t pf_func_override      : 16; /**< [ 19:  4](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
         uint64_t reserved_2_3          : 2;
         uint64_t pf_override           : 1;  /**< [  1:  1](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
@@ -33942,8 +33948,10 @@ union cavm_mlx_job_mgr_ctrl
         uint64_t pf_override           : 1;  /**< [  1:  1](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
         uint64_t reserved_2_3          : 2;
         uint64_t pf_func_override      : 16; /**< [ 19:  4](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
-        uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager is fetching a descriptor. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager has at least one unfinished job. */
+        uint64_t stall_on_idle         : 1;  /**< [ 21: 21](R/W) When set, the ACC/DMA interface will be stalled if the job manager is not BUSY.
+                                                                 No polling request from ACC will be accepted. */
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_job_mgr_ctrl_s cn; */
@@ -36847,16 +36855,14 @@ union cavm_mlx_mlw_err_status
     struct cavm_mlx_mlw_err_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_23_63        : 41;
-        uint64_t dma_null_write        : 1;  /**< [ 22: 22](R/W1C/H) MLIP DMA write data with zero byte enables. */
+        uint64_t reserved_22_63        : 42;
         uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W1C/H) MLIP DMA write response error from CSR bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W1C/H) MLIP DMA read response error from CSR bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W1C/H) MLIP DMA write response error from NCB bus. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W1C/H) MLIP DMA read response error from NCB bus. */
         uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W1C/H) MLIP DMA write request addresss out of bound. */
         uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W1C/H) MLIP DMA read request addresss out of bound. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t acc_null_write        : 1;  /**< [ 10: 10](R/W1C/H) MLIP ACC write data with zero byte enables. */
+        uint64_t reserved_10_15        : 6;
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W1C/H) MLIP ACC write response error from CSR bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W1C/H) MLIP ACC read response error from CSR bus. */
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W1C/H) MLIP ACC write response error from NCB bus. */
@@ -36878,16 +36884,14 @@ union cavm_mlx_mlw_err_status
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W1C/H) MLIP ACC write response error from NCB bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W1C/H) MLIP ACC read response error from CSR bus. */
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W1C/H) MLIP ACC write response error from CSR bus. */
-        uint64_t acc_null_write        : 1;  /**< [ 10: 10](R/W1C/H) MLIP ACC write data with zero byte enables. */
-        uint64_t reserved_11_15        : 5;
+        uint64_t reserved_10_15        : 6;
         uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W1C/H) MLIP DMA read request addresss out of bound. */
         uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W1C/H) MLIP DMA write request addresss out of bound. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W1C/H) MLIP DMA read response error from NCB bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W1C/H) MLIP DMA write response error from NCB bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W1C/H) MLIP DMA read response error from CSR bus. */
         uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W1C/H) MLIP DMA write response error from CSR bus. */
-        uint64_t dma_null_write        : 1;  /**< [ 22: 22](R/W1C/H) MLIP DMA write data with zero byte enables. */
-        uint64_t reserved_23_63        : 41;
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_mlw_err_status_s cn; */

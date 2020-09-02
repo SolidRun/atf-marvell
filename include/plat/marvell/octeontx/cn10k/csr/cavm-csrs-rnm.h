@@ -156,7 +156,8 @@ union cavm_rnm_ctl_status
                                                                  be forced to specified value. Set corresponding bit of RNM_CTL_STATUS[DRBG_EN]
                                                                  to 0 to disable the engine
                                                                  before writing. */
-        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to put the DRBG into reset. Must be set before RNM_CTL_STATUS[DRBG_ENT_DISABLE].
+        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
+                                                                 RNM_CTL_STATUS[DRBG_ENT_DISABLE].
                                                                  Lower bit for DRBG0, upper for DRBG1. */
         uint64_t ebg_poll_delay        : 10; /**< [ 25: 16](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
         uint64_t ebg_ctl_lock          : 1;  /**< [ 15: 15](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
@@ -193,7 +194,8 @@ union cavm_rnm_ctl_status
         uint64_t ebg_ctl_lock          : 1;  /**< [ 15: 15](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
                                                                  Locked until system is reset (0 writes ignored). */
         uint64_t ebg_poll_delay        : 10; /**< [ 25: 16](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
-        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to put the DRBG into reset. Must be set before RNM_CTL_STATUS[DRBG_ENT_DISABLE].
+        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
+                                                                 RNM_CTL_STATUS[DRBG_ENT_DISABLE].
                                                                  Lower bit for DRBG0, upper for DRBG1. */
         uint64_t drbg_ent_disable      : 2;  /**< [ 29: 28](SR/W/H) Before setting write 128 bits to RNM_DRBG()_ENT_FORCE(), once set entropy bus will
                                                                  be forced to specified value. Set corresponding bit of RNM_CTL_STATUS[DRBG_EN]
@@ -878,23 +880,23 @@ union cavm_rnm_pf_ebg_health
     struct cavm_rnm_pf_ebg_health_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_22_63        : 42;
-        uint64_t err_rep               : 1;  /**< [ 21: 21](RO/H) Error flag for repetition count health test. */
-        uint64_t err_adp               : 1;  /**< [ 20: 20](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t st_done               : 1;  /**< [ 19: 19](RO/H) Done flag for EBG startup tests. */
-        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+        uint64_t reserved_23_63        : 41;
+        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
+        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
+        uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
                                                                  Only writable when RNG_RSTN is 0. */
         uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
                                                                  Only writable when RNG_RSTN is 0. */
 #else /* Word 0 - Little Endian */
         uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
                                                                  Only writable when RNG_RSTN is 0. */
-        uint64_t c_rep                 : 8;  /**< [ 18: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
+        uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
                                                                  Only writable when RNG_RSTN is 0. */
-        uint64_t st_done               : 1;  /**< [ 19: 19](RO/H) Done flag for EBG startup tests. */
-        uint64_t err_adp               : 1;  /**< [ 20: 20](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t err_rep               : 1;  /**< [ 21: 21](RO/H) Error flag for repetition count health test. */
-        uint64_t reserved_22_63        : 42;
+        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
+        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
+        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
+        uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_pf_ebg_health_s cn; */

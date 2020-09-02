@@ -1118,13 +1118,13 @@ union cavm_npc_af_dbg_resultx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](RO/H) Software lookup result data with format NPC_RESULT_S. Reading these six
                                                                  registers is not an atomic operation. Therefore, the various [DATA] fields may
-                                                                 contain information across multiple packets. If [DATA] coherrency is critical,
+                                                                 contain information across multiple packets. If [DATA] coherency is critical,
                                                                  software must ensure only one packet is marked for capture before sending or
                                                                  allowing another packet. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](RO/H) Software lookup result data with format NPC_RESULT_S. Reading these six
                                                                  registers is not an atomic operation. Therefore, the various [DATA] fields may
-                                                                 contain information across multiple packets. If [DATA] coherrency is critical,
+                                                                 contain information across multiple packets. If [DATA] coherency is critical,
                                                                  software must ensure only one packet is marked for capture before sending or
                                                                  allowing another packet. */
 #endif /* Word 0 - End */
@@ -2540,13 +2540,13 @@ union cavm_npc_af_lkup_resultx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](RO/H) Software lookup result data with format NPC_RESULT_S. Reading these six
                                                                  registers is not an atomic operation. Therefore, the various [DATA] fields may
-                                                                 contain information across multiple packets. If [DATA] coherrency is critical,
+                                                                 contain information across multiple packets. If [DATA] coherency is critical,
                                                                  software must ensure only one packet is marked for capture before sending or
                                                                  allowing another packet. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](RO/H) Software lookup result data with format NPC_RESULT_S. Reading these six
                                                                  registers is not an atomic operation. Therefore, the various [DATA] fields may
-                                                                 contain information across multiple packets. If [DATA] coherrency is critical,
+                                                                 contain information across multiple packets. If [DATA] coherency is critical,
                                                                  software must ensure only one packet is marked for capture before sending or
                                                                  allowing another packet. */
 #endif /* Word 0 - End */
@@ -2761,12 +2761,12 @@ union cavm_npc_af_mcam_pwr_intfx_bankx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t dis_subbnk            : 16; /**< [ 15:  0](R/W) To save power on the MCAM matching logic, the system can constrain which
-                                                                 sub-banks are searched per-interface. Each DISABLE bit cooresponds to disabling
+                                                                 sub-banks are searched per-interface. Each DISABLE bit corresponds to disabling
                                                                  that subset of entries as follows: DISABLE\<i\> will not search MCAM entries
                                                                  (i\<\<8+255) .. (i\<\<8). */
 #else /* Word 0 - Little Endian */
         uint64_t dis_subbnk            : 16; /**< [ 15:  0](R/W) To save power on the MCAM matching logic, the system can constrain which
-                                                                 sub-banks are searched per-interface. Each DISABLE bit cooresponds to disabling
+                                                                 sub-banks are searched per-interface. Each DISABLE bit corresponds to disabling
                                                                  that subset of entries as follows: DISABLE\<i\> will not search MCAM entries
                                                                  (i\<\<8+255) .. (i\<\<8). */
         uint64_t reserved_16_63        : 48;

@@ -7083,7 +7083,7 @@ static inline uint64_t CAVM_NIXX_AF_CSI_ECO(uint64_t a)
  * Register (RVU_PF_BAR0) nix#_af_dwrr_rpm_mtu
  *
  * NIX AF SQM PSE DWRR RPM MTU Register
- * This is the register which would define Max MTU size for RPM packets. Used for DWRR
+ * This is the register which would define Max MTU size for RPM packets. Used for DWRR.
  */
 union cavm_nixx_af_dwrr_rpm_mtu
 {
@@ -7125,7 +7125,7 @@ static inline uint64_t CAVM_NIXX_AF_DWRR_RPM_MTU(uint64_t a)
  * Register (RVU_PF_BAR0) nix#_af_dwrr_sdp_mtu
  *
  * NIX AF SQM PSE DWRR SDP MTU Register
- * This is the register which would define Max MTU size for SDP packets. Used for DWRR
+ * This is the register which would define Max MTU size for SDP packets. Used for DWRR.
  */
 union cavm_nixx_af_dwrr_sdp_mtu
 {
@@ -9665,7 +9665,7 @@ union cavm_nixx_af_link_cdt_adj_err
                                                                  this flag would be set. It's one overflow bit for all the links. SW should read
                                                                  and then write 1 to clear.
                                                                  This would occur on positive
-                                                                 adjustment such that the total posible credits that can be stored in PSE
+                                                                 adjustment such that the total possible credits that can be stored in PSE
                                                                  overflows.
                                                                  For e.g. Initial Pkt credits programmed were 369 then max possible positive
                                                                  adjustment is (511-369)=142 and if the first adjustment applied is +42 then the
@@ -9680,7 +9680,7 @@ union cavm_nixx_af_link_cdt_adj_err
                                                                  this flag would be set. It's one overflow bit for all the links. SW should read
                                                                  and then write 1 to clear.
                                                                  This would occur on positive
-                                                                 adjustment such that the total posible credits that can be stored in PSE
+                                                                 adjustment such that the total possible credits that can be stored in PSE
                                                                  overflows.
                                                                  For e.g. Initial Pkt credits programmed were 369 then max possible positive
                                                                  adjustment is (511-369)=142 and if the first adjustment applied is +42 then the
@@ -15081,7 +15081,7 @@ union cavm_nixx_af_rx_linkx_wrr_out_cfg
         uint64_t reserved_8_63         : 56;
         uint64_t weight                : 8;  /**< [  7:  0](R/W) Link's round robin weight for writing packet data in 16-byte transfer
                                                                  units to NDC (NCB). Zero disables packet write for the channel.
-                                                                 SW should configure this regiter as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
+                                                                 SW should configure this register as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
                                                                  REB will release the channels at the same rate as X2P write then.
 
                                                                  Internal:
@@ -15089,7 +15089,7 @@ union cavm_nixx_af_rx_linkx_wrr_out_cfg
 #else /* Word 0 - Little Endian */
         uint64_t weight                : 8;  /**< [  7:  0](R/W) Link's round robin weight for writing packet data in 16-byte transfer
                                                                  units to NDC (NCB). Zero disables packet write for the channel.
-                                                                 SW should configure this regiter as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
+                                                                 SW should configure this register as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
                                                                  REB will release the channels at the same rate as X2P write then.
 
                                                                  Internal:
@@ -17535,8 +17535,8 @@ static inline uint64_t CAVM_NIXX_AF_SQM_ECO(uint64_t a)
 /**
  * Register (RVU_PF_BAR0) nix#_af_sqm_sclk_cnt
  *
- * NIX AF SQM Sclk Count Register
- * This is a debug register to be used for testing latency feature
+ * NIX AF SQM SCLK Count Register
+ * This is a debug register to be used for testing latency feature.
  */
 union cavm_nixx_af_sqm_sclk_cnt
 {
@@ -23103,10 +23103,10 @@ union cavm_nixx_af_vwqe_hash_func_mask
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
-        uint64_t mask                  : 35; /**< [ 34:  0](R/W) VWQE hash function mask register. used to limit the hash space for more hash colisions to occur.
+        uint64_t mask                  : 35; /**< [ 34:  0](R/W) VWQE hash function mask register. used to limit the hash space for more hash collisions to occur.
                                                                  used for diagnostic only. */
 #else /* Word 0 - Little Endian */
-        uint64_t mask                  : 35; /**< [ 34:  0](R/W) VWQE hash function mask register. used to limit the hash space for more hash colisions to occur.
+        uint64_t mask                  : 35; /**< [ 34:  0](R/W) VWQE hash function mask register. used to limit the hash space for more hash collisions to occur.
                                                                  used for diagnostic only. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
@@ -25260,7 +25260,7 @@ static inline uint64_t CAVM_NIXX_LF_RQ_OP_RE_PKTS(uint64_t a)
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_gen_color_conv#
  *
  * NIX LF Receive Generic Color Conversion Register
- * Generic conversion table converts from generic field to Color
+ * Generic conversion table converts from generic field to color.
  */
 union cavm_nixx_lf_rx_gen_color_convx
 {
@@ -25298,7 +25298,7 @@ static inline uint64_t CAVM_NIXX_LF_RX_GEN_COLOR_CONVX(uint64_t a, uint64_t b)
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_iip_color_conv_hi
  *
  * NIX LF Receive Inner IP Color Conversion Register
- * Inner IP conversion table converts from DSCP bits to Color
+ * Inner IP conversion table converts from DSCP bits to color.
  */
 union cavm_nixx_lf_rx_iip_color_conv_hi
 {
@@ -25336,7 +25336,7 @@ static inline uint64_t CAVM_NIXX_LF_RX_IIP_COLOR_CONV_HI(uint64_t a)
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_iip_color_conv_lo
  *
  * NIX LF Receive Inner IP Color Conversion Register
- * Inner IP conversion table converts from DSCP bits to Color
+ * Inner IP conversion table converts from DSCP bits to color.
  */
 union cavm_nixx_lf_rx_iip_color_conv_lo
 {
@@ -25374,7 +25374,7 @@ static inline uint64_t CAVM_NIXX_LF_RX_IIP_COLOR_CONV_LO(uint64_t a)
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_oip_color_conv_hi
  *
  * NIX LF Receive Outer IP Color Conversion Register
- * Outer IP conversion table converts from DSCP bits to Color
+ * Outer IP conversion table converts from DSCP bits to color.
  */
 union cavm_nixx_lf_rx_oip_color_conv_hi
 {
@@ -25412,7 +25412,7 @@ static inline uint64_t CAVM_NIXX_LF_RX_OIP_COLOR_CONV_HI(uint64_t a)
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_oip_color_conv_lo
  *
  * NIX LF Receive Outer IP Color Conversion Register
- * Outer IP conversion table converts from DSCP bits to Color
+ * Outer IP conversion table converts from DSCP bits to color.
  */
 union cavm_nixx_lf_rx_oip_color_conv_lo
 {
@@ -25603,7 +25603,7 @@ static inline uint64_t CAVM_NIXX_LF_RX_STATX(uint64_t a, uint64_t b)
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_vlan0_color_conv
  *
  * NIX LF Receive VLAN0 Color Conversion Register
- * VLAN0 conversion table converts from PCP,DEI bits to Color
+ * VLAN0 conversion table converts from PCP,DEI bits to color.
  */
 union cavm_nixx_lf_rx_vlan0_color_conv
 {
@@ -25643,7 +25643,7 @@ static inline uint64_t CAVM_NIXX_LF_RX_VLAN0_COLOR_CONV(uint64_t a)
  * Register (RVU_PFVF_BAR2) nix#_lf_rx_vlan1_color_conv
  *
  * NIX LF Receive VLAN1 Color Conversion Register
- * VLAN1 conversion table converts from PCP,DEI bits to Color
+ * VLAN1 conversion table converts from PCP,DEI bits to color.
  */
 union cavm_nixx_lf_rx_vlan1_color_conv
 {

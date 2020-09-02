@@ -877,13 +877,25 @@ union cavm_dssx_mc_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) value of the sysack_ddrc port from the MC (see Synopsys MC reference manual). */
-        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) value of the sysack_ddrc port from the MC (see Synopsys MC reference manual) */
-        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) controls the value driven MC csysreq_ddrc port (see Synopsys MC reference manual). */
+        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Value of the sysack_ddrc port from the MC.
+                                                                 Internal:
+                                                                 See Synopsys MC reference manual. */
+        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Value of the sysack_ddrc port from the MC.
+                                                                 Internal:
+                                                                 See Synopsys MC reference manual. */
+        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Controls the value driven MC csysreq_ddrc port.
+                                                                 Internal:
+                                                                 See Synopsys MC reference manual. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) controls the value driven MC csysreq_ddrc port (see Synopsys MC reference manual). */
-        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) value of the sysack_ddrc port from the MC (see Synopsys MC reference manual) */
-        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) value of the sysack_ddrc port from the MC (see Synopsys MC reference manual). */
+        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Controls the value driven MC csysreq_ddrc port.
+                                                                 Internal:
+                                                                 See Synopsys MC reference manual. */
+        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Value of the sysack_ddrc port from the MC.
+                                                                 Internal:
+                                                                 See Synopsys MC reference manual. */
+        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Value of the sysack_ddrc port from the MC.
+                                                                 Internal:
+                                                                 See Synopsys MC reference manual. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;

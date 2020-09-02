@@ -124,7 +124,7 @@ union cavm_apr_lmt_map_entry_s
  * Register (RVU_PF_BAR0) apr_af_core#_diag0
  *
  * AP DIAG Register 0
- * Number of inflight LMTSTs
+ * Number of inflight LMTSTs.
  */
 union cavm_apr_af_corex_diag0
 {
@@ -162,7 +162,7 @@ static inline uint64_t CAVM_APR_AF_COREX_DIAG0(uint64_t a)
  * Register (RVU_PF_BAR0) apr_af_core#_diag1
  *
  * AP DIAG Register 1
- * Number of LMTSTS processed
+ * Number of LMTSTS processed.
  */
 union cavm_apr_af_corex_diag1
 {
@@ -202,7 +202,7 @@ static inline uint64_t CAVM_APR_AF_COREX_DIAG1(uint64_t a)
  * Register (RVU_PF_BAR0) apr_af_core#_diag2
  *
  * AP DIAG Register 2
- * Number of LMTLINES fetched
+ * Number of LMTLINES fetched.
  */
 union cavm_apr_af_corex_diag2
 {
@@ -242,7 +242,7 @@ static inline uint64_t CAVM_APR_AF_COREX_DIAG2(uint64_t a)
  * Register (RVU_PF_BAR0) apr_af_core#_diag3
  *
  * AP DIAG Register 3
- * Number of LMTLINES fetched from AP
+ * Number of LMTLINES fetched from AP.
  */
 union cavm_apr_af_corex_diag3
 {
@@ -392,7 +392,7 @@ static inline uint64_t CAVM_APR_AF_COREX_LSAX_ERR(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) apr_af_core#_lsa#_rd_err
  *
  * LMTST Read RespErr Register
- * Record poison and RespErr in CompData flits in an LMTST
+ * Record poison and RespErr in CompData flits in an LMTST.
  */
 union cavm_apr_af_corex_lsax_rd_err
 {
@@ -448,7 +448,7 @@ static inline uint64_t CAVM_APR_AF_COREX_LSAX_RD_ERR(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) apr_af_core#_lsa#_wr_err
  *
  * LMTST Write RespErr Register
- * Record RespErr in CompDBIDResp flits in an LMTST
+ * Record RespErr in CompDBIDResp flits in an LMTST.
  */
 union cavm_apr_af_corex_lsax_wr_err
 {

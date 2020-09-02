@@ -188,7 +188,7 @@ union cavm_ncbx_arbx_rwx_lat_pc
                                                                  _ RW(1) increments every cycle by the number of write transactions that have been
                                                                  granted from the given NCB, but have not had their credit returned to the NGNT.
 
-                                                                 This counter should be divided by IOBN()_NCB()_ARB()_RW()_REQ_PC to determine each NCB
+                                                                 This counter should be divided by NCB_ARB()_RW()_REQ_PC to determine each NCB
                                                                  bus's average read and write latency. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter. Operates on coprocessor clock.
@@ -199,7 +199,7 @@ union cavm_ncbx_arbx_rwx_lat_pc
                                                                  _ RW(1) increments every cycle by the number of write transactions that have been
                                                                  granted from the given NCB, but have not had their credit returned to the NGNT.
 
-                                                                 This counter should be divided by IOBN()_NCB()_ARB()_RW()_REQ_PC to determine each NCB
+                                                                 This counter should be divided by NCB_ARB()_RW()_REQ_PC to determine each NCB
                                                                  bus's average read and write latency. */
 #endif /* Word 0 - End */
     } s;
@@ -657,7 +657,7 @@ union cavm_ncbx_rwx_lat_pc
                                                                  entered IOB from the given NCB, but have not returned write commits to the
                                                                  device.
 
-                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
                                                                  bus's average read and write latency. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter. Operates on mesh clock.
@@ -669,7 +669,7 @@ union cavm_ncbx_rwx_lat_pc
                                                                  entered IOB from the given NCB, but have not returned write commits to the
                                                                  device.
 
-                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
                                                                  bus's average read and write latency. */
 #endif /* Word 0 - End */
     } s;
@@ -755,7 +755,7 @@ union cavm_ncbx_rwx_smmu_lat_pc
                                                                  _ RW(1) increments by the number of write transactions that have entered IOB
                                                                  from the given NCB, but have not been address translated by the SMMU.
 
-                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
                                                                  bus's average read and write SMMU plus IOB front-end latency. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) SMMU latency performance counter. Operates on mesh clock.
@@ -767,7 +767,7 @@ union cavm_ncbx_rwx_smmu_lat_pc
                                                                  _ RW(1) increments by the number of write transactions that have entered IOB
                                                                  from the given NCB, but have not been address translated by the SMMU.
 
-                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
                                                                  bus's average read and write SMMU plus IOB front-end latency. */
 #endif /* Word 0 - End */
     } s;

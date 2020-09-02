@@ -2311,7 +2311,7 @@ union cavm_pciercx_gen2_port
         uint32_t eq_for_lpbk           : 1;  /**< [ 28: 28](R/W) Perform EQ in Loopback in Gen5 rate.
                                                                  Loopback master enters Loopback.Active only because
                                                                  of receiving 2 TS1s with Loopback but asserted. */
-        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane selct for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
+        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane select for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
@@ -2454,7 +2454,7 @@ union cavm_pciercx_gen2_port
                                                                  state.
                                                                   0 = from PCIERC_LINK_CTL2[SDE].
                                                                   1 = Requested by Upstream Port in Recovery.RcvrLock state. */
-        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane selct for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
+        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane select for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
@@ -3488,11 +3488,11 @@ union cavm_pciercx_lane_err
         uint32_t reserved_4_31         : 28;
         uint32_t les                   : 4;  /**< [  3:  0](R/W1C) Lane error status bits.
 
-                                                                 For BPEM, LES[3:2] are not not implemented and will always RAZ. */
+                                                                 For BPEM, LES[3:2] are not implemented and will always RAZ. */
 #else /* Word 0 - Little Endian */
         uint32_t les                   : 4;  /**< [  3:  0](R/W1C) Lane error status bits.
 
-                                                                 For BPEM, LES[3:2] are not not implemented and will always RAZ. */
+                                                                 For BPEM, LES[3:2] are not implemented and will always RAZ. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
@@ -4202,9 +4202,9 @@ union cavm_pciercx_misc_ctl1
                                                                  0x3 = Reserved. */
         uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
                                                                  - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
-                                                                 - Cfg requests with an address grether then CFG_LIMIT are directed to
+                                                                 - Cfg requests with an address greater then CFG_LIMIT are directed to
                                                                    ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
-        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the desitination of Configuration Requests.
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the destination of configuration requests.
                                                                  0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
                                                                      the setting of CFG_LIMIT.
                                                                  1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
@@ -4258,14 +4258,14 @@ union cavm_pciercx_misc_ctl1
         uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
         uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
                                                                  which is not supported. */
-        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the desitination of Configuration Requests.
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the destination of configuration requests.
                                                                  0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
                                                                      the setting of CFG_LIMIT.
                                                                  1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
                                                                      of the value of CFG_LIMIT. */
         uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
                                                                  - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
-                                                                 - Cfg requests with an address grether then CFG_LIMIT are directed to
+                                                                 - Cfg requests with an address greater then CFG_LIMIT are directed to
                                                                    ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
         uint32_t trgt_above_cfg_limit  : 2;  /**< [ 19: 18](R/W) Cfg requests with an address greater then CFG_LIMIT are directed to either
                                                                  ELBI or TRTG1 based on the setting of this field.
@@ -5276,7 +5276,7 @@ union cavm_pciercx_phy_intop_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
-        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cyc,es the PHY reset is asserted.
+        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cycles the PHY reset is asserted.
                                                                  0x0 = Zero cycles.
                                                                  0x1 = 1 cycle.
 
@@ -5320,7 +5320,7 @@ union cavm_pciercx_phy_intop_ctl
                                                                    0 = Controller requests aux_clk switch and core_clk gating in L1.
                                                                    1 = Controller does not request aux_clk switch and core_clk gating in L1. */
         uint32_t p2nobeacon_en         : 1;  /**< [ 11: 11](RO) P2 NoBeacon Enable (Not Supported). */
-        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cyc,es the PHY reset is asserted.
+        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cycles the PHY reset is asserted.
                                                                  0x0 = Zero cycles.
                                                                  0x1 = 1 cycle.
 
@@ -9209,7 +9209,7 @@ union cavm_pciercx_ras_sd_ctl1
                                                                  _ Bit \<2\> = Lane 2.
                                                                  _ Bit \<3\> = Lane 3.
 
-                                                                 _ Bit \<15:4\> = Lanes 4 thru 15 (not supported). */
+                                                                 _ Bit \<15:4\> = Lanes 4 through 15 (not supported). */
 #else /* Word 0 - Little Endian */
         uint32_t force_detect_lane     : 16; /**< [ 15:  0](R/W) Force detect lane.
                                                                  When set, the core ignores receiver detection from PHY
@@ -9219,7 +9219,7 @@ union cavm_pciercx_ras_sd_ctl1
                                                                  _ Bit \<2\> = Lane 2.
                                                                  _ Bit \<3\> = Lane 3.
 
-                                                                 _ Bit \<15:4\> = Lanes 4 thru 15 (not supported). */
+                                                                 _ Bit \<15:4\> = Lanes 4 through 15 (not supported). */
         uint32_t force_detect_lane_en  : 1;  /**< [ 16: 16](R/W) Force detect lane enable.
                                                                  When this bit is set, the core ignores receiver detection from
                                                                  PHY during LTSSM detect state and uses

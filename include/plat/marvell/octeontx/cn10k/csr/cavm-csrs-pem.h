@@ -3883,7 +3883,7 @@ union cavm_pemx_latency_pc_ctl
                                                                  PEM()_READS_PC reflect a completely accurate and stable set of values.
 
                                                                  Note that [ACTIVE] does not need to be cleared in order to read
-                                                                 PEM()_LATENCY_PC and PEM()_READS_PC to calcuate average latency during active
+                                                                 PEM()_LATENCY_PC and PEM()_READS_PC to calculate average latency during active
                                                                  processing, but there will be some small error.
 
                                                                  Note that because software can write PEM()_LATENCY_PC and PEM()_READS_PC,
@@ -3901,7 +3901,7 @@ union cavm_pemx_latency_pc_ctl
                                                                  PEM()_READS_PC reflect a completely accurate and stable set of values.
 
                                                                  Note that [ACTIVE] does not need to be cleared in order to read
-                                                                 PEM()_LATENCY_PC and PEM()_READS_PC to calcuate average latency during active
+                                                                 PEM()_LATENCY_PC and PEM()_READS_PC to calculate average latency during active
                                                                  processing, but there will be some small error.
 
                                                                  Note that because software can write PEM()_LATENCY_PC and PEM()_READS_PC,
@@ -5094,14 +5094,14 @@ union cavm_pemx_perr_status
         uint64_t rasdp                 : 1;  /**< [  3:  3](R/W1C/H) Set when the MAC core has entered RASDP mode due to an uncorrectable error. */
         uint64_t dbe                   : 1;  /**< [  2:  2](R/W1C/H) Set when an uncorrectable (double-bit) error was detected in a RAM inside PEM. */
         uint64_t rx_perr               : 1;  /**< [  1:  1](R/W1C/H) Set when a ECC error was detected on the receive (TRGT1) datapath
-                                                                 (PEM_CTL_STATUS2.TRGT1_ECC_COR_DIS needs to be clear). */
+                                                                 (PEM_CTL_STATUS2[TRGT1_ECC_COR_DIS] needs to be clear). */
         uint64_t tx_perr               : 1;  /**< [  0:  0](R/W1C/H) Set when a parity error was detected in the transmit datapath (only applies to traffic
                                                                  originating on EBO). */
 #else /* Word 0 - Little Endian */
         uint64_t tx_perr               : 1;  /**< [  0:  0](R/W1C/H) Set when a parity error was detected in the transmit datapath (only applies to traffic
                                                                  originating on EBO). */
         uint64_t rx_perr               : 1;  /**< [  1:  1](R/W1C/H) Set when a ECC error was detected on the receive (TRGT1) datapath
-                                                                 (PEM_CTL_STATUS2.TRGT1_ECC_COR_DIS needs to be clear). */
+                                                                 (PEM_CTL_STATUS2[TRGT1_ECC_COR_DIS] needs to be clear). */
         uint64_t dbe                   : 1;  /**< [  2:  2](R/W1C/H) Set when an uncorrectable (double-bit) error was detected in a RAM inside PEM. */
         uint64_t rasdp                 : 1;  /**< [  3:  3](R/W1C/H) Set when the MAC core has entered RASDP mode due to an uncorrectable error. */
         uint64_t mac_txfe_perr         : 1;  /**< [  4:  4](R/W1C/H) Set when the MAC core has detected a parity error in the front end of the transmit

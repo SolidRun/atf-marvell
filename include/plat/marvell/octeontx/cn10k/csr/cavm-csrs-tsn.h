@@ -266,19 +266,17 @@ union cavm_tsnx_therm_trip
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t alert                 : 1;  /**< [ 25: 25](RO/H) If either temperature limit is breached, this pin will assert.  Must be cleared by software. */
+        uint64_t alert                 : 1;  /**< [ 25: 25](RO/H) If [HI_LIMIT] is breached, this pin will assert.  Must be cleared by reset. */
         uint64_t en                    : 1;  /**< [ 24: 24](R/W) Enables therm_alert checking. */
-        uint64_t lo_limit              : 12; /**< [ 23: 12](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is lower than this.
-                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
+        uint64_t lo_limit              : 12; /**< [ 23: 12](R/W) When [EN] is set, CPC thermal attack signal will assert to trigger an interrupt */
         uint64_t hi_limit              : 12; /**< [ 11:  0](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is higher than this.
-                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
+                                                                 limit.  A thermal alert causes a chip reset, and thermal_trip_l pin will assert. */
 #else /* Word 0 - Little Endian */
         uint64_t hi_limit              : 12; /**< [ 11:  0](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is higher than this.
-                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
-        uint64_t lo_limit              : 12; /**< [ 23: 12](R/W) When [EN] is set, [ALERT] will assert if a temperature reading is lower than this.
-                                                                 limit.  RST and CPC thermal alert/attack outputs will assert as well. */
+                                                                 limit.  A thermal alert causes a chip reset, and thermal_trip_l pin will assert. */
+        uint64_t lo_limit              : 12; /**< [ 23: 12](R/W) When [EN] is set, CPC thermal attack signal will assert to trigger an interrupt */
         uint64_t en                    : 1;  /**< [ 24: 24](R/W) Enables therm_alert checking. */
-        uint64_t alert                 : 1;  /**< [ 25: 25](RO/H) If either temperature limit is breached, this pin will assert.  Must be cleared by software. */
+        uint64_t alert                 : 1;  /**< [ 25: 25](RO/H) If [HI_LIMIT] is breached, this pin will assert.  Must be cleared by reset. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;

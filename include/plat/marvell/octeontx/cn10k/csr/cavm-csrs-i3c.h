@@ -33,7 +33,7 @@
 /**
  * Enumeration i3c_int_vec_e
  *
- * I3CI MSI-X Vector Enumeration
+ * I3C MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_I3C_INT_VEC_E_INT_ST (0)
@@ -271,7 +271,7 @@ union cavm_i3c_comp_type
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t i3c_ver_type          : 32; /**< [ 31:  0](RO/H) This field indicates the Synopsys DesignWare Cores DWC_mipi_i3c current release
+        uint64_t i3c_ver_type          : 32; /**< [ 31:  0](RO/H) This field indicates the IP current release
                                                                  type that is read by an application.
 
                                                                  For example, release type "ga" is represented in ASCII as 0x6761 and "ea" is
@@ -282,7 +282,7 @@ union cavm_i3c_comp_type
                                                                  An application reading this register along with the I3C_VER_ID
                                                                  register, gathers details of the current release. */
 #else /* Word 0 - Little Endian */
-        uint64_t i3c_ver_type          : 32; /**< [ 31:  0](RO/H) This field indicates the Synopsys DesignWare Cores DWC_mipi_i3c current release
+        uint64_t i3c_ver_type          : 32; /**< [ 31:  0](RO/H) This field indicates the IP current release
                                                                  type that is read by an application.
 
                                                                  For example, release type "ga" is represented in ASCII as 0x6761 and "ea" is
@@ -328,7 +328,7 @@ union cavm_i3c_comp_version
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t i3c_ver_id            : 32; /**< [ 31:  0](RO/H) This field indicates the Synopsys DesignWare Cores DWC_mipi_i3c current release
+        uint64_t i3c_ver_id            : 32; /**< [ 31:  0](RO/H) This field indicates the IP current release
                                                                  number that is read by an application.
 
                                                                  For example, release number "1.00a" is represented in ASCII as 0x313030. Lower 8
@@ -337,7 +337,7 @@ union cavm_i3c_comp_version
                                                                  I3C_VER_TYPE register, gathers
                                                                  details of the current release. */
 #else /* Word 0 - Little Endian */
-        uint64_t i3c_ver_id            : 32; /**< [ 31:  0](RO/H) This field indicates the Synopsys DesignWare Cores DWC_mipi_i3c current release
+        uint64_t i3c_ver_id            : 32; /**< [ 31:  0](RO/H) This field indicates the IP current release
                                                                  number that is read by an application.
 
                                                                  For example, release number "1.00a" is represented in ASCII as 0x313030. Lower 8

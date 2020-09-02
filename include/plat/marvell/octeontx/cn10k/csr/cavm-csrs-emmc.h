@@ -6754,7 +6754,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dq_timing
                                                                  1 = IO mask is always ON. */
         uint32_t reserved_30           : 1;
         uint32_t io_mask_end           : 3;  /**< [ 29: 27](R/W) Adjusts the ending point of the DQ/CMD pad input mask enable. Defines the delay after
-                                                                 dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1'b1
+                                                                 dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1
                                                                  are passed to PHY). */
         uint32_t io_mask_start         : 3;  /**< [ 26: 24](R/W) Adjusts the starting point of the DQ/CMD pad input mask enable. Defines the delay after
                                                                  dfi_wrdata_en/dfi_wrcmd_en goes low when the mask is enabled (data/cmd are passed to PHY). */
@@ -6790,7 +6790,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dq_timing
         uint32_t io_mask_start         : 3;  /**< [ 26: 24](R/W) Adjusts the starting point of the DQ/CMD pad input mask enable. Defines the delay after
                                                                  dfi_wrdata_en/dfi_wrcmd_en goes low when the mask is enabled (data/cmd are passed to PHY). */
         uint32_t io_mask_end           : 3;  /**< [ 29: 27](R/W) Adjusts the ending point of the DQ/CMD pad input mask enable. Defines the delay after
-                                                                 dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1'b1
+                                                                 dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1
                                                                  are passed to PHY). */
         uint32_t reserved_30           : 1;
         uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the IO mask for DATA/CMD is always enabled.
@@ -6833,11 +6833,11 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dqs_timing
         uint32_t reserved_24_31        : 8;
         uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
                                                                  path which is equivalent of adding 2 to the dqs_select_oe_end and dqs_select_oe_start. */
-        uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' and
-                                                                 'use_lpbk_dqs' fields are set high.
+        uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when [USE_PHONY_DQS] and
+                                                                 [USE_LPBK_DQS] fields are set high.
                                                                  0 = use internal lpbk_dqs (mem_rebar_ipad) for data capture.
                                                                  1 =  use external lpbk_dqs (lpbk_dqs connected to the lpbk_dqs_IO PAD) for data capture. */
-        uint32_t use_lpbk_dqs          : 1;  /**< [ 21: 21](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' is set high.
+        uint32_t use_lpbk_dqs          : 1;  /**< [ 21: 21](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when [USE_PHONY_DQS] is set high.
                                                                  0 = Use phony DQS for data capture.
                                                                  1 = Use lpbk_dqs for data capture. Recommended setting for SD/eMMC controller. */
         uint32_t use_phony_dqs         : 1;  /**< [ 20: 20](R/W) Bit to choose lpbk_dqs or phony DQS (generated in the control slice logic) or DQS from the device
@@ -6889,11 +6889,11 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dqs_timing
                                                                  0 = Use DQS from device for data capture.
                                                                  1 = Use phony DQS or lpbk_dqs for data capture. Bit 21 of the phy_dqs_timing_reg is used the
                                                                  choose the source signal. */
-        uint32_t use_lpbk_dqs          : 1;  /**< [ 21: 21](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' is set high.
+        uint32_t use_lpbk_dqs          : 1;  /**< [ 21: 21](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when [USE_PHONY_DQS] is set high.
                                                                  0 = Use phony DQS for data capture.
                                                                  1 = Use lpbk_dqs for data capture. Recommended setting for SD/eMMC controller. */
-        uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when 'use_phony_dqs' and
-                                                                 'use_lpbk_dqs' fields are set high.
+        uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when [USE_PHONY_DQS] and
+                                                                 [USE_LPBK_DQS] fields are set high.
                                                                  0 = use internal lpbk_dqs (mem_rebar_ipad) for data capture.
                                                                  1 =  use external lpbk_dqs (lpbk_dqs connected to the lpbk_dqs_IO PAD) for data capture. */
         uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
@@ -7026,8 +7026,8 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  1 = The setting in the sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
                                                                  parameter defines the shift.
                                                                  Note: If the user chooses to control the half cycle shift manually, it is important that the
-                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 'b0 if
-                                                                 the delay is less than a 1/2 cycle and set to 'b1 if the delay is greater than a 1/2 cycle. It is
+                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to zero if
+                                                                 the delay is less than a 1/2 cycle and set to one if the delay is greater than a 1/2 cycle. It is
                                                                  recommended to allow the hardware to control this automatically. */
         uint32_t sw_half_cycle_shift   : 1;  /**< [ 28: 28](R/W) 0 = No effect.
                                                                  1 = Adds a half clock delay to the write data path. */
@@ -7044,10 +7044,10 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  0x7 = Eight delay element. */
         uint32_t rd_del_sel            : 6;  /**< [ 24: 19](R/W) Defines the read data delay. Holds the number of cycles to delay the dfi_rddata_en signal prior to
                                                                  enabling the read FIFO. After this delay, the read pointers begin incrementing the read FIFO.
-                                                                 If 'sync_method' is set high the value of this field must take into account the synchronization
+                                                                 If [SYNC_METHOD] is set high the value of this field must take into account the synchronization
                                                                  time of the pointers in the entry FIFO (adding three clock cycles should be sufficient). */
-        uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when 'sync_method' is set high.
-                                                                 Recommended value is zero with an expetion for Cadence SD/eMMC controller for which this field
+        uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when [SYNC_METHOD] is set high.
+                                                                 Recommended value is zero with an expetion for SD/eMMC controller for which this field
                                                                  need to be set high. */
         uint32_t reserved_17           : 1;
         uint32_t rd_del_sel_empty      : 1;  /**< [ 16: 16](R/W) Defines the read data delay for the empty signal generated based on the incoming DQS strobes. For
@@ -7118,12 +7118,12 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  flops. Increased value gives even more time to propagate the data but the bigger value the bigger
                                                                  probability to overflow the FIFO. Recommended value is zero. */
         uint32_t reserved_17           : 1;
-        uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when 'sync_method' is set high.
-                                                                 Recommended value is zero with an expetion for Cadence SD/eMMC controller for which this field
+        uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when [SYNC_METHOD] is set high.
+                                                                 Recommended value is zero with an expetion for SD/eMMC controller for which this field
                                                                  need to be set high. */
         uint32_t rd_del_sel            : 6;  /**< [ 24: 19](R/W) Defines the read data delay. Holds the number of cycles to delay the dfi_rddata_en signal prior to
                                                                  enabling the read FIFO. After this delay, the read pointers begin incrementing the read FIFO.
-                                                                 If 'sync_method' is set high the value of this field must take into account the synchronization
+                                                                 If [SYNC_METHOD] is set high the value of this field must take into account the synchronization
                                                                  time of the pointers in the entry FIFO (adding three clock cycles should be sufficient). */
         uint32_t param_phase_detect_sel_oe : 3;/**< [ 27: 25](R/W) DLL Phase Detect Selector for DQS OE generation to handle the clock domain crossing between the
                                                                  clock and clk_wrdqs signal. Selects the number of delay elements to be inserted between the phase
@@ -7145,8 +7145,8 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  1 = The setting in the sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
                                                                  parameter defines the shift.
                                                                  Note: If the user chooses to control the half cycle shift manually, it is important that the
-                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 'b0 if
-                                                                 the delay is less than a 1/2 cycle and set to 'b1 if the delay is greater than a 1/2 cycle. It is
+                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to zero if
+                                                                 the delay is less than a 1/2 cycle and set to one if the delay is greater than a 1/2 cycle. It is
                                                                  recommended to allow the hardware to control this automatically. */
         uint32_t sw_dqs_phase_bypass   : 1;  /**< [ 30: 30](R/W) 0 = Use phase detect circult to determine the half_cycle_shift.
                                                                  1 = Use the clk_wrdqs_delay delay line setting to determine the half_cycle_shift. A delay line

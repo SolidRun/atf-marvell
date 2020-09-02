@@ -506,7 +506,7 @@ static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a)
  * Register (RSL) tad#_derr_addr
  *
  * TAD DAT Error Address Register
- * This register records error address for Data Error interrupts occuring in data read
+ * This register records error address for Data Error interrupts occurring in data read
  * from the LLC, FBF or SBF. The first [DATMBE, FBFMBE, SBFMBE] error will lock the
  * register until the logged error type is cleared; [DATSBE, FBFSBE, SBFSBE] errors
  * lock the register until either the logged error type is cleared or a [DATMBE,
@@ -1150,7 +1150,7 @@ static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
  *
  * TAD Performance Counter Control Registers
  * Selects event to count for each TAD_PFC, and specifies optional
- * filters for PMG and PARTID
+ * filters for PMG and PARTID.
  */
 union cavm_tadx_prfx
 {

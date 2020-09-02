@@ -36,7 +36,7 @@
 #define CAVM_PCC_DEV_CON_E_DPI0 (0x800)
 #define CAVM_PCC_DEV_CON_E_DSSX(a) (0x170 + (a))
 #define CAVM_PCC_DEV_CON_E_EHSM (0xd8)
-#define CAVM_PCC_DEV_CON_E_EMMCX(a) (0x24 + (a))
+#define CAVM_PCC_DEV_CON_E_EMMCX(a) (0x58 + (a))
 #define CAVM_PCC_DEV_CON_E_FUS (0x103)
 #define CAVM_PCC_DEV_CON_E_FUSF (0x104)
 #define CAVM_PCC_DEV_CON_E_GIC (0x20)
@@ -308,7 +308,9 @@
 #define CAVM_PCC_PROD_E_CN99XX (0xaf)
 #define CAVM_PCC_PROD_E_CNF105XX (0xba)
 #define CAVM_PCC_PROD_E_CNF95XX (0xb3)
+#define CAVM_PCC_PROD_E_CNF95XXMM (0xb5)
 #define CAVM_PCC_PROD_E_GEN (0xa0)
+#define CAVM_PCC_PROD_E_LOKI (0xb4)
 #define CAVM_PCC_PROD_E_THOR (0xbc)
 
 /**
@@ -423,7 +425,7 @@ union cavm_pcc_ea_entry_s
         uint64_t pri_prop              : 8;  /**< [ 15:  8] Primary properties.
                                                                  0x0 = Memory space, non-prefetchable.
                                                                  0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
-        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivalent indicator.
                                                                  0x0 = Entry is equivalent to BAR 0.
                                                                  0x2 = Entry is equivalent to BAR 2.
                                                                  0x4 = Entry is equivalent to BAR 4.
@@ -442,7 +444,7 @@ union cavm_pcc_ea_entry_s
                                                                  0x4 = Four 32-bit words; header followed by base low, offset low, base high,
                                                                  offset high. */
         uint64_t reserved_3            : 1;
-        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivalent indicator.
                                                                  0x0 = Entry is equivalent to BAR 0.
                                                                  0x2 = Entry is equivalent to BAR 2.
                                                                  0x4 = Entry is equivalent to BAR 4.

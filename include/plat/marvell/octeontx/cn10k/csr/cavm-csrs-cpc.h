@@ -225,13 +225,13 @@ union cavm_cpc_dvfs_config_s
                                                                  chip in mV.   Default is +/-29 mV. Doesn't apply to CN8XXX chips. */
         uint64_t cptclk_freq           : 16; /**< [ 79: 64] Cryptographic accelerator clock (CPTCLK) frequency in MHz.
                                                                  In DVFS mode, this is the frequency.  In THERMAL_BUDGET and POWER_CAPPED
-                                                                 modes, this is the frequency when the accerator is active; otherwise
+                                                                 modes, this is the frequency when the accelerator is active; otherwise
                                                                  crypto clock frequency is 200 MHz. If fuses indicate the part supports a lower
                                                                  frequency, the fuse value is used. */
 #else /* Word 1 - Little Endian */
         uint64_t cptclk_freq           : 16; /**< [ 79: 64] Cryptographic accelerator clock (CPTCLK) frequency in MHz.
                                                                  In DVFS mode, this is the frequency.  In THERMAL_BUDGET and POWER_CAPPED
-                                                                 modes, this is the frequency when the accerator is active; otherwise
+                                                                 modes, this is the frequency when the accelerator is active; otherwise
                                                                  crypto clock frequency is 200 MHz. If fuses indicate the part supports a lower
                                                                  frequency, the fuse value is used. */
         uint64_t vdd_core_tolerance    : 16; /**< [ 95: 80] The +/- control tolerance of the VDDC supply as measured at the
@@ -558,7 +558,8 @@ union cavm_cpc_bp_test2
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
                                                                  0x3=25% of the time.
-                                                                 See CPC_BP_TEST2_BP_CFG_S for field descriptions. */
+                                                                 See CPC_BP_TEST2_BP_CFG_S for field descriptions.
+                                                                 Cannot set 100% backpressure. In case user set it to 100%, the HW will correct it to 75%. */
         uint64_t reserved_12_23        : 12;
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
 #else /* Word 0 - Little Endian */
@@ -569,7 +570,8 @@ union cavm_cpc_bp_test2
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
                                                                  0x3=25% of the time.
-                                                                 See CPC_BP_TEST2_BP_CFG_S for field descriptions. */
+                                                                 See CPC_BP_TEST2_BP_CFG_S for field descriptions.
+                                                                 Cannot set 100% backpressure. In case user set it to 100%, the HW will correct it to 75%. */
         uint64_t reserved_40_51        : 12;
         uint64_t enable                : 8;  /**< [ 59: 52](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:

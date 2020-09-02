@@ -4645,9 +4645,9 @@ union cavm_pcieepx_misc_ctl1
                                                                  0x3 = Reserved. */
         uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
                                                                  - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
-                                                                 - Cfg requests with an address grether then CFG_LIMIT are directed to
+                                                                 - Cfg requests with an address greater then CFG_LIMIT are directed to
                                                                    ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
-        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the desitination of Configuration Requests.
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the destination of Configuration Requests.
                                                                  0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
                                                                      the setting of CFG_LIMIT.
                                                                  1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
@@ -4701,14 +4701,14 @@ union cavm_pcieepx_misc_ctl1
         uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
         uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
                                                                  which is not supported as its performed in the application (external). */
-        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the desitination of Configuration Requests.
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the destination of Configuration Requests.
                                                                  0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
                                                                      the setting of CFG_LIMIT.
                                                                  1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
                                                                      of the value of CFG_LIMIT. */
         uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
                                                                  - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
-                                                                 - Cfg requests with an address grether then CFG_LIMIT are directed to
+                                                                 - Cfg requests with an address greater then CFG_LIMIT are directed to
                                                                    ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
         uint32_t trgt_above_cfg_limit  : 2;  /**< [ 19: 18](R/W) Cfg requests with an address greater then CFG_LIMIT are directed to either
                                                                  ELBI or TRTG1 based on the setting of this field.
@@ -5856,7 +5856,7 @@ static inline uint64_t CAVM_PCIEEPX_PIPE_REL(uint64_t a)
  * Register (PCICONFIGEP) pcieep#_pl16g_cap
  *
  * PCIe EP 16.0 GT/s Capabilities Register
- * Pysical Layer 16.0 GT/s Capabilities exists for PF0 only.
+ * Physical Layer 16.0 GT/s Capabilities exists for PF0 only.
  */
 union cavm_pcieepx_pl16g_cap
 {
@@ -5891,7 +5891,7 @@ static inline uint64_t CAVM_PCIEEPX_PL16G_CAP(uint64_t a)
  * Register (PCICONFIGEP) pcieep#_pl16g_ctl
  *
  * PCIe EP 16.0 GT/s Control Register
- * Pysical Layer 16.0 GT/s Control exists for PF0 only.
+ * Physical Layer 16.0 GT/s Control exists for PF0 only.
  */
 union cavm_pcieepx_pl16g_ctl
 {
@@ -5975,8 +5975,8 @@ static inline uint64_t CAVM_PCIEEPX_PL16G_EQ_CTL0123(uint64_t a)
 /**
  * Register (PCICONFIGEP) pcieep#_pl16g_ext_cap_hdr
  *
- * PCIe EP Pysical Layer 16.0 GT/s Extended Capability Header Register
- * Pysical Layer 16.0 GT/s Extended Capability Header exists for PF0 only.
+ * PCIe EP Physical Layer 16.0 GT/s Extended Capability Header Register
+ * Physical Layer 16.0 GT/s Extended Capability Header exists for PF0 only.
  */
 union cavm_pcieepx_pl16g_ext_cap_hdr
 {
@@ -6021,7 +6021,7 @@ static inline uint64_t CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(uint64_t a)
  * Register (PCICONFIGEP) pcieep#_pl16g_fret_dpar_stat
  *
  * PCIe EP 16.0 GT/s First Retimer Data Parity Mismatch Status Register
- * Pysical Layer 16.0 GT/s First Retimer Data Parity Mismatch Status exists for PF0 only.
+ * Physical Layer 16.0 GT/s First Retimer Data Parity Mismatch Status exists for PF0 only.
  */
 union cavm_pcieepx_pl16g_fret_dpar_stat
 {
@@ -6058,7 +6058,7 @@ static inline uint64_t CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(uint64_t a)
  * Register (PCICONFIGEP) pcieep#_pl16g_lc_dpar_stat
  *
  * PCIe EP 16.0 GT/s Local Data Parity Mismatch Status Register
- * Pysical Layer 16.0 GT/s Local Data Parity Mismatch Status exists for PF0 only.
+ * Physical Layer 16.0 GT/s Local Data Parity Mismatch Status exists for PF0 only.
  */
 union cavm_pcieepx_pl16g_lc_dpar_stat
 {
@@ -6095,7 +6095,7 @@ static inline uint64_t CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(uint64_t a)
  * Register (PCICONFIGEP) pcieep#_pl16g_sret_dpar_stat
  *
  * PCIe EP 16.0 GT/s Second Retimer Data Parity Mismatch Status Register
- * Pysical Layer 16.0 GT/s Second Retimer Data Parity Mismatch Status exists for PF0 only.
+ * Physical Layer 16.0 GT/s Second Retimer Data Parity Mismatch Status exists for PF0 only.
  */
 union cavm_pcieepx_pl16g_sret_dpar_stat
 {
@@ -6132,7 +6132,7 @@ static inline uint64_t CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(uint64_t a)
  * Register (PCICONFIGEP) pcieep#_pl16g_status
  *
  * PCIe EP 16.0 GT/s Status Register
- * Pysical Layer 16.0 GT/s Status exists for PF0 only.
+ * Physical Layer 16.0 GT/s Status exists for PF0 only.
  */
 union cavm_pcieepx_pl16g_status
 {
@@ -6318,7 +6318,7 @@ static inline uint64_t CAVM_PCIEEPX_PL32G_EQ_CTL0123(uint64_t a)
 /**
  * Register (PCICONFIGEP) pcieep#_pl32g_ext_cap_hdr
  *
- * PCIe EP Pysical Layer 32.0 GT/s Extended Capability Header Register
+ * PCIe EP Physical Layer 32.0 GT/s Extended Capability Header Register
  */
 union cavm_pcieepx_pl32g_ext_cap_hdr
 {
@@ -9734,7 +9734,7 @@ union cavm_pcieepx_ras_sd_ctl1
                                                                  _ Bit \<2\> = Lane 2.
                                                                  _ Bit \<3\> = Lane 3.
 
-                                                                 _ Bit \<15:4\> = Lanes 4 thru 15 (not supported). */
+                                                                 _ Bit \<15:4\> = Lanes 4 through 15 (not supported). */
 #else /* Word 0 - Little Endian */
         uint32_t force_detect_lane     : 16; /**< [ 15:  0](R/W) Force detect lane.
                                                                  When set, the core ignores receiver detection from PHY
@@ -9744,7 +9744,7 @@ union cavm_pcieepx_ras_sd_ctl1
                                                                  _ Bit \<2\> = Lane 2.
                                                                  _ Bit \<3\> = Lane 3.
 
-                                                                 _ Bit \<15:4\> = Lanes 4 thru 15 (not supported). */
+                                                                 _ Bit \<15:4\> = Lanes 4 through 15 (not supported). */
         uint32_t force_detect_lane_en  : 1;  /**< [ 16: 16](R/W) Force detect lane enable.
                                                                  When this bit is set, the core ignores receiver detection from
                                                                  PHY during LTSSM detect state and uses
@@ -13664,7 +13664,7 @@ union cavm_pcieepx_ucor_err_sev
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supprted). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
         uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
@@ -13700,7 +13700,7 @@ union cavm_pcieepx_ucor_err_sev
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
         uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supprted). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -13708,7 +13708,7 @@ union cavm_pcieepx_ucor_err_sev
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supprted). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
         uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
@@ -13746,7 +13746,7 @@ union cavm_pcieepx_ucor_err_sev
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
         uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supprted). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn;

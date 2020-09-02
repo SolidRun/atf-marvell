@@ -1306,10 +1306,10 @@ union cavm_mdc_win_tdr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t broadcast_disable     : 1;  /**< [ 48: 48](WO) If this bit is 1, MDN_BIST_CONFIG[BROADCAST_DISABLE] of a given node
-                                                                 is set to NODE_MAP bit corresponding to the node.
+                                                                 is set to [NODE_MAP] bit corresponding to the node.
                                                                  If this bit is 0, MDN_BIST_CONFIG[BROADCAST_DISABLE] of the nodes remains unchanged. */
         uint64_t march_broadcast_disable : 1;/**< [ 47: 47](WO) If this bit is 1, MDN_BIST_CONFIG[MARCH_BROADCAST_DISABLE] of a given node
-                                                                 is set to NODE_MAP bit corresponding to the node.
+                                                                 is set to [NODE_MAP] bit corresponding to the node.
                                                                  If this bit is 0, MDN_BIST_CONFIG[MARCH_BROADCAST_DISABLE] of the nodes remains unchanged. */
         uint64_t chain_id              : 3;  /**< [ 46: 44](WO) Chain number to send request to.
                                                                  Chain 0 is used if a [CHAIN_ID] greater than MDC_CONST[MAX_CHAIN_ID] is specified. */
@@ -1329,10 +1329,10 @@ union cavm_mdc_win_tdr
         uint64_t chain_id              : 3;  /**< [ 46: 44](WO) Chain number to send request to.
                                                                  Chain 0 is used if a [CHAIN_ID] greater than MDC_CONST[MAX_CHAIN_ID] is specified. */
         uint64_t march_broadcast_disable : 1;/**< [ 47: 47](WO) If this bit is 1, MDN_BIST_CONFIG[MARCH_BROADCAST_DISABLE] of a given node
-                                                                 is set to NODE_MAP bit corresponding to the node.
+                                                                 is set to [NODE_MAP] bit corresponding to the node.
                                                                  If this bit is 0, MDN_BIST_CONFIG[MARCH_BROADCAST_DISABLE] of the nodes remains unchanged. */
         uint64_t broadcast_disable     : 1;  /**< [ 48: 48](WO) If this bit is 1, MDN_BIST_CONFIG[BROADCAST_DISABLE] of a given node
-                                                                 is set to NODE_MAP bit corresponding to the node.
+                                                                 is set to [NODE_MAP] bit corresponding to the node.
                                                                  If this bit is 0, MDN_BIST_CONFIG[BROADCAST_DISABLE] of the nodes remains unchanged. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */

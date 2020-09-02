@@ -7945,7 +7945,7 @@ static inline uint64_t CAVM_SMMUX_S_IMP_TLBX_DAT(uint64_t a, uint64_t b)
  * Register (NCB32b) smmu#_s_imp_txn_arb_weight
  *
  * SMMU Translation Arbitration Weight Register
- * This register contains weight values of arbitrtion between translation sources
+ * This register contains weight values of arbitration between translation sources.
  */
 union cavm_smmux_s_imp_txn_arb_weight
 {
@@ -8003,8 +8003,8 @@ static inline uint64_t CAVM_SMMUX_S_IMP_TXN_ARB_WEIGHT(uint64_t a)
  * Register (NCB32b) smmu#_s_imp_txreq_arb_weight
  *
  * SMMU Fetches Arbitration Weight Register
- * This register contains weight values of arbitrtion between smmu fetches and store to
- * external memory
+ * This register contains weight values of arbitration between SMMU fetches and store to
+ * external memory.
  */
 union cavm_smmux_s_imp_txreq_arb_weight
 {
@@ -8046,7 +8046,7 @@ static inline uint64_t CAVM_SMMUX_S_IMP_TXREQ_ARB_WEIGHT(uint64_t a)
  * Register (NCB32b) smmu#_s_imp_typ_arb_weight
  *
  * SMMU Translations Type Arbitration Weight Register
- * This register contains weight values of arbitrtion between translation types
+ * This register contains weight values of arbitration between translation types.
  */
 union cavm_smmux_s_imp_typ_arb_weight
 {

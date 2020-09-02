@@ -3561,7 +3561,7 @@ union cavm_dsuubx_clusterectlr
                                                                  0 = Cacheable atomics will be sent to the interconnect if
                                                                  the BROADCASTATOMIC pin is set.
                                                                  1 = Cacheable atomics will be handled inside the cluster */
-        uint64_t nol3stash             : 2;  /**< [  6:  5](SR/W) CPU StashOnce request behaviour when L3 is not present
+        uint64_t nol3stash             : 2;  /**< [  6:  5](SR/W) CPU StashOnce request behavior when L3 is not present
                                                                  or powered down.
                                                                  0b00 = Stashes are sent out to the interconnect, if supported.
                                                                  0b01 = Normal read request sent to interconnect.
@@ -3631,7 +3631,7 @@ union cavm_dsuubx_clusterectlr
                                                                  recovery interrupt will be generated when poisoned
                                                                  data is evicted from the cluster or returned on a
                                                                  snoop. */
-        uint64_t nol3stash             : 2;  /**< [  6:  5](SR/W) CPU StashOnce request behaviour when L3 is not present
+        uint64_t nol3stash             : 2;  /**< [  6:  5](SR/W) CPU StashOnce request behavior when L3 is not present
                                                                  or powered down.
                                                                  0b00 = Stashes are sent out to the interconnect, if supported.
                                                                  0b01 = Normal read request sent to interconnect.
@@ -4038,13 +4038,13 @@ union cavm_dsuubx_clusterpwrctlr
                                                                  however if it is too short then the cost of frequent resizing
                                                                  can be too high.
                                                                  0b000 = Disabled.
-                                                                 0b001 = 8,192 architectural timer ticks, time perious of 164us-819us.
-                                                                 0b010 = 16,384 architectural timer ticks, time perious of 328us-1.6ms.
-                                                                 0b011 = 32,768 architectural timer ticks, time perious of 655us-3.3ms.
-                                                                 0b100 = 65,536 architectural timer ticks, time perious of 1.3ms-6.6ms.
-                                                                 0b101 = 131,072 architectural timer ticks, time perious of 2.6ms-13ms.
-                                                                 0b110 = 262,144 architectural timer ticks, time perious of 5.2ms-26ms.
-                                                                 0b111 = 524,288 architectural timer ticks, time perious of 10ms-52ms. */
+                                                                 0x1 = 8,192 architectural timer ticks, time period of 164us-819us.
+                                                                 0x2 = 16,384 architectural timer ticks, time period of 328us-1.6ms.
+                                                                 0x3 = 32,768 architectural timer ticks, time period of 655us-3.3ms.
+                                                                 0x4 = 65,536 architectural timer ticks, time period of 1.3ms-6.6ms.
+                                                                 0x5 = 131,072 architectural timer ticks, time period of 2.6ms-13ms.
+                                                                 0x6 = 262,144 architectural timer ticks, time period of 5.2ms-26ms.
+                                                                 0x7 = 524,288 architectural timer ticks, time period of 10ms-52ms. */
         uint64_t reserved_7_11         : 5;
         uint64_t slcrq                 : 1;  /**< [  6:  6](SR/W) Cache slice power request. These bits are passed to the PPU
                                                                  as an advisory request for which slices to power.
@@ -4096,13 +4096,13 @@ union cavm_dsuubx_clusterpwrctlr
                                                                  however if it is too short then the cost of frequent resizing
                                                                  can be too high.
                                                                  0b000 = Disabled.
-                                                                 0b001 = 8,192 architectural timer ticks, time perious of 164us-819us.
-                                                                 0b010 = 16,384 architectural timer ticks, time perious of 328us-1.6ms.
-                                                                 0b011 = 32,768 architectural timer ticks, time perious of 655us-3.3ms.
-                                                                 0b100 = 65,536 architectural timer ticks, time perious of 1.3ms-6.6ms.
-                                                                 0b101 = 131,072 architectural timer ticks, time perious of 2.6ms-13ms.
-                                                                 0b110 = 262,144 architectural timer ticks, time perious of 5.2ms-26ms.
-                                                                 0b111 = 524,288 architectural timer ticks, time perious of 10ms-52ms. */
+                                                                 0x1 = 8,192 architectural timer ticks, time period of 164us-819us.
+                                                                 0x2 = 16,384 architectural timer ticks, time period of 328us-1.6ms.
+                                                                 0x3 = 32,768 architectural timer ticks, time period of 655us-3.3ms.
+                                                                 0x4 = 65,536 architectural timer ticks, time period of 1.3ms-6.6ms.
+                                                                 0x5 = 131,072 architectural timer ticks, time period of 2.6ms-13ms.
+                                                                 0x6 = 262,144 architectural timer ticks, time period of 5.2ms-26ms.
+                                                                 0x7 = 524,288 architectural timer ticks, time period of 10ms-52ms. */
         uint64_t reserved_15_17        : 3;
         uint64_t lslp                  : 1;  /**< [ 18: 18](SR/W) Enable L3 RAM light sleep. */
         uint64_t reserved_19_63        : 45;
@@ -10084,8 +10084,7 @@ union cavm_dsuubx_mpamf_idrs
                                                                  0 = Does not support MPAM resource monitoring
                                                                  by groups or DSUUB_MPAMF_MSMON_IDR.
                                                                  1 = Supports resource monitoring by matching a
-                                                                 combination of PARTID and PMG. See DSUUB_
-                                                                 MPAMF_MSMON_IDR. */
+                                                                 combination of PARTID and PMG. See DSUUB_MPAMF_MSMON_IDR. */
         uint32_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has DSUUB_MPAMF_IMPL_IDR. Indicates whether this
                                                                  MSC has the implementation-specific MPAM features
                                                                  register, DSUUB_MPAMF_IMPL_IDR.
@@ -10099,7 +10098,7 @@ union cavm_dsuubx_mpamf_idrs
                                                                  1 = Has DSUUB_MPAMF_PRI_IDR. */
         uint32_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates
                                                                  whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
+                                                                 bandwidth partitioning and DSUBB_MPAMF_MBW_IDR.
                                                                  0 = Does not support memory bandwidth
                                                                  partitioning or have DSUUB_MPAMF_MBW_IDR
                                                                  register.
@@ -10112,7 +10111,7 @@ union cavm_dsuubx_mpamf_idrs
                                                                  1 = Has DSUUB_MPAMF_CPOR_IDR and DSUUB_MPAMCFG_CPBM registers. */
         uint32_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this
                                                                  MSC implements MPAM cache capacity partitioning
-                                                                 and the MPAMF_CCAP_IDR and MPAMCFG_CMAX
+                                                                 and the DSUBB_MPAMF_CCAP_IDR and DSUBB_MPAMCFG_CMAX
                                                                  registers.
                                                                  0 = Does not support cache capacity partitioning
                                                                  or have DSUUB_MPAMF_CCAP_IDR and DSUUB_MPAMCFG_CMAX registers.
@@ -10124,7 +10123,7 @@ union cavm_dsuubx_mpamf_idrs
         uint32_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
         uint32_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this
                                                                  MSC implements MPAM cache capacity partitioning
-                                                                 and the MPAMF_CCAP_IDR and MPAMCFG_CMAX
+                                                                 and the DSUBB_MPAMF_CCAP_IDR and DSUBB_MPAMCFG_CMAX
                                                                  registers.
                                                                  0 = Does not support cache capacity partitioning
                                                                  or have DSUUB_MPAMF_CCAP_IDR and DSUUB_MPAMCFG_CMAX registers.
@@ -10137,7 +10136,7 @@ union cavm_dsuubx_mpamf_idrs
                                                                  1 = Has DSUUB_MPAMF_CPOR_IDR and DSUUB_MPAMCFG_CPBM registers. */
         uint32_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates
                                                                  whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
+                                                                 bandwidth partitioning and DSUBB_MPAMF_MBW_IDR.
                                                                  0 = Does not support memory bandwidth
                                                                  partitioning or have DSUUB_MPAMF_MBW_IDR
                                                                  register.
@@ -10158,8 +10157,7 @@ union cavm_dsuubx_mpamf_idrs
                                                                  0 = Does not support MPAM resource monitoring
                                                                  by groups or DSUUB_MPAMF_MSMON_IDR.
                                                                  1 = Supports resource monitoring by matching a
-                                                                 combination of PARTID and PMG. See DSUUB_
-                                                                 MPAMF_MSMON_IDR. */
+                                                                 combination of PARTID and PMG. See DSUUB_MPAMF_MSMON_IDR. */
         uint32_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
                                                                  0 = Does not have DSUUB_MPAMF_PARTID_
                                                                  NRW_IDR, DSUUB_MPAMCFG_INTPARTID or
@@ -10255,14 +10253,14 @@ union cavm_dsuubx_mpamf_scpor_idr
                                                                  this device. See DSUUB_MPAMCFG_CPBM.
                                                                  This field must contain a value from 1 to 32768, inclusive.
                                                                  Values greater than 32 require a group of 32-bit registers
-                                                                 to access the CPBM, up to 1024 if CPBM_WD is the
+                                                                 to access the CPBM, up to 1024 if [CPBM_WD] is the
                                                                  largest value. */
 #else /* Word 0 - Little Endian */
         uint32_t cpbm_wd               : 16; /**< [ 15:  0](RO) Number of bits in the cache portion partitioning bit map of
                                                                  this device. See DSUUB_MPAMCFG_CPBM.
                                                                  This field must contain a value from 1 to 32768, inclusive.
                                                                  Values greater than 32 require a group of 32-bit registers
-                                                                 to access the CPBM, up to 1024 if CPBM_WD is the
+                                                                 to access the CPBM, up to 1024 if [CPBM_WD] is the
                                                                  largest value. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
@@ -10291,8 +10289,6 @@ static inline uint64_t CAVM_DSUUBX_MPAMF_SCPOR_IDR(uint64_t a)
  *
  * DSUUB MPAM (Secure) Error Control Register
  * MPAMF_ECR is a 32-bit read-write register that controls MPAM error interrupts for this MSC.
- * MPAMF_ECR_s controls Secure MPAM error handling. MPAMF_ECR_ns controls Non-secure
- * MPAM error handling.
  */
 union cavm_dsuubx_mpamf_secr
 {
@@ -10485,8 +10481,8 @@ union cavm_dsuubx_mpamf_siidr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the
                                                                  MPAM MSC.
-                                                                 The MSC implementer as identified in the
-                                                                 MPAMF_IIDR.Implementer field must assure each
+                                                                 The MSC implementer as identified in
+                                                                 DSUUB_MPAMF_(S)IIDR. Implementer field must assure each
                                                                  product has a unique ProductID from any other
                                                                  with the same Implementer value. */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to
@@ -10538,8 +10534,8 @@ union cavm_dsuubx_mpamf_siidr
                                                                  IIDR.Variant field. */
         uint32_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the
                                                                  MPAM MSC.
-                                                                 The MSC implementer as identified in the
-                                                                 MPAMF_IIDR.Implementer field must assure each
+                                                                 The MSC implementer as identified in
+                                                                 DSUUB_MPAMF_(S)IIDR. Implementer field must assure each
                                                                  product has a unique ProductID from any other
                                                                  with the same Implementer value. */
 #endif /* Word 0 - End */

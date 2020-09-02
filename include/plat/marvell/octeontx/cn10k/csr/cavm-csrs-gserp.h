@@ -4984,7 +4984,7 @@ union cavm_gserpx_anagrp_ctl2
                                                                  Reserved.
 
                                                                  [4]
-                                                                 Programable AVDD_POR Trigger Voltage.
+                                                                 Programmable AVDD_POR Trigger Voltage.
                                                                  0x0: AVDD rise edge trigger = 0.97V at AVDD_SEL[1:0] = 0x2
                                                                       AVDD rise edge trigger = 1.0V at AVDD_SEL[1:0] = 0x3
                                                                  0x1: AVDD rise edge trigger = 0.94V at AVDD_SEL[1:0] = 0x2
@@ -5072,7 +5072,7 @@ union cavm_gserpx_anagrp_ctl2
                                                                  Reserved.
 
                                                                  [4]
-                                                                 Programable AVDD_POR Trigger Voltage.
+                                                                 Programmable AVDD_POR Trigger Voltage.
                                                                  0x0: AVDD rise edge trigger = 0.97V at AVDD_SEL[1:0] = 0x2
                                                                       AVDD rise edge trigger = 1.0V at AVDD_SEL[1:0] = 0x3
                                                                  0x1: AVDD rise edge trigger = 0.94V at AVDD_SEL[1:0] = 0x2
@@ -50607,7 +50607,7 @@ static inline uint64_t CAVM_GSERPX_PH_CTRL_REG1(uint64_t a)
 /**
  * Register (RSL) gserp#_phy_lane_rst_ctl
  *
- * GSERP Phy Lane Reset Control Register
+ * GSERP PHY Lane Reset Control Register
  * This register allows software to manually control the per-lane reset
  * inputs on the PHY.  Intended to assist DFT or possibly for debug purposes.
  */
@@ -50619,46 +50619,46 @@ union cavm_gserpx_phy_lane_rst_ctl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t value_ln3             : 1;  /**< [  7:  7](R/W) If OVERRIDE_LN3 is set, use as the value software would like to override
-                                                                 on the lane3 reset signals going into the phy. */
+                                                                 on the lane3 reset signals going into the PHY. */
         uint64_t value_ln2             : 1;  /**< [  6:  6](R/W) If OVERRIDE_LN2 is set, use as the value software would like to override
-                                                                 on the lane2 reset signals going into the phy. */
+                                                                 on the lane2 reset signals going into the PHY. */
         uint64_t value_ln1             : 1;  /**< [  5:  5](R/W) If OVERRIDE_LN1 is set, use as the value software would like to override
-                                                                 on the lane1 reset signals going into the phy. */
+                                                                 on the lane1 reset signals going into the PHY. */
         uint64_t value_ln0             : 1;  /**< [  4:  4](R/W) If OVERRIDE_LN0 is set, use as the value software would like to override
-                                                                 on the lane0 reset signals going into the phy. */
-        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W) Allow software override control for reset inputs to the phy on lane3.
+                                                                 on the lane0 reset signals going into the PHY. */
+        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W) Allow software override control for reset inputs to the PHY on lane3.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[3] as the reset to the phy for lane3 */
-        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W) Allow software override control for reset inputs to the phy on lane2.
+                                                                 0x1: force the value in VALUE[3] as the reset to the PHY for lane3 */
+        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W) Allow software override control for reset inputs to the PHY on lane2.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[2] as the reset to the phy for lane2 */
-        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W) Allow software override control for reset inputs to the phy on lane1.
+                                                                 0x1: force the value in VALUE[2] as the reset to the PHY for lane2 */
+        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W) Allow software override control for reset inputs to the PHY on lane1.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[1] as the reset to the phy for lane1 */
-        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W) Allow software override control for reset inputs to the phy on lane0.
+                                                                 0x1: force the value in VALUE[1] as the reset to the PHY for lane1 */
+        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W) Allow software override control for reset inputs to the PHY on lane0.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[0] as the reset to the phy for lane0 */
+                                                                 0x1: force the value in VALUE[0] as the reset to the PHY for lane0 */
 #else /* Word 0 - Little Endian */
-        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W) Allow software override control for reset inputs to the phy on lane0.
+        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W) Allow software override control for reset inputs to the PHY on lane0.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[0] as the reset to the phy for lane0 */
-        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W) Allow software override control for reset inputs to the phy on lane1.
+                                                                 0x1: force the value in VALUE[0] as the reset to the PHY for lane0 */
+        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W) Allow software override control for reset inputs to the PHY on lane1.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[1] as the reset to the phy for lane1 */
-        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W) Allow software override control for reset inputs to the phy on lane2.
+                                                                 0x1: force the value in VALUE[1] as the reset to the PHY for lane1 */
+        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W) Allow software override control for reset inputs to the PHY on lane2.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[2] as the reset to the phy for lane2 */
-        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W) Allow software override control for reset inputs to the phy on lane3.
+                                                                 0x1: force the value in VALUE[2] as the reset to the PHY for lane2 */
+        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W) Allow software override control for reset inputs to the PHY on lane3.
                                                                  0x0: do not override
-                                                                 0x1: force the value in VALUE[3] as the reset to the phy for lane3 */
+                                                                 0x1: force the value in VALUE[3] as the reset to the PHY for lane3 */
         uint64_t value_ln0             : 1;  /**< [  4:  4](R/W) If OVERRIDE_LN0 is set, use as the value software would like to override
-                                                                 on the lane0 reset signals going into the phy. */
+                                                                 on the lane0 reset signals going into the PHY. */
         uint64_t value_ln1             : 1;  /**< [  5:  5](R/W) If OVERRIDE_LN1 is set, use as the value software would like to override
-                                                                 on the lane1 reset signals going into the phy. */
+                                                                 on the lane1 reset signals going into the PHY. */
         uint64_t value_ln2             : 1;  /**< [  6:  6](R/W) If OVERRIDE_LN2 is set, use as the value software would like to override
-                                                                 on the lane2 reset signals going into the phy. */
+                                                                 on the lane2 reset signals going into the PHY. */
         uint64_t value_ln3             : 1;  /**< [  7:  7](R/W) If OVERRIDE_LN3 is set, use as the value software would like to override
-                                                                 on the lane3 reset signals going into the phy. */
+                                                                 on the lane3 reset signals going into the PHY. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -64262,7 +64262,7 @@ union cavm_gserpx_refclk_ctl1
                                                                  set RX=0 while maintaining PU=1 for at least 5 falling edges.
                                                                  0x0: Disable Rx
                                                                  0x1: Enable Rx */
-        uint64_t rx_hystersis_en       : 1;  /**< [ 26: 26](R/W) Enable/Disable Hysteresis.  This IP has 2 cirtcuits for generating hysteresis,
+        uint64_t rx_hystersis_en       : 1;  /**< [ 26: 26](R/W) Enable/Disable Hysteresis.  This IP has 2 circuits for generating hysteresis,
                                                                  one of which is controlled by this signal.  The other is controlled by RESERVE_IN[0].
                                                                  0x0: Disable hysteresis
                                                                  0x1: Enable hysteresis */
@@ -64477,7 +64477,7 @@ union cavm_gserpx_refclk_ctl1
         uint64_t rx_lowoffset_mode     : 1;  /**< [ 25: 25](R/W) Set Low Offset Value
                                                                  0x0: High inherent offset value
                                                                  0x1: Low inherent offset value */
-        uint64_t rx_hystersis_en       : 1;  /**< [ 26: 26](R/W) Enable/Disable Hysteresis.  This IP has 2 cirtcuits for generating hysteresis,
+        uint64_t rx_hystersis_en       : 1;  /**< [ 26: 26](R/W) Enable/Disable Hysteresis.  This IP has 2 circuits for generating hysteresis,
                                                                  one of which is controlled by this signal.  The other is controlled by RESERVE_IN[0].
                                                                  0x0: Disable hysteresis
                                                                  0x1: Enable hysteresis */

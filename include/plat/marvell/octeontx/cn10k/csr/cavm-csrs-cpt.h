@@ -172,7 +172,7 @@ union cavm_cpt_ctx_hw_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
         uint64_t reserved_59           : 1;
-        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
+        uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
@@ -208,7 +208,7 @@ union cavm_cpt_ctx_hw_s
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
-        uint64_t ctx_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
+        uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
         uint64_t reserved_59           : 1;
@@ -4754,6 +4754,53 @@ static inline uint64_t CAVM_CPTX_AF_RVU_LF_CFG_DEBUG(uint64_t a)
 #define arguments_CAVM_CPTX_AF_RVU_LF_CFG_DEBUG(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_active_sts
+ *
+ * CPT AF RXC Active Status Register
+ */
+union cavm_cptx_af_rxc_active_sts
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_active_sts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of active reassembly entries. */
+        uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest active reassembly entry. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest active reassembly entry. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest active reassembly entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest active reassembly entry. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest active reassembly entry. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest active reassembly entry. */
+        uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of active reassembly entries. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_active_sts_s cn; */
+};
+typedef union cavm_cptx_af_rxc_active_sts cavm_cptx_af_rxc_active_sts_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_ACTIVE_STS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_ACTIVE_STS(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050028ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_ACTIVE_STS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) cavm_cptx_af_rxc_active_sts_t
+#define bustype_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) "CPTX_AF_RXC_ACTIVE_STS"
+#define device_bar_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_rxc_cfg1
  *
  * CPT AF RXC Configuration Register 1
@@ -4765,12 +4812,12 @@ union cavm_cptx_af_rxc_cfg1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maxium number of 128B RXC data buffer blocks that a packet may consume.
+        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maximum number of 128B RXC data buffer blocks that a packet may consume.
                                                                  This is used to reserve RXC data buffers when scheduling a CPT instruction that
                                                                  may use RXC.  Once the DLEN is known, the number of reserved RXC data buffers is
                                                                  adjusted. */
 #else /* Word 0 - Little Endian */
-        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maxium number of 128B RXC data buffer blocks that a packet may consume.
+        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maximum number of 128B RXC data buffer blocks that a packet may consume.
                                                                  This is used to reserve RXC data buffers when scheduling a CPT instruction that
                                                                  may use RXC.  Once the DLEN is known, the number of reserved RXC data buffers is
                                                                  adjusted. */
@@ -4900,24 +4947,52 @@ union cavm_cptx_af_rxc_dfrg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
         uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
-                                                                 terminated. 0x0 disables threshold. */
+                                                                 terminated. Zombie reassembly entries have not packet associated with them.
+                                                                 ZOMBIE_THRES=0 disables
+                                                                 threshold.  Running out of reassembly entries will halt processing of all CPT instructions
+                                                                 until timeout. */
         uint64_t reserved_44_47        : 4;
-        uint64_t zombie_cnt            : 12; /**< [ 43: 32](R/W) Reserved. */
+        uint64_t zombie_limit          : 12; /**< [ 43: 32](RO) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
+                                                                 age of the zombie reassembly effort is older than
+                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT), the zombie reassembly is freed.  For
+                                                                 example,
+                                                                 setting [ZOMBIE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
+                                                                 200ms granularity. */
         uint64_t reserved_28_31        : 4;
-        uint64_t busy_thres            : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
-                                                                 terminated. 0x0 disables threshold. */
+        uint64_t active_thres          : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
+                                                                 terminated. Active hold no RXC data block buffers. ACTIVE_THRES=0 disables
+                                                                 threshold.  Running out of reassembly entries will halt processing of all CPT instructions
+                                                                 until timeout. */
         uint64_t reserved_12_15        : 4;
-        uint64_t busy_cnt              : 12; /**< [ 11:  0](R/W) Number of active reassembly entries. */
+        uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  [ACTIVE_LIMIT]=0 disables timeouts.  When the
+                                                                 age of the active reassembly effort is older than (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT), active
+                                                                 the reassembly effort will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT.  For example,
+                                                                 setting [ACTIVE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
+                                                                 200ms granularity. */
 #else /* Word 0 - Little Endian */
-        uint64_t busy_cnt              : 12; /**< [ 11:  0](R/W) Number of active reassembly entries. */
+        uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  [ACTIVE_LIMIT]=0 disables timeouts.  When the
+                                                                 age of the active reassembly effort is older than (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT), active
+                                                                 the reassembly effort will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT.  For example,
+                                                                 setting [ACTIVE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
+                                                                 200ms granularity. */
         uint64_t reserved_12_15        : 4;
-        uint64_t busy_thres            : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
-                                                                 terminated. 0x0 disables threshold. */
+        uint64_t active_thres          : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
+                                                                 terminated. Active hold no RXC data block buffers. ACTIVE_THRES=0 disables
+                                                                 threshold.  Running out of reassembly entries will halt processing of all CPT instructions
+                                                                 until timeout. */
         uint64_t reserved_28_31        : 4;
-        uint64_t zombie_cnt            : 12; /**< [ 43: 32](R/W) Reserved. */
+        uint64_t zombie_limit          : 12; /**< [ 43: 32](RO) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
+                                                                 age of the zombie reassembly effort is older than
+                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT), the zombie reassembly is freed.  For
+                                                                 example,
+                                                                 setting [ZOMBIE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
+                                                                 200ms granularity. */
         uint64_t reserved_44_47        : 4;
         uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
-                                                                 terminated. 0x0 disables threshold. */
+                                                                 terminated. Zombie reassembly entries have not packet associated with them.
+                                                                 ZOMBIE_THRES=0 disables
+                                                                 threshold.  Running out of reassembly entries will halt processing of all CPT instructions
+                                                                 until timeout. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -4988,12 +5063,7 @@ union cavm_cptx_af_rxc_time_cfg
     struct cavm_cptx_af_rxc_time_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt. [LIMIT]=0x0 disables timeouts. When the age
-                                                                 of the reassembly effort is older than ([STEP]*[LIMIT]), the reassembly effort
-                                                                 will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT. For example, setting
-                                                                 [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
-                                                                 200ms granularity. */
+        uint64_t reserved_20_63        : 44;
         uint64_t step                  : 20; /**< [ 19:  0](R/W) The granularity of time used to track the age of reassembly attempts.
                                                                  0x0 = Disabled.
                                                                  0x1 = 1 microsecond.
@@ -5005,12 +5075,7 @@ union cavm_cptx_af_rxc_time_cfg
                                                                  0x1 = 1 microsecond.
                                                                  0x2 = 2 microseconds.
                                                                  _ etc. */
-        uint64_t limit                 : 12; /**< [ 31: 20](R/W) Time limit for reassembly attempt. [LIMIT]=0x0 disables timeouts. When the age
-                                                                 of the reassembly effort is older than ([STEP]*[LIMIT]), the reassembly effort
-                                                                 will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT. For example, setting
-                                                                 [LIMIT]=300 and [STEP]=200000 would specify a 60s timeout with a
-                                                                 200ms granularity. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_rxc_time_cfg_s cn; */
@@ -5031,6 +5096,53 @@ static inline uint64_t CAVM_CPTX_AF_RXC_TIME_CFG(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_RXC_TIME_CFG(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_RXC_TIME_CFG(a) (a)
 #define arguments_CAVM_CPTX_AF_RXC_TIME_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_zombie_sts
+ *
+ * CPT AF RXC Zombie Status Register
+ */
+union cavm_cptx_af_rxc_zombie_sts
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_zombie_sts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of zombie reassembly entries. */
+        uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest zombie reassembly entry. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest zombie reassembly entry. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest zombie reassembly entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest zombie reassembly entry. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest zombie reassembly entry. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest zombie reassembly entry. */
+        uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of zombie reassembly entries. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_zombie_sts_s cn; */
+};
+typedef union cavm_cptx_af_rxc_zombie_sts cavm_cptx_af_rxc_zombie_sts_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_ZOMBIE_STS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_ZOMBIE_STS(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050030ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_ZOMBIE_STS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_ZOMBIE_STS(a) cavm_cptx_af_rxc_zombie_sts_t
+#define bustype_CAVM_CPTX_AF_RXC_ZOMBIE_STS(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_ZOMBIE_STS(a) "CPTX_AF_RXC_ZOMBIE_STS"
+#define device_bar_CAVM_CPTX_AF_RXC_ZOMBIE_STS(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_ZOMBIE_STS(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_ZOMBIE_STS(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_x2p#_link_cfg

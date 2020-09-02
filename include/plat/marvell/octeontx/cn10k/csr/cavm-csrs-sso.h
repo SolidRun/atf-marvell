@@ -4079,7 +4079,7 @@ static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX_W1S(uint64_t a)
  * Register (RVU_PF_BAR0) sso_af_poison#
  *
  * SSO AF Poison Registers
- * These registers report which hardware group(s) have had POSION returned
+ * These registers report which hardware group(s) have had POISON returned
  * during an XAQ read operation. There is one bit for each hardware group.
  */
 union cavm_sso_af_poisonx
@@ -4115,7 +4115,7 @@ static inline uint64_t CAVM_SSO_AF_POISONX(uint64_t a)
 /**
  * Register (RVU_PF_BAR0) sso_af_poison#_w1s
  *
- * SSO AF Posion Set Registers
+ * SSO AF Poison Set Registers
  * This register reads or sets bits.
  */
 union cavm_sso_af_poisonx_w1s

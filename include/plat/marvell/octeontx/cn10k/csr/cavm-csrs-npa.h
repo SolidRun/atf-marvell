@@ -2428,7 +2428,7 @@ static inline uint64_t CAVM_NPA_AF_BAR2_SEL_FUNC(void)
  * Register (RVU_PF_BAR0) npa_af_batch_accept_ctl
  *
  * NPA AF Batch Acceptance Control Register
- * Specifies the Acceptance Control Parameters
+ * Specifies the acceptance control parameters.
  */
 union cavm_npa_af_batch_accept_ctl
 {
