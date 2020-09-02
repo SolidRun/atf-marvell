@@ -111,10 +111,14 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 					rpm_link_state_t *link, int err_type)
 {
 	union eth_scratchx0 scratchx0;
+	rpm_lmac_config_t *lmac_cfg;
 
-	debug_rpm_intf("%s %d:%d link_up %d speed %d duplex %d\t"
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	debug_rpm_intf("%s %d:%d mode %d link_up %d speed %d duplex %d\t"
 			"err_type %d\n",
 			__func__, rpm_id, lmac_id,
+			lmac_cfg->mode,
 			link->s.link_up, link->s.speed,
 			link->s.full_duplex, err_type);
 
@@ -123,6 +127,7 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	scratchx0.s.link_sts.speed = link->s.speed;
 	scratchx0.s.link_sts.full_duplex = link->s.full_duplex;
 	scratchx0.s.link_sts.err_type = err_type;
+	scratchx0.s.link_sts.lmac_type = lmac_cfg->mode;
 	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0), scratchx0.u);
 
 	/* FIXME : Update supported FEC to SM when updating link status */

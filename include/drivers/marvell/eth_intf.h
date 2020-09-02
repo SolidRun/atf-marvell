@@ -251,7 +251,7 @@ struct eth_lnk_sts_s {
 	uint64_t err_type:10;
 	uint64_t an:1;		/* Current AN state : enabled/disabled */
 	uint64_t fec:2;		/* Current FEC type if enabled, if not 0 */
-	uint64_t port:8;	/* Share the current port info if required */
+	uint64_t lmac_type:8;	/* LMAC type: applicable only for CN10K */
 	uint64_t mode:8;	/* eth_mode_t enum integer value */
 	uint64_t reserved2:20;
 };
