@@ -848,18 +848,25 @@ static void cn10k_rpm_check_linux(const void *fdt)
  */
 static void cn10k_rpm_assign_mac(const void *fdt)
 {
-	int rpm_idx, lmac_idx;
+	int rpm_idx, lmac_idx, i;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
-	int mac_num;
+	int mac_num, mac_id_num, mac_cnt;
 	int override;
 	long mac;
+	char name[32];
 
 	/* Parse EBF DT file, to find variables to set MAC address:
 	 *   BOARD-MAC-ADDRESS-NUM
+	 *   BOARD-MAC-ADDRESS-NUM-ID
 	 *   BOARD-MAC-ADDRESS-NUM-OVERRIDE
 	 *   BOARD-MAC-ADDRESS
+	 *   BOARD-MAC-ADDRESS-ID
 	 */
+	mac_id_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 10);
+	if (!mac_id_num)
+		mac_id_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 16);
+	debug_dts("BOARD-MAC-ADDRESS-ID-NUM=%d\n", mac_id_num);
 	mac_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 10);
 	if (!mac_num)
 		mac_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 16);
@@ -869,7 +876,7 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 		debug_dts("Override number of MAC to set=%d.\n", override);
 		mac_num = override;
 	}
-	if (mac_num <= 0) {
+	if (mac_num <= 0 && mac_id_num <= 0) {
 		debug_dts("No MAC addresses should be set.\n");
 		return;
 	}
@@ -881,8 +888,26 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 	}
 
 	/* Update the board configuration */
-	plat_octeontx_bcfg->pf_mac_base = mac;
-	plat_octeontx_bcfg->pf_mac_num = mac_num;
+	if (mac_id_num) {
+		plat_octeontx_bcfg->pf_mac_num = mac_id_num;
+		for (i = 0; i < mac_id_num; i++) {
+			snprintf(name, sizeof(name), "BOARD-MAC-ADDRESS-ID%d", i);
+			mac = cn10k_fdtebf_get_num(fdt, name, 16);
+			debug_dts("BOARD-MAC-ADDRESS[%d]=%lx\n", i, mac);
+			if (mac == -1) {
+				debug_dts("MAC address is not defined.\n");
+				mac = 0;
+			}
+			plat_octeontx_bcfg->pf_macs[i] = mac;
+		}
+		mac_cnt = mac_id_num;
+	} else {
+		plat_octeontx_bcfg->pf_mac_num = mac_num;
+		for (i = 0; i < mac_num; i++) {
+			plat_octeontx_bcfg->pf_macs[i] = mac + i;
+		}
+		mac_cnt = mac_num;
+	}
 
 	/* Initialize N first LMACs with the MAC address. */
 	for (rpm_idx = 0; rpm_idx < plat_octeontx_scfg->rpm_count; rpm_idx++) {
@@ -891,18 +916,19 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 			lmac = &rpm->lmac_cfg[lmac_idx];
 			if (!lmac->lmac_enable)
 				continue;
+			mac = plat_octeontx_bcfg->pf_macs[rpm_idx * 4 + lmac_idx];
+			debug_dts("RPM[%d]LMAC[%d]=%lx\n", rpm_idx, lmac_idx, mac);
 			lmac->local_mac_address[0] = (mac >> 40) & 0xff;
 			lmac->local_mac_address[1] = (mac >> 32) & 0xff;
 			lmac->local_mac_address[2] = (mac >> 24) & 0xff;
 			lmac->local_mac_address[3] = (mac >> 16) & 0xff;
 			lmac->local_mac_address[4] = (mac >> 8) & 0xff;
 			lmac->local_mac_address[5] = mac & 0xff;
-			mac++;
-			mac_num--;
+			mac_cnt--;
 			/* If there are no free LMACs, then just return
 			 * from the routine.
 			 */
-			if (!mac_num) {
+			if (!mac_cnt) {
 				debug_dts("All free MAC addresses are assigned.\n");
 				return;
 			}

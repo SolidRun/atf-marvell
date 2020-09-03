@@ -60,7 +60,6 @@ void sh_fwdata_init(void)
 	struct eth_lmac_fwdata_s *lmac_fwdata;
 	rpm_lmac_config_t *lmac_cfg;
 	int i, pf_mac_num;
-	uint64_t pf_mac;
 
 	fwdata = (struct sh_fwdata *)get_sh_fwdata_base();
 	if (get_sh_fwdata_base() + sizeof(struct sh_fwdata) > SH_FWDATA_LIMIT) {
@@ -74,7 +73,6 @@ void sh_fwdata_init(void)
 
 	/* MAC address */
 	pf_mac_num = plat_octeontx_bcfg->pf_mac_num;
-	pf_mac = plat_octeontx_bcfg->pf_mac_base;
 
 	/* Clear MAC tables */
 	for (i = 0; i < PF_MACNUM_MAX; i++)
@@ -84,11 +82,10 @@ void sh_fwdata_init(void)
 		fwdata->vf_macs[i] = 0;
 
 	/* Init PF MAC address; Skip PF 0 used as AF */
-	for (i = 1; i < pf_mac_num; i++) {
+	for (i = 1; i <= pf_mac_num; i++) {
 		if (i >= PF_MACNUM_MAX)
 			break;
-		fwdata->pf_macs[i] = pf_mac;
-		pf_mac++;
+		fwdata->pf_macs[i] = plat_octeontx_bcfg->pf_macs[i-1];
 	}
 	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_MESHCLK));
 	fwdata->coreclk = rst_pll.s.cur_mul * RST_REF_CLK;
