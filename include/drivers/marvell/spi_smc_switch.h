@@ -11,5 +11,6 @@
 #define SPI_CONFIG_ERR		2
 #define SPI_MMAP_ERR		3
 
-int spi_smc_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf);
+int spi_smc_load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
+			   uint64_t *cm3_size);
 #endif /* __SPI_SMC_SWTICH_H__ */

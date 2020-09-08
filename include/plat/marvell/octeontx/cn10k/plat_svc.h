@@ -107,8 +107,9 @@
  *		-2 -- SPI_CONFIG_ERR
  *		-3 -- SPI_MMAP_ERR
  *		-5 -- EIO
+ *	x1: cm3 Image size
  */
-#define PLAT_OCTEONTX_SPI_SWITCH_FW		0xc2000b06
+#define PLAT_OCTEONTX_LOAD_SWITCH_FW		0xc2000b06
 
 /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			13

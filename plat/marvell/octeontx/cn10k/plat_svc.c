@@ -44,7 +44,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					u_register_t flags)
 {
 	uintptr_t size, user_buf, user_buf1;
-	uint64_t bus = 0, cs = 0, dram_end = 0;
+	uint64_t bus = 0, cs = 0, dram_end = 0, img_size = 0;
 	int ret = 0;
 
 	switch (smc_fid) {
@@ -53,7 +53,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 		break;
 
-	case PLAT_OCTEONTX_SPI_SWITCH_FW:
+	case PLAT_OCTEONTX_LOAD_SWITCH_FW:
 		user_buf = x1;
 		user_buf1 = x2;
 
@@ -65,9 +65,9 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		}
 
 		/* Perform Switch firmware load */
-		ret = spi_smc_switch_fw(user_buf, user_buf1);
+		ret = spi_smc_load_switch_fw(user_buf, user_buf1, &img_size);
 err1:
-		SMC_RET1(handle, ret);
+		SMC_RET2(handle, ret, img_size);
 		break;
 
 	case PLAT_OCTEONTX_SPI_SECURE_UPDATE:
