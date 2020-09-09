@@ -495,7 +495,8 @@ void *scmi_init(scmi_channel_t *ch)
 
 	bakery_lock_init(ch->lock);
 
-	ch->is_initialized = 1;
+	ch->is_initialized = 0;
+	return NULL;
 
 #ifdef SCMI_WITH_LEGACY_PM
 	ret = scmi_proto_version(ch, SCMI_PWR_DMN_PROTO_ID, &version);
