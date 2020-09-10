@@ -148,6 +148,12 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    (bfdt_index < (sw_dev_list[i].type + sw_dev_list[i].num)))
 			sw_dev = &sw_dev_list[i];
 
+#if defined(PLAT_t106)
+	if (sw_dev->type == SW_RVU_CPT_PF(0)) {
+		sw_dev->pci.pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_PF;
+		sw_dev->pci.vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_VF;
+	}
+#endif
 	return sw_dev;
 }
 
