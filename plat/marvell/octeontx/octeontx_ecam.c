@@ -313,8 +313,6 @@ static void init_pem5(uint64_t config_base, uint64_t config_size)
 	uint32_t *sctl = (uint32_t *) (config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
-	if (vsec_ctl.s.inst_num > 3)
-		return;
 
 	debug_io("PEM(%d) init called config_base:%llx size:%llx\n",
 		 vsec_ctl.s.inst_num, config_base, config_size);

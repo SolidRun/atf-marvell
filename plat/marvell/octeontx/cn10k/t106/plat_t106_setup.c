@@ -78,7 +78,7 @@ int plat_octeontx_get_rpm_count(void)
 
 int plat_octeontx_get_pem_count(void)
 {
-	return 4;
+	return 6;
 }
 
 int plat_octeontx_get_gserm_count(void)
@@ -492,7 +492,7 @@ struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count)
 {
 	static struct cn10k_stream_security_setting stream_settings[] = {
 		/* no platform-specific stream security settings */
-		{ (CAVM_PCC_DEV_CON_E_PCIERCX(0) + 0x00100), 1, 0 /* strm */, 1 /* phys */ },
+		{ (CAVM_PCC_DEV_CON_E_PCIERCX(5) + 0x00100), 1, 0 /* strm */, 1 /* phys */ },
 	};
 
 	*count = ARRAY_SIZE(stream_settings);
