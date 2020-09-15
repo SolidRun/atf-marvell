@@ -1,0 +1,323 @@
+RPM support in CN10K firmware
+=============================
+
+1 Overview
+----------
+
+This document provides details on high level design of RPM (Reconciliation,
+Physical and MAC Sub-Layers Processing Unit) software implementation in ATF
+and the interface data structures used for ATF, U-Boot, and Kernel communication.
+
+----
+
+2 Device Tree
+-------------
+
+DT properties are mainly needed by ATF to configure the ports accordingly.
+
+2.1 Number of VFs/MSIX
+^^^^^^^^^^^^^^^^^^^^^^
+Number of VFs/MSIX property for each sub-node defined to be used by RVU driver::
+
+   // Example:
+   "num-rvu-vfs"
+   "num-msix-vec"
+
+2.2 Autonegotiation
+^^^^^^^^^^^^^^^^^^^
+
+For AN to be disabled, the sub-node should have following property
+``“octeontx,disable-autonegotiation"``.
+
+.. Note::
+This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
+not present, AN is by default disabled.
+
+2.3 RPM LMAC node
+^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: none
+
+   ethernetA0: xfi@00 {
+       reg = <0>;
+       num-rvu-vfs = <8>;
+       num-msix-vec = <210>;
+   };
+
+----
+
+3 ATF RPM Interface
+-------------------
+
+3.1 Boot
+^^^^^^^^
+
+3.1.1 DT Parser
+~~~~~~~~~~~~~~~
+
+Based on the GSERM LANE mode configuration by EBF (via ``GSERMX_LANEX_SCRATCHX CSR``\ ) mode is obtained for each lane of GSERM.
+It gets mapped against RPM instance and checked against the Linux device tree to
+map the info with each LMAC of RPM.
+
+.. code-block:: c
+
+   typedef union {
+       uint64_t u;
+       struct {
+           uint64_t baud_mhz : 16;
+           uint64_t mode     :  8;
+           uint64_t ref_clk  :  4;
+           uint64_t flags    :  8;
+           uint64_t reserved : 28;
+       } s;
+   } gserm_state_lane_t;
+
+Additional properties of LMAC configuration are parsed from Board DT/Linux DT
+specific to each board and updated in global board config structure per LMAC.
+
+3.1.2 RPM Init
+~~~~~~~~~~~~~~~
+
+During PCIe scan (BL2), RPM init callback is called for each RPM.
+
+This callback initializes the LMACs based on the info retrieved from board config
+structure, and programs LMAC count for RPM and LMAC type for each LMAC.
+
+Also, one time configuration based on LMAC type like back pressure (RX_BP_ON CSR), TSU configuration are done.
+
+When BL31 boots, system timer is started and run periodically every 1 sec to
+handle command requests from (U-boot/Kernel) and process the requests.
+
+.. Note::
+
+   RPM device is hidden from non-secure world if the particular RPM is not
+   configured for any mode in EBF.
+
+
+3.1.3 Interrupt Enable
+~~~~~~~~~~~~~~~~~~~~~~
+
+The MSIX interrupt provided for SW purpose in RPM is used for communication
+between ATF and kernel.
+Firmware notifies kernel about any asynchronous events via this interrupt
+``RPM(0..4)_CMR(0..3)_SW_INT``.
+This is chosen as communication method for all CN10K platforms.
+
+3.2 Run Time Services
+^^^^^^^^^^^^^^^^^^^^^
+
+ATF supports asynchronous commands and events. The interface for these
+services as well as the commands and events are described below :
+
+.. _SCRATCHX_CSRs:
+
+3.2.1 SCRATCHX CSRs
+^^^^^^^^^^^^^^^^^^^
+
+The ``RPM(0..4)_CMR(0..3)_SCRATCH(0..1)`` CSRs are available for SW purpose on
+OCTEON CN10K FAMILY of SoCs. These CSRs are primarily used as the communication
+method between ATF and non-secure SW.
+
+* ``RPM_CMRX_SCRATCHX(RPM)(LMAC)(0)`` – STATUS REGISTER
+
+* ``RPM_CMRX_SCRATCHX(RPM)(LMAC)(1)`` – COMMAND REGISTER
+
+Please refer to ``include/drivers/marvell/eth_intf.h`` in the ATF source tree
+for the interface definitions.
+
+3.2.2 Interface from U-Boot/Kernel to ATF
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``RPM_CMRX_SCRATCHX[rpm][lmac][1]`` is reserved for this purpose for each LMAC.
+
+.. Note::
+
+   * User can post the requests only if the “ack” bit is clear
+     (and default ownership for command register is with non-secure SW).
+
+   * After writing the command ID, non-secure SW should set the ownership
+     to ``ETH_OWN_FIRMWARE`` for firmware to process the command.
+
+   * Firmware will set the ownership back to ``ETH_OWN_NON_SECURE_SW``
+     after processing the command and triggers the interrupt.
+
+   * User should clear the interrupt for any command response along with
+     clearing ack/releasing the ownership
+
+Various commands may be exchanged with ATF as described below. All the commands
+are per LMAC.
+
+3.2.2.1 GET FW VER
+""""""""""""""""""
+
+Gets the firmware interface version.
+
+Parameters to be sent:
+
+* REQUEST ID – ``ETH_CMD_GET_FW_VER``
+* Major/Minor version number returned
+
+3.2.2.2 GET FW SH MEM BASE
+""""""""""""""""""""""""""
+
+Fixed memory is assigned in DRAM to share ethernet related firmware data with non-secure applications (U-boot/Linux kernel). This includes the MAC address for each PFas well.
+
+Parameters to be sent:
+
+* REQUEST ID – ``ETH_CMD_GET_FWD_BASE``
+* Returns the start of shared memory address in DRAM
+
+3.2.2.3 LINK BRING UP
+"""""""""""""""""""""
+
+Initiated when ethernet interfaces are to be brought up.
+
+Parameters to be sent:
+
+* REQUEST ID – ``ETH_CMD_LINK_BRING_UP``
+* As part of request processing, ATF will bring up the link
+  as per the sequence documented in HRM
+
+Return the link state info (by writing to ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``).
+
+Any errors will be set in the ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``.
+
+**Code Flow**\ :
+
+* RPM link bring up is done based on LMAC type
+
+* If PHY is present:
+ FIXME
+
+* If SFP/QSFP slot is present:
+ FIXME
+
+* If RPM configuration succeeds, current link status will be set
+
+* If RPM configuration fails, both error type and current link status will be set
+
+
+3.2.2.4 LINK BRING DOWN
+"""""""""""""""""""""""
+
+Initiated when ethernet interfaces are brought down.
+
+Parameters to be sent:
+
+* REQUEST ID - ``ETH_CMD_LINK_BRING_DOWN``
+
+As part of request processing, ATF will bring down the link
+(sequence followed in HRM).
+
+3.2.2.5 INTF SHUTDOWN
+"""""""""""""""""""""
+
+When U-Boot boots to kernel, U-Boot should send the below
+command to ATF - ``ETH_CMD_INTF_SHUTDOWN``.
+
+This command should be sent when RPM driver is unloaded in kernel as well. This
+command is applicable for all active RPM and LMACs.
+
+As result:
+
+* ATF brings down the link for active links
+  (for which ever LMAC, LINK UP request was sent)
+* Clears the ``SCRATCHX`` CSRs (but only sets the ack bit and users should
+  not check for any response for this command as the status bits are cleared).
+* Also clear the interrupt when releasing the ownership
+
+3.2.2.6 GET LINK STATUS
+"""""""""""""""""""""""
+
+This command can be called any time when RPM LMAC's link status needs to be
+obtained.
+
+* REQUEST ID – ``ETH_CMD_GET_LINK_STS``
+* Response - RPM SCRATCHX(0) is updated with below struct type eth_lnk_sts_s
+
+.. code-block:: c
+
+  /* LINK speed types */
+  enum eth_link_speed {
+        ETH_LINK_NONE,
+        ETH_LINK_10M,
+        ETH_LINK_100M,
+        ETH_LINK_1G,
+        ETH_LINK_2HG,   /* 2.5 Gbps */
+        ETH_LINK_5G,
+        ETH_LINK_10G,
+	ETH_LINK_20G,
+        ETH_LINK_25G,
+        ETH_LINK_40G,
+        ETH_LINK_50G,
+       	ETH_LINK_100G,
+	ETH_LINK_MAX,
+  };
+
+  typedef enum {
+        ETH_MODE_SGMII_BIT = 0,
+        ETH_MODE_1000_BASEX_BIT,
+        ETH_MODE_QSGMII_BIT,
+        ETH_MODE_10G_C2C_BIT,
+        ETH_MODE_10G_C2M_BIT,
+        ETH_MODE_10G_KR_BIT,		/* = 5 */
+        ETH_MODE_20G_C2C_BIT,
+        ETH_MODE_25G_C2C_BIT,
+        ETH_MODE_25G_C2M_BIT,
+        ETH_MODE_25G_2_C2C_BIT,
+        ETH_MODE_25G_CR_BIT,		/* = 10 */
+        ETH_MODE_25G_KR_BIT,
+        ETH_MODE_40G_C2C_BIT,
+        ETH_MODE_40G_C2M_BIT,
+        ETH_MODE_40G_CR4_BIT,
+        ETH_MODE_40G_KR4_BIT,		/* = 15 */
+        ETH_MODE_40GAUI_C2C_BIT,
+        ETH_MODE_50G_C2C_BIT,
+        ETH_MODE_50G_C2M_BIT,
+        ETH_MODE_50G_4_C2C_BIT,
+        ETH_MODE_50G_CR_BIT,		/* = 20 */
+        ETH_MODE_50G_KR_BIT,
+        ETH_MODE_80GAUI_C2C_BIT,
+        ETH_MODE_100G_C2C_BIT,
+        ETH_MODE_100G_C2M_BIT,
+        ETH_MODE_100G_CR4_BIT,		/* = 25 */
+        ETH_MODE_100G_KR4_BIT,
+        ETH_MODE_MAX_BIT		/* = 27 */
+  } eth_mode_t;
+
+  struct eth_lnk_sts_s {
+        uint64_t reserved1:9;
+        uint64_t link_up:1;
+        uint64_t full_duplex:1;
+        uint64_t speed:4;	/* eth_link_speed */
+        uint64_t err_type:10;
+        uint64_t an:1;		/* Current AN state : enabled/disabled */
+        uint64_t fec:2;		/* Current FEC type if enabled, if not 0 */
+        uint64_t lmac_type:8;	/* LMAC type: applicable only for CN10K */
+        uint64_t mode:8;	/* eth_mode_t enum integer value */
+        uint64_t reserved2:20;
+  };
+
+3.2.3 Interface from ATF to U-Boot/Kernel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``RPM_CMRX_SCRATCHX[rpm][lmac][0]``\ /\ ``RPM_CMRX_SCRATCHX[rpm][lmac][1]`` are reserved for this purpose for each LMAC. Refer to SCRATCHX_CSRs_ .
+
+* ATF will write the following status for any command submitted in scratchx0:
+
+  * evt_type : ``ETH_EVT_CMD_RESP``
+  * cmd ID : same command ID posted by user
+  * cmd status: Either ``ETH_STAT_SUCCESS``\ /\ ``ETH_STAT_FAIL``
+
+    * If status is returned as ``ETH_STAT_FAIL``\ ,
+      reason/error type will be set in ``eth_err_sts_s`` struct
+
+      In case of LINK UP/DOWN both error type and response
+      will be updated in ``eth_lnk_sts_s`` struct
+
+    * If status is returned as ``ETH_CMD_SUCCESS``\ , based on cmd ID,
+      specific responses will be set. For example:
+
+      * ``GET_FW_VER`` - ``eth_ver_s`` struct
+
+* ATF generetes interrupt for every command that has been processed with the status updated as stated above.
