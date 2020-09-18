@@ -258,6 +258,12 @@ void initialize_tf_logging(void)
 #ifdef MRVL_TF_LOG_SETTING_OVERRIDE
 		val32 = MRVL_TF_LOG_LEVEL_DEFAULT;
 #endif
+
+		/* firmware built w/DEBUG=1 uses LOG_LEVEL_INFO */
+#if DEBUG
+		val32 = LOG_LEVEL_INFO;
+#endif
+
 		if (val32 % 10)
 			printf("Error: invalid ATF-TRACE-LEVEL %u\n",
 			       val32);
