@@ -492,7 +492,7 @@ union cavm_tad_cmn_mpamf_idr
                                                                  0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
                                                                  MPAMCFG_CPBM registers.
                                                                  1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
-        uint64_t has_cap_part          : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
+        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
                                                                  partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
                                                                  0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
                                                                  MPAMCFG_CMAX registers.
@@ -502,7 +502,7 @@ union cavm_tad_cmn_mpamf_idr
 #else /* Word 0 - Little Endian */
         uint64_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
         uint64_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
-        uint64_t has_cap_part          : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
+        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
                                                                  partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
                                                                  0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
                                                                  MPAMCFG_CMAX registers.
@@ -577,16 +577,25 @@ union cavm_tad_cmn_mpamf_iidr
         uint64_t reserved_32_63        : 32;
         uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
                                                                  The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other with the same Implementer value. */
+                                                                 product has a unique ProductID from any other with the same Implementer value.
+
+                                                                 Internal:
+                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
         uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
                                                                  product.
                                                                  --- Note ---
                                                                  Implementations of ProductID with differing software interfaces are expected to have different
-                                                                 values in the MPAMF_IIDR. Variant field. */
+                                                                 values in the MPAMF_IIDR. Variant field.
+
+                                                                 Internal:
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
         uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
                                                                  --- Note ---
                                                                  This field is intended to differentiate product revisions that are minor changes and are largely
-                                                                 software compatible with previous revisions. */
+                                                                 software compatible with previous revisions.
+
+                                                                 Internal:
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
         uint64_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the MPAM MSC.
                                                                  [11:8] must contain the JEP106 continuation code of the implementer.
                                                                  [7] must always be 0.
@@ -601,15 +610,24 @@ union cavm_tad_cmn_mpamf_iidr
         uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
                                                                  --- Note ---
                                                                  This field is intended to differentiate product revisions that are minor changes and are largely
-                                                                 software compatible with previous revisions. */
+                                                                 software compatible with previous revisions.
+
+                                                                 Internal:
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
         uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
                                                                  product.
                                                                  --- Note ---
                                                                  Implementations of ProductID with differing software interfaces are expected to have different
-                                                                 values in the MPAMF_IIDR. Variant field. */
+                                                                 values in the MPAMF_IIDR. Variant field.
+
+                                                                 Internal:
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
         uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
                                                                  The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other with the same Implementer value. */
+                                                                 product has a unique ProductID from any other with the same Implementer value.
+
+                                                                 Internal:
+                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -683,8 +701,8 @@ union cavm_tad_cmn_req_retry
     struct cavm_tad_cmn_req_retry_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t sadr_pcrdtype_dis     : 8;  /**< [ 19: 12](R/W) This register disables same address retry hardware. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t sadr_pcrdtype_dis     : 4;  /**< [ 15: 12](R/W) This register disables same address retry hardware. */
         uint64_t sadr_req_high_wmark   : 6;  /**< [ 11:  6](R/W) This register controls the number of same address REQs that can be stored in
                                                                  buffers before issuing a same address retry.
 
@@ -702,8 +720,8 @@ union cavm_tad_cmn_req_retry
                                                                  buffers before issuing a same address retry.
 
                                                                  If set to 0, same address retries are all disabled. */
-        uint64_t sadr_pcrdtype_dis     : 8;  /**< [ 19: 12](R/W) This register disables same address retry hardware. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t sadr_pcrdtype_dis     : 4;  /**< [ 15: 12](R/W) This register disables same address retry hardware. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tad_cmn_req_retry_s cn; */

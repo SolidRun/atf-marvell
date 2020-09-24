@@ -25,7 +25,7 @@
  * MRMLB Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_MRMLB_BAR_E_MRMLBX_PF_BAR0(a) (0x87e0f9000000ll + 0x1000000ll * (a))
+#define CAVM_MRMLB_BAR_E_MRMLBX_PF_BAR0(a) (0x87e0f8000000ll + 0x1000000ll * (a))
 #define CAVM_MRMLB_BAR_E_MRMLBX_PF_BAR0_SIZE 0x40000ull
 
 /**
@@ -53,8 +53,8 @@ typedef union cavm_mrmlbx_const cavm_mrmlbx_const_t;
 static inline uint64_t CAVM_MRMLBX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRMLBX_CONST(uint64_t a)
 {
-    if (a<=2)
-        return 0x87e0f9000000ll + 0x1000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x87e0f8000000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MRMLBX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 

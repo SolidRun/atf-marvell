@@ -26,8 +26,8 @@
  * Enumerates the base address registers.
  */
 #define CAVM_SPI_BAR_E_SPIX_PF_BAR0(a) (0x804000000000ll + 0x1000000000ll * (a))
-#define CAVM_SPI_BAR_E_SPIX_PF_BAR0_SIZE 0x10000ull
-#define CAVM_SPI_BAR_E_SPIX_PF_BAR4(a) (0x804000f00000ll + 0x1000000000ll * (a))
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR0_SIZE 0x40000000ull
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR4(a) (0x804100000000ll + 0x1000000000ll * (a))
 #define CAVM_SPI_BAR_E_SPIX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -88,29 +88,29 @@ union cavm_spix_cmn_seq_regs_direct_access_cfg
         uint32_t dac_addr_mask         : 13; /**< [ 28: 16](R/W) This mask is used for masking bits [44:32] of the system address for read/write
                                                                  transfers for PROFILE 2. */
         uint32_t reserved_13_15        : 3;
-        uint32_t rmp_addr_en           : 1;  /**< [ 12: 12](R/W) Enables Slave Data Interface address remapping. When set to 1, the incoming Slave Data Interface
+        uint32_t rmp_addr_en           : 1;  /**< [ 12: 12](R/W) Enables slave data interface address remapping. When set to 1, the incoming slave data interface
                                                                  address will be adopted and sent to the Flash device as (address - N), where N is the value stored
                                                                  in the remap address register. */
         uint32_t reserved_10_11        : 2;
-        uint32_t mode_bit_xip_dis      : 1;  /**< [  9:  9](R/W) If set to 1 controller will send mode bits specified in the xip_dis_mb_val for next READ
-                                                                 transaction and clear the xip_en bit. This will cause disabling XIP work mode for both device and
+        uint32_t mode_bit_xip_dis      : 1;  /**< [  9:  9](R/W) If set to 1, controller will send mode bits specified in the [XIP_DIS_MB_VAL] for next READ
+                                                                 transaction and clear the [XIP_EN] bit. This will cause disabling XIP work mode for both device and
                                                                  controller. */
-        uint32_t mode_bit_xip_en       : 1;  /**< [  8:  8](R/W) If set to 1 controller will send mode bits specified in the xip_en_mb_val for next READ
-                                                                 transaction and set the xip_en bit. This will cause switching both device and controller into XIP
+        uint32_t mode_bit_xip_en       : 1;  /**< [  8:  8](R/W) If set to 1, controller will send mode bits specified in the [XIP_EN_MB_VAL] for next READ
+                                                                 transaction and set the [XIP_EN] bit. This will cause switching both device and controller into XIP
                                                                  work mode. */
         uint32_t reserved_3_7          : 5;
         uint32_t dac_bank_num          : 3;  /**< [  2:  0](R/W) Number of bank targeted by DIRECT work mode. */
 #else /* Word 0 - Little Endian */
         uint32_t dac_bank_num          : 3;  /**< [  2:  0](R/W) Number of bank targeted by DIRECT work mode. */
         uint32_t reserved_3_7          : 5;
-        uint32_t mode_bit_xip_en       : 1;  /**< [  8:  8](R/W) If set to 1 controller will send mode bits specified in the xip_en_mb_val for next READ
-                                                                 transaction and set the xip_en bit. This will cause switching both device and controller into XIP
+        uint32_t mode_bit_xip_en       : 1;  /**< [  8:  8](R/W) If set to 1, controller will send mode bits specified in the [XIP_EN_MB_VAL] for next READ
+                                                                 transaction and set the [XIP_EN] bit. This will cause switching both device and controller into XIP
                                                                  work mode. */
-        uint32_t mode_bit_xip_dis      : 1;  /**< [  9:  9](R/W) If set to 1 controller will send mode bits specified in the xip_dis_mb_val for next READ
-                                                                 transaction and clear the xip_en bit. This will cause disabling XIP work mode for both device and
+        uint32_t mode_bit_xip_dis      : 1;  /**< [  9:  9](R/W) If set to 1, controller will send mode bits specified in the [XIP_DIS_MB_VAL] for next READ
+                                                                 transaction and clear the [XIP_EN] bit. This will cause disabling XIP work mode for both device and
                                                                  controller. */
         uint32_t reserved_10_11        : 2;
-        uint32_t rmp_addr_en           : 1;  /**< [ 12: 12](R/W) Enables Slave Data Interface address remapping. When set to 1, the incoming Slave Data Interface
+        uint32_t rmp_addr_en           : 1;  /**< [ 12: 12](R/W) Enables slave data interface address remapping. When set to 1, the incoming slave data interface
                                                                  address will be adopted and sent to the Flash device as (address - N), where N is the value stored
                                                                  in the remap address register. */
         uint32_t reserved_13_15        : 3;
@@ -144,7 +144,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(uint64_t a)
  * SPI Cmn Seq Regs Direct Access Rmp Register
  * This register allows to the user to define the address offset for DIRECT work mode
  * for lower part of
- * input address on Slave Data Interface.
+ * input address on slave data interface.
  */
 union cavm_spix_cmn_seq_regs_direct_access_rmp
 {
@@ -152,10 +152,10 @@ union cavm_spix_cmn_seq_regs_direct_access_rmp
     struct cavm_spix_cmn_seq_regs_direct_access_rmp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rmp_addr_val          : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+        uint32_t rmp_addr_val          : 32; /**< [ 31:  0](R/W) Remapping of incoming address on slave data interface to a different address used by the Flash
                                                                  device. Value of this register must be aligned to 8 bytes. */
 #else /* Word 0 - Little Endian */
-        uint32_t rmp_addr_val          : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+        uint32_t rmp_addr_val          : 32; /**< [ 31:  0](R/W) Remapping of incoming address on slave data interface to a different address used by the Flash
                                                                  device. Value of this register must be aligned to 8 bytes. */
 #endif /* Word 0 - End */
     } s;
@@ -192,10 +192,10 @@ union cavm_spix_cmn_seq_regs_direct_access_rmp_1
     struct cavm_spix_cmn_seq_regs_direct_access_rmp_1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rmp_addr_val_1        : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+        uint32_t rmp_addr_val_1        : 32; /**< [ 31:  0](R/W) Remapping of incoming address on slave data interface to a different address used by the Flash
                                                                  device. */
 #else /* Word 0 - Little Endian */
-        uint32_t rmp_addr_val_1        : 32; /**< [ 31:  0](R/W) Remapping of incoming address on Slave Data Interface to a different address used by the Flash
+        uint32_t rmp_addr_val_1        : 32; /**< [ 31:  0](R/W) Remapping of incoming address on slave data interface to a different address used by the Flash
                                                                  device. */
 #endif /* Word 0 - End */
     } s;
@@ -254,7 +254,7 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg
                                                                  0 = Disable.
                                                                  1 = Enable. */
         uint32_t seq_crc_ual_chunk_chk : 1;  /**< [ 17: 17](R/W) It enables checking correctness of CRC unaligned chunk from Flash Device. It can be set high only
-                                                                 if seq_crc_ual_chunk_en = 1. It must be set low otherwise.
+                                                                 if [SEQ_CRC_UAL_CHUNK_EN] = 1. It must be set low otherwise.
                                                                  Allowed values are:
                                                                  0 = Disable.
                                                                  1 = Enable. */
@@ -275,7 +275,7 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg
                                                                  0x6 = 256B.
                                                                  0x7 = 512B. */
         uint32_t reserved_11           : 1;
-        uint32_t seq_crc_oe            : 1;  /**< [ 10: 10](R/W) "It determines if the controller expects the xSPI device to toggle CRC data on both SPI clock edges
+        uint32_t seq_crc_oe            : 1;  /**< [ 10: 10](R/W) "Determines if the controller expects the xSPI device to toggle CRC data on both SPI clock edges
                                                                  in CRC-\>CRC# sequence.
                                                                  Allowed values are:
                                                                  0 = Disable.
@@ -359,7 +359,7 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg
                                                                  0 = CRC is calculated for all bytes of address transfer phase only and put on the bus after
                                                                  address transfer phase.
                                                                  1 = CRC is calculated for all bytes in sequence and put on the bus after all bytes in sequence. */
-        uint32_t seq_crc_oe            : 1;  /**< [ 10: 10](R/W) "It determines if the controller expects the xSPI device to toggle CRC data on both SPI clock edges
+        uint32_t seq_crc_oe            : 1;  /**< [ 10: 10](R/W) "Determines if the controller expects the xSPI device to toggle CRC data on both SPI clock edges
                                                                  in CRC-\>CRC# sequence.
                                                                  Allowed values are:
                                                                  0 = Disable.
@@ -382,7 +382,7 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg
                                                                  0 = Disable.
                                                                  1 = Enable. */
         uint32_t seq_crc_ual_chunk_chk : 1;  /**< [ 17: 17](R/W) It enables checking correctness of CRC unaligned chunk from Flash Device. It can be set high only
-                                                                 if seq_crc_ual_chunk_en = 1. It must be set low otherwise.
+                                                                 if [SEQ_CRC_UAL_CHUNK_EN] = 1. It must be set low otherwise.
                                                                  Allowed values are:
                                                                  0 = Disable.
                                                                  1 = Enable. */
@@ -458,8 +458,8 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg_1
         uint32_t reserved_17_23        : 7;
         uint32_t seq_page_ca_size      : 1;  /**< [ 16: 16](R/W) Width of the Column Address for SPI NAND devices. Value of this field is used to calculate the
                                                                  next page address in case when data size specified in sequence exceed the current page capacity.
-                                                                 0 = 12 bit address width.
-                                                                 1 = 13 bit address width. */
+                                                                 0 = 12-bit address width.
+                                                                 1 = 13-bit address width. */
         uint32_t reserved_9_15         : 7;
         uint32_t seq_page_size_ext     : 9;  /**< [  8:  0](R/W) Determines the extended page size area (spare area size) for SPI NAND devices. Number of data
                                                                  bytes transmitted to/from each page will be extended by a value of this field. This field is not
@@ -471,8 +471,8 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg_1
         uint32_t reserved_9_15         : 7;
         uint32_t seq_page_ca_size      : 1;  /**< [ 16: 16](R/W) Width of the Column Address for SPI NAND devices. Value of this field is used to calculate the
                                                                  next page address in case when data size specified in sequence exceed the current page capacity.
-                                                                 0 = 12 bit address width.
-                                                                 1 = 13 bit address width. */
+                                                                 0 = 12-bit address width.
+                                                                 1 = 13-bit address width. */
         uint32_t reserved_17_23        : 7;
         uint32_t seq_page_per_block    : 3;  /**< [ 26: 24](R/W) Number of pages per blocks for SPI NAND device (encoded as 2^N):
                                                                  0x0 = 1 page per block,
@@ -511,7 +511,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(uint64_t a)
 /**
  * Register (NCB32b) spi#_cmn_seq_regs_xip_mode_cfg
  *
- * SPI Cmn Seq Regs Xip Mode Cfg Register
+ * SPI Cmn Seq Regs XIP Mode Cfg Register
  * Register designated to configure controller in XIP work mode in CDMA, PIO and DIRECT work mode.
  */
 union cavm_spix_cmn_seq_regs_xip_mode_cfg
@@ -521,8 +521,8 @@ union cavm_spix_cmn_seq_regs_xip_mode_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t xip_dis_mb_val        : 8;  /**< [ 23: 16](R/W) Value of mode-bits required to disable XIP mode. */
-        uint32_t xip_en_mb_val         : 8;  /**< [ 15:  8](R/W) Value of mode-bits required to enable XIP mode. */
+        uint32_t xip_dis_mb_val        : 8;  /**< [ 23: 16](R/W) Value of mode bits required to disable XIP mode. */
+        uint32_t xip_en_mb_val         : 8;  /**< [ 15:  8](R/W) Value of mode bits required to enable XIP mode. */
         uint32_t xip_en                : 8;  /**< [  7:  0](R/W) XIP mode enable for selected memory bank. If XIP mode is enabled only READ sequences are valid.
                                                                  Invoking any other command sequence will be ignored and CMD_ERROR/DSC_ERROR/dir_cmd_err will be
                                                                  rise. */
@@ -530,8 +530,8 @@ union cavm_spix_cmn_seq_regs_xip_mode_cfg
         uint32_t xip_en                : 8;  /**< [  7:  0](R/W) XIP mode enable for selected memory bank. If XIP mode is enabled only READ sequences are valid.
                                                                  Invoking any other command sequence will be ignored and CMD_ERROR/DSC_ERROR/dir_cmd_err will be
                                                                  rise. */
-        uint32_t xip_en_mb_val         : 8;  /**< [ 15:  8](R/W) Value of mode-bits required to enable XIP mode. */
-        uint32_t xip_dis_mb_val        : 8;  /**< [ 23: 16](R/W) Value of mode-bits required to disable XIP mode. */
+        uint32_t xip_en_mb_val         : 8;  /**< [ 15:  8](R/W) Value of mode bits required to enable XIP mode. */
+        uint32_t xip_dis_mb_val        : 8;  /**< [ 23: 16](R/W) Value of mode bits required to disable XIP mode. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -649,7 +649,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(uint64_t a)
  * Register (NCB32b) spi#_ctrl_cfg_common_discovery_control
  *
  * SPI Control Cfg Common Discovery Control Register
- * Device Discovery control register.
+ * Device discovery control register.
  */
 union cavm_spix_ctrl_cfg_common_discovery_control
 {
@@ -660,15 +660,15 @@ union cavm_spix_ctrl_cfg_common_discovery_control
         uint32_t reserved_19_31        : 13;
         uint32_t discovery_bank        : 3;  /**< [ 18: 16](R/W) Discovery bank select. This is a 3-bit value. Writing value of 0x0-0x7 selects a bank. This field
                                                                  is updated after initialization process. */
-        uint32_t discovery_num_lines   : 4;  /**< [ 15: 12](R/W) Discovery mode. This is a 4-bit value. Writing a value selects number of xSPI I/Os used by Device
-                                                                 Discovery.
+        uint32_t discovery_num_lines   : 4;  /**< [ 15: 12](R/W) Discovery mode. This is a 4-bit value. Writing a value selects number of xSPI I/Os used by device
+                                                                 discovery.
                                                                  0x0 = Auto.
                                                                  0x1 = 1 line.
                                                                  0x2 = 2 lines.
                                                                  0x4 = 4 lines.
                                                                  0x8 = 8 lines.
-                                                                 0xC = 8 lines for Legacy Hyper Flash and xSPI Profile 2.0.
-                                                                 0xE = 1 line for Legacy SPI NAND.
+                                                                 0xC = 8 lines for legacy hyper flash and xSPI Profile 2.0.
+                                                                 0xE = 1 line for legacy SPI NAND.
                                                                  Other values are reserved.
                                                                  This field is updated after initialization process. */
         uint32_t discovery_abnum       : 1;  /**< [ 11: 11](R/W) Discovery 4-bit addressing enable.
@@ -692,39 +692,39 @@ union cavm_spix_ctrl_cfg_common_discovery_control
                                                                  0 = Extended op-code is 0xA5.
                                                                  1 = Extended op-code is 0x5A.
                                                                  This field is updated after initialization process. */
-        uint32_t discovery_inhibit     : 1;  /**< [  5:  5](RO) Discovery inhibit status. This is a status bit to inform whether Device Discovery is inhibited at
+        uint32_t discovery_inhibit     : 1;  /**< [  5:  5](RO) Discovery inhibit status. This is a status bit to inform whether device discovery is inhibited at
                                                                  power-on.
-                                                                 0 = discovery allowed.
-                                                                 1 = discovery inhibited. */
-        uint32_t discovery_fail        : 2;  /**< [  4:  3](RO) Result of the last Discovery operation. Valid if discovery_comp is 1.
+                                                                 0 = Discovery allowed.
+                                                                 1 = Discovery inhibited. */
+        uint32_t discovery_fail        : 2;  /**< [  4:  3](RO) Result of the last Discovery operation. Valid if [DISCOVERY_COMP] is 1.
                                                                  0x0 = xSPI or SPI NAND device detected.
-                                                                 0x1 = failed.
+                                                                 0x1 = Failed.
                                                                  0x2 = Legacy SPI device detected.
-                                                                 0x3 = n/a. */
-        uint32_t discovery_comp        : 1;  /**< [  2:  2](RO) Status of the last Discovery operation. This bit is 1 when Device Discovery operation has finished.
-                                                                 Result can be read from discovery_fail field. */
+                                                                 0x3 = N/A. */
+        uint32_t discovery_comp        : 1;  /**< [  2:  2](RO) Status of the last discovery operation. This bit is 1 when device discovery operation has finished.
+                                                                 Result can be read from [DISCOVERY_FAIL]. */
         uint32_t discovery_req_type    : 1;  /**< [  1:  1](R/W) Discovery request type:
-                                                                 0 = perform full discovery process (try to detect device).
-                                                                 1 = configure registers only to selected mode (not full discovery process). */
-        uint32_t discovery_req         : 1;  /**< [  0:  0](R/W) Discovery request signal. Writing 1 triggers Device Discovery operation. This bit is cleared by
+                                                                 0 = Perform full discovery process (try to detect device).
+                                                                 1 = Configure registers only to selected mode (not full discovery process). */
+        uint32_t discovery_req         : 1;  /**< [  0:  0](R/W) Discovery request signal. Writing 1 triggers device discovery operation. This bit is cleared by
                                                                  hardware when DD operation completes. */
 #else /* Word 0 - Little Endian */
-        uint32_t discovery_req         : 1;  /**< [  0:  0](R/W) Discovery request signal. Writing 1 triggers Device Discovery operation. This bit is cleared by
+        uint32_t discovery_req         : 1;  /**< [  0:  0](R/W) Discovery request signal. Writing 1 triggers device discovery operation. This bit is cleared by
                                                                  hardware when DD operation completes. */
         uint32_t discovery_req_type    : 1;  /**< [  1:  1](R/W) Discovery request type:
-                                                                 0 = perform full discovery process (try to detect device).
-                                                                 1 = configure registers only to selected mode (not full discovery process). */
-        uint32_t discovery_comp        : 1;  /**< [  2:  2](RO) Status of the last Discovery operation. This bit is 1 when Device Discovery operation has finished.
-                                                                 Result can be read from discovery_fail field. */
-        uint32_t discovery_fail        : 2;  /**< [  4:  3](RO) Result of the last Discovery operation. Valid if discovery_comp is 1.
+                                                                 0 = Perform full discovery process (try to detect device).
+                                                                 1 = Configure registers only to selected mode (not full discovery process). */
+        uint32_t discovery_comp        : 1;  /**< [  2:  2](RO) Status of the last discovery operation. This bit is 1 when device discovery operation has finished.
+                                                                 Result can be read from [DISCOVERY_FAIL]. */
+        uint32_t discovery_fail        : 2;  /**< [  4:  3](RO) Result of the last Discovery operation. Valid if [DISCOVERY_COMP] is 1.
                                                                  0x0 = xSPI or SPI NAND device detected.
-                                                                 0x1 = failed.
+                                                                 0x1 = Failed.
                                                                  0x2 = Legacy SPI device detected.
-                                                                 0x3 = n/a. */
-        uint32_t discovery_inhibit     : 1;  /**< [  5:  5](RO) Discovery inhibit status. This is a status bit to inform whether Device Discovery is inhibited at
+                                                                 0x3 = N/A. */
+        uint32_t discovery_inhibit     : 1;  /**< [  5:  5](RO) Discovery inhibit status. This is a status bit to inform whether device discovery is inhibited at
                                                                  power-on.
-                                                                 0 = discovery allowed.
-                                                                 1 = discovery inhibited. */
+                                                                 0 = Discovery allowed.
+                                                                 1 = Discovery inhibited. */
         uint32_t discovery_extop_val   : 1;  /**< [  6:  6](R/W) Discovery extended op-code value.
                                                                  0 = Extended op-code is 0xA5.
                                                                  1 = Extended op-code is 0x5A.
@@ -746,15 +746,15 @@ union cavm_spix_ctrl_cfg_common_discovery_control
                                                                  0 = 3-bit addressing.
                                                                  1 = 4-bit addressing.
                                                                  This field is updated after initialization process. */
-        uint32_t discovery_num_lines   : 4;  /**< [ 15: 12](R/W) Discovery mode. This is a 4-bit value. Writing a value selects number of xSPI I/Os used by Device
-                                                                 Discovery.
+        uint32_t discovery_num_lines   : 4;  /**< [ 15: 12](R/W) Discovery mode. This is a 4-bit value. Writing a value selects number of xSPI I/Os used by device
+                                                                 discovery.
                                                                  0x0 = Auto.
                                                                  0x1 = 1 line.
                                                                  0x2 = 2 lines.
                                                                  0x4 = 4 lines.
                                                                  0x8 = 8 lines.
-                                                                 0xC = 8 lines for Legacy Hyper Flash and xSPI Profile 2.0.
-                                                                 0xE = 1 line for Legacy SPI NAND.
+                                                                 0xC = 8 lines for legacy hyper flash and xSPI Profile 2.0.
+                                                                 0xE = 1 line for legacy SPI NAND.
                                                                  Other values are reserved.
                                                                  This field is updated after initialization process. */
         uint32_t discovery_bank        : 3;  /**< [ 18: 16](R/W) Discovery bank select. This is a 3-bit value. Writing value of 0x0-0x7 selects a bank. This field
@@ -784,8 +784,8 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cfg_common_dma_settings
  *
- * SPI Control Cfg Common Dma Settings Register
- * DMA settings register. It is common register for both Master and Slave interface.
+ * SPI Control Cfg Common DMA Settings Register
+ * DMA settings register. It is common register for both master and slave interface.
  */
 union cavm_spix_ctrl_cfg_common_dma_settings
 {
@@ -856,12 +856,12 @@ union cavm_spix_ctrl_cfg_common_long_polling
         uint32_t reserved_16_31        : 16;
         uint32_t long_polling          : 16; /**< [ 15:  0](R/W) Number of system clock cycles after issue of erase/write operation before the controller starts to
                                                                  check device status (ready/busy and fail/pass). First status checking polling will happen after at
-                                                                 least this many number of system clock cycles. Next status checking will happen every short_polling
+                                                                 least this many number of system clock cycles. Next status checking will happen every short polling
                                                                  cycles. The long polling value should be significantly larger the short polling value. */
 #else /* Word 0 - Little Endian */
         uint32_t long_polling          : 16; /**< [ 15:  0](R/W) Number of system clock cycles after issue of erase/write operation before the controller starts to
                                                                  check device status (ready/busy and fail/pass). First status checking polling will happen after at
-                                                                 least this many number of system clock cycles. Next status checking will happen every short_polling
+                                                                 least this many number of system clock cycles. Next status checking will happen every short polling
                                                                  cycles. The long polling value should be significantly larger the short polling value. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
@@ -888,7 +888,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cfg_common_sdma_addr0
  *
- * SPI Control Cfg Common Sdma Addr0 Register
+ * SPI Control Cfg Common SDMA Addr0 Register
  * This register stores the buffer address in the host memory that will be used as a
  * sink/source for the
  * SDMA transfer. The SDMA address is based on the Memory Pointer field that was
@@ -930,7 +930,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cfg_common_sdma_addr1
  *
- * SPI Control Cfg Common Sdma Addr1 Register
+ * SPI Control Cfg Common SDMA Addr1 Register
  * This register stores the buffer address in the host memory that will be used as a
  * sink/source for the
  * SDMA transfer. The SDMA address is based on the Memory Pointer field that was
@@ -972,8 +972,8 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cfg_common_sdma_size
  *
- * SPI Control Cfg Common Sdma Size Register
- * Transferred data block size for the Slave DMA module.
+ * SPI Control Cfg Common SDMA Size Register
+ * Transferred data block size for the slave DMA module.
  */
 union cavm_spix_ctrl_cfg_common_sdma_size
 {
@@ -981,10 +981,10 @@ union cavm_spix_ctrl_cfg_common_sdma_size
     struct cavm_spix_ctrl_cfg_common_sdma_size_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sdma_size             : 32; /**< [ 31:  0](RO) Transferred data block size in bytes for the Slave DMA module. Data size is rounded up to the data
+        uint32_t sdma_size             : 32; /**< [ 31:  0](RO) Transferred data block size in bytes for the slave DMA module. Data size is rounded up to the data
                                                                  bus word size. */
 #else /* Word 0 - Little Endian */
-        uint32_t sdma_size             : 32; /**< [ 31:  0](RO) Transferred data block size in bytes for the Slave DMA module. Data size is rounded up to the data
+        uint32_t sdma_size             : 32; /**< [ 31:  0](RO) Transferred data block size in bytes for the slave DMA module. Data size is rounded up to the data
                                                                  bus word size. */
 #endif /* Word 0 - End */
     } s;
@@ -1010,8 +1010,8 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cfg_common_sdma_trd_info
  *
- * SPI Control Cfg Common Sdma Trd Info Register
- * Information for current Slave DMA transaction related with execution thread.
+ * SPI Control Cfg Common SDMA Thread Info Register
+ * Information for current slave DMA transaction related with execution thread.
  */
 union cavm_spix_ctrl_cfg_common_sdma_trd_info
 {
@@ -1020,13 +1020,13 @@ union cavm_spix_ctrl_cfg_common_sdma_trd_info
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
-        uint32_t sdma_dir              : 1;  /**< [  8:  8](RO) Transfer direction related to current Slave DMA transfer (0-read; 1-write). */
+        uint32_t sdma_dir              : 1;  /**< [  8:  8](RO) Transfer direction related to current slave DMA transfer (0 = read; 1 = write). */
         uint32_t reserved_3_7          : 5;
-        uint32_t sdma_trd              : 3;  /**< [  2:  0](RO) Thread number associated with transferred data block for the Slave DMA module. */
+        uint32_t sdma_trd              : 3;  /**< [  2:  0](RO) Thread number associated with transferred data block for the slave DMA module. */
 #else /* Word 0 - Little Endian */
-        uint32_t sdma_trd              : 3;  /**< [  2:  0](RO) Thread number associated with transferred data block for the Slave DMA module. */
+        uint32_t sdma_trd              : 3;  /**< [  2:  0](RO) Thread number associated with transferred data block for the slave DMA module. */
         uint32_t reserved_3_7          : 5;
-        uint32_t sdma_dir              : 1;  /**< [  8:  8](RO) Transfer direction related to current Slave DMA transfer (0-read; 1-write). */
+        uint32_t sdma_dir              : 1;  /**< [  8:  8](RO) Transfer direction related to current slave DMA transfer (0 = read; 1 = write). */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
@@ -1109,24 +1109,24 @@ union cavm_spix_ctrl_cmd_stat_boot_status
                                                                  Allowed values are:
                                                                  0 = no error detected.
                                                                  1 = error detected. */
-        uint32_t boot_crc_err          : 1;  /**< [  1:  1](RO) This field describes crc status during boot process. If it is set to a high value, the boot
-                                                                 process failed due to the crc error on the xspi interface.
+        uint32_t boot_crc_err          : 1;  /**< [  1:  1](RO) This field describes CRC status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the CRC error on the xSPI interface.
                                                                  Allowed values are:
                                                                  0 = no error detected,
                                                                  1 = error detected. */
-        uint32_t boot_dqs_err          : 1;  /**< [  0:  0](RO) This field describes dqs status during boot process. If it is set to a high value, the boot
-                                                                 process failed due to the dqs error on the xspi interface.
+        uint32_t boot_dqs_err          : 1;  /**< [  0:  0](RO) This field describes DQS status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the DQS error on the xSPI interface.
                                                                  Allowed values are:
                                                                  0 = no error detected,
                                                                  1 = error detected. */
 #else /* Word 0 - Little Endian */
-        uint32_t boot_dqs_err          : 1;  /**< [  0:  0](RO) This field describes dqs status during boot process. If it is set to a high value, the boot
-                                                                 process failed due to the dqs error on the xspi interface.
+        uint32_t boot_dqs_err          : 1;  /**< [  0:  0](RO) This field describes DQS status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the DQS error on the xSPI interface.
                                                                  Allowed values are:
                                                                  0 = no error detected,
                                                                  1 = error detected. */
-        uint32_t boot_crc_err          : 1;  /**< [  1:  1](RO) This field describes crc status during boot process. If it is set to a high value, the boot
-                                                                 process failed due to the crc error on the xspi interface.
+        uint32_t boot_crc_err          : 1;  /**< [  1:  1](RO) This field describes CRC status during boot process. If it is set to a high value, the boot
+                                                                 process failed due to the CRC error on the xSPI interface.
                                                                  Allowed values are:
                                                                  0 = no error detected,
                                                                  1 = error detected. */
@@ -1391,12 +1391,12 @@ union cavm_spix_ctrl_cmd_stat_cmd_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t cmd_status            : 32; /**< [ 31:  0](RO) Command status register field. This field gives the software direct access to selected thread
-                                                                 descriptors status or STIG status. Number of accessed thread can be selected with cmd_status_ptr
-                                                                 register (not applicable for STIG work mode). */
+                                                                 descriptors status or STIG status. Number of accessed thread can be selected with
+                                                                 SPI()_CTRL_CMD_STAT_CMD_STATUS_PTR (not applicable for STIG work mode). */
 #else /* Word 0 - Little Endian */
         uint32_t cmd_status            : 32; /**< [ 31:  0](RO) Command status register field. This field gives the software direct access to selected thread
-                                                                 descriptors status or STIG status. Number of accessed thread can be selected with cmd_status_ptr
-                                                                 register (not applicable for STIG work mode). */
+                                                                 descriptors status or STIG status. Number of accessed thread can be selected with
+                                                                 SPI()_CTRL_CMD_STAT_CMD_STATUS_PTR (not applicable for STIG work mode). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_ctrl_cmd_stat_cmd_status_s cn; */
@@ -1433,9 +1433,9 @@ union cavm_spix_ctrl_cmd_stat_cmd_status_ptr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t thrd_status_sel       : 3;  /**< [  2:  0](R/W) Number of thread whose status will be available in cmd_status register. */
+        uint32_t thrd_status_sel       : 3;  /**< [  2:  0](R/W) Number of thread for which status will be available in SPI()_CTRL_CMD_STAT_CMD_STATUS. */
 #else /* Word 0 - Little Endian */
-        uint32_t thrd_status_sel       : 3;  /**< [  2:  0](R/W) Number of thread whose status will be available in cmd_status register. */
+        uint32_t thrd_status_sel       : 3;  /**< [  2:  0](R/W) Number of thread for which status will be available in SPI()_CTRL_CMD_STAT_CMD_STATUS. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -1471,51 +1471,55 @@ union cavm_spix_ctrl_cmd_stat_ctrl_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
-        uint32_t init_comp             : 1;  /**< [ 16: 16](RO) The xSPI Controller has completed its reset and initialization process. */
+        uint32_t init_comp             : 1;  /**< [ 16: 16](RO) The xSPI controller has completed its reset and initialization process. */
         uint32_t reserved_10_15        : 6;
         uint32_t init_fail             : 2;  /**< [  9:  8](RO) Initialization process status:
                                                                  0x0 = xSPI device detected.
-                                                                 0x1 = failed.
+                                                                 0x1 = Failed.
                                                                  0x2 = Legacy SPI device detected.
-                                                                 0x3 = n/a. */
+                                                                 0x3 = N/A. */
         uint32_t ctrl_busy             : 1;  /**< [  7:  7](RO) This bit indicates if controller is in the busy state or not.
                                                                  0 = Controller is idle.
                                                                  1 = Controller is busy.
                                                                  This bit is routed to the controller interface as ctrl_busy pin. */
-        uint32_t discovery_busy        : 1;  /**< [  6:  6](RO) If 1 the Device Discovery internal module is busy. When Device Discovery internal module is
-                                                                 inhibited then this bit is set during initial delay and PHY initialization procedure. */
+        uint32_t discovery_busy        : 1;  /**< [  6:  6](RO) If 1, the device discovery internal module is busy. When device discovery internal module is
+                                                                 inhibited, then this bit is set during the initial delay and PHY initialization procedure. */
         uint32_t reserved_5            : 1;
-        uint32_t gcmd_eng_mc_busy      : 1;  /**< [  4:  4](RO) If 1 the Minicontroller waits for next/last instruction in glued chain or executes requested
-                                                                 sequence on xSPI i/f. Flag is generated only in STIG work mode. */
-        uint32_t gcmd_eng_busy         : 1;  /**< [  3:  3](RO) For DIRECT work mode: if 1 the DIRECT CMD Generator internal module is busy and will not accept
-                                                                 new request on Slave Data Interface.
-                                                                 For STIG work mode: if 1 the STIG internal module is busy. */
-        uint32_t acmd_eng_busy         : 1;  /**< [  2:  2](RO) If 1 the Auto Command Engine internal module is busy. */
-        uint32_t mdma_busy             : 1;  /**< [  1:  1](RO) If 1 the Master DMA internal module is busy. */
-        uint32_t sdma_busy             : 1;  /**< [  0:  0](RO) If 1 the Slave DMA internal module is busy. */
+        uint32_t gcmd_eng_mc_busy      : 1;  /**< [  4:  4](RO) If 1, the minicontroller waits for the next/last instruction in the glued chain
+                                                                 or executes requested
+                                                                 sequence on the xSPI interface. This flag is generated only in STIG work mode. */
+        uint32_t gcmd_eng_busy         : 1;  /**< [  3:  3](RO) For DIRECT work mode: if set to 1, the DIRECT CMD generator internal module is
+                                                                 busy and will not accept
+                                                                 new requests on the slave data interface.
+                                                                 For STIG work mode: if set to 1, the STIG internal module is busy. */
+        uint32_t acmd_eng_busy         : 1;  /**< [  2:  2](RO) If set to 1, the auto command engine internal module is busy. */
+        uint32_t mdma_busy             : 1;  /**< [  1:  1](RO) If set to 1, the master DMA internal module is busy. */
+        uint32_t sdma_busy             : 1;  /**< [  0:  0](RO) If set to 1, the slave DMA internal module is busy. */
 #else /* Word 0 - Little Endian */
-        uint32_t sdma_busy             : 1;  /**< [  0:  0](RO) If 1 the Slave DMA internal module is busy. */
-        uint32_t mdma_busy             : 1;  /**< [  1:  1](RO) If 1 the Master DMA internal module is busy. */
-        uint32_t acmd_eng_busy         : 1;  /**< [  2:  2](RO) If 1 the Auto Command Engine internal module is busy. */
-        uint32_t gcmd_eng_busy         : 1;  /**< [  3:  3](RO) For DIRECT work mode: if 1 the DIRECT CMD Generator internal module is busy and will not accept
-                                                                 new request on Slave Data Interface.
-                                                                 For STIG work mode: if 1 the STIG internal module is busy. */
-        uint32_t gcmd_eng_mc_busy      : 1;  /**< [  4:  4](RO) If 1 the Minicontroller waits for next/last instruction in glued chain or executes requested
-                                                                 sequence on xSPI i/f. Flag is generated only in STIG work mode. */
+        uint32_t sdma_busy             : 1;  /**< [  0:  0](RO) If set to 1, the slave DMA internal module is busy. */
+        uint32_t mdma_busy             : 1;  /**< [  1:  1](RO) If set to 1, the master DMA internal module is busy. */
+        uint32_t acmd_eng_busy         : 1;  /**< [  2:  2](RO) If set to 1, the auto command engine internal module is busy. */
+        uint32_t gcmd_eng_busy         : 1;  /**< [  3:  3](RO) For DIRECT work mode: if set to 1, the DIRECT CMD generator internal module is
+                                                                 busy and will not accept
+                                                                 new requests on the slave data interface.
+                                                                 For STIG work mode: if set to 1, the STIG internal module is busy. */
+        uint32_t gcmd_eng_mc_busy      : 1;  /**< [  4:  4](RO) If 1, the minicontroller waits for the next/last instruction in the glued chain
+                                                                 or executes requested
+                                                                 sequence on the xSPI interface. This flag is generated only in STIG work mode. */
         uint32_t reserved_5            : 1;
-        uint32_t discovery_busy        : 1;  /**< [  6:  6](RO) If 1 the Device Discovery internal module is busy. When Device Discovery internal module is
-                                                                 inhibited then this bit is set during initial delay and PHY initialization procedure. */
+        uint32_t discovery_busy        : 1;  /**< [  6:  6](RO) If 1, the device discovery internal module is busy. When device discovery internal module is
+                                                                 inhibited, then this bit is set during the initial delay and PHY initialization procedure. */
         uint32_t ctrl_busy             : 1;  /**< [  7:  7](RO) This bit indicates if controller is in the busy state or not.
                                                                  0 = Controller is idle.
                                                                  1 = Controller is busy.
                                                                  This bit is routed to the controller interface as ctrl_busy pin. */
         uint32_t init_fail             : 2;  /**< [  9:  8](RO) Initialization process status:
                                                                  0x0 = xSPI device detected.
-                                                                 0x1 = failed.
+                                                                 0x1 = Failed.
                                                                  0x2 = Legacy SPI device detected.
-                                                                 0x3 = n/a. */
+                                                                 0x3 = N/A. */
         uint32_t reserved_10_15        : 6;
-        uint32_t init_comp             : 1;  /**< [ 16: 16](RO) The xSPI Controller has completed its reset and initialization process. */
+        uint32_t init_comp             : 1;  /**< [ 16: 16](RO) The xSPI controller has completed its reset and initialization process. */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1541,10 +1545,10 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_dma_target_error_h
  *
- * SPI Control Command Stat Dma Target Error H Register
+ * SPI Control Command Stat DMA Target Error H Register
  * Master data interface error address [63:32]. This register store address of request on the system
- * master data interface that caused setting the cdma_terr or ddma_terr bits in the
- * intr_status register.
+ * master data interface that caused setting [CDMA_TERR] or [DDMA_TERR] in
+ * SPI()_CTRL_CMD_STAT_INTR_STATUS.
  * Address can be overwritten if error response is detected for the following command sequences.
  */
 union cavm_spix_ctrl_cmd_stat_dma_target_error_h
@@ -1580,11 +1584,11 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_dma_target_error_l
  *
- * SPI Control Command Stat Dma Target Error L Register
+ * SPI Control Command Stat DMA Target Error L Register
  * Master data interface error address [31:0]. This register store address of request on the system
- * master data interface that caused setting the cdma_terr or ddma_terr bits in the
- * intr_status register.
- * Address can be overwritten if error response is detected for the following command sequences.
+ * master data interface that caused setting [CDMA_TERR] or [DDMA_TERR] in
+ * SPI()_CTRL_CMD_STAT_INTR_STATUS.
+ * Address can be overwritten if an error response is detected for the following command sequences.
  */
 union cavm_spix_ctrl_cmd_stat_dma_target_error_l
 {
@@ -1619,10 +1623,10 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_intr_enable
  *
- * SPI Control Command Stat Intr Enable Register
+ * SPI Control Command Stat Interrupt Enable Register
  * Interrupt enable register. If selected bit of this register is set, rising edge of
  * the corresponding
- * bit in intr_status will generate setting of external interrupt line.
+ * bit in SPI(()_CTRL_CMD_STAT_INTR_STATUS will generate setting of external interrupt line.
  */
 union cavm_spix_ctrl_cmd_stat_intr_enable
 {
@@ -1630,23 +1634,23 @@ union cavm_spix_ctrl_cmd_stat_intr_enable
     struct cavm_spix_ctrl_cmd_stat_intr_enable_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t intr_en               : 1;  /**< [ 31: 31](R/W) Global Interrupts enable flag. */
+        uint32_t intr_en               : 1;  /**< [ 31: 31](R/W) Global interrupts enable flag. */
         uint32_t reserved_29_30        : 2;
         uint32_t dir_dev_err_en        : 1;  /**< [ 28: 28](R/W) Enables interrupt when uncorrectable ECC or program fail error occurred in DIRECT work mode. */
         uint32_t dir_ecc_corr_err_en   : 1;  /**< [ 27: 27](R/W) Enables interrupt when correctable ECC error occurred in DIRECT work mode. */
         uint32_t dir_cmd_err_en        : 1;  /**< [ 26: 26](R/W) Enables interrupt when invalid command sequence has been detected in DIRECT work mode. */
-        uint32_t dir_dqs_err_en        : 1;  /**< [ 25: 25](R/W) Enables interrupt when Minicontroller returns DQS error after read or status checking command in
+        uint32_t dir_dqs_err_en        : 1;  /**< [ 25: 25](R/W) Enables interrupt when minicontroller returns DQS error after read or status checking command in
                                                                  DIRECT work mode. */
-        uint32_t dir_crc_err_en        : 1;  /**< [ 24: 24](R/W) Enables interrupt when Minicontroller returns CRC error after read or status checking command in
+        uint32_t dir_crc_err_en        : 1;  /**< [ 24: 24](R/W) Enables interrupt when minicontroller returns CRC error after read or status checking command in
                                                                  DIRECT work mode. */
-        uint32_t stig_done_en          : 1;  /**< [ 23: 23](R/W) Enables interrupt when instruction in glued chain is completed. */
-        uint32_t sdma_err_en           : 1;  /**< [ 22: 22](R/W) Enables interrupt when not allowed access to the Slave DMA interface is detected. */
-        uint32_t sdma_trigg_en         : 1;  /**< [ 21: 21](R/W) Enables interrupt when trigger condition for the Slave DMA is met. */
+        uint32_t stig_done_en          : 1;  /**< [ 23: 23](R/W) Enables interrupt when instruction in a glued chain is completed. */
+        uint32_t sdma_err_en           : 1;  /**< [ 22: 22](R/W) Enables interrupt when not allowed access to the slave DMA interface is detected. */
+        uint32_t sdma_trigg_en         : 1;  /**< [ 21: 21](R/W) Enables interrupt when a trigger condition for the slave DMA is met. */
         uint32_t cmd_ignored_en        : 1;  /**< [ 20: 20](R/W) Interrupt enable for detecting of ignored command. */
         uint32_t reserved_19           : 1;
-        uint32_t ddma_terr_en          : 1;  /**< [ 18: 18](R/W) Interrupt enable for detecting Data DMA Master target error. */
-        uint32_t cdma_terr_en          : 1;  /**< [ 17: 17](R/W) Interrupt enable for detecting Auto CMD Engine target error. */
-        uint32_t ctrl_idle_en          : 1;  /**< [ 16: 16](R/W) Interrupt enable for detecting that Controller has returned to the IDLE state. */
+        uint32_t ddma_terr_en          : 1;  /**< [ 18: 18](R/W) Interrupt enable for detecting data DMA master target error. */
+        uint32_t cdma_terr_en          : 1;  /**< [ 17: 17](R/W) Interrupt enable for detecting auto CMD engine target error. */
+        uint32_t ctrl_idle_en          : 1;  /**< [ 16: 16](R/W) Interrupt enable for detecting that the controller has returned to the IDLE state. */
         uint32_t gp_open_drain_3_en    : 1;  /**< [ 15: 15](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
                                                                  xspi_dfi_gp_open_drain[3] input pin. */
         uint32_t gp_open_drain_2_en    : 1;  /**< [ 14: 14](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
@@ -1666,23 +1670,23 @@ union cavm_spix_ctrl_cmd_stat_intr_enable
                                                                  xspi_dfi_gp_open_drain[2] input pin. */
         uint32_t gp_open_drain_3_en    : 1;  /**< [ 15: 15](R/W) Interrupt enable for detecting the HIGH-to-LOW or LOW-to-HIGH transition on the
                                                                  xspi_dfi_gp_open_drain[3] input pin. */
-        uint32_t ctrl_idle_en          : 1;  /**< [ 16: 16](R/W) Interrupt enable for detecting that Controller has returned to the IDLE state. */
-        uint32_t cdma_terr_en          : 1;  /**< [ 17: 17](R/W) Interrupt enable for detecting Auto CMD Engine target error. */
-        uint32_t ddma_terr_en          : 1;  /**< [ 18: 18](R/W) Interrupt enable for detecting Data DMA Master target error. */
+        uint32_t ctrl_idle_en          : 1;  /**< [ 16: 16](R/W) Interrupt enable for detecting that the controller has returned to the IDLE state. */
+        uint32_t cdma_terr_en          : 1;  /**< [ 17: 17](R/W) Interrupt enable for detecting auto CMD engine target error. */
+        uint32_t ddma_terr_en          : 1;  /**< [ 18: 18](R/W) Interrupt enable for detecting data DMA master target error. */
         uint32_t reserved_19           : 1;
         uint32_t cmd_ignored_en        : 1;  /**< [ 20: 20](R/W) Interrupt enable for detecting of ignored command. */
-        uint32_t sdma_trigg_en         : 1;  /**< [ 21: 21](R/W) Enables interrupt when trigger condition for the Slave DMA is met. */
-        uint32_t sdma_err_en           : 1;  /**< [ 22: 22](R/W) Enables interrupt when not allowed access to the Slave DMA interface is detected. */
-        uint32_t stig_done_en          : 1;  /**< [ 23: 23](R/W) Enables interrupt when instruction in glued chain is completed. */
-        uint32_t dir_crc_err_en        : 1;  /**< [ 24: 24](R/W) Enables interrupt when Minicontroller returns CRC error after read or status checking command in
+        uint32_t sdma_trigg_en         : 1;  /**< [ 21: 21](R/W) Enables interrupt when a trigger condition for the slave DMA is met. */
+        uint32_t sdma_err_en           : 1;  /**< [ 22: 22](R/W) Enables interrupt when not allowed access to the slave DMA interface is detected. */
+        uint32_t stig_done_en          : 1;  /**< [ 23: 23](R/W) Enables interrupt when instruction in a glued chain is completed. */
+        uint32_t dir_crc_err_en        : 1;  /**< [ 24: 24](R/W) Enables interrupt when minicontroller returns CRC error after read or status checking command in
                                                                  DIRECT work mode. */
-        uint32_t dir_dqs_err_en        : 1;  /**< [ 25: 25](R/W) Enables interrupt when Minicontroller returns DQS error after read or status checking command in
+        uint32_t dir_dqs_err_en        : 1;  /**< [ 25: 25](R/W) Enables interrupt when minicontroller returns DQS error after read or status checking command in
                                                                  DIRECT work mode. */
         uint32_t dir_cmd_err_en        : 1;  /**< [ 26: 26](R/W) Enables interrupt when invalid command sequence has been detected in DIRECT work mode. */
         uint32_t dir_ecc_corr_err_en   : 1;  /**< [ 27: 27](R/W) Enables interrupt when correctable ECC error occurred in DIRECT work mode. */
         uint32_t dir_dev_err_en        : 1;  /**< [ 28: 28](R/W) Enables interrupt when uncorrectable ECC or program fail error occurred in DIRECT work mode. */
         uint32_t reserved_29_30        : 2;
-        uint32_t intr_en               : 1;  /**< [ 31: 31](R/W) Global Interrupts enable flag. */
+        uint32_t intr_en               : 1;  /**< [ 31: 31](R/W) Global interrupts enable flag. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_ctrl_cmd_stat_intr_enable_s cn; */
@@ -1707,7 +1711,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_intr_status
  *
- * SPI Control Command Stat Intr Status Register
+ * SPI Control Command Stat Interrupt Status Register
  * Controller status register.
  */
 union cavm_spix_ctrl_cmd_stat_intr_status
@@ -1717,22 +1721,26 @@ union cavm_spix_ctrl_cmd_stat_intr_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
-        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W1C) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
-        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W1C) This bit is set when correctable ECC error occured in DIRECT work mode. */
+        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W1C) This bit is set when an uncorrectable ECC error or program fail bit occurred in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W1C) This bit is set when a correctable ECC error occurred in DIRECT work mode. */
         uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W1C) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
-        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W1C) This bit is set when Minicontroller returns DQS error after the read or status checking command in
+        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W1C) This bit is set when minicontroller returns a DQS error after the read or status
+                                                                 checking command in
                                                                  DIRECT work mode. */
-        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W1C) This bit is set when Minicontroller returns CRC error after the read or status checking command in
+        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W1C) This bit is set when minicontroller returns a CRC error after the read or status
+                                                                 checking command in
                                                                  DIRECT work mode. */
-        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W1C) This bit is set when last instruction in glued chain is completed. */
-        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W1C) This bit is set when not allowed access to the Slave DMA interface is detected. */
-        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W1C) This bit is set when trigger condition for the Slave DMA is meet. */
+        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W1C) This bit is set when the last instruction in glued chain is completed. */
+        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W1C) This bit is set when not allowed access to the slave DMA interface is detected. */
+        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W1C) This bit is set when a trigger condition for the slave DMA is met. */
         uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W1C) ACMD work mode: detected sending of command to busy thread and ignored it.
-                                                                 STIG work mode: detected sending of command to busy STIG Engine module and ignored it. */
+                                                                 STIG work mode: detected sending of command to busy STIG engine module and ignored it. */
         uint32_t reserved_19           : 1;
-        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W1C) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
-                                                                 bus error during reading or writing data. */
-        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W1C) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
+        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W1C) Master data DMA target error. This bit will be set if the master DMA data engine
+                                                                 module detects a system
+                                                                 bus error during reading or writing of data. */
+        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W1C) Command DMA target error.  This bit will be set if the auto command engine
+                                                                 module detects a system bus
                                                                  error during reading descriptor from system memory or during descriptor status field write
                                                                  operation. */
         uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W1C) The xSPI controller has returned to the IDLE state. */
@@ -1748,24 +1756,28 @@ union cavm_spix_ctrl_cmd_stat_intr_status
         uint32_t gp_open_drain_2       : 1;  /**< [ 14: 14](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[2] input pin. */
         uint32_t gp_open_drain_3       : 1;  /**< [ 15: 15](R/W1C) The HIGH-to-LOW or LOW-to-HIGH transition detected on the xspi_dfi_gp_open_drain[3] input pin. */
         uint32_t ctrl_idle             : 1;  /**< [ 16: 16](R/W1C) The xSPI controller has returned to the IDLE state. */
-        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W1C) Command DMA Target error.  This bit will be set if Auto Command Engine module detects system bus
+        uint32_t cdma_terr             : 1;  /**< [ 17: 17](R/W1C) Command DMA target error.  This bit will be set if the auto command engine
+                                                                 module detects a system bus
                                                                  error during reading descriptor from system memory or during descriptor status field write
                                                                  operation. */
-        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W1C) Master Data DMA Target error. This bit will be set if Master DMA Data engine module detects system
-                                                                 bus error during reading or writing data. */
+        uint32_t ddma_terr             : 1;  /**< [ 18: 18](R/W1C) Master data DMA target error. This bit will be set if the master DMA data engine
+                                                                 module detects a system
+                                                                 bus error during reading or writing of data. */
         uint32_t reserved_19           : 1;
         uint32_t cmd_ignored           : 1;  /**< [ 20: 20](R/W1C) ACMD work mode: detected sending of command to busy thread and ignored it.
-                                                                 STIG work mode: detected sending of command to busy STIG Engine module and ignored it. */
-        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W1C) This bit is set when trigger condition for the Slave DMA is meet. */
-        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W1C) This bit is set when not allowed access to the Slave DMA interface is detected. */
-        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W1C) This bit is set when last instruction in glued chain is completed. */
-        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W1C) This bit is set when Minicontroller returns CRC error after the read or status checking command in
+                                                                 STIG work mode: detected sending of command to busy STIG engine module and ignored it. */
+        uint32_t sdma_trigg            : 1;  /**< [ 21: 21](R/W1C) This bit is set when a trigger condition for the slave DMA is met. */
+        uint32_t sdma_err              : 1;  /**< [ 22: 22](R/W1C) This bit is set when not allowed access to the slave DMA interface is detected. */
+        uint32_t stig_done             : 1;  /**< [ 23: 23](R/W1C) This bit is set when the last instruction in glued chain is completed. */
+        uint32_t dir_crc_err           : 1;  /**< [ 24: 24](R/W1C) This bit is set when minicontroller returns a CRC error after the read or status
+                                                                 checking command in
                                                                  DIRECT work mode. */
-        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W1C) This bit is set when Minicontroller returns DQS error after the read or status checking command in
+        uint32_t dir_dqs_err           : 1;  /**< [ 25: 25](R/W1C) This bit is set when minicontroller returns a DQS error after the read or status
+                                                                 checking command in
                                                                  DIRECT work mode. */
         uint32_t dir_cmd_err           : 1;  /**< [ 26: 26](R/W1C) This bit is set when an invalid command sequence has been detected in DIRECT work mode. */
-        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W1C) This bit is set when correctable ECC error occured in DIRECT work mode. */
-        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W1C) This bit is set when uncorrectable ECC error or program fail bit occured in DIRECT work mode. */
+        uint32_t dir_ecc_corr_err      : 1;  /**< [ 27: 27](R/W1C) This bit is set when a correctable ECC error occurred in DIRECT work mode. */
+        uint32_t dir_dev_err           : 1;  /**< [ 28: 28](R/W1C) This bit is set when an uncorrectable ECC error or program fail bit occurred in DIRECT work mode. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
@@ -1791,10 +1803,10 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_trd_comp_intr_status
  *
- * SPI Control Command Stat Trd Comp Intr Status Register
- * Each bit of this field correspond to the Auto Command Engine thread. Each bit
+ * SPI Control Command Stat Thread Comp Interrupt Status Register
+ * Each bit of this field correspond to the auto command engine thread. Each bit
  * informs about descriptor
- * status for selected thread. It is set only when INT bit of descriptor is set.
+ * status for selected thread. It is set only when INT bit of the descriptor is set.
  */
 union cavm_spix_ctrl_cmd_stat_trd_comp_intr_status
 {
@@ -1845,10 +1857,10 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_trd_error_intr_en
  *
- * SPI Control Command Stat Trd Error Intr En Register
- * Interrupt enable register. If selected bit of this register is set, rising edge of
+ * SPI Control Command Stat Thread Error Interrupt En Register
+ * Interrupt enable register. If the selected bit of this register is set, the rising edge of
  * corresponding bit
- * in trd_error_intr_status will cause setting of the external interrupt line.
+ * in SPI()_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS will cause setting of the external interrupt line.
  */
 union cavm_spix_ctrl_cmd_stat_trd_error_intr_en
 {
@@ -1885,11 +1897,11 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_trd_error_intr_status
  *
- * SPI Control Command Stat Trd Error Intr Status Register
- * Thread error indicates that the Auto Command Engine thread detected an error condition. To get more
- * information on the error, s/w needs to read the status field of the descriptor or
+ * SPI Control Command Stat Thread Error Interrupt Status Register
+ * Thread error indicates that the auto command engine thread detected an error condition. To get more
+ * information on the error, software must read the status field of the descriptor or
  * appropriate status
- * register depending on current work mode.
+ * register depending on the current work mode.
  */
 union cavm_spix_ctrl_cmd_stat_trd_error_intr_status
 {
@@ -1940,8 +1952,8 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_cmd_stat_trd_status
  *
- * SPI Control Command Stat Trd Status Register
- * Auto Command Engine threads state.
+ * SPI Control Command Stat Thread Status Register
+ * Auto command engine threads state.
  */
 union cavm_spix_ctrl_cmd_stat_trd_status
 {
@@ -1950,9 +1962,9 @@ union cavm_spix_ctrl_cmd_stat_trd_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t trd_busy              : 8;  /**< [  7:  0](RO) Indicates Auto Command Engine thread busy status. If 1 corresponding thread is busy. */
+        uint32_t trd_busy              : 8;  /**< [  7:  0](RO) Indicates auto command engine thread busy status. If set to 1, the corresponding thread is busy. */
 #else /* Word 0 - Little Endian */
-        uint32_t trd_busy              : 8;  /**< [  7:  0](RO) Indicates Auto Command Engine thread busy status. If 1 corresponding thread is busy. */
+        uint32_t trd_busy              : 8;  /**< [  7:  0](RO) Indicates auto command engine thread busy status. If set to 1, the corresponding thread is busy. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1979,7 +1991,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(uint64_t a)
  * Register (NCB32b) spi#_ctrl_consts_ctrl_features_reg
  *
  * SPI Control Consts Control Features Register
- * Shows available hardware features of the controller
+ * Shows available hardware features of the controller.
  */
 union cavm_spix_ctrl_consts_ctrl_features_reg
 {
@@ -1995,11 +2007,11 @@ union cavm_spix_ctrl_consts_ctrl_features_reg
                                                                  0x3 = Eight banks. */
         uint32_t sfr_intf              : 2;  /**< [ 23: 22](RO) SFR interface type  1-APB, other values reserved. */
         uint32_t dma_data_width        : 1;  /**< [ 21: 21](RO) Slave and Master DMA data width:
-                                                                 0 = 32bit.
-                                                                 1 = 64bit. */
+                                                                 0 = 32-bit.
+                                                                 1 = 64-bit. */
         uint32_t dma_addr_width        : 1;  /**< [ 20: 20](RO) Slave and Master DMA address width:
-                                                                 0 = 32bit.
-                                                                 1 = 64bit. */
+                                                                 0 = 32-bit.
+                                                                 1 = 64-bit. */
         uint32_t dma_intf              : 2;  /**< [ 19: 18](RO) DMA interface type (0-AXI4 other values reserved). */
         uint32_t reserved_17           : 1;
         uint32_t boot_available        : 1;  /**< [ 16: 16](RO) Boot feature present. */
@@ -2026,11 +2038,11 @@ union cavm_spix_ctrl_consts_ctrl_features_reg
         uint32_t reserved_17           : 1;
         uint32_t dma_intf              : 2;  /**< [ 19: 18](RO) DMA interface type (0-AXI4 other values reserved). */
         uint32_t dma_addr_width        : 1;  /**< [ 20: 20](RO) Slave and Master DMA address width:
-                                                                 0 = 32bit.
-                                                                 1 = 64bit. */
+                                                                 0 = 32-bit.
+                                                                 1 = 64-bit. */
         uint32_t dma_data_width        : 1;  /**< [ 21: 21](RO) Slave and Master DMA data width:
-                                                                 0 = 32bit.
-                                                                 1 = 64bit. */
+                                                                 0 = 32-bit.
+                                                                 1 = 64-bit. */
         uint32_t sfr_intf              : 2;  /**< [ 23: 22](RO) SFR interface type  1-APB, other values reserved. */
         uint32_t n_banks               : 2;  /**< [ 25: 24](RO) Maximum number of banks supported by hardware. This is an encoded value.
                                                                  0x0 = One bank.
@@ -2062,7 +2074,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(uint64_t a)
 /**
  * Register (NCB32b) spi#_ctrl_consts_spi_ctrl_version
  *
- * SPI Control Consts Xspi Control Version Register
+ * SPI Control Consts xSPI Control Version Register
  * Register contains release identification number.
  */
 union cavm_spix_ctrl_consts_spi_ctrl_version
@@ -2071,13 +2083,13 @@ union cavm_spix_ctrl_consts_spi_ctrl_version
     struct cavm_spix_ctrl_consts_spi_ctrl_version_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t spi_ctrl_magic_number : 16; /**< [ 31: 16](RO) Controller's Magic Number. It is a unique number characteristic to the xSPI Controller. */
+        uint32_t spi_ctrl_magic_number : 16; /**< [ 31: 16](RO) Controller's magic number. It is a unique number characteristic to the xSPI controller. */
         uint32_t spi_ctrl_fix          : 8;  /**< [ 15:  8](RO) Fixed number (minor revision number). */
         uint32_t spi_ctrl_rev          : 8;  /**< [  7:  0](RO) Controller revision number. */
 #else /* Word 0 - Little Endian */
         uint32_t spi_ctrl_rev          : 8;  /**< [  7:  0](RO) Controller revision number. */
         uint32_t spi_ctrl_fix          : 8;  /**< [ 15:  8](RO) Fixed number (minor revision number). */
-        uint32_t spi_ctrl_magic_number : 16; /**< [ 31: 16](RO) Controller's Magic Number. It is a unique number characteristic to the xSPI Controller. */
+        uint32_t spi_ctrl_magic_number : 16; /**< [ 31: 16](RO) Controller's magic number. It is a unique number characteristic to the xSPI controller. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_ctrl_consts_spi_ctrl_version_s cn; */
@@ -2445,7 +2457,7 @@ union cavm_spix_dev_seq_regs_read_seq_cfg_0
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
         uint32_t read_seq_p1_dummy_cnt : 6;  /**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles disabled. This field is used when sending mode-bits is
-                                                                 disabled. Otherwise the read_seq_p1_mb_dummy_cnt is be used. */
+                                                                 disabled. Otherwise the [READ_SEQ_PL_MB_DUMMY_CNT] is be used. */
         uint32_t read_seq_p1_data_edge : 1;  /**< [ 23: 23](R/W) Selecting between SDR/DDR mode for data phase. */
         uint32_t reserved_22           : 1;
         uint32_t read_seq_p1_data_ios  : 2;  /**< [ 21: 20](R/W) Number of lines used to send data phase. */
@@ -2472,7 +2484,7 @@ union cavm_spix_dev_seq_regs_read_seq_cfg_0
         uint32_t reserved_22           : 1;
         uint32_t read_seq_p1_data_edge : 1;  /**< [ 23: 23](R/W) Selecting between SDR/DDR mode for data phase. */
         uint32_t read_seq_p1_dummy_cnt : 6;  /**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles disabled. This field is used when sending mode-bits is
-                                                                 disabled. Otherwise the read_seq_p1_mb_dummy_cnt is be used. */
+                                                                 disabled. Otherwise the [READ_SEQ_PL_MB_DUMMY_CNT] is be used. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -2507,7 +2519,7 @@ union cavm_spix_dev_seq_regs_read_seq_cfg_1
     struct cavm_spix_dev_seq_regs_read_seq_cfg_1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t read_seq_p1_mb_en     : 1;  /**< [ 31: 31](R/W) Set to 1 to ensure the mode bits as defined in the xip_dis_mb_val field are  sent following the
+        uint32_t read_seq_p1_mb_en     : 1;  /**< [ 31: 31](R/W) Set to 1 to ensure the mode bits as defined in the [XIP_DIS_MB_VAL] are  sent following the
                                                                  address bytes. */
         uint32_t reserved_30           : 1;
         uint32_t read_seq_p1_mb_dummy_cnt : 6;/**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles are disabled. This field is used when sending mode-
@@ -2515,14 +2527,14 @@ union cavm_spix_dev_seq_regs_read_seq_cfg_1
         uint32_t reserved_16_23        : 8;
         uint32_t read_seq_p1_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value. */
         uint32_t reserved_5_7          : 3;
-        uint32_t read_seq_p1_cache_random_read_en : 1;/**< [  4:  4](R/W) This bit changes behavior of the Read sequence to utilize the Read Page Cache Random/Read Page
+        uint32_t read_seq_p1_cache_random_read_en : 1;/**< [  4:  4](R/W) This bit changes behavior of the read sequence to utilize the Read Page Cache Random/Read Page
                                                                  Cache Random Last commands. This field is not used in DIRECT mode. */
         uint32_t reserved_1_3          : 3;
         uint32_t read_seq_p1_cmd_ext_en : 1; /**< [  0:  0](R/W) Command extension enable. */
 #else /* Word 0 - Little Endian */
         uint32_t read_seq_p1_cmd_ext_en : 1; /**< [  0:  0](R/W) Command extension enable. */
         uint32_t reserved_1_3          : 3;
-        uint32_t read_seq_p1_cache_random_read_en : 1;/**< [  4:  4](R/W) This bit changes behavior of the Read sequence to utilize the Read Page Cache Random/Read Page
+        uint32_t read_seq_p1_cache_random_read_en : 1;/**< [  4:  4](R/W) This bit changes behavior of the read sequence to utilize the Read Page Cache Random/Read Page
                                                                  Cache Random Last commands. This field is not used in DIRECT mode. */
         uint32_t reserved_5_7          : 3;
         uint32_t read_seq_p1_cmd_ext_val : 8;/**< [ 15:  8](R/W) Command extension value. */
@@ -2530,7 +2542,7 @@ union cavm_spix_dev_seq_regs_read_seq_cfg_1
         uint32_t read_seq_p1_mb_dummy_cnt : 6;/**< [ 29: 24](R/W) Number of dummy cycles. If 0 - dummy cycles are disabled. This field is used when sending mode-
                                                                  bits is enabled. */
         uint32_t reserved_30           : 1;
-        uint32_t read_seq_p1_mb_en     : 1;  /**< [ 31: 31](R/W) Set to 1 to ensure the mode bits as defined in the xip_dis_mb_val field are  sent following the
+        uint32_t read_seq_p1_mb_en     : 1;  /**< [ 31: 31](R/W) Set to 1 to ensure the mode bits as defined in the [XIP_DIS_MB_VAL] are  sent following the
                                                                  address bytes. */
 #endif /* Word 0 - End */
     } s;
@@ -2649,7 +2661,7 @@ union cavm_spix_dev_seq_regs_rst_seq_cfg_0
         uint32_t rst_seq_p1_data_en    : 1;  /**< [ 22: 22](R/W) Enable sending data phase (Confirmation Byte In) following CMD1 phase. */
         uint32_t rst_seq_p1_data_edge  : 1;  /**< [ 21: 21](R/W) Selecting between SDR/DDR mode for data phase (Confirmation Byte In) following CMD1 phase. */
         uint32_t reserved_20           : 1;
-        uint32_t rst_seq_p1_data_ios   : 2;  /**< [ 19: 18](R/W) Number of lines used to send data phase (Confirmation Byte In) followig CMD1 phase. */
+        uint32_t rst_seq_p1_data_ios   : 2;  /**< [ 19: 18](R/W) Number of lines used to send data phase (Confirmation Byte In) following CMD1 phase. */
         uint32_t reserved_17           : 1;
         uint32_t rst_seq_p1_cmd0_en    : 1;  /**< [ 16: 16](R/W) Enable bit for CMD0 phase. */
         uint32_t rst_seq_p1_cmd1_val   : 8;  /**< [ 15:  8](R/W) Command mnemonic value for CMD1 phase. */
@@ -2659,7 +2671,7 @@ union cavm_spix_dev_seq_regs_rst_seq_cfg_0
         uint32_t rst_seq_p1_cmd1_val   : 8;  /**< [ 15:  8](R/W) Command mnemonic value for CMD1 phase. */
         uint32_t rst_seq_p1_cmd0_en    : 1;  /**< [ 16: 16](R/W) Enable bit for CMD0 phase. */
         uint32_t reserved_17           : 1;
-        uint32_t rst_seq_p1_data_ios   : 2;  /**< [ 19: 18](R/W) Number of lines used to send data phase (Confirmation Byte In) followig CMD1 phase. */
+        uint32_t rst_seq_p1_data_ios   : 2;  /**< [ 19: 18](R/W) Number of lines used to send data phase (Confirmation Byte In) following CMD1 phase. */
         uint32_t reserved_20           : 1;
         uint32_t rst_seq_p1_data_edge  : 1;  /**< [ 21: 21](R/W) Selecting between SDR/DDR mode for data phase (Confirmation Byte In) following CMD1 phase. */
         uint32_t rst_seq_p1_data_en    : 1;  /**< [ 22: 22](R/W) Enable sending data phase (Confirmation Byte In) following CMD1 phase. */
@@ -2885,17 +2897,17 @@ union cavm_spix_dev_seq_regs_stat_seq_cfg_10
         uint32_t stat_seq_crdy_idx     : 3;  /**< [ 26: 24](R/W) This field determine which bit of the status word contains the Cache Read Busy (CRBSY) bit
                                                                  information for the SPI NAND Read Page Cache Random operation. This field is not used in DIRECT
                                                                  work mode. */
-        uint32_t stat_seq_ecc_corr_val : 8;  /**< [ 23: 16](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+        uint32_t stat_seq_ecc_corr_val : 8;  /**< [ 23: 16](R/W) Value which will be compared with status word masked by [STAT_SEQ_ECC_FAIL_MASK] in order
                                                                  to detect if the device returned the correctable ECC error during SPI NAND Page Read operation.
                                                                  This method allows to detect single range of correctable errors returned by the XSPI device. */
-        uint32_t stat_seq_ecc_fail_val : 8;  /**< [ 15:  8](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+        uint32_t stat_seq_ecc_fail_val : 8;  /**< [ 15:  8](R/W) Value which will be compared with status word masked by [STAT_SEQ_ECC_FAIL_MASK] in order
                                                                  to detect if the device returned the uncorrectable ECC error during SPI NAND Page Read operation. */
         uint32_t stat_seq_ecc_fail_mask : 8; /**< [  7:  0](R/W) Mask utilized to select which bits of status word carries the ECC status. */
 #else /* Word 0 - Little Endian */
         uint32_t stat_seq_ecc_fail_mask : 8; /**< [  7:  0](R/W) Mask utilized to select which bits of status word carries the ECC status. */
-        uint32_t stat_seq_ecc_fail_val : 8;  /**< [ 15:  8](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+        uint32_t stat_seq_ecc_fail_val : 8;  /**< [ 15:  8](R/W) Value which will be compared with status word masked by [STAT_SEQ_ECC_FAIL_MASK] in order
                                                                  to detect if the device returned the uncorrectable ECC error during SPI NAND Page Read operation. */
-        uint32_t stat_seq_ecc_corr_val : 8;  /**< [ 23: 16](R/W) Value which will be compared with status word masked by the stat_seq_ecc_fail_mask field in order
+        uint32_t stat_seq_ecc_corr_val : 8;  /**< [ 23: 16](R/W) Value which will be compared with status word masked by [STAT_SEQ_ECC_FAIL_MASK] in order
                                                                  to detect if the device returned the correctable ECC error during SPI NAND Page Read operation.
                                                                  This method allows to detect single range of correctable errors returned by the XSPI device. */
         uint32_t stat_seq_crdy_idx     : 3;  /**< [ 26: 24](R/W) This field determine which bit of the status word contains the Cache Read Busy (CRBSY) bit
@@ -3320,6 +3332,43 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(uint64_t a)
 #define arguments_CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) spi#_direct_access#
+ *
+ * SPI Flash Direct map Registers
+ * This register is for memory mapping the external Flash Device to access it in direct mode.
+ * A read transaction to this register would initiate a SPI Read transfer.
+ */
+union cavm_spix_direct_accessx
+{
+    uint64_t u;
+    struct cavm_spix_direct_accessx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) This register is for memory maping the external flash address to the system memory. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) This register is for memory maping the external flash address to the system memory. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_direct_accessx_s cn; */
+};
+typedef union cavm_spix_direct_accessx cavm_spix_direct_accessx_t;
+
+static inline uint64_t CAVM_SPIX_DIRECT_ACCESSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_DIRECT_ACCESSX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=16383))
+        return 0x804010000000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3fff);
+    __cavm_csr_fatal("SPIX_DIRECT_ACCESSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_DIRECT_ACCESSX(a,b) cavm_spix_direct_accessx_t
+#define bustype_CAVM_SPIX_DIRECT_ACCESSX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_DIRECT_ACCESSX(a,b) "SPIX_DIRECT_ACCESSX"
+#define device_bar_CAVM_SPIX_DIRECT_ACCESSX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_DIRECT_ACCESSX(a,b) (a)
+#define arguments_CAVM_SPIX_DIRECT_ACCESSX(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) spi#_eco
  *
  * INTERNAL: SPI ECO Register
@@ -3383,7 +3432,7 @@ static inline uint64_t CAVM_SPIX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_SPIX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x804000ff0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+        return 0x8041000f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("SPIX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3439,7 +3488,7 @@ static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x804000f00000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+        return 0x804100000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SPIX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3479,7 +3528,7 @@ static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x804000f00008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+        return 0x804100000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SPIX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3493,7 +3542,7 @@ static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 /**
  * Register (NCB32b) spi#_phy_ctb_rfile_phy_ctrl
  *
- * SPI Phy Ctb Rfile Phy Control Register
+ * SPI PHY Ctb Rfile PHY Control Register
  * This register handles the global control settings for the PHY.
  */
 union cavm_spix_phy_ctb_rfile_phy_ctrl
@@ -3565,7 +3614,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_ctrl_0
  *
- * SPI Phy Ctb Rfile Phy Gpio Control 0 Register
+ * SPI PHY Ctb Rfile PHY Gpio Control 0 Register
  * This register is a general purpose register. The [31:0]vector is brought to the PHY I/Os. User may
  * choose to use these pins to control any static settings that may be required for
  * connected I/O pads.
@@ -3605,10 +3654,10 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_ctrl_1
  *
- * SPI Phy Ctb Rfile Phy Gpio Control 1 Register
+ * SPI PHY Ctb Rfile PHY Gpio Control 1 Register
  * This register is a general purpose register. The [31:0] vector is brought to the PHY I/Os. User may
  * choose to use these pins to control any static settings that may be required for the
- * connected IO pads.
+ * connected I/O pads.
  */
 union cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1
 {
@@ -3616,10 +3665,10 @@ union cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1
     struct cavm_spix_phy_ctb_rfile_phy_gpio_ctrl_1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY IOs. User may choose to
+        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected IO pads. */
 #else /* Word 0 - Little Endian */
-        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY IOs. User may choose to
+        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected IO pads. */
 #endif /* Word 0 - End */
     } s;
@@ -3645,8 +3694,8 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_status_0
  *
- * SPI Phy Ctb Rfile Phy Gpio Status 0 Register
- * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+ * SPI PHY Ctb Rfile PHY Gpio Status 0 Register
+ * This register is a general purpose register. A [31:0] vector is brought from the PHY I/Os to this
  * register. User may choose to use this as a status register.
  */
 union cavm_spix_phy_ctb_rfile_phy_gpio_status_0
@@ -3684,7 +3733,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_ctb_rfile_phy_gpio_status_1
  *
- * SPI Phy Ctb Rfile Phy Gpio Status 1 Register
+ * SPI PHY Ctb Rfile PHY Gpio Status 1 Register
  * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
  * register. User may choose to use this as a status register.
  */
@@ -3723,7 +3772,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_ctb_rfile_phy_tsel
  *
- * SPI Phy Ctb Rfile Phy Tsel Register
+ * SPI PHY Ctb Rfile PHY Tsel Register
  * This register handles the global control settings for the termination selects for reads.
  * For SD and XSPI controllers this should be disabled.
  */
@@ -3770,8 +3819,8 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_master_ctrl
  *
- * SPI Phy Dataslice Rfile Phy Dll Master Control Register
- * This register holds the control for the Master DLL logic.
+ * SPI PHY Dataslice Rfile PHY DLL Master Control Register
+ * This register holds the control for the master DLL logic.
  */
 union cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl
 {
@@ -3781,13 +3830,15 @@ union cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
         uint32_t param_dll_bypass_mode : 1;  /**< [ 23: 23](R/W) DLL bypass mode control. Controls the bypass mode of the master and slave DLLs. The
-                                                                 param_dll_bypass_mode is intended to be used only for debug.
+                                                                 [PARAM_DLL_BYPASS_MODE] is intended to be used only for debug.
                                                                  0 = Normal operational mode. DLL functioning in normal mode of operation where the slave delay
                                                                  line settings are used as fractional delay of the master delay line encoder reading of the number
                                                                  of delays in one cycle.
-                                                                 1 = Bypass mode on. Delays are defined in phy_dll_slave_ctrl_reg. Master DLL is disabled with only
-                                                                 1 delay element in its delay line. The slave slave delay lines decode delays in absolute delay
-                                                                 elements rather than as fractional delays. The dll_lock field (bit [0]) of the phy_dll_obs_reg_0
+                                                                 1 = Bypass mode on. Delays are defined in
+                                                                 SPI()_PHY_DATASLICE_PHY_DLL_SLAVE_CTRL. Master DLL is disabled with only
+                                                                 1 delay element in its delay line. The slave delay lines decode delays in absolute delay
+                                                                 elements rather than as fractional delays. [DLL_LOCK] (bit [0]) of the
+                                                                 SPI()_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0
                                                                  parameter will be forced high. */
         uint32_t param_phase_detect_sel : 3; /**< [ 22: 20](R/W) Selects the number of delay elements to be inserted between the phase detect flip-flops.
                                                                  Defaults to 0x0 although the recommended value is 2 elements but if a lock condition is not
@@ -3803,7 +3854,8 @@ union cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl
         uint32_t reserved_19           : 1;
         uint32_t param_dll_lock_num    : 3;  /**< [ 18: 16](R/W) Holds the number of consecutive increment or decrement indications that will trigger an unlock
                                                                  condition and increment the dll_unlock_cnt field (bits [7:3]) and either the lock_dec_dbg
-                                                                 (bits [23:16]) or lock_inc_dbg (bits [31:24]) fields of the phy_dll_obs_reg_0 parameter. */
+                                                                 (bits [23:16]) or lock_inc_dbg (bits [31:24]) fields of the
+                                                                 SPI()_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0 parameter. */
         uint32_t reserved_8_15         : 8;
         uint32_t param_dll_start_point : 8;  /**< [  7:  0](R/W) This value is the initial delay value for the DLL. This value is also used as the increment value
                                                                  if the initial value is less than a half-clock cycle. This field should be set such that it is not
@@ -3825,7 +3877,8 @@ union cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl
         uint32_t reserved_8_15         : 8;
         uint32_t param_dll_lock_num    : 3;  /**< [ 18: 16](R/W) Holds the number of consecutive increment or decrement indications that will trigger an unlock
                                                                  condition and increment the dll_unlock_cnt field (bits [7:3]) and either the lock_dec_dbg
-                                                                 (bits [23:16]) or lock_inc_dbg (bits [31:24]) fields of the phy_dll_obs_reg_0 parameter. */
+                                                                 (bits [23:16]) or lock_inc_dbg (bits [31:24]) fields of the
+                                                                 SPI()_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0 parameter. */
         uint32_t reserved_19           : 1;
         uint32_t param_phase_detect_sel : 3; /**< [ 22: 20](R/W) Selects the number of delay elements to be inserted between the phase detect flip-flops.
                                                                  Defaults to 0x0 although the recommended value is 2 elements but if a lock condition is not
@@ -3839,13 +3892,15 @@ union cavm_spix_phy_dataslice_rfile_phy_dll_master_ctrl
                                                                  0x6 = Seven delay element.
                                                                  0x7 = Eight delay element. */
         uint32_t param_dll_bypass_mode : 1;  /**< [ 23: 23](R/W) DLL bypass mode control. Controls the bypass mode of the master and slave DLLs. The
-                                                                 param_dll_bypass_mode is intended to be used only for debug.
+                                                                 [PARAM_DLL_BYPASS_MODE] is intended to be used only for debug.
                                                                  0 = Normal operational mode. DLL functioning in normal mode of operation where the slave delay
                                                                  line settings are used as fractional delay of the master delay line encoder reading of the number
                                                                  of delays in one cycle.
-                                                                 1 = Bypass mode on. Delays are defined in phy_dll_slave_ctrl_reg. Master DLL is disabled with only
-                                                                 1 delay element in its delay line. The slave slave delay lines decode delays in absolute delay
-                                                                 elements rather than as fractional delays. The dll_lock field (bit [0]) of the phy_dll_obs_reg_0
+                                                                 1 = Bypass mode on. Delays are defined in
+                                                                 SPI()_PHY_DATASLICE_PHY_DLL_SLAVE_CTRL. Master DLL is disabled with only
+                                                                 1 delay element in its delay line. The slave delay lines decode delays in absolute delay
+                                                                 elements rather than as fractional delays. [DLL_LOCK] (bit [0]) of the
+                                                                 SPI()_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0
                                                                  parameter will be forced high. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -3872,7 +3927,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_obs_reg_0
  *
- * SPI Phy Dataslice Rfile Phy Dll Obs Reg 0 Register
+ * SPI PHY Dataslice Rfile PHY DLL Obs Reg 0 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_0
@@ -3970,7 +4025,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t 
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_obs_reg_1
  *
- * SPI Phy Dataslice Rfile Phy Dll Obs Reg 1 Register
+ * SPI PHY Dataslice Rfile PHY DLL Obs Reg 1 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_1
@@ -4012,7 +4067,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t 
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_obs_reg_2
  *
- * SPI Phy Dataslice Rfile Phy Dll Obs Reg 2 Register
+ * SPI PHY Dataslice Rfile PHY DLL Obs Reg 2 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_spix_phy_dataslice_rfile_phy_dll_obs_reg_2
@@ -4050,7 +4105,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t 
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dll_slave_ctrl
  *
- * SPI Phy Dataslice Rfile Phy Dll Slave Control Register
+ * SPI PHY Dataslice Rfile PHY DLL Slave Control Register
  * This register holds the control for the slave DLL logic.
  */
 union cavm_spix_phy_dataslice_rfile_phy_dll_slave_ctrl
@@ -4104,7 +4159,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dq_timing
  *
- * SPI Phy Dataslice Rfile Phy Dq Timing Register
+ * SPI PHY Dataslice Rfile PHY Dq Timing Register
  * This register controls the DQ related timing.
  */
 union cavm_spix_phy_dataslice_rfile_phy_dq_timing
@@ -4113,10 +4168,10 @@ union cavm_spix_phy_dataslice_rfile_phy_dq_timing
     struct cavm_spix_phy_dataslice_rfile_phy_dq_timing_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the IO mask for DATA/CMD is always enabled.
-                                                                 0 = disable ie. start/end defines the IO mask functionality. Recommended setting for SD/eMMC
+        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the I/O mask for DATA/CMD is always enabled.
+                                                                 0 = disable i.e. start/end defines the I/O mask functionality. Recommended setting for SD/eMMC
                                                                  controller.
-                                                                 1 = IO mask is always ON. */
+                                                                 1 = I/O mask is always ON. */
         uint32_t reserved_30           : 1;
         uint32_t io_mask_end           : 3;  /**< [ 29: 27](R/W) Adjusts the ending point of the DQ/CMD pad input mask enable. Defines the delay after
                                                                  dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1
@@ -4124,7 +4179,7 @@ union cavm_spix_phy_dataslice_rfile_phy_dq_timing
         uint32_t io_mask_start         : 3;  /**< [ 26: 24](R/W) Adjusts the starting point of the DQ/CMD pad input mask enable. Defines the delay after
                                                                  dfi_wrdata_en/dfi_wrcmd_en goes low when the mask is enabled (data/cmd are passed to PHY). */
         uint32_t data_clkperiod_delay  : 8;  /**< [ 23: 16](R/W) Defines additional latency on the write datapath. It also adds a clock cycle delay for the data
-                                                                 OE path which is equivalent of adding 2 to the data_select_oe_end and data_select_oe_start. */
+                                                                 OE path which is equivalent of adding 2 to the [DATA_SELECT_OE_END] and [DATA_SELECT_OE_START]. */
         uint32_t data_select_tsel_start : 4; /**< [ 15: 12](R/W) Defines the DQ pad dynamic termination select enable time. Larger values add greater delay to when
                                                                  tsel turns on. Each bit changes the output enable time by a 1/2 cycle resolution. */
         uint32_t data_select_tsel_end  : 4;  /**< [ 11:  8](R/W) Defines the DQ pad dynamic termination select disable time. Larger values increase the delay to
@@ -4151,17 +4206,17 @@ union cavm_spix_phy_dataslice_rfile_phy_dq_timing
         uint32_t data_select_tsel_start : 4; /**< [ 15: 12](R/W) Defines the DQ pad dynamic termination select enable time. Larger values add greater delay to when
                                                                  tsel turns on. Each bit changes the output enable time by a 1/2 cycle resolution. */
         uint32_t data_clkperiod_delay  : 8;  /**< [ 23: 16](R/W) Defines additional latency on the write datapath. It also adds a clock cycle delay for the data
-                                                                 OE path which is equivalent of adding 2 to the data_select_oe_end and data_select_oe_start. */
+                                                                 OE path which is equivalent of adding 2 to the [DATA_SELECT_OE_END] and [DATA_SELECT_OE_START]. */
         uint32_t io_mask_start         : 3;  /**< [ 26: 24](R/W) Adjusts the starting point of the DQ/CMD pad input mask enable. Defines the delay after
                                                                  dfi_wrdata_en/dfi_wrcmd_en goes low when the mask is enabled (data/cmd are passed to PHY). */
         uint32_t io_mask_end           : 3;  /**< [ 29: 27](R/W) Adjusts the ending point of the DQ/CMD pad input mask enable. Defines the delay after
                                                                  dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1
                                                                  are passed to PHY). */
         uint32_t reserved_30           : 1;
-        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the IO mask for DATA/CMD is always enabled.
-                                                                 0 = disable ie. start/end defines the IO mask functionality. Recommended setting for SD/eMMC
+        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the I/O mask for DATA/CMD is always enabled.
+                                                                 0 = disable i.e. start/end defines the I/O mask functionality. Recommended setting for SD/eMMC
                                                                  controller.
-                                                                 1 = IO mask is always ON. */
+                                                                 1 = I/O mask is always ON. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_phy_dataslice_rfile_phy_dq_timing_s cn; */
@@ -4186,7 +4241,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_dqs_timing
  *
- * SPI Phy Dataslice Rfile Phy Dqs Timing Register
+ * SPI PHY Dataslice Rfile PHY DQS Timing Register
  * This register controls the DQS related timing.
  */
 union cavm_spix_phy_dataslice_rfile_phy_dqs_timing
@@ -4196,8 +4251,8 @@ union cavm_spix_phy_dataslice_rfile_phy_dqs_timing
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
-                                                                 path which is equivalent of adding 2 to the dqs_select_oe_end and dqs_select_oe_start. */
+        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the DQS OE
+                                                                 path which is equivalent of adding 2 to the [DQS_SELECT_OE_END] and [DQS_SELECT_OE_START]. */
         uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when [USE_PHONY_DQS] and
                                                                  [USE_LPBK_DQS] fields are set high.
                                                                  0 = Use internal lpbk_dqs (mem_rebar_ipad) for data capture.
@@ -4261,8 +4316,8 @@ union cavm_spix_phy_dataslice_rfile_phy_dqs_timing
                                                                  [USE_LPBK_DQS] fields are set high.
                                                                  0 = Use internal lpbk_dqs (mem_rebar_ipad) for data capture.
                                                                  1 = Use external lpbk_dqs (lpbk_dqs connected to the lpbk_dqs_IO PAD) for data capture. */
-        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
-                                                                 path which is equivalent of adding 2 to the dqs_select_oe_end and dqs_select_oe_start. */
+        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the DQS OE
+                                                                 path which is equivalent of adding 2 to the [DQS_SELECT_OE_END] and [DQS_SELECT_OE_START]. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -4288,7 +4343,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_features
  *
- * SPI Phy Dataslice Rfile Phy Features Register
+ * SPI PHY Dataslice Rfile PHY Features Register
  * This register shows available hardware features.
  */
 union cavm_spix_phy_dataslice_rfile_phy_features
@@ -4301,7 +4356,7 @@ union cavm_spix_phy_dataslice_rfile_phy_features
         uint32_t asf_sup               : 1;  /**< [ 15: 15](RO) Support for Automotive Safety Feature. */
         uint32_t pll_sup               : 1;  /**< [ 14: 14](RO) Support for PLL. */
         uint32_t jtag_sup              : 1;  /**< [ 13: 13](RO) Support for JTAG muxes. */
-        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS io pad. */
+        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS I/O pad. */
         uint32_t reg_intf              : 1;  /**< [ 11: 11](RO) SFR interface type.  This is an encoded value. 0 = DFI. 1 = APB. */
         uint32_t per_bit_deskew        : 1;  /**< [ 10: 10](RO) Support for per-bit deskew. */
         uint32_t dfi_clock_ratio       : 1;  /**< [  9:  9](RO) Support for clock ratio on DFI interface. This is an encoded value.
@@ -4337,7 +4392,7 @@ union cavm_spix_phy_dataslice_rfile_phy_features
                                                                  1 = 1:2. */
         uint32_t per_bit_deskew        : 1;  /**< [ 10: 10](RO) Support for per-bit deskew. */
         uint32_t reg_intf              : 1;  /**< [ 11: 11](RO) SFR interface type.  This is an encoded value. 0 = DFI. 1 = APB. */
-        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS io pad. */
+        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS I/O pad. */
         uint32_t jtag_sup              : 1;  /**< [ 13: 13](RO) Support for JTAG muxes. */
         uint32_t pll_sup               : 1;  /**< [ 14: 14](RO) Support for PLL. */
         uint32_t asf_sup               : 1;  /**< [ 15: 15](RO) Support for Automotive Safety Feature. */
@@ -4366,7 +4421,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_gate_lpbk_ctrl
  *
- * SPI Phy Dataslice Rfile Phy Gate Lpbk Control Register
+ * SPI PHY Dataslice Rfile PHY Gate Lpbk Control Register
  * This register controls the gate and loopback control related timing.
  */
 union cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl
@@ -4375,23 +4430,23 @@ union cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl
     struct cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transfering the data from DQS domain flops to the clk_phy clock domain.
+        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transferring the data from DQS domain flops to the clk_phy clock domain.
                                                                  0 = read pointer advances based upon a programmable delay of the dfi_rddata_en pulse from the DFI
                                                                  interface.
                                                                  1 = read pointer advances based upon a programmable delay of the empty signal. Recommended setting
                                                                  for SD/eMMC controller. */
-        uint32_t sw_dqs_phase_bypass   : 1;  /**< [ 30: 30](R/W) 0 = Use phase detect circult to determine the half_cycle_shift.
+        uint32_t sw_dqs_phase_bypass   : 1;  /**< [ 30: 30](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
                                                                  1 = Use the clk_wrdqs_delay delay line setting to determine the half_cycle_shift. A delay line
                                                                  setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff means
                                                                  half_cycle_shift = 1. */
         uint32_t en_sw_half_cycle      : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the
                                                                  clk_wrdqs domain on the positive or negative edge of the PHY clock. This field is valid when
-                                                                 sw_dqs_phase_bypass is low.
+                                                                 [SW_DQS_PHASE_BYPASS] is low.
                                                                  0 = Hardware automatically controls any shifting needed for the write level delay line.
-                                                                 1 = The setting in the sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
+                                                                 1 = The setting in [SW_HALF_CYCLE_SHIFT] (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
                                                                  parameter defines the shift.
                                                                  Note: If the user chooses to control the half cycle shift manually, it is important that the
-                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 0 if
+                                                                 [SW_HALF_CYCLE_SHIFT] (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 0 if
                                                                  the delay is less than a 1/2 cycle and set to 1 if the delay is greater than a 1/2 cycle. It is
                                                                  recommended to allow the hardware to control this automatically. */
         uint32_t sw_half_cycle_shift   : 1;  /**< [ 28: 28](R/W) 0 = No effect.
@@ -4412,7 +4467,7 @@ union cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  If [SYNC_METHOD] is set high the value of this field must take into account the synchronization
                                                                  time of the pointers in the entry FIFO (adding three clock cycles should be sufficient). */
         uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when [SYNC_METHOD] is set high.
-                                                                 Recommended value is zero with an expetion for SD/eMMC controller for which this field
+                                                                 Recommended value is zero with an exception for SD/eMMC controller for which this field
                                                                  need to be set high. */
         uint32_t reserved_17           : 1;
         uint32_t rd_del_sel_empty      : 1;  /**< [ 16: 16](R/W) Defines the read data delay for the empty signal generated based on the incoming DQS strobes. For
@@ -4484,7 +4539,7 @@ union cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  probability to overflow the FIFO. Recommended value is zero. */
         uint32_t reserved_17           : 1;
         uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when [SYNC_METHOD] is set high.
-                                                                 Recommended value is zero with an expetion for SD/eMMC controller for which this field
+                                                                 Recommended value is zero with an exception for SD/eMMC controller for which this field
                                                                  need to be set high. */
         uint32_t rd_del_sel            : 6;  /**< [ 24: 19](R/W) Defines the read data delay. Holds the number of cycles to delay the dfi_rddata_en signal prior to
                                                                  enabling the read FIFO. After this delay, the read pointers begin incrementing the read FIFO.
@@ -4505,19 +4560,19 @@ union cavm_spix_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  1 = Adds a half clock delay to the write data path. */
         uint32_t en_sw_half_cycle      : 1;  /**< [ 29: 29](R/W) Enables the software half cycle shift. This determines if write data is transferred to the
                                                                  clk_wrdqs domain on the positive or negative edge of the PHY clock. This field is valid when
-                                                                 sw_dqs_phase_bypass is low.
+                                                                 [SW_DQS_PHASE_BYPASS] is low.
                                                                  0 = Hardware automatically controls any shifting needed for the write level delay line.
-                                                                 1 = The setting in the sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
+                                                                 1 = The setting in [SW_HALF_CYCLE_SHIFT] (bit [28]) of the phy_gate_lpbk_ctrl_reg bit
                                                                  parameter defines the shift.
                                                                  Note: If the user chooses to control the half cycle shift manually, it is important that the
-                                                                 sw_half_cycle_shift field (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 0 if
+                                                                 [SW_HALF_CYCLE_SHIFT] (bit [28]) of the phy_gate_lpbk_ctrl_reg parameter be cleared to 0 if
                                                                  the delay is less than a 1/2 cycle and set to 1 if the delay is greater than a 1/2 cycle. It is
                                                                  recommended to allow the hardware to control this automatically. */
-        uint32_t sw_dqs_phase_bypass   : 1;  /**< [ 30: 30](R/W) 0 = Use phase detect circult to determine the half_cycle_shift.
+        uint32_t sw_dqs_phase_bypass   : 1;  /**< [ 30: 30](R/W) 0 = Use phase detect circuit to determine the half_cycle_shift.
                                                                  1 = Use the clk_wrdqs_delay delay line setting to determine the half_cycle_shift. A delay line
                                                                  setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff means
                                                                  half_cycle_shift = 1. */
-        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transfering the data from DQS domain flops to the clk_phy clock domain.
+        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transferring the data from DQS domain flops to the clk_phy clock domain.
                                                                  0 = read pointer advances based upon a programmable delay of the dfi_rddata_en pulse from the DFI
                                                                  interface.
                                                                  1 = read pointer advances based upon a programmable delay of the empty signal. Recommended setting
@@ -4546,7 +4601,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_ie_timing
  *
- * SPI Phy Dataslice Rfile Phy Ie Timing Register
+ * SPI PHY Dataslice Rfile PHY Ie Timing Register
  * This register controls the DQS related timing.
  */
 union cavm_spix_phy_dataslice_rfile_phy_ie_timing
@@ -4608,7 +4663,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_obs_reg_0
  *
- * SPI Phy Dataslice Rfile Phy Obs Reg 0 Register
+ * SPI PHY Dataslice Rfile PHY Obs Reg 0 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_spix_phy_dataslice_rfile_phy_obs_reg_0
@@ -4618,7 +4673,7 @@ union cavm_spix_phy_dataslice_rfile_phy_obs_reg_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t dqs_cmd_overflow      : 1;  /**< [ 27: 27](RO) CMD Status signal to indicate that the logic gate was closed too late ie. the number of DQS
+        uint32_t dqs_cmd_overflow      : 1;  /**< [ 27: 27](RO) CMD Status signal to indicate that the logic gate was closed too late, i.e. the number of DQS
                                                                  strobes exceed the capacity of the entry FIFO. It indicates that rd_del_sel signal value is too
                                                                  high and dfi_rddata are corrupted. It is possible that overflow status is asserted with underrun
                                                                  status - in such case the overflow takes the precedence. The dll_rst_n or rst_n clears this flag. */
@@ -4667,7 +4722,7 @@ union cavm_spix_phy_dataslice_rfile_phy_obs_reg_0
         uint32_t dqs_cmd_underrun      : 1;  /**< [ 26: 26](RO) CMD Status signal to indicate that the logic gate had to be forced closed. It indicates that
                                                                  either the DQS strobe did not appear during read or rd_del_sel signal value is too low and
                                                                  dfi_rddata are corrupted. The dll_rst_n or rst_n clears this flag. */
-        uint32_t dqs_cmd_overflow      : 1;  /**< [ 27: 27](RO) CMD Status signal to indicate that the logic gate was closed too late ie. the number of DQS
+        uint32_t dqs_cmd_overflow      : 1;  /**< [ 27: 27](RO) CMD Status signal to indicate that the logic gate was closed too late, i.e. the number of DQS
                                                                  strobes exceed the capacity of the entry FIFO. It indicates that rd_del_sel signal value is too
                                                                  high and dfi_rddata are corrupted. It is possible that overflow status is asserted with underrun
                                                                  status - in such case the overflow takes the precedence. The dll_rst_n or rst_n clears this flag. */
@@ -4696,7 +4751,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_rd_deskew
  *
- * SPI Phy Dataslice Rfile Phy Rd Deskew Register
+ * SPI PHY Dataslice Rfile PHY Rd Deskew Register
  * This register holds the values of delay of each DQ bit on the read path.
  */
 union cavm_spix_phy_dataslice_rfile_phy_rd_deskew
@@ -4746,7 +4801,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_static_togg
  *
- * SPI Phy Dataslice Rfile Phy Static Togg Register
+ * SPI PHY Dataslice Rfile PHY Static Togg Register
  * This register controls the static aging feature of the PHY.
  */
 union cavm_spix_phy_dataslice_rfile_phy_static_togg
@@ -4808,7 +4863,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_version
  *
- * SPI Phy Dataslice Rfile Phy Version Register
+ * SPI PHY Dataslice Rfile PHY Version Register
  * This register contains release identification number.
  */
 union cavm_spix_phy_dataslice_rfile_phy_version
@@ -4848,7 +4903,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_deskew
  *
- * SPI Phy Dataslice Rfile Phy Wr Deskew Register
+ * SPI PHY Dataslice Rfile PHY Wr Deskew Register
  * This register holds the values of delay of each DQ bit on the write path.
  */
 union cavm_spix_phy_dataslice_rfile_phy_wr_deskew
@@ -4898,7 +4953,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
  *
- * SPI Phy Dataslice Rfile Phy Wr Deskew Pd Control 0 Register
+ * SPI PHY Dataslice Rfile PHY Wr Deskew Pd Control 0 Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
  */
 union cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
@@ -5156,7 +5211,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uin
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
  *
- * SPI Phy Dataslice Rfile Phy Wr Deskew Pd Control 1 Register
+ * SPI PHY Dataslice Rfile PHY Wr Deskew Pd Control 1 Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
  */
 union cavm_spix_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
@@ -5414,7 +5469,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uin
 /**
  * Register (NCB32b) spi#_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
  *
- * SPI Phy Dataslice Rfile Phy Wr Rd Deskew Command Register
+ * SPI PHY Dataslice Rfile PHY Wr Rd Deskew Command Register
  * This register holds the values of delay of CMD bit on the write and read path as
  * well as the values of
  * phase detect block for CMD bit on the write path.
@@ -5436,11 +5491,12 @@ union cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
                                                                  means half_cycle_shift = 1. */
         uint32_t cmd_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
                                                                  domain on the positive or negative edge of the PHY clock. this field is valid when
-                                                                 cmd_sw_dq_phase_bypass is low.
+                                                                 [CMD_SW_DQ_PHASE_BYPASS] is low.
                                                                  0 = Hardware automatically controls any shifting needed for the write level delay line.
-                                                                 1 = The setting in the cmd_sw_half_cycle_shift field of this reg defines the shift.
-                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
-                                                                 cmd_sw_half_cycle_shift field (bit [12]) of the phy_wr_rd_deskew_cmd_reg parameter be cleared to
+                                                                 1 = The setting in [CMD_SW_HALF_CYCLE_SHIFT] of this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that
+                                                                 [CMD_SW_HALF_CYCLE_SHIFT] (bit [12]) of
+                                                                 SPI()_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD be cleared to
                                                                  '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
                                                                  It is recommended to allow the hardware to control this automatically. */
         uint32_t cmd_sw_half_cycle_shift : 1;/**< [ 12: 12](R/W) 0 = No effect.
@@ -5478,11 +5534,12 @@ union cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
                                                                  1 = Adds a half clock delay to the bit of the write cmd path. */
         uint32_t cmd_en_sw_half_cycle  : 1;  /**< [ 13: 13](R/W) Enables the software half cycle shift. This determines if write data is transferred to the clk_wr
                                                                  domain on the positive or negative edge of the PHY clock. this field is valid when
-                                                                 cmd_sw_dq_phase_bypass is low.
+                                                                 [CMD_SW_DQ_PHASE_BYPASS] is low.
                                                                  0 = Hardware automatically controls any shifting needed for the write level delay line.
-                                                                 1 = The setting in the cmd_sw_half_cycle_shift field of this reg defines the shift.
-                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that the
-                                                                 cmd_sw_half_cycle_shift field (bit [12]) of the phy_wr_rd_deskew_cmd_reg parameter be cleared to
+                                                                 1 = The setting in [CMD_SW_HALF_CYCLE_SHIFT] of this reg defines the shift.
+                                                                 Note: If the user chooses to control the half cycle shift manually, it is important that
+                                                                 [CMD_SW_HALF_CYCLE_SHIFT] (bit [12]) of
+                                                                 SPI()_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD be cleared to
                                                                  '0' if the delay is less than a 1/2 cycle and set to '1' if the delay is greater than a 1/2 cycle.
                                                                  It is recommended to allow the hardware to control this automatically. */
         uint32_t cmd_sw_dq_phase_bypass : 1; /**< [ 14: 14](R/W) 0x0 = Use phase detect circuit to determine the half_cycle_shift.
@@ -5519,7 +5576,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64
  * Register (NCB32b) spi#_rf_minictrl_regs_clock_mode_settings
  *
  * SPI Rf Minictrl Regs Clock Mode Settings Register
- * SPI Clock Mode.
+ * SPI clock mode.
  */
 union cavm_spix_rf_minictrl_regs_clock_mode_settings
 {
@@ -5528,12 +5585,12 @@ union cavm_spix_rf_minictrl_regs_clock_mode_settings
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t spi_clock_mode        : 1;  /**< [  0:  0](R/W) Defines SPI Clock Mode. For DDR transfers this bit should always be set low to meet DDR Flash
+        uint32_t spi_clock_mode        : 1;  /**< [  0:  0](R/W) Defines SPI clock mode. For DDR transfers this bit should always be set low to meet DDR Flash
                                                                  timings. For SDR transfers, allowable values are as follows:
                                                                  0 = SPI MODE 0 (clock is low when SPI bus is in idle).
                                                                  1 = SPI MODE 3 (clock is high when SPI bus is in idle). */
 #else /* Word 0 - Little Endian */
-        uint32_t spi_clock_mode        : 1;  /**< [  0:  0](R/W) Defines SPI Clock Mode. For DDR transfers this bit should always be set low to meet DDR Flash
+        uint32_t spi_clock_mode        : 1;  /**< [  0:  0](R/W) Defines SPI clock mode. For DDR transfers this bit should always be set low to meet DDR Flash
                                                                  timings. For SDR transfers, allowable values are as follows:
                                                                  0 = SPI MODE 0 (clock is low when SPI bus is in idle).
                                                                  1 = SPI MODE 3 (clock is high when SPI bus is in idle). */
@@ -5565,7 +5622,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(uint64_t a
  * SPI Rf Minictrl Regs Dev Active Max Register
  * "This register is used to introduce maximum number of xspi_clk cycles through which
  * CS# will be kept
- * active (low) on Memory interface.""
+ * active (low) on memory interface."
  */
 union cavm_spix_rf_minictrl_regs_dev_active_max_reg
 {
@@ -5579,10 +5636,11 @@ union cavm_spix_rf_minictrl_regs_dev_active_max_reg
                                                                  device specification). If any of READ_PROFILE_1, PP_PROFILE_1 or CMD_CODE_SEQ sequence is glued
                                                                  with DATA_SEQ, the controller internally calculates transaction timing (providing bit[125]
                                                                  (TCMS_EN) is enabled) and splits requested sequence for smaller  pieces keeping track on not
-                                                                 exceeding dev_active_max (the transactions being split do not need to last exactly dev_active_max
+                                                                 exceeding [DEV_ACTIVE_MAX] (the transactions being split do not need to last
+                                                                 exactly [DEV_ACTIVE_MAX]
                                                                  number of cycles but slightly less depending on word alignment). The software must configure this
                                                                  timing to be greater than the smallest possible to formulate minimal sub-sequence out of requested
-                                                                 sequence: (dev_active_max \> CSSOT + Command/address phase + dummy phase + 8B (single system data
+                                                                 sequence: ([DEV_ACTIVE_MAX] \> CSSOT + Command/address phase + dummy phase + 8B (single system data
                                                                  word) + CSEOT + 1 (controller latency)). The assumption is made that operation frequency is
                                                                  selected fast enough to handle all other commands supported by xSPI RAM Device without Chip Select
                                                                  low pulse width timing violation. */
@@ -5593,10 +5651,11 @@ union cavm_spix_rf_minictrl_regs_dev_active_max_reg
                                                                  device specification). If any of READ_PROFILE_1, PP_PROFILE_1 or CMD_CODE_SEQ sequence is glued
                                                                  with DATA_SEQ, the controller internally calculates transaction timing (providing bit[125]
                                                                  (TCMS_EN) is enabled) and splits requested sequence for smaller  pieces keeping track on not
-                                                                 exceeding dev_active_max (the transactions being split do not need to last exactly dev_active_max
+                                                                 exceeding [DEV_ACTIVE_MAX] (the transactions being split do not need to last
+                                                                 exactly [DEV_ACTIVE_MAX]
                                                                  number of cycles but slightly less depending on word alignment). The software must configure this
                                                                  timing to be greater than the smallest possible to formulate minimal sub-sequence out of requested
-                                                                 sequence: (dev_active_max \> CSSOT + Command/address phase + dummy phase + 8B (single system data
+                                                                 sequence: ([DEV_ACTIVE_MAX] \> CSSOT + Command/address phase + dummy phase + 8B (single system data
                                                                  word) + CSEOT + 1 (controller latency)). The assumption is made that operation frequency is
                                                                  selected fast enough to handle all other commands supported by xSPI RAM Device without Chip Select
                                                                  low pulse width timing violation. */
@@ -5636,14 +5695,14 @@ union cavm_spix_rf_minictrl_regs_dev_delay_reg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t csda_min_delay        : 8;  /**< [ 31: 24](R/W) Minimum chip select de-assertion timing. */
         uint32_t reserved_16_23        : 8;
-        uint32_t cseot_delay           : 8;  /**< [ 15:  8](R/W) Chip Select End Of Transfer. It allows to improve last active clock edge to CS de-assertion device
+        uint32_t cseot_delay           : 8;  /**< [ 15:  8](R/W) Chip select end-of-transfer. It allows to improve last active clock edge to CS de-assertion device
                                                                  timing. */
-        uint32_t cssot_delay           : 8;  /**< [  7:  0](R/W) Chip Select Start Of Transfer. It allows to improve CS de-assertion device timing to first active
+        uint32_t cssot_delay           : 8;  /**< [  7:  0](R/W) Chip select start-of-transfer. It allows to improve CS de-assertion device timing to first active
                                                                  clock edge. */
 #else /* Word 0 - Little Endian */
-        uint32_t cssot_delay           : 8;  /**< [  7:  0](R/W) Chip Select Start Of Transfer. It allows to improve CS de-assertion device timing to first active
+        uint32_t cssot_delay           : 8;  /**< [  7:  0](R/W) Chip select start-of-transfer. It allows to improve CS de-assertion device timing to first active
                                                                  clock edge. */
-        uint32_t cseot_delay           : 8;  /**< [ 15:  8](R/W) Chip Select End Of Transfer. It allows to improve last active clock edge to CS de-assertion device
+        uint32_t cseot_delay           : 8;  /**< [ 15:  8](R/W) Chip select end-of-transfer. It allows to improve last active clock edge to CS de-assertion device
                                                                  timing. */
         uint32_t reserved_16_23        : 8;
         uint32_t csda_min_delay        : 8;  /**< [ 31: 24](R/W) Minimum chip select de-assertion timing. */
@@ -5671,10 +5730,10 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(uint64_t a)
 /**
  * Register (NCB32b) spi#_rf_minictrl_regs_dll_phy_ctrl
  *
- * SPI Rf Minictrl Regs Dll Phy Control Register
+ * SPI Rf Minictrl Regs DLL PHY Control Register
  * Configuration of the resynchronization of slave DLL of PHY. When the PHY is used
  * with the xSPI
- * controller, this register is automatically updated by the Device Discovery module during
+ * controller, this register is automatically updated by the device discovery module during
  * initialization.
  */
 union cavm_spix_rf_minictrl_regs_dll_phy_ctrl
@@ -5697,30 +5756,30 @@ union cavm_spix_rf_minictrl_regs_dll_phy_ctrl
         uint32_t dqs_last_data_drop_en : 1;  /**< [ 20: 20](R/W) This bit should be set when the Flash Device being used issues data on negative edge of Flash clock
                                                                  and returns them with DQS and the PHY is configured to sample data in DQS Mode. In this case,
                                                                  number of DQS edges equals to number of requested data + 1. If this bit is set, the controller
-                                                                 internally requests this redundant data at the end of the transfer cleaning up the PHY fifo. */
+                                                                 internally requests this redundant data at the end of the transfer cleaning up the PHY FIFO. */
         uint32_t reserved_18_19        : 2;
-        uint32_t extended_wr_mode      : 1;  /**< [ 17: 17](R/W) PHY functionality not applicable for xSPI Flash Controller. */
-        uint32_t extended_rd_mode      : 1;  /**< [ 16: 16](R/W) PHY functionality not applicable for xSPI Flash Controller. */
+        uint32_t extended_wr_mode      : 1;  /**< [ 17: 17](R/W) PHY functionality not applicable for xSPI flash controller. */
+        uint32_t extended_rd_mode      : 1;  /**< [ 16: 16](R/W) PHY functionality not applicable for xSPI flash controller. */
         uint32_t reserved_12_15        : 4;
-        uint32_t resync_high_wait_cnt  : 4;  /**< [ 11:  8](R/W) This field defines the number of Minicontroller clock cycles (xspi_clk) for  which the DLL update
-                                                                 request (dfi_ctrlupd_req) has to be asserted to resynchronize the DLLs and read and write FIFO
+        uint32_t resync_high_wait_cnt  : 4;  /**< [ 11:  8](R/W) This field defines the number of minicontroller clock cycles (xspi_clk) for  which the DLL update
+                                                                 request ([DFI_CTRLUPD_REQ]) has to be asserted to resynchronize the DLLs and read and write FIFO
                                                                  pointers. */
-        uint32_t resync_idle_cnt       : 8;  /**< [  7:  0](R/W) This field defines the wait time (in terms of Minicontroller clock cycles (xspi_clk)) between the
-                                                                 de-assertion of the DLL update request (dfi_ctrlupd_req) and resuming traffic to the PHY. */
+        uint32_t resync_idle_cnt       : 8;  /**< [  7:  0](R/W) This field defines the wait time (in terms of minicontroller clock cycles (xspi_clk)) between the
+                                                                 de-assertion of the DLL update request ([DFI_CTRLUPD_REQ]) and resuming traffic to the PHY. */
 #else /* Word 0 - Little Endian */
-        uint32_t resync_idle_cnt       : 8;  /**< [  7:  0](R/W) This field defines the wait time (in terms of Minicontroller clock cycles (xspi_clk)) between the
-                                                                 de-assertion of the DLL update request (dfi_ctrlupd_req) and resuming traffic to the PHY. */
-        uint32_t resync_high_wait_cnt  : 4;  /**< [ 11:  8](R/W) This field defines the number of Minicontroller clock cycles (xspi_clk) for  which the DLL update
-                                                                 request (dfi_ctrlupd_req) has to be asserted to resynchronize the DLLs and read and write FIFO
+        uint32_t resync_idle_cnt       : 8;  /**< [  7:  0](R/W) This field defines the wait time (in terms of minicontroller clock cycles (xspi_clk)) between the
+                                                                 de-assertion of the DLL update request ([DFI_CTRLUPD_REQ]) and resuming traffic to the PHY. */
+        uint32_t resync_high_wait_cnt  : 4;  /**< [ 11:  8](R/W) This field defines the number of minicontroller clock cycles (xspi_clk) for  which the DLL update
+                                                                 request ([DFI_CTRLUPD_REQ]) has to be asserted to resynchronize the DLLs and read and write FIFO
                                                                  pointers. */
         uint32_t reserved_12_15        : 4;
-        uint32_t extended_rd_mode      : 1;  /**< [ 16: 16](R/W) PHY functionality not applicable for xSPI Flash Controller. */
-        uint32_t extended_wr_mode      : 1;  /**< [ 17: 17](R/W) PHY functionality not applicable for xSPI Flash Controller. */
+        uint32_t extended_rd_mode      : 1;  /**< [ 16: 16](R/W) PHY functionality not applicable for xSPI flash controller. */
+        uint32_t extended_wr_mode      : 1;  /**< [ 17: 17](R/W) PHY functionality not applicable for xSPI flash controller. */
         uint32_t reserved_18_19        : 2;
         uint32_t dqs_last_data_drop_en : 1;  /**< [ 20: 20](R/W) This bit should be set when the Flash Device being used issues data on negative edge of Flash clock
                                                                  and returns them with DQS and the PHY is configured to sample data in DQS Mode. In this case,
                                                                  number of DQS edges equals to number of requested data + 1. If this bit is set, the controller
-                                                                 internally requests this redundant data at the end of the transfer cleaning up the PHY fifo. */
+                                                                 internally requests this redundant data at the end of the transfer cleaning up the PHY FIFO. */
         uint32_t sdr_edge_active       : 1;  /**< [ 21: 21](R/W) The PHY samples data on both edges of sampling clock. In SDR Mode, only one sample is needed. If
                                                                  this bit is low, the controller propagates data from positive edge of PHY sampling clock. If this
                                                                  bit is high, the controller propagates data from negative edge of PHY sampling clock. In DDR Mode,
@@ -5756,7 +5815,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(uint64_t a)
 /**
  * Register (NCB32b) spi#_rf_minictrl_regs_dll_phy_update_cnt
  *
- * SPI Rf Minictrl Regs Dll Phy Update Cnt Register
+ * SPI Rf Minictrl Regs DLL PHY Update Cnt Register
  * Configuration of the resynchronization of slave DLL of PHY.
  */
 union cavm_spix_rf_minictrl_regs_dll_phy_update_cnt
@@ -5765,22 +5824,22 @@ union cavm_spix_rf_minictrl_regs_dll_phy_update_cnt
     struct cavm_spix_rf_minictrl_regs_dll_phy_update_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t resync_cnt            : 32; /**< [ 31:  0](R/W) This field defines the time interval (in terms of Minicontroller clock cycles (xspi_clk)) to send
+        uint32_t resync_cnt            : 32; /**< [ 31:  0](R/W) This field defines the time interval (in terms of minicontroller clock cycles (xspi_clk)) to send
                                                                  an update (assert dfi_ctrlupd_req high) to the PHY to re-synchronize the slave DLL values with
                                                                  that of the master DLL and to also re-synchronize the read and write FIFO pointers in the read
                                                                  path. If the value in this field is zero, the controller will not send DLL update requests to the
                                                                  PHY after it completes last DLL update request (if there is one in progress). dfi_ctrlupd_req
-                                                                 signal can be controlled directly by the host using the dfi_ctrlupd_req field in the dll_phy_ctrl
-                                                                 register.
+                                                                 signal can be controlled directly by the host using
+                                                                 SPI()_RF_MINICTRL_REGS_DLL_PHY_CTRL[DFI_CTRLUPD_REQ].
                                                                  NOTE: While this feature is enabled the access to the PHY registers shall not be performed. */
 #else /* Word 0 - Little Endian */
-        uint32_t resync_cnt            : 32; /**< [ 31:  0](R/W) This field defines the time interval (in terms of Minicontroller clock cycles (xspi_clk)) to send
+        uint32_t resync_cnt            : 32; /**< [ 31:  0](R/W) This field defines the time interval (in terms of minicontroller clock cycles (xspi_clk)) to send
                                                                  an update (assert dfi_ctrlupd_req high) to the PHY to re-synchronize the slave DLL values with
                                                                  that of the master DLL and to also re-synchronize the read and write FIFO pointers in the read
                                                                  path. If the value in this field is zero, the controller will not send DLL update requests to the
                                                                  PHY after it completes last DLL update request (if there is one in progress). dfi_ctrlupd_req
-                                                                 signal can be controlled directly by the host using the dfi_ctrlupd_req field in the dll_phy_ctrl
-                                                                 register.
+                                                                 signal can be controlled directly by the host using
+                                                                 SPI()_RF_MINICTRL_REGS_DLL_PHY_CTRL[DFI_CTRLUPD_REQ].
                                                                  NOTE: While this feature is enabled the access to the PHY registers shall not be performed. */
 #endif /* Word 0 - End */
     } s;
@@ -5851,8 +5910,8 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(uint64_t a)
  * Register (NCB32b) spi#_rf_minictrl_regs_jedec_rst_timing_reg
  *
  * SPI Rf Minictrl Regs Jedec Rst Timing Register
- * This register is used to introduce relative device selection delays applicable for JEDEC Reset
- * Instruction.
+ * This register is used to introduce relative device selection delays applicable for JEDEC reset
+ * instruction.
  */
 union cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg
 {
@@ -5861,11 +5920,11 @@ union cavm_spix_rf_minictrl_regs_jedec_rst_timing_reg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t tcsl_delay            : 8;  /**< [ 15:  8](R/W) Defines how many xspi_clk cycles constitute tCSL timing of JEDEC Reset Instruction. */
-        uint32_t tcsh_delay            : 8;  /**< [  7:  0](R/W) Defines how many xspi_clk cycles constitute tCSH timing of JEDEC Reset Instruction. */
+        uint32_t tcsl_delay            : 8;  /**< [ 15:  8](R/W) Defines how many xspi_clk cycles constitute tCSL timing of JEDEC reset instruction. */
+        uint32_t tcsh_delay            : 8;  /**< [  7:  0](R/W) Defines how many xspi_clk cycles constitute tCSH timing of JEDEC reset instruction. */
 #else /* Word 0 - Little Endian */
-        uint32_t tcsh_delay            : 8;  /**< [  7:  0](R/W) Defines how many xspi_clk cycles constitute tCSH timing of JEDEC Reset Instruction. */
-        uint32_t tcsl_delay            : 8;  /**< [ 15:  8](R/W) Defines how many xspi_clk cycles constitute tCSL timing of JEDEC Reset Instruction. */
+        uint32_t tcsh_delay            : 8;  /**< [  7:  0](R/W) Defines how many xspi_clk cycles constitute tCSH timing of JEDEC reset instruction. */
+        uint32_t tcsl_delay            : 8;  /**< [ 15:  8](R/W) Defines how many xspi_clk cycles constitute tCSL timing of JEDEC reset instruction. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -5892,7 +5951,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(uint64_t 
  * Register (NCB32b) spi#_rf_minictrl_regs_reset_pin_settings
  *
  * SPI Rf Minictrl Regs Reset Pin Settings Register
- * Software Controlled Hardware RESET.
+ * Software-controlled hardware RESET.
  */
 union cavm_spix_rf_minictrl_regs_reset_pin_settings
 {
@@ -5901,103 +5960,103 @@ union cavm_spix_rf_minictrl_regs_reset_pin_settings
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t sw_ctrled_hw_rst_bank7 : 1; /**< [ 15: 15](R/W) "Activates 7th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+        uint32_t sw_ctrled_hw_rst_bank7 : 1; /**< [ 15: 15](R/W) "Activates 7th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[7] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[7] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank6 : 1; /**< [ 14: 14](R/W) "Activates 6th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[7] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[7] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank6 : 1; /**< [ 14: 14](R/W) "Activates 6th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[6] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[6] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank5 : 1; /**< [ 13: 13](R/W) "Activates 5th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[6] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[6] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank5 : 1; /**< [ 13: 13](R/W) "Activates 5th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[5] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[5] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank4 : 1; /**< [ 12: 12](R/W) "Activates 4th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[5] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[5] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank4 : 1; /**< [ 12: 12](R/W) "Activates 4th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[4] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[4] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank3 : 1; /**< [ 11: 11](R/W) "Activates 3rd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[4] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[4] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank3 : 1; /**< [ 11: 11](R/W) "Activates 3rd bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[3] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[3] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank2 : 1; /**< [ 10: 10](R/W) "Activates 2nd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[3] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[3] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank2 : 1; /**< [ 10: 10](R/W) "Activates 2nd bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[2] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[2] device is enabled for Software Controlled Hardware Reset trigger.
-                                                                 Reset trigger."" */
-        uint32_t sw_ctrled_hw_rst_bank1 : 1; /**< [  9:  9](R/W) "Activates 1st bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[2] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[2] device is enabled for software-controlled hardware reset trigger.
+                                                                 Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank1 : 1; /**< [  9:  9](R/W) "Activates 1st bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[1] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[1] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank0 : 1; /**< [  8:  8](R/W) "Activates 0th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[1] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[1] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank0 : 1; /**< [  8:  8](R/W) "Activates 0th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[0] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[0] device is enabled for Software Controlled Hardware Reset trigger." */
+                                                                 0 = CS[0] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[0] device is enabled for software-controlled hardware reset trigger." */
         uint32_t reserved_5_7          : 3;
         uint32_t sw_ctrled_hw_rst_option : 1;/**< [  4:  4](R/W) "Defines Hardware RESET options as follows:
-                                                                 0 = Device RESET# pin will be used for toggling Device Hardware Reset functionality.
-                                                                 1 = Device DQ3 pin will be used for toggling Device Hardware Reset functionality." */
+                                                                 0 = Device RESET# pin will be used for toggling device hardware reset functionality.
+                                                                 1 = Device DQ3 pin will be used for toggling device hardware reset functionality." */
         uint32_t reserved_2_3          : 2;
         uint32_t rst_dq3_enable        : 1;  /**< [  1:  1](R/W) Enables passing RESET to the DQ3 port of the device (by switching direction of DQ3 pad). */
-        uint32_t sw_ctrled_hw_rst      : 1;  /**< [  0:  0](R/W) "Software Controlled Hardware Reset Signal. Value of this field is directly routed to the DQ3 or
-                                                                 RESET# output signal (depending on sw_ctrled_hw_rst_option). The value can be changed only when
-                                                                 xSPI Flash interface is in idle state (Minicontroller does not perform any sequence). Value of the
-                                                                 Software Controlled Hardware Reset Signal is overwritten in case DQ3 is valid transaction pin. The
+        uint32_t sw_ctrled_hw_rst      : 1;  /**< [  0:  0](R/W) "Software-controlled hardware reset signal. Value of this field is directly routed to the DQ3 or
+                                                                 RESET# output signal (depending on [SW_CTRLED_HW_RST_OPTION]). The value can be changed only when
+                                                                 xSPI Flash interface is in idle state (minicontroller does not perform any sequence). Value of the
+                                                                 software-controlled hardware reset signal is overwritten in case DQ3 is valid transaction pin. The
                                                                  controller does not check the device hardware reset setup/hold timings - this must be ensured by
                                                                  the host. The host is also responsible for triggering suitable RESET method by selecting
                                                                  corresponding Bank Number and RESET method (as defined in this register). Controller does not
-                                                                 drive RESET# value during read data phase of any active transfer(as transfer direction switches in
+                                                                 drive RESET# value during read data phase of any active transfer (as transfer direction switches in
                                                                  this transfer part)." */
 #else /* Word 0 - Little Endian */
-        uint32_t sw_ctrled_hw_rst      : 1;  /**< [  0:  0](R/W) "Software Controlled Hardware Reset Signal. Value of this field is directly routed to the DQ3 or
-                                                                 RESET# output signal (depending on sw_ctrled_hw_rst_option). The value can be changed only when
-                                                                 xSPI Flash interface is in idle state (Minicontroller does not perform any sequence). Value of the
-                                                                 Software Controlled Hardware Reset Signal is overwritten in case DQ3 is valid transaction pin. The
+        uint32_t sw_ctrled_hw_rst      : 1;  /**< [  0:  0](R/W) "Software-controlled hardware reset signal. Value of this field is directly routed to the DQ3 or
+                                                                 RESET# output signal (depending on [SW_CTRLED_HW_RST_OPTION]). The value can be changed only when
+                                                                 xSPI Flash interface is in idle state (minicontroller does not perform any sequence). Value of the
+                                                                 software-controlled hardware reset signal is overwritten in case DQ3 is valid transaction pin. The
                                                                  controller does not check the device hardware reset setup/hold timings - this must be ensured by
                                                                  the host. The host is also responsible for triggering suitable RESET method by selecting
                                                                  corresponding Bank Number and RESET method (as defined in this register). Controller does not
-                                                                 drive RESET# value during read data phase of any active transfer(as transfer direction switches in
+                                                                 drive RESET# value during read data phase of any active transfer (as transfer direction switches in
                                                                  this transfer part)." */
         uint32_t rst_dq3_enable        : 1;  /**< [  1:  1](R/W) Enables passing RESET to the DQ3 port of the device (by switching direction of DQ3 pad). */
         uint32_t reserved_2_3          : 2;
         uint32_t sw_ctrled_hw_rst_option : 1;/**< [  4:  4](R/W) "Defines Hardware RESET options as follows:
-                                                                 0 = Device RESET# pin will be used for toggling Device Hardware Reset functionality.
-                                                                 1 = Device DQ3 pin will be used for toggling Device Hardware Reset functionality." */
+                                                                 0 = Device RESET# pin will be used for toggling device hardware reset functionality.
+                                                                 1 = Device DQ3 pin will be used for toggling device hardware reset functionality." */
         uint32_t reserved_5_7          : 3;
-        uint32_t sw_ctrled_hw_rst_bank0 : 1; /**< [  8:  8](R/W) "Activates 0th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+        uint32_t sw_ctrled_hw_rst_bank0 : 1; /**< [  8:  8](R/W) "Activates 0th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[0] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[0] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank1 : 1; /**< [  9:  9](R/W) "Activates 1st bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[0] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[0] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank1 : 1; /**< [  9:  9](R/W) "Activates 1st bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[1] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[1] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank2 : 1; /**< [ 10: 10](R/W) "Activates 2nd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[1] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[1] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank2 : 1; /**< [ 10: 10](R/W) "Activates 2nd bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[2] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[2] device is enabled for Software Controlled Hardware Reset trigger.
-                                                                 Reset trigger."" */
-        uint32_t sw_ctrled_hw_rst_bank3 : 1; /**< [ 11: 11](R/W) "Activates 3rd bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[2] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[2] device is enabled for software-controlled hardware reset trigger.
+                                                                 Reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank3 : 1; /**< [ 11: 11](R/W) "Activates 3rd bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[3] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[3] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank4 : 1; /**< [ 12: 12](R/W) "Activates 4th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[3] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[3] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank4 : 1; /**< [ 12: 12](R/W) "Activates 4th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[4] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[4] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank5 : 1; /**< [ 13: 13](R/W) "Activates 5th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[4] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[4] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank5 : 1; /**< [ 13: 13](R/W) "Activates 5th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[5] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[5] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank6 : 1; /**< [ 14: 14](R/W) "Activates 6th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[5] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[5] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank6 : 1; /**< [ 14: 14](R/W) "Activates 6th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[6] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[6] device is enabled for Software Controlled Hardware Reset trigger." */
-        uint32_t sw_ctrled_hw_rst_bank7 : 1; /**< [ 15: 15](R/W) "Activates 7th bank for Software Controlled Hardware Reset Signal execution as follows (applicable
+                                                                 0 = CS[6] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[6] device is enabled for software-controlled hardware reset trigger." */
+        uint32_t sw_ctrled_hw_rst_bank7 : 1; /**< [ 15: 15](R/W) "Activates 7th bank for software-controlled hardware reset signal execution as follows (applicable
                                                                  only for #RESET pin option):
-                                                                 0 = CS[7] device is disabled for Software Controlled Hardware Reset trigger.
-                                                                 1 = CS[7] device is enabled for Software Controlled Hardware Reset trigger." */
+                                                                 0 = CS[7] device is disabled for software-controlled hardware reset trigger.
+                                                                 1 = CS[7] device is enabled for software-controlled hardware reset trigger." */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -6034,9 +6093,9 @@ union cavm_spix_rf_minictrl_regs_rst_recovery_reg
     struct cavm_spix_rf_minictrl_regs_rst_recovery_reg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rst_recovery          : 32; /**< [ 31:  0](R/W) It defines additional delay for CS de-assertion to accommodate Device Reset Recovery timing. */
+        uint32_t rst_recovery          : 32; /**< [ 31:  0](R/W) It defines additional delay for CS de-assertion to accommodate device reset recovery timing. */
 #else /* Word 0 - Little Endian */
-        uint32_t rst_recovery          : 32; /**< [ 31:  0](R/W) It defines additional delay for CS de-assertion to accommodate Device Reset Recovery timing. */
+        uint32_t rst_recovery          : 32; /**< [ 31:  0](R/W) It defines additional delay for CS de-assertion to accommodate device reset recovery timing. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_rf_minictrl_regs_rst_recovery_reg_s cn; */
@@ -6077,7 +6136,7 @@ union cavm_spix_rf_minictrl_regs_wp_settings
                                                                  does not perform any sequence). Value of the write protection signal is overwritten in case DQ2 is
                                                                  valid transaction pin. The controller does not check the write protect setup/hold timings - this
                                                                  must be ensured by the host. Controller does not drive Write Protect value during read data phase
-                                                                 of any active transfer(as transfer direction switches in this transfer part). Write Protect on DQ2
+                                                                 of any active transfer (as transfer direction switches in this transfer part). Write Protect on DQ2
                                                                  functionality is only supported by Flash Devices and the controller in single and dual SPI Modes. */
 #else /* Word 0 - Little Endian */
         uint32_t wp                    : 1;  /**< [  0:  0](R/W) Write protect signal for all devices. Value of this register is directly routed to the DQ2 output
@@ -6085,7 +6144,7 @@ union cavm_spix_rf_minictrl_regs_wp_settings
                                                                  does not perform any sequence). Value of the write protection signal is overwritten in case DQ2 is
                                                                  valid transaction pin. The controller does not check the write protect setup/hold timings - this
                                                                  must be ensured by the host. Controller does not drive Write Protect value during read data phase
-                                                                 of any active transfer(as transfer direction switches in this transfer part). Write Protect on DQ2
+                                                                 of any active transfer (as transfer direction switches in this transfer part). Write Protect on DQ2
                                                                  functionality is only supported by Flash Devices and the controller in single and dual SPI Modes. */
         uint32_t wp_enable             : 1;  /**< [  1:  1](R/W) Enables passing Write protect signal to the device (by switching direction of DQ2 pad). */
         uint32_t reserved_2_31         : 30;
@@ -6114,7 +6173,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(uint64_t a)
  * Register (NCB) spi#_shim_cfg
  *
  * SPI Shim Configuration Register
- * This register allows configuration of various shim (XSPI) features. The fields XS_NCB_OOB_*
+ * This register allows configuration of various shim (xSPI) features. The fields XS_NCB_OOB_*
  * are captured when there are no outstanding OOB errors indicated in INTSTAT and a new OOB error
  * arrives. The fields XS_BAD_DMA_* are captured when there are no outstanding DMA errors
  * indicated in INTSTAT and a new DMA error arrives.
@@ -6125,21 +6184,21 @@ union cavm_spix_shim_cfg
     struct cavm_spix_shim_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound XSPI register access.
+        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound xSPI register access.
                                                                  0 = read.
                                                                  1 = write. */
         uint64_t reserved_60_62        : 3;
-        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound XSPI register access. The NCB outbound SRCID for the OOB
+        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound xSPI register access. The NCB outbound SRCID for the OOB
                                                                  error.
                                                                  \<59:58\> = chipID.
                                                                  \<57\> = Request source: 0 = core, 1 = NCB-device.
                                                                  \<56:51\> = Core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
                                                                  \<50:48\> = SubID. */
-        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from XSPI.
+        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from xSPI.
                                                                  0 = Read error log.
                                                                  1 = Write error log. */
         uint64_t reserved_44_46        : 3;
-        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from XSPI. Encodes the type of error encountered
+        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from xSPI. Encodes the type of error encountered
                                                                  (error largest encoded value has priority). See SPI_XM_BAD_DMA_TYPE_E. */
         uint64_t reserved_14_39        : 26;
         uint64_t dma_read_cmd          : 2;  /**< [ 13: 12](R/W) Selects the NCB read command used by DMA accesses. See SPI_DMA_READ_CMD_E. */
@@ -6152,20 +6211,20 @@ union cavm_spix_shim_cfg
         uint64_t reserved_11           : 1;
         uint64_t dma_read_cmd          : 2;  /**< [ 13: 12](R/W) Selects the NCB read command used by DMA accesses. See SPI_DMA_READ_CMD_E. */
         uint64_t reserved_14_39        : 26;
-        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from XSPI. Encodes the type of error encountered
+        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from xSPI. Encodes the type of error encountered
                                                                  (error largest encoded value has priority). See SPI_XM_BAD_DMA_TYPE_E. */
         uint64_t reserved_44_46        : 3;
-        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from XSPI.
+        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from xSPI.
                                                                  0 = Read error log.
                                                                  1 = Write error log. */
-        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound XSPI register access. The NCB outbound SRCID for the OOB
+        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound xSPI register access. The NCB outbound SRCID for the OOB
                                                                  error.
                                                                  \<59:58\> = chipID.
                                                                  \<57\> = Request source: 0 = core, 1 = NCB-device.
                                                                  \<56:51\> = Core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
                                                                  \<50:48\> = SubID. */
         uint64_t reserved_60_62        : 3;
-        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound XSPI register access.
+        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound xSPI register access.
                                                                  0 = read.
                                                                  1 = write. */
 #endif /* Word 0 - End */

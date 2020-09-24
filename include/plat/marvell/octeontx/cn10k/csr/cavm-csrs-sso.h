@@ -3362,6 +3362,136 @@ static inline uint64_t CAVM_SSO_AF_IENTX_GRP(uint64_t a)
 #define arguments_CAVM_SSO_AF_IENTX_GRP(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) sso_af_ient#_index
+ *
+ * SSO AF Internal Entry INDEX Registers
+ * Returns unit SSC INDEX stored at SSC line number.
+ */
+union cavm_sso_af_ientx_index
+{
+    uint64_t u;
+    struct cavm_sso_af_ientx_index_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t tail                  : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the tail of tag stored at SSC line. */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry.
+                                                                 Internal:
+                                                                 (0..`SSO_IDX_W-1) */
+#else /* Word 0 - Little Endian */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry.
+                                                                 Internal:
+                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t tail                  : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the tail of tag stored at SSC line. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_ientx_index_s cn; */
+};
+typedef union cavm_sso_af_ientx_index cavm_sso_af_ientx_index_t;
+
+static inline uint64_t CAVM_SSO_AF_IENTX_INDEX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_IENTX_INDEX(uint64_t a)
+{
+    if (a<=8191)
+        return 0x840070b00000ll + 8ll * ((a) & 0x1fff);
+    __cavm_csr_fatal("SSO_AF_IENTX_INDEX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_IENTX_INDEX(a) cavm_sso_af_ientx_index_t
+#define bustype_CAVM_SSO_AF_IENTX_INDEX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_IENTX_INDEX(a) "SSO_AF_IENTX_INDEX"
+#define device_bar_CAVM_SSO_AF_IENTX_INDEX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_IENTX_INDEX(a) (a)
+#define arguments_CAVM_SSO_AF_IENTX_INDEX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_ient#_indexc
+ *
+ * SSO AF Internal Entry INDEXC Registers
+ * Returns unit SSC INDEXC stored at SSC line number.
+ */
+union cavm_sso_af_ientx_indexc
+{
+    uint64_t u;
+    struct cavm_sso_af_ientx_indexc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t tailc                 : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the conflicted tail of tag stored at SSC line. */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry.
+                                                                 Internal:
+                                                                 (0..`SSO_IDX_W-1) */
+#else /* Word 0 - Little Endian */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry.
+                                                                 Internal:
+                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t tailc                 : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the conflicted tail of tag stored at SSC line. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_ientx_indexc_s cn; */
+};
+typedef union cavm_sso_af_ientx_indexc cavm_sso_af_ientx_indexc_t;
+
+static inline uint64_t CAVM_SSO_AF_IENTX_INDEXC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_IENTX_INDEXC(uint64_t a)
+{
+    if (a<=8191)
+        return 0x840070b20000ll + 8ll * ((a) & 0x1fff);
+    __cavm_csr_fatal("SSO_AF_IENTX_INDEXC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_IENTX_INDEXC(a) cavm_sso_af_ientx_indexc_t
+#define bustype_CAVM_SSO_AF_IENTX_INDEXC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_IENTX_INDEXC(a) "SSO_AF_IENTX_INDEXC"
+#define device_bar_CAVM_SSO_AF_IENTX_INDEXC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_IENTX_INDEXC(a) (a)
+#define arguments_CAVM_SSO_AF_IENTX_INDEXC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_ient#_line
+ *
+ * SSO AF Internal Entry Line Registers
+ * Returns unit SSC line for an index.
+ */
+union cavm_sso_af_ientx_line
+{
+    uint64_t u;
+    struct cavm_sso_af_ientx_line_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t line                  : 13; /**< [ 12:  0](RO/H) The SSC line for entry.
+                                                                 Internal:
+                                                                 (0..`SSO_IDX_W-1) */
+#else /* Word 0 - Little Endian */
+        uint64_t line                  : 13; /**< [ 12:  0](RO/H) The SSC line for entry.
+                                                                 Internal:
+                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_ientx_line_s cn; */
+};
+typedef union cavm_sso_af_ientx_line cavm_sso_af_ientx_line_t;
+
+static inline uint64_t CAVM_SSO_AF_IENTX_LINE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_IENTX_LINE(uint64_t a)
+{
+    if (a<=8191)
+        return 0x840070ae0000ll + 8ll * ((a) & 0x1fff);
+    __cavm_csr_fatal("SSO_AF_IENTX_LINE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_IENTX_LINE(a) cavm_sso_af_ientx_line_t
+#define bustype_CAVM_SSO_AF_IENTX_LINE(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_IENTX_LINE(a) "SSO_AF_IENTX_LINE"
+#define device_bar_CAVM_SSO_AF_IENTX_LINE(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_IENTX_LINE(a) (a)
+#define arguments_CAVM_SSO_AF_IENTX_LINE(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) sso_af_ient#_links
  *
  * SSO AF Internal Entry Links Registers
@@ -5245,7 +5375,9 @@ union cavm_sso_af_ws_cfg
         uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after SAI_FLUSH. When SAI_FLUSH
                                                                  gets set the counter will reset and start counting the number of INVAL
                                                                  responses. Counter will max at 128. */
-        uint64_t reserved_10_11        : 2;
+        uint64_t reserved_11           : 1;
+        uint64_t force_gwc_one_slot    : 1;  /**< [ 10: 10](R/W) Force single slot per GWC. Must always be set to the
+                                                                 same value as APR_GWC_AF_CORE()_CFG[FORCE_ONE_SLOT]. For diagnostic use only. */
         uint64_t dq_opt_ena            : 1;  /**< [  9:  9](R/W) Enable early DQ push optimization. */
         uint64_t force_ncbi_clk_en     : 1;  /**< [  8:  8](R/W) Force NCBI conditional clocks on. For diagnostic use only. */
         uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the GW cache
@@ -5269,7 +5401,9 @@ union cavm_sso_af_ws_cfg
                                                                  inside the cores.  Reads as zero. For diagnostic use only. */
         uint64_t force_ncbi_clk_en     : 1;  /**< [  8:  8](R/W) Force NCBI conditional clocks on. For diagnostic use only. */
         uint64_t dq_opt_ena            : 1;  /**< [  9:  9](R/W) Enable early DQ push optimization. */
-        uint64_t reserved_10_11        : 2;
+        uint64_t force_gwc_one_slot    : 1;  /**< [ 10: 10](R/W) Force single slot per GWC. Must always be set to the
+                                                                 same value as APR_GWC_AF_CORE()_CFG[FORCE_ONE_SLOT]. For diagnostic use only. */
+        uint64_t reserved_11           : 1;
         uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after SAI_FLUSH. When SAI_FLUSH
                                                                  gets set the counter will reset and start counting the number of INVAL
                                                                  responses. Counter will max at 128. */
@@ -6645,6 +6779,43 @@ static inline uint64_t CAVM_SSO_LF_GGRP_OP_ADD_WORK1_FUNC(void)
 #define device_bar_CAVM_SSO_LF_GGRP_OP_ADD_WORK1 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_SSO_LF_GGRP_OP_ADD_WORK1 0
 #define arguments_CAVM_SSO_LF_GGRP_OP_ADD_WORK1 -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) sso_lf_ggrp_op_aw_lmtst#
+ *
+ * SSO LF Guest Group Desched Pending Register
+ * A write to this register performs an add work.
+ * *  This can only be accessed via NCB LMTST OP, and must be 1-8 words.
+ */
+union cavm_sso_lf_ggrp_op_aw_lmtstx
+{
+    uint64_t u;
+    struct cavm_sso_lf_ggrp_op_aw_lmtstx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](WO) This must use the format specified in SSO_ADD_WORK_S. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](WO) This must use the format specified in SSO_ADD_WORK_S. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_lf_ggrp_op_aw_lmtstx_s cn; */
+};
+typedef union cavm_sso_lf_ggrp_op_aw_lmtstx cavm_sso_lf_ggrp_op_aw_lmtstx_t;
+
+static inline uint64_t CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(uint64_t a)
+{
+    if (a<=15)
+        return 0x840200700400ll + 8ll * ((a) & 0xf);
+    __cavm_csr_fatal("SSO_LF_GGRP_OP_AW_LMTSTX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(a) cavm_sso_lf_ggrp_op_aw_lmtstx_t
+#define bustype_CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(a) "SSO_LF_GGRP_OP_AW_LMTSTX"
+#define device_bar_CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(a) (a)
+#define arguments_CAVM_SSO_LF_GGRP_OP_AW_LMTSTX(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) sso_lf_ggrp_qctl

@@ -31,38 +31,13 @@
 #define CAVM_APA_BAR_E_APAX_PF_BAR4_SIZE 0x100000ull
 
 /**
- * Enumeration apa_clusterp_state_e
- *
- * APA DSU Power State Enumeration
- * Enumerates the DSU power states
- * Internal:
- * Encoding is subject to change pending ARM IP release.
- */
-#define CAVM_APA_CLUSTERP_STATE_E_OFF (0)
-#define CAVM_APA_CLUSTERP_STATE_E_SFONLY_DEBUG_RECOV (0xa)
-#define CAVM_APA_CLUSTERP_STATE_E_SFONLY_ON (8)
-
-/**
- * Enumeration apa_corep_state_e
- *
- * APA DSU Power State Enumeration
- * Enumerates the Core power states
- * Internal:
- * Encoding is subject to change pending ARM IP release.
- */
-#define CAVM_APA_COREP_STATE_E_DEBUG_RECOV (0xa)
-#define CAVM_APA_COREP_STATE_E_FULL_RET (5)
-#define CAVM_APA_COREP_STATE_E_OFF (0)
-#define CAVM_APA_COREP_STATE_E_OFF_EMU (1)
-#define CAVM_APA_COREP_STATE_E_ON (8)
-
-/**
  * Enumeration apa_int_vec_e
  *
  * APA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_APA_INT_VEC_E_APA_APAT_INT (1)
+#define CAVM_APA_INT_VEC_E_APA_ECC_INT (2)
 #define CAVM_APA_INT_VEC_E_APA_WDOG_INT (0)
 
 /**
@@ -642,212 +617,6 @@ static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
 #define arguments_CAVM_APAX_BP_TEST0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) apa#_clusterpch
- *
- * APA Cluster P-Channel Interface Register
- * This register is read-only when
- * [STATUS]=1. Any write to any part of this register when [STATUS]=0, even if the
- * contents are unchanged, will set [STATUS] and trigger a request to transition to the
- * power state indicated by [STATE]. Upon protocol completion, [STATUS] is reset to 0
- * and [ACCEPT] is updated.
- */
-union cavm_apax_clusterpch
-{
-    uint64_t u;
-    struct cavm_apax_clusterpch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
-        uint64_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
-                                                                 0 = the last transition request was rejected.
-                                                                 1 = the last transition request was accepted. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t active                : 20; /**< [ 27:  8](SRO/H) Indicates the current cluster power requirements to the power controller. */
-        uint64_t reserved_7            : 1;
-        uint64_t state                 : 7;  /**< [  6:  0](SR/W) The power state to which a transition is requested. Refer to APA_CLUSTERP_STATE_E. */
-#else /* Word 0 - Little Endian */
-        uint64_t state                 : 7;  /**< [  6:  0](SR/W) The power state to which a transition is requested. Refer to APA_CLUSTERP_STATE_E. */
-        uint64_t reserved_7            : 1;
-        uint64_t active                : 20; /**< [ 27:  8](SRO/H) Indicates the current cluster power requirements to the power controller. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
-                                                                 0 = the last transition request was rejected.
-                                                                 1 = the last transition request was accepted. */
-        uint64_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_clusterpch_s cn; */
-};
-typedef union cavm_apax_clusterpch cavm_apax_clusterpch_t;
-
-static inline uint64_t CAVM_APAX_CLUSTERPCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_CLUSTERPCH(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e280001420ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_CLUSTERPCH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_CLUSTERPCH(a) cavm_apax_clusterpch_t
-#define bustype_CAVM_APAX_CLUSTERPCH(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_CLUSTERPCH(a) "APAX_CLUSTERPCH"
-#define device_bar_CAVM_APAX_CLUSTERPCH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_CLUSTERPCH(a) (a)
-#define arguments_CAVM_APAX_CLUSTERPCH(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_core_pm
- *
- * APA Core Power Management Control Register
- */
-union cavm_apax_core_pm
-{
-    uint64_t u;
-    struct cavm_apax_core_pm_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t mpmmen                : 1;  /**< [ 24: 24](SR/W) Maximum Power Mitigation Mechanism (MPMM) enable signal. The options are:
-                                                                 0 = MPMM disabled.
-                                                                 1 = MPMM enabled.
-                                                                 See the associated core Technical Reference Manual for details of the MPMM
-                                                                 behavior if supported on your core. */
-        uint64_t reserved_18_23        : 6;
-        uint64_t mpmmstate             : 2;  /**< [ 17: 16](SR/W) MPMM state signal. If MPMM is enabled, selects which MPMM configuration to
-                                                                 apply. If MPMM is supported on your core, see the associated core Technical
-                                                                 Reference Manual for details of the MPMM configuration selection. */
-        uint64_t reserved_4_15         : 12;
-        uint64_t ppmctl                : 4;  /**< [  3:  0](SR/W) Power policy control signal. */
-#else /* Word 0 - Little Endian */
-        uint64_t ppmctl                : 4;  /**< [  3:  0](SR/W) Power policy control signal. */
-        uint64_t reserved_4_15         : 12;
-        uint64_t mpmmstate             : 2;  /**< [ 17: 16](SR/W) MPMM state signal. If MPMM is enabled, selects which MPMM configuration to
-                                                                 apply. If MPMM is supported on your core, see the associated core Technical
-                                                                 Reference Manual for details of the MPMM configuration selection. */
-        uint64_t reserved_18_23        : 6;
-        uint64_t mpmmen                : 1;  /**< [ 24: 24](SR/W) Maximum Power Mitigation Mechanism (MPMM) enable signal. The options are:
-                                                                 0 = MPMM disabled.
-                                                                 1 = MPMM enabled.
-                                                                 See the associated core Technical Reference Manual for details of the MPMM
-                                                                 behavior if supported on your core. */
-        uint64_t reserved_25_63        : 39;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_core_pm_s cn; */
-};
-typedef union cavm_apax_core_pm cavm_apax_core_pm_t;
-
-static inline uint64_t CAVM_APAX_CORE_PM(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_CORE_PM(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e280001410ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_CORE_PM", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_CORE_PM(a) cavm_apax_core_pm_t
-#define bustype_CAVM_APAX_CORE_PM(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_CORE_PM(a) "APAX_CORE_PM"
-#define device_bar_CAVM_APAX_CORE_PM(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_CORE_PM(a) (a)
-#define arguments_CAVM_APAX_CORE_PM(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_core_reset
- *
- * APA Core Reset Register
- * APA core reset register.
- */
-union cavm_apax_core_reset
-{
-    uint64_t u;
-    struct cavm_apax_core_reset_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t resetn                : 1;  /**< [  0:  0](SR/W) Active-low reset for this core. */
-#else /* Word 0 - Little Endian */
-        uint64_t resetn                : 1;  /**< [  0:  0](SR/W) Active-low reset for this core. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_core_reset_s cn; */
-};
-typedef union cavm_apax_core_reset cavm_apax_core_reset_t;
-
-static inline uint64_t CAVM_APAX_CORE_RESET(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_CORE_RESET(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e280001408ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_CORE_RESET", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_CORE_RESET(a) cavm_apax_core_reset_t
-#define bustype_CAVM_APAX_CORE_RESET(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_CORE_RESET(a) "APAX_CORE_RESET"
-#define device_bar_CAVM_APAX_CORE_RESET(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_CORE_RESET(a) (a)
-#define arguments_CAVM_APAX_CORE_RESET(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_corepch
- *
- * APA Core P-Channel Interface Register
- * This register is read-only when [STATUS]=1. Any write to any part of this register
- * when [STATUS]=0, even if the contents are unchanged, will set [STATUS] and trigger a
- * request to transition to the power state indicated by [STATE]. Upon protocol
- * completion, [STATUS] is reset to 0 and [ACCEPT] is updated.
- */
-union cavm_apax_corepch
-{
-    uint64_t u;
-    struct cavm_apax_corepch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
-        uint64_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
-                                                                 0 = the last transition request was rejected.
-                                                                 1 = the last transition request was accepted. */
-        uint64_t reserved_26_29        : 4;
-        uint64_t active                : 18; /**< [ 25:  8](SRO/H) Indicates the current core power requirements to the power controller. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t state                 : 6;  /**< [  5:  0](SR/W) The power state to which a transition is requested.  Refer to APA_COREP_STATE_E. */
-#else /* Word 0 - Little Endian */
-        uint64_t state                 : 6;  /**< [  5:  0](SR/W) The power state to which a transition is requested.  Refer to APA_COREP_STATE_E. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t active                : 18; /**< [ 25:  8](SRO/H) Indicates the current core power requirements to the power controller. */
-        uint64_t reserved_26_29        : 4;
-        uint64_t accept                : 1;  /**< [ 30: 30](SRO/H) Transition request accepted.
-                                                                 0 = the last transition request was rejected.
-                                                                 1 = the last transition request was accepted. */
-        uint64_t status                : 1;  /**< [ 31: 31](SRO/H) If set, indicates there is a transition request outstanding. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_corepch_s cn; */
-};
-typedef union cavm_apax_corepch cavm_apax_corepch_t;
-
-static inline uint64_t CAVM_APAX_COREPCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_COREPCH(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e280001418ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("APAX_COREPCH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_COREPCH(a) cavm_apax_corepch_t
-#define bustype_CAVM_APAX_COREPCH(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_COREPCH(a) "APAX_COREPCH"
-#define device_bar_CAVM_APAX_COREPCH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_COREPCH(a) (a)
-#define arguments_CAVM_APAX_COREPCH(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) apa#_ctl
  *
  * APA Control Register
@@ -862,7 +631,8 @@ union cavm_apax_ctl
         uint64_t reserved_34_63        : 30;
         uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
         uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
-        uint64_t reserved_10_31        : 22;
+        uint64_t reserved_11_31        : 21;
+        uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending */
         uint64_t dvm_filter            : 2;  /**< [  9:  8](SR/W) APA filter to prevent certain DVM snoops from reaching the core.
                                                                  APA responds to them instead.
 
@@ -900,7 +670,8 @@ union cavm_apax_ctl
                                                                      + Physical instruction cache invalidate
                                                                      + Virtual instruction cache invalidate.
                                                                  0x3 = All of the above + synchronization. */
-        uint64_t reserved_10_31        : 22;
+        uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending */
+        uint64_t reserved_11_31        : 21;
         uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
         uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
         uint64_t reserved_34_63        : 30;
@@ -924,6 +695,58 @@ static inline uint64_t CAVM_APAX_CTL(uint64_t a)
 #define device_bar_CAVM_APAX_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_CTL(a) (a)
 #define arguments_CAVM_APAX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_derr_info
+ *
+ * APA Data Error Info Register
+ * This register records error information for Data Error interrupts occuring in data
+ * incoming from the mesh. The first [DATMBE] error will lock the
+ * register until the logged error type is cleared; [DATSBE] errors
+ * lock the register until either the logged error type is cleared or a [DATMBE]
+ * error is logged. Only one of [DATMBE, DATSBE] should be set at a time. In the
+ * event the register is read with all [*MBE] and [*SBE] equal to 0 during
+ * interrupt handling that is an indication that, due to a register set/clear race,
+ * information about one or more errors was lost while processing an earlier
+ * error.
+ */
+union cavm_apax_derr_info
+{
+    uint64_t u;
+    struct cavm_apax_derr_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat_sbe               : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[DAT_SBE] error. */
+        uint64_t dat_mbe               : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[DAT_MBE] error. */
+        uint64_t reserved_18_61        : 44;
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the DAT mesh payload causing the error. OPCODE[6:4] is 0. */
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the DAT mesh header causing the error. */
+#else /* Word 0 - Little Endian */
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the DAT mesh header causing the error. */
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the DAT mesh payload causing the error. OPCODE[6:4] is 0. */
+        uint64_t reserved_18_61        : 44;
+        uint64_t dat_mbe               : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[DAT_MBE] error. */
+        uint64_t dat_sbe               : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[DAT_SBE] error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_derr_info_s cn; */
+};
+typedef union cavm_apax_derr_info cavm_apax_derr_info_t;
+
+static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e280001530ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_DERR_INFO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_DERR_INFO(a) cavm_apax_derr_info_t
+#define bustype_CAVM_APAX_DERR_INFO(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_DERR_INFO(a) "APAX_DERR_INFO"
+#define device_bar_CAVM_APAX_DERR_INFO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_DERR_INFO(a) (a)
+#define arguments_CAVM_APAX_DERR_INFO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_diag
@@ -1062,6 +885,190 @@ static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a)
 #define device_bar_CAVM_APAX_ECC_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_ECC_CTL(a) (a)
 #define arguments_CAVM_APAX_ECC_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_ecc_int_ena_w1c
+ *
+ * APA ECC Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_apax_ecc_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_apax_ecc_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_ecc_int_ena_w1c_s cn; */
+};
+typedef union cavm_apax_ecc_int_ena_w1c cavm_apax_ecc_int_ena_w1c_t;
+
+static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e280001f50ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_ECC_INT_ENA_W1C(a) cavm_apax_ecc_int_ena_w1c_t
+#define bustype_CAVM_APAX_ECC_INT_ENA_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_ECC_INT_ENA_W1C(a) "APAX_ECC_INT_ENA_W1C"
+#define device_bar_CAVM_APAX_ECC_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_ECC_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_APAX_ECC_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_ecc_int_ena_w1s
+ *
+ * APA ECC Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_apax_ecc_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_apax_ecc_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_ecc_int_ena_w1s_s cn; */
+};
+typedef union cavm_apax_ecc_int_ena_w1s cavm_apax_ecc_int_ena_w1s_t;
+
+static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e280001f58ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_ECC_INT_ENA_W1S(a) cavm_apax_ecc_int_ena_w1s_t
+#define bustype_CAVM_APAX_ECC_INT_ENA_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_ECC_INT_ENA_W1S(a) "APAX_ECC_INT_ENA_W1S"
+#define device_bar_CAVM_APAX_ECC_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_ECC_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_APAX_ECC_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_ecc_int_w1c
+ *
+ * APA ECC Interrupt Register
+ * This register is reports interrupt status.
+ */
+union cavm_apax_ecc_int_w1c
+{
+    uint64_t u;
+    struct cavm_apax_ecc_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Single-bit Error on the incoming DAT channel.  The information is recorded in APA_DERR_INFO. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Multi-bit Error on the incoming DAT channel.  The information is recorded in APA_DERR_INFO. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Parity Error on the incoming DAT channel.  The information is recorded in APA_NDERR_INFO. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Parity Error on the incoming SNP channel.  The information is recorded in APA_NDERR_INFO. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Parity Error on the incoming RSP channel.  The information is recorded in APA_NDERR_INFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Parity Error on the incoming RSP channel.  The information is recorded in APA_NDERR_INFO. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Parity Error on the incoming SNP channel.  The information is recorded in APA_NDERR_INFO. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Parity Error on the incoming DAT channel.  The information is recorded in APA_NDERR_INFO. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Multi-bit Error on the incoming DAT channel.  The information is recorded in APA_DERR_INFO. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Single-bit Error on the incoming DAT channel.  The information is recorded in APA_DERR_INFO. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_ecc_int_w1c_s cn; */
+};
+typedef union cavm_apax_ecc_int_w1c cavm_apax_ecc_int_w1c_t;
+
+static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e280001f40ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_ECC_INT_W1C(a) cavm_apax_ecc_int_w1c_t
+#define bustype_CAVM_APAX_ECC_INT_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_ECC_INT_W1C(a) "APAX_ECC_INT_W1C"
+#define device_bar_CAVM_APAX_ECC_INT_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_ECC_INT_W1C(a) (a)
+#define arguments_CAVM_APAX_ECC_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_ecc_int_w1s
+ *
+ * APA ECC Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+union cavm_apax_ecc_int_w1s
+{
+    uint64_t u;
+    struct cavm_apax_ecc_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_ecc_int_w1s_s cn; */
+};
+typedef union cavm_apax_ecc_int_w1s cavm_apax_ecc_int_w1s_t;
+
+static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e280001f48ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_ECC_INT_W1S(a) cavm_apax_ecc_int_w1s_t
+#define bustype_CAVM_APAX_ECC_INT_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_ECC_INT_W1S(a) "APAX_ECC_INT_W1S"
+#define device_bar_CAVM_APAX_ECC_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_ECC_INT_W1S(a) (a)
+#define arguments_CAVM_APAX_ECC_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_eco
@@ -1362,11 +1369,25 @@ union cavm_apax_man_pll
 
                                                                  See PLL Specification for effect on other fields.
                                                                  ARO ignores this field and uses reference clock divided by 2. */
-        uint64_t reserved_58_59        : 2;
-        uint64_t post_div              : 10; /**< [ 57: 48](SR/W) Post scalar divider.
+        uint64_t reserved_57_59        : 3;
+        uint64_t post_div              : 9;  /**< [ 56: 48](SR/W) Post scalar divider.
                                                                    0, 1 = Reserved.
-                                                                   2-1023 = Divide VCO output by [POST_DIV]. */
-        uint64_t reserved_42_47        : 6;
+                                                                   2-511 = Divide VCO output by [POST_DIV]. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t power_down            : 3;  /**< [ 44: 42](SR/W/H) Power Down.
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
+                                                                 is set and RST_PLL()[NEXT_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 released from reset by the hardware.  The hardware automatically clears the bit when the
+                                                                 sequence is complete and the device is present.  This sequence adds
+                                                                 approximately 15uS to the programming.  During this
+                                                                 time the NEXT_SWITCH timer is frozen.
+
+                                                                 The following are the bit mapping:
+                                                                   \<0\> = PLL0.
+                                                                   \<1\> = PLL1.
+                                                                   \<2\> = ARO.
+
+                                                                 This operation does not require RST_PLL()[NEXT_MAN] to be set. */
         uint64_t vco_mul               : 10; /**< [ 41: 32](SR/W) VCO multiplier integer.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
@@ -1374,7 +1395,7 @@ union cavm_apax_man_pll
         uint64_t vco_fract             : 10; /**< [ 31: 22](SR/W) VCO multiplier fraction.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+                                                                 See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
         uint64_t reserved_18_21        : 4;
         uint64_t bw                    : 2;  /**< [ 17: 16](SR/W) VCO bandwidth.
 
@@ -1383,7 +1404,7 @@ union cavm_apax_man_pll
         uint64_t icp                   : 4;  /**< [ 15: 12](SR/W) PLL ICP setting.
 
                                                                  See PLL specification for details.
-                                                                 ARO ignores this field. */
+                                                                 Not used by ARO. */
         uint64_t reserved_10_11        : 2;
         uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.
 
@@ -1396,7 +1417,7 @@ union cavm_apax_man_pll
         uint64_t icp                   : 4;  /**< [ 15: 12](SR/W) PLL ICP setting.
 
                                                                  See PLL specification for details.
-                                                                 ARO ignores this field. */
+                                                                 Not used by ARO. */
         uint64_t bw                    : 2;  /**< [ 17: 16](SR/W) VCO bandwidth.
 
                                                                  See PLL specifications for details.
@@ -1405,16 +1426,30 @@ union cavm_apax_man_pll
         uint64_t vco_fract             : 10; /**< [ 31: 22](SR/W) VCO multiplier fraction.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+                                                                 See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
         uint64_t vco_mul               : 10; /**< [ 41: 32](SR/W) VCO multiplier integer.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
-        uint64_t reserved_42_47        : 6;
-        uint64_t post_div              : 10; /**< [ 57: 48](SR/W) Post scalar divider.
+        uint64_t power_down            : 3;  /**< [ 44: 42](SR/W/H) Power Down.
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
+                                                                 is set and RST_PLL()[NEXT_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 released from reset by the hardware.  The hardware automatically clears the bit when the
+                                                                 sequence is complete and the device is present.  This sequence adds
+                                                                 approximately 15uS to the programming.  During this
+                                                                 time the NEXT_SWITCH timer is frozen.
+
+                                                                 The following are the bit mapping:
+                                                                   \<0\> = PLL0.
+                                                                   \<1\> = PLL1.
+                                                                   \<2\> = ARO.
+
+                                                                 This operation does not require RST_PLL()[NEXT_MAN] to be set. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t post_div              : 9;  /**< [ 56: 48](SR/W) Post scalar divider.
                                                                    0, 1 = Reserved.
-                                                                   2-1023 = Divide VCO output by [POST_DIV]. */
-        uint64_t reserved_58_59        : 2;
+                                                                   2-511 = Divide VCO output by [POST_DIV]. */
+        uint64_t reserved_57_59        : 3;
         uint64_t ref_div               : 4;  /**< [ 63: 60](SR/W) Reference clock divider.
                                                                    0 = Reserved.
                                                                    1 = Divide reference clock by 1.
@@ -1433,7 +1468,7 @@ static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001430ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e280001428ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_MAN_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1528,8 +1563,8 @@ typedef union cavm_apax_msix_vecx_addr cavm_apax_msix_vecx_addr_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=1))
-        return 0x87e280100000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1);
+    if ((a<=63) && (b<=2))
+        return 0x87e280100000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1568,8 +1603,8 @@ typedef union cavm_apax_msix_vecx_ctl cavm_apax_msix_vecx_ctl_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=1))
-        return 0x87e280100008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1);
+    if ((a<=63) && (b<=2))
+        return 0x87e280100008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1579,6 +1614,64 @@ static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_APAX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_APAX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_APAX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) apa#_nderr_info
+ *
+ * APA Non-Data Error Info Register
+ * This register records error information for Non-Data Error interrupts
+ * [RSP_PERR, DAT_PERR, SNP_PERR]. The first [RSP_PERR, DAT_PERR, SNP_PERR] error
+ * will lock the register until the logged error type is cleared.
+ */
+union cavm_apax_nderr_info
+{
+    uint64_t u;
+    struct cavm_apax_nderr_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[RSP_PERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[DAT_PERR] error. */
+        uint64_t snp_perr              : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[SNP_PERR] error. */
+        uint64_t reserved_18_57        : 40;
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the RSP/DAT/SNP mesh payload causing the error. Note for
+                                                                 [RSP_PERR, DAT_PERR, SNP_PERR], the error itself might have corrupted the
+                                                                 opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR, SNP_PERR]. */
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 srcid. */
+#else /* Word 0 - Little Endian */
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 srcid. */
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the RSP/DAT/SNP mesh payload causing the error. Note for
+                                                                 [RSP_PERR, DAT_PERR, SNP_PERR], the error itself might have corrupted the
+                                                                 opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR, SNP_PERR]. */
+        uint64_t reserved_18_57        : 40;
+        uint64_t snp_perr              : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[SNP_PERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[DAT_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a APA()_ECC_INT_W1C[RSP_PERR] error. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_nderr_info_s cn; */
+};
+typedef union cavm_apax_nderr_info cavm_apax_nderr_info_t;
+
+static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e280001528ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_NDERR_INFO(a) cavm_apax_nderr_info_t
+#define bustype_CAVM_APAX_NDERR_INFO(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_NDERR_INFO(a) "APAX_NDERR_INFO"
+#define device_bar_CAVM_APAX_NDERR_INFO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_NDERR_INFO(a) (a)
+#define arguments_CAVM_APAX_NDERR_INFO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_pfc#
@@ -1633,7 +1726,7 @@ union cavm_apax_pll
     struct cavm_apax_pll_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](SRO/H) ARO present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](SRO/H) Adaptive Ring Oscillator present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
                                                                      switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
@@ -1648,24 +1741,22 @@ union cavm_apax_pll
 
                                                                  Setting this register has an immediate effect.  The PLL will typically require some time
                                                                  to adjust to the new frequency. */
-        uint64_t msc_enable            : 1;  /**< [ 60: 60](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
-                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
-                                                                 [MSC_ENABLE] may be set at a time.  It is possible that MESHCLK and DTSCLK
-                                                                 have independent outputs.
-
-                                                                 Setting this register has an immediate effect on the outputs.
-                                                                 This field is reinitilized on a cold domain reset. */
+        uint64_t reserved_60           : 1;
         uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](SRO/H) Current PLL selection.
-                                                                 Enumerated by APA_PLL_SEL_E. */
+                                                                 Enumerated by RST_PLL_SEL_E. */
         uint64_t reserved_55_56        : 2;
         uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
+                                                                 Except for the Bypass and Manual modes where calculations must be done by software.
                                                                  See [ALT_REF] for details.  The value is limited by [MAX_MUL].
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
                                                                    1 = Bypass clock selected.
                                                                    2 = Reference clock selected.
                                                                    3 = Runt clock selected.
-                                                                   4-127 = Valid clock frequency.
+                                                                   4-126 = Valid clock frequency.
+                                                                   127 = Manual Frequency.
+                                                                         PLL Value is calculated as RST_MAN_PLL()[VCO_MUL] /
+                                                                 (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
@@ -1675,7 +1766,9 @@ union cavm_apax_pll
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
-                                                                 since the minimum PLL frequency at least 300 MHz. */
+                                                                 since the minimum PLL frequency at least 300 MHz.
+
+                                                                 This field is reinitialized on a chip domain reset. */
         uint64_t reserved_39           : 1;
         uint64_t init_mul              : 7;  /**< [ 38: 32](SR/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
                                                                  reset.  Value is based on 50 MHz.
@@ -1688,20 +1781,20 @@ union cavm_apax_pll
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
         uint64_t next_pll_sel          : 3;  /**< [ 23: 21](SR/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the APA_PLL() and APA_PLL_MAN() registers.
+                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
-                                                                 Enumerated by APA_PLL_SEL_E. */
+                                                                 Enumerated by RST_PLL_SEL_E. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of APA_MAN_PLL() to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of RST_MAN_PLL() to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
-                                                                 1 = Use APA_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
+                                                                 1 = Use RST_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t next_pgm              : 1;  /**< [ 16: 16](SR/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using APA_MAN_PLL() fields if set. Hardware automatically
+                                                                 using RST_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t next_switch           : 12; /**< [ 11:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t reserved_14_15        : 2;
+        uint64_t next_switch           : 14; /**< [ 13:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
@@ -1709,27 +1802,27 @@ union cavm_apax_pll
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t next_switch           : 12; /**< [ 11:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t next_switch           : 14; /**< [ 13:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_14_15        : 2;
         uint64_t next_pgm              : 1;  /**< [ 16: 16](SR/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using APA_MAN_PLL() fields if set. Hardware automatically
+                                                                 using RST_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of APA_MAN_PLL() to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of RST_MAN_PLL() to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
-                                                                 1 = Use APA_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
+                                                                 1 = Use RST_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t reserved_18_20        : 3;
         uint64_t next_pll_sel          : 3;  /**< [ 23: 21](SR/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the APA_PLL() and APA_PLL_MAN() registers.
+                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
-                                                                 Enumerated by APA_PLL_SEL_E. */
+                                                                 Enumerated by RST_PLL_SEL_E. */
         uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
                                                                  Value is based on reference clock divided by two.  Typically 50 MHz.
                                                                  See [ALT_REF] for additional details.  Program cycle is initiated by setting [NEXT_PGM].
@@ -1746,29 +1839,29 @@ union cavm_apax_pll
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
-                                                                 since the minimum PLL frequency at least 300 MHz. */
+                                                                 since the minimum PLL frequency at least 300 MHz.
+
+                                                                 This field is reinitialized on a chip domain reset. */
         uint64_t reserved_47           : 1;
         uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
+                                                                 Except for the Bypass and Manual modes where calculations must be done by software.
                                                                  See [ALT_REF] for details.  The value is limited by [MAX_MUL].
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
                                                                    1 = Bypass clock selected.
                                                                    2 = Reference clock selected.
                                                                    3 = Runt clock selected.
-                                                                   4-127 = Valid clock frequency.
+                                                                   4-126 = Valid clock frequency.
+                                                                   127 = Manual Frequency.
+                                                                         PLL Value is calculated as RST_MAN_PLL()[VCO_MUL] /
+                                                                 (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
         uint64_t reserved_55_56        : 2;
         uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](SRO/H) Current PLL selection.
-                                                                 Enumerated by APA_PLL_SEL_E. */
-        uint64_t msc_enable            : 1;  /**< [ 60: 60](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
-                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
-                                                                 [MSC_ENABLE] may be set at a time.  It is possible that MESHCLK and DTSCLK
-                                                                 have independent outputs.
-
-                                                                 Setting this register has an immediate effect on the outputs.
-                                                                 This field is reinitilized on a cold domain reset. */
+                                                                 Enumerated by RST_PLL_SEL_E. */
+        uint64_t reserved_60           : 1;
         uint64_t alt_ref               : 1;  /**< [ 61: 61](SR/W/H) Alternate reference clock.
                                                                  0 = Use 100 MHz reference.  [CUR_MUL] and [NEXT_MUL] values are based on 50 MHz increments
                                                                  1 = Use alternate reference clock typically 156.25 MHz or 122.88 MHz.  [CUR_MUL] and
@@ -1780,7 +1873,7 @@ union cavm_apax_pll
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
                                                                      switching to PLL1 will result in the clock being stopped.
                                                                  1 = PLL1 is available. */
-        uint64_t aro_present           : 1;  /**< [ 63: 63](SRO/H) ARO present.
+        uint64_t aro_present           : 1;  /**< [ 63: 63](SRO/H) Adaptive Ring Oscillator present.
                                                                  0 = ARO is unavailable.  Programming the ARO will have not effect and
                                                                      switching to ARO will result in the clock being stopped.
                                                                  1 = ARO is available. */
@@ -1794,7 +1887,7 @@ static inline uint64_t CAVM_APAX_PLL(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_PLL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001428ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e280001420ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1898,6 +1991,72 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
 #define device_bar_CAVM_APAX_RVBARADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_RVBARADDR(a) (a)
 #define arguments_CAVM_APAX_RVBARADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_test_pll
+ *
+ * APA Manual PLL Control Register
+ * Internal:
+ * These registers are used to test the PLL operation and allow the pll output
+ * clock to be stopped or restarted during testing.  Writes to this register
+ * cause an update cycle to be sent thru the pll_intf.  Indexed by RST_PLL_E.
+ * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is always reset on a chip domain reset.
+ */
+union cavm_apax_test_pll
+{
+    uint64_t u;
+    struct cavm_apax_test_pll_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitilized on a cold domain reset. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output Stopped.  This bit is set by hardware when the STOP_CNT reaches zero.
+                                                                 Clearing this bit will restart the clock. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](SR/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
+                                                                 PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](SR/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
+                                                                 PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output Stopped.  This bit is set by hardware when the STOP_CNT reaches zero.
+                                                                 Clearing this bit will restart the clock. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitilized on a cold domain reset. */
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_test_pll_s cn; */
+};
+typedef union cavm_apax_test_pll cavm_apax_test_pll_t;
+
+static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e280001430ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_TEST_PLL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_TEST_PLL(a) cavm_apax_test_pll_t
+#define bustype_CAVM_APAX_TEST_PLL(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_TEST_PLL(a) "APAX_TEST_PLL"
+#define device_bar_CAVM_APAX_TEST_PLL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_TEST_PLL(a) (a)
+#define arguments_CAVM_APAX_TEST_PLL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_wdog_core

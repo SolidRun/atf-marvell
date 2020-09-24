@@ -300,12 +300,12 @@
  * Enumeration nix_rx_band_prof_layer_e
  *
  * NIX RX Bandwidth Profile Layers Enumeration
- * Enumerates the values of 4 msb of NIX_AQ_INST_S[CINDEX], when
+ * Enumerates the values of NIX_AQ_INST_S[CINDEX], when
  * NIX_AQ_INST_S[CTYPE]=NIX_AQ_CTYPE_E::BAND_PROF
  */
 #define CAVM_NIX_RX_BAND_PROF_LAYER_E_LEAF (0)
-#define CAVM_NIX_RX_BAND_PROF_LAYER_E_MIDDLE (1)
-#define CAVM_NIX_RX_BAND_PROF_LAYER_E_TOP (2)
+#define CAVM_NIX_RX_BAND_PROF_LAYER_E_MIDDLE (2)
+#define CAVM_NIX_RX_BAND_PROF_LAYER_E_TOP (3)
 
 /**
  * Enumeration nix_rx_colorresult_e
@@ -823,8 +823,8 @@ union cavm_nix_aq_inst_s
         uint64_t reserved_44_62        : 19;
         uint64_t cindex                : 20; /**< [ 43: 24] Context index. Index of context of type [CTYPE] within [LF]. For example,
                                                                  if [CTYPE] = NIX_AQ_CTYPE_E::RQ, this is the RQ index within the [LF].
-                                                                 if [CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF, this is bandwidth profile ID:
-                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 12) | (bandwidth profile index) */
+                                                                 if [CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF, this is the BAND_PROF_INDEX:
+                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 14) | BAND_PROF_ID */
         uint64_t reserved_15_23        : 9;
         uint64_t lf                    : 7;  /**< [ 14:  8] Local function. Software must map the LF to a PF and function with
                                                                  NIX_PRIV_LF()_CFG[PF_FUNC] before issuing the AQ instruction.
@@ -852,8 +852,8 @@ union cavm_nix_aq_inst_s
         uint64_t reserved_15_23        : 9;
         uint64_t cindex                : 20; /**< [ 43: 24] Context index. Index of context of type [CTYPE] within [LF]. For example,
                                                                  if [CTYPE] = NIX_AQ_CTYPE_E::RQ, this is the RQ index within the [LF].
-                                                                 if [CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF, this is bandwidth profile ID:
-                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 12) | (bandwidth profile index) */
+                                                                 if [CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF, this is the BAND_PROF_INDEX:
+                                                                 (NIX_RX_BAND_PROF_LAYER_E \<\< 14) | BAND_PROF_ID */
         uint64_t reserved_44_62        : 19;
         uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt.
                                                                  0 = No interrupts related to this instruction.
@@ -1824,7 +1824,9 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] See NIX_RQ_CTX_S[CSUM_OL4_DIS]. */
         uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] See NIX_RQ_CTX_S[CSUM_IL4_DIS]. */
         uint64_t lenerr_dis            : 1;  /**< [ 37: 37] See NIX_RQ_CTX_S[LENERR_DIS]. */
-        uint64_t reserved_24_36        : 13;
+        uint64_t port_ol4_dis          : 1;  /**< [ 36: 36] See NIX_RQ_CTX_S[PORT_OL4_DIS]. */
+        uint64_t port_il4_dis          : 1;  /**< [ 35: 35] See NIX_RQ_CTX_S[PORT_IL4_DIS]. */
+        uint64_t reserved_24_34        : 11;
         uint64_t cq                    : 20; /**< [ 23:  4] See NIX_RQ_CTX_S[CQ]. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] See NIX_RQ_CTX_S[ENA_WQWD]. */
         uint64_t ipsech_ena            : 1;  /**< [  2:  2] See NIX_RQ_CTX_S[IPSECH_ENA]. */
@@ -1836,7 +1838,9 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t ipsech_ena            : 1;  /**< [  2:  2] See NIX_RQ_CTX_S[IPSECH_ENA]. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] See NIX_RQ_CTX_S[ENA_WQWD]. */
         uint64_t cq                    : 20; /**< [ 23:  4] See NIX_RQ_CTX_S[CQ]. */
-        uint64_t reserved_24_36        : 13;
+        uint64_t reserved_24_34        : 11;
+        uint64_t port_il4_dis          : 1;  /**< [ 35: 35] See NIX_RQ_CTX_S[PORT_IL4_DIS]. */
+        uint64_t port_ol4_dis          : 1;  /**< [ 36: 36] See NIX_RQ_CTX_S[PORT_OL4_DIS]. */
         uint64_t lenerr_dis            : 1;  /**< [ 37: 37] See NIX_RQ_CTX_S[LENERR_DIS]. */
         uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] See NIX_RQ_CTX_S[CSUM_IL4_DIS]. */
         uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] See NIX_RQ_CTX_S[CSUM_OL4_DIS]. */
@@ -2068,7 +2072,9 @@ union cavm_nix_rq_ctx_s
         uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] Disable checking of outer L4 TCP/UDP/SCTP checksum */
         uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] Disable checking of inner L4 TCP/UDP/SCTP checksum */
         uint64_t lenerr_dis            : 1;  /**< [ 37: 37] Outer L2 length error check disable. */
-        uint64_t reserved_24_36        : 13;
+        uint64_t port_ol4_dis          : 1;  /**< [ 36: 36] Outer L4 port check disable. */
+        uint64_t port_il4_dis          : 1;  /**< [ 35: 35] Inner L4 port check disable. */
+        uint64_t reserved_24_34        : 11;
         uint64_t cq                    : 20; /**< [ 23:  4] Completion Queue for this SQ. */
         uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] is clear.
 
@@ -2102,7 +2108,9 @@ union cavm_nix_rq_ctx_s
                                                                  When [SSO_ENA] is set and [ENA_WQWD] is clear, the WQE is written to a
                                                                  dedicated buffer allocated from [WQE_AURA]. */
         uint64_t cq                    : 20; /**< [ 23:  4] Completion Queue for this SQ. */
-        uint64_t reserved_24_36        : 13;
+        uint64_t reserved_24_34        : 11;
+        uint64_t port_il4_dis          : 1;  /**< [ 35: 35] Inner L4 port check disable. */
+        uint64_t port_ol4_dis          : 1;  /**< [ 36: 36] Outer L4 port check disable. */
         uint64_t lenerr_dis            : 1;  /**< [ 37: 37] Outer L2 length error check disable. */
         uint64_t csum_il4_dis          : 1;  /**< [ 38: 38] Disable checking of inner L4 TCP/UDP/SCTP checksum */
         uint64_t csum_ol4_dis          : 1;  /**< [ 39: 39] Disable checking of outer L4 TCP/UDP/SCTP checksum */
@@ -2800,23 +2808,19 @@ union cavm_nix_rq_ctx_s
         uint64_t octs                  : 48; /**< [431:384] Number of nondropped octets received (good and bad). Includes any
                                                                  timestamps, RX headers, Vtag bytes stripped by
                                                                  NIX_AF_LF()_RX_VTAG_TYPE()[STRIP], and frame minimum size pad bytes.
-                                                                 Excludes FCS stripped by RPM.
-                                                                 If [POLICER_ENA]==1, counts only green color octs. */
+                                                                 Excludes FCS stripped by RPM. */
 #else /* Word 6 - Little Endian */
         uint64_t octs                  : 48; /**< [431:384] Number of nondropped octets received (good and bad). Includes any
                                                                  timestamps, RX headers, Vtag bytes stripped by
                                                                  NIX_AF_LF()_RX_VTAG_TYPE()[STRIP], and frame minimum size pad bytes.
-                                                                 Excludes FCS stripped by RPM.
-                                                                 If [POLICER_ENA]==1, counts only green color octs. */
+                                                                 Excludes FCS stripped by RPM. */
         uint64_t reserved_432_447      : 16;
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t reserved_496_511      : 16;
-        uint64_t pkts                  : 48; /**< [495:448] Number of nondropped packets received (good and bad). If [POLICER_ENA]==1,
-                                                                 counts only green color packets. */
+        uint64_t pkts                  : 48; /**< [495:448] Number of nondropped packets received (good and bad). */
 #else /* Word 7 - Little Endian */
-        uint64_t pkts                  : 48; /**< [495:448] Number of nondropped packets received (good and bad). If [POLICER_ENA]==1,
-                                                                 counts only green color packets. */
+        uint64_t pkts                  : 48; /**< [495:448] Number of nondropped packets received (good and bad). */
         uint64_t reserved_496_511      : 16;
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
@@ -7181,7 +7185,10 @@ union cavm_nixx_af_err_int
                                                                  NIX_AQ_RES_S. Hardware also sets NIX_AF_AQ_STATUS[AQ_ERR]. */
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1C/H) AQ doorbell error. See NIX_AF_AQ_DOOR[COUNT]. Hardware also sets
                                                                  NIX_AF_AQ_STATUS[AQ_ERR]. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t reserved_8_11         : 4;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1C/H) Received CPT packet result has NPC NIX_RX_ACTION_S[OP] =
+                                                                 (NIX_RX_ACTIONOP_E::UCAST_IPSEC or NIX_RX_ACTIONOP_E::MCAST or
+                                                                 NIX_RX_ACTIONOP_E::MIRROR). */
         uint64_t rx_unmapped_pf_func   : 1;  /**< [  6:  6](R/W1C/H) Received packet to an unmapped PF FUNC. One of the following:
                                                                  * NIX_RX_ACTION_S[PF_FUNC] is not mapped to an LF for a received unicast
                                                                  packet (NIX_RX_ACTION_S[OP] = NIX_RX_ACTIONOP_E::UCAST,
@@ -7233,7 +7240,10 @@ union cavm_nixx_af_err_int
                                                                  NIX_RX_ACTIONOP_E::MCAST or NIX_RX_ACTIONOP_E::MIRROR).
 
                                                                  See NIX_PRIV_LF()_CFG and NIX_AF_RVU_LF_CFG_DEBUG. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1C/H) Received CPT packet result has NPC NIX_RX_ACTION_S[OP] =
+                                                                 (NIX_RX_ACTIONOP_E::UCAST_IPSEC or NIX_RX_ACTIONOP_E::MCAST or
+                                                                 NIX_RX_ACTIONOP_E::MIRROR). */
+        uint64_t reserved_8_11         : 4;
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1C/H) AQ doorbell error. See NIX_AF_AQ_DOOR[COUNT]. Hardware also sets
                                                                  NIX_AF_AQ_STATUS[AQ_ERR]. */
         uint64_t aq_res_fault          : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on NIX_AQ_RES_S write, or on read/write data following
@@ -7278,7 +7288,8 @@ union cavm_nixx_af_err_int_ena_w1c
         uint64_t aq_inst_fault         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[AQ_INST_FAULT]. */
         uint64_t aq_res_fault          : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[AQ_RES_FAULT]. */
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[AQ_DOOR_ERR]. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t reserved_8_11         : 4;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_CPT_ACTIONOP_ERR]. */
         uint64_t rx_unmapped_pf_func   : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_UNMAPPED_PF_FUNC]. */
         uint64_t rx_mce_list_err       : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_MCE_LIST_ERR]. */
         uint64_t rx_mce_fault          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_MCE_FAULT]. */
@@ -7294,7 +7305,8 @@ union cavm_nixx_af_err_int_ena_w1c
         uint64_t rx_mce_fault          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_MCE_FAULT]. */
         uint64_t rx_mce_list_err       : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_MCE_LIST_ERR]. */
         uint64_t rx_unmapped_pf_func   : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_UNMAPPED_PF_FUNC]. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[RX_CPT_ACTIONOP_ERR]. */
+        uint64_t reserved_8_11         : 4;
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[AQ_DOOR_ERR]. */
         uint64_t aq_res_fault          : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[AQ_RES_FAULT]. */
         uint64_t aq_inst_fault         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NIX_AF_ERR_INT[AQ_INST_FAULT]. */
@@ -7336,7 +7348,8 @@ union cavm_nixx_af_err_int_ena_w1s
         uint64_t aq_inst_fault         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[AQ_INST_FAULT]. */
         uint64_t aq_res_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[AQ_RES_FAULT]. */
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[AQ_DOOR_ERR]. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t reserved_8_11         : 4;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_CPT_ACTIONOP_ERR]. */
         uint64_t rx_unmapped_pf_func   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_UNMAPPED_PF_FUNC]. */
         uint64_t rx_mce_list_err       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_MCE_LIST_ERR]. */
         uint64_t rx_mce_fault          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_MCE_FAULT]. */
@@ -7352,7 +7365,8 @@ union cavm_nixx_af_err_int_ena_w1s
         uint64_t rx_mce_fault          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_MCE_FAULT]. */
         uint64_t rx_mce_list_err       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_MCE_LIST_ERR]. */
         uint64_t rx_unmapped_pf_func   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_UNMAPPED_PF_FUNC]. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[RX_CPT_ACTIONOP_ERR]. */
+        uint64_t reserved_8_11         : 4;
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[AQ_DOOR_ERR]. */
         uint64_t aq_res_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[AQ_RES_FAULT]. */
         uint64_t aq_inst_fault         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NIX_AF_ERR_INT[AQ_INST_FAULT]. */
@@ -7394,7 +7408,8 @@ union cavm_nixx_af_err_int_w1s
         uint64_t aq_inst_fault         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NIX_AF_ERR_INT[AQ_INST_FAULT]. */
         uint64_t aq_res_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NIX_AF_ERR_INT[AQ_RES_FAULT]. */
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NIX_AF_ERR_INT[AQ_DOOR_ERR]. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t reserved_8_11         : 4;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_CPT_ACTIONOP_ERR]. */
         uint64_t rx_unmapped_pf_func   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_UNMAPPED_PF_FUNC]. */
         uint64_t rx_mce_list_err       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_MCE_LIST_ERR]. */
         uint64_t rx_mce_fault          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_MCE_FAULT]. */
@@ -7410,7 +7425,8 @@ union cavm_nixx_af_err_int_w1s
         uint64_t rx_mce_fault          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_MCE_FAULT]. */
         uint64_t rx_mce_list_err       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_MCE_LIST_ERR]. */
         uint64_t rx_unmapped_pf_func   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_UNMAPPED_PF_FUNC]. */
-        uint64_t reserved_7_11         : 5;
+        uint64_t rx_cpt_actionop_err   : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NIX_AF_ERR_INT[RX_CPT_ACTIONOP_ERR]. */
+        uint64_t reserved_8_11         : 4;
         uint64_t aq_door_err           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NIX_AF_ERR_INT[AQ_DOOR_ERR]. */
         uint64_t aq_res_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NIX_AF_ERR_INT[AQ_RES_FAULT]. */
         uint64_t aq_inst_fault         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NIX_AF_ERR_INT[AQ_INST_FAULT]. */
@@ -8654,7 +8670,9 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  0x7 = 128 bytes.
                                                                  0x8 = 256 bytes.
                                                                  0x9 = 512 bytes.
-                                                                 0xA-0xF = Reserved. */
+                                                                 0xA = 1024 bytes.
+                                                                 0xB - 2048 bytes.
+                                                                 0xC-0xF = Reserved. */
         uint64_t reserved_14_15        : 2;
         uint64_t lenm1_max             : 14; /**< [ 13:  0](R/W) Maximum length in bytes (minus 1) of a packet that may use the IPSEC
                                                                  hardware fast-path. */
@@ -8669,7 +8687,9 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  0x7 = 128 bytes.
                                                                  0x8 = 256 bytes.
                                                                  0x9 = 512 bytes.
-                                                                 0xA-0xF = Reserved. */
+                                                                 0xA = 1024 bytes.
+                                                                 0xB - 2048 bytes.
+                                                                 0xC-0xF = Reserved. */
         uint64_t tag_const             : 24; /**< [ 43: 20](R/W) Constant value ORed into NIX_WQE_HDR_S[TAG]\<31:8\> for IPSEC fast-path
                                                                  (non-software) packets (NIX_WQE_HDR_S[WQE_TYPE] = NIX_XQE_TYPE_E::RX_IPSECH
                                                                  or NIX_XQE_TYPE_E::RX_IPSECD). */
@@ -9609,14 +9629,14 @@ union cavm_nixx_af_linkx_cfg
                                                                  2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST. */
         uint64_t reserved_12_15        : 4;
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
-                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
+                                                                 For example, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
                                                                  the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
                                                                  0x15C, 0x15D, 0x15E, 0x15F.
                                                                  Overlapping of ranges is not a valid configuration.
                                                                  The configiuration is identcally applied to the ingress and egress traffic. */
 #else /* Word 0 - Little Endian */
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
-                                                                 For ex, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
+                                                                 For example, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
                                                                  the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
                                                                  0x15C, 0x15D, 0x15E, 0x15F.
                                                                  Overlapping of ranges is not a valid configuration.
@@ -11165,14 +11185,14 @@ union cavm_nixx_af_pl_ts
     struct cavm_nixx_af_pl_ts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DIV]+1)*10 nanoseconds. Write is
+        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DLY]+1)*10 nanoseconds. Write is
                                                                  used for verification. */
         uint64_t reserved_10_15        : 6;
-        uint64_t pl_div                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DIV]+1)*10 is the number of nanoseconds per policer time unit. */
+        uint64_t pl_dly                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DLY]+1)*10 is the number of nanoseconds per policer time unit. */
 #else /* Word 0 - Little Endian */
-        uint64_t pl_div                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DIV]+1)*10 is the number of nanoseconds per policer time unit. */
+        uint64_t pl_dly                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DLY]+1)*10 is the number of nanoseconds per policer time unit. */
         uint64_t reserved_10_15        : 6;
-        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DIV]+1)*10 nanoseconds. Write is
+        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DLY]+1)*10 nanoseconds. Write is
                                                                  used for verification. */
 #endif /* Word 0 - End */
     } s;
@@ -15081,7 +15101,7 @@ union cavm_nixx_af_rx_linkx_wrr_out_cfg
         uint64_t reserved_8_63         : 56;
         uint64_t weight                : 8;  /**< [  7:  0](R/W) Link's round robin weight for writing packet data in 16-byte transfer
                                                                  units to NDC (NCB). Zero disables packet write for the channel.
-                                                                 SW should configure this register as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
+                                                                 SW should configure this register as the NIX_AF_RX_LINK()_WRR_CFG so
                                                                  REB will release the channels at the same rate as X2P write then.
 
                                                                  Internal:
@@ -15089,7 +15109,7 @@ union cavm_nixx_af_rx_linkx_wrr_out_cfg
 #else /* Word 0 - Little Endian */
         uint64_t weight                : 8;  /**< [  7:  0](R/W) Link's round robin weight for writing packet data in 16-byte transfer
                                                                  units to NDC (NCB). Zero disables packet write for the channel.
-                                                                 SW should configure this register as the NIX_AF_RX_LINK(0..22)_WRr_CFG so
+                                                                 SW should configure this register as the NIX_AF_RX_LINK()_WRR_CFG so
                                                                  REB will release the channels at the same rate as X2P write then.
 
                                                                  Internal:
@@ -22644,6 +22664,9 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  [CC_UNIT_CNT] = (16 * Max_LBK_Data_Rate),
                                                                  e.g. [CC_UNIT_CNT] = 1600 for 100 Gbps max LBK data rate.
 
+                                                                 In order to comply with PFC standard configure to link_rate*4.8
+                                                                 where link_rate is specified in Gbps
+
                                                                  Internal:
                                                                  LBK value is sized for specified data rate with 2000 ns round trip latency,
                                                                  e.g. for 100 Gbps:
@@ -22656,7 +22679,9 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  complement signed value that decrements towards zero as credits are used.
                                                                  Packets are not allowed to flow
                                                                  when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1.
+                                                                 In order to comply with PFC standard configure to ceil of link_rate*76.8/84+1
+                                                                 where link_rate is specified in  Gbps */
         uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] link credit processing. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
@@ -22667,7 +22692,9 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  complement signed value that decrements towards zero as credits are used.
                                                                  Packets are not allowed to flow
                                                                  when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1.
+                                                                 In order to comply with PFC standard configure to ceil of link_rate*76.8/84+1
+                                                                 where link_rate is specified in  Gbps */
         uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Link-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
                                                                  credit units for this link. A credit unit is 16 bytes. Note that this
                                                                  20-bit field represents a two's complement signed value that decrements
@@ -22689,6 +22716,9 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  The recommended configuration for LBK is [CC_ENABLE] = 1 and
                                                                  [CC_UNIT_CNT] = (16 * Max_LBK_Data_Rate),
                                                                  e.g. [CC_UNIT_CNT] = 1600 for 100 Gbps max LBK data rate.
+
+                                                                 In order to comply with PFC standard configure to link_rate*4.8
+                                                                 where link_rate is specified in Gbps
 
                                                                  Internal:
                                                                  LBK value is sized for specified data rate with 2000 ns round trip latency,
@@ -24477,7 +24507,7 @@ static inline uint64_t CAVM_NIXX_LF_OP_VWQE_FLUSH(uint64_t a)
  *
  * NIX LF Policer Bandwidth Profiles Operation Register
  * A 64-bit atomic load-and-add to this register reads policer bandwidth profile.
- * The atomic write data has format NIX_OP_Q_WDATA_S with the same encoding of BAND_PROF as
+ * The atomic write data has format NIX_OP_Q_WDATA_S with the same encoding of BAND_PROF_INDEX as
  * specified by NIX_AQ_INST_S[CINDEX] for NIX_AQ_INST_S[CTYPE] = NIX_AQ_CTYPE_E::BAND_PROF.
  * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
  *
@@ -24489,13 +24519,13 @@ union cavm_nixx_lf_pl_op_band_prof
     struct cavm_nixx_lf_pl_op_band_prof_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF \<\< 4) |
+        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF_INDEX \<\< 4) |
                                                                  (NIX_BAND_PROF_S word[3:0])).
-                                                                 Note that SW should read NIX_LF_PL_OP_BAND_PROF Word 0, before reading any other Word. */
+                                                                 Note that SW should read NIX_BAND_PROF_S word[0], before reading any other word. */
 #else /* Word 0 - Little Endian */
-        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF \<\< 4) |
+        uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF_INDEX \<\< 4) |
                                                                  (NIX_BAND_PROF_S word[3:0])).
-                                                                 Note that SW should read NIX_LF_PL_OP_BAND_PROF Word 0, before reading any other Word. */
+                                                                 Note that SW should read NIX_BAND_PROF_S word[0], before reading any other word. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_lf_pl_op_band_prof_s cn; */

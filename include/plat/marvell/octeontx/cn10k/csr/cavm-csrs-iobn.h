@@ -36,7 +36,7 @@
  * IOBN In Bound Error Enumeration
  * Enumerates the types of error detected on IOB inbound path. Errors are logged based on
  * priority, where ::ABORT_ZERO_ERR has highest
- * priority and ::ADDR_ERR has the lowest priority. See IOBN()_INB_ERR_STATUS.
+ * priority and ::ADDR_ERR has the lowest priority. See IOBN_INB_ERR_STATUS.
  */
 #define CAVM_IOBN_INB_ERR_E_ABORT_ZERO_ERR (1)
 #define CAVM_IOBN_INB_ERR_E_ADDR_ERR (2)
@@ -56,7 +56,7 @@
  *
  * IOBN NCBI Relax Order Modification Enumeration
  * Enumerates the controls for when CR's are allowed to pass PRs, see
- * IOBN()_ARBID()_CTL[CRPPR_ENA].
+ * IOBN_ARBID()_CTL[CRPPR_ENA].
  */
 #define CAVM_IOBN_NCBI_RO_MOD_E_BUS_CTL (0)
 #define CAVM_IOBN_NCBI_RO_MOD_E_OFF (2)
@@ -64,21 +64,11 @@
 #define CAVM_IOBN_NCBI_RO_MOD_E_RSVD (1)
 
 /**
- * Enumeration iobn_outb_data_err_e
- *
- * IOBN Outbound Data Error Enumeration
- * Enumerates the types of error detected on IOB outbound path. See IOBN()_OUTB_DATA_ERR_STATUS.
- */
-#define CAVM_IOBN_OUTB_DATA_ERR_E_CR_FLT (2)
-#define CAVM_IOBN_OUTB_DATA_ERR_E_CR_POIS (1)
-#define CAVM_IOBN_OUTB_DATA_ERR_E_NONE (0)
-
-/**
  * Enumeration iobn_outb_err_e
  *
  * IOBN Outbound Error Enumeration
  * Enumerates the types of error detected on IOB outbound path. If the bit is set in
- * IOBN()_OUTB_ERR_STATUS corresponding to the enumeration value, that error occurred.
+ * IOBN_OUTB_ERR_STATUS corresponding to the enumeration value, that error occurred.
  */
 #define CAVM_IOBN_OUTB_ERR_E_ABORT_ZERO_ERR (1)
 #define CAVM_IOBN_OUTB_ERR_E_ADDR_ERR (2)
@@ -91,7 +81,7 @@
  * Enumeration iobn_rperf_event_e
  *
  * IOBN RCLK Performance Event Enumeration
- * Enumerates the events that can be selected by IOBN()_RPERF_CTRL()[SEL0,SEL1,SEL2].
+ * Enumerates the events that can be selected by IOBN_RPERF_CTRL()[SEL0,SEL1,SEL2].
  * Internal:
  * When assigning new events please keep all INRF events on 0-127 and INRM events on 128-255.
  */
@@ -126,7 +116,7 @@
  * Enumeration iobn_rperf_inrm_class_e
  *
  * IOBN RCLK Performance INRM Class Enumeration
- * Enumerates IOBN()_RPERF_INRM()[CLASS*].
+ * Enumerates IOBN_RPERF_INRM()[CLASS*].
  */
 #define CAVM_IOBN_RPERF_INRM_CLASS_E_INB_BP (1)
 #define CAVM_IOBN_RPERF_INRM_CLASS_E_INB_DAT (2)
@@ -788,7 +778,7 @@ union cavm_iobnx_bp_testx
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
 
-                                                                 IOBN()_BP_TEST(0) - INRF: Defined by iobn_defs::inrf_bp_test_t.
+                                                                 IOBN_BP_TEST(0) - INRF: Defined by iobn_defs::inrf_bp_test_t.
                                                                  \<63\> = iow_imi_cr_debit  - backpressure credit returns from imi to iow for cr credits.
                                                                  \<62\> = iow_imi_req_debit - backpressure credit returns from imi to iow for req credits.
                                                                  \<61\> = rsvd1 - rsvd for future ncb buses
@@ -799,7 +789,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = iow_ncb0_cr_arb_debit  - backpressure from ncb0 CR to iob_iow_irf_arb for credits.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
+                                                                 IOBN_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
                                                                  \<63\> = LSW1 Request.
                                                                  \<62\> = LSW0 Request.
                                                                  \<61\> = NCBO1-RET.
@@ -810,7 +800,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = MSH - REQ. 10x.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(2) - INRF: Defined by iobn_defs::inrf_bp_test_t.
+                                                                 IOBN_BP_TEST(2) - INRF: Defined by iobn_defs::inrf_bp_test_t.
                                                                  \<63\> = NCB2 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
                                                                  \<62\> = NCB1 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
                                                                  \<61\> = NCB0 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
@@ -821,7 +811,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = iut_smmu_bp - emulates backpressure to IUT from SMMU.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
+                                                                 IOBN_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
                                                                  \<63\> = TBD.
                                                                  \<62\> = imi_retry_smmu
                                                                  \<61\> = imi_retry_sow
@@ -832,7 +822,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = LBK - REQ. 10x.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
+                                                                 IOBN_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
                                                                  \<63\> = TBD.
                                                                  \<62\> = TBD.
                                                                  \<61\> = TBD.
@@ -843,8 +833,8 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = TBD.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(5) - INRF: Defined by iobn_defs::iow_ill_bp_test_t. See
-                                                                 IOBN(0..3)_ILL_BPTEST_SEL for how to map outputs to a ncb arbid.
+                                                                 IOBN_BP_TEST(5) - INRF: Defined by iobn_defs::iow_ill_bp_test_t. See
+                                                                 IOBN_ILL_BPTEST_SEL for how to map outputs to a ncb arbid.
                                                                  \<63\> = irf__ill_rtn_crd0.cr.
                                                                  \<62\> = irf__ill_rtn_crd0.np.
                                                                  \<61\> = irf__ill_rtn_crd0.pr.
@@ -891,7 +881,7 @@ union cavm_iobnx_bp_testx
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
 
-                                                                 IOBN()_BP_TEST(0) - INRF: Defined by iobn_defs::inrf_bp_test_t.
+                                                                 IOBN_BP_TEST(0) - INRF: Defined by iobn_defs::inrf_bp_test_t.
                                                                  \<63\> = iow_imi_cr_debit  - backpressure credit returns from imi to iow for cr credits.
                                                                  \<62\> = iow_imi_req_debit - backpressure credit returns from imi to iow for req credits.
                                                                  \<61\> = rsvd1 - rsvd for future ncb buses
@@ -902,7 +892,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = iow_ncb0_cr_arb_debit  - backpressure from ncb0 CR to iob_iow_irf_arb for credits.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
+                                                                 IOBN_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
                                                                  \<63\> = LSW1 Request.
                                                                  \<62\> = LSW0 Request.
                                                                  \<61\> = NCBO1-RET.
@@ -913,7 +903,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = MSH - REQ. 10x.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(2) - INRF: Defined by iobn_defs::inrf_bp_test_t.
+                                                                 IOBN_BP_TEST(2) - INRF: Defined by iobn_defs::inrf_bp_test_t.
                                                                  \<63\> = NCB2 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
                                                                  \<62\> = NCB1 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
                                                                  \<61\> = NCB0 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
@@ -924,7 +914,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = iut_smmu_bp - emulates backpressure to IUT from SMMU.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
+                                                                 IOBN_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
                                                                  \<63\> = TBD.
                                                                  \<62\> = imi_retry_smmu
                                                                  \<61\> = imi_retry_sow
@@ -935,7 +925,7 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = LBK - REQ. 10x.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
+                                                                 IOBN_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
                                                                  \<63\> = TBD.
                                                                  \<62\> = TBD.
                                                                  \<61\> = TBD.
@@ -946,8 +936,8 @@ union cavm_iobnx_bp_testx
                                                                  \<56\> = TBD.
 
                                                                  \<page\>
-                                                                 IOBN()_BP_TEST(5) - INRF: Defined by iobn_defs::iow_ill_bp_test_t. See
-                                                                 IOBN(0..3)_ILL_BPTEST_SEL for how to map outputs to a ncb arbid.
+                                                                 IOBN_BP_TEST(5) - INRF: Defined by iobn_defs::iow_ill_bp_test_t. See
+                                                                 IOBN_ILL_BPTEST_SEL for how to map outputs to a ncb arbid.
                                                                  \<63\> = irf__ill_rtn_crd0.cr.
                                                                  \<62\> = irf__ill_rtn_crd0.np.
                                                                  \<61\> = irf__ill_rtn_crd0.pr.
@@ -1243,9 +1233,9 @@ static inline uint64_t CAVM_IOBNX_DLL(uint64_t a)
  * For each combination of index {b} and {c}, each index {a} (the IOB number) must be
  * programmed to the same value.
  *
- * Streams which hit index {c}=0x0 are also affected by IOBN()_DOM()_DEV()_STREAMS.
+ * Streams which hit index {c}=0x0 are also affected by IOBN_DOM()_DEV()_STREAMS.
  * Streams which hit index {b}=PCC_DEV_CON_E::MRML\<21:16\>,
- * {c}=PCC_DEV_CON_E::MRML\<15:8\> are also affected by IOBN()_RSL()_STREAMS.
+ * {c}=PCC_DEV_CON_E::MRML\<15:8\> are also affected by IOBN_RSL()_STREAMS.
  * Both of those alternative registers provide better granularity, so those indices
  * into this register should be left permissive (value of 0x0).
  */
@@ -1504,7 +1494,7 @@ static inline uint64_t CAVM_IOBNX_ECO_SCLK(uint64_t a)
  * Register (RSL) iobn#_err_ena
  *
  * IOBN Error Enable Register
- * Controls what errors are logged into IOBN()_INB_ERR_STATUS and IOBN()_OUTB_ERR_STATUS registers.
+ * Controls what errors are logged into IOBN_INB_ERR_STATUS and IOBN_OUTB_ERR_STATUS registers.
  */
 union cavm_iobnx_err_ena
 {
@@ -1824,10 +1814,10 @@ union cavm_iobnx_int_sum
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) NCBI CR associated with an inactive CPID. See IOBN_NCBI()_CR_ERR_STATUS. */
         uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) NCBO bus[3:0] store data with poison. IOBN_NCBO()_PSN_STATUS saves the first error information. */
         uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) NPR to a NCB device has timed out on bus[3:0]. This should not occur under normal
-                                                                 circumstances and is typically fatal. See IOBN()_NCBO_TO[SUB_TIME]. */
+                                                                 circumstances and is typically fatal. See IOBN_NCBO_TO[SUB_TIME]. */
 #else /* Word 0 - Little Endian */
         uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) NPR to a NCB device has timed out on bus[3:0]. This should not occur under normal
-                                                                 circumstances and is typically fatal. See IOBN()_NCBO_TO[SUB_TIME]. */
+                                                                 circumstances and is typically fatal. See IOBN_NCBO_TO[SUB_TIME]. */
         uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) NCBO bus[3:0] store data with poison. IOBN_NCBO()_PSN_STATUS saves the first error information. */
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) NCBI CR associated with an inactive CPID. See IOBN_NCBI()_CR_ERR_STATUS. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) NCBO CR had poison data error. See IOBN_NCBO()_CR_ERR_STATUS. */
@@ -1988,10 +1978,10 @@ union cavm_iobnx_msix_pbax
     struct cavm_iobnx_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated IOBN()_MSIX_VEC()_CTL, enumerated by IOBN_INT_VEC_E.
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated IOBN_MSIX_VEC()_CTL, enumerated by IOBN_INT_VEC_E.
                                                                  Bits that have no associated IOBN_INT_VEC_E are zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated IOBN()_MSIX_VEC()_CTL, enumerated by IOBN_INT_VEC_E.
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated IOBN_MSIX_VEC()_CTL, enumerated by IOBN_INT_VEC_E.
                                                                  Bits that have no associated IOBN_INT_VEC_E are zero. */
 #endif /* Word 0 - End */
     } s;
@@ -2034,8 +2024,8 @@ union cavm_iobnx_msix_vecx_addr
                                                                  The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
                                                                  physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
 
-                                                                 1 = This vector's IOBN()_MSIX_VEC()_ADDR, IOBN()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of IOBN()_MSIX_PBA() are RAZ/WI and does not cause a fault
+                                                                 1 = This vector's IOBN_MSIX_VEC()_ADDR, IOBN_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of IOBN_MSIX_PBA() are RAZ/WI and does not cause a fault
                                                                  when accessed by the nonsecure world.
                                                                  The vector's IOVA is sent to the SMMU as secure (though this only affects
                                                                  physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
@@ -2057,8 +2047,8 @@ union cavm_iobnx_msix_vecx_addr
                                                                  The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
                                                                  physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
 
-                                                                 1 = This vector's IOBN()_MSIX_VEC()_ADDR, IOBN()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of IOBN()_MSIX_PBA() are RAZ/WI and does not cause a fault
+                                                                 1 = This vector's IOBN_MSIX_VEC()_ADDR, IOBN_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of IOBN_MSIX_PBA() are RAZ/WI and does not cause a fault
                                                                  when accessed by the nonsecure world.
                                                                  The vector's IOVA is sent to the SMMU as secure (though this only affects
                                                                  physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
@@ -2331,13 +2321,13 @@ union cavm_iobnx_ncbox_psn_status
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
         uint64_t address               : 52; /**< [ 51:  0](RO/H) Captured address when poison transaction was sent on NCBO. Valid when
-                                                                 corresponding bit is set in IOBN()_INT_SUM.
-                                                                 When corresponding bit in IOBN()_INT_SUM is cleared it allows a new poison error
+                                                                 corresponding bit is set in IOBN_INT_SUM.
+                                                                 When corresponding bit in IOBN_INT_SUM is cleared it allows a new poison error
                                                                  to be latched. */
 #else /* Word 0 - Little Endian */
         uint64_t address               : 52; /**< [ 51:  0](RO/H) Captured address when poison transaction was sent on NCBO. Valid when
-                                                                 corresponding bit is set in IOBN()_INT_SUM.
-                                                                 When corresponding bit in IOBN()_INT_SUM is cleared it allows a new poison error
+                                                                 corresponding bit is set in IOBN_INT_SUM.
+                                                                 When corresponding bit in IOBN_INT_SUM is cleared it allows a new poison error
                                                                  to be latched. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
@@ -2377,12 +2367,12 @@ union cavm_iobnx_ncbo_to
         uint64_t sub_time              : 32; /**< [ 31:  0](R/W) Timeout value. When a load operation is sent on NCBO, the timeout counter is
                                                                  started, and if return data on NCBI does not return within between three to four
                                                                  times the value of [SUB_TIME] in coprocessor-clocks, a timeout occurs and
-                                                                 IOBN()_INT_SUM[NCBO_TO] is set. 0x0 disables. */
+                                                                 IOBN_INT_SUM[NCBO_TO] is set. 0x0 disables. */
 #else /* Word 0 - Little Endian */
         uint64_t sub_time              : 32; /**< [ 31:  0](R/W) Timeout value. When a load operation is sent on NCBO, the timeout counter is
                                                                  started, and if return data on NCBI does not return within between three to four
                                                                  times the value of [SUB_TIME] in coprocessor-clocks, a timeout occurs and
-                                                                 IOBN()_INT_SUM[NCBO_TO] is set. 0x0 disables. */
+                                                                 IOBN_INT_SUM[NCBO_TO] is set. 0x0 disables. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -2410,7 +2400,7 @@ static inline uint64_t CAVM_IOBNX_NCBO_TO(uint64_t a)
  *
  * IOBN NCB Timeout Error Register
  * This register captures error information for a nonposted request that times out on
- * NCBO (when IOBN()_INT_SUM[NCBO_TO] is set).
+ * NCBO (when IOBN_INT_SUM[NCBO_TO] is set).
  */
 union cavm_iobnx_ncbo_to_errx
 {
@@ -2546,9 +2536,9 @@ union cavm_iobnx_rperf_cntrx
     struct cavm_iobnx_rperf_cntrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Count value of the performance counters controlled by IOBN()_RPERF_CTRL(). */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Count value of the performance counters controlled by IOBN_RPERF_CTRL(). */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Count value of the performance counters controlled by IOBN()_RPERF_CTRL(). */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Count value of the performance counters controlled by IOBN_RPERF_CTRL(). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_rperf_cntrx_s cn; */
@@ -2574,7 +2564,7 @@ static inline uint64_t CAVM_IOBNX_RPERF_CNTRX(uint64_t a, uint64_t b)
  * Register (RSL) iobn#_rperf_ctrl#
  *
  * IOBN RCLK Performance Counter Control Register
- * This register controls the IOBN()_RPERF_CNTR() registers.
+ * This register controls the IOBN_RPERF_CNTR() registers.
  */
 union cavm_iobnx_rperf_ctrlx
 {
@@ -2589,9 +2579,9 @@ union cavm_iobnx_rperf_ctrlx
                                                                  counters and [FROZEN]. This register will always read back a zero. */
         uint64_t enable                : 1;  /**< [ 29: 29](R/W) Enable the counters. Set this bit to enable the corresponding counter in a
                                                                  separate write after setting [SEL0]/[SEL1]/[SEL2]. */
-        uint64_t gbl_stop_enb          : 1;  /**< [ 28: 28](R/W) IOBN()_RPERF_CTRL(0) controls a global stop for all counters when this
+        uint64_t gbl_stop_enb          : 1;  /**< [ 28: 28](R/W) IOBN_RPERF_CTRL(0) controls a global stop for all counters when this
                                                                  bit is written to a 1.
-                                                                 IOBN()_RPERF_CTRL(1) controls a global enable for all counters when this
+                                                                 IOBN_RPERF_CTRL(1) controls a global enable for all counters when this
                                                                  bit is written to a 1. */
         uint64_t reserved_27           : 1;
         uint64_t event_type            : 1;  /**< [ 26: 26](R/W) Event type.
@@ -2618,9 +2608,9 @@ union cavm_iobnx_rperf_ctrlx
                                                                  0 = The event is counted when all events are asserted. (SEL0 & SEL1 & SEL2).
                                                                  1 = The event is counted when any event is asserted. (SEL0 | SEL1 | SEL2). */
         uint64_t reserved_27           : 1;
-        uint64_t gbl_stop_enb          : 1;  /**< [ 28: 28](R/W) IOBN()_RPERF_CTRL(0) controls a global stop for all counters when this
+        uint64_t gbl_stop_enb          : 1;  /**< [ 28: 28](R/W) IOBN_RPERF_CTRL(0) controls a global stop for all counters when this
                                                                  bit is written to a 1.
-                                                                 IOBN()_RPERF_CTRL(1) controls a global enable for all counters when this
+                                                                 IOBN_RPERF_CTRL(1) controls a global enable for all counters when this
                                                                  bit is written to a 1. */
         uint64_t enable                : 1;  /**< [ 29: 29](R/W) Enable the counters. Set this bit to enable the corresponding counter in a
                                                                  separate write after setting [SEL0]/[SEL1]/[SEL2]. */
@@ -2654,7 +2644,7 @@ static inline uint64_t CAVM_IOBNX_RPERF_CTRLX(uint64_t a, uint64_t b)
  * Register (RSL) iobn#_rperf_inrm#
  *
  * IOBN INRM Performance Counter Control Register
- * This register controls IOBN()_RPERF_CNTR() when IOBN_RPERF_EVENT_E::INRM_PERF() is selected.
+ * This register controls IOBN_RPERF_CNTR() when IOBN_RPERF_EVENT_E::INRM_PERF() is selected.
  */
 union cavm_iobnx_rperf_inrmx
 {
@@ -2719,13 +2709,13 @@ static inline uint64_t CAVM_IOBNX_RPERF_INRMX(uint64_t a, uint64_t b)
  * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRML\<21:8\>
  *   (stream_id\<7:0\> + 0).
  *
- * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB0\<21:8\>
+ * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB1\<21:8\>
  *   (stream_id\<7:0\> + 256).
  *
- * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB1\<21:8\>
+ * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB2\<21:8\>
  *   (stream_id\<7:0\> + 512).
  *
- * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB2\<21:8\>
+ * _ stream_id\<21:8\> = PCC_DEV_CON_E::MRMLB3\<21:8\>
  *   (stream_id\<7:0\> + 768).
  *
  * For each given index {a} (the RSL function number), each IOB

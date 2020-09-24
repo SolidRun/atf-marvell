@@ -90,7 +90,7 @@
 /**
  * Enumeration npa_batch_alloc_ccode_e
  *
- * NPA Batch Alloc Condition Code Enumeration
+ * NPA Batch Allocate Condition Code Enumeration
  */
 #define CAVM_NPA_BATCH_ALLOC_CCODE_E_ALLOC_CCODE_INVAL (0)
 #define CAVM_NPA_BATCH_ALLOC_CCODE_E_ALLOC_CCODE_VAL (1)
@@ -99,7 +99,7 @@
 /**
  * Enumeration npa_batch_alloc_result_e
  *
- * NPA Batch Alloc Result Enumeration
+ * NPA Batch Allocate Result Enumeration
  */
 #define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_ACCEPTED (0)
 #define CAVM_NPA_BATCH_ALLOC_RESULT_E_ALLOC_RESULT_ERR (2)
@@ -837,17 +837,17 @@ union cavm_npa_batch_alloc_compare_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t drop                  : 1;  /**< [ 63: 63] Perform DROP processing on Allocation, when set to 1. */
-        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Request Wait Mode. If DIS_WAIT=1 and resources are not available to
-                                                                 process the request, HW will return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT.
-                                                                 No further request procesing will occur - meaning there will be no DMA response.
-                                                                 If DIS_WAIT=0 and resources not available, HW will
-                                                                 return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_ACCEPTED and the batch alloc
-                                                                 request will be placed in a service queue until it can be processed by HW. SW
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable request wait mode. If DIS_WAIT=1 and resources are not available to
+                                                                 process the request, hardware will return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT.
+                                                                 No further request processing will occur - meaning there will be no DMA response.
+                                                                 If DIS_WAIT=0 and resources not available, hardware will
+                                                                 return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_ACCEPTED and the batch allocate
+                                                                 request will be placed in a service queue until it can be processed by hardware. Software
                                                                  can set resource levels with NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and
                                                                  NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The request's DIS_WAIT will be ignored if
                                                                  NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is set. */
         uint64_t reserved_50_61        : 12;
-        uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfullment of the request.
+        uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfillment of the request.
                                                                    0x0 = Store full cache line, allocate cache (STF).
                                                                    0x1 = Store full cache line, no allocate (STT).
                                                                    0x2 = Store partial cache line, allocate cache (STP).
@@ -861,18 +861,18 @@ union cavm_npa_batch_alloc_compare_s
         uint64_t reserved_20_31        : 12;
         uint64_t count                 : 10; /**< [ 41: 32] Count of the number of pointers to allocate. Maximum value of 512 and minimum value 1. */
         uint64_t reserved_42_47        : 6;
-        uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfullment of the request.
+        uint64_t stype                 : 2;  /**< [ 49: 48] Store cycle type to perform when returning pointers in fulfillment of the request.
                                                                    0x0 = Store full cache line, allocate cache (STF).
                                                                    0x1 = Store full cache line, no allocate (STT).
                                                                    0x2 = Store partial cache line, allocate cache (STP).
                                                                    0x3 = Store partial cache line stash, allocate cache (STSTP). */
         uint64_t reserved_50_61        : 12;
-        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable Request Wait Mode. If DIS_WAIT=1 and resources are not available to
-                                                                 process the request, HW will return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT.
-                                                                 No further request procesing will occur - meaning there will be no DMA response.
-                                                                 If DIS_WAIT=0 and resources not available, HW will
-                                                                 return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_ACCEPTED and the batch alloc
-                                                                 request will be placed in a service queue until it can be processed by HW. SW
+        uint64_t dis_wait              : 1;  /**< [ 62: 62] Disable request wait mode. If DIS_WAIT=1 and resources are not available to
+                                                                 process the request, hardware will return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_WAIT.
+                                                                 No further request processing will occur - meaning there will be no DMA response.
+                                                                 If DIS_WAIT=0 and resources not available, hardware will
+                                                                 return NPA_BATCH_ALLOC_RESULT_E::ALLOC_RESULT_ACCEPTED and the batch allocate
+                                                                 request will be placed in a service queue until it can be processed by hardware. Software
                                                                  can set resource levels with NPA_AF_BATCH_ACCEPT_CTL[FIFO_THR] and
                                                                  NPA_AF_BATCH_ACCEPT_CTL[AP_THR]. The request's DIS_WAIT will be ignored if
                                                                  NPA_AF_BATCH_ACCEPT_CTL[IGN_DIS_WAIT] is set. */
@@ -885,8 +885,8 @@ union cavm_npa_batch_alloc_compare_s
 /**
  * Structure npa_batch_alloc_status_s
  *
- * NPA Batch Alloc DMA Write Status Structure
- * This structure contains the status fields for the Batch Alloc cacheline DMA write.
+ * NPA Batch Allocate DMA Write Status Structure
+ * This structure contains the status fields for the batch allocate cacheline DMA write.
  */
 union cavm_npa_batch_alloc_status_s
 {
@@ -940,9 +940,9 @@ union cavm_npa_lf_aura_op_free0_swap_s
     struct cavm_npa_lf_aura_op_free0_swap_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
+        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
+        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_op_free0_swap_s_s cn; */
@@ -2670,11 +2670,13 @@ union cavm_npa_af_batch_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t num_cache_lines       : 6;  /**< [  6:  1](R/W) Number of cache lines to process per turn by the batch allocation engine. */
+        uint64_t num_cache_lines       : 6;  /**< [  6:  1](R/W) Number of cache lines to process per turn by the batch allocation engine.  Valid
+                                                                 range is from 1 to 32 inclusive. */
         uint64_t force_cond_clk_en     : 1;  /**< [  0:  0](R/W) Force clock enables within block. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
         uint64_t force_cond_clk_en     : 1;  /**< [  0:  0](R/W) Force clock enables within block. For diagnostic use only. */
-        uint64_t num_cache_lines       : 6;  /**< [  6:  1](R/W) Number of cache lines to process per turn by the batch allocation engine. */
+        uint64_t num_cache_lines       : 6;  /**< [  6:  1](R/W) Number of cache lines to process per turn by the batch allocation engine.  Valid
+                                                                 range is from 1 to 32 inclusive. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -4591,8 +4593,8 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
  *
  * NPA always assumes that the atomic operand data is little-endian.
  *
- * If processed, the batch alloc request will DMA write one or more cachelines to
- * address begining at NPA_BATCH_ALLOC_SWAP_S[ADDRESS].  A Status field as described by
+ * If processed, the batch allocate request will DMA write one or more cachelines to
+ * address beginning at NPA_BATCH_ALLOC_SWAP_S[ADDRESS].  A Status field as described by
  * NPA_BATCH_ALLOC_STATUS_S will be updated by HW upon DMA write completion for each
  * cacheline.
  */
@@ -4640,9 +4642,9 @@ union cavm_npa_lf_aura_batch_freex
     struct cavm_npa_lf_aura_batch_freex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t address               : 64; /**< [ 63:  0](R/W/H) Pointer to be returned to the Aura specified in NPA_LF_AURA_BATCH_FREE0[AURA]. */
+        uint64_t address               : 64; /**< [ 63:  0](R/W/H) Pointer to be returned to the aura specified in NPA_LF_AURA_BATCH_FREE0[AURA]. */
 #else /* Word 0 - Little Endian */
-        uint64_t address               : 64; /**< [ 63:  0](R/W/H) Pointer to be returned to the Aura specified in NPA_LF_AURA_BATCH_FREE0[AURA]. */
+        uint64_t address               : 64; /**< [ 63:  0](R/W/H) Pointer to be returned to the aura specified in NPA_LF_AURA_BATCH_FREE0[AURA]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_batch_freex_s cn; */
@@ -4680,41 +4682,57 @@ union cavm_npa_lf_aura_batch_free0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
-                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 provided. If clear, the pointers are adjusted based on NPA_POOL_S[NAT_ALIGN],
                                                                  NPA_POOL_S[BUF_SIZE]. */
         uint64_t reserved_33_62        : 30;
-        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
-                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
-                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
-                                                                 and word[127:64] have valid pointers.
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
+                                                                 the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
 
                                                                  Internal:
-                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
-                                                                 field which would range from 1 to 15.  If software provides feedback that the full
-                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
-                                                                 case we decide to revert to the original definition and add error reporting.
-                                                                 For reference, the original 4b COUNT field definition was - Count of number of
-                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
+                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
+                                                                 the full COUNT field is required, the HW will maintain some level of
+                                                                 compatibility in the case we decide to revert to the original definition and add
+                                                                 error reporting. For reference, the original 4b COUNT field definition was -
+                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
+
+                                                                 Count of number of valid pointers on the final 128b word of the LMTST
+                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
+                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
+                                                                 word[63:0] and word[127:64] have valid pointers.
+
+                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
+                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
+                                                                 " */
         uint64_t reserved_20_31        : 12;
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
 #else /* Word 0 - Little Endian */
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
         uint64_t reserved_20_31        : 12;
-        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
-                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
-                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
-                                                                 and word[127:64] have valid pointers.
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
+                                                                 the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
 
                                                                  Internal:
-                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
-                                                                 field which would range from 1 to 15.  If software provides feedback that the full
-                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
-                                                                 case we decide to revert to the original definition and add error reporting.
-                                                                 For reference, the original 4b COUNT field definition was - Count of number of
-                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
+                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
+                                                                 the full COUNT field is required, the HW will maintain some level of
+                                                                 compatibility in the case we decide to revert to the original definition and add
+                                                                 error reporting. For reference, the original 4b COUNT field definition was -
+                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
+
+                                                                 Count of number of valid pointers on the final 128b word of the LMTST
+                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
+                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
+                                                                 word[63:0] and word[127:64] have valid pointers.
+
+                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
+                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
+                                                                 " */
         uint64_t reserved_33_62        : 30;
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
-                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 provided. If clear, the pointers are adjusted based on NPA_POOL_S[NAT_ALIGN],
                                                                  NPA_POOL_S[BUF_SIZE]. */
 #endif /* Word 0 - End */
     } s;
@@ -4722,43 +4740,59 @@ union cavm_npa_lf_aura_batch_free0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
-                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 provided. If clear, the pointers are adjusted based on NPA_POOL_S[NAT_ALIGN],
                                                                  NPA_POOL_S[BUF_SIZE]. */
         uint64_t reserved_36_62        : 27;
         uint64_t reserved_33_35        : 3;
-        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
-                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
-                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
-                                                                 and word[127:64] have valid pointers.
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
+                                                                 the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
 
                                                                  Internal:
-                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
-                                                                 field which would range from 1 to 15.  If software provides feedback that the full
-                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
-                                                                 case we decide to revert to the original definition and add error reporting.
-                                                                 For reference, the original 4b COUNT field definition was - Count of number of
-                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
+                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
+                                                                 the full COUNT field is required, the HW will maintain some level of
+                                                                 compatibility in the case we decide to revert to the original definition and add
+                                                                 error reporting. For reference, the original 4b COUNT field definition was -
+                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
+
+                                                                 Count of number of valid pointers on the final 128b word of the LMTST
+                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
+                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
+                                                                 word[63:0] and word[127:64] have valid pointers.
+
+                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
+                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
+                                                                 " */
         uint64_t reserved_20_31        : 12;
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
 #else /* Word 0 - Little Endian */
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
         uint64_t reserved_20_31        : 12;
-        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Count of number of valid pointers on the final LMTST 128b word to free.
-                                                                 COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid pointer,
-                                                                 word[127:64] is ignored.  COUNT_EOT=1, indicates that the final LMTST word[63:0]
-                                                                 and word[127:64] have valid pointers.
+        uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
+                                                                 the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
 
                                                                  Internal:
-                                                                 [COUNT_EOT] is defined so that it would be consistent as the LSB of a full COUNT
-                                                                 field which would range from 1 to 15.  If software provides feedback that the full
-                                                                 COUNT field is required, the HW will maintain some level of compatibility in the
-                                                                 case we decide to revert to the original definition and add error reporting.
-                                                                 For reference, the original 4b COUNT field definition was - Count of number of
-                                                                 pointers to free. Maximum value of 15 and minimum value 1. */
+                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
+                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
+                                                                 the full COUNT field is required, the HW will maintain some level of
+                                                                 compatibility in the case we decide to revert to the original definition and add
+                                                                 error reporting. For reference, the original 4b COUNT field definition was -
+                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
+
+                                                                 Count of number of valid pointers on the final 128b word of the LMTST
+                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
+                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
+                                                                 word[63:0] and word[127:64] have valid pointers.
+
+                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
+                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
+                                                                 " */
         uint64_t reserved_33_35        : 3;
         uint64_t reserved_36_62        : 27;
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
-                                                                 provided. If clear, the pointers are are adjusted based on NPA_POOL_S[NAT_ALIGN],
+                                                                 provided. If clear, the pointers are adjusted based on NPA_POOL_S[NAT_ALIGN],
                                                                  NPA_POOL_S[BUF_SIZE]. */
 #endif /* Word 0 - End */
     } cn;

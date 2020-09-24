@@ -2060,6 +2060,47 @@ static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_STATUS(uint64_t a)
 #define arguments_CAVM_XCPX_PRECISE_BUS_ERR_STATUS(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) xcp#_scratch#
+ *
+ * INTERNAL: XCP Scratch Register
+ *
+ * This register is a scratch register for software use.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_scratchx
+{
+    uint64_t u;
+    struct cavm_xcpx_scratchx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_scratchx_s cn; */
+};
+typedef union cavm_xcpx_scratchx cavm_xcpx_scratchx_t;
+
+static inline uint64_t CAVM_XCPX_SCRATCHX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_SCRATCHX(uint64_t a, uint64_t b)
+{
+    if ((a<=2) && (b<=3))
+        return 0x82c0000e4000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    __cavm_csr_fatal("XCPX_SCRATCHX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_SCRATCHX(a,b) cavm_xcpx_scratchx_t
+#define bustype_CAVM_XCPX_SCRATCHX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_XCPX_SCRATCHX(a,b) "XCPX_SCRATCHX"
+#define device_bar_CAVM_XCPX_SCRATCHX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_SCRATCHX(a,b) (a)
+#define arguments_CAVM_XCPX_SCRATCHX(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB32b) xcp#_seg#_map_reg
  *
  * XCP Segment Mapping Register

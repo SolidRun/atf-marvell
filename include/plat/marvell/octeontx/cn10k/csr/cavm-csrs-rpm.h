@@ -36,10 +36,11 @@
  * RPM MSI-X Vector Enumeration
  * Enumeration the MSI-X interrupt vectors.
  */
+#define CAVM_RPM_INT_VEC_E_ANX_INT(a) (0xe + (a))
 #define CAVM_RPM_INT_VEC_E_CMRX_INT(a) (0 + 2 * (a))
 #define CAVM_RPM_INT_VEC_E_CMRX_SW(a) (0xa + (a))
 #define CAVM_RPM_INT_VEC_E_CMR_MEM_INT (8)
-#define CAVM_RPM_INT_VEC_E_SPUX_INT(a) (1 + 2 * (a))
+#define CAVM_RPM_INT_VEC_E_EXT_MTI_PORTX_INT(a) (1 + 2 * (a))
 #define CAVM_RPM_INT_VEC_E_SW (9)
 
 /**
@@ -75,336 +76,6 @@
 #define CAVM_RPM_OPCODE_E_RE_RX_CTL (0xb)
 #define CAVM_RPM_OPCODE_E_RE_SKIP (0xc)
 #define CAVM_RPM_OPCODE_E_RE_TERMINATE (9)
-
-/**
- * Enumeration rpm_spu_br_train_cst_e
- *
- * INTERNAL: RPM Training Coefficient Status Enumeration
- *
- * 2-bit status for each coefficient as defined in IEEE 802.3, Table 72-5.
- */
-#define CAVM_RPM_SPU_BR_TRAIN_CST_E_MAXIMUM (3)
-#define CAVM_RPM_SPU_BR_TRAIN_CST_E_MINIMUM (2)
-#define CAVM_RPM_SPU_BR_TRAIN_CST_E_NOT_UPDATED (0)
-#define CAVM_RPM_SPU_BR_TRAIN_CST_E_UPDATED (1)
-
-/**
- * Enumeration rpm_spu_br_train_cup_e
- *
- * INTERNAL:RPM Training Coefficient Enumeration
- *
- * 2-bit command for each coefficient as defined in IEEE 802.3, Table 72-4.
- */
-#define CAVM_RPM_SPU_BR_TRAIN_CUP_E_DECREMENT (1)
-#define CAVM_RPM_SPU_BR_TRAIN_CUP_E_HOLD (0)
-#define CAVM_RPM_SPU_BR_TRAIN_CUP_E_INCREMENT (2)
-#define CAVM_RPM_SPU_BR_TRAIN_CUP_E_RSV_CMD (3)
-
-/**
- * Enumeration rpm_usxgmii_rate_e
- *
- * RPM USXGMII Rate Enumeration
- * Enumerates the USXGMII sub-port type rate, RPM()_SPU()_CONTROL1[USXGMII_RATE].
- *
- * Selecting a rate higher than the maximum allowed for a given port sub-type
- * (specified by RPM()_SPU()_CONTROL1[USXGMII_TYPE]), e.g., selecting ::RATE_2HG (2.5
- * Gbps) for RPM_USXGMII_TYPE_E::SXGMII_2G, will cause unpredictable behavior. USXGMII
- * hardware-based autonegotiation may change this setting.
- */
-#define CAVM_RPM_USXGMII_RATE_E_RATE_100M (1)
-#define CAVM_RPM_USXGMII_RATE_E_RATE_10G (5)
-#define CAVM_RPM_USXGMII_RATE_E_RATE_10M (0)
-#define CAVM_RPM_USXGMII_RATE_E_RATE_1G (2)
-#define CAVM_RPM_USXGMII_RATE_E_RATE_20G (6)
-#define CAVM_RPM_USXGMII_RATE_E_RATE_2HG (3)
-#define CAVM_RPM_USXGMII_RATE_E_RATE_5G (4)
-#define CAVM_RPM_USXGMII_RATE_E_RSV_RATE (7)
-
-/**
- * Enumeration rpm_usxgmii_type_e
- *
- * RPM USXGMII Port Sub-Type Enumeration
- * Enumerates the USXGMII sub-port type, RPM()_SPU()_CONTROL1[USXGMII_TYPE].
- *
- * The description indicates the maximum rate and the maximum number of ports (LMACs)
- * for each sub-type. The minimum rate for any port is 10M.
- * The rate selection for each LMAC is made using RPM()_SPU()_CONTROL1[USXGMII_RATE]
- * and the number of active ports/LMACs is implicitly determined by the value given to
- * RPM()_CMR()_CONFIG[ENABLE] for each LMAC.
- *
- * Selecting a rate higher than the maximum allowed for a given port sub-type or
- * enabling more LMACs than the maximum allowed for a given port sub-type will cause
- * unpredictable behavior.
- */
-#define CAVM_RPM_USXGMII_TYPE_E_DXGMII_10G (3)
-#define CAVM_RPM_USXGMII_TYPE_E_DXGMII_20G (5)
-#define CAVM_RPM_USXGMII_TYPE_E_DXGMII_5G (4)
-#define CAVM_RPM_USXGMII_TYPE_E_QXGMII_10G (7)
-#define CAVM_RPM_USXGMII_TYPE_E_QXGMII_20G (6)
-#define CAVM_RPM_USXGMII_TYPE_E_SXGMII_10G (0)
-#define CAVM_RPM_USXGMII_TYPE_E_SXGMII_2G (2)
-#define CAVM_RPM_USXGMII_TYPE_E_SXGMII_5G (1)
-
-/**
- * Structure rpm_spu_br_lane_train_status_s
- *
- * INTERNAL:RPM Lane Training Status Structure
- *
- * This is the group of lane status bits for a single lane in the BASE-R PMD status register
- * (MDIO address 1.151) as defined in IEEE 802.3ba-2010, Table 45-55.
- */
-union cavm_rpm_spu_br_lane_train_status_s
-{
-    uint32_t u;
-    struct cavm_rpm_spu_br_lane_train_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
-        uint32_t training              : 1;  /**< [  2:  2] Link training state.
-                                                                 0 = Training in progress.
-                                                                 1 = Training has completed. */
-        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
-        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
-                                                                 0 = Receiver training.
-                                                                 1 = Receiver trained and ready to receive data for the lane. */
-#else /* Word 0 - Little Endian */
-        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
-                                                                 0 = Receiver training.
-                                                                 1 = Receiver trained and ready to receive data for the lane. */
-        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
-        uint32_t training              : 1;  /**< [  2:  2] Link training state.
-                                                                 0 = Training in progress.
-                                                                 1 = Training has completed. */
-        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
-        uint32_t reserved_4_31         : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpm_spu_br_lane_train_status_s_s cn; */
-};
-
-/**
- * Structure rpm_spu_br_train_cup_s
- *
- * INTERNAL:RPM Lane Training Coefficient Structure
- *
- * This is the coefficient update field of the BASE-R link training packet as defined in
- * IEEE 802.3, Table 72-4.
- */
-union cavm_rpm_spu_br_train_cup_s
-{
-    uint32_t u;
-    struct cavm_rpm_spu_br_train_cup_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_14_31        : 18;
-        uint32_t preset                : 1;  /**< [ 13: 13] Preset. Set to indicate that all TX coefficients be set to a state where equalization is
-                                                                 turned off, i.e. the precursor (k = -1) and postcursor (k = +1) coefficients should be set
-                                                                 to 0 and the main
-                                                                 (k = 0) coefficient should be set to its maximum value. */
-        uint32_t init                  : 1;  /**< [ 12: 12] Initialize. Set to indicate that the TX coefficients should be set to meet the conditions
-                                                                 defined in IEEE 802.3 sub-clause 72.6.10.4.2. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t post_cup              : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t main_cup              : 2;  /**< [  3:  2] Main (k = 0) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t pre_cup               : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-#else /* Word 0 - Little Endian */
-        uint32_t pre_cup               : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t main_cup              : 2;  /**< [  3:  2] Main (k = 0) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t post_cup              : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t init                  : 1;  /**< [ 12: 12] Initialize. Set to indicate that the TX coefficients should be set to meet the conditions
-                                                                 defined in IEEE 802.3 sub-clause 72.6.10.4.2. */
-        uint32_t preset                : 1;  /**< [ 13: 13] Preset. Set to indicate that all TX coefficients be set to a state where equalization is
-                                                                 turned off, i.e. the precursor (k = -1) and postcursor (k = +1) coefficients should be set
-                                                                 to 0 and the main
-                                                                 (k = 0) coefficient should be set to its maximum value. */
-        uint32_t reserved_14_31        : 18;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_rpm_spu_br_train_cup_s_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t reserved_14_15        : 2;
-        uint32_t preset                : 1;  /**< [ 13: 13] Preset. Set to indicate that all TX coefficients be set to a state where equalization is
-                                                                 turned off, i.e. the precursor (k = -1) and postcursor (k = +1) coefficients should be set
-                                                                 to 0 and the main
-                                                                 (k = 0) coefficient should be set to its maximum value. */
-        uint32_t init                  : 1;  /**< [ 12: 12] Initialize. Set to indicate that the TX coefficients should be set to meet the conditions
-                                                                 defined in IEEE 802.3 sub-clause 72.6.10.4.2. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t post_cup              : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t main_cup              : 2;  /**< [  3:  2] Main (k = 0) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t pre_cup               : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-#else /* Word 0 - Little Endian */
-        uint32_t pre_cup               : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t main_cup              : 2;  /**< [  3:  2] Main (k = 0) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t post_cup              : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CUP_E. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t init                  : 1;  /**< [ 12: 12] Initialize. Set to indicate that the TX coefficients should be set to meet the conditions
-                                                                 defined in IEEE 802.3 sub-clause 72.6.10.4.2. */
-        uint32_t preset                : 1;  /**< [ 13: 13] Preset. Set to indicate that all TX coefficients be set to a state where equalization is
-                                                                 turned off, i.e. the precursor (k = -1) and postcursor (k = +1) coefficients should be set
-                                                                 to 0 and the main
-                                                                 (k = 0) coefficient should be set to its maximum value. */
-        uint32_t reserved_14_15        : 2;
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } cn;
-};
-
-/**
- * Structure rpm_spu_br_train_rep_s
- *
- * INTERNAL:RPM Training Report Structure
- *
- * This is the status report field of the BASE-R link training packet as defined in IEEE 802.3,
- * Table 72-5.
- */
-union cavm_rpm_spu_br_train_rep_s
-{
-    uint32_t u;
-    struct cavm_rpm_spu_br_train_rep_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t rx_ready              : 1;  /**< [ 15: 15] Receiver ready. Set to indicate that the local receiver has determined that training is
-                                                                 complete and is prepared to receive data. */
-        uint32_t reserved_6_14         : 9;
-        uint32_t post_cst              : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CST_E. */
-        uint32_t main_cst              : 2;  /**< [  3:  2] Main (k = 0) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CST_E. */
-        uint32_t pre_cst               : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CST_E. */
-#else /* Word 0 - Little Endian */
-        uint32_t pre_cst               : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CST_E. */
-        uint32_t main_cst              : 2;  /**< [  3:  2] Main (k = 0) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CST_E. */
-        uint32_t post_cst              : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
-                                                                 RPM_SPU_BR_TRAIN_CST_E. */
-        uint32_t reserved_6_14         : 9;
-        uint32_t rx_ready              : 1;  /**< [ 15: 15] Receiver ready. Set to indicate that the local receiver has determined that training is
-                                                                 complete and is prepared to receive data. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpm_spu_br_train_rep_s_s cn; */
-};
-
-/**
- * Structure rpm_spu_sds_cu_s
- *
- * INTERNAL: RPM Training Coeffiecient Structure
- *
- * This structure is similar to RPM_SPU_BR_TRAIN_CUP_S format, but with reserved fields removed
- * and [RCVR_READY] field added.
- */
-union cavm_rpm_spu_sds_cu_s
-{
-    uint32_t u;
-    struct cavm_rpm_spu_sds_cu_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_9_31         : 23;
-        uint32_t rcvr_ready            : 1;  /**< [  8:  8] See RPM_SPU_BR_TRAIN_REP_S[RX_READY]. */
-        uint32_t preset                : 1;  /**< [  7:  7] See RPM_SPU_BR_TRAIN_CUP_S[PRESET]. */
-        uint32_t initialize            : 1;  /**< [  6:  6] See RPM_SPU_BR_TRAIN_CUP_S[INIT]. */
-        uint32_t post_cu               : 2;  /**< [  5:  4] See RPM_SPU_BR_TRAIN_CUP_S[POST_CUP]. */
-        uint32_t main_cu               : 2;  /**< [  3:  2] See RPM_SPU_BR_TRAIN_CUP_S[MAIN_CUP]. */
-        uint32_t pre_cu                : 2;  /**< [  1:  0] See RPM_SPU_BR_TRAIN_CUP_S[PRE_CUP]. */
-#else /* Word 0 - Little Endian */
-        uint32_t pre_cu                : 2;  /**< [  1:  0] See RPM_SPU_BR_TRAIN_CUP_S[PRE_CUP]. */
-        uint32_t main_cu               : 2;  /**< [  3:  2] See RPM_SPU_BR_TRAIN_CUP_S[MAIN_CUP]. */
-        uint32_t post_cu               : 2;  /**< [  5:  4] See RPM_SPU_BR_TRAIN_CUP_S[POST_CUP]. */
-        uint32_t initialize            : 1;  /**< [  6:  6] See RPM_SPU_BR_TRAIN_CUP_S[INIT]. */
-        uint32_t preset                : 1;  /**< [  7:  7] See RPM_SPU_BR_TRAIN_CUP_S[PRESET]. */
-        uint32_t rcvr_ready            : 1;  /**< [  8:  8] See RPM_SPU_BR_TRAIN_REP_S[RX_READY]. */
-        uint32_t reserved_9_31         : 23;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpm_spu_sds_cu_s_s cn; */
-};
-
-/**
- * Structure rpm_spu_sds_skew_status_s
- *
- * RPM Skew Status Structure
- * Provides receive skew information detected for a physical SerDes lane when it is assigned to a
- * multilane LMAC/LPCS. Contents are valid when RX deskew is done for the associated LMAC/LPCS.
- */
-union cavm_rpm_spu_sds_skew_status_s
-{
-    uint32_t u;
-    struct cavm_rpm_spu_sds_skew_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t lane_skew             : 7;  /**< [ 29: 23] Lane skew. The SerDes lane's receive skew/delay in number of code-groups (BASE-X) or
-                                                                 blocks (40G/50G/100GBASE-R) relative to the earliest (least delayed) lane of the LMAC/LPCS. */
-        uint32_t reserved_21_22        : 2;
-        uint32_t am_lane_id            : 5;  /**< [ 20: 16] Alignment marker ID. Valid for 40G/50G/100GBASE-R only. This is the PCS lane
-                                                                 number of the alignment marker received on the SerDes lane. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t am_timestamp          : 12; /**< [ 11:  0] Alignment marker PTP timestamp. Valid for 40G/50G/100GBASE-R only. Contains the
-                                                                 lower 12 bits of the PTP timestamp of the alignment marker received on the
-                                                                 SerDes lane during align/skew detection. */
-#else /* Word 0 - Little Endian */
-        uint32_t am_timestamp          : 12; /**< [ 11:  0] Alignment marker PTP timestamp. Valid for 40G/50G/100GBASE-R only. Contains the
-                                                                 lower 12 bits of the PTP timestamp of the alignment marker received on the
-                                                                 SerDes lane during align/skew detection. */
-        uint32_t reserved_12_15        : 4;
-        uint32_t am_lane_id            : 5;  /**< [ 20: 16] Alignment marker ID. Valid for 40G/50G/100GBASE-R only. This is the PCS lane
-                                                                 number of the alignment marker received on the SerDes lane. */
-        uint32_t reserved_21_22        : 2;
-        uint32_t lane_skew             : 7;  /**< [ 29: 23] Lane skew. The SerDes lane's receive skew/delay in number of code-groups (BASE-X) or
-                                                                 blocks (40G/50G/100GBASE-R) relative to the earliest (least delayed) lane of the LMAC/LPCS. */
-        uint32_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpm_spu_sds_skew_status_s_s cn; */
-};
-
-/**
- * Structure rpm_spu_sds_sr_s
- *
- * INTERNAL: RPM Lane Training Coefficient Structure
- *
- * Similar to RPM_SPU_BR_TRAIN_REP_S format, but with reserved and RX ready fields removed.
- */
-union cavm_rpm_spu_sds_sr_s
-{
-    uint32_t u;
-    struct cavm_rpm_spu_sds_sr_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t post_status           : 2;  /**< [  5:  4] See RPM_SPU_BR_TRAIN_REP_S[POST_CST]. */
-        uint32_t main_status           : 2;  /**< [  3:  2] See RPM_SPU_BR_TRAIN_REP_S[MAIN_CST]. */
-        uint32_t pre_status            : 2;  /**< [  1:  0] See RPM_SPU_BR_TRAIN_REP_S[PRE_CST]. */
-#else /* Word 0 - Little Endian */
-        uint32_t pre_status            : 2;  /**< [  1:  0] See RPM_SPU_BR_TRAIN_REP_S[PRE_CST]. */
-        uint32_t main_status           : 2;  /**< [  3:  2] See RPM_SPU_BR_TRAIN_REP_S[MAIN_CST]. */
-        uint32_t post_status           : 2;  /**< [  5:  4] See RPM_SPU_BR_TRAIN_REP_S[POST_CST]. */
-        uint32_t reserved_6_31         : 26;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpm_spu_sds_sr_s_s cn; */
-};
 
 /**
  * Register (RSL) rpm#_active_pc
@@ -459,13 +130,15 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_0
                                                                  internal AP Aneg state machine,;else, the last written value */
         uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
                                                                  reaches the value of bit [14:4], this bit is set. */
-        uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint
+                                                                 Self clearing bit. */
         uint64_t override_ctrl_s       : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
 #else /* Word 0 - Little Endian */
         uint64_t override_ctrl_s       : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
-        uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint
+                                                                 Self clearing bit. */
         uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
                                                                  reaches the value of bit [14:4], this bit is set. */
         uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state;if override_ctrl_s[0] = 0, this field gives the status of the
@@ -2481,6 +2154,439 @@ static inline uint64_t CAVM_RPMX_ANX_BACKPLANE_ETHERNET_STATUS_REGISTER(uint64_t
 #define arguments_CAVM_RPMX_ANX_BACKPLANE_ETHERNET_STATUS_REGISTER(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rpm#_an#_int
+ *
+ * RPM AN Interrupt Clear Register
+ */
+union cavm_rpmx_anx_int
+{
+    uint64_t u;
+    struct cavm_rpmx_anx_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1C/H) RX T-FIFO got empty. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1C/H) RX T-FIFO got full. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1C/H) TX T-FIFO got empty. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1C/H) TX T-FIFO got full. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1C/H) Reached CH wait_pwrdn timeout. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1C/H) Reached CH PROG timeout. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1C/H) COMPHY SM - didn't get tx_train_complete within the given timeout. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1C/H) COMPHY SM - didn't get pll_tx_ready within the given timeout. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1C/H) COMPHY SM - didn't get rx_train_complete within the given timeout. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1C/H) COMPHY SM - didn't get pll_rx_ready within the given timeout. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1C/H) COMPHY SM - didn't get rx_init_done within the given timeout. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1C/H) Reached TX PROG timeout. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1C/H) Reached RX PROG timeout. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1C/H) COMPHY TX SM got to state PROG_TX_TRAIN. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1C/H) COMPHY RX SM got to state PROG_RX_TRAIN. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1C/H) COMPHY RX SM got to state PROG_RX_INIT. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1C/H) CH SM - didn't get tx_ready/dsp_sigdet/lock within the given timeout */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1C/H) CH SM - didn't get dsp_sigdet/lock within the given timeout */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1C/H) CH SM - didn't get tx_ready within the given timeout */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1C/H) CH SM - didn't reach link within the given timeout. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1C/H) CH SM - DSP RX UP timeout.
+                                                                 SM didn't get dsp_lock / dsp_sigdet due to failure in RX operation. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1C/H) CH SM PROG_TXRXSD state reached. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1C/H) CH SM PROG_TXRXON state reached. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1C/H) CH SM PROG_TXON state reached. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1C/H) CH SM PROG_RXSD state reached. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1C/H) CH SM PROG_RXON state reached. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1C/H) CH SM PROG_PWRUP state reached. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1C/H) CH SM PROG_NORM state reached. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1C/H) SerDes RX SM break point reached. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1C/H) SerDes TX SM break point reached. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1C/H) Channel SM break point reached. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1C/H) Interrupt when AN Arbiter SM enters AN_GOOD_CK state.
+                                                                 this interrupt will usually will rise with hcd_found interrupt.
+                                                                 if this interrupt is raised but hcd_found interrupt doesn't rise,
+                                                                 it means negotiation is completed but no common speed was found. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1C/H) HCD found interrupt. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1C/H) AN restart interrupt. */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1C/H) Port interrupt summary.
+                                                                 rises upon unmasked interrupt assertion. */
+#else /* Word 0 - Little Endian */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1C/H) Port interrupt summary.
+                                                                 rises upon unmasked interrupt assertion. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1C/H) AN restart interrupt. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1C/H) HCD found interrupt. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1C/H) Interrupt when AN Arbiter SM enters AN_GOOD_CK state.
+                                                                 this interrupt will usually will rise with hcd_found interrupt.
+                                                                 if this interrupt is raised but hcd_found interrupt doesn't rise,
+                                                                 it means negotiation is completed but no common speed was found. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1C/H) Channel SM break point reached. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1C/H) SerDes TX SM break point reached. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1C/H) SerDes RX SM break point reached. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1C/H) CH SM PROG_NORM state reached. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1C/H) CH SM PROG_PWRUP state reached. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1C/H) CH SM PROG_RXON state reached. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1C/H) CH SM PROG_RXSD state reached. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1C/H) CH SM PROG_TXON state reached. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1C/H) CH SM PROG_TXRXON state reached. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1C/H) CH SM PROG_TXRXSD state reached. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1C/H) CH SM - DSP RX UP timeout.
+                                                                 SM didn't get dsp_lock / dsp_sigdet due to failure in RX operation. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1C/H) CH SM - didn't reach link within the given timeout. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1C/H) CH SM - didn't get tx_ready within the given timeout */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1C/H) CH SM - didn't get dsp_sigdet/lock within the given timeout */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1C/H) CH SM - didn't get tx_ready/dsp_sigdet/lock within the given timeout */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1C/H) COMPHY RX SM got to state PROG_RX_INIT. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1C/H) COMPHY RX SM got to state PROG_RX_TRAIN. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1C/H) COMPHY TX SM got to state PROG_TX_TRAIN. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1C/H) Reached RX PROG timeout. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1C/H) Reached TX PROG timeout. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1C/H) COMPHY SM - didn't get rx_init_done within the given timeout. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1C/H) COMPHY SM - didn't get pll_rx_ready within the given timeout. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1C/H) COMPHY SM - didn't get rx_train_complete within the given timeout. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1C/H) COMPHY SM - didn't get pll_tx_ready within the given timeout. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1C/H) COMPHY SM - didn't get tx_train_complete within the given timeout. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1C/H) Reached CH PROG timeout. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1C/H) Reached CH wait_pwrdn timeout. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1C/H) TX T-FIFO got full. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1C/H) TX T-FIFO got empty. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1C/H) RX T-FIFO got full. */
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1C/H) RX T-FIFO got empty. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anx_int_s cn; */
+};
+typedef union cavm_rpmx_anx_int cavm_rpmx_anx_int_t;
+
+static inline uint64_t CAVM_RPMX_ANX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANX_INT(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0062000ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANX_INT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANX_INT(a,b) cavm_rpmx_anx_int_t
+#define bustype_CAVM_RPMX_ANX_INT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANX_INT(a,b) "RPMX_ANX_INT"
+#define device_bar_CAVM_RPMX_ANX_INT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANX_INT(a,b) (a)
+#define arguments_CAVM_RPMX_ANX_INT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_an#_int_ena_w1c
+ *
+ * RPM AN Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_rpmx_anx_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_rpmx_anx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_FULL]. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_EMPTY]. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_FULL]. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_WAIT_PWRDN_TIME_OUT]. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TIME_OUT]. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TX_TRAIN_TIME_OUT]. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RX_TRAIN_TIME_OUT]. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RX_INIT_TIME_OUT]. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TX_TIME_OUT]. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_RX_TIME_OUT]. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_TX_TRAIN_S]. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_TRAIN_S]. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_INIT_S]. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TXRX_START_WAIT_TIME_OUT]. */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TXON_WAIT_TIME_OUT]. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RXON_WAIT_TIME_OUT]. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PCS_LINK_TIMER_OUT]. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_DSP_RXUP_TIME_OUT]. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_PWRUP_EN_MX_S]. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_NORM_EN_MX_S]. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[SD_RX_SM_BP_REACHED_INT]. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[SD_TX_SM_BP_REACHED_INT]. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[CH_SM_BP_REACHED_INT]. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[AN_GOOD_CK]. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[HCD_FOUND]. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[AN_RESTART]. */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[PORT_INT_SUM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[PORT_INT_SUM]. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[AN_RESTART]. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[HCD_FOUND]. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[AN_GOOD_CK]. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[CH_SM_BP_REACHED_INT]. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[SD_TX_SM_BP_REACHED_INT]. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[SD_RX_SM_BP_REACHED_INT]. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_NORM_EN_MX_S]. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_PWRUP_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXSD_EN_MX_S]. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_DSP_RXUP_TIME_OUT]. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PCS_LINK_TIMER_OUT]. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RXON_WAIT_TIME_OUT]. */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TXON_WAIT_TIME_OUT]. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TXRX_START_WAIT_TIME_OUT]. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_INIT_S]. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_TRAIN_S]. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_TX_TRAIN_S]. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_RX_TIME_OUT]. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TX_TIME_OUT]. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RX_INIT_TIME_OUT]. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_RX_TRAIN_TIME_OUT]. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TX_PLL_UP_TIME_OUT]. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_TX_TRAIN_TIME_OUT]. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TIME_OUT]. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[INT_WAIT_PWRDN_TIME_OUT]. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_FULL]. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_EMPTY]. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_FULL]. */
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anx_int_ena_w1c_s cn; */
+};
+typedef union cavm_rpmx_anx_int_ena_w1c cavm_rpmx_anx_int_ena_w1c_t;
+
+static inline uint64_t CAVM_RPMX_ANX_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANX_INT_ENA_W1C(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0062010ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANX_INT_ENA_W1C(a,b) cavm_rpmx_anx_int_ena_w1c_t
+#define bustype_CAVM_RPMX_ANX_INT_ENA_W1C(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANX_INT_ENA_W1C(a,b) "RPMX_ANX_INT_ENA_W1C"
+#define device_bar_CAVM_RPMX_ANX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANX_INT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_RPMX_ANX_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_an#_int_ena_w1s
+ *
+ * RPM AN Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_rpmx_anx_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_rpmx_anx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_FULL]. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_EMPTY]. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_FULL]. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_WAIT_PWRDN_TIME_OUT]. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TIME_OUT]. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TX_TRAIN_TIME_OUT]. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RX_TRAIN_TIME_OUT]. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RX_INIT_TIME_OUT]. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TX_TIME_OUT]. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_RX_TIME_OUT]. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_TX_TRAIN_S]. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_TRAIN_S]. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_INIT_S]. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TXRX_START_WAIT_TIME_OUT]. */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TXON_WAIT_TIME_OUT]. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RXON_WAIT_TIME_OUT]. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PCS_LINK_TIMER_OUT]. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_DSP_RXUP_TIME_OUT]. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_PWRUP_EN_MX_S]. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_NORM_EN_MX_S]. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[SD_RX_SM_BP_REACHED_INT]. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[SD_TX_SM_BP_REACHED_INT]. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[CH_SM_BP_REACHED_INT]. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[AN_GOOD_CK]. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[HCD_FOUND]. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[AN_RESTART]. */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[PORT_INT_SUM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[PORT_INT_SUM]. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[AN_RESTART]. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[HCD_FOUND]. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[AN_GOOD_CK]. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[CH_SM_BP_REACHED_INT]. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[SD_TX_SM_BP_REACHED_INT]. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[SD_RX_SM_BP_REACHED_INT]. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_NORM_EN_MX_S]. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_PWRUP_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXSD_EN_MX_S]. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_DSP_RXUP_TIME_OUT]. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PCS_LINK_TIMER_OUT]. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RXON_WAIT_TIME_OUT]. */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TXON_WAIT_TIME_OUT]. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TXRX_START_WAIT_TIME_OUT]. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_INIT_S]. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_TRAIN_S]. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_TX_TRAIN_S]. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_RX_TIME_OUT]. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TX_TIME_OUT]. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RX_INIT_TIME_OUT]. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_RX_TRAIN_TIME_OUT]. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TX_PLL_UP_TIME_OUT]. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_TX_TRAIN_TIME_OUT]. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_PROG_TIME_OUT]. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[INT_WAIT_PWRDN_TIME_OUT]. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_FULL]. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[TX_TFIFO_EMPTY]. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_FULL]. */
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anx_int_ena_w1s_s cn; */
+};
+typedef union cavm_rpmx_anx_int_ena_w1s cavm_rpmx_anx_int_ena_w1s_t;
+
+static inline uint64_t CAVM_RPMX_ANX_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANX_INT_ENA_W1S(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0062018ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANX_INT_ENA_W1S(a,b) cavm_rpmx_anx_int_ena_w1s_t
+#define bustype_CAVM_RPMX_ANX_INT_ENA_W1S(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANX_INT_ENA_W1S(a,b) "RPMX_ANX_INT_ENA_W1S"
+#define device_bar_CAVM_RPMX_ANX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANX_INT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_RPMX_ANX_INT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_an#_int_w1s
+ *
+ * RPM AN Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_rpmx_anx_int_w1s
+{
+    uint64_t u;
+    struct cavm_rpmx_anx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[RX_TFIFO_FULL]. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[TX_TFIFO_EMPTY]. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[TX_TFIFO_FULL]. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_WAIT_PWRDN_TIME_OUT]. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_TIME_OUT]. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TX_TRAIN_TIME_OUT]. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RX_TRAIN_TIME_OUT]. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RX_INIT_TIME_OUT]. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_TX_TIME_OUT]. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_RX_TIME_OUT]. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_TX_TRAIN_S]. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_TRAIN_S]. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_INIT_S]. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TXRX_START_WAIT_TIME_OUT]. */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TXON_WAIT_TIME_OUT]. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RXON_WAIT_TIME_OUT]. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PCS_LINK_TIMER_OUT]. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_DSP_RXUP_TIME_OUT]. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_PWRUP_EN_MX_S]. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_NORM_EN_MX_S]. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[SD_RX_SM_BP_REACHED_INT]. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[SD_TX_SM_BP_REACHED_INT]. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[CH_SM_BP_REACHED_INT]. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[AN_GOOD_CK]. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[HCD_FOUND]. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[AN_RESTART]. */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[PORT_INT_SUM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t port_int_sum          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[PORT_INT_SUM]. */
+        uint64_t an_restart            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[AN_RESTART]. */
+        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[HCD_FOUND]. */
+        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[AN_GOOD_CK]. */
+        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[CH_SM_BP_REACHED_INT]. */
+        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[SD_TX_SM_BP_REACHED_INT]. */
+        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[SD_RX_SM_BP_REACHED_INT]. */
+        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_NORM_EN_MX_S]. */
+        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_PWRUP_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_RXSD_EN_MX_S]. */
+        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXON_EN_MX_S]. */
+        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_PWM_TXRXSD_EN_MX_S]. */
+        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_DSP_RXUP_TIME_OUT]. */
+        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PCS_LINK_TIMER_OUT]. */
+        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RXON_WAIT_TIME_OUT]. */
+        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TXON_WAIT_TIME_OUT]. */
+        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TXRX_START_WAIT_TIME_OUT]. */
+        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_INIT_S]. */
+        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_RX_TRAIN_S]. */
+        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PM_PROG_TX_TRAIN_S]. */
+        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_RX_TIME_OUT]. */
+        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_TX_TIME_OUT]. */
+        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RX_INIT_TIME_OUT]. */
+        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RX_PLL_UP_TIME_OUT]. */
+        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_RX_TRAIN_TIME_OUT]. */
+        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TX_PLL_UP_TIME_OUT]. */
+        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_TX_TRAIN_TIME_OUT]. */
+        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_PROG_TIME_OUT]. */
+        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[INT_WAIT_PWRDN_TIME_OUT]. */
+        uint64_t tx_tfifo_full         : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[TX_TFIFO_FULL]. */
+        uint64_t tx_tfifo_empty        : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[TX_TFIFO_EMPTY]. */
+        uint64_t rx_tfifo_full         : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[RX_TFIFO_FULL]. */
+        uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anx_int_w1s_s cn; */
+};
+typedef union cavm_rpmx_anx_int_w1s cavm_rpmx_anx_int_w1s_t;
+
+static inline uint64_t CAVM_RPMX_ANX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_ANX_INT_W1S(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0062008ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_ANX_INT_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_ANX_INT_W1S(a,b) cavm_rpmx_anx_int_w1s_t
+#define bustype_CAVM_RPMX_ANX_INT_W1S(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_ANX_INT_W1S(a,b) "RPMX_ANX_INT_W1S"
+#define device_bar_CAVM_RPMX_ANX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_ANX_INT_W1S(a,b) (a)
+#define arguments_CAVM_RPMX_ANX_INT_W1S(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) rpm#_an#_reg_802_3ap_auto_negotiation_control
  *
  * RPM An  Reg 802 3ap Auto Negotiation Control Register
@@ -2492,8 +2598,9 @@ union cavm_rpmx_anx_reg_802_3ap_auto_negotiation_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W) 1 = Reset;0 = Normal;This register will soft reset all PCS/PMA and associated
-                                                                 registers of this interface. */
+        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W/H) 1 = Reset;0 = Normal;This register will soft reset all PCS/PMA and associated
+                                                                 registers of this interface.
+                                                                 Self-clearing bit, reading 0 always. */
         uint64_t reserved_14           : 1;
         uint64_t extended_next_page_control : 1;/**< [ 13: 13](R/W) This bit is ignored */
         uint64_t field_802_3ap_auto_negotiation_enable : 1;/**< [ 12: 12](R/W) 1 = Enable;0 = Disable;A change in this bit will cause Auto-Negotiation to restart. */
@@ -2509,8 +2616,9 @@ union cavm_rpmx_anx_reg_802_3ap_auto_negotiation_control
         uint64_t field_802_3ap_auto_negotiation_enable : 1;/**< [ 12: 12](R/W) 1 = Enable;0 = Disable;A change in this bit will cause Auto-Negotiation to restart. */
         uint64_t extended_next_page_control : 1;/**< [ 13: 13](R/W) This bit is ignored */
         uint64_t reserved_14           : 1;
-        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W) 1 = Reset;0 = Normal;This register will soft reset all PCS/PMA and associated
-                                                                 registers of this interface. */
+        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W/H) 1 = Reset;0 = Normal;This register will soft reset all PCS/PMA and associated
+                                                                 registers of this interface.
+                                                                 Self-clearing bit, reading 0 always. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -3546,7 +3654,8 @@ union cavm_rpmx_anp_global_control
     struct cavm_rpmx_anp_global_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_32_63        : 32;
+        uint64_t divide_sd_clocks      : 1;  /**< [ 31: 31](R/W) Asserted will enable SD Clock Dividers. */
         uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
         uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
         uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
@@ -3584,7 +3693,8 @@ union cavm_rpmx_anp_global_control
         uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
         uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
         uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t divide_sd_clocks      : 1;  /**< [ 31: 31](R/W) Asserted will enable SD Clock Dividers. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_anp_global_control_s cn; */
@@ -3799,88 +3909,6 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL4(uint64_t a)
 #define arguments_CAVM_RPMX_ANP_GLOBAL_CONTROL4(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) rpm#_anp_global_interrupt_cause
- *
- * RPM Anp Global Interrupt Cause Register
- * Global Interrupts register.
- */
-union cavm_rpmx_anp_global_interrupt_cause
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_global_interrupt_cause_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t illegal_address_access : 1; /**< [  1:  1](R/W) Interrupt for access to illegal address.
-                                                                 When occurs, value of the last illegal address can be found in Last Violation register. */
-        uint64_t global_int_sum        : 1;  /**< [  0:  0](RO/H) Global interrupt register - summary bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t global_int_sum        : 1;  /**< [  0:  0](RO/H) Global interrupt register - summary bit. */
-        uint64_t illegal_address_access : 1; /**< [  1:  1](R/W) Interrupt for access to illegal address.
-                                                                 When occurs, value of the last illegal address can be found in Last Violation register. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_global_interrupt_cause_s cn; */
-};
-typedef union cavm_rpmx_anp_global_interrupt_cause cavm_rpmx_anp_global_interrupt_cause_t;
-
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058110ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_GLOBAL_INTERRUPT_CAUSE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) cavm_rpmx_anp_global_interrupt_cause_t
-#define bustype_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) "RPMX_ANP_GLOBAL_INTERRUPT_CAUSE"
-#define device_bar_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) (a)
-#define arguments_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_CAUSE(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_anp_global_interrupt_mask
- *
- * RPM Anp Global Interrupt Mask Register
- * Mask for Global interrupts register.
- */
-union cavm_rpmx_anp_global_interrupt_mask
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_global_interrupt_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t global_int_mask       : 1;  /**< [  1:  1](R/W) Mask for global interrupts register. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t global_int_mask       : 1;  /**< [  1:  1](R/W) Mask for global interrupts register. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_global_interrupt_mask_s cn; */
-};
-typedef union cavm_rpmx_anp_global_interrupt_mask cavm_rpmx_anp_global_interrupt_mask_t;
-
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058118ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_GLOBAL_INTERRUPT_MASK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) cavm_rpmx_anp_global_interrupt_mask_t
-#define bustype_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) "RPMX_ANP_GLOBAL_INTERRUPT_MASK"
-#define device_bar_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) (a)
-#define arguments_CAVM_RPMX_ANP_GLOBAL_INTERRUPT_MASK(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) rpm#_anp_global_lane_delay
  *
  * RPM Anp Global Lane Delay Register
@@ -3997,112 +4025,6 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(uint64_t a
 #define device_bar_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) (a)
 #define arguments_CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_anp_global_sd_mux_control
- *
- * RPM Anp Global Sd Mux Control Register
- * When SD_MUX is present,
- * this register provides the control for the port-sd muxing.
- */
-union cavm_rpmx_anp_global_sd_mux_control
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_global_sd_mux_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t sd_mux_control3       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
-                                                                 Port 3 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control2       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
-                                                                 Port 2 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control1       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
-                                                                 Port 1 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control0       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
-                                                                 Port 0 is connected to SD\<Value of this register\>. */
-#else /* Word 0 - Little Endian */
-        uint64_t sd_mux_control0       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
-                                                                 Port 0 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control1       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
-                                                                 Port 1 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control2       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
-                                                                 Port 2 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control3       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
-                                                                 Port 3 is connected to SD\<Value of this register\>. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_global_sd_mux_control_s cn; */
-};
-typedef union cavm_rpmx_anp_global_sd_mux_control cavm_rpmx_anp_global_sd_mux_control_t;
-
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058010ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SD_MUX_CONTROL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) cavm_rpmx_anp_global_sd_mux_control_t
-#define bustype_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) "RPMX_ANP_GLOBAL_SD_MUX_CONTROL"
-#define device_bar_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) (a)
-#define arguments_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_anp_global_sd_mux_control1
- *
- * RPM Anp Global Sd Mux Control1 Register
- * When SD_MUX is present,
- * this register provides the control for the port-sd muxing.
- */
-union cavm_rpmx_anp_global_sd_mux_control1
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_global_sd_mux_control1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t sd_mux_control7       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
-                                                                 Port 7 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control6       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
-                                                                 Port 6 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control5       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
-                                                                 Port 5 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control4       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
-                                                                 Port 4 is connected to SD\<Value of this register\>. */
-#else /* Word 0 - Little Endian */
-        uint64_t sd_mux_control4       : 8;  /**< [  7:  0](R/W) Control for SerDes Mux.
-                                                                 Port 4 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control5       : 8;  /**< [ 15:  8](R/W) Control for SerDes Mux.
-                                                                 Port 5 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control6       : 8;  /**< [ 23: 16](R/W) Control for SerDes Mux.
-                                                                 Port 6 is connected to SD\<Value of this register\>. */
-        uint64_t sd_mux_control7       : 8;  /**< [ 31: 24](R/W) Control for SerDes Mux.
-                                                                 Port 7 is connected to SD\<Value of this register\>. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_global_sd_mux_control1_s cn; */
-};
-typedef union cavm_rpmx_anp_global_sd_mux_control1 cavm_rpmx_anp_global_sd_mux_control1_t;
-
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058018ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_GLOBAL_SD_MUX_CONTROL1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) cavm_rpmx_anp_global_sd_mux_control1_t
-#define bustype_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) "RPMX_ANP_GLOBAL_SD_MUX_CONTROL1"
-#define device_bar_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) (a)
-#define arguments_CAVM_RPMX_ANP_GLOBAL_SD_MUX_CONTROL1(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rpm#_anp_global_sd_rx_idle_min_wait
@@ -5228,226 +5150,6 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(uint64_t a)
 #define arguments_CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) rpm#_anp_interrupt_summary_cause
- *
- * RPM Anp Interrupt Summary Cause Register
- * Final interrupts register (top of the tree) - summary goes out.
- */
-union cavm_rpmx_anp_interrupt_summary_cause
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_interrupt_summary_cause_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_18_63        : 46;
-        uint64_t p7_int2_sum           : 1;  /**< [ 17: 17](RO/H) Port 7 interrupt2 summary. */
-        uint64_t p7_int_sum            : 1;  /**< [ 16: 16](RO/H) Port 7 interrupt summary. */
-        uint64_t p6_int2_sum           : 1;  /**< [ 15: 15](RO/H) Port 6 interrupt2 summary. */
-        uint64_t p6_int_sum            : 1;  /**< [ 14: 14](RO/H) Port 6 interrupt summary. */
-        uint64_t p5_int2_sum           : 1;  /**< [ 13: 13](RO/H) Port 5 interrupt2 summary. */
-        uint64_t p5_int_sum            : 1;  /**< [ 12: 12](RO/H) Port 5 interrupt summary. */
-        uint64_t p4_int2_sum           : 1;  /**< [ 11: 11](RO/H) Port 4 interrupt2 summary. */
-        uint64_t p4_int_sum            : 1;  /**< [ 10: 10](RO/H) Port 4 interrupt summary. */
-        uint64_t p3_int2_sum           : 1;  /**< [  9:  9](RO/H) Port 3 interrupt2 summary. */
-        uint64_t p3_int_sum            : 1;  /**< [  8:  8](RO/H) Port 3 interrupt summary. */
-        uint64_t p2_int2_sum           : 1;  /**< [  7:  7](RO/H) Port 2 interrupt2 summary. */
-        uint64_t p2_int_sum            : 1;  /**< [  6:  6](RO/H) Port 2 interrupt summary. */
-        uint64_t p1_int2_sum           : 1;  /**< [  5:  5](RO/H) Port 1 interrupt2 summary. */
-        uint64_t p1_int_sum            : 1;  /**< [  4:  4](RO/H) Port 1 interrupt summary. */
-        uint64_t int2_sum              : 1;  /**< [  3:  3](RO/H) Port 0 interrupt2 summary. */
-        uint64_t int_sum               : 1;  /**< [  2:  2](RO/H) Port 0 interrupt summary. */
-        uint64_t global_int            : 1;  /**< [  1:  1](RO/H) Global interrupts summary. */
-        uint64_t interrupt_cause_int_sum : 1;/**< [  0:  0](RO/H) Summary of this register. */
-#else /* Word 0 - Little Endian */
-        uint64_t interrupt_cause_int_sum : 1;/**< [  0:  0](RO/H) Summary of this register. */
-        uint64_t global_int            : 1;  /**< [  1:  1](RO/H) Global interrupts summary. */
-        uint64_t int_sum               : 1;  /**< [  2:  2](RO/H) Port 0 interrupt summary. */
-        uint64_t int2_sum              : 1;  /**< [  3:  3](RO/H) Port 0 interrupt2 summary. */
-        uint64_t p1_int_sum            : 1;  /**< [  4:  4](RO/H) Port 1 interrupt summary. */
-        uint64_t p1_int2_sum           : 1;  /**< [  5:  5](RO/H) Port 1 interrupt2 summary. */
-        uint64_t p2_int_sum            : 1;  /**< [  6:  6](RO/H) Port 2 interrupt summary. */
-        uint64_t p2_int2_sum           : 1;  /**< [  7:  7](RO/H) Port 2 interrupt2 summary. */
-        uint64_t p3_int_sum            : 1;  /**< [  8:  8](RO/H) Port 3 interrupt summary. */
-        uint64_t p3_int2_sum           : 1;  /**< [  9:  9](RO/H) Port 3 interrupt2 summary. */
-        uint64_t p4_int_sum            : 1;  /**< [ 10: 10](RO/H) Port 4 interrupt summary. */
-        uint64_t p4_int2_sum           : 1;  /**< [ 11: 11](RO/H) Port 4 interrupt2 summary. */
-        uint64_t p5_int_sum            : 1;  /**< [ 12: 12](RO/H) Port 5 interrupt summary. */
-        uint64_t p5_int2_sum           : 1;  /**< [ 13: 13](RO/H) Port 5 interrupt2 summary. */
-        uint64_t p6_int_sum            : 1;  /**< [ 14: 14](RO/H) Port 6 interrupt summary. */
-        uint64_t p6_int2_sum           : 1;  /**< [ 15: 15](RO/H) Port 6 interrupt2 summary. */
-        uint64_t p7_int_sum            : 1;  /**< [ 16: 16](RO/H) Port 7 interrupt summary. */
-        uint64_t p7_int2_sum           : 1;  /**< [ 17: 17](RO/H) Port 7 interrupt2 summary. */
-        uint64_t reserved_18_63        : 46;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_interrupt_summary_cause_s cn; */
-};
-typedef union cavm_rpmx_anp_interrupt_summary_cause cavm_rpmx_anp_interrupt_summary_cause_t;
-
-static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058128ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_INTERRUPT_SUMMARY_CAUSE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) cavm_rpmx_anp_interrupt_summary_cause_t
-#define bustype_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) "RPMX_ANP_INTERRUPT_SUMMARY_CAUSE"
-#define device_bar_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) (a)
-#define arguments_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_CAUSE(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_anp_interrupt_summary_mask
- *
- * RPM Anp Interrupt Summary Mask Register
- * Mask for Final interrupts register.
- */
-union cavm_rpmx_anp_interrupt_summary_mask
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_interrupt_summary_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_18_63        : 46;
-        uint64_t p7_interrupt2_mask    : 1;  /**< [ 17: 17](R/W) Mask for port 7 interrupt2. */
-        uint64_t p7_interrupt1_mask    : 1;  /**< [ 16: 16](R/W) Mask for port 7 interrupt1. */
-        uint64_t p6_interrupt2_mask    : 1;  /**< [ 15: 15](R/W) Mask for port 6 interrupt2. */
-        uint64_t p6_interrupt1_mask    : 1;  /**< [ 14: 14](R/W) Mask for port 6 interrupt1. */
-        uint64_t p5_interrupt2_mask    : 1;  /**< [ 13: 13](R/W) Mask for port 5 interrupt2. */
-        uint64_t p5_interrupt1_mask    : 1;  /**< [ 12: 12](R/W) Mask for port 5 interrupt1. */
-        uint64_t p4_interrupt2_mask    : 1;  /**< [ 11: 11](R/W) Mask for port 4 interrupt2. */
-        uint64_t p4_interrupt1_mask    : 1;  /**< [ 10: 10](R/W) Mask for port 4 interrupt1. */
-        uint64_t p3_interrupt2_mask    : 1;  /**< [  9:  9](R/W) Mask for port 3 interrupt2. */
-        uint64_t p3_interrupt1_mask    : 1;  /**< [  8:  8](R/W) Mask for port 3 interrupt1. */
-        uint64_t p2_interrupt2_mask    : 1;  /**< [  7:  7](R/W) Mask for port 2 interrupt2. */
-        uint64_t p2_interrupt1_mask    : 1;  /**< [  6:  6](R/W) Mask for port 2 interrupt1. */
-        uint64_t p1_interrupt2_mask    : 1;  /**< [  5:  5](R/W) Mask for port 1 interrupt2. */
-        uint64_t p1_interrupt1_mask    : 1;  /**< [  4:  4](R/W) Mask for port 1 interrupt1. */
-        uint64_t interrupt2_mask       : 1;  /**< [  3:  3](R/W) Mask for port 0 interrupt2. */
-        uint64_t interrupt1_mask       : 1;  /**< [  2:  2](R/W) Mask for port 0 interrupt1. */
-        uint64_t interrupt_mask        : 1;  /**< [  1:  1](R/W) Mask for global interrupts. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t interrupt_mask        : 1;  /**< [  1:  1](R/W) Mask for global interrupts. */
-        uint64_t interrupt1_mask       : 1;  /**< [  2:  2](R/W) Mask for port 0 interrupt1. */
-        uint64_t interrupt2_mask       : 1;  /**< [  3:  3](R/W) Mask for port 0 interrupt2. */
-        uint64_t p1_interrupt1_mask    : 1;  /**< [  4:  4](R/W) Mask for port 1 interrupt1. */
-        uint64_t p1_interrupt2_mask    : 1;  /**< [  5:  5](R/W) Mask for port 1 interrupt2. */
-        uint64_t p2_interrupt1_mask    : 1;  /**< [  6:  6](R/W) Mask for port 2 interrupt1. */
-        uint64_t p2_interrupt2_mask    : 1;  /**< [  7:  7](R/W) Mask for port 2 interrupt2. */
-        uint64_t p3_interrupt1_mask    : 1;  /**< [  8:  8](R/W) Mask for port 3 interrupt1. */
-        uint64_t p3_interrupt2_mask    : 1;  /**< [  9:  9](R/W) Mask for port 3 interrupt2. */
-        uint64_t p4_interrupt1_mask    : 1;  /**< [ 10: 10](R/W) Mask for port 4 interrupt1. */
-        uint64_t p4_interrupt2_mask    : 1;  /**< [ 11: 11](R/W) Mask for port 4 interrupt2. */
-        uint64_t p5_interrupt1_mask    : 1;  /**< [ 12: 12](R/W) Mask for port 5 interrupt1. */
-        uint64_t p5_interrupt2_mask    : 1;  /**< [ 13: 13](R/W) Mask for port 5 interrupt2. */
-        uint64_t p6_interrupt1_mask    : 1;  /**< [ 14: 14](R/W) Mask for port 6 interrupt1. */
-        uint64_t p6_interrupt2_mask    : 1;  /**< [ 15: 15](R/W) Mask for port 6 interrupt2. */
-        uint64_t p7_interrupt1_mask    : 1;  /**< [ 16: 16](R/W) Mask for port 7 interrupt1. */
-        uint64_t p7_interrupt2_mask    : 1;  /**< [ 17: 17](R/W) Mask for port 7 interrupt2. */
-        uint64_t reserved_18_63        : 46;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_interrupt_summary_mask_s cn; */
-};
-typedef union cavm_rpmx_anp_interrupt_summary_mask cavm_rpmx_anp_interrupt_summary_mask_t;
-
-static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058130ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_INTERRUPT_SUMMARY_MASK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) cavm_rpmx_anp_interrupt_summary_mask_t
-#define bustype_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) "RPMX_ANP_INTERRUPT_SUMMARY_MASK"
-#define device_bar_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) (a)
-#define arguments_CAVM_RPMX_ANP_INTERRUPT_SUMMARY_MASK(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_anp_last_violation
- *
- * RPM Anp Last Violation Register
- * In case of access violation, contains the address of the last violating transaction.
- */
-union cavm_rpmx_anp_last_violation
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_last_violation_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t last_violation        : 32; /**< [ 31:  0](R/W) Last violation address */
-#else /* Word 0 - Little Endian */
-        uint64_t last_violation        : 32; /**< [ 31:  0](R/W) Last violation address */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_last_violation_s cn; */
-};
-typedef union cavm_rpmx_anp_last_violation cavm_rpmx_anp_last_violation_t;
-
-static inline uint64_t CAVM_RPMX_ANP_LAST_VIOLATION(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_LAST_VIOLATION(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058138ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_LAST_VIOLATION", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_LAST_VIOLATION(a) cavm_rpmx_anp_last_violation_t
-#define bustype_CAVM_RPMX_ANP_LAST_VIOLATION(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_LAST_VIOLATION(a) "RPMX_ANP_LAST_VIOLATION"
-#define device_bar_CAVM_RPMX_ANP_LAST_VIOLATION(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_LAST_VIOLATION(a) (a)
-#define arguments_CAVM_RPMX_ANP_LAST_VIOLATION(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_anp_metal_fix
- *
- * RPM Anp Metal Fix Register
- * Reserved register for metal fix.
- */
-union cavm_rpmx_anp_metal_fix
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_metal_fix_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t metal_fix             : 32; /**< [ 31:  0](R/W) Reserved for metal fix. */
-#else /* Word 0 - Little Endian */
-        uint64_t metal_fix             : 32; /**< [ 31:  0](R/W) Reserved for metal fix. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_metal_fix_s cn; */
-};
-typedef union cavm_rpmx_anp_metal_fix cavm_rpmx_anp_metal_fix_t;
-
-static inline uint64_t CAVM_RPMX_ANP_METAL_FIX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_METAL_FIX(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0058120ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_ANP_METAL_FIX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_METAL_FIX(a) cavm_rpmx_anp_metal_fix_t
-#define bustype_CAVM_RPMX_ANP_METAL_FIX(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_METAL_FIX(a) "RPMX_ANP_METAL_FIX"
-#define device_bar_CAVM_RPMX_ANP_METAL_FIX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_METAL_FIX(a) (a)
-#define arguments_CAVM_RPMX_ANP_METAL_FIX(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) rpm#_anp_port#_an_control
  *
  * RPM Anp Port An Control Register
@@ -6500,20 +6202,20 @@ union cavm_rpmx_anp_portx_channel_sm_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ch_sm_state           : 5;  /**< [  8:  4](R/W) Channel sm state;if ch_sm_override_ctrl[0] = 0, this field gives the status of
+        uint64_t ch_sm_state           : 5;  /**< [  8:  4](R/W/H) Channel sm state;if ch_sm_override_ctrl[0] = 0, this field gives the status of
                                                                  the internal channel sm state machine,;else, the last written value */
-        uint64_t ch_sm_bp_reached      : 1;  /**< [  3:  3](RO/H) Break point reached.;If ch_sm_override_ctrl[1] = 1 and internal state reaches
+        uint64_t ch_sm_bp_reached      : 1;  /**< [  3:  3](R/W/H) Break point reached.;If ch_sm_override_ctrl[1] = 1 and internal state reaches
                                                                  the value of bit [8:4], this bit is set. */
-        uint64_t ch_sm_amdisam         : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
-        uint64_t ch_sm_override_ctrl   : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+        uint64_t ch_sm_amdisam         : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t ch_sm_override_ctrl   : 2;  /**< [  1:  0](R/W/H) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
 #else /* Word 0 - Little Endian */
-        uint64_t ch_sm_override_ctrl   : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+        uint64_t ch_sm_override_ctrl   : 2;  /**< [  1:  0](R/W/H) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
-        uint64_t ch_sm_amdisam         : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
-        uint64_t ch_sm_bp_reached      : 1;  /**< [  3:  3](RO/H) Break point reached.;If ch_sm_override_ctrl[1] = 1 and internal state reaches
+        uint64_t ch_sm_amdisam         : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t ch_sm_bp_reached      : 1;  /**< [  3:  3](R/W/H) Break point reached.;If ch_sm_override_ctrl[1] = 1 and internal state reaches
                                                                  the value of bit [8:4], this bit is set. */
-        uint64_t ch_sm_state           : 5;  /**< [  8:  4](R/W) Channel sm state;if ch_sm_override_ctrl[0] = 0, this field gives the status of
+        uint64_t ch_sm_state           : 5;  /**< [  8:  4](R/W/H) Channel sm state;if ch_sm_override_ctrl[0] = 0, this field gives the status of
                                                                  the internal channel sm state machine,;else, the last written value */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -8119,254 +7821,6 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(uint64_t a, uin
 #define arguments_CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) rpm#_anp_port#_interrupt2_cause
- *
- * RPM Anp Port Interrupt2 Cause Register
- * Per port interrupt register.
- * TFIFO errors.
- */
-union cavm_rpmx_anp_portx_interrupt2_cause
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_portx_interrupt2_cause_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t rx_tfifo_empty        : 1;  /**< [  8:  8](R/W) RX T-FIFO got empty. */
-        uint64_t rx_tfifo_full         : 1;  /**< [  7:  7](R/W) RX T-FIFO got full. */
-        uint64_t tx_tfifo_empty        : 1;  /**< [  6:  6](R/W) TX T-FIFO got empty. */
-        uint64_t tx_tfifo_full         : 1;  /**< [  5:  5](R/W) TX T-FIFO got full. */
-        uint64_t rx_tfifo_r_err        : 1;  /**< [  4:  4](R/W) RX T-FIFO read error */
-        uint64_t rx_tfifo_w_err        : 1;  /**< [  3:  3](R/W) RX T-FIFO write error */
-        uint64_t tx_tfifo_r_err        : 1;  /**< [  2:  2](R/W) TX T-FIFO read error */
-        uint64_t tx_tfifo_w_err        : 1;  /**< [  1:  1](R/W) TX T-FIFO write error */
-        uint64_t port_int2_sum         : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
-                                                                 rises upon unmasked interrupt assertion. */
-#else /* Word 0 - Little Endian */
-        uint64_t port_int2_sum         : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
-                                                                 rises upon unmasked interrupt assertion. */
-        uint64_t tx_tfifo_w_err        : 1;  /**< [  1:  1](R/W) TX T-FIFO write error */
-        uint64_t tx_tfifo_r_err        : 1;  /**< [  2:  2](R/W) TX T-FIFO read error */
-        uint64_t rx_tfifo_w_err        : 1;  /**< [  3:  3](R/W) RX T-FIFO write error */
-        uint64_t rx_tfifo_r_err        : 1;  /**< [  4:  4](R/W) RX T-FIFO read error */
-        uint64_t tx_tfifo_full         : 1;  /**< [  5:  5](R/W) TX T-FIFO got full. */
-        uint64_t tx_tfifo_empty        : 1;  /**< [  6:  6](R/W) TX T-FIFO got empty. */
-        uint64_t rx_tfifo_full         : 1;  /**< [  7:  7](R/W) RX T-FIFO got full. */
-        uint64_t rx_tfifo_empty        : 1;  /**< [  8:  8](R/W) RX T-FIFO got empty. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_portx_interrupt2_cause_s cn; */
-};
-typedef union cavm_rpmx_anp_portx_interrupt2_cause cavm_rpmx_anp_portx_interrupt2_cause_t;
-
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e005c010ll + 0x1000000ll * ((a) & 0xf) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT2_CAUSE", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) cavm_rpmx_anp_portx_interrupt2_cause_t
-#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) "RPMX_ANP_PORTX_INTERRUPT2_CAUSE"
-#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) (a)
-#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT2_CAUSE(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_anp_port#_interrupt2_mask
- *
- * RPM Anp Port Interrupt2 Mask Register
- * Mask for interrupt2 register.
- */
-union cavm_rpmx_anp_portx_interrupt2_mask
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_portx_interrupt2_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t port_int2_mask        : 8;  /**< [  8:  1](R/W) Mask for port interrupt cause2 */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t port_int2_mask        : 8;  /**< [  8:  1](R/W) Mask for port interrupt cause2 */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_portx_interrupt2_mask_s cn; */
-};
-typedef union cavm_rpmx_anp_portx_interrupt2_mask cavm_rpmx_anp_portx_interrupt2_mask_t;
-
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e005c018ll + 0x1000000ll * ((a) & 0xf) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT2_MASK", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) cavm_rpmx_anp_portx_interrupt2_mask_t
-#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) "RPMX_ANP_PORTX_INTERRUPT2_MASK"
-#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) (a)
-#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT2_MASK(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_anp_port#_interrupt_cause
- *
- * RPM Anp Port Interrupt Cause Register
- * Per port interrupt register.
- * an - restart/hcd_found.
- * SMs - break point reached.
- * timeouts and reaching prog states.
- */
-union cavm_rpmx_anp_portx_interrupt_cause
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_portx_interrupt_cause_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W) Reached CH wait_pwrdn timeout. */
-        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W) Reached CH PROG timeout. */
-        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W) COMPHY SM - didn't get tx_train_complete within the given timeout. */
-        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W) COMPHY SM - didn't get pll_tx_ready within the given timeout. */
-        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W) COMPHY SM - didn't get rx_train_complete within the given timeout. */
-        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W) COMPHY SM - didn't get pll_rx_ready within the given timeout. */
-        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W) COMPHY SM - didn't get rx_init_done within the given timeout. */
-        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W) Reached TX PROG timeout. */
-        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W) Reached RX PROG timeout. */
-        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W) COMPHY TX SM got to state PROG_TX_TRAIN. */
-        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W) COMPHY RX SM got to state PROG_RX_TRAIN. */
-        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W) COMPHY RX SM got to state PROG_RX_INIT. */
-        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W) CH SM - didn't get tx_ready/dsp_sigdet/lock within the given timeout */
-        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W) CH SM - didn't get dsp_sigdet/lock within the given timeout */
-        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W) CH SM - didn't get tx_ready within the given timeout */
-        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W) CH SM - didn't reach link within the given timeout. */
-        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W) CH SM - DSP RX UP timeout.
-                                                                 SM didn't get dsp_lock / dsp_sigdet due to failure in RX operation. */
-        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W) CH SM PROG_TXRXSD state reached. */
-        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W) CH SM PROG_TXRXON state reached. */
-        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W) CH SM PROG_TXON state reached. */
-        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W) CH SM PROG_RXSD state reached. */
-        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W) CH SM PROG_RXON state reached. */
-        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W) CH SM PROG_PWRUP state reached. */
-        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W) CH SM PROG_NORM state reached. */
-        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W) SerDes RX SM break point reached. */
-        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W) SerDes TX SM break point reached. */
-        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W) Channel SM break point reached. */
-        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W) Interrupt when AN Arbiter SM enters AN_GOOD_CK state.
-                                                                 this interrupt will usually will rise with hcd_found interrupt.
-                                                                 if this interrupt is raised but hcd_found interrupt doesn't rise,
-                                                                 it means negotiation is completed but no common speed was found. */
-        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W) HCD found interrupt. */
-        uint64_t an_restart            : 1;  /**< [  1:  1](R/W) AN restart interrupt. */
-        uint64_t port_int_sum          : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
-                                                                 rises upon unmasked interrupt assertion. */
-#else /* Word 0 - Little Endian */
-        uint64_t port_int_sum          : 1;  /**< [  0:  0](RO/H) Port interrupt summary.
-                                                                 rises upon unmasked interrupt assertion. */
-        uint64_t an_restart            : 1;  /**< [  1:  1](R/W) AN restart interrupt. */
-        uint64_t hcd_found             : 1;  /**< [  2:  2](R/W) HCD found interrupt. */
-        uint64_t an_good_ck            : 1;  /**< [  3:  3](R/W) Interrupt when AN Arbiter SM enters AN_GOOD_CK state.
-                                                                 this interrupt will usually will rise with hcd_found interrupt.
-                                                                 if this interrupt is raised but hcd_found interrupt doesn't rise,
-                                                                 it means negotiation is completed but no common speed was found. */
-        uint64_t ch_sm_bp_reached_int  : 1;  /**< [  4:  4](R/W) Channel SM break point reached. */
-        uint64_t sd_tx_sm_bp_reached_int : 1;/**< [  5:  5](R/W) SerDes TX SM break point reached. */
-        uint64_t sd_rx_sm_bp_reached_int : 1;/**< [  6:  6](R/W) SerDes RX SM break point reached. */
-        uint64_t int_prog_pwm_norm_en_mx_s : 1;/**< [  7:  7](R/W) CH SM PROG_NORM state reached. */
-        uint64_t int_prog_pwm_pwrup_en_mx_s : 1;/**< [  8:  8](R/W) CH SM PROG_PWRUP state reached. */
-        uint64_t int_prog_pwm_rxon_en_mx_s : 1;/**< [  9:  9](R/W) CH SM PROG_RXON state reached. */
-        uint64_t int_prog_pwm_rxsd_en_mx_s : 1;/**< [ 10: 10](R/W) CH SM PROG_RXSD state reached. */
-        uint64_t int_prog_pwm_txon_en_mx_s : 1;/**< [ 11: 11](R/W) CH SM PROG_TXON state reached. */
-        uint64_t int_prog_pwm_txrxon_en_mx_s : 1;/**< [ 12: 12](R/W) CH SM PROG_TXRXON state reached. */
-        uint64_t int_prog_pwm_txrxsd_en_mx_s : 1;/**< [ 13: 13](R/W) CH SM PROG_TXRXSD state reached. */
-        uint64_t int_pm_dsp_rxup_time_out : 1;/**< [ 14: 14](R/W) CH SM - DSP RX UP timeout.
-                                                                 SM didn't get dsp_lock / dsp_sigdet due to failure in RX operation. */
-        uint64_t int_pm_pcs_link_timer_out : 1;/**< [ 15: 15](R/W) CH SM - didn't reach link within the given timeout. */
-        uint64_t int_rxon_wait_time_out : 1; /**< [ 16: 16](R/W) CH SM - didn't get tx_ready within the given timeout */
-        uint64_t int_txon_wait_time_out : 1; /**< [ 17: 17](R/W) CH SM - didn't get dsp_sigdet/lock within the given timeout */
-        uint64_t int_txrx_start_wait_time_out : 1;/**< [ 18: 18](R/W) CH SM - didn't get tx_ready/dsp_sigdet/lock within the given timeout */
-        uint64_t int_pm_prog_rx_init_s : 1;  /**< [ 19: 19](R/W) COMPHY RX SM got to state PROG_RX_INIT. */
-        uint64_t int_pm_prog_rx_train_s : 1; /**< [ 20: 20](R/W) COMPHY RX SM got to state PROG_RX_TRAIN. */
-        uint64_t int_pm_prog_tx_train_s : 1; /**< [ 21: 21](R/W) COMPHY TX SM got to state PROG_TX_TRAIN. */
-        uint64_t int_prog_rx_time_out  : 1;  /**< [ 22: 22](R/W) Reached RX PROG timeout. */
-        uint64_t int_prog_tx_time_out  : 1;  /**< [ 23: 23](R/W) Reached TX PROG timeout. */
-        uint64_t int_rx_init_time_out  : 1;  /**< [ 24: 24](R/W) COMPHY SM - didn't get rx_init_done within the given timeout. */
-        uint64_t int_rx_pll_up_time_out : 1; /**< [ 25: 25](R/W) COMPHY SM - didn't get pll_rx_ready within the given timeout. */
-        uint64_t int_rx_train_time_out : 1;  /**< [ 26: 26](R/W) COMPHY SM - didn't get rx_train_complete within the given timeout. */
-        uint64_t int_tx_pll_up_time_out : 1; /**< [ 27: 27](R/W) COMPHY SM - didn't get pll_tx_ready within the given timeout. */
-        uint64_t int_tx_train_time_out : 1;  /**< [ 28: 28](R/W) COMPHY SM - didn't get tx_train_complete within the given timeout. */
-        uint64_t int_prog_time_out     : 1;  /**< [ 29: 29](R/W) Reached CH PROG timeout. */
-        uint64_t int_wait_pwrdn_time_out : 1;/**< [ 30: 30](R/W) Reached CH wait_pwrdn timeout. */
-        uint64_t reserved_31_63        : 33;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_portx_interrupt_cause_s cn; */
-};
-typedef union cavm_rpmx_anp_portx_interrupt_cause cavm_rpmx_anp_portx_interrupt_cause_t;
-
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e005c000ll + 0x1000000ll * ((a) & 0xf) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT_CAUSE", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) cavm_rpmx_anp_portx_interrupt_cause_t
-#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) "RPMX_ANP_PORTX_INTERRUPT_CAUSE"
-#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) (a)
-#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT_CAUSE(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_anp_port#_interrupt_mask
- *
- * RPM Anp Port Interrupt Mask Register
- * Mask for port interrupt register.
- */
-union cavm_rpmx_anp_portx_interrupt_mask
-{
-    uint64_t u;
-    struct cavm_rpmx_anp_portx_interrupt_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t port_int_mask         : 30; /**< [ 30:  1](R/W) Mask for port interrupt cause */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t port_int_mask         : 30; /**< [ 30:  1](R/W) Mask for port interrupt cause */
-        uint64_t reserved_31_63        : 33;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_portx_interrupt_mask_s cn; */
-};
-typedef union cavm_rpmx_anp_portx_interrupt_mask cavm_rpmx_anp_portx_interrupt_mask_t;
-
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e005c008ll + 0x1000000ll * ((a) & 0xf) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_ANP_PORTX_INTERRUPT_MASK", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) cavm_rpmx_anp_portx_interrupt_mask_t
-#define bustype_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) "RPMX_ANP_PORTX_INTERRUPT_MASK"
-#define device_bar_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) (a)
-#define arguments_CAVM_RPMX_ANP_PORTX_INTERRUPT_MASK(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) rpm#_anp_port#_link_fail_counter
  *
  * RPM Anp Port Link Fail Counter Register
@@ -9251,20 +8705,20 @@ union cavm_rpmx_anp_portx_serdes_rx_sm_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t sd_rx_sm_state        : 4;  /**< [  7:  4](R/W) Sd rx sm state;if sd_rx_sm_override_ctrl[0] = 0, this field gives the status of
+        uint64_t sd_rx_sm_state        : 4;  /**< [  7:  4](R/W/H) Sd rx sm state;if sd_rx_sm_override_ctrl[0] = 0, this field gives the status of
                                                                  the internal sd rx sm state machine,;else, the last written value */
-        uint64_t sd_rx_sm_bp_reached   : 1;  /**< [  3:  3](R/W) Break point reached.;If sd_rx_sm_override_ctrl[1] = 1 and internal state reaches
+        uint64_t sd_rx_sm_bp_reached   : 1;  /**< [  3:  3](R/W/H) Break point reached.;If sd_rx_sm_override_ctrl[1] = 1 and internal state reaches
                                                                  the value of bit [7:4], this bit is set. */
-        uint64_t sd_rx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
-        uint64_t sd_rx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+        uint64_t sd_rx_sm_amdisam      : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_rx_sm_override_ctrl : 2; /**< [  1:  0](R/W/H) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
 #else /* Word 0 - Little Endian */
-        uint64_t sd_rx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+        uint64_t sd_rx_sm_override_ctrl : 2; /**< [  1:  0](R/W/H) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
-        uint64_t sd_rx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
-        uint64_t sd_rx_sm_bp_reached   : 1;  /**< [  3:  3](R/W) Break point reached.;If sd_rx_sm_override_ctrl[1] = 1 and internal state reaches
+        uint64_t sd_rx_sm_amdisam      : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_rx_sm_bp_reached   : 1;  /**< [  3:  3](R/W/H) Break point reached.;If sd_rx_sm_override_ctrl[1] = 1 and internal state reaches
                                                                  the value of bit [7:4], this bit is set. */
-        uint64_t sd_rx_sm_state        : 4;  /**< [  7:  4](R/W) Sd rx sm state;if sd_rx_sm_override_ctrl[0] = 0, this field gives the status of
+        uint64_t sd_rx_sm_state        : 4;  /**< [  7:  4](R/W/H) Sd rx sm state;if sd_rx_sm_override_ctrl[0] = 0, this field gives the status of
                                                                  the internal sd rx sm state machine,;else, the last written value */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
@@ -9302,20 +8756,20 @@ union cavm_rpmx_anp_portx_serdes_tx_sm_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t sd_tx_sm_state        : 4;  /**< [  7:  4](R/W) Sd tx sm state;if sd_tx_sm_override_ctrl[0] = 0, this field gives the status of
+        uint64_t sd_tx_sm_state        : 4;  /**< [  7:  4](R/W/H) Sd tx sm state;if sd_tx_sm_override_ctrl[0] = 0, this field gives the status of
                                                                  the internal sd tx sm state machine,;else, the last written value */
-        uint64_t sd_tx_sm_bp_reached   : 1;  /**< [  3:  3](RO/H) Break point reached.;If sd_tx_sm_override_ctrl[1] = 1 and internal state reaches
+        uint64_t sd_tx_sm_bp_reached   : 1;  /**< [  3:  3](R/W/H) Break point reached.;If sd_tx_sm_override_ctrl[1] = 1 and internal state reaches
                                                                  the value of bit [7:4], this bit is set. */
-        uint64_t sd_tx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
-        uint64_t sd_tx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+        uint64_t sd_tx_sm_amdisam      : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_tx_sm_override_ctrl : 2; /**< [  1:  0](R/W/H) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
 #else /* Word 0 - Little Endian */
-        uint64_t sd_tx_sm_override_ctrl : 2; /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+        uint64_t sd_tx_sm_override_ctrl : 2; /**< [  1:  0](R/W/H) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
                                                                  breakpoint/read state;11 = State breakpoint/read override state; */
-        uint64_t sd_tx_sm_amdisam      : 1;  /**< [  2:  2](R/W) 0 = arm/disarm done;1 = arm/disarm breakpoint */
-        uint64_t sd_tx_sm_bp_reached   : 1;  /**< [  3:  3](RO/H) Break point reached.;If sd_tx_sm_override_ctrl[1] = 1 and internal state reaches
+        uint64_t sd_tx_sm_amdisam      : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint */
+        uint64_t sd_tx_sm_bp_reached   : 1;  /**< [  3:  3](R/W/H) Break point reached.;If sd_tx_sm_override_ctrl[1] = 1 and internal state reaches
                                                                  the value of bit [7:4], this bit is set. */
-        uint64_t sd_tx_sm_state        : 4;  /**< [  7:  4](R/W) Sd tx sm state;if sd_tx_sm_override_ctrl[0] = 0, this field gives the status of
+        uint64_t sd_tx_sm_state        : 4;  /**< [  7:  4](R/W/H) Sd tx sm state;if sd_tx_sm_override_ctrl[0] = 0, this field gives the status of
                                                                  the internal sd tx sm state machine,;else, the last written value */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
@@ -9814,6 +9268,66 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS5(uint64_t a, uint64_t b)
 #define arguments_CAVM_RPMX_ANP_PORTX_STATUS5(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rpm#_car_cken_ovrd
+ *
+ * RPM CAR CLKEN Override Register
+ * RPM CAR CLKEN Override Register
+ */
+union cavm_rpmx_car_cken_ovrd
+{
+    uint64_t u;
+    struct cavm_rpmx_car_cken_ovrd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t car_pm_clk_clken_ovrd : 1;  /**< [ 40: 40](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 PM clockgate override */
+        uint64_t car_sd_txclk_x4_clken_ovrd : 8;/**< [ 39: 32](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD TX CLK x4 clockgate override, bit per port */
+        uint64_t car_sd_txclk_x1_clken_ovrd : 8;/**< [ 31: 24](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD TX CLK x4 clockgate override, bit per port */
+        uint64_t car_sd_rxclk_x4_clken_ovrd : 8;/**< [ 23: 16](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD RX CLK x4 clockgate override, bit per port */
+        uint64_t car_sd_rxclk_x1_clken_ovrd : 8;/**< [ 15:  8](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD RX CLK x4 clockgate override, bit per port */
+        uint64_t car_an_sys_clken_ovrd : 8;  /**< [  7:  0](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - AN System clockgate override, bit per port */
+#else /* Word 0 - Little Endian */
+        uint64_t car_an_sys_clken_ovrd : 8;  /**< [  7:  0](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - AN System clockgate override, bit per port */
+        uint64_t car_sd_rxclk_x1_clken_ovrd : 8;/**< [ 15:  8](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD RX CLK x4 clockgate override, bit per port */
+        uint64_t car_sd_rxclk_x4_clken_ovrd : 8;/**< [ 23: 16](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD RX CLK x4 clockgate override, bit per port */
+        uint64_t car_sd_txclk_x1_clken_ovrd : 8;/**< [ 31: 24](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD TX CLK x4 clockgate override, bit per port */
+        uint64_t car_sd_txclk_x4_clken_ovrd : 8;/**< [ 39: 32](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 bit[07..00] - SD TX CLK x4 clockgate override, bit per port */
+        uint64_t car_pm_clk_clken_ovrd : 1;  /**< [ 40: 40](R/W) AN CAR Clock Gates Override. Value 1 (per bit) will force gate to be open.
+                                                                 PM clockgate override */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_car_cken_ovrd_s cn; */
+};
+typedef union cavm_rpmx_car_cken_ovrd cavm_rpmx_car_cken_ovrd_t;
+
+static inline uint64_t CAVM_RPMX_CAR_CKEN_OVRD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CAR_CKEN_OVRD(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0e0061000ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("RPMX_CAR_CKEN_OVRD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CAR_CKEN_OVRD(a) cavm_rpmx_car_cken_ovrd_t
+#define bustype_CAVM_RPMX_CAR_CKEN_OVRD(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CAR_CKEN_OVRD(a) "RPMX_CAR_CKEN_OVRD"
+#define device_bar_CAVM_RPMX_CAR_CKEN_OVRD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CAR_CKEN_OVRD(a) (a)
+#define arguments_CAVM_RPMX_CAR_CKEN_OVRD(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) rpm#_cmr#_activity
  *
  * RPM CMR Activity Registers
@@ -9857,7 +9371,7 @@ static inline uint64_t CAVM_RPMX_CMRX_ACTIVITY(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_ACTIVITY(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00045f8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005d80ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_ACTIVITY", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9869,12 +9383,138 @@ static inline uint64_t CAVM_RPMX_CMRX_ACTIVITY(uint64_t a, uint64_t b)
 #define arguments_CAVM_RPMX_CMRX_ACTIVITY(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rpm#_cmr#_bp_test
+ *
+ * INTERNAL: |
+ *   RPM Backpressure Test Register
+ */
+union cavm_rpmx_cmrx_bp_test
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_bp_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Reserved.
+                                                                 \<62\> = Reserved.
+                                                                 \<61\> = Reserved.
+                                                                 \<60\> = Reserved.
+                                                                 \<59\> = Reserved.
+                                                                 \<58\> = Reserved.
+                                                                 \<57\> = Reserved.
+                                                                 \<56\> = Reserved.
+                                                                 \<55\> = Reserved.
+                                                                 \<54\> = Randomly make Tx output FIFO (txb_macout.output_data_fifo) output not valid.
+                                                                 \<53\> = Randomly make Tx Bulk FIFO (txb_bulk_fifo) output not valid.
+                                                                 \<52\> = Randomly make Tx SKID FIFO (txb_p2x.skid_fifo) output not valid.
+                                                                 \<51\> = Randomly make Rx SKID FIFO (rxb_x2p.rxb_skid) output not valid (all X2Ps for this LMAC)
+                                                                 \<50\> = Randomly make Rx Prefetch FIFO (rxb_fifo_pfifo) output not valid.
+                                                                 \<49\> = Randomly make Rx Bulk FIFO (rxb_fifo) FIFO output not valid.
+                                                                 \<48\> = Randomly make Rx input FIFO (rxb_infifo) FIFO output not valid. */
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                    \<47:46\> = Reserved.
+                                                                    \<45:44\> = Reserved.
+                                                                    \<43:42\> = Reserved.
+                                                                    \<41:40\> = Reserved.
+                                                                    \<39:38\> = Reserved.
+                                                                    \<37:36\> = Reserved.
+                                                                    \<35:34\> = Reserved.
+                                                                    \<33:32\> = Reserved.
+                                                                    \<31:30\> = Reserved.
+                                                                    \<29:28\> = Config 6.
+                                                                    \<27:26\> = Config 5.
+                                                                    \<25:24\> = Config 4.
+                                                                    \<23:22\> = Config 3.
+                                                                    \<21:20\> = Config 2.
+                                                                    \<19:18\> = Config 1.
+                                                                    \<17:16\> = Config 0.
+
+                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
+                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                    \<47:46\> = Reserved.
+                                                                    \<45:44\> = Reserved.
+                                                                    \<43:42\> = Reserved.
+                                                                    \<41:40\> = Reserved.
+                                                                    \<39:38\> = Reserved.
+                                                                    \<37:36\> = Reserved.
+                                                                    \<35:34\> = Reserved.
+                                                                    \<33:32\> = Reserved.
+                                                                    \<31:30\> = Reserved.
+                                                                    \<29:28\> = Config 6.
+                                                                    \<27:26\> = Config 5.
+                                                                    \<25:24\> = Config 4.
+                                                                    \<23:22\> = Config 3.
+                                                                    \<21:20\> = Config 2.
+                                                                    \<19:18\> = Config 1.
+                                                                    \<17:16\> = Config 0.
+
+                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
+                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Reserved.
+                                                                 \<62\> = Reserved.
+                                                                 \<61\> = Reserved.
+                                                                 \<60\> = Reserved.
+                                                                 \<59\> = Reserved.
+                                                                 \<58\> = Reserved.
+                                                                 \<57\> = Reserved.
+                                                                 \<56\> = Reserved.
+                                                                 \<55\> = Reserved.
+                                                                 \<54\> = Randomly make Tx output FIFO (txb_macout.output_data_fifo) output not valid.
+                                                                 \<53\> = Randomly make Tx Bulk FIFO (txb_bulk_fifo) output not valid.
+                                                                 \<52\> = Randomly make Tx SKID FIFO (txb_p2x.skid_fifo) output not valid.
+                                                                 \<51\> = Randomly make Rx SKID FIFO (rxb_x2p.rxb_skid) output not valid (all X2Ps for this LMAC)
+                                                                 \<50\> = Randomly make Rx Prefetch FIFO (rxb_fifo_pfifo) output not valid.
+                                                                 \<49\> = Randomly make Rx Bulk FIFO (rxb_fifo) FIFO output not valid.
+                                                                 \<48\> = Randomly make Rx input FIFO (rxb_infifo) FIFO output not valid. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_bp_test_s cn; */
+};
+typedef union cavm_rpmx_cmrx_bp_test cavm_rpmx_cmrx_bp_test_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_BP_TEST(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_BP_TEST(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0001100ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_CMRX_BP_TEST", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_BP_TEST(a,b) cavm_rpmx_cmrx_bp_test_t
+#define bustype_CAVM_RPMX_CMRX_BP_TEST(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_BP_TEST(a,b) "RPMX_CMRX_BP_TEST"
+#define device_bar_CAVM_RPMX_CMRX_BP_TEST(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_BP_TEST(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_BP_TEST(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) rpm#_cmr#_config
  *
  * RPM CMR Configuration Registers
  * Logical MAC/PCS configuration registers; one per LMAC. The maximum number of LMACs (and
  * maximum LMAC ID) that can be enabled by these registers is limited by
- * RPM()_CMR_RX_LMACS[LMACS] and RPM()_CMR_TX_LMACS[LMACS].
+ * combining RPM()_CMR_RX_LMACS[LMAC_EXIST] and RPM()_CMR_TX_LMACS[LMAC_EXIST].
  *
  * Internal:
  * \<pre\>
@@ -9952,8 +9592,7 @@ union cavm_rpmx_cmrx_config
                                                                    -------------------------------------------
                                                                    0                 --        Reserved
                                                                    1                 P2X1      NIX0
-                                                                   2                 P2X2      NIX1
-                                                                   3..7              --        Reserved
+                                                                   2..7              --        Reserved
                                                                  \</pre\> */
         uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects interior side X2P interface over which the LMAC will communicate:
                                                                  \<pre\>
@@ -9967,12 +9606,13 @@ union cavm_rpmx_cmrx_config
                                                                  dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
                                                                  and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
 
+                                                                 The total number of enabled LMACs cannot be bigger than RPM_CMR_RX_LMACS or RPM_CMR_TX_LMACS.
+                                                                 Indices of enabled LMACs may be chosen at any combination.
+
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
                                                                  LMAC are not reset when this bit is clear, allowing software to program them before
-                                                                 setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
-                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
-                                                                 is enabled when any of the paths are enabled. */
+                                                                 setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
         uint64_t data_pkt_rx_en        : 1;  /**< [ 54: 54](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the
                                                                  MAC layer drops received data and flow-control packets. */
@@ -10018,107 +9658,105 @@ union cavm_rpmx_cmrx_config
                                                                  * RPM()_SMU()_RX_FRM_CTL[PRE_STRP] = 0.
                                                                  * RPM()_SMU()_RX_UDD_SKP[LEN]      = 8.
                                                                  * RPM()_SMU()_RX_UDD_SKP[FCSSEL]   = 1. */
-        uint64_t reserved_18_39        : 22;
-        uint64_t tx_byte_flip          : 1;  /**< [ 17: 17](R/W) Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0). */
+        uint64_t reserved_24_39        : 16;
+        uint64_t rx_ts_prepend         : 1;  /**< [ 23: 23](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
+                                                                 arrival), as the first 8 Bytes of
+                                                                 the frame towards NIX. Note that if RX_USER_PREAM_PREPEND is also 1, then
+                                                                 Timestamp will be prepended as the first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, followed by the payload.
+                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
+                                                                 Rx line), as the first 8 Bytes of
+                                                                 the frame towards NIX. Note that if RX_TS_PREPEND is also 1, then Timestamp will
+                                                                 be prepended as the actual first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
+                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
+                                                                 Byte will be assigned 0.
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 21: 21](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
+                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
+                                                                 NIX-Tx). However, in case
+                                                                 TX_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
+                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_pream_strip        : 1;  /**< [ 20: 20](R/W) When this bit is 1, it indicates that the first 8 Bytes of the frame sent from
+                                                                 NIX to RPM are Preamble.
+                                                                 The Preamble is expected to arrive from NIX-Tx aligned to the left, such that
+                                                                 first Byte of the Preamble is tx_data[MSB],
+                                                                 RPM will strip the Preamble from the frame.
+                                                                 If TX_USER_PREAM_OVRD is 0, RPM will use the stripped Preamble to feed it to the
+                                                                 MAC as User Preamble.
+                                                                 Note: before feeding the stripped Preamble to the MAC, USER_PREAM_BYTE_FLIP will be
+                                                                 applied to it, since it is inband from NIX.
+                                                                 Note: first byte is discarded while the last 7 Bytes are actually fed to MAC;
+                                                                 this is because first Byte
+                                                                 is later assigned with SPD according to Standard.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 19: 19](R/W) Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+                                                                 an inband signal to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 18: 18](R/W) Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+                                                                 inband signal to/from NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_byte_flip          : 1;  /**< [ 17: 17](R/W) Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 This field may only change value at idle time. */
         uint64_t rx_byte_flip          : 1;  /**< [ 16: 16](R/W) Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
                                                                  Default is flip, because MTI outputs MSB on the right, while CMR expects MSB on
-                                                                 the left (see also DMAC_CAM CSRs) */
-        uint64_t reserved_8_15         : 8;
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) Logical lane-to-SerDes lane mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS lane in the LMAC to a
-                                                                 physical SerDes lane, as follows:
-
-                                                                 \<pre\>
-                                                                   Bits     Description                Reset value
-                                                                   -------  -------------------------  -----------
-                                                                   \<07:06\>  Logical lane 03 SerDes ID       0x3
-                                                                   \<05:04\>  Logical lane 02 SerDes ID       0x2
-                                                                   \<03:02\>  Logical lane 01 SerDes ID       0x1
-                                                                   \<01:00\>  Logical lane 00 SerDes ID       0x0
-                                                                 \</pre\>
-                                                                 \<page\>
-
-                                                                 Logical PCS lanes 0 through NUM_LOG_LANES-1 are valid, where NUM_LOG_LANES is a
-                                                                 function of the logical MAC/PCS type (see [LMAC_TYPE]). For example, when
-                                                                 [LMAC_TYPE] = SGMII, then there is only one PCS lane per LMAC (NUM_LOG_LANES =
-                                                                 1), and it will be logical PCS lane 0, and the associated physical SerDes lanes
-                                                                 are selected by bits \<1:0\>.
-
-                                                                 For 40GBASE-R ([LMAC_TYPE] = 40G_R), all four logical lanes are valid, and the PCS lane
-                                                                 IDs determine the block distribution order and associated alignment markers on the
-                                                                 transmit side. This is not necessarily the order in which logical lanes receive data
-                                                                 because 802.3 allows multilane BASE-R receive lanes to be reordered. When a lane
-                                                                 (called service interface (or lane) in 802.3) has achieved alignment marker lock on the
-                                                                 receive side (i.e. the associated RPM()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then
-                                                                 the actual detected RX PCS lane number is recorded in the corresponding
-                                                                 RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING].
-
-                                                                 Above also applies to 100GBASE-R ([LMAC_TYPE] = 100G_R) which also uses all four logical
-                                                                 lanes which fan into 20 service lanes. The 20 service lanes map to 20 PCS lanes via
-                                                                 RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING].
-
-                                                                 Above also applies individually for each of up to two 50GBASE-R LMACs ([LMAC_TYPE] =
-                                                                 50G_R) each of which uses 2 logical lanes and 2 SerDes.
-
-                                                                 For QSGMII, [LANE_TO_SDS]\<1:0\> for LMAC 0 selects the physical SerDes lane shared by four
-                                                                 LMACs, and [LANE_TO_SDS]\<1:0\> must be unique for each of the four LMACs.
-
-                                                                 For USXGMII, [LANE_TO_SDS] is ignored.  For SerDes mapping in USXGMII mode, see
-                                                                 RPM()_SPU_USXGMII_CONTROL[SDS_ID].
-
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1. */
+                                                                 the left (see also DMAC_CAM CSRs).
+                                                                 This field may only change value at idle time. */
+        uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) Logical lane-to-SerDes lane mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS lane in the LMAC to a
-                                                                 physical SerDes lane, as follows:
-
-                                                                 \<pre\>
-                                                                   Bits     Description                Reset value
-                                                                   -------  -------------------------  -----------
-                                                                   \<07:06\>  Logical lane 03 SerDes ID       0x3
-                                                                   \<05:04\>  Logical lane 02 SerDes ID       0x2
-                                                                   \<03:02\>  Logical lane 01 SerDes ID       0x1
-                                                                   \<01:00\>  Logical lane 00 SerDes ID       0x0
-                                                                 \</pre\>
-                                                                 \<page\>
-
-                                                                 Logical PCS lanes 0 through NUM_LOG_LANES-1 are valid, where NUM_LOG_LANES is a
-                                                                 function of the logical MAC/PCS type (see [LMAC_TYPE]). For example, when
-                                                                 [LMAC_TYPE] = SGMII, then there is only one PCS lane per LMAC (NUM_LOG_LANES =
-                                                                 1), and it will be logical PCS lane 0, and the associated physical SerDes lanes
-                                                                 are selected by bits \<1:0\>.
-
-                                                                 For 40GBASE-R ([LMAC_TYPE] = 40G_R), all four logical lanes are valid, and the PCS lane
-                                                                 IDs determine the block distribution order and associated alignment markers on the
-                                                                 transmit side. This is not necessarily the order in which logical lanes receive data
-                                                                 because 802.3 allows multilane BASE-R receive lanes to be reordered. When a lane
-                                                                 (called service interface (or lane) in 802.3) has achieved alignment marker lock on the
-                                                                 receive side (i.e. the associated RPM()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then
-                                                                 the actual detected RX PCS lane number is recorded in the corresponding
-                                                                 RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING].
-
-                                                                 Above also applies to 100GBASE-R ([LMAC_TYPE] = 100G_R) which also uses all four logical
-                                                                 lanes which fan into 20 service lanes. The 20 service lanes map to 20 PCS lanes via
-                                                                 RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING].
-
-                                                                 Above also applies individually for each of up to two 50GBASE-R LMACs ([LMAC_TYPE] =
-                                                                 50G_R) each of which uses 2 logical lanes and 2 SerDes.
-
-                                                                 For QSGMII, [LANE_TO_SDS]\<1:0\> for LMAC 0 selects the physical SerDes lane shared by four
-                                                                 LMACs, and [LANE_TO_SDS]\<1:0\> must be unique for each of the four LMACs.
-
-                                                                 For USXGMII, [LANE_TO_SDS] is ignored.  For SerDes mapping in USXGMII mode, see
-                                                                 RPM()_SPU_USXGMII_CONTROL[SDS_ID].
-
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1. */
-        uint64_t reserved_8_15         : 8;
+        uint64_t reserved_0_15         : 16;
         uint64_t rx_byte_flip          : 1;  /**< [ 16: 16](R/W) Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
                                                                  Default is flip, because MTI outputs MSB on the right, while CMR expects MSB on
-                                                                 the left (see also DMAC_CAM CSRs) */
-        uint64_t tx_byte_flip          : 1;  /**< [ 17: 17](R/W) Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0). */
-        uint64_t reserved_18_39        : 22;
+                                                                 the left (see also DMAC_CAM CSRs).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_byte_flip          : 1;  /**< [ 17: 17](R/W) Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 This field may only change value at idle time. */
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 18: 18](R/W) Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+                                                                 inband signal to/from NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 19: 19](R/W) Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+                                                                 an inband signal to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_pream_strip        : 1;  /**< [ 20: 20](R/W) When this bit is 1, it indicates that the first 8 Bytes of the frame sent from
+                                                                 NIX to RPM are Preamble.
+                                                                 The Preamble is expected to arrive from NIX-Tx aligned to the left, such that
+                                                                 first Byte of the Preamble is tx_data[MSB],
+                                                                 RPM will strip the Preamble from the frame.
+                                                                 If TX_USER_PREAM_OVRD is 0, RPM will use the stripped Preamble to feed it to the
+                                                                 MAC as User Preamble.
+                                                                 Note: before feeding the stripped Preamble to the MAC, USER_PREAM_BYTE_FLIP will be
+                                                                 applied to it, since it is inband from NIX.
+                                                                 Note: first byte is discarded while the last 7 Bytes are actually fed to MAC;
+                                                                 this is because first Byte
+                                                                 is later assigned with SPD according to Standard.
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 21: 21](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
+                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
+                                                                 NIX-Tx). However, in case
+                                                                 TX_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
+                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
+                                                                 Rx line), as the first 8 Bytes of
+                                                                 the frame towards NIX. Note that if RX_TS_PREPEND is also 1, then Timestamp will
+                                                                 be prepended as the actual first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
+                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
+                                                                 Byte will be assigned 0.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_prepend         : 1;  /**< [ 23: 23](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
+                                                                 arrival), as the first 8 Bytes of
+                                                                 the frame towards NIX. Note that if RX_USER_PREAM_PREPEND is also 1, then
+                                                                 Timestamp will be prepended as the first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, followed by the payload.
+                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t reserved_24_39        : 16;
         uint64_t lmac_type             : 4;  /**< [ 43: 40](R/W) Reserved.
                                                                  Internal:
                                                                  Logical MAC/PCS/port type:
@@ -10168,12 +9806,13 @@ union cavm_rpmx_cmrx_config
                                                                  dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
                                                                  and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
 
+                                                                 The total number of enabled LMACs cannot be bigger than RPM_CMR_RX_LMACS or RPM_CMR_TX_LMACS.
+                                                                 Indices of enabled LMACs may be chosen at any combination.
+
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
                                                                  LMAC are not reset when this bit is clear, allowing software to program them before
-                                                                 setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
-                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
-                                                                 is enabled when any of the paths are enabled. */
+                                                                 setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
         uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects interior side X2P interface over which the LMAC will communicate:
                                                                  \<pre\>
                                                                    [X2P_SELECT]      Name      Connected block
@@ -10188,8 +9827,7 @@ union cavm_rpmx_cmrx_config
                                                                    -------------------------------------------
                                                                    0                 --        Reserved
                                                                    1                 P2X1      NIX0
-                                                                   2                 P2X2      NIX1
-                                                                   3..7              --        Reserved
+                                                                   2..7              --        Reserved
                                                                  \</pre\> */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
@@ -10249,7 +9887,7 @@ static inline uint64_t CAVM_RPMX_CMRX_FC_STATUS(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_RPMX_CMRX_FC_STATUS(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004610ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005d88ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_FC_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10272,33 +9910,61 @@ union cavm_rpmx_cmrx_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1C/H) TX channel out-of-range from NIX1 interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIX0 interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved.
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved.
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reserved.
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved.
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIX0 interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1C/H) TX channel out-of-range from NIX1 interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -10334,25 +10000,49 @@ union cavm_rpmx_cmrx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[NIX1_NXC]. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[NIX0_NXC]. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[NIC_NXC].
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC].
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[NIC_NXC].
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC].
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[NIX0_NXC]. */
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[NIX1_NXC]. */
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -10388,25 +10078,49 @@ union cavm_rpmx_cmrx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[NIX1_NXC]. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[NIX0_NXC]. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[NIC_NXC].
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC].
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[NIC_NXC].
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC].
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[NIX0_NXC]. */
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[NIX1_NXC]. */
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -10442,25 +10156,49 @@ union cavm_rpmx_cmrx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[NIX1_NXC]. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[NIX0_NXC]. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[NIC_NXC].
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC].
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t nic_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[NIC_NXC].
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC].
                                                                  Internal:
-                                                                 TX channel out-of-range from NIC interface.
-                                                                 Reported on this LMAC for ids in the range of lmac_id+4, lmac_id+8 and lmac_id+12.
-                                                                 Reported regardless of LMAC enable or RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC. */
-        uint64_t nix0_nxc              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[NIX0_NXC]. */
-        uint64_t nix1_nxc              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[NIX1_NXC]. */
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -10488,7 +10226,7 @@ static inline uint64_t CAVM_RPMX_CMRX_INT_W1S(uint64_t a, uint64_t b)
  *
  * Programmable Link Channel Register
  * Each register specifies the base channel (start channel) number and the range of
- * channels associated with the link.
+ * channels associated with the link. Must configure this CSR for enabled channels.
  */
 union cavm_rpmx_cmrx_link_cfg
 {
@@ -10498,16 +10236,16 @@ union cavm_rpmx_cmrx_link_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
-                                                                 Reset value is 0x4, giving a range of 16 channels. */
+                                                                 For enabled LMACs, this value must be 4 (since each LMAC has 16 classes).
+                                                                 Otherwise, setting to 0 has the same effect as RPM()_CMR()_CONFIG[ENABLE]==0. */
         uint64_t reserved_12_15        : 4;
-        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be multiple of the range.
-                                                                 Reset value is 0x140 + a*0x10. */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be a multiple of the range, i.e. 4 lsbs must be 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be multiple of the range.
-                                                                 Reset value is 0x140 + a*0x10. */
+        uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be a multiple of the range, i.e. 4 lsbs must be 0. */
         uint64_t reserved_12_15        : 4;
         uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
-                                                                 Reset value is 0x4, giving a range of 16 channels. */
+                                                                 For enabled LMACs, this value must be 4 (since each LMAC has 16 classes).
+                                                                 Otherwise, setting to 0 has the same effect as RPM()_CMR()_CONFIG[ENABLE]==0. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -10547,11 +10285,12 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
                                                                  link partner) may be asserted.
                                                                  This field is only relevant for PFC mode (PFC_MODE==1). For Link Pause, see
                                                                  equivalent RX_OVR_BP CSR, EN and BP fields.
-                                                                 In PFC mode, this field is AND with the result of: chan_bp, OR with LOGL_XON and
-                                                                 LOGL_XOFF CSRs logic, OR with FIFO fill BP.
+                                                                 In PFC mode, this field is bit-ANDed with the result of:
+                                                                 chan_bp (from NIX-Rx), bit-OR
+                                                                 RX_LOGL_XON and RX_LOGL_XOFF CSRs logic, bit-OR
+                                                                 FIFO fill BP (x16 multiplied).
                                                                  For FIFO fill BP, see CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN. FIFO fill BP will
-                                                                 cause all bits on xoff_gen to be high,
-                                                                 except those masked with LOGL_EN_RX.
+                                                                 cause all bits on xoff_gen to be high, except those masked with LOGL_EN_RX.
 
                                                                  Internal:
                                                                  replaces SMU_CBFC_CTL.LOGL_EN
@@ -10563,40 +10302,46 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
                                                                  Note, this field has no effect when MTI MAC works in PFC mode.
                                                                  By default, MTI MAC should perform Tx traffic deferring by itself when working in Pause mode. */
         uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the link partner is backpressuring any LMACs (from incoming FC packets or by override via
-                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
-                                                                 backpressured, simulate physical backpressure by deferring all packets on the
-                                                                 transmitter (i.e. signal to the MAC to stop transmission via stop_tx). Affects
-                                                                 the MAC on frame boundary.
-                                                                 Note that this applies only when MAC is in PFC mode. */
+                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]), and all channels indicated by [PHYS_BP]=1 are
+                                                                 backpressured (i.e. there is a match), RPM will defer all packets on the transmitter
+                                                                 (i.e. signal to the MAC to stop transmission by asserting stop_tx).
+                                                                 Affects the MAC on frame boundary.
+                                                                 Note that this applies only when MAC is in PFC mode, and only when PHYS_BP is not all zeros.
+                                                                 Note that PHYS_BP bits that are 0 mean dont care; only asserted bits should match (all of them). */
         uint64_t logl_en_tx            : 16; /**< [ 15:  0](R/W) When bit i is high, the relevant bit in MAC PFC status indication to CMR
-                                                                 (pause_on) may cause Tx traffic defer (stop_tx).
-                                                                 Note, this field is only used when MTI MAC works in PFC mode. Also note that
-                                                                 PHYS_BP will also mask this result.
-                                                                 The difference is that LOGL_EN_TX is mask per-bit, and PHYS_BP is a global mask
-                                                                 which requires all 16 bits to match the mask value.
-                                                                 So, first, LOGL_EN_TX is ANDed with p2x_bp, and then (after OR with TX_CHAN_BP)
-                                                                 goes through the PHYS_BP masking.
+                                                                 (pause_on) may cause Tx traffic defer (stop_tx), and be reflected to NIX-Tx (on ebp interface).
+                                                                 Note, this field is only relevant when MTI MAC works in PFC mode.
+                                                                 For sake of traffic deference, PHYS_BP will mask the result of applying LOGL_EN_TX.
+                                                                 For sake of external backpressure to NIX (ebp), the masking will be done by TX_CHANNEL.MSK.
+                                                                 So, first, LOGL_EN_TX is bit-ANDed with p2x BP status (stop_tx from MAC).
+                                                                 The result is then bit-ORed with TX_OVR_BP.TX_CHAN_BP, to allow SW override.
+                                                                 Then we have 2 paths:
+                                                                 For Tx defer logic, the result goes through the PHYS_BP masking, to calculate stop_tx.
+                                                                 For ebp logic to NIX, the result is ANDed with TX_CHANNEL.MSK bits.
 
                                                                  Internal:
                                                                  replaces SMU_HG2_CONTROL.LOGL_EN */
 #else /* Word 0 - Little Endian */
         uint64_t logl_en_tx            : 16; /**< [ 15:  0](R/W) When bit i is high, the relevant bit in MAC PFC status indication to CMR
-                                                                 (pause_on) may cause Tx traffic defer (stop_tx).
-                                                                 Note, this field is only used when MTI MAC works in PFC mode. Also note that
-                                                                 PHYS_BP will also mask this result.
-                                                                 The difference is that LOGL_EN_TX is mask per-bit, and PHYS_BP is a global mask
-                                                                 which requires all 16 bits to match the mask value.
-                                                                 So, first, LOGL_EN_TX is ANDed with p2x_bp, and then (after OR with TX_CHAN_BP)
-                                                                 goes through the PHYS_BP masking.
+                                                                 (pause_on) may cause Tx traffic defer (stop_tx), and be reflected to NIX-Tx (on ebp interface).
+                                                                 Note, this field is only relevant when MTI MAC works in PFC mode.
+                                                                 For sake of traffic deference, PHYS_BP will mask the result of applying LOGL_EN_TX.
+                                                                 For sake of external backpressure to NIX (ebp), the masking will be done by TX_CHANNEL.MSK.
+                                                                 So, first, LOGL_EN_TX is bit-ANDed with p2x BP status (stop_tx from MAC).
+                                                                 The result is then bit-ORed with TX_OVR_BP.TX_CHAN_BP, to allow SW override.
+                                                                 Then we have 2 paths:
+                                                                 For Tx defer logic, the result goes through the PHYS_BP masking, to calculate stop_tx.
+                                                                 For ebp logic to NIX, the result is ANDed with TX_CHANNEL.MSK bits.
 
                                                                  Internal:
                                                                  replaces SMU_HG2_CONTROL.LOGL_EN */
         uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the link partner is backpressuring any LMACs (from incoming FC packets or by override via
-                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
-                                                                 backpressured, simulate physical backpressure by deferring all packets on the
-                                                                 transmitter (i.e. signal to the MAC to stop transmission via stop_tx). Affects
-                                                                 the MAC on frame boundary.
-                                                                 Note that this applies only when MAC is in PFC mode. */
+                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]), and all channels indicated by [PHYS_BP]=1 are
+                                                                 backpressured (i.e. there is a match), RPM will defer all packets on the transmitter
+                                                                 (i.e. signal to the MAC to stop transmission by asserting stop_tx).
+                                                                 Affects the MAC on frame boundary.
+                                                                 Note that this applies only when MAC is in PFC mode, and only when PHYS_BP is not all zeros.
+                                                                 Note that PHYS_BP bits that are 0 mean dont care; only asserted bits should match (all of them). */
         uint64_t pause_mode_stop_tx_en : 1;  /**< [ 32: 32](R/W) Reserved.
                                                                  Internal:
                                                                  When high, and MTI MAC is in Link Pause mode, bit 0 of (pause_on) will cause Tx
@@ -10607,11 +10352,12 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
                                                                  link partner) may be asserted.
                                                                  This field is only relevant for PFC mode (PFC_MODE==1). For Link Pause, see
                                                                  equivalent RX_OVR_BP CSR, EN and BP fields.
-                                                                 In PFC mode, this field is AND with the result of: chan_bp, OR with LOGL_XON and
-                                                                 LOGL_XOFF CSRs logic, OR with FIFO fill BP.
+                                                                 In PFC mode, this field is bit-ANDed with the result of:
+                                                                 chan_bp (from NIX-Rx), bit-OR
+                                                                 RX_LOGL_XON and RX_LOGL_XOFF CSRs logic, bit-OR
+                                                                 FIFO fill BP (x16 multiplied).
                                                                  For FIFO fill BP, see CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN. FIFO fill BP will
-                                                                 cause all bits on xoff_gen to be high,
-                                                                 except those masked with LOGL_EN_RX.
+                                                                 cause all bits on xoff_gen to be high, except those masked with LOGL_EN_RX.
 
                                                                  Internal:
                                                                  replaces SMU_CBFC_CTL.LOGL_EN
@@ -10627,7 +10373,7 @@ static inline uint64_t CAVM_RPMX_CMRX_PRT_CBFC_CTL(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_CMRX_PRT_CBFC_CTL(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004608ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005b08ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_PRT_CBFC_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10654,13 +10400,15 @@ union cavm_rpmx_cmrx_rx_bp_drop
                                                                  entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
                                                                  dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
                                                                  closing partially received packets. [MARK] should typically be programmed to its reset
-                                                                 value; failure to program correctly can lead to system instability. */
+                                                                 value; failure to program correctly can lead to system instability.
+                                                                 Exit from BP_DROP state happens when FIFO level gets below RX_BP_OFF level. */
 #else /* Word 0 - Little Endian */
         uint64_t mark                  : 7;  /**< [  6:  0](R/W) Number of sixteen byte cycles to reserve in the RX FIFO. When the number of free
                                                                  entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
                                                                  dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
                                                                  closing partially received packets. [MARK] should typically be programmed to its reset
-                                                                 value; failure to program correctly can lead to system instability. */
+                                                                 value; failure to program correctly can lead to system instability.
+                                                                 Exit from BP_DROP state happens when FIFO level gets below RX_BP_OFF level. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -10672,7 +10420,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_BP_DROP(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_RPMX_CMRX_RX_BP_DROP(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00040d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e00040e0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_BP_DROP", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10711,7 +10459,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_BP_OFF(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_RPMX_CMRX_RX_BP_OFF(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00040e8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e00040f0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_BP_OFF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10743,9 +10491,9 @@ union cavm_rpmx_cmrx_rx_bp_on
                                                                  A value of 0x0 immediately asserts backpressure.
 
                                                                  The recommended value is 1/4th the size of the per-LMAC RX FIFO size as
-                                                                 determined by RPM()_CMR_RX_LMACS[LMACS]. For example in SGMII mode with
-                                                                 four LMACs of type SGMII, where RPM()_CMR_RX_LMACS[LMACS]=0x4, there is
-                                                                 (RPM()_CONST[RX_FIFOSZ]/4) KB of buffering. The recommended 1/4th size
+                                                                 determined by RPM()_CMR_RX_LMACS. For example, when 4 LMACs exist
+                                                                 (sum of asserted bits in RPM()_CMR_RX_LMACS[LMAC_EXIST] is 4), there is
+                                                                 (RPM()_CONST[RX_FIFOSZ]/4) KB of buffering per LMAC. The recommended 1/4th size
                                                                  of that buffering is (RPM()_CONST[RX_FIFOSZ]/4)/4. */
 #else /* Word 0 - Little Endian */
         uint64_t mark                  : 14; /**< [ 13:  0](R/W) High watermark. Buffer depth in multiple of 16-bytes, at which RPM will
@@ -10757,9 +10505,9 @@ union cavm_rpmx_cmrx_rx_bp_on
                                                                  A value of 0x0 immediately asserts backpressure.
 
                                                                  The recommended value is 1/4th the size of the per-LMAC RX FIFO size as
-                                                                 determined by RPM()_CMR_RX_LMACS[LMACS]. For example in SGMII mode with
-                                                                 four LMACs of type SGMII, where RPM()_CMR_RX_LMACS[LMACS]=0x4, there is
-                                                                 (RPM()_CONST[RX_FIFOSZ]/4) KB of buffering. The recommended 1/4th size
+                                                                 determined by RPM()_CMR_RX_LMACS. For example, when 4 LMACs exist
+                                                                 (sum of asserted bits in RPM()_CMR_RX_LMACS[LMAC_EXIST] is 4), there is
+                                                                 (RPM()_CONST[RX_FIFOSZ]/4) KB of buffering per LMAC. The recommended 1/4th size
                                                                  of that buffering is (RPM()_CONST[RX_FIFOSZ]/4)/4. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -10772,7 +10520,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_BP_ON(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_BP_ON(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00040e0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e00040e8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_BP_ON", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10862,7 +10610,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_DMAC_CTL0(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_CMRX_RX_DMAC_CTL0(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00041f8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004ff8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_DMAC_CTL0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -10993,14 +10741,14 @@ union cavm_rpmx_cmrx_rx_logl_xoff
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t xoff                  : 16; /**< [ 15:  0](R/W1S/H) Together with RPM()_CMR()_RX_LOGL_XON, defines type of channel backpressure to
-                                                                 apply to the MAC. In the case of SMU, Do not write when HiGig2 is
-                                                                 enabled. Writing 1 sets the same physical register as that which is cleared by
+                                                                 apply to the MAC.
+                                                                 Writing 1 sets the same physical register as that which is cleared by
                                                                  RPM()_CMR()_RX_LOGL_XON[XON]. An XOFF value of 1 will cause a backpressure on
                                                                  the MAC. */
 #else /* Word 0 - Little Endian */
         uint64_t xoff                  : 16; /**< [ 15:  0](R/W1S/H) Together with RPM()_CMR()_RX_LOGL_XON, defines type of channel backpressure to
-                                                                 apply to the MAC. In the case of SMU, Do not write when HiGig2 is
-                                                                 enabled. Writing 1 sets the same physical register as that which is cleared by
+                                                                 apply to the MAC.
+                                                                 Writing 1 sets the same physical register as that which is cleared by
                                                                  RPM()_CMR()_RX_LOGL_XON[XON]. An XOFF value of 1 will cause a backpressure on
                                                                  the MAC. */
         uint64_t reserved_16_63        : 48;
@@ -11117,7 +10865,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT0(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT0(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11157,7 +10905,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT1(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT1(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004078ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11174,11 +10922,15 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT1(uint64_t a, uint64_t b)
  * RPM Receive Status Register 2
  * These registers provide a count of received packets that meet the following conditions:
  * * are not recognized as ERROR packets(any OPCODE).
- * * are recognized as PAUSE packets.
+ * * are not recognized as PAUSE packets.
+ * * are not dropped due FIFO full status.
+ * * are dropped due DMAC0 or STEERING0 filtering.
  *
- * Pause packets can be optionally dropped or forwarded based on
- * RPM()_SMU()_RX_FRM_CTL[CTL_DRP]/RPM()_GMP_GMI_RX()_FRM_CTL[CTL_DRP].
- * This count increments regardless of whether the packet is dropped.
+ * 16B packets or smaller (20B in case of FCS strip) as the result of truncation
+ * or other means are not dropped by RPM (unless filter and decision is also
+ * asserted) and will never appear in this count.
+ * Should the MAC signal to the CMR that the packet be filtered upon decision before the end of
+ * packet, then STAT4 and STAT5 will not be updated.
  */
 union cavm_rpmx_cmrx_rx_stat2
 {
@@ -11187,10 +10939,12 @@ union cavm_rpmx_cmrx_rx_stat2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with
                                                                  RPM()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with
                                                                  RPM()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -11203,7 +10957,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT2(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT2(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004080ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT2", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11218,7 +10972,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT2(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_rx_stat3
  *
  * RPM Receive Status Register 3
- * These registers provide a count of octets of received PAUSE and control packets.
+ * These registers provide a count of octets of filtered DMAC0 or VLAN STEERING0 packets.
  */
 union cavm_rpmx_cmrx_rx_stat3
 {
@@ -11227,10 +10981,12 @@ union cavm_rpmx_cmrx_rx_stat3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if
+                                                                 LMAC is disabled
                                                                  with RPM()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received PAUSE packets. [CNT] will wrap and is cleared if LMAC is disabled
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if
+                                                                 LMAC is disabled
                                                                  with RPM()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -11243,7 +10999,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT3(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT3(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004088ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT3", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11261,14 +11017,11 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT3(uint64_t a, uint64_t b)
  * These registers provide a count of received packets that meet the following conditions:
  * * are not recognized as ERROR packets(any OPCODE).
  * * are not recognized as PAUSE packets.
- * * are not dropped due FIFO full status.
- * * are dropped due DMAC0 or STEERING0 filtering.
+ * * are dropped due FIFO full status.
  *
- * 16B packets or smaller (20B in case of FCS strip) as the result of truncation
- * or other means are not dropped by RPM (unless filter and decision is also
- * asserted) and will never appear in this count.
- * Should the MAC signal to the CMR that the packet be filtered upon decision before the end of
- * packet, then STAT4 and STAT5 will not be updated.
+ * They do not count any packet that is truncated at the point of overflow and sent
+ * on to the NIX. The truncated packet will be marked with error and increment STAT8.
+ * These registers count all entire packets dropped by the FIFO for a given LMAC.
  */
 union cavm_rpmx_cmrx_rx_stat4
 {
@@ -11277,12 +11030,12 @@ union cavm_rpmx_cmrx_rx_stat4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if LMAC
-                                                                 is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC is disabled
+                                                                 with
                                                                  RPM()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if LMAC
-                                                                 is disabled with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC is disabled
+                                                                 with
                                                                  RPM()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -11295,7 +11048,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT4(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT4(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004090ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT4", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11310,7 +11063,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT4(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_rx_stat5
  *
  * RPM Receive Status Register 5
- * These registers provide a count of octets of filtered DMAC0 or VLAN STEERING0 packets.
+ * These registers provide a count of octets of received packets that were dropped due to a full
+ * receive FIFO.
  */
 union cavm_rpmx_cmrx_rx_stat5
 {
@@ -11319,13 +11073,11 @@ union cavm_rpmx_cmrx_rx_stat5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if
-                                                                 LMAC is disabled
-                                                                 with RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of filtered DMAC0 or VLAN STEERING0 packets. [CNT] will wrap and is cleared if
-                                                                 LMAC is disabled
-                                                                 with RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -11337,7 +11089,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT5(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT5(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004098ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT5", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11353,13 +11105,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT5(uint64_t a, uint64_t b)
  *
  * RPM Receive Status Register 6
  * These registers provide a count of received packets that meet the following conditions:
- * * are not recognized as ERROR packets(any OPCODE).
- * * are not recognized as PAUSE packets.
- * * are dropped due FIFO full status.
- *
- * They do not count any packet that is truncated at the point of overflow and sent
- * on to the NIX. The truncated packet will be marked with error and increment STAT8.
- * These registers count all entire packets dropped by the FIFO for a given LMAC.
+ *  * are recognized as ERROR packets(any OPCODE).
  */
 union cavm_rpmx_cmrx_rx_stat6
 {
@@ -11368,12 +11114,10 @@ union cavm_rpmx_cmrx_rx_stat6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC is disabled
-                                                                 with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  RPM()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC is disabled
-                                                                 with
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. [CNT] will wrap and is cleared if LMAC is disabled with
                                                                  RPM()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -11386,7 +11130,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT6(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT6(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00040a0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004030ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT6", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11401,8 +11145,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT6(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_rx_stat7
  *
  * RPM Receive Status Register 7
- * These registers provide a count of octets of received packets that were dropped due to a full
- * receive FIFO.
+ * Count dropped undersized packets by CMR. See RPM_CMR(0..3)_RX_UNDERSIZE.
  */
 union cavm_rpmx_cmrx_rx_stat7
 {
@@ -11411,11 +11154,11 @@ union cavm_rpmx_cmrx_rx_stat7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC
-                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped undersized packets. [CNT] will wrap and is cleared if LMAC is disabled
+                                                                 with RPM()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of fifo full dropped packets. [CNT] will wrap and is cleared if LMAC
-                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of dropped undersized packets. [CNT] will wrap and is cleared if LMAC is disabled
+                                                                 with RPM()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -11427,7 +11170,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT7(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT7(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00040a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004038ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT7", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11442,8 +11185,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT7(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_rx_stat8
  *
  * RPM Receive Status Register 8
- * These registers provide a count of received packets that meet the following conditions:
- *  * are recognized as ERROR packets(any OPCODE).
+ * Count octets of dropped undersized packets by CMR. See RPM_CMR(0..3)_RX_UNDERSIZE.
  */
 union cavm_rpmx_cmrx_rx_stat8
 {
@@ -11452,11 +11194,11 @@ union cavm_rpmx_cmrx_rx_stat8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. [CNT] will wrap and is cleared if LMAC is disabled with
-                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet octets of dropped undersized packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of error packets. [CNT] will wrap and is cleared if LMAC is disabled with
-                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet octets of dropped undersized packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -11468,7 +11210,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT8(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT8(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e00040b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0004040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT8", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11513,7 +11255,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004880ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005c80ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT_DEFER_XOFF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11556,7 +11298,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a<=8) && (b<=3) && (c<=15))
-        return 0x87e0e0004800ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
+        return 0x87e0e0005c00ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("RPMX_CMRX_RX_STAT_PRIX_XOFF", 3, a, b, c, 0, 0, 0);
 }
 
@@ -11566,6 +11308,61 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, 
 #define device_bar_CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(a,b,c) (a)
 #define arguments_CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) rpm#_cmr#_rx_undersize
+ *
+ * RPM Rx undersize frames control Register
+ */
+union cavm_rpmx_cmrx_rx_undersize
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_rx_undersize_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t rx_small_frame_min_size : 7;/**< [  8:  2](R/W) When RX_DROP_SMALL_FRAME_EN is high, indicate the minimal allowed frame size (in Bytes),
+                                                                 below which frames will be dropped by CMR.
+                                                                 This value has to be positive when RX_DROP_SMALL_FRAME_EN is 1.
+                                                                 A typical value is 0x3C (60B), since CRC is stripped previously by the MAC.
+                                                                 However, if COMMAND_CONFIG[CRC_FWD] is 1, consider setting this value to 0x40. */
+        uint64_t rx_drop_small_frame_en : 1; /**< [  1:  1](R/W) When this is high, CMR will drop frames coming out of the MAC with length\<RX_SMALL_FRAME_MIN_SIZE.
+                                                                 Dropped undersized frames are counted in RPM_CMR(0..3)_RX_STAT7 and RPM_CMR(0..3)_RX_STAT8. */
+        uint64_t rx_ignore_minimal_frame_en : 1;/**< [  0:  0](R/W) When this is high, CMR will ignore frames coming out of the MAC with length\<=16B
+                                                                 (even if RX_DROP_SMALL_FRAME_EN==0).
+                                                                 These frames are counted in RPM_CMR(0..3)_RX_STAT7 and RPM_CMR(0..3)_RX_STAT8. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_ignore_minimal_frame_en : 1;/**< [  0:  0](R/W) When this is high, CMR will ignore frames coming out of the MAC with length\<=16B
+                                                                 (even if RX_DROP_SMALL_FRAME_EN==0).
+                                                                 These frames are counted in RPM_CMR(0..3)_RX_STAT7 and RPM_CMR(0..3)_RX_STAT8. */
+        uint64_t rx_drop_small_frame_en : 1; /**< [  1:  1](R/W) When this is high, CMR will drop frames coming out of the MAC with length\<RX_SMALL_FRAME_MIN_SIZE.
+                                                                 Dropped undersized frames are counted in RPM_CMR(0..3)_RX_STAT7 and RPM_CMR(0..3)_RX_STAT8. */
+        uint64_t rx_small_frame_min_size : 7;/**< [  8:  2](R/W) When RX_DROP_SMALL_FRAME_EN is high, indicate the minimal allowed frame size (in Bytes),
+                                                                 below which frames will be dropped by CMR.
+                                                                 This value has to be positive when RX_DROP_SMALL_FRAME_EN is 1.
+                                                                 A typical value is 0x3C (60B), since CRC is stripped previously by the MAC.
+                                                                 However, if COMMAND_CONFIG[CRC_FWD] is 1, consider setting this value to 0x40. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_undersize_s cn; */
+};
+typedef union cavm_rpmx_cmrx_rx_undersize cavm_rpmx_cmrx_rx_undersize_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_RX_UNDERSIZE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_RX_UNDERSIZE(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0005910ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_CMRX_RX_UNDERSIZE", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_RX_UNDERSIZE(a,b) cavm_rpmx_cmrx_rx_undersize_t
+#define bustype_CAVM_RPMX_CMRX_RX_UNDERSIZE(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_RX_UNDERSIZE(a,b) "RPMX_CMRX_RX_UNDERSIZE"
+#define device_bar_CAVM_RPMX_CMRX_RX_UNDERSIZE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_RX_UNDERSIZE(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_RX_UNDERSIZE(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_scratch#
@@ -11765,13 +11562,13 @@ union cavm_rpmx_cmrx_tx_channel
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t msk                   : 16; /**< [ 15:  0](R/W) Backpressure channel mask. RPM can completely ignore the channel backpressure for channel
-                                                                 specified by this field. Any channel in which MSK\<n\> is set never sends backpressure
-                                                                 information to NIX. */
+        uint64_t msk                   : 16; /**< [ 15:  0](R/W) Backpressure channel mask.
+                                                                 Any channel in which MSK\<n\> is set never sends backpressure information to NIX-Tx.
+                                                                 See LOGL_EN_TX configuration for more details. */
 #else /* Word 0 - Little Endian */
-        uint64_t msk                   : 16; /**< [ 15:  0](R/W) Backpressure channel mask. RPM can completely ignore the channel backpressure for channel
-                                                                 specified by this field. Any channel in which MSK\<n\> is set never sends backpressure
-                                                                 information to NIX. */
+        uint64_t msk                   : 16; /**< [ 15:  0](R/W) Backpressure channel mask.
+                                                                 Any channel in which MSK\<n\> is set never sends backpressure information to NIX-Tx.
+                                                                 See LOGL_EN_TX configuration for more details. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -11783,7 +11580,7 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_CHANNEL(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_RPMX_CMRX_TX_CHANNEL(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004600ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005b00ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_TX_CHANNEL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11826,7 +11623,7 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_FIFO_LEN(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_RPMX_CMRX_TX_FIFO_LEN(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004618ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005b18ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_TX_FIFO_LEN", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11849,13 +11646,13 @@ union cavm_rpmx_cmrx_tx_ovr_bp
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to NIX. Also see RPM()_CMR()_PRT_CBFC_CTL for
-                                                                 details on impact to physical backpressure.
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel set override of backpressure status.
+                                                                 See LOGL_EN_TX configuration for more details.
                                                                  0 = Channel is available.
                                                                  1 = Channel is backpressured. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to NIX. Also see RPM()_CMR()_PRT_CBFC_CTL for
-                                                                 details on impact to physical backpressure.
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel set override of backpressure status.
+                                                                 See LOGL_EN_TX configuration for more details.
                                                                  0 = Channel is available.
                                                                  1 = Channel is backpressured. */
         uint64_t reserved_16_63        : 48;
@@ -11869,7 +11666,7 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_OVR_BP(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_RPMX_CMRX_TX_OVR_BP(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0004620ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005b10ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_TX_OVR_BP", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11879,872 +11676,6 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_OVR_BP(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_TX_OVR_BP(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_TX_OVR_BP(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_TX_OVR_BP(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat0
- *
- * RPM CMR Transmit Statistics Registers 0
- */
-union cavm_rpmx_cmrx_tx_stat0
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t xscol                 : 48; /**< [ 47:  0](R/W/H) Number of packets dropped (never successfully sent) due to excessive collision. Defined by
-                                                                 RPM()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. Half-duplex mode only and does not account for late
-                                                                 collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t xscol                 : 48; /**< [ 47:  0](R/W/H) Number of packets dropped (never successfully sent) due to excessive collision. Defined by
-                                                                 RPM()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. Half-duplex mode only and does not account for late
-                                                                 collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat0_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat0 cavm_rpmx_cmrx_tx_stat0_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT0(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004700ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT0(a,b) cavm_rpmx_cmrx_tx_stat0_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT0(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT0(a,b) "RPMX_CMRX_TX_STAT0"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT0(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat1
- *
- * RPM CMR Transmit Statistics Registers 1
- */
-union cavm_rpmx_cmrx_tx_stat1
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t xsdef                 : 48; /**< [ 47:  0](R/W/H) A count of the number of times any frame was deferred for an excessive period of time.
-                                                                 See maxDeferTime in the IEEE 802.3 specification. Half-duplex mode only and not updated
-                                                                 for late collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t xsdef                 : 48; /**< [ 47:  0](R/W/H) A count of the number of times any frame was deferred for an excessive period of time.
-                                                                 See maxDeferTime in the IEEE 802.3 specification. Half-duplex mode only and not updated
-                                                                 for late collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat1_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat1 cavm_rpmx_cmrx_tx_stat1_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004708ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT1(a,b) cavm_rpmx_cmrx_tx_stat1_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT1(a,b) "RPMX_CMRX_TX_STAT1"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT1(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat10
- *
- * RPM CMR Transmit Statistics Registers 10
- */
-union cavm_rpmx_cmrx_tx_stat10
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat10_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist4                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 256-511. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist4                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 256-511. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat10_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat10 cavm_rpmx_cmrx_tx_stat10_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT10(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT10(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004750ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT10", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT10(a,b) cavm_rpmx_cmrx_tx_stat10_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT10(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT10(a,b) "RPMX_CMRX_TX_STAT10"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT10(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT10(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT10(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat11
- *
- * RPM CMR Transmit Statistics Registers 11
- */
-union cavm_rpmx_cmrx_tx_stat11
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat11_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist5                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 512-1023. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist5                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 512-1023. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat11_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat11 cavm_rpmx_cmrx_tx_stat11_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT11(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT11(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004758ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT11", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT11(a,b) cavm_rpmx_cmrx_tx_stat11_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT11(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT11(a,b) "RPMX_CMRX_TX_STAT11"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT11(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT11(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT11(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat12
- *
- * RPM CMR Transmit Statistics Registers 12
- */
-union cavm_rpmx_cmrx_tx_stat12
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat12_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist6                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 1024-1518. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist6                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 1024-1518. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat12_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat12 cavm_rpmx_cmrx_tx_stat12_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT12(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT12(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004760ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT12", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT12(a,b) cavm_rpmx_cmrx_tx_stat12_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT12(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT12(a,b) "RPMX_CMRX_TX_STAT12"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT12(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT12(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT12(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat13
- *
- * RPM CMR Transmit Statistics Registers 13
- */
-union cavm_rpmx_cmrx_tx_stat13
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat13_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist7                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count \> 1518. Packet length is the sum of all data
-                                                                 transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
-                                                                 and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist7                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count \> 1518. Packet length is the sum of all data
-                                                                 transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
-                                                                 and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat13_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat13 cavm_rpmx_cmrx_tx_stat13_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT13(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT13(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004768ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT13", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT13(a,b) cavm_rpmx_cmrx_tx_stat13_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT13(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT13(a,b) "RPMX_CMRX_TX_STAT13"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT13(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT13(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT13(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat14
- *
- * RPM CMR Transmit Statistics Registers 14
- */
-union cavm_rpmx_cmrx_tx_stat14
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat14_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t bcst                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent to broadcast DMAC, excluding PAUSE or PFC control packets generated
-                                                                 by RPM. Does not include MCST packets.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap.
-
-                                                                 Note that RPM determines if the packet is MCST or BCST from the DMAC of the packet. RPM
-                                                                 assumes that the DMAC lies in the first six bytes of the packet as per the 802.3 frame
-                                                                 definition. If the system requires additional data before the L2 header, the MCST and BCST
-                                                                 counters may not reflect reality and should be ignored by software. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t bcst                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent to broadcast DMAC, excluding PAUSE or PFC control packets generated
-                                                                 by RPM. Does not include MCST packets.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap.
-
-                                                                 Note that RPM determines if the packet is MCST or BCST from the DMAC of the packet. RPM
-                                                                 assumes that the DMAC lies in the first six bytes of the packet as per the 802.3 frame
-                                                                 definition. If the system requires additional data before the L2 header, the MCST and BCST
-                                                                 counters may not reflect reality and should be ignored by software. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat14_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat14 cavm_rpmx_cmrx_tx_stat14_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT14(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT14(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004770ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT14", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT14(a,b) cavm_rpmx_cmrx_tx_stat14_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT14(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT14(a,b) "RPMX_CMRX_TX_STAT14"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT14(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT14(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT14(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat15
- *
- * RPM CMR Transmit Statistics Registers 15
- */
-union cavm_rpmx_cmrx_tx_stat15
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat15_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t mcst                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent to multicast DMAC, excluding PAUSE or PFC control packets generated
-                                                                 by RPM. Does not include BCST packets.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap.
-
-                                                                 Note that RPM determines if the packet is MCST or BCST from the DMAC of the packet. RPM
-                                                                 assumes that the DMAC lies in the first six bytes of the packet as per the 802.3 frame
-                                                                 definition. If the system requires additional data before the L2 header, then the MCST and
-                                                                 BCST counters may not reflect reality and should be ignored by software. Cleared if LMAC
-                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mcst                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent to multicast DMAC, excluding PAUSE or PFC control packets generated
-                                                                 by RPM. Does not include BCST packets.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap.
-
-                                                                 Note that RPM determines if the packet is MCST or BCST from the DMAC of the packet. RPM
-                                                                 assumes that the DMAC lies in the first six bytes of the packet as per the 802.3 frame
-                                                                 definition. If the system requires additional data before the L2 header, then the MCST and
-                                                                 BCST counters may not reflect reality and should be ignored by software. Cleared if LMAC
-                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat15_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat15 cavm_rpmx_cmrx_tx_stat15_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT15(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT15(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004778ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT15", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT15(a,b) cavm_rpmx_cmrx_tx_stat15_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT15(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT15(a,b) "RPMX_CMRX_TX_STAT15"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT15(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT15(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT15(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat16
- *
- * RPM CMR Transmit Statistics Registers 16
- */
-union cavm_rpmx_cmrx_tx_stat16
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat16_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t undflw                : 48; /**< [ 47:  0](R/W/H) Number of underflow packets.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t undflw                : 48; /**< [ 47:  0](R/W/H) Number of underflow packets.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat16_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat16 cavm_rpmx_cmrx_tx_stat16_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT16(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT16(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004780ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT16", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT16(a,b) cavm_rpmx_cmrx_tx_stat16_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT16(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT16(a,b) "RPMX_CMRX_TX_STAT16"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT16(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT16(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT16(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat17
- *
- * RPM CMR Transmit Statistics Registers 17
- */
-union cavm_rpmx_cmrx_tx_stat17
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat17_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t ctl                   : 48; /**< [ 47:  0](R/W/H) Number of PAUSE or PFC control packets generated by RPM. It does not include control
-                                                                 packets forwarded or generated by the cores. Does not track the number of generated HG2
-                                                                 messages.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t ctl                   : 48; /**< [ 47:  0](R/W/H) Number of PAUSE or PFC control packets generated by RPM. It does not include control
-                                                                 packets forwarded or generated by the cores. Does not track the number of generated HG2
-                                                                 messages.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat17_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat17 cavm_rpmx_cmrx_tx_stat17_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT17(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT17(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004788ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT17", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT17(a,b) cavm_rpmx_cmrx_tx_stat17_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT17(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT17(a,b) "RPMX_CMRX_TX_STAT17"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT17(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT17(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT17(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat2
- *
- * RPM CMR Transmit Statistics Registers 2
- */
-union cavm_rpmx_cmrx_tx_stat2
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t mcol                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent with multiple collisions. Must be less than
-                                                                 RPM()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. Half-duplex mode only and not updated
-                                                                 for late collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mcol                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent with multiple collisions. Must be less than
-                                                                 RPM()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. Half-duplex mode only and not updated
-                                                                 for late collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat2_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat2 cavm_rpmx_cmrx_tx_stat2_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004710ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT2(a,b) cavm_rpmx_cmrx_tx_stat2_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT2(a,b) "RPMX_CMRX_TX_STAT2"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT2(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat3
- *
- * RPM CMR Transmit Statistics Registers 3
- */
-union cavm_rpmx_cmrx_tx_stat3
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t scol                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent with a single collision. Half-duplex mode only and not updated
-                                                                 for late collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t scol                  : 48; /**< [ 47:  0](R/W/H) Number of packets sent with a single collision. Half-duplex mode only and not updated
-                                                                 for late collisions.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat3_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat3 cavm_rpmx_cmrx_tx_stat3_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT3(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004718ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT3(a,b) cavm_rpmx_cmrx_tx_stat3_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT3(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT3(a,b) "RPMX_CMRX_TX_STAT3"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT3(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT3(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat4
- *
- * RPM CMR Transmit Statistics Registers 4
- */
-union cavm_rpmx_cmrx_tx_stat4
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat4_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t octs                  : 48; /**< [ 47:  0](R/W/H) Number of total octets sent on the interface, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Does not count octets from frames that were truncated due to collisions
-                                                                 in half-duplex mode.
-                                                                 Octet counts are the sum of all data transmitted on the wire including packet data, pad
-                                                                 bytes, FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
-                                                                 cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t octs                  : 48; /**< [ 47:  0](R/W/H) Number of total octets sent on the interface, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Does not count octets from frames that were truncated due to collisions
-                                                                 in half-duplex mode.
-                                                                 Octet counts are the sum of all data transmitted on the wire including packet data, pad
-                                                                 bytes, FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
-                                                                 cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat4_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat4 cavm_rpmx_cmrx_tx_stat4_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT4(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004720ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT4", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT4(a,b) cavm_rpmx_cmrx_tx_stat4_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT4(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT4(a,b) "RPMX_CMRX_TX_STAT4"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT4(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT4(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT4(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat5
- *
- * RPM CMR Transmit Statistics Registers 5
- */
-union cavm_rpmx_cmrx_tx_stat5
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat5_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t pkts                  : 48; /**< [ 47:  0](R/W/H) Number of total frames sent on the interface, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Does not count octets from frames that were truncated due to collisions
-                                                                 in half-duplex mode.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pkts                  : 48; /**< [ 47:  0](R/W/H) Number of total frames sent on the interface, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Does not count octets from frames that were truncated due to collisions
-                                                                 in half-duplex mode.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat5_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat5 cavm_rpmx_cmrx_tx_stat5_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT5(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004728ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT5", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT5(a,b) cavm_rpmx_cmrx_tx_stat5_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT5(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT5(a,b) "RPMX_CMRX_TX_STAT5"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT5(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT5(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT5(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat6
- *
- * RPM CMR Transmit Statistics Registers 6
- */
-union cavm_rpmx_cmrx_tx_stat6
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat6_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist0                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count \< 64, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Packet length is the sum of all data transmitted on the wire for the
-                                                                 given packet including packet data, pad bytes, FCS bytes, and JAM bytes. The octet counts
-                                                                 do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist0                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count \< 64, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Packet length is the sum of all data transmitted on the wire for the
-                                                                 given packet including packet data, pad bytes, FCS bytes, and JAM bytes. The octet counts
-                                                                 do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat6_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat6 cavm_rpmx_cmrx_tx_stat6_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT6(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT6(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004730ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT6", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT6(a,b) cavm_rpmx_cmrx_tx_stat6_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT6(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT6(a,b) "RPMX_CMRX_TX_STAT6"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT6(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT6(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT6(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat7
- *
- * RPM CMR Transmit Statistics Registers 7
- */
-union cavm_rpmx_cmrx_tx_stat7
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist1                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count of 64, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Packet length is the sum of all data transmitted on the wire for the
-                                                                 given packet including packet data, pad bytes, FCS bytes, and JAM bytes. The octet counts
-                                                                 do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist1                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count of 64, excluding PAUSE or PFC control packets
-                                                                 generated by RPM. Packet length is the sum of all data transmitted on the wire for the
-                                                                 given packet including packet data, pad bytes, FCS bytes, and JAM bytes. The octet counts
-                                                                 do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat7_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat7 cavm_rpmx_cmrx_tx_stat7_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT7(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT7(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004738ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT7", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT7(a,b) cavm_rpmx_cmrx_tx_stat7_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT7(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT7(a,b) "RPMX_CMRX_TX_STAT7"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT7(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT7(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT7(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat8
- *
- * RPM CMR Transmit Statistics Registers 8
- */
-union cavm_rpmx_cmrx_tx_stat8
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat8_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist2                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 65-127. Packet length is the sum of all
-                                                                 data transmitted on the wire for the given packet including packet data, pad bytes, FCS
-                                                                 bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist2                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 65-127. Packet length is the sum of all
-                                                                 data transmitted on the wire for the given packet including packet data, pad bytes, FCS
-                                                                 bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat8_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat8 cavm_rpmx_cmrx_tx_stat8_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT8(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT8(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004740ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT8", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT8(a,b) cavm_rpmx_cmrx_tx_stat8_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT8(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT8(a,b) "RPMX_CMRX_TX_STAT8"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT8(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT8(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT8(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_cmr#_tx_stat9
- *
- * RPM CMR Transmit Statistics Registers 9
- */
-union cavm_rpmx_cmrx_tx_stat9
-{
-    uint64_t u;
-    struct cavm_rpmx_cmrx_tx_stat9_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t hist3                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 128-255. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t hist3                 : 48; /**< [ 47:  0](R/W/H) Number of packets sent with an octet count between 128-255. Packet length is the sum of
-                                                                 all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
-
-                                                                 Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-                                                                 disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_tx_stat9_s cn; */
-};
-typedef union cavm_rpmx_cmrx_tx_stat9 cavm_rpmx_cmrx_tx_stat9_t;
-
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT9(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMRX_TX_STAT9(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e0004748ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_CMRX_TX_STAT9", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMRX_TX_STAT9(a,b) cavm_rpmx_cmrx_tx_stat9_t
-#define bustype_CAVM_RPMX_CMRX_TX_STAT9(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMRX_TX_STAT9(a,b) "RPMX_CMRX_TX_STAT9"
-#define device_bar_CAVM_RPMX_CMRX_TX_STAT9(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMRX_TX_STAT9(a,b) (a)
-#define arguments_CAVM_RPMX_CMRX_TX_STAT9(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_tx_stat_pri#_xoff
@@ -12794,7 +11725,7 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_RPMX_CMRX_TX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a<=8) && (b<=3) && (c<=15))
-        return 0x87e0e0004900ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
+        return 0x87e0e0005d00ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("RPMX_CMRX_TX_STAT_PRIX_XOFF", 3, a, b, c, 0, 0, 0);
 }
 
@@ -12828,8 +11759,8 @@ union cavm_rpmx_cmrx_tx_thresh
                                                                  is bigger than this value, or if FIFO contains an EOP beat. */
         uint64_t bulk_thresh           : 13; /**< [ 12:  0](R/W) Number of 128-bit words (16 bytes) to accumulate in the CMR TX Bulk FIFO before sending to MAC.
                                                                  This field should be large enough to prevent underflow on the packet interface.
-                                                                 In all modes, this field cannot exceed the TX FIFO depth configured by
-                                                                 RPM()_CMR_TX_LMACS[LMACS] (in terms of total bytes for each corresponding LMAC).
+                                                                 In all modes, this field cannot exceed the TX FIFO depth for this LMAC, determined by
+                                                                 RPM()_CMR_TX_LMACS (in terms of total bytes for each corresponding LMAC).
                                                                  This value needs to be at least 6, in order to assure that CMR does not
                                                                  introduce bubbles when feeding the MAC.
                                                                  Setting this value also needs to take into consideration the NIX-Tx behavior
@@ -12837,8 +11768,8 @@ union cavm_rpmx_cmrx_tx_thresh
 #else /* Word 0 - Little Endian */
         uint64_t bulk_thresh           : 13; /**< [ 12:  0](R/W) Number of 128-bit words (16 bytes) to accumulate in the CMR TX Bulk FIFO before sending to MAC.
                                                                  This field should be large enough to prevent underflow on the packet interface.
-                                                                 In all modes, this field cannot exceed the TX FIFO depth configured by
-                                                                 RPM()_CMR_TX_LMACS[LMACS] (in terms of total bytes for each corresponding LMAC).
+                                                                 In all modes, this field cannot exceed the TX FIFO depth for this LMAC, determined by
+                                                                 RPM()_CMR_TX_LMACS (in terms of total bytes for each corresponding LMAC).
                                                                  This value needs to be at least 6, in order to assure that CMR does not
                                                                  introduce bubbles when feeding the MAC.
                                                                  Setting this value also needs to take into consideration the NIX-Tx behavior
@@ -12863,7 +11794,7 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_THRESH(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_RPMX_CMRX_TX_THRESH(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0005070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+        return 0x87e0e0005b20ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMRX_TX_THRESH", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -12873,6 +11804,49 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_THRESH(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_TX_THRESH(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_TX_THRESH(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_TX_THRESH(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_tx_user_pream_value
+ *
+ * User Preamble Tx value Register
+ * Override Value to push to MAC as User Preamble.
+ * When RPM()_CMR()_CONFIG[TX_USER_PREAM_OVRD] is 1, push this value to the MAC.
+ * Byte order: first network-order-Byte on the right side (lsb).
+ * This CSR is Not applied with USER_PREAM_BYTE_FLIP.
+ */
+union cavm_rpmx_cmrx_tx_user_pream_value
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_tx_user_pream_value_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sfd                   : 8;  /**< [ 63: 56](R/W) SFD value comes after the Preamble by network order. */
+        uint64_t preamble              : 48; /**< [ 55:  8](R/W) Last 6 Bytes of the Preamble. */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t preamble              : 48; /**< [ 55:  8](R/W) Last 6 Bytes of the Preamble. */
+        uint64_t sfd                   : 8;  /**< [ 63: 56](R/W) SFD value comes after the Preamble by network order. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_tx_user_pream_value_s cn; */
+};
+typedef union cavm_rpmx_cmrx_tx_user_pream_value cavm_rpmx_cmrx_tx_user_pream_value_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0005b28ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_CMRX_TX_USER_PREAM_VALUE", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(a,b) cavm_rpmx_cmrx_tx_user_pream_value_t
+#define bustype_CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(a,b) "RPMX_CMRX_TX_USER_PREAM_VALUE"
+#define device_bar_CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr_bad
@@ -12886,21 +11860,47 @@ union cavm_rpmx_cmr_bad
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t rxb_nxl_3             : 1;  /**< [  3:  3](R/W1C/H) LMAC 3 received traffic while RPM()_CMR_RX_LMACS \< 4, OR
-                                                                 RPM()_CMR_RX_LMACS value is illegal (\>4) */
-        uint64_t rxb_nxl_2             : 1;  /**< [  2:  2](R/W1C/H) LMAC 2 received traffic while RPM()_CMR_RX_LMACS \< 3, OR
-                                                                 RPM()_CMR_RX_LMACS value is illegal (\>4) */
-        uint64_t rxb_nxl_1             : 1;  /**< [  1:  1](R/W1C/H) LMAC 1 received traffic while RPM()_CMR_RX_LMACS \< 2, OR
-                                                                 RPM()_CMR_RX_LMACS value is illegal (\>4) */
-        uint64_t rxb_nxl_0             : 1;  /**< [  0:  0](R/W1C/H) RPM()_CMR_RX_LMACS value is illegal (\>4) */
+        uint64_t rxb_nxl_3             : 1;  /**< [  3:  3](R/W1C/H) RX channel was disabled during traffic from MAC[3].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
+        uint64_t rxb_nxl_2             : 1;  /**< [  2:  2](R/W1C/H) RX channel was disabled during traffic from MAC[2].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
+        uint64_t rxb_nxl_1             : 1;  /**< [  1:  1](R/W1C/H) RX channel was disabled during traffic from MAC[1].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
+        uint64_t rxb_nxl_0             : 1;  /**< [  0:  0](R/W1C/H) RX channel was disabled during traffic from MAC[0].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
 #else /* Word 0 - Little Endian */
-        uint64_t rxb_nxl_0             : 1;  /**< [  0:  0](R/W1C/H) RPM()_CMR_RX_LMACS value is illegal (\>4) */
-        uint64_t rxb_nxl_1             : 1;  /**< [  1:  1](R/W1C/H) LMAC 1 received traffic while RPM()_CMR_RX_LMACS \< 2, OR
-                                                                 RPM()_CMR_RX_LMACS value is illegal (\>4) */
-        uint64_t rxb_nxl_2             : 1;  /**< [  2:  2](R/W1C/H) LMAC 2 received traffic while RPM()_CMR_RX_LMACS \< 3, OR
-                                                                 RPM()_CMR_RX_LMACS value is illegal (\>4) */
-        uint64_t rxb_nxl_3             : 1;  /**< [  3:  3](R/W1C/H) LMAC 3 received traffic while RPM()_CMR_RX_LMACS \< 4, OR
-                                                                 RPM()_CMR_RX_LMACS value is illegal (\>4) */
+        uint64_t rxb_nxl_0             : 1;  /**< [  0:  0](R/W1C/H) RX channel was disabled during traffic from MAC[0].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
+        uint64_t rxb_nxl_1             : 1;  /**< [  1:  1](R/W1C/H) RX channel was disabled during traffic from MAC[1].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
+        uint64_t rxb_nxl_2             : 1;  /**< [  2:  2](R/W1C/H) RX channel was disabled during traffic from MAC[2].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
+        uint64_t rxb_nxl_3             : 1;  /**< [  3:  3](R/W1C/H) RX channel was disabled during traffic from MAC[3].
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST()==0 */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -12912,7 +11912,7 @@ static inline uint64_t CAVM_RPMX_CMR_BAD(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_RPMX_CMR_BAD(uint64_t a)
 {
     if (a<=8)
-        return 0x87e0e0005020ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0e0005d90ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_BAD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12934,7 +11934,8 @@ union cavm_rpmx_cmr_chan_msk_and
     struct cavm_rpmx_cmr_chan_msk_and_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with [MSK_AND]
+        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_AND]
                                                                  indicates backpressure as follows:
                                                                  _ phys_bp_msk_and = [MSK_AND]\<x:y\> != 0 && (chan_vector\<x:y\> & [MSK_AND]\<x:y\>) ==
                                                                  [MSK_AND]\<x:y\>
@@ -12946,7 +11947,8 @@ union cavm_rpmx_cmr_chan_msk_and
                                                                  _ LMAC 2: \<x:y\> = \<47:32\>.
                                                                  _ LMAC 3: \<x:y\> = \<63:48\>. */
 #else /* Word 0 - Little Endian */
-        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with [MSK_AND]
+        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_AND]
                                                                  indicates backpressure as follows:
                                                                  _ phys_bp_msk_and = [MSK_AND]\<x:y\> != 0 && (chan_vector\<x:y\> & [MSK_AND]\<x:y\>) ==
                                                                  [MSK_AND]\<x:y\>
@@ -12989,7 +11991,8 @@ union cavm_rpmx_cmr_chan_msk_or
     struct cavm_rpmx_cmr_chan_msk_or_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with [MSK_OR]
+        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_OR]
                                                                  indicates backpressure as follows:
 
                                                                  _ phys_bp_msk_or = (chan_vector\<x:y\> & [MSK_OR]\<x:y\>) != 0
@@ -13001,7 +12004,8 @@ union cavm_rpmx_cmr_chan_msk_or
                                                                  _ LMAC 2: \<x:y\> = \<47:32\>.
                                                                  _ LMAC 3: \<x:y\> = \<63:48\>. */
 #else /* Word 0 - Little Endian */
-        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with [MSK_OR]
+        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_OR]
                                                                  indicates backpressure as follows:
 
                                                                  _ phys_bp_msk_or = (chan_vector\<x:y\> & [MSK_OR]\<x:y\>) != 0
@@ -13059,7 +12063,7 @@ static inline uint64_t CAVM_RPMX_CMR_ECO_NCK(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RPMX_CMR_ECO_NCK(uint64_t a)
 {
     if (a<=8)
-        return 0x87e0e0005088ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0e0006000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_ECO_NCK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13119,7 +12123,12 @@ union cavm_rpmx_cmr_global_config
     struct cavm_rpmx_cmr_global_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t ts_val_fb_sync_en     : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 This should be kept 0 unless otherwise specified.
+                                                                 Set to 1 to use a simple feedback-based circuit to resync the timestamp towards MAC.
+                                                                 This is a safety measure, in case the proprietary circuit has issues. */
         uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only. */
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
                                                                  than four
@@ -13145,9 +12154,13 @@ union cavm_rpmx_cmr_global_config
                                                                  turning on clocks for the entire RPM. Setting this bit to 0 results in not overriding
                                                                  clock enables set by RPM()_CMR()_CONFIG[ENABLE] and
                                                                  RPM()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0 for RPM1 and RPM2. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 SerDes/GSER output select. Must be 0 for RPM1 and RPM2. */
 #else /* Word 0 - Little Endian */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0 for RPM1 and RPM2. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 SerDes/GSER output select. Must be 0 for RPM1 and RPM2. */
         uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for RPM. Setting this bit overrides clock enables set by
                                                                  RPM()_CMR()_CONFIG[ENABLE] and RPM()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire RPM. Setting this bit to 0 results in not overriding
@@ -13173,7 +12186,12 @@ union cavm_rpmx_cmr_global_config
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the RPM will not modify or remove the FCS bytes. */
         uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t ts_val_fb_sync_en     : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 This should be kept 0 unless otherwise specified.
+                                                                 Set to 1 to use a simple feedback-based circuit to resync the timestamp towards MAC.
+                                                                 This is a safety measure, in case the proprietary circuit has issues. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmr_global_config_s cn; */
@@ -13371,123 +12389,6 @@ static inline uint64_t CAVM_RPMX_CMR_MEM_INT_W1S(uint64_t a)
 #define arguments_CAVM_RPMX_CMR_MEM_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) rpm#_cmr_nic_nxc_adr
- *
- * RPM CMR NIC NXC Exception Registers
- */
-union cavm_rpmx_cmr_nic_nxc_adr
-{
-    uint64_t u;
-    struct cavm_rpmx_cmr_nic_nxc_adr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIC. */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC. */
-#else /* Word 0 - Little Endian */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC. */
-        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIC. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_nic_nxc_adr_s cn; */
-};
-typedef union cavm_rpmx_cmr_nic_nxc_adr cavm_rpmx_cmr_nic_nxc_adr_t;
-
-static inline uint64_t CAVM_RPMX_CMR_NIC_NXC_ADR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMR_NIC_NXC_ADR(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_CMR_NIC_NXC_ADR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMR_NIC_NXC_ADR(a) cavm_rpmx_cmr_nic_nxc_adr_t
-#define bustype_CAVM_RPMX_CMR_NIC_NXC_ADR(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMR_NIC_NXC_ADR(a) "RPMX_CMR_NIC_NXC_ADR"
-#define device_bar_CAVM_RPMX_CMR_NIC_NXC_ADR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMR_NIC_NXC_ADR(a) (a)
-#define arguments_CAVM_RPMX_CMR_NIC_NXC_ADR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_cmr_nix0_nxc_adr
- *
- * RPM CMR NIX0 NXC Exception Registers
- */
-union cavm_rpmx_cmr_nix0_nxc_adr
-{
-    uint64_t u;
-    struct cavm_rpmx_cmr_nix0_nxc_adr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIX0. */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0. */
-#else /* Word 0 - Little Endian */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0. */
-        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIX0. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_nix0_nxc_adr_s cn; */
-};
-typedef union cavm_rpmx_cmr_nix0_nxc_adr cavm_rpmx_cmr_nix0_nxc_adr_t;
-
-static inline uint64_t CAVM_RPMX_CMR_NIX0_NXC_ADR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMR_NIX0_NXC_ADR(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0001038ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_CMR_NIX0_NXC_ADR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMR_NIX0_NXC_ADR(a) cavm_rpmx_cmr_nix0_nxc_adr_t
-#define bustype_CAVM_RPMX_CMR_NIX0_NXC_ADR(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMR_NIX0_NXC_ADR(a) "RPMX_CMR_NIX0_NXC_ADR"
-#define device_bar_CAVM_RPMX_CMR_NIX0_NXC_ADR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMR_NIX0_NXC_ADR(a) (a)
-#define arguments_CAVM_RPMX_CMR_NIX0_NXC_ADR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_cmr_nix1_nxc_adr
- *
- * RPM CMR NIX1 NXC Exception Registers
- */
-union cavm_rpmx_cmr_nix1_nxc_adr
-{
-    uint64_t u;
-    struct cavm_rpmx_cmr_nix1_nxc_adr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIX1. */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1. */
-#else /* Word 0 - Little Endian */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1. */
-        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIX1. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_nix1_nxc_adr_s cn; */
-};
-typedef union cavm_rpmx_cmr_nix1_nxc_adr cavm_rpmx_cmr_nix1_nxc_adr_t;
-
-static inline uint64_t CAVM_RPMX_CMR_NIX1_NXC_ADR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMR_NIX1_NXC_ADR(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e0001040ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_CMR_NIX1_NXC_ADR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMR_NIX1_NXC_ADR(a) cavm_rpmx_cmr_nix1_nxc_adr_t
-#define bustype_CAVM_RPMX_CMR_NIX1_NXC_ADR(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMR_NIX1_NXC_ADR(a) "RPMX_CMR_NIX1_NXC_ADR"
-#define device_bar_CAVM_RPMX_CMR_NIX1_NXC_ADR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMR_NIX1_NXC_ADR(a) (a)
-#define arguments_CAVM_RPMX_CMR_NIX1_NXC_ADR(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) rpm#_cmr_p2x#_count
  *
  * RPM P2X Activity Register
@@ -13511,7 +12412,7 @@ static inline uint64_t CAVM_RPMX_CMR_P2XX_COUNT(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_RPMX_CMR_P2XX_COUNT(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=2))
-        return 0x87e0e0000168ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x3);
+        return 0x87e0e0000140ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMR_P2XX_COUNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -13521,6 +12422,123 @@ static inline uint64_t CAVM_RPMX_CMR_P2XX_COUNT(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMR_P2XX_COUNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMR_P2XX_COUNT(a,b) (a)
 #define arguments_CAVM_RPMX_CMR_P2XX_COUNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr_p2x_nic_nxc_adr
+ *
+ * INTERNAL: RPM CMR NIC NXC Exception Registers
+ */
+union cavm_rpmx_cmr_p2x_nic_nxc_adr
+{
+    uint64_t u;
+    struct cavm_rpmx_cmr_p2x_nic_nxc_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIC (see P2X_NIC_NXC) */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC (see P2X_NIC_NXC) */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC (see P2X_NIC_NXC) */
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIC (see P2X_NIC_NXC) */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_p2x_nic_nxc_adr_s cn; */
+};
+typedef union cavm_rpmx_cmr_p2x_nic_nxc_adr cavm_rpmx_cmr_p2x_nic_nxc_adr_t;
+
+static inline uint64_t CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("RPMX_CMR_P2X_NIC_NXC_ADR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(a) cavm_rpmx_cmr_p2x_nic_nxc_adr_t
+#define bustype_CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(a) "RPMX_CMR_P2X_NIC_NXC_ADR"
+#define device_bar_CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(a) (a)
+#define arguments_CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr_p2x_nix0_nxc_adr
+ *
+ * RPM CMR NIX0 NXC Exception Registers
+ */
+union cavm_rpmx_cmr_p2x_nix0_nxc_adr
+{
+    uint64_t u;
+    struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC) */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC) */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC) */
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC) */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cn; */
+};
+typedef union cavm_rpmx_cmr_p2x_nix0_nxc_adr cavm_rpmx_cmr_p2x_nix0_nxc_adr_t;
+
+static inline uint64_t CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0e0001038ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("RPMX_CMR_P2X_NIX0_NXC_ADR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(a) cavm_rpmx_cmr_p2x_nix0_nxc_adr_t
+#define bustype_CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(a) "RPMX_CMR_P2X_NIX0_NXC_ADR"
+#define device_bar_CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(a) (a)
+#define arguments_CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr_p2x_nix1_nxc_adr
+ *
+ * INTERNAL: RPM CMR NIX1 NXC Exception Registers
+ */
+union cavm_rpmx_cmr_p2x_nix1_nxc_adr
+{
+    uint64_t u;
+    struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s cn; */
+};
+typedef union cavm_rpmx_cmr_p2x_nix1_nxc_adr cavm_rpmx_cmr_p2x_nix1_nxc_adr_t;
+
+static inline uint64_t CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e0e0001040ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("RPMX_CMR_P2X_NIX1_NXC_ADR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) cavm_rpmx_cmr_p2x_nix1_nxc_adr_t
+#define bustype_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) "RPMX_CMR_P2X_NIX1_NXC_ADR"
+#define device_bar_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) (a)
+#define arguments_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rpm#_cmr_rx_dmac#_cam0
@@ -13582,7 +12600,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_DMACX_CAM0(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_CMR_RX_DMACX_CAM0(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=31))
-        return 0x87e0e0004200ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1f);
+        return 0x87e0e0005000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("RPMX_CMR_RX_DMACX_CAM0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -13604,47 +12622,49 @@ union cavm_rpmx_cmr_rx_lmacs
     struct cavm_rpmx_cmr_rx_lmacs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t lmacs                 : 3;  /**< [  2:  0](R/W) Number of LMACS. Specifies the number of LMACs that can be enabled.
-                                                                 This determines the logical RX buffer size per LMAC and the maximum
-                                                                 LMAC ID that can be used:
+        uint64_t reserved_6_63         : 58;
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when RPM_CMR_RX_LMACS[LMAC_EXIST]==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Rx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Rx traffic.
+                                                                 This also determines the logical RX buffer size assigned to each LMAC.
 
-                                                                 0x0 = Reserved.
-                                                                 0x1 = RPM()_CONST[RX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = RPM()_CONST[RX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = RPM()_CONST[RX_FIFOSZ]/2 bytes for LMAC 0,
-                                                                       RPM()_CONST[RX_FIFOSZ]/4 bytes for LMAC 1, 2. maximum LMAC ID is 2.
-                                                                 0x4 = RPM()_CONST[RX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
-                                                                 0x5-0x7 = Reserved.
-
-                                                                 Note the maximum LMAC ID is determined by the smaller of
-                                                                 RPM()_CMR_RX_LMACS[LMACS] and RPM()_CMR_TX_LMACS[LMACS]. The two fields
-                                                                 should be set to the same value for normal operation.
+                                                                 When all bits are 0: no LMAC may be enabled for Rx traffic.
+                                                                 When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[RX_FIFOSZ] bytes).
+                                                                 When 2 LMACs exist: RPM()_CONST[RX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 When 3 LMACs exist: RPM_CMR_RX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[RX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[RX_FIFOSZ]/4 bytes bytes assigned to the other 2 existing LMACs.
+                                                                 When all 4 LMACs exist: RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned per LMAC.
 
                                                                  To be able to change the number of LMACs without affecting currently
                                                                  active LMACs, this should be set to the maximum number of possible
                                                                  LMACs desired in any re-configuration. */
 #else /* Word 0 - Little Endian */
-        uint64_t lmacs                 : 3;  /**< [  2:  0](R/W) Number of LMACS. Specifies the number of LMACs that can be enabled.
-                                                                 This determines the logical RX buffer size per LMAC and the maximum
-                                                                 LMAC ID that can be used:
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Rx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Rx traffic.
+                                                                 This also determines the logical RX buffer size assigned to each LMAC.
 
-                                                                 0x0 = Reserved.
-                                                                 0x1 = RPM()_CONST[RX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = RPM()_CONST[RX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = RPM()_CONST[RX_FIFOSZ]/2 bytes for LMAC 0,
-                                                                       RPM()_CONST[RX_FIFOSZ]/4 bytes for LMAC 1, 2. maximum LMAC ID is 2.
-                                                                 0x4 = RPM()_CONST[RX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
-                                                                 0x5-0x7 = Reserved.
-
-                                                                 Note the maximum LMAC ID is determined by the smaller of
-                                                                 RPM()_CMR_RX_LMACS[LMACS] and RPM()_CMR_TX_LMACS[LMACS]. The two fields
-                                                                 should be set to the same value for normal operation.
+                                                                 When all bits are 0: no LMAC may be enabled for Rx traffic.
+                                                                 When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[RX_FIFOSZ] bytes).
+                                                                 When 2 LMACs exist: RPM()_CONST[RX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 When 3 LMACs exist: RPM_CMR_RX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[RX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[RX_FIFOSZ]/4 bytes bytes assigned to the other 2 existing LMACs.
+                                                                 When all 4 LMACs exist: RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned per LMAC.
 
                                                                  To be able to change the number of LMACs without affecting currently
                                                                  active LMACs, this should be set to the maximum number of possible
                                                                  LMACs desired in any re-configuration. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when RPM_CMR_RX_LMACS[LMAC_EXIST]==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmr_rx_lmacs_s cn; */
@@ -13679,13 +12699,13 @@ union cavm_rpmx_cmr_rx_ovr_bp
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override, for Link Pause mode only.
+        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override (for Link Pause mode only).
                                                                  0 = Don't enable.
                                                                  1 = Enable override.
 
                                                                  Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3.
                                                                  When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
-        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only):
+        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only).
                                                                  0 = LMAC is available.
                                                                  1 = LMAC should be backpressured.
 
@@ -13708,13 +12728,13 @@ union cavm_rpmx_cmr_rx_ovr_bp
                                                                  When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
                                                                  all xoff_gen[15:0] bits to be asserted,
                                                                  if the respective bit in PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
-        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only):
+        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only).
                                                                  0 = LMAC is available.
                                                                  1 = LMAC should be backpressured.
 
                                                                  Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3.
                                                                  When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
-        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override, for Link Pause mode only.
+        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override (for Link Pause mode only).
                                                                  0 = Don't enable.
                                                                  1 = Enable override.
 
@@ -13731,7 +12751,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_OVR_BP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_RPMX_CMR_RX_OVR_BP(uint64_t a)
 {
     if (a<=8)
-        return 0x87e0e0004130ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0e0004120ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_RX_OVR_BP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13814,7 +12834,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING0X(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_CMR_RX_STEERING0X(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=7))
-        return 0x87e0e0004300ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
+        return 0x87e0e0005800ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RPMX_CMR_RX_STEERING0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -13857,7 +12877,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_DEFAULT0(uint64_t a) __attribut
 static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_DEFAULT0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e0e00043f0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e0e0005900ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_RX_STEERING_DEFAULT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13916,7 +12936,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(uint64_t a, uint64_t b
 static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=7))
-        return 0x87e0e0004380ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
+        return 0x87e0e0005880ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RPMX_CMR_RX_STEERING_VETYPE0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -13940,47 +12960,49 @@ union cavm_rpmx_cmr_tx_lmacs
     struct cavm_rpmx_cmr_tx_lmacs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t lmacs                 : 3;  /**< [  2:  0](R/W) Number of LMACS: Specifies the number of LMACs that can be enabled.
-                                                                 This determines the logical TX buffer size per LMAC and the maximum
-                                                                 LMAC ID that can be used:
+        uint64_t reserved_6_63         : 58;
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when RPM_CMR_TX_LMACS[LMAC_EXIST]==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Tx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Tx traffic.
+                                                                 This also determines the logical TX buffer size assigned to each LMAC.
 
-                                                                 0x0 = Reserved.
-                                                                 0x1 = RPM()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = RPM()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = RPM()_CONST[TX_FIFOSZ]/2 bytes for LMAC 0,
-                                                                       RPM()_CONST[TX_FIFOSZ]/4 bytes for LMAC 1, 2. maximum LMAC ID is 2.
-                                                                 0x4 = RPM()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
-                                                                 0x5-0x7 = Reserved.
-
-                                                                 Note the maximum LMAC ID is determined by the smaller of
-                                                                 RPM()_CMR_RX_LMACS[LMACS] and RPM()_CMR_TX_LMACS[LMACS]. The two fields
-                                                                 should be set to the same value for normal operation.
+                                                                 When all bits are 0: no LMAC may be enabled for Tx traffic.
+                                                                 When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[TX_FIFOSZ] bytes).
+                                                                 When 2 LMACs exist: RPM()_CONST[TX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 When 3 LMACs exist: RPM_CMR_TX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[TX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[TX_FIFOSZ]/4 bytes bytes assigned to the other 2 existing LMACs.
+                                                                 When all 4 LMACs exist: RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned per LMAC.
 
                                                                  To be able to change the number of LMACs without affecting currently
                                                                  active LMACs, this should be set to the maximum number of possible
                                                                  LMACs desired in any re-configuration. */
 #else /* Word 0 - Little Endian */
-        uint64_t lmacs                 : 3;  /**< [  2:  0](R/W) Number of LMACS: Specifies the number of LMACs that can be enabled.
-                                                                 This determines the logical TX buffer size per LMAC and the maximum
-                                                                 LMAC ID that can be used:
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Tx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Tx traffic.
+                                                                 This also determines the logical TX buffer size assigned to each LMAC.
 
-                                                                 0x0 = Reserved.
-                                                                 0x1 = RPM()_CONST[TX_FIFOSZ] bytes per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = RPM()_CONST[TX_FIFOSZ]/2 bytes per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = RPM()_CONST[TX_FIFOSZ]/2 bytes for LMAC 0,
-                                                                       RPM()_CONST[TX_FIFOSZ]/4 bytes for LMAC 1, 2. maximum LMAC ID is 2.
-                                                                 0x4 = RPM()_CONST[TX_FIFOSZ]/4 bytes per LMAC, maximum LMAC ID is 3.
-                                                                 0x5-0x7 = Reserved.
-
-                                                                 Note the maximum LMAC ID is determined by the smaller of
-                                                                 RPM()_CMR_RX_LMACS[LMACS] and RPM()_CMR_TX_LMACS[LMACS]. The two fields
-                                                                 should be set to the same value for normal operation.
+                                                                 When all bits are 0: no LMAC may be enabled for Tx traffic.
+                                                                 When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[TX_FIFOSZ] bytes).
+                                                                 When 2 LMACs exist: RPM()_CONST[TX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 When 3 LMACs exist: RPM_CMR_TX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[TX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[TX_FIFOSZ]/4 bytes bytes assigned to the other 2 existing LMACs.
+                                                                 When all 4 LMACs exist: RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned per LMAC.
 
                                                                  To be able to change the number of LMACs without affecting currently
                                                                  active LMACs, this should be set to the maximum number of possible
                                                                  LMACs desired in any re-configuration. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when RPM_CMR_TX_LMACS[LMAC_EXIST]==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmr_tx_lmacs_s cn; */
@@ -14026,7 +13048,7 @@ static inline uint64_t CAVM_RPMX_CMR_X2PX_COUNT(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_RPMX_CMR_X2PX_COUNT(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=2))
-        return 0x87e0e0000170ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x3);
+        return 0x87e0e0000160ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RPMX_CMR_X2PX_COUNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14052,16 +13074,16 @@ union cavm_rpmx_const
         uint64_t ver                   : 8;  /**< [ 63: 56](RO) 0 - CGX
                                                                  1 - RPM 1.0 */
         uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of receive buffering in entire RPM. This buffering may be split
-                                                                 between LMACs; see RPM()_CMR_RX_LMACS[LMACS]. */
+                                                                 between LMACs; see RPM()_CMR_RX_LMACS. */
         uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
         uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RPM. This buffering may be split
-                                                                 between LMACs; see RPM()_CMR_TX_LMACS[LMACS]. */
+                                                                 between LMACs; see RPM()_CMR_TX_LMACS. */
 #else /* Word 0 - Little Endian */
         uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RPM. This buffering may be split
-                                                                 between LMACs; see RPM()_CMR_TX_LMACS[LMACS]. */
+                                                                 between LMACs; see RPM()_CMR_TX_LMACS. */
         uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
         uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of receive buffering in entire RPM. This buffering may be split
-                                                                 between LMACs; see RPM()_CMR_RX_LMACS[LMACS]. */
+                                                                 between LMACs; see RPM()_CMR_RX_LMACS. */
         uint64_t ver                   : 8;  /**< [ 63: 56](RO) 0 - CGX
                                                                  1 - RPM 1.0 */
 #endif /* Word 0 - End */
@@ -14701,133 +13723,133 @@ union cavm_rpmx_ext_mti_global_reset_control
     struct cavm_rpmx_ext_mti_global_reset_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 27: 24](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sd_tx_clk[3:0] */
-        uint64_t reserved_20_23        : 4;
-        uint64_t serdes_rx_reset       : 4;  /**< [ 19: 16](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sd_rx_clk[3:0] */
-        uint64_t reserved_15           : 1;
-        uint64_t reg_reset             : 1;  /**< [ 14: 14](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+        uint64_t reserved_33_63        : 31;
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_reg_clk */
-        uint64_t lpcs_reset            : 1;  /**< [ 13: 13](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sgref_ref_clk */
-        uint64_t reserved_11_12        : 2;
-        uint64_t pcs_reset             : 1;  /**< [ 10: 10](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_xpcs_ref_clk[0] */
-        uint64_t fec91_reset           : 1;  /**< [  9:  9](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_f91_ref_clk */
-        uint64_t mac_pcs_cmn_reset     : 1;  /**< [  8:  8](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_ref_clk */
-        uint64_t reserved_4_7          : 4;
-        uint64_t mac_reset             : 4;  /**< [  3:  0](R/W) MAC logic reset. Active high. For diagnostic use only.
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sgref_ref_clk */
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_f91_ref_clk */
+        uint64_t reserved_28           : 1;
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_xpcs_ref_clk[0] */
+        uint64_t reserved_20_26        : 7;
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
+        uint64_t reserved_12_15        : 4;
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sd_tx_clk[3:0] */
+        uint64_t reserved_4_7          : 4;
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sd_rx_clk[3:0] */
 #else /* Word 0 - Little Endian */
-        uint64_t mac_reset             : 4;  /**< [  3:  0](R/W) MAC logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
-        uint64_t reserved_4_7          : 4;
-        uint64_t mac_pcs_cmn_reset     : 1;  /**< [  8:  8](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_ref_clk */
-        uint64_t fec91_reset           : 1;  /**< [  9:  9](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_f91_ref_clk */
-        uint64_t pcs_reset             : 1;  /**< [ 10: 10](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_xpcs_ref_clk[0] */
-        uint64_t reserved_11_12        : 2;
-        uint64_t lpcs_reset            : 1;  /**< [ 13: 13](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sgref_ref_clk */
-        uint64_t reg_reset             : 1;  /**< [ 14: 14](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_reg_clk */
-        uint64_t reserved_15           : 1;
-        uint64_t serdes_rx_reset       : 4;  /**< [ 19: 16](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_sd_rx_clk[3:0] */
-        uint64_t reserved_20_23        : 4;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 27: 24](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+        uint64_t reserved_4_7          : 4;
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_sd_tx_clk[3:0] */
-        uint64_t reserved_28_63        : 36;
+        uint64_t reserved_12_15        : 4;
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
+        uint64_t reserved_20_26        : 7;
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_xpcs_ref_clk[0] */
+        uint64_t reserved_28           : 1;
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_f91_ref_clk */
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sgref_ref_clk */
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_ref_clk */
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_reg_clk */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     struct cavm_rpmx_ext_mti_global_reset_control_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_28_31        : 4;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 27: 24](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sd_tx_clk[3:0] */
-        uint64_t reserved_20_23        : 4;
-        uint64_t serdes_rx_reset       : 4;  /**< [ 19: 16](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sd_rx_clk[3:0] */
-        uint64_t reserved_15           : 1;
-        uint64_t reg_reset             : 1;  /**< [ 14: 14](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+        uint64_t reserved_33_63        : 31;
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_reg_clk */
-        uint64_t lpcs_reset            : 1;  /**< [ 13: 13](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sgref_ref_clk */
-        uint64_t reserved_12           : 1;
-        uint64_t reserved_11           : 1;
-        uint64_t pcs_reset             : 1;  /**< [ 10: 10](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_xpcs_ref_clk[0] */
-        uint64_t fec91_reset           : 1;  /**< [  9:  9](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_f91_ref_clk */
-        uint64_t mac_pcs_cmn_reset     : 1;  /**< [  8:  8](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_ref_clk */
-        uint64_t reserved_4_7          : 4;
-        uint64_t mac_reset             : 4;  /**< [  3:  0](R/W) MAC logic reset. Active high. For diagnostic use only.
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sgref_ref_clk */
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_f91_ref_clk */
+        uint64_t reserved_28           : 1;
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_xpcs_ref_clk[0] */
+        uint64_t reserved_26           : 1;
+        uint64_t reserved_24_25        : 2;
+        uint64_t reserved_20_23        : 4;
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
+        uint64_t reserved_12_15        : 4;
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sd_tx_clk[3:0] */
+        uint64_t reserved_4_7          : 4;
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sd_rx_clk[3:0] */
 #else /* Word 0 - Little Endian */
-        uint64_t mac_reset             : 4;  /**< [  3:  0](R/W) MAC logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
-        uint64_t reserved_4_7          : 4;
-        uint64_t mac_pcs_cmn_reset     : 1;  /**< [  8:  8](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_ref_clk */
-        uint64_t fec91_reset           : 1;  /**< [  9:  9](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_f91_ref_clk */
-        uint64_t pcs_reset             : 1;  /**< [ 10: 10](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_xpcs_ref_clk[0] */
-        uint64_t reserved_11           : 1;
-        uint64_t reserved_12           : 1;
-        uint64_t lpcs_reset            : 1;  /**< [ 13: 13](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_sgref_ref_clk */
-        uint64_t reg_reset             : 1;  /**< [ 14: 14](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
-                                                                 Internal:
-                                                                 reset_reg_clk */
-        uint64_t reserved_15           : 1;
-        uint64_t serdes_rx_reset       : 4;  /**< [ 19: 16](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_sd_rx_clk[3:0] */
-        uint64_t reserved_20_23        : 4;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 27: 24](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+        uint64_t reserved_4_7          : 4;
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
                                                                  Internal:
                                                                  reset_sd_tx_clk[3:0] */
-        uint64_t reserved_28_31        : 4;
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_12_15        : 4;
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
+        uint64_t reserved_20_23        : 4;
+        uint64_t reserved_24_25        : 2;
+        uint64_t reserved_26           : 1;
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_xpcs_ref_clk[0] */
+        uint64_t reserved_28           : 1;
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_f91_ref_clk */
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_sgref_ref_clk */
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_ref_clk */
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+                                                                 Internal:
+                                                                 reset_reg_clk */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -15056,134 +14078,291 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_FRC_DELTA(uint64_t a, uint64_t b)
 #define arguments_CAVM_RPMX_EXT_MTI_PORTX_FRC_DELTA(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) rpm#_ext_mti_port#_interrupt_cause
+ * Register (RSL) rpm#_ext_mti_port#_int
  *
- * RPM Ext MTI Port Interrupt Cause Register
- * Port Interrupts, such as link/lock change, faults presence, FIFO over/underrun, etc.
+ * RPM Ext MTI Interrupt Clear Register
  */
-union cavm_rpmx_ext_mti_portx_interrupt_cause
+union cavm_rpmx_ext_mti_portx_int
 {
     uint64_t u;
-    struct cavm_rpmx_ext_mti_portx_interrupt_cause_s
+    struct cavm_rpmx_ext_mti_portx_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t tsd_non_accurate_ptp  : 1;  /**< [ 15: 15](R/W) Accurate PTP arrived when the logic was busy with previous PTP and therefore did
-                                                                 not handle this packet in the accurate manner. */
-        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W) Synchronization error occurred. The TSU FSM could not lock to the cw or marker
-                                                                 strobes, or synchronization was lost */
-        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W) Error detected in the alignment marker synchronization */
-        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W) Internal TSu FIFO error detected */
-        uint64_t ff_rx_rdy             : 1;  /**< [ 11: 11](R/W) Rises when RX application is receptive.
-                                                                 **Should be masked. Only for debug purpose** */
-        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W) Rises when High Bit Error Rate measured, */
-        uint64_t rx_overrun            : 1;  /**< [  9:  9](R/W) Rises when MAC RX fifo gets overflowed due to application Back Pressure. */
-        uint64_t mac_tx_ovr_err        : 1;  /**< [  8:  8](R/W) Rises when MAC TX fifo gets overflowed,
-                                                                 can happen when MAC TX ready is not respected. */
-        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W) Rises when TX underflow occurs.
-                                                                 MAC fifo gets empty during packet transmission.
-                                                                 In such a case, the MAC drains the rest of the packet,
-                                                                 and stays in underflow state until EOP arrives.
-                                                                 NOTE: behavior of segmented (Seg Port Interrupt) is different. */
-        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W) Rises when link interruption fault observed on the RX MII. */
-        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W) Rises when remote fault observed on the RX MII. */
-        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W) Rises when local fault observed on the RX MII. */
-        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W) Rises when lpcs_link_status changed. */
-        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W) Rises when link_status changed.
-                                                                 link_status = PCS aligned and locked + no high ber/ser. */
-        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W) Rises when link_ok changed,
-                                                                 link_ok = link_status AND no fault presence on the RX MII. */
-        uint64_t port0_interrupt_cause_int_sum : 1;/**< [  0:  0](RO/H) Interrupt cause summary, rises upon rise of an unmasked interrupt. */
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1C/H) TSU TX synchronization error.
+                                                                 Set when the TSU FSM could not lock to the CW or marker strobes, or
+                                                                 synchronization was lost. May occur during PCS reconfiguration. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1C/H) TSU RX alignment marker synchronization error. */
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1C/H) TSU internal FIFO error. */
+        uint64_t reserved_11           : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1C/H) High bit error rate indication.
+                                                                 Set when excessive sync header errors have been received and the link is non-operational. */
+        uint64_t reserved_9            : 1;
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1C/H) MAC TX FIFO overflow. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1C/H) MAC TX FIFO underflow.
+                                                                 Set when the MAC FIFO gets empty during packet transmission. In such a case, the
+                                                                 MAC drains the rest of the packet, and stays in underflow state until EOP
+                                                                 arrives. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1C/H) MAC link interruption fault.
+                                                                 Set when link interruption fault sequences are observed on the RX MII.
+                                                                 Only valid in 10G/25G XGMII mode of operation. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1C/H) MAC remote fault.
+                                                                 Set when remote fault sequences are observed on the RX MII. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1C/H) MAC local fault.
+                                                                 Set when local fault sequences are observed on the RX MII. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1C/H) Set when RPM_EXT_MTI_PORT()_STATUS[LPCS_LINK_STATUS] changes. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1C/H) Set when RPM_EXT_MTI_PORT()_STATUS[LINK_STATUS] changes. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1C/H) Set when RPM_EXT_MTI_PORT()_STATUS[LINK_OK] changes. */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1C/H) LPCS Autonegotiation done.
+                                                                 Set when RPM_EXT_MTI_PORT()_STATUS[LPCS_AN_DONE] is set, indicating that
+                                                                 autonegotiation has completed. This indicates the AN SM reached LINK_OK. */
 #else /* Word 0 - Little Endian */
-        uint64_t port0_interrupt_cause_int_sum : 1;/**< [  0:  0](RO/H) Interrupt cause summary, rises upon rise of an unmasked interrupt. */
-        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W) Rises when link_ok changed,
-                                                                 link_ok = link_status AND no fault presence on the RX MII. */
-        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W) Rises when link_status changed.
-                                                                 link_status = PCS aligned and locked + no high ber/ser. */
-        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W) Rises when lpcs_link_status changed. */
-        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W) Rises when local fault observed on the RX MII. */
-        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W) Rises when remote fault observed on the RX MII. */
-        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W) Rises when link interruption fault observed on the RX MII. */
-        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W) Rises when TX underflow occurs.
-                                                                 MAC fifo gets empty during packet transmission.
-                                                                 In such a case, the MAC drains the rest of the packet,
-                                                                 and stays in underflow state until EOP arrives.
-                                                                 NOTE: behavior of segmented (Seg Port Interrupt) is different. */
-        uint64_t mac_tx_ovr_err        : 1;  /**< [  8:  8](R/W) Rises when MAC TX fifo gets overflowed,
-                                                                 can happen when MAC TX ready is not respected. */
-        uint64_t rx_overrun            : 1;  /**< [  9:  9](R/W) Rises when MAC RX fifo gets overflowed due to application Back Pressure. */
-        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W) Rises when High Bit Error Rate measured, */
-        uint64_t ff_rx_rdy             : 1;  /**< [ 11: 11](R/W) Rises when RX application is receptive.
-                                                                 **Should be masked. Only for debug purpose** */
-        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W) Internal TSu FIFO error detected */
-        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W) Error detected in the alignment marker synchronization */
-        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W) Synchronization error occurred. The TSU FSM could not lock to the cw or marker
-                                                                 strobes, or synchronization was lost */
-        uint64_t tsd_non_accurate_ptp  : 1;  /**< [ 15: 15](R/W) Accurate PTP arrived when the logic was busy with previous PTP and therefore did
-                                                                 not handle this packet in the accurate manner. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1C/H) LPCS Autonegotiation done.
+                                                                 Set when RPM_EXT_MTI_PORT()_STATUS[LPCS_AN_DONE] is set, indicating that
+                                                                 autonegotiation has completed. This indicates the AN SM reached LINK_OK. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1C/H) Set when RPM_EXT_MTI_PORT()_STATUS[LINK_OK] changes. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1C/H) Set when RPM_EXT_MTI_PORT()_STATUS[LINK_STATUS] changes. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1C/H) Set when RPM_EXT_MTI_PORT()_STATUS[LPCS_LINK_STATUS] changes. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1C/H) MAC local fault.
+                                                                 Set when local fault sequences are observed on the RX MII. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1C/H) MAC remote fault.
+                                                                 Set when remote fault sequences are observed on the RX MII. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1C/H) MAC link interruption fault.
+                                                                 Set when link interruption fault sequences are observed on the RX MII.
+                                                                 Only valid in 10G/25G XGMII mode of operation. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1C/H) MAC TX FIFO underflow.
+                                                                 Set when the MAC FIFO gets empty during packet transmission. In such a case, the
+                                                                 MAC drains the rest of the packet, and stays in underflow state until EOP
+                                                                 arrives. */
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1C/H) MAC TX FIFO overflow. */
+        uint64_t reserved_9            : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1C/H) High bit error rate indication.
+                                                                 Set when excessive sync header errors have been received and the link is non-operational. */
+        uint64_t reserved_11           : 1;
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1C/H) TSU internal FIFO error. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1C/H) TSU RX alignment marker synchronization error. */
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1C/H) TSU TX synchronization error.
+                                                                 Set when the TSU FSM could not lock to the CW or marker strobes, or
+                                                                 synchronization was lost. May occur during PCS reconfiguration. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_ext_mti_portx_interrupt_cause_s cn; */
+    /* struct cavm_rpmx_ext_mti_portx_int_s cn; */
 };
-typedef union cavm_rpmx_ext_mti_portx_interrupt_cause cavm_rpmx_ext_mti_portx_interrupt_cause_t;
+typedef union cavm_rpmx_ext_mti_portx_int cavm_rpmx_ext_mti_portx_int_t;
 
-static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0051028ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE", 2, a, b, 0, 0, 0, 0);
+        return 0x87e0e0051800ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_EXT_MTI_PORTX_INT", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(a,b) cavm_rpmx_ext_mti_portx_interrupt_cause_t
-#define bustype_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(a,b) "RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE"
-#define device_bar_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(a,b) (a)
-#define arguments_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_CAUSE(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RPMX_EXT_MTI_PORTX_INT(a,b) cavm_rpmx_ext_mti_portx_int_t
+#define bustype_CAVM_RPMX_EXT_MTI_PORTX_INT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_EXT_MTI_PORTX_INT(a,b) "RPMX_EXT_MTI_PORTX_INT"
+#define device_bar_CAVM_RPMX_EXT_MTI_PORTX_INT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_EXT_MTI_PORTX_INT(a,b) (a)
+#define arguments_CAVM_RPMX_EXT_MTI_PORTX_INT(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) rpm#_ext_mti_port#_interrupt_mask
+ * Register (RSL) rpm#_ext_mti_port#_int_ena_w1c
  *
- * RPM Ext MTI Port Interrupt Mask Register
- * Per port interrupt mask.
+ * RPM Ext MTI Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
  */
-union cavm_rpmx_ext_mti_portx_interrupt_mask
+union cavm_rpmx_ext_mti_portx_int_ena_w1c
 {
     uint64_t u;
-    struct cavm_rpmx_ext_mti_portx_interrupt_mask_s
+    struct cavm_rpmx_ext_mti_portx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t interrupt_mask        : 15; /**< [ 15:  1](R/W) Mask for Port 0 Interrupt Cause.
-                                                                 *See cause register for specific masking instructions. */
-        uint64_t reserved_0            : 1;
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t reserved_11           : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[HI_BER]. */
+        uint64_t reserved_9            : 1;
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LOC_FAULT]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_OK_CHANGE]. */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_AN_DONE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t interrupt_mask        : 15; /**< [ 15:  1](R/W) Mask for Port 0 Interrupt Cause.
-                                                                 *See cause register for specific masking instructions. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_AN_DONE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_OK_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LOC_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t reserved_9            : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[HI_BER]. */
+        uint64_t reserved_11           : 1;
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_ext_mti_portx_interrupt_mask_s cn; */
+    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_s cn; */
 };
-typedef union cavm_rpmx_ext_mti_portx_interrupt_mask cavm_rpmx_ext_mti_portx_interrupt_mask_t;
+typedef union cavm_rpmx_ext_mti_portx_int_ena_w1c cavm_rpmx_ext_mti_portx_int_ena_w1c_t;
 
-static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if ((a<=8) && (b<=3))
-        return 0x87e0e0051030ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_EXT_MTI_PORTX_INTERRUPT_MASK", 2, a, b, 0, 0, 0, 0);
+        return 0x87e0e0051810ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_EXT_MTI_PORTX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(a,b) cavm_rpmx_ext_mti_portx_interrupt_mask_t
-#define bustype_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(a,b) "RPMX_EXT_MTI_PORTX_INTERRUPT_MASK"
-#define device_bar_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(a,b) (a)
-#define arguments_CAVM_RPMX_EXT_MTI_PORTX_INTERRUPT_MASK(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(a,b) cavm_rpmx_ext_mti_portx_int_ena_w1c_t
+#define bustype_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(a,b) "RPMX_EXT_MTI_PORTX_INT_ENA_W1C"
+#define device_bar_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_ext_mti_port#_int_ena_w1s
+ *
+ * RPM Ext MTI Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_rpmx_ext_mti_portx_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_rpmx_ext_mti_portx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t reserved_11           : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[HI_BER]. */
+        uint64_t reserved_9            : 1;
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LOC_FAULT]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_OK_CHANGE]. */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_AN_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_AN_DONE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_OK_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LOC_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t reserved_9            : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[HI_BER]. */
+        uint64_t reserved_11           : 1;
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_s cn; */
+};
+typedef union cavm_rpmx_ext_mti_portx_int_ena_w1s cavm_rpmx_ext_mti_portx_int_ena_w1s_t;
+
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0051818ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_EXT_MTI_PORTX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(a,b) cavm_rpmx_ext_mti_portx_int_ena_w1s_t
+#define bustype_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(a,b) "RPMX_EXT_MTI_PORTX_INT_ENA_W1S"
+#define device_bar_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_ext_mti_port#_int_w1s
+ *
+ * RPM Ext MTI Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_rpmx_ext_mti_portx_int_w1s
+{
+    uint64_t u;
+    struct cavm_rpmx_ext_mti_portx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t reserved_11           : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[HI_BER]. */
+        uint64_t reserved_9            : 1;
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LOC_FAULT]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_OK_CHANGE]. */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_AN_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_AN_DONE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_OK_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LOC_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t reserved_9            : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[HI_BER]. */
+        uint64_t reserved_11           : 1;
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_ext_mti_portx_int_w1s_s cn; */
+};
+typedef union cavm_rpmx_ext_mti_portx_int_w1s cavm_rpmx_ext_mti_portx_int_w1s_t;
+
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(uint64_t a, uint64_t b)
+{
+    if ((a<=8) && (b<=3))
+        return 0x87e0e0051808ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_EXT_MTI_PORTX_INT_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(a,b) cavm_rpmx_ext_mti_portx_int_w1s_t
+#define bustype_CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(a,b) "RPMX_EXT_MTI_PORTX_INT_W1S"
+#define device_bar_CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(a,b) (a)
+#define arguments_CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_ext_mti_port#_marker_status
@@ -15301,8 +14480,7 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_PAUSE_AND_ERR_STAT(uint64_t a, ui
  * Register (RSL) rpm#_ext_mti_port#_pause_override
  *
  * RPM Ext MTI Port Pause Override Register
- * RX pause override.
- * Can override RX pause indications towards FCU RX (Non-segmented ports).
+ * RX pause override. Can override RX pause indications towards CMR.
  */
 union cavm_rpmx_ext_mti_portx_pause_override
 {
@@ -15311,19 +14489,17 @@ union cavm_rpmx_ext_mti_portx_pause_override
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t pause_override_val    : 16; /**< [ 31: 16](R/W) Per priority override value.
-                                                                 When the corresponding control is set, this value will be transmitted to the RX
-                                                                 FCU as the value of the priority.
-                                                                 Inapplicable when the corresponding control is not set. */
+        uint64_t pause_override_val    : 16; /**< [ 31: 16](R/W) Per priority override value. When a corresponding bit of PAUSE_OVERRIDE_CTRL is
+                                                                 set, this value will be transmitted to the CMR as the pause value of the
+                                                                 priority. */
         uint64_t pause_override_ctrl   : 16; /**< [ 15:  0](R/W) Per-priority override control.
-                                                                 bit[N] = 1: the pause value for priority N is taken from pause_override_val[N]. */
+                                                                 bit[n] = 1: the pause value for priority n is taken from PAUSE_OVERRIDE_VAL[n]. */
 #else /* Word 0 - Little Endian */
         uint64_t pause_override_ctrl   : 16; /**< [ 15:  0](R/W) Per-priority override control.
-                                                                 bit[N] = 1: the pause value for priority N is taken from pause_override_val[N]. */
-        uint64_t pause_override_val    : 16; /**< [ 31: 16](R/W) Per priority override value.
-                                                                 When the corresponding control is set, this value will be transmitted to the RX
-                                                                 FCU as the value of the priority.
-                                                                 Inapplicable when the corresponding control is not set. */
+                                                                 bit[n] = 1: the pause value for priority n is taken from PAUSE_OVERRIDE_VAL[n]. */
+        uint64_t pause_override_val    : 16; /**< [ 31: 16](R/W) Per priority override value. When a corresponding bit of PAUSE_OVERRIDE_CTRL is
+                                                                 set, this value will be transmitted to the CMR as the pause value of the
+                                                                 priority. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -16143,8 +15319,7 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_STATUS(uint64_t a, uint64_t b
  * Register (RSL) rpm#_ext_mti_port#_xoff_override
  *
  * RPM Ext MTI Port Xoff Override Register
- * TX pause override.
- * Can override TX pause generation indications towards MAC (Non-segmented ports).
+ * TX pause override. Can override TX pause generation indications towards MAC.
  */
 union cavm_rpmx_ext_mti_portx_xoff_override
 {
@@ -16153,19 +15328,17 @@ union cavm_rpmx_ext_mti_portx_xoff_override
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t xoff_override_val     : 16; /**< [ 31: 16](R/W) Per priority override value.
-                                                                 When the corresponding control is set, this value is transmitted to the MAC as
-                                                                 the priority value (instead of the original value coming from FCU TX).
-                                                                 Inapplicable when the corresponding control is not set. */
+        uint64_t xoff_override_val     : 16; /**< [ 31: 16](R/W) Per priority override value. When a corresponding bit of XOFF_OVERRIDE_CTRL is
+                                                                 set, this value will be transmitted to the MAC as the XOFF value of the
+                                                                 priority. */
         uint64_t xoff_override_ctrl    : 16; /**< [ 15:  0](R/W) Per-priority override control.
-                                                                 bit[N] = 1: the xoff value for priority N is taken from xoff_override_val[N]. */
+                                                                 bit[n] = 1: the xoff value for priority n is taken from XOFF_OVERRIDE_VAL[n]. */
 #else /* Word 0 - Little Endian */
         uint64_t xoff_override_ctrl    : 16; /**< [ 15:  0](R/W) Per-priority override control.
-                                                                 bit[N] = 1: the xoff value for priority N is taken from xoff_override_val[N]. */
-        uint64_t xoff_override_val     : 16; /**< [ 31: 16](R/W) Per priority override value.
-                                                                 When the corresponding control is set, this value is transmitted to the MAC as
-                                                                 the priority value (instead of the original value coming from FCU TX).
-                                                                 Inapplicable when the corresponding control is not set. */
+                                                                 bit[n] = 1: the xoff value for priority n is taken from XOFF_OVERRIDE_VAL[n]. */
+        uint64_t xoff_override_val     : 16; /**< [ 31: 16](R/W) Per priority override value. When a corresponding bit of XOFF_OVERRIDE_CTRL is
+                                                                 set, this value will be transmitted to the MAC as the XOFF value of the
+                                                                 priority. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -16338,8 +15511,8 @@ typedef union cavm_rpmx_msix_vecx_addr cavm_rpmx_msix_vecx_addr_t;
 static inline uint64_t CAVM_RPMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=13))
-        return 0x87e0e0800000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0xf);
+    if ((a<=8) && (b<=17))
+        return 0x87e0e0800000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("RPMX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16378,8 +15551,8 @@ typedef union cavm_rpmx_msix_vecx_ctl cavm_rpmx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_RPMX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=13))
-        return 0x87e0e0800008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0xf);
+    if ((a<=8) && (b<=17))
+        return 0x87e0e0800008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("RPMX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17512,15 +16685,33 @@ union cavm_rpmx_mti_lpcs_gmode
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t usgmii_scramble_enable : 1; /**< [ 11: 11](R/W) Enable x58 scrambler/descrambler for USXGMII */
-        uint64_t reserved_9_10         : 2;
+        uint64_t usgmii8_enable        : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable 8-Channel USGMII mode (O-USGMII) of operation over serdes lane 0. When
+                                                                 set, all 8 channels are configured for SGMII and are multiplexed over lane 0
+                                                                 operating with a 10.0Gbps serdes link. The application has to initialize the
+                                                                 serdes accordingly. When this bit is set, bits 8, 9 (QSGMII) must be 0. */
+        uint64_t qsgmii_4_enable       : 1;  /**< [  9:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable QSGMII for Channels 4..7 over serdes lane 4 */
         uint64_t qsgmii_0_enable       : 1;  /**< [  8:  8](R/W) Enable QSGMII for Channels 0..3 over serdes lane 0 */
-        uint64_t reserved_4_7          : 4;
-        uint64_t lpcs_enable           : 4;  /**< [  3:  0](R/W) Per channel 1G PCS enable */
+        uint64_t lpcs_enable           : 8;  /**< [  7:  0](R/W) Per channel 1G PCS enable.
+                                                                 Internal:
+                                                                 Bits [7:4] should not be used. */
 #else /* Word 0 - Little Endian */
-        uint64_t lpcs_enable           : 4;  /**< [  3:  0](R/W) Per channel 1G PCS enable */
-        uint64_t reserved_4_7          : 4;
+        uint64_t lpcs_enable           : 8;  /**< [  7:  0](R/W) Per channel 1G PCS enable.
+                                                                 Internal:
+                                                                 Bits [7:4] should not be used. */
         uint64_t qsgmii_0_enable       : 1;  /**< [  8:  8](R/W) Enable QSGMII for Channels 0..3 over serdes lane 0 */
-        uint64_t reserved_9_10         : 2;
+        uint64_t qsgmii_4_enable       : 1;  /**< [  9:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable QSGMII for Channels 4..7 over serdes lane 4 */
+        uint64_t usgmii8_enable        : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable 8-Channel USGMII mode (O-USGMII) of operation over serdes lane 0. When
+                                                                 set, all 8 channels are configured for SGMII and are multiplexed over lane 0
+                                                                 operating with a 10.0Gbps serdes link. The application has to initialize the
+                                                                 serdes accordingly. When this bit is set, bits 8, 9 (QSGMII) must be 0. */
         uint64_t usgmii_scramble_enable : 1; /**< [ 11: 11](R/W) Enable x58 scrambler/descrambler for USXGMII */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
@@ -18326,9 +17517,10 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  difference with PAUSE_IGNORE is that the underlying pause timers are
                                                                  still operational when PAUSE_IGNORE is set whereas setting
                                                                  RX_PAUSE_DIS is immediate and will cause pause_on(n:0) to
-                                                                 deassert and reset the internal timers. The reset state of the PAUSE
-                                                                 function can be changed via the parameter
-                                                                 PAUSE_ENABLE_RESET_VALUE */
+                                                                 deassert and reset the internal timers.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE */
         uint64_t tx_p_disable          : 1;  /**< [ 28: 28](R/W) TX Pause Disable
                                                                  0: TX Pause enabled
                                                                  1: TX Pause disabled
@@ -18343,7 +17535,16 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  and remote faults, respectively, on ingress direction. When set to '1', this
                                                                  feature is disabled. */
         uint64_t tx_fifo_reset         : 1;  /**< [ 26: 26](R/W/H) Self-Clearing TX FIFO reset command. May not be supported in all Core variants */
-        uint64_t reserved_24_25        : 2;
+        uint64_t reserved_25           : 1;
+        uint64_t reg_lowp_rxempty      : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in CIDER.
+                                                                 Mask top-level pin reg_lowp with RX FIFO empty.
+                                                                 When set '1' the top-level pin reg_lowp will assert only when the RX FIFO is
+                                                                 empty. That is, the assertion of the low power indication is delayed until all
+                                                                 data has been retrieved by the application.
+                                                                 When set '0' (default) the top-level pin reg_lowp is asserted as soon as the RS
+                                                                 layer detects the LowPowerIdle sequence from the line. */
         uint64_t tx_lowp_ena           : 1;  /**< [ 23: 23](R/W) Instruct RS Layer to transmit LPI. */
         uint64_t tx_flush              : 1;  /**< [ 22: 22](R/W) Egress flush enable. */
         uint64_t rx_sfd_any            : 1;  /**< [ 21: 21](R/W) Disable check for SFD (0xd5) and accept frame with any character. */
@@ -18439,7 +17640,16 @@ union cavm_rpmx_mti_mac100x_command_config
         uint64_t rx_sfd_any            : 1;  /**< [ 21: 21](R/W) Disable check for SFD (0xd5) and accept frame with any character. */
         uint64_t tx_flush              : 1;  /**< [ 22: 22](R/W) Egress flush enable. */
         uint64_t tx_lowp_ena           : 1;  /**< [ 23: 23](R/W) Instruct RS Layer to transmit LPI. */
-        uint64_t reserved_24_25        : 2;
+        uint64_t reg_lowp_rxempty      : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in CIDER.
+                                                                 Mask top-level pin reg_lowp with RX FIFO empty.
+                                                                 When set '1' the top-level pin reg_lowp will assert only when the RX FIFO is
+                                                                 empty. That is, the assertion of the low power indication is delayed until all
+                                                                 data has been retrieved by the application.
+                                                                 When set '0' (default) the top-level pin reg_lowp is asserted as soon as the RS
+                                                                 layer detects the LowPowerIdle sequence from the line. */
+        uint64_t reserved_25           : 1;
         uint64_t tx_fifo_reset         : 1;  /**< [ 26: 26](R/W/H) Self-Clearing TX FIFO reset command. May not be supported in all Core variants */
         uint64_t flt_hdl_dis           : 1;  /**< [ 27: 27](R/W) Disable RS fault handling. When set to '0' (default), the MAC automatically
                                                                  inserts remote faults and idles in egress direction on detection of local faults
@@ -18465,15 +17675,201 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  difference with PAUSE_IGNORE is that the underlying pause timers are
                                                                  still operational when PAUSE_IGNORE is set whereas setting
                                                                  RX_PAUSE_DIS is immediate and will cause pause_on(n:0) to
-                                                                 deassert and reset the internal timers. The reset state of the PAUSE
-                                                                 function can be changed via the parameter
-                                                                 PAUSE_ENABLE_RESET_VALUE */
+                                                                 deassert and reset the internal timers.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE */
         uint64_t short_preamble        : 1;  /**< [ 30: 30](R/W) Shorten preamble to 4Bytes (3 Bytes + Frame Begin). */
         uint64_t no_preamble           : 1;  /**< [ 31: 31](R/W) Set preamble to 1Bytes (Frame Begin). */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_mac100x_command_config_s cn; */
+    struct cavm_rpmx_mti_mac100x_command_config_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t no_preamble           : 1;  /**< [ 31: 31](R/W) Set preamble to 1Bytes (Frame Begin). */
+        uint64_t short_preamble        : 1;  /**< [ 30: 30](R/W) Shorten preamble to 4Bytes (3 Bytes + Frame Begin). */
+        uint64_t rx_p_disable          : 1;  /**< [ 29: 29](R/W) RX Pause Disable
+                                                                 0: RX Pause enabled
+                                                                 1: RX Pause disabled
+                                                                 Disables the RX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 RX MAC will not cause the TX MAC to be paused (in the case of FC) and
+                                                                 will not assert any of the pause_on(n:0) priorities (in the case of PFC)
+                                                                 when PAUSE frames are received. Setting RX_PAUSE_DIS does not
+                                                                 change the functionality of PAUSE_FWD and PAUSE_IGNORE. The
+                                                                 difference with PAUSE_IGNORE is that the underlying pause timers are
+                                                                 still operational when PAUSE_IGNORE is set whereas setting
+                                                                 RX_PAUSE_DIS is immediate and will cause pause_on(n:0) to
+                                                                 deassert and reset the internal timers.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE */
+        uint64_t tx_p_disable          : 1;  /**< [ 28: 28](R/W) TX Pause Disable
+                                                                 0: TX Pause enabled
+                                                                 1: TX Pause disabled
+                                                                 Disables the TX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 TX MAC will not react to xoff_gen(n:0) in order to generate PAUSE
+                                                                 frames. If a priority was paused (i.e. the pause timer had not expired) an
+                                                                 Xon frame will be transmitted when setting this bit to 1. The reset state of
+                                                                 the PAUSE function can be changed via the parameter
+                                                                 PAUSE_ENABLE_RESET_VALUE. */
+        uint64_t flt_hdl_dis           : 1;  /**< [ 27: 27](R/W) Disable RS fault handling. When set to '0' (default), the MAC automatically
+                                                                 inserts remote faults and idles in egress direction on detection of local faults
+                                                                 and remote faults, respectively, on ingress direction. When set to '1', this
+                                                                 feature is disabled. */
+        uint64_t tx_fifo_reset         : 1;  /**< [ 26: 26](R/W/H) Self-Clearing TX FIFO reset command. May not be supported in all Core variants */
+        uint64_t reserved_25           : 1;
+        uint64_t reg_lowp_rxempty      : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in CIDER.
+                                                                 Mask top-level pin reg_lowp with RX FIFO empty.
+                                                                 When set '1' the top-level pin reg_lowp will assert only when the RX FIFO is
+                                                                 empty. That is, the assertion of the low power indication is delayed until all
+                                                                 data has been retrieved by the application.
+                                                                 When set '0' (default) the top-level pin reg_lowp is asserted as soon as the RS
+                                                                 layer detects the LowPowerIdle sequence from the line. */
+        uint64_t tx_lowp_ena           : 1;  /**< [ 23: 23](R/W) Instruct RS Layer to transmit LPI. */
+        uint64_t tx_flush              : 1;  /**< [ 22: 22](R/W) Egress flush enable. */
+        uint64_t rx_sfd_any            : 1;  /**< [ 21: 21](R/W) Disable check for SFD (0xd5) and accept frame with any character. */
+        uint64_t pause_pfc_comp        : 1;  /**< [ 20: 20](R/W) Link Pause compatible with PFC mode. Pause is only indicated but does not stop TX. */
+        uint64_t pfc_mode              : 1;  /**< [ 19: 19](R/W) Priority Flow Control Mode enable. If set to 1, the Core generates and processes
+                                                                 PFC control frames according to the Priority Flow Control Interface signals. If
+                                                                 set to 0 (Reset Value), the Core operates in legacy Pause Frame mode and
+                                                                 generates and processes standard Pause Frames. */
+        uint64_t reserved_17_18        : 2;
+        uint64_t send_idle             : 1;  /**< [ 16: 16](R/W) Force Idle Generation. If set to '1', the MAC permanently sends XLGMII Idle
+                                                                 sequences even when faults are received. */
+        uint64_t phy_txena             : 1;  /**< [ 15: 15](R/W) Controls toplevel pin phy_txena. No internal function */
+        uint64_t reserved_14           : 1;
+        uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
+                                                                 accepted. If set to '0', only Pause frames are accepted and all other command
+                                                                 frames are rejected. */
+        uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Reserved, writable but has no effect. The MAC never appends padding octets; the
+                                                                 user application must provide frames of correct minimum size. */
+        uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Enable PHY Interface loopback. If set to '1', the signal loop_ena is set to '1'.
+                                                                 If set to '0' (Reset value), the signal loop_ena is set to '0'. */
+        uint64_t tx_addr_ins           : 1;  /**< [  9:  9](R/W) Set Source MAC Address on Transmit. If set to '1', the MAC overwrites the source
+                                                                 MAC address received from the client interface with the MAC address programmed
+                                                                 in registers MAC_ADDR_0 and MAC_ADDR_1 . If set to '0' (Reset value), the source
+                                                                 MAC address from the client interface is transmitted unmodified to the line. */
+        uint64_t pause_ignore          : 1;  /**< [  8:  8](R/W) Ignore received Pause frame quanta. If set to '1', received pause frames are
+                                                                 ignored by the MAC. If set to '0' (Reset value), the transmit process is stopped
+                                                                 for the amount of time specified in the pause quanta received within a pause
+                                                                 frame. */
+        uint64_t pause_fwd             : 1;  /**< [  7:  7](R/W) Terminate / Forward Pause Frames. If set to '1', pause frames are forwarded to
+                                                                 the user application. If set to '0' (Reset value), pause frames are terminated
+                                                                 and discarded within the MAC. */
+        uint64_t crc_fwd               : 1;  /**< [  6:  6](R/W) Terminate / Forward Received CRC. If set to '1', the CRC field of received
+                                                                 frames is forwarded with the frame to the user application. If set to '0' (Reset
+                                                                 value), the CRC field is stripped from the frame. Note - If padding (Bit PAD_EN
+                                                                 set to ?1?) is enabled, CRC_FWD is ignored. */
+        uint64_t pad_en                : 1;  /**< [  5:  5](R/W) Reserved, write 0 always. (MAC never removes padding) */
+        uint64_t promis_en             : 1;  /**< [  4:  4](R/W) Enable MAC Promiscuous Operation. If set to '1', all frames are received without
+                                                                 any MAC address filtering. If set to '0' (Reset value), Unicast frames with a
+                                                                 destination address not matching the Core MAC address (programmed in registers
+                                                                 MAC_ADDR_0 and MAC_ADDR_1) are rejected.
+                                                                 NOT IN USE - always work in promiscuous mode. */
+        uint64_t reserved_3            : 1;
+        uint64_t reserved_2            : 1;
+        uint64_t rx_ena                : 1;  /**< [  1:  1](R/W) MAC Receive Path Enable. Should be set to '1' to enable the MAC receive path,
+                                                                 should be set to '0' (Reset value) to disable the MAC receive path. */
+        uint64_t tx_ena                : 1;  /**< [  0:  0](R/W) MAC Transmit Path Enable. Should be set to '1' to enable the MAC transmit path,
+                                                                 should be set to '0' (Reset value) to disable the MAC transmit path. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_ena                : 1;  /**< [  0:  0](R/W) MAC Transmit Path Enable. Should be set to '1' to enable the MAC transmit path,
+                                                                 should be set to '0' (Reset value) to disable the MAC transmit path. */
+        uint64_t rx_ena                : 1;  /**< [  1:  1](R/W) MAC Receive Path Enable. Should be set to '1' to enable the MAC receive path,
+                                                                 should be set to '0' (Reset value) to disable the MAC receive path. */
+        uint64_t reserved_2            : 1;
+        uint64_t reserved_3            : 1;
+        uint64_t promis_en             : 1;  /**< [  4:  4](R/W) Enable MAC Promiscuous Operation. If set to '1', all frames are received without
+                                                                 any MAC address filtering. If set to '0' (Reset value), Unicast frames with a
+                                                                 destination address not matching the Core MAC address (programmed in registers
+                                                                 MAC_ADDR_0 and MAC_ADDR_1) are rejected.
+                                                                 NOT IN USE - always work in promiscuous mode. */
+        uint64_t pad_en                : 1;  /**< [  5:  5](R/W) Reserved, write 0 always. (MAC never removes padding) */
+        uint64_t crc_fwd               : 1;  /**< [  6:  6](R/W) Terminate / Forward Received CRC. If set to '1', the CRC field of received
+                                                                 frames is forwarded with the frame to the user application. If set to '0' (Reset
+                                                                 value), the CRC field is stripped from the frame. Note - If padding (Bit PAD_EN
+                                                                 set to ?1?) is enabled, CRC_FWD is ignored. */
+        uint64_t pause_fwd             : 1;  /**< [  7:  7](R/W) Terminate / Forward Pause Frames. If set to '1', pause frames are forwarded to
+                                                                 the user application. If set to '0' (Reset value), pause frames are terminated
+                                                                 and discarded within the MAC. */
+        uint64_t pause_ignore          : 1;  /**< [  8:  8](R/W) Ignore received Pause frame quanta. If set to '1', received pause frames are
+                                                                 ignored by the MAC. If set to '0' (Reset value), the transmit process is stopped
+                                                                 for the amount of time specified in the pause quanta received within a pause
+                                                                 frame. */
+        uint64_t tx_addr_ins           : 1;  /**< [  9:  9](R/W) Set Source MAC Address on Transmit. If set to '1', the MAC overwrites the source
+                                                                 MAC address received from the client interface with the MAC address programmed
+                                                                 in registers MAC_ADDR_0 and MAC_ADDR_1 . If set to '0' (Reset value), the source
+                                                                 MAC address from the client interface is transmitted unmodified to the line. */
+        uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Enable PHY Interface loopback. If set to '1', the signal loop_ena is set to '1'.
+                                                                 If set to '0' (Reset value), the signal loop_ena is set to '0'. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Reserved, writable but has no effect. The MAC never appends padding octets; the
+                                                                 user application must provide frames of correct minimum size. */
+        uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
+        uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
+                                                                 accepted. If set to '0', only Pause frames are accepted and all other command
+                                                                 frames are rejected. */
+        uint64_t reserved_14           : 1;
+        uint64_t phy_txena             : 1;  /**< [ 15: 15](R/W) Controls toplevel pin phy_txena. No internal function */
+        uint64_t send_idle             : 1;  /**< [ 16: 16](R/W) Force Idle Generation. If set to '1', the MAC permanently sends XLGMII Idle
+                                                                 sequences even when faults are received. */
+        uint64_t reserved_17_18        : 2;
+        uint64_t pfc_mode              : 1;  /**< [ 19: 19](R/W) Priority Flow Control Mode enable. If set to 1, the Core generates and processes
+                                                                 PFC control frames according to the Priority Flow Control Interface signals. If
+                                                                 set to 0 (Reset Value), the Core operates in legacy Pause Frame mode and
+                                                                 generates and processes standard Pause Frames. */
+        uint64_t pause_pfc_comp        : 1;  /**< [ 20: 20](R/W) Link Pause compatible with PFC mode. Pause is only indicated but does not stop TX. */
+        uint64_t rx_sfd_any            : 1;  /**< [ 21: 21](R/W) Disable check for SFD (0xd5) and accept frame with any character. */
+        uint64_t tx_flush              : 1;  /**< [ 22: 22](R/W) Egress flush enable. */
+        uint64_t tx_lowp_ena           : 1;  /**< [ 23: 23](R/W) Instruct RS Layer to transmit LPI. */
+        uint64_t reg_lowp_rxempty      : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in CIDER.
+                                                                 Mask top-level pin reg_lowp with RX FIFO empty.
+                                                                 When set '1' the top-level pin reg_lowp will assert only when the RX FIFO is
+                                                                 empty. That is, the assertion of the low power indication is delayed until all
+                                                                 data has been retrieved by the application.
+                                                                 When set '0' (default) the top-level pin reg_lowp is asserted as soon as the RS
+                                                                 layer detects the LowPowerIdle sequence from the line. */
+        uint64_t reserved_25           : 1;
+        uint64_t tx_fifo_reset         : 1;  /**< [ 26: 26](R/W/H) Self-Clearing TX FIFO reset command. May not be supported in all Core variants */
+        uint64_t flt_hdl_dis           : 1;  /**< [ 27: 27](R/W) Disable RS fault handling. When set to '0' (default), the MAC automatically
+                                                                 inserts remote faults and idles in egress direction on detection of local faults
+                                                                 and remote faults, respectively, on ingress direction. When set to '1', this
+                                                                 feature is disabled. */
+        uint64_t tx_p_disable          : 1;  /**< [ 28: 28](R/W) TX Pause Disable
+                                                                 0: TX Pause enabled
+                                                                 1: TX Pause disabled
+                                                                 Disables the TX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 TX MAC will not react to xoff_gen(n:0) in order to generate PAUSE
+                                                                 frames. If a priority was paused (i.e. the pause timer had not expired) an
+                                                                 Xon frame will be transmitted when setting this bit to 1. The reset state of
+                                                                 the PAUSE function can be changed via the parameter
+                                                                 PAUSE_ENABLE_RESET_VALUE. */
+        uint64_t rx_p_disable          : 1;  /**< [ 29: 29](R/W) RX Pause Disable
+                                                                 0: RX Pause enabled
+                                                                 1: RX Pause disabled
+                                                                 Disables the RX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 RX MAC will not cause the TX MAC to be paused (in the case of FC) and
+                                                                 will not assert any of the pause_on(n:0) priorities (in the case of PFC)
+                                                                 when PAUSE frames are received. Setting RX_PAUSE_DIS does not
+                                                                 change the functionality of PAUSE_FWD and PAUSE_IGNORE. The
+                                                                 difference with PAUSE_IGNORE is that the underlying pause timers are
+                                                                 still operational when PAUSE_IGNORE is set whereas setting
+                                                                 RX_PAUSE_DIS is immediate and will cause pause_on(n:0) to
+                                                                 deassert and reset the internal timers.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE */
+        uint64_t short_preamble        : 1;  /**< [ 30: 30](R/W) Shorten preamble to 4Bytes (3 Bytes + Frame Begin). */
+        uint64_t no_preamble           : 1;  /**< [ 31: 31](R/W) Set preamble to 1Bytes (Frame Begin). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_rpmx_mti_mac100x_command_config cavm_rpmx_mti_mac100x_command_config_t;
 
@@ -26719,7 +26115,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_config
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t soft_reset            : 1;  /**< [ 31: 31](R/W) Perform a soft-reset on the module.
+        uint64_t soft_reset            : 1;  /**< [ 31: 31](R/W/H) Perform a soft-reset on the module.
                                                                  When written with '1' all internal functions are aborted and
                                                                  return to a stable state (flushes prescalers). It also triggers
                                                                  a clear of all counter memory (i.e. all ports are cleared) by
@@ -26741,7 +26137,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_config
         uint64_t clear_on_read         : 1;  /**< [  1:  1](R/W) When set (1) a read to a counter resets it to 0.
                                                                  When cleared (0, default) counters are not affected by read. */
         uint64_t reserved_2_30         : 29;
-        uint64_t soft_reset            : 1;  /**< [ 31: 31](R/W) Perform a soft-reset on the module.
+        uint64_t soft_reset            : 1;  /**< [ 31: 31](R/W/H) Perform a soft-reset on the module.
                                                                  When written with '1' all internal functions are aborted and
                                                                  return to a stable state (flushes prescalers). It also triggers
                                                                  a clear of all counter memory (i.e. all ports are cleared) by
@@ -26782,7 +26178,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t cmd_clear             : 1;  /**< [ 31: 31](R/W) Clear channel counters command.
+        uint64_t cmd_clear             : 1;  /**< [ 31: 31](R/W/H) Clear channel counters command.
                                                                  When set (1) all counters of the channel(s) as specified in
                                                                  the CHANMASK bits will be cleared to 0. Note that this can
                                                                  take a longer time (internal scheduling arbitration can take
@@ -26806,7 +26202,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_control
                                                                  modified then not losing counts. Should be 0 for snapshot
                                                                  generation where it must avoid losing counts within the pre-
                                                                  scalers. */
-        uint64_t cmd_capture           : 1;  /**< [ 28: 28](R/W) When set the page data of a channel indicated via
+        uint64_t cmd_capture           : 1;  /**< [ 28: 28](R/W/H) When set the page data of a channel indicated via
                                                                  CHANMASK is captured in the capture memory.
                                                                  If set together with CMD_CLEAR_TX it will clear the port's
                                                                  counters after having read it into the snapshot registers.
@@ -26818,7 +26214,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_control
                                                                  Note: When set, the CLEAR_PRE should be 0 to avoid
                                                                  losing statistics while the snapshot is performed. */
         uint64_t reserved_8_27         : 20;
-        uint64_t chanmask              : 8;  /**< [  7:  0](R/W) One bit per port.
+        uint64_t chanmask              : 8;  /**< [  7:  0](R/W/H) One bit per port.
                                                                  Bit0 = port0, Bit1 = port1, ... Bit 7 = port 7
                                                                  A bit set causes the page of the port to be cleared or
                                                                  captured depending on command. Setting multiple bits
@@ -26831,7 +26227,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_control
                                                                  Note: The soft-reset will set all bits to 1 together with the
                                                                  clear commands causing all memories to be cleared. */
 #else /* Word 0 - Little Endian */
-        uint64_t chanmask              : 8;  /**< [  7:  0](R/W) One bit per port.
+        uint64_t chanmask              : 8;  /**< [  7:  0](R/W/H) One bit per port.
                                                                  Bit0 = port0, Bit1 = port1, ... Bit 7 = port 7
                                                                  A bit set causes the page of the port to be cleared or
                                                                  captured depending on command. Setting multiple bits
@@ -26844,7 +26240,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_control
                                                                  Note: The soft-reset will set all bits to 1 together with the
                                                                  clear commands causing all memories to be cleared. */
         uint64_t reserved_8_27         : 20;
-        uint64_t cmd_capture           : 1;  /**< [ 28: 28](R/W) When set the page data of a channel indicated via
+        uint64_t cmd_capture           : 1;  /**< [ 28: 28](R/W/H) When set the page data of a channel indicated via
                                                                  CHANMASK is captured in the capture memory.
                                                                  If set together with CMD_CLEAR_TX it will clear the port's
                                                                  counters after having read it into the snapshot registers.
@@ -26870,7 +26266,7 @@ union cavm_rpmx_mti_rsfec_stat_statn_control
                                                                  generation where it must avoid losing counts within the pre-
                                                                  scalers. */
         uint64_t reserved_30           : 1;
-        uint64_t cmd_clear             : 1;  /**< [ 31: 31](R/W) Clear channel counters command.
+        uint64_t cmd_clear             : 1;  /**< [ 31: 31](R/W/H) Clear channel counters command.
                                                                  When set (1) all counters of the channel(s) as specified in
                                                                  the CHANMASK bits will be cleared to 0. Note that this can
                                                                  take a longer time (internal scheduling arbitration can take
@@ -29003,4820 +28399,5 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(uint64_t a, uin
 #define device_bar_CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(a,b) (a)
 #define arguments_CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_an_adv
- *
- * RPM SPU Autonegotiation Advertisement Registers
- * Software programs this register with the contents of the AN-link code word base page to be
- * transmitted during autonegotiation. (See IEEE 802.3 section 73.6 for details.) Any write
- * operations to this register prior to completion of autonegotiation, as indicated by
- * RPM()_SPU()_AN_STATUS[AN_COMPLETE], should be followed by a renegotiation in order for
- * the new values to take effect. Renegotiation is initiated by setting
- * RPM()_SPU()_AN_CONTROL[AN_RESTART]. Once autonegotiation has completed, software can
- * examine this register along with RPM()_SPU()_AN_LP_BASE to determine the highest
- * common denominator technology.
- */
-union cavm_rpmx_spux_an_adv
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_an_adv_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t fec_req               : 1;  /**< [ 47: 47](R/W) 10G per-lane FEC requested. */
-        uint64_t fec_able              : 1;  /**< [ 46: 46](R/W) 10G per-lane FEC ability. */
-        uint64_t a25g_br_fec_req       : 1;  /**< [ 45: 45](R/W) 25G BASE-R FEC requested. */
-        uint64_t a25g_rs_fec_req       : 1;  /**< [ 44: 44](R/W) 25G RS-FEC requested. */
-        uint64_t arsv                  : 12; /**< [ 43: 32](R/W) Technology ability. Reserved bits, should always be 0. */
-        uint64_t a25g_kr_cr            : 1;  /**< [ 31: 31](R/W) 25GBASE-KR or 25GBASE-CR ability. */
-        uint64_t a25g_krs_crs          : 1;  /**< [ 30: 30](R/W) 25GBASE-KR-S or 25GBASE-CR-S ability. */
-        uint64_t a100g_cr4             : 1;  /**< [ 29: 29](R/W) 100GBASE-CR4 ability. */
-        uint64_t a100g_kr4             : 1;  /**< [ 28: 28](R/W) 100GBASE-KR4 ability. */
-        uint64_t a100g_kp4             : 1;  /**< [ 27: 27](R/W) 100GBASE-KP4 ability. Should always be 0; 100GBASE-KP4 is not supported. */
-        uint64_t a100g_cr10            : 1;  /**< [ 26: 26](R/W) 100GBASE-CR10 ability. Should always be 0; 100GBASE-CR10 is not supported. */
-        uint64_t a40g_cr4              : 1;  /**< [ 25: 25](R/W) 40GBASE-CR4 ability. */
-        uint64_t a40g_kr4              : 1;  /**< [ 24: 24](R/W) 40GBASE-KR4 ability. */
-        uint64_t a10g_kr               : 1;  /**< [ 23: 23](R/W) 10GBASE-KR ability. */
-        uint64_t a10g_kx4              : 1;  /**< [ 22: 22](R/W) 10GBASE-KX4 ability. */
-        uint64_t a1g_kx                : 1;  /**< [ 21: 21](R/W) 1000BASE-KX ability. Should always be 0; autonegotiation is not supported for 1000Base-KX. */
-        uint64_t t                     : 5;  /**< [ 20: 16](R/W/H) Transmitted nonce. This field is automatically updated with a pseudo-random value on entry
-                                                                 to the AN ability detect state. */
-        uint64_t np                    : 1;  /**< [ 15: 15](R/W) Next page. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge. Always 0 in this register. */
-        uint64_t rf                    : 1;  /**< [ 13: 13](R/W) Remote fault. */
-        uint64_t xnp_able              : 1;  /**< [ 12: 12](R/W) Extended next page ability. */
-        uint64_t asm_dir               : 1;  /**< [ 11: 11](R/W) Asymmetric PAUSE. */
-        uint64_t pause                 : 1;  /**< [ 10: 10](R/W) PAUSE ability. */
-        uint64_t e                     : 5;  /**< [  9:  5](R/W) Echoed nonce. Provides the echoed-nonce value to use when ACK = 0 in transmitted DME page.
-                                                                 Should always be 0x0. */
-        uint64_t s                     : 5;  /**< [  4:  0](R/W) Selector. Should be 0x1 (encoding for IEEE 802.3). */
-#else /* Word 0 - Little Endian */
-        uint64_t s                     : 5;  /**< [  4:  0](R/W) Selector. Should be 0x1 (encoding for IEEE 802.3). */
-        uint64_t e                     : 5;  /**< [  9:  5](R/W) Echoed nonce. Provides the echoed-nonce value to use when ACK = 0 in transmitted DME page.
-                                                                 Should always be 0x0. */
-        uint64_t pause                 : 1;  /**< [ 10: 10](R/W) PAUSE ability. */
-        uint64_t asm_dir               : 1;  /**< [ 11: 11](R/W) Asymmetric PAUSE. */
-        uint64_t xnp_able              : 1;  /**< [ 12: 12](R/W) Extended next page ability. */
-        uint64_t rf                    : 1;  /**< [ 13: 13](R/W) Remote fault. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge. Always 0 in this register. */
-        uint64_t np                    : 1;  /**< [ 15: 15](R/W) Next page. */
-        uint64_t t                     : 5;  /**< [ 20: 16](R/W/H) Transmitted nonce. This field is automatically updated with a pseudo-random value on entry
-                                                                 to the AN ability detect state. */
-        uint64_t a1g_kx                : 1;  /**< [ 21: 21](R/W) 1000BASE-KX ability. Should always be 0; autonegotiation is not supported for 1000Base-KX. */
-        uint64_t a10g_kx4              : 1;  /**< [ 22: 22](R/W) 10GBASE-KX4 ability. */
-        uint64_t a10g_kr               : 1;  /**< [ 23: 23](R/W) 10GBASE-KR ability. */
-        uint64_t a40g_kr4              : 1;  /**< [ 24: 24](R/W) 40GBASE-KR4 ability. */
-        uint64_t a40g_cr4              : 1;  /**< [ 25: 25](R/W) 40GBASE-CR4 ability. */
-        uint64_t a100g_cr10            : 1;  /**< [ 26: 26](R/W) 100GBASE-CR10 ability. Should always be 0; 100GBASE-CR10 is not supported. */
-        uint64_t a100g_kp4             : 1;  /**< [ 27: 27](R/W) 100GBASE-KP4 ability. Should always be 0; 100GBASE-KP4 is not supported. */
-        uint64_t a100g_kr4             : 1;  /**< [ 28: 28](R/W) 100GBASE-KR4 ability. */
-        uint64_t a100g_cr4             : 1;  /**< [ 29: 29](R/W) 100GBASE-CR4 ability. */
-        uint64_t a25g_krs_crs          : 1;  /**< [ 30: 30](R/W) 25GBASE-KR-S or 25GBASE-CR-S ability. */
-        uint64_t a25g_kr_cr            : 1;  /**< [ 31: 31](R/W) 25GBASE-KR or 25GBASE-CR ability. */
-        uint64_t arsv                  : 12; /**< [ 43: 32](R/W) Technology ability. Reserved bits, should always be 0. */
-        uint64_t a25g_rs_fec_req       : 1;  /**< [ 44: 44](R/W) 25G RS-FEC requested. */
-        uint64_t a25g_br_fec_req       : 1;  /**< [ 45: 45](R/W) 25G BASE-R FEC requested. */
-        uint64_t fec_able              : 1;  /**< [ 46: 46](R/W) 10G per-lane FEC ability. */
-        uint64_t fec_req               : 1;  /**< [ 47: 47](R/W) 10G per-lane FEC requested. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_an_adv_s cn; */
-};
-typedef union cavm_rpmx_spux_an_adv cavm_rpmx_spux_an_adv_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_AN_ADV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_AN_ADV(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0198ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_AN_ADV", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_AN_ADV(a,b) cavm_rpmx_spux_an_adv_t
-#define bustype_CAVM_RPMX_SPUX_AN_ADV(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_AN_ADV(a,b) "RPMX_SPUX_AN_ADV"
-#define device_bar_CAVM_RPMX_SPUX_AN_ADV(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_AN_ADV(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_AN_ADV(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_an_bp_status
- *
- * RPM SPU Autonegotiation Backplane Ethernet & BASE-R Copper Status Registers
- * The contents of this register are updated during autonegotiation and are valid when
- * RPM()_SPU()_AN_STATUS[AN_COMPLETE] is set. At that time, one of the port type bits will be
- * set depending on the AN priority resolution. The port types are listed in order of decreasing
- * priority. If a BASE-R type is negotiated then [FEC] or [RS_FEC] will be set to indicate
- * whether/which FEC operation has been negotiated and will be clear otherwise.
- */
-union cavm_rpmx_spux_an_bp_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_an_bp_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_18_63        : 46;
-        uint64_t rs_fec                : 1;  /**< [ 17: 17](RO/H) Reed-Solomon FEC negotiated. */
-        uint64_t fec                   : 1;  /**< [ 16: 16](RO/H) BASE-R FEC negotiated. */
-        uint64_t n100g_cr4             : 1;  /**< [ 15: 15](RO/H) 100GBASE-CR4 negotiated. */
-        uint64_t n100g_kr4             : 1;  /**< [ 14: 14](RO/H) 100GBASE-KR4 negotiated. */
-        uint64_t n100g_kp4             : 1;  /**< [ 13: 13](RO/H) 100GBASE-KP4 negotiated. Should always be 0; 100GBASE-KP4 is not supported. */
-        uint64_t n100g_cr10            : 1;  /**< [ 12: 12](RO/H) 100GBASE-CR10 negotiated. Should always be 0; 100GBASE-CR10 is not supported. */
-        uint64_t n50g_cr2              : 1;  /**< [ 11: 11](RO/H) 50GBASE-CR2 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n50g_kr2              : 1;  /**< [ 10: 10](RO/H) 50GBASE-KR2 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n40g_cr4              : 1;  /**< [  9:  9](RO/H) 40GBASE-CR4 negotiated. */
-        uint64_t n40g_kr4              : 1;  /**< [  8:  8](RO/H) 40GBASE-KR4 negotiated. */
-        uint64_t n25g_kr_cr            : 1;  /**< [  7:  7](RO/H) 25GBASE-KR or 25GBSE-CR ability. */
-        uint64_t n25g_krs_crs          : 1;  /**< [  6:  6](RO/H) 25GBASE-KR-S or 25GBSE-CR-S ability. */
-        uint64_t n25g_cr1              : 1;  /**< [  5:  5](RO/H) 25GBASE-CR1 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n25g_kr1              : 1;  /**< [  4:  4](RO/H) 25GBASE-KR1 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n10g_kr               : 1;  /**< [  3:  3](RO/H) 10GBASE-KR negotiated. */
-        uint64_t n10g_kx4              : 1;  /**< [  2:  2](RO/H) 10GBASE-KX4 or CX4 negotiated (XAUI). */
-        uint64_t n1g_kx                : 1;  /**< [  1:  1](RO/H) 1000BASE-KX negotiated. Should always be 0; autonegotiation is not supported for 1000Base-KX. */
-        uint64_t bp_an_able            : 1;  /**< [  0:  0](RO) Backplane or BASE-R copper AN Ability; always 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t bp_an_able            : 1;  /**< [  0:  0](RO) Backplane or BASE-R copper AN Ability; always 1. */
-        uint64_t n1g_kx                : 1;  /**< [  1:  1](RO/H) 1000BASE-KX negotiated. Should always be 0; autonegotiation is not supported for 1000Base-KX. */
-        uint64_t n10g_kx4              : 1;  /**< [  2:  2](RO/H) 10GBASE-KX4 or CX4 negotiated (XAUI). */
-        uint64_t n10g_kr               : 1;  /**< [  3:  3](RO/H) 10GBASE-KR negotiated. */
-        uint64_t n25g_kr1              : 1;  /**< [  4:  4](RO/H) 25GBASE-KR1 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n25g_cr1              : 1;  /**< [  5:  5](RO/H) 25GBASE-CR1 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n25g_krs_crs          : 1;  /**< [  6:  6](RO/H) 25GBASE-KR-S or 25GBSE-CR-S ability. */
-        uint64_t n25g_kr_cr            : 1;  /**< [  7:  7](RO/H) 25GBASE-KR or 25GBSE-CR ability. */
-        uint64_t n40g_kr4              : 1;  /**< [  8:  8](RO/H) 40GBASE-KR4 negotiated. */
-        uint64_t n40g_cr4              : 1;  /**< [  9:  9](RO/H) 40GBASE-CR4 negotiated. */
-        uint64_t n50g_kr2              : 1;  /**< [ 10: 10](RO/H) 50GBASE-KR2 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n50g_cr2              : 1;  /**< [ 11: 11](RO/H) 50GBASE-CR2 negotiated (25G/50G Consortium spec 2.0). */
-        uint64_t n100g_cr10            : 1;  /**< [ 12: 12](RO/H) 100GBASE-CR10 negotiated. Should always be 0; 100GBASE-CR10 is not supported. */
-        uint64_t n100g_kp4             : 1;  /**< [ 13: 13](RO/H) 100GBASE-KP4 negotiated. Should always be 0; 100GBASE-KP4 is not supported. */
-        uint64_t n100g_kr4             : 1;  /**< [ 14: 14](RO/H) 100GBASE-KR4 negotiated. */
-        uint64_t n100g_cr4             : 1;  /**< [ 15: 15](RO/H) 100GBASE-CR4 negotiated. */
-        uint64_t fec                   : 1;  /**< [ 16: 16](RO/H) BASE-R FEC negotiated. */
-        uint64_t rs_fec                : 1;  /**< [ 17: 17](RO/H) Reed-Solomon FEC negotiated. */
-        uint64_t reserved_18_63        : 46;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_an_bp_status_s cn; */
-};
-typedef union cavm_rpmx_spux_an_bp_status cavm_rpmx_spux_an_bp_status_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_AN_BP_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_AN_BP_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_AN_BP_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_AN_BP_STATUS(a,b) cavm_rpmx_spux_an_bp_status_t
-#define bustype_CAVM_RPMX_SPUX_AN_BP_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_AN_BP_STATUS(a,b) "RPMX_SPUX_AN_BP_STATUS"
-#define device_bar_CAVM_RPMX_SPUX_AN_BP_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_AN_BP_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_AN_BP_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_an_control
- *
- * RPM SPU Autonegotiation Control Registers
- */
-union cavm_rpmx_spux_an_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_an_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_18_63        : 46;
-        uint64_t usx_an_arb_link_chk_en : 1; /**< [ 17: 17](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Enable USXGMII link status checking by autonegotiation
-                                                                 arbitration state machine. When autonegotiation is enabled
-                                                                 (RPM()_SPU()_USX_AN_CONTROL[AN_EN] is set), this bit controls the behavior of
-                                                                 the autonegotiation arbitration state machine when it reaches the IDLE_DETECT
-                                                                 CHECK state after AN page is successfully exchanged, as defined in Figure 37-6
-                                                                 in IEEE 802.3.| FUTURE - compare to [AN_ARB_LINK_CHK_EN], complete description
-                                                                 and implementation. Possible use in software USXGMII Auto-Negotiation. */
-        uint64_t an_arb_link_chk_en    : 1;  /**< [ 16: 16](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Enable link status checking by autonegotiation
-                                                                 arbitration state machine. When autonegotiation is enabled
-                                                                 (RPM()_SPU()_AN_CONTROL[AN_EN] is set), this bit controls the behavior of the
-                                                                 autonegotiation arbitration state machine when it reaches the AN GOOD CHECK
-                                                                 state after DME pages are successfully exchanged, as defined in Figure 73-11 in
-                                                                 IEEE 802.3.| When this bit is set and the negotiated highest common denominator
-                                                                 (HCD) technology matches RPM()_CMR()_CONFIG[LMAC_TYPE], the autonegotiation
-                                                                 arbitration SM performs the actions defined for the AN GOOD CHECK state in
-                                                                 Figure 73-11, i.e. run the link_fail_inhibit timer and eventually transition to
-                                                                 the AN GOOD or TRANSMIT DISABLE state.| When this bit is clear or the HCD
-                                                                 technology does not match RPM()_CMR()_CONFIG[LMAC_TYPE], the AN arbitration SM
-                                                                 stays in the AN GOOD CHECK state, with the expectation that software will
-                                                                 perform the appropriate actions to complete the autonegotiation protocol, as
-                                                                 follows:| * If this bit is clear and the HCD technology matches
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE], clear RPM()_SPU()_AN_CONTROL[AN_EN].| *
-                                                                 Otherwise, disable the LPCS by clearing the RPM()_CMR()_CONFIG[ENABLE], clear
-                                                                 RPM()_SPU()_AN_CONTROL[AN_EN], reconfigure the LPCS with the correct
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE], and re-enable the LPCS by setting
-                                                                 RPM()_CMR()_CONFIG[ENABLE].| In both cases, software should implement the
-                                                                 link_fail_inhibit timer and verify the link status as specified for the AN GOOD
-                                                                 CHECK state. */
-        uint64_t an_reset              : 1;  /**< [ 15: 15](R/W1S/H) Autonegotiation reset. Setting this bit or RPM()_SPU()_CONTROL1[RESET]
-                                                                 or RPM()_SPU()_USX_AN_CONTROL[AN_RESET] to 1 causes the following to happen:
-                                                                 * Resets the logical PCS (LPCS).
-                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states.
-                                                                 * Resets the associated SerDes lanes.
-
-                                                                 It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
-                                                                 automatically cleared. */
-        uint64_t reserved_14           : 1;
-        uint64_t xnp_en                : 1;  /**< [ 13: 13](R/W) Extended next-page enable. */
-        uint64_t an_en                 : 1;  /**< [ 12: 12](R/W) Autonegotiation enable. This bit should not be set when
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is set to RXAUI; autonegotiation is not supported
-                                                                 in RXAUI mode. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t an_restart            : 1;  /**< [  9:  9](R/W1S/H) Autonegotiation restart. Writing a 1 to this bit restarts the autonegotiation process if
-                                                                 [AN_EN] is also set. This is a self-clearing bit. */
-        uint64_t reserved_0_8          : 9;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_8          : 9;
-        uint64_t an_restart            : 1;  /**< [  9:  9](R/W1S/H) Autonegotiation restart. Writing a 1 to this bit restarts the autonegotiation process if
-                                                                 [AN_EN] is also set. This is a self-clearing bit. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t an_en                 : 1;  /**< [ 12: 12](R/W) Autonegotiation enable. This bit should not be set when
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is set to RXAUI; autonegotiation is not supported
-                                                                 in RXAUI mode. */
-        uint64_t xnp_en                : 1;  /**< [ 13: 13](R/W) Extended next-page enable. */
-        uint64_t reserved_14           : 1;
-        uint64_t an_reset              : 1;  /**< [ 15: 15](R/W1S/H) Autonegotiation reset. Setting this bit or RPM()_SPU()_CONTROL1[RESET]
-                                                                 or RPM()_SPU()_USX_AN_CONTROL[AN_RESET] to 1 causes the following to happen:
-                                                                 * Resets the logical PCS (LPCS).
-                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states.
-                                                                 * Resets the associated SerDes lanes.
-
-                                                                 It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
-                                                                 automatically cleared. */
-        uint64_t an_arb_link_chk_en    : 1;  /**< [ 16: 16](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Enable link status checking by autonegotiation
-                                                                 arbitration state machine. When autonegotiation is enabled
-                                                                 (RPM()_SPU()_AN_CONTROL[AN_EN] is set), this bit controls the behavior of the
-                                                                 autonegotiation arbitration state machine when it reaches the AN GOOD CHECK
-                                                                 state after DME pages are successfully exchanged, as defined in Figure 73-11 in
-                                                                 IEEE 802.3.| When this bit is set and the negotiated highest common denominator
-                                                                 (HCD) technology matches RPM()_CMR()_CONFIG[LMAC_TYPE], the autonegotiation
-                                                                 arbitration SM performs the actions defined for the AN GOOD CHECK state in
-                                                                 Figure 73-11, i.e. run the link_fail_inhibit timer and eventually transition to
-                                                                 the AN GOOD or TRANSMIT DISABLE state.| When this bit is clear or the HCD
-                                                                 technology does not match RPM()_CMR()_CONFIG[LMAC_TYPE], the AN arbitration SM
-                                                                 stays in the AN GOOD CHECK state, with the expectation that software will
-                                                                 perform the appropriate actions to complete the autonegotiation protocol, as
-                                                                 follows:| * If this bit is clear and the HCD technology matches
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE], clear RPM()_SPU()_AN_CONTROL[AN_EN].| *
-                                                                 Otherwise, disable the LPCS by clearing the RPM()_CMR()_CONFIG[ENABLE], clear
-                                                                 RPM()_SPU()_AN_CONTROL[AN_EN], reconfigure the LPCS with the correct
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE], and re-enable the LPCS by setting
-                                                                 RPM()_CMR()_CONFIG[ENABLE].| In both cases, software should implement the
-                                                                 link_fail_inhibit timer and verify the link status as specified for the AN GOOD
-                                                                 CHECK state. */
-        uint64_t usx_an_arb_link_chk_en : 1; /**< [ 17: 17](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Enable USXGMII link status checking by autonegotiation
-                                                                 arbitration state machine. When autonegotiation is enabled
-                                                                 (RPM()_SPU()_USX_AN_CONTROL[AN_EN] is set), this bit controls the behavior of
-                                                                 the autonegotiation arbitration state machine when it reaches the IDLE_DETECT
-                                                                 CHECK state after AN page is successfully exchanged, as defined in Figure 37-6
-                                                                 in IEEE 802.3.| FUTURE - compare to [AN_ARB_LINK_CHK_EN], complete description
-                                                                 and implementation. Possible use in software USXGMII Auto-Negotiation. */
-        uint64_t reserved_18_63        : 46;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_an_control_s cn; */
-};
-typedef union cavm_rpmx_spux_an_control cavm_rpmx_spux_an_control_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_AN_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_AN_CONTROL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0188ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_AN_CONTROL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_AN_CONTROL(a,b) cavm_rpmx_spux_an_control_t
-#define bustype_CAVM_RPMX_SPUX_AN_CONTROL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_AN_CONTROL(a,b) "RPMX_SPUX_AN_CONTROL"
-#define device_bar_CAVM_RPMX_SPUX_AN_CONTROL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_AN_CONTROL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_AN_CONTROL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_an_lp_base
- *
- * RPM SPU Autonegotiation Link-Partner Base-Page Ability Registers
- * This register captures the contents of the latest AN link code word base page received from
- * the link partner during autonegotiation. (See IEEE 802.3 section 73.6 for details.)
- * RPM()_SPU()_AN_STATUS[PAGE_RX] is set when this register is updated by hardware.
- */
-union cavm_rpmx_spux_an_lp_base
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_an_lp_base_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t fec_req               : 1;  /**< [ 47: 47](RO/H) 10G per-lane FEC requested. */
-        uint64_t fec_able              : 1;  /**< [ 46: 46](RO/H) 10G per-lane FEC ability. */
-        uint64_t a25g_br_fec_req       : 1;  /**< [ 45: 45](RO/H) 25G BASE-R FEC requested. */
-        uint64_t a25g_rs_fec_req       : 1;  /**< [ 44: 44](RO/H) 25G RS-FEC requested. */
-        uint64_t arsv                  : 12; /**< [ 43: 32](RO/H) Technology ability. Reserved bits, should always be 0. */
-        uint64_t a25g_kr_cr            : 1;  /**< [ 31: 31](RO/H) 25GBASE-KR or 25GBASE-CR ability. */
-        uint64_t a25g_krs_crs          : 1;  /**< [ 30: 30](RO/H) 25GBASE-KR-S or 25GBASE-CR-S ability. */
-        uint64_t a100g_cr4             : 1;  /**< [ 29: 29](RO/H) 100GBASE-CR4 ability. */
-        uint64_t a100g_kr4             : 1;  /**< [ 28: 28](RO/H) 100GBASE-KR4 ability. */
-        uint64_t a100g_kp4             : 1;  /**< [ 27: 27](RO/H) 100GBASE-KP4 ability. Should always be 0; 100GBASE-KP4 is not supported. */
-        uint64_t a100g_cr10            : 1;  /**< [ 26: 26](RO/H) 100GBASE-CR10 ability. Should always be 0; 100GBASE-CR10 is not supported. */
-        uint64_t a40g_cr4              : 1;  /**< [ 25: 25](RO/H) 40GBASE-CR4 ability. */
-        uint64_t a40g_kr4              : 1;  /**< [ 24: 24](RO/H) 40GBASE-KR4 ability. */
-        uint64_t a10g_kr               : 1;  /**< [ 23: 23](RO/H) 10GBASE-KR ability. */
-        uint64_t a10g_kx4              : 1;  /**< [ 22: 22](RO/H) 10GBASE-KX4 ability. */
-        uint64_t a1g_kx                : 1;  /**< [ 21: 21](RO/H) 1000BASE-KX ability. */
-        uint64_t t                     : 5;  /**< [ 20: 16](RO/H) Transmitted nonce. */
-        uint64_t np                    : 1;  /**< [ 15: 15](RO/H) Next page. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge. */
-        uint64_t rf                    : 1;  /**< [ 13: 13](RO/H) Remote fault. */
-        uint64_t xnp_able              : 1;  /**< [ 12: 12](RO/H) Extended next page ability. */
-        uint64_t asm_dir               : 1;  /**< [ 11: 11](RO/H) Asymmetric PAUSE. */
-        uint64_t pause                 : 1;  /**< [ 10: 10](RO/H) PAUSE ability. */
-        uint64_t e                     : 5;  /**< [  9:  5](RO/H) Echoed nonce. */
-        uint64_t s                     : 5;  /**< [  4:  0](RO/H) Selector. */
-#else /* Word 0 - Little Endian */
-        uint64_t s                     : 5;  /**< [  4:  0](RO/H) Selector. */
-        uint64_t e                     : 5;  /**< [  9:  5](RO/H) Echoed nonce. */
-        uint64_t pause                 : 1;  /**< [ 10: 10](RO/H) PAUSE ability. */
-        uint64_t asm_dir               : 1;  /**< [ 11: 11](RO/H) Asymmetric PAUSE. */
-        uint64_t xnp_able              : 1;  /**< [ 12: 12](RO/H) Extended next page ability. */
-        uint64_t rf                    : 1;  /**< [ 13: 13](RO/H) Remote fault. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge. */
-        uint64_t np                    : 1;  /**< [ 15: 15](RO/H) Next page. */
-        uint64_t t                     : 5;  /**< [ 20: 16](RO/H) Transmitted nonce. */
-        uint64_t a1g_kx                : 1;  /**< [ 21: 21](RO/H) 1000BASE-KX ability. */
-        uint64_t a10g_kx4              : 1;  /**< [ 22: 22](RO/H) 10GBASE-KX4 ability. */
-        uint64_t a10g_kr               : 1;  /**< [ 23: 23](RO/H) 10GBASE-KR ability. */
-        uint64_t a40g_kr4              : 1;  /**< [ 24: 24](RO/H) 40GBASE-KR4 ability. */
-        uint64_t a40g_cr4              : 1;  /**< [ 25: 25](RO/H) 40GBASE-CR4 ability. */
-        uint64_t a100g_cr10            : 1;  /**< [ 26: 26](RO/H) 100GBASE-CR10 ability. Should always be 0; 100GBASE-CR10 is not supported. */
-        uint64_t a100g_kp4             : 1;  /**< [ 27: 27](RO/H) 100GBASE-KP4 ability. Should always be 0; 100GBASE-KP4 is not supported. */
-        uint64_t a100g_kr4             : 1;  /**< [ 28: 28](RO/H) 100GBASE-KR4 ability. */
-        uint64_t a100g_cr4             : 1;  /**< [ 29: 29](RO/H) 100GBASE-CR4 ability. */
-        uint64_t a25g_krs_crs          : 1;  /**< [ 30: 30](RO/H) 25GBASE-KR-S or 25GBASE-CR-S ability. */
-        uint64_t a25g_kr_cr            : 1;  /**< [ 31: 31](RO/H) 25GBASE-KR or 25GBASE-CR ability. */
-        uint64_t arsv                  : 12; /**< [ 43: 32](RO/H) Technology ability. Reserved bits, should always be 0. */
-        uint64_t a25g_rs_fec_req       : 1;  /**< [ 44: 44](RO/H) 25G RS-FEC requested. */
-        uint64_t a25g_br_fec_req       : 1;  /**< [ 45: 45](RO/H) 25G BASE-R FEC requested. */
-        uint64_t fec_able              : 1;  /**< [ 46: 46](RO/H) 10G per-lane FEC ability. */
-        uint64_t fec_req               : 1;  /**< [ 47: 47](RO/H) 10G per-lane FEC requested. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_an_lp_base_s cn; */
-};
-typedef union cavm_rpmx_spux_an_lp_base cavm_rpmx_spux_an_lp_base_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_AN_LP_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_AN_LP_BASE(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01a0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_AN_LP_BASE", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_AN_LP_BASE(a,b) cavm_rpmx_spux_an_lp_base_t
-#define bustype_CAVM_RPMX_SPUX_AN_LP_BASE(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_AN_LP_BASE(a,b) "RPMX_SPUX_AN_LP_BASE"
-#define device_bar_CAVM_RPMX_SPUX_AN_LP_BASE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_AN_LP_BASE(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_AN_LP_BASE(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_an_lp_xnp
- *
- * RPM SPU Autonegotiation Link Partner Extended Next Page Ability Registers
- * This register captures the contents of the latest next page code word received from the link
- * partner during autonegotiation, if any. See IEEE 802.3 section 73.7.7 for details.
- */
-union cavm_rpmx_spux_an_lp_xnp
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_an_lp_xnp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t u                     : 32; /**< [ 47: 16](RO/H) Unformatted code field. */
-        uint64_t np                    : 1;  /**< [ 15: 15](RO/H) Next page. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge. */
-        uint64_t mp                    : 1;  /**< [ 13: 13](RO/H) Message page. */
-        uint64_t ack2                  : 1;  /**< [ 12: 12](RO/H) Acknowledge 2. */
-        uint64_t toggle                : 1;  /**< [ 11: 11](RO/H) Toggle. */
-        uint64_t m_u                   : 11; /**< [ 10:  0](RO/H) Message/unformatted code field. */
-#else /* Word 0 - Little Endian */
-        uint64_t m_u                   : 11; /**< [ 10:  0](RO/H) Message/unformatted code field. */
-        uint64_t toggle                : 1;  /**< [ 11: 11](RO/H) Toggle. */
-        uint64_t ack2                  : 1;  /**< [ 12: 12](RO/H) Acknowledge 2. */
-        uint64_t mp                    : 1;  /**< [ 13: 13](RO/H) Message page. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge. */
-        uint64_t np                    : 1;  /**< [ 15: 15](RO/H) Next page. */
-        uint64_t u                     : 32; /**< [ 47: 16](RO/H) Unformatted code field. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_an_lp_xnp_s cn; */
-};
-typedef union cavm_rpmx_spux_an_lp_xnp cavm_rpmx_spux_an_lp_xnp_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_AN_LP_XNP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_AN_LP_XNP(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_AN_LP_XNP", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_AN_LP_XNP(a,b) cavm_rpmx_spux_an_lp_xnp_t
-#define bustype_CAVM_RPMX_SPUX_AN_LP_XNP(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_AN_LP_XNP(a,b) "RPMX_SPUX_AN_LP_XNP"
-#define device_bar_CAVM_RPMX_SPUX_AN_LP_XNP(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_AN_LP_XNP(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_AN_LP_XNP(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_an_status
- *
- * RPM SPU Autonegotiation Status Registers
- */
-union cavm_rpmx_spux_an_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_an_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t prl_flt               : 1;  /**< [  9:  9](RO) Parallel detection fault. Always 0; SPU does not support parallel detection as part of the
-                                                                 autonegotiation protocol. */
-        uint64_t reserved_8            : 1;
-        uint64_t xnp_stat              : 1;  /**< [  7:  7](RO/H) Extended next-page status. */
-        uint64_t page_rx               : 1;  /**< [  6:  6](R/W1C/H) Page received. This latching-high bit is set when a new page has been received and stored
-                                                                 in RPM()_SPU()_AN_LP_BASE or RPM()_SPU()_AN_LP_XNP; stays set until a 1 is
-                                                                 written by software, autonegotiation is disabled or restarted, or next page exchange is
-                                                                 initiated. Note that in order to avoid read side effects, this is implemented as a
-                                                                 write-1-to-clear bit, rather than latching high read-only as specified in 802.3. */
-        uint64_t an_complete           : 1;  /**< [  5:  5](RO/H) Autonegotiation complete. Set when the autonegotiation process has been completed and
-                                                                 the link is up and running using the negotiated highest common denominator (HCD)
-                                                                 technology. If AN is enabled (RPM()_SPU()_AN_CONTROL[AN_EN] = 1) and this bit is
-                                                                 read as a zero, it indicates that the AN process has not been completed, and the contents
-                                                                 of RPM()_SPU()_AN_LP_BASE, RPM()_SPU()_AN_XNP_TX, and
-                                                                 RPM()_SPU()_AN_LP_XNP are as defined by the current state of the autonegotiation
-                                                                 protocol, or as written for manual configuration. This bit is always zero when AN is
-                                                                 disabled (RPM()_SPU()_AN_CONTROL[AN_EN] = 0). */
-        uint64_t rmt_flt               : 1;  /**< [  4:  4](RO) Remote fault: Always 0. */
-        uint64_t an_able               : 1;  /**< [  3:  3](RO) Autonegotiation ability: Always 1. */
-        uint64_t link_status           : 1;  /**< [  2:  2](R/W1S/H) Link status. This bit captures the state of the link_status variable as defined in 802.3
-                                                                 section 73.9.1. When set, indicates that a valid link has been established. When clear,
-                                                                 indicates that the link has been invalid after this bit was last set by software. Latching
-                                                                 low bit; stays clear until a 1 is written by software. Note that in order to avoid read
-                                                                 side effects, this is implemented as a write-1-to-set bit, rather than latching low read-
-                                                                 only as specified in 802.3. */
-        uint64_t reserved_1            : 1;
-        uint64_t lp_an_able            : 1;  /**< [  0:  0](RO/H) Link partner autonegotiation ability. Set to indicate that the link partner is able to
-                                                                 participate in the autonegotiation function, and cleared otherwise. */
-#else /* Word 0 - Little Endian */
-        uint64_t lp_an_able            : 1;  /**< [  0:  0](RO/H) Link partner autonegotiation ability. Set to indicate that the link partner is able to
-                                                                 participate in the autonegotiation function, and cleared otherwise. */
-        uint64_t reserved_1            : 1;
-        uint64_t link_status           : 1;  /**< [  2:  2](R/W1S/H) Link status. This bit captures the state of the link_status variable as defined in 802.3
-                                                                 section 73.9.1. When set, indicates that a valid link has been established. When clear,
-                                                                 indicates that the link has been invalid after this bit was last set by software. Latching
-                                                                 low bit; stays clear until a 1 is written by software. Note that in order to avoid read
-                                                                 side effects, this is implemented as a write-1-to-set bit, rather than latching low read-
-                                                                 only as specified in 802.3. */
-        uint64_t an_able               : 1;  /**< [  3:  3](RO) Autonegotiation ability: Always 1. */
-        uint64_t rmt_flt               : 1;  /**< [  4:  4](RO) Remote fault: Always 0. */
-        uint64_t an_complete           : 1;  /**< [  5:  5](RO/H) Autonegotiation complete. Set when the autonegotiation process has been completed and
-                                                                 the link is up and running using the negotiated highest common denominator (HCD)
-                                                                 technology. If AN is enabled (RPM()_SPU()_AN_CONTROL[AN_EN] = 1) and this bit is
-                                                                 read as a zero, it indicates that the AN process has not been completed, and the contents
-                                                                 of RPM()_SPU()_AN_LP_BASE, RPM()_SPU()_AN_XNP_TX, and
-                                                                 RPM()_SPU()_AN_LP_XNP are as defined by the current state of the autonegotiation
-                                                                 protocol, or as written for manual configuration. This bit is always zero when AN is
-                                                                 disabled (RPM()_SPU()_AN_CONTROL[AN_EN] = 0). */
-        uint64_t page_rx               : 1;  /**< [  6:  6](R/W1C/H) Page received. This latching-high bit is set when a new page has been received and stored
-                                                                 in RPM()_SPU()_AN_LP_BASE or RPM()_SPU()_AN_LP_XNP; stays set until a 1 is
-                                                                 written by software, autonegotiation is disabled or restarted, or next page exchange is
-                                                                 initiated. Note that in order to avoid read side effects, this is implemented as a
-                                                                 write-1-to-clear bit, rather than latching high read-only as specified in 802.3. */
-        uint64_t xnp_stat              : 1;  /**< [  7:  7](RO/H) Extended next-page status. */
-        uint64_t reserved_8            : 1;
-        uint64_t prl_flt               : 1;  /**< [  9:  9](RO) Parallel detection fault. Always 0; SPU does not support parallel detection as part of the
-                                                                 autonegotiation protocol. */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_an_status_s cn; */
-};
-typedef union cavm_rpmx_spux_an_status cavm_rpmx_spux_an_status_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_AN_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_AN_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0190ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_AN_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_AN_STATUS(a,b) cavm_rpmx_spux_an_status_t
-#define bustype_CAVM_RPMX_SPUX_AN_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_AN_STATUS(a,b) "RPMX_SPUX_AN_STATUS"
-#define device_bar_CAVM_RPMX_SPUX_AN_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_AN_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_AN_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_an_xnp_tx
- *
- * RPM SPU Autonegotiation Extended Next Page Transmit Registers
- * Software programs this register with the contents of the AN message next page or unformatted
- * next page link code word to be transmitted during autonegotiation. Next page exchange occurs
- * after the base link code words have been exchanged if either end of the link segment sets the
- * NP bit to 1, indicating that it has at least one next page to send. Once initiated, next page
- * exchange continues until both ends of the link segment set their NP bits to 0. See IEEE
- * 802.3 section 73.7.7 for details.
- */
-union cavm_rpmx_spux_an_xnp_tx
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_an_xnp_tx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t u                     : 32; /**< [ 47: 16](R/W) Unformatted code field. When the MP bit is set, this field contains the 32-bit unformatted
-                                                                 code field of the message next page. When MP is clear, this field contains the upper 32
-                                                                 bits of the 43-bit unformatted code field of the unformatted next page. */
-        uint64_t np                    : 1;  /**< [ 15: 15](R/W) Next page. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge: Always 0 in this register. */
-        uint64_t mp                    : 1;  /**< [ 13: 13](R/W) Message page. Set to indicate that this register contains a message next page. Clear to
-                                                                 indicate that the register contains an unformatted next page. */
-        uint64_t ack2                  : 1;  /**< [ 12: 12](R/W) Acknowledge 2. Indicates that the receiver is able to act on the information (or perform
-                                                                 the task) defined in the message. */
-        uint64_t toggle                : 1;  /**< [ 11: 11](R/W) This bit is ignored by hardware. The value of the TOGGLE bit in transmitted next pages is
-                                                                 automatically generated by hardware. */
-        uint64_t m_u                   : 11; /**< [ 10:  0](R/W) Message/unformatted code field: When the MP bit is set, this field contains the message
-                                                                 code field (M) of the message next page. When MP is clear, this field contains the lower
-                                                                 11 bits of the 43-bit unformatted code field of the unformatted next page. */
-#else /* Word 0 - Little Endian */
-        uint64_t m_u                   : 11; /**< [ 10:  0](R/W) Message/unformatted code field: When the MP bit is set, this field contains the message
-                                                                 code field (M) of the message next page. When MP is clear, this field contains the lower
-                                                                 11 bits of the 43-bit unformatted code field of the unformatted next page. */
-        uint64_t toggle                : 1;  /**< [ 11: 11](R/W) This bit is ignored by hardware. The value of the TOGGLE bit in transmitted next pages is
-                                                                 automatically generated by hardware. */
-        uint64_t ack2                  : 1;  /**< [ 12: 12](R/W) Acknowledge 2. Indicates that the receiver is able to act on the information (or perform
-                                                                 the task) defined in the message. */
-        uint64_t mp                    : 1;  /**< [ 13: 13](R/W) Message page. Set to indicate that this register contains a message next page. Clear to
-                                                                 indicate that the register contains an unformatted next page. */
-        uint64_t ack                   : 1;  /**< [ 14: 14](RO/H) Acknowledge: Always 0 in this register. */
-        uint64_t np                    : 1;  /**< [ 15: 15](R/W) Next page. */
-        uint64_t u                     : 32; /**< [ 47: 16](R/W) Unformatted code field. When the MP bit is set, this field contains the 32-bit unformatted
-                                                                 code field of the message next page. When MP is clear, this field contains the upper 32
-                                                                 bits of the 43-bit unformatted code field of the unformatted next page. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_an_xnp_tx_s cn; */
-};
-typedef union cavm_rpmx_spux_an_xnp_tx cavm_rpmx_spux_an_xnp_tx_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_AN_XNP_TX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_AN_XNP_TX(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_AN_XNP_TX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_AN_XNP_TX(a,b) cavm_rpmx_spux_an_xnp_tx_t
-#define bustype_CAVM_RPMX_SPUX_AN_XNP_TX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_AN_XNP_TX(a,b) "RPMX_SPUX_AN_XNP_TX"
-#define device_bar_CAVM_RPMX_SPUX_AN_XNP_TX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_AN_XNP_TX(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_AN_XNP_TX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_algn_status
- *
- * RPM SPU Multilane BASE-R PCS Alignment-Status Registers
- * This register implements the IEEE 802.3 multilane BASE-R PCS alignment status 1-4 registers
- * (3.50-3.53). It is valid only when the LPCS type is 40GBASE-R, 50GBASE-R, 100GBASE-R,
- * (RPM()_CMR()_CONFIG[LMAC_TYPE] = RPM_LMAC_TYPES_E::FORTYG_R,FIFTYG_R,HUNDREDG_R), and always
- * returns 0x0 for all other LPCS
- * types. Service interfaces (lanes) 19-0 (100G) and 3-0 (all others) are mapped to PCS lanes
- * 19-0 or 3-0 via RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING]. For 100G, logical lane 0 fans out to
- * service interfaces 0-4, logical lane 1 fans out to service interfaces 5-9, ... etc. For all
- * other modes, logical lanes and service interfaces are identical. Logical interfaces (lanes)
- * map to SerDes lanes via RPM()_CMR()_CONFIG[LANE_TO_SDS] (programmable).
- */
-union cavm_rpmx_spux_br_algn_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_algn_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_61_63        : 3;
-        uint64_t marker_lock           : 20; /**< [ 60: 41](RO/H) Marker-locked status for PCS lanes 19-0 as achieved by AM-lock FSM (COUNT_2).
-                                                                 0 = Not locked.
-                                                                 1 = Locked.
-
-                                                                 When USXGMII is enabled it indicates AM-lock for non-RS-FEC, CWM-lock for RS-FEC.
-                                                                 For all other RS-FEC modes (25G, 50G, 100G) it also indicates marker-locked status
-                                                                 for applicable FEC lanes and is synonymous with
-                                                                 RPM()_SPU()_RSFEC_STATUS[AMPS_LOCK] for bits 0..3 only. */
-        uint64_t reserved_31_40        : 10;
-        uint64_t alignd                : 1;  /**< [ 30: 30](RO/H) All lanes are locked and aligned per DESKEW_SM FSM (ALIGN_ACQUIRED_1).
-                                                                 This bit returns 1 when the logical PCS has locked and
-                                                                 aligned all associated receive lanes; returns 0 otherwise. For all other PCS types, this
-                                                                 bit always returns 0. In particular, all single-lane modes (10G, 25G, USXGMII) leave this
-                                                                 bit 0. For all multi-lane RS-FEC modes (50G, 100G) this bit indicates all applicable FEC
-                                                                 lanes are aligned. */
-        uint64_t reserved_20_29        : 10;
-        uint64_t block_lock            : 20; /**< [ 19:  0](RO/H) Block-lock status for PCS lanes 19-0:
-                                                                   0 = Not locked.
-                                                                   1 = Locked.
-                                                                 In particular, all single-lane modes (10G, 25G, USXGMII) leave this field at 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t block_lock            : 20; /**< [ 19:  0](RO/H) Block-lock status for PCS lanes 19-0:
-                                                                   0 = Not locked.
-                                                                   1 = Locked.
-                                                                 In particular, all single-lane modes (10G, 25G, USXGMII) leave this field at 0. */
-        uint64_t reserved_20_29        : 10;
-        uint64_t alignd                : 1;  /**< [ 30: 30](RO/H) All lanes are locked and aligned per DESKEW_SM FSM (ALIGN_ACQUIRED_1).
-                                                                 This bit returns 1 when the logical PCS has locked and
-                                                                 aligned all associated receive lanes; returns 0 otherwise. For all other PCS types, this
-                                                                 bit always returns 0. In particular, all single-lane modes (10G, 25G, USXGMII) leave this
-                                                                 bit 0. For all multi-lane RS-FEC modes (50G, 100G) this bit indicates all applicable FEC
-                                                                 lanes are aligned. */
-        uint64_t reserved_31_40        : 10;
-        uint64_t marker_lock           : 20; /**< [ 60: 41](RO/H) Marker-locked status for PCS lanes 19-0 as achieved by AM-lock FSM (COUNT_2).
-                                                                 0 = Not locked.
-                                                                 1 = Locked.
-
-                                                                 When USXGMII is enabled it indicates AM-lock for non-RS-FEC, CWM-lock for RS-FEC.
-                                                                 For all other RS-FEC modes (25G, 50G, 100G) it also indicates marker-locked status
-                                                                 for applicable FEC lanes and is synonymous with
-                                                                 RPM()_SPU()_RSFEC_STATUS[AMPS_LOCK] for bits 0..3 only. */
-        uint64_t reserved_61_63        : 3;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_algn_status_s cn; */
-};
-typedef union cavm_rpmx_spux_br_algn_status cavm_rpmx_spux_br_algn_status_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_ALGN_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_ALGN_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0050ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_ALGN_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_ALGN_STATUS(a,b) cavm_rpmx_spux_br_algn_status_t
-#define bustype_CAVM_RPMX_SPUX_BR_ALGN_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_ALGN_STATUS(a,b) "RPMX_SPUX_BR_ALGN_STATUS"
-#define device_bar_CAVM_RPMX_SPUX_BR_ALGN_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_ALGN_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_ALGN_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_lane_map#
- *
- * RPM SPU 40,50,100GBASE-R Lane-Mapping Registers
- * This register implements the IEEE 802.3 lane 0-19 mapping registers
- * (3.400-3.403). It is valid only when the LPCS type is 40GBASE-R, 50GBASE-R,
- * 100GBASE-R, USXGMII (RPM()_CMR()_CONFIG[LMAC_TYPE]), and always
- * returns 0x0 for all other LPCS types. The LNx_MAPPING field for each programmed PCS
- * lane (called service interface in 802.3) is valid when that lane has achieved
- * alignment marker lock on the receive side (i.e. the associated
- * RPM()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), and is invalid otherwise. When valid,
- * it returns the actual detected receive PCS lane number based on the received
- * alignment marker contents received on that service interface.
- *
- * In RS-FEC mode the LNx_MAPPING field is valid when that lane has achieved alignment
- * marker lock on the receive side (i.e. the associated
- * RPM_SPU(0..3)_RSFEC_STATUS[AMPS_LOCK] = 1), and is invalid otherwise. When valid,
- * it returns the actual detected receive FEC lane number based on the received
- * alignment marker contents received on that logical lane therefore expect for RS-FEC
- * that LNx_MAPPING = x.
- *
- * The mapping is flexible because IEEE 802.3 allows multilane BASE-R receive lanes to
- * be re-ordered. Note that for the transmit side, each logical lane is mapped to a
- * physical SerDes lane based on the programming of
- * RPM()_CMR()_CONFIG[LANE_TO_SDS]. For the receive side,
- * RPM()_CMR()_CONFIG[LANE_TO_SDS] specifies the logical lane to physical SerDes
- * lane mapping, and this register specifies the service interface (or lane) to PCS
- * lane mapping.
- */
-union cavm_rpmx_spux_br_lane_mapx
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_lane_mapx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t ln_mapping            : 6;  /**< [  5:  0](RO/H) PCS lane number received on service interface N where N is the (0..19) offset used to
-                                                                 access this register. */
-#else /* Word 0 - Little Endian */
-        uint64_t ln_mapping            : 6;  /**< [  5:  0](RO/H) PCS lane number received on service interface N where N is the (0..19) offset used to
-                                                                 access this register. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_lane_mapx_s cn; */
-};
-typedef union cavm_rpmx_spux_br_lane_mapx cavm_rpmx_spux_br_lane_mapx_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_LANE_MAPX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_LANE_MAPX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=8) && (b<=3) && (c<=19))
-        return 0x87e0e00d0600ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
-    __cavm_csr_fatal("RPMX_SPUX_BR_LANE_MAPX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_LANE_MAPX(a,b,c) cavm_rpmx_spux_br_lane_mapx_t
-#define bustype_CAVM_RPMX_SPUX_BR_LANE_MAPX(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_LANE_MAPX(a,b,c) "RPMX_SPUX_BR_LANE_MAPX"
-#define device_bar_CAVM_RPMX_SPUX_BR_LANE_MAPX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_LANE_MAPX(a,b,c) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_LANE_MAPX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) rpm#_spu#_br_pmd_control
- *
- * RPM SPU BASE-R PMD Control Registers
- */
-union cavm_rpmx_spux_br_pmd_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_pmd_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t use_lane_poly         : 1;  /**< [  2:  2](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| When this bit is 0, training will generate the pseudo-
-                                                                 random sequence using the polynomial specified in 802.3-2012 section 5 CL
-                                                                 72.6.10.2.6 for all lanes. When this bit is 1, the per-physical-lane polynomials
-                                                                 specified in 802.3bj-2014 CL 92.7.12 will be used. */
-        uint64_t train_en              : 1;  /**< [  1:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R training enable. */
-        uint64_t train_restart         : 1;  /**< [  0:  0](R/W1S/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R training restart. Writing a 1 to this bit restarts
-                                                                 the training process if [TRAIN_EN] is also set. This is a self-clearing bit.
-                                                                 Software should wait a minimum of 1.7 ms after RPM()_SPU()_INT[TRAINING_FAILURE]
-                                                                 is set before restarting the training process. */
-#else /* Word 0 - Little Endian */
-        uint64_t train_restart         : 1;  /**< [  0:  0](R/W1S/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R training restart. Writing a 1 to this bit restarts
-                                                                 the training process if [TRAIN_EN] is also set. This is a self-clearing bit.
-                                                                 Software should wait a minimum of 1.7 ms after RPM()_SPU()_INT[TRAINING_FAILURE]
-                                                                 is set before restarting the training process. */
-        uint64_t train_en              : 1;  /**< [  1:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R training enable. */
-        uint64_t use_lane_poly         : 1;  /**< [  2:  2](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| When this bit is 0, training will generate the pseudo-
-                                                                 random sequence using the polynomial specified in 802.3-2012 section 5 CL
-                                                                 72.6.10.2.6 for all lanes. When this bit is 1, the per-physical-lane polynomials
-                                                                 specified in 802.3bj-2014 CL 92.7.12 will be used. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_pmd_control_s cn; */
-};
-typedef union cavm_rpmx_spux_br_pmd_control cavm_rpmx_spux_br_pmd_control_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_CONTROL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_PMD_CONTROL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_PMD_CONTROL(a,b) cavm_rpmx_spux_br_pmd_control_t
-#define bustype_CAVM_RPMX_SPUX_BR_PMD_CONTROL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_PMD_CONTROL(a,b) "RPMX_SPUX_BR_PMD_CONTROL"
-#define device_bar_CAVM_RPMX_SPUX_BR_PMD_CONTROL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_PMD_CONTROL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_PMD_CONTROL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_pmd_ld_cup
- *
- * INTERNAL:RPM SPU BASE-R PMD Local Device Coefficient Update Registers
- *
- * This register implements MDIO register 1.154 of 802.3-2012 Section 5 CL45 for 10GBASE-R and
- * and of 802.3by-2016 CL45 for 25GBASE-R. Note that for 10G, 25G LN0_ only is used.
- *
- * It implements  MDIO registers 1.1300-1.1303 for all other BASE-R modes (40G, 50G, 100G) per
- * 802.3bj-2014 CL45. Note that for 50G LN0_ and LN1_ only are used.
- *
- * The fields in this register are read/write even though they are specified as read-only in 802.3.
- *
- * The register is automatically cleared at the start of training. When link training
- * is in progress, each field reflects the contents of the coefficient update field in the
- * associated lane's outgoing training frame.
- *
- * If RPM()_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is set, then this register must be updated
- * by software during link training and hardware updates are disabled. If
- * RPM()_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is clear, this register is automatically
- * updated by hardware, and it should not be written by software. The lane fields in this
- * register are indexed by logical PCS lane ID.
- */
-union cavm_rpmx_spux_br_pmd_ld_cup
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_pmd_ld_cup_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ln3_cup               : 16; /**< [ 63: 48](R/W/H) PCS lane 3 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln2_cup               : 16; /**< [ 47: 32](R/W/H) PCS lane 2 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln1_cup               : 16; /**< [ 31: 16](R/W/H) PCS lane 1 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln0_cup               : 16; /**< [ 15:  0](R/W/H) PCS lane 0 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t ln0_cup               : 16; /**< [ 15:  0](R/W/H) PCS lane 0 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln1_cup               : 16; /**< [ 31: 16](R/W/H) PCS lane 1 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln2_cup               : 16; /**< [ 47: 32](R/W/H) PCS lane 2 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln3_cup               : 16; /**< [ 63: 48](R/W/H) PCS lane 3 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_pmd_ld_cup_s cn; */
-};
-typedef union cavm_rpmx_spux_br_pmd_ld_cup cavm_rpmx_spux_br_pmd_ld_cup_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LD_CUP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LD_CUP(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00c8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_PMD_LD_CUP", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_PMD_LD_CUP(a,b) cavm_rpmx_spux_br_pmd_ld_cup_t
-#define bustype_CAVM_RPMX_SPUX_BR_PMD_LD_CUP(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_PMD_LD_CUP(a,b) "RPMX_SPUX_BR_PMD_LD_CUP"
-#define device_bar_CAVM_RPMX_SPUX_BR_PMD_LD_CUP(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_PMD_LD_CUP(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_PMD_LD_CUP(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_pmd_ld_rep
- *
- * INTERNAL:RPM SPU BASE-R PMD Local Device Status Report Registers
- *
- * This register implements MDIO register 1.155 of 802.3-2012 Section 5 CL45 for 10GBASE-R and
- * and of 802.3by-2016 CL45 for 25GBASE-R. Note that for 10G, 25G LN0_ only is used.
- *
- * It implements  MDIO registers 1.1400-1.1403 for all other BASE-R modes (40G, 50G, 100G) per
- * 802.3bj-2014 CL45. Note that for 50G LN0_ and LN1_ only are used.
- *
- * The fields in this register are read/write even though they are specified as read-only in 802.3.
- *
- * The register is automatically cleared at the start of training. Each field
- * reflects the contents of the status report field in the associated lane's outgoing training
- * frame.
- *
- * If RPM()_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is set, then this register must
- * be updated by software during link training and hardware updates are disabled. If
- * RPM()_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is clear, this register is automatically
- * updated by hardware, and it should not be written by software. The lane fields in this
- * register are indexed by logical PCS lane ID.
- */
-union cavm_rpmx_spux_br_pmd_ld_rep
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_pmd_ld_rep_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ln3_rep               : 16; /**< [ 63: 48](R/W/H) PCS lane 3 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln2_rep               : 16; /**< [ 47: 32](R/W/H) PCS lane 2 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln1_rep               : 16; /**< [ 31: 16](R/W/H) PCS lane 1 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln0_rep               : 16; /**< [ 15:  0](R/W/H) PCS lane 0 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t ln0_rep               : 16; /**< [ 15:  0](R/W/H) PCS lane 0 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln1_rep               : 16; /**< [ 31: 16](R/W/H) PCS lane 1 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln2_rep               : 16; /**< [ 47: 32](R/W/H) PCS lane 2 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln3_rep               : 16; /**< [ 63: 48](R/W/H) PCS lane 3 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_pmd_ld_rep_s cn; */
-};
-typedef union cavm_rpmx_spux_br_pmd_ld_rep cavm_rpmx_spux_br_pmd_ld_rep_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LD_REP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LD_REP(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_PMD_LD_REP", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_PMD_LD_REP(a,b) cavm_rpmx_spux_br_pmd_ld_rep_t
-#define bustype_CAVM_RPMX_SPUX_BR_PMD_LD_REP(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_PMD_LD_REP(a,b) "RPMX_SPUX_BR_PMD_LD_REP"
-#define device_bar_CAVM_RPMX_SPUX_BR_PMD_LD_REP(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_PMD_LD_REP(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_PMD_LD_REP(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_pmd_lp_cup
- *
- * INTERNAL:RPM SPU BASE-R PMD Link Partner Coefficient Update Registers
- *
- * This register implements MDIO register 1.152 of 802.3-2012 Section 5 CL45 for 10GBASE-R and
- * and of 802.3by-2016 CL45 for 25GBASE-R. Note that for 10G, 25G LN0_ only is used.
- *
- * It implements  MDIO registers 1.1100-1.1103 for all other BASE-R modes (40G, 50G, 100G) per
- * 802.3bj-2014 CL45. Note that for 50G LN0_ and LN1_ only are used.
- *
- * The register is automatically cleared at the start of training. Each field reflects
- * the contents of the coefficient update field in the lane's most recently received training
- * frame. This register should not be written when link training is enabled, i.e. when
- * RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is set. The lane fields in this register are indexed by
- * logical PCS lane ID.
- */
-union cavm_rpmx_spux_br_pmd_lp_cup
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_pmd_lp_cup_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ln3_cup               : 16; /**< [ 63: 48](R/W/H) PCS lane 3 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln2_cup               : 16; /**< [ 47: 32](R/W/H) PCS lane 2 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln1_cup               : 16; /**< [ 31: 16](R/W/H) PCS lane 1 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln0_cup               : 16; /**< [ 15:  0](R/W/H) PCS lane 0 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t ln0_cup               : 16; /**< [ 15:  0](R/W/H) PCS lane 0 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln1_cup               : 16; /**< [ 31: 16](R/W/H) PCS lane 1 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln2_cup               : 16; /**< [ 47: 32](R/W/H) PCS lane 2 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-        uint64_t ln3_cup               : 16; /**< [ 63: 48](R/W/H) PCS lane 3 coefficient update: format defined by RPM_SPU_BR_TRAIN_CUP_S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_pmd_lp_cup_s cn; */
-};
-typedef union cavm_rpmx_spux_br_pmd_lp_cup cavm_rpmx_spux_br_pmd_lp_cup_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LP_CUP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LP_CUP(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_PMD_LP_CUP", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_PMD_LP_CUP(a,b) cavm_rpmx_spux_br_pmd_lp_cup_t
-#define bustype_CAVM_RPMX_SPUX_BR_PMD_LP_CUP(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_PMD_LP_CUP(a,b) "RPMX_SPUX_BR_PMD_LP_CUP"
-#define device_bar_CAVM_RPMX_SPUX_BR_PMD_LP_CUP(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_PMD_LP_CUP(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_PMD_LP_CUP(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_pmd_lp_rep
- *
- * INTERNAL:RPM SPU BASE-R PMD Link Partner Status Report Registers
- *
- * This register implements MDIO register 1.153 of 802.3-2012 Section 5 CL45 for 10GBASE-R and
- * and of 802.3by-2016 CL45 for 25GBASE-R. Note that for 10G, 25G LN0_ only is used.
- *
- * It implements  MDIO registers 1.1200-1.1203 for all other BASE-R modes (40G, 50G, 100G) per
- * 802.3bj-2014 CL45. Note that for 50G LN0_ and LN1_ only are used.
- *
- * The register is automatically cleared at the start of training. Each field reflects
- * the contents of the coefficient update field in the lane's most recently received training
- * frame. This register should not be written when link training is enabled, i.e. when
- * RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is set. The lane fields in this register are indexed by
- * logical PCS lane ID.
- */
-union cavm_rpmx_spux_br_pmd_lp_rep
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_pmd_lp_rep_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ln3_rep               : 16; /**< [ 63: 48](RO/H) PCS lane 3 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln2_rep               : 16; /**< [ 47: 32](RO/H) PCS lane 2 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln1_rep               : 16; /**< [ 31: 16](RO/H) PCS lane 1 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln0_rep               : 16; /**< [ 15:  0](RO/H) PCS lane 0 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t ln0_rep               : 16; /**< [ 15:  0](RO/H) PCS lane 0 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln1_rep               : 16; /**< [ 31: 16](RO/H) PCS lane 1 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln2_rep               : 16; /**< [ 47: 32](RO/H) PCS lane 2 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-        uint64_t ln3_rep               : 16; /**< [ 63: 48](RO/H) PCS lane 3 status report: format defined by RPM_SPU_BR_TRAIN_REP_S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_pmd_lp_rep_s cn; */
-};
-typedef union cavm_rpmx_spux_br_pmd_lp_rep cavm_rpmx_spux_br_pmd_lp_rep_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LP_REP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_LP_REP(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_PMD_LP_REP", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_PMD_LP_REP(a,b) cavm_rpmx_spux_br_pmd_lp_rep_t
-#define bustype_CAVM_RPMX_SPUX_BR_PMD_LP_REP(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_PMD_LP_REP(a,b) "RPMX_SPUX_BR_PMD_LP_REP"
-#define device_bar_CAVM_RPMX_SPUX_BR_PMD_LP_REP(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_PMD_LP_REP(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_PMD_LP_REP(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_pmd_status
- *
- * INTERNAL:RPM SPU BASE-R PMD Status Registers
- *
- * The lane fields in this register are indexed by logical PCS lane ID. The lane 0 field (LN0_*)
- * is valid for 10GBASE-R, 25GBASE-R, 40GBASE-R, 50GBASE-R and 100GBASE-R. The lane 1 field
- * (LN1_*) is valid for 40GBASE-R, 50GBASE-R and 100GBASE-R. The remaining fields (LN2_*, LN3_*)
- * are only valid for 40GBASE-R and 100GBASE-R.
- */
-union cavm_rpmx_spux_br_pmd_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_pmd_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t ln3_train_status      : 4;  /**< [ 15: 12](RO/H) PCS lane 3 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-        uint64_t ln2_train_status      : 4;  /**< [ 11:  8](RO/H) PCS lane 2 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-        uint64_t ln1_train_status      : 4;  /**< [  7:  4](RO/H) PCS lane 1 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-        uint64_t ln0_train_status      : 4;  /**< [  3:  0](RO/H) PCS lane 0 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t ln0_train_status      : 4;  /**< [  3:  0](RO/H) PCS lane 0 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-        uint64_t ln1_train_status      : 4;  /**< [  7:  4](RO/H) PCS lane 1 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-        uint64_t ln2_train_status      : 4;  /**< [ 11:  8](RO/H) PCS lane 2 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-        uint64_t ln3_train_status      : 4;  /**< [ 15: 12](RO/H) PCS lane 3 link training status. Format defined by RPM_SPU_BR_LANE_TRAIN_STATUS_S. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_pmd_status_s cn; */
-};
-typedef union cavm_rpmx_spux_br_pmd_status cavm_rpmx_spux_br_pmd_status_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_PMD_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_PMD_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_PMD_STATUS(a,b) cavm_rpmx_spux_br_pmd_status_t
-#define bustype_CAVM_RPMX_SPUX_BR_PMD_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_PMD_STATUS(a,b) "RPMX_SPUX_BR_PMD_STATUS"
-#define device_bar_CAVM_RPMX_SPUX_BR_PMD_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_PMD_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_PMD_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_status1
- *
- * RPM SPU BASE-R Status 1 Registers
- */
-union cavm_rpmx_spux_br_status1
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_status1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t rcv_lnk               : 1;  /**< [ 12: 12](RO/H) BASE-R receive link status.
-                                                                 0 = BASE-R PCS receive-link down.
-                                                                 1 = BASE-R PCS receive-link up.
-
-                                                                 This bit is a reflection of the PCS_status variable defined in IEEE 802.3 sections
-                                                                 49.2.14.1 and 82.3.1, applicable to 10G,25G, and 40G,50G,100G, respectively. This bit
-                                                                 also applies in the same manner to RS-FEC and non-RS-FEC USXGMII. */
-        uint64_t reserved_4_11         : 8;
-        uint64_t prbs9                 : 1;  /**< [  3:  3](RO) 10GBASE-R PRBS9 pattern testing ability. Always 0; PRBS9 pattern testing is not supported. */
-        uint64_t prbs31                : 1;  /**< [  2:  2](RO) 10GBASE-R PRBS31 pattern testing ability. Always 0; PRBS31 pattern testing is not supported. */
-        uint64_t hi_ber                : 1;  /**< [  1:  1](RO/H) BASE-R PCS high bit-error rate.
-                                                                 0 = 64/66 bit receiver is detecting a bit-error rate of \< 10.4.
-                                                                 1 = 64/66 bit receiver is detecting a bit-error rate of \>= 10.4.
-
-                                                                 This bit is a direct reflection of the state of the hi_ber variable in the 64 B/66 B state
-                                                                 diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2, applicable to
-                                                                 10G,25G, and 40G,50G,100G, respectively. This bit also applies in the same manner to RS-FEC
-                                                                 and non-RS-FEC USXGMII. */
-        uint64_t blk_lock              : 1;  /**< [  0:  0](RO/H) BASE-R PCS block lock.
-                                                                 0 = No block lock.
-                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
-
-                                                                 This bit is a direct reflection of the state of the block_lock variable in the 64 B/66 B
-                                                                 state diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
-                                                                 For 10G,25G FEC defined in IEEE 802.3 clause 74, this corresponds to the state of the
-                                                                 fec_block_lock variable as defined in section 74.10.2.2.
-                                                                 For a multilane logical PCS (40G,50G,100GBASE-R with or without Clause 74 FEC), this bit indicates
-                                                                 that the receiver has both block lock and alignment for all lanes and is identical to
-                                                                 RPM()_SPU()_BR_ALGN_STATUS[ALIGND] (DESKEW_SM FSM (ALIGN_ACQUIRED_1)).
-                                                                 For non-RS-FEC USXGMII this bit indicates 64 B/66 B lock was achieved.
-                                                                 For single-lane RS-FEC (USXGMII and 25GBASE-R) this bit indicates that the IEEE 802.3by
-                                                                 Figure 108-6 synchronization FSM reached state 2_GOOD, i.e. FEC_align_status = 1.
-                                                                 (USX uses PIPE_RF_USX_AM_DET FSM, 25G uses PIPE_AM_LOCK).
-                                                                 For multilane RS-FEC (50G, 100G), this bit indicates that the IEEE 802.3bj
-                                                                 Figure 91-9 FEC alignment FSM reached ALIGN_ACQUIRED. (50G, 100G both use PIPE_DESKEW_SM). */
-#else /* Word 0 - Little Endian */
-        uint64_t blk_lock              : 1;  /**< [  0:  0](RO/H) BASE-R PCS block lock.
-                                                                 0 = No block lock.
-                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
-
-                                                                 This bit is a direct reflection of the state of the block_lock variable in the 64 B/66 B
-                                                                 state diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
-                                                                 For 10G,25G FEC defined in IEEE 802.3 clause 74, this corresponds to the state of the
-                                                                 fec_block_lock variable as defined in section 74.10.2.2.
-                                                                 For a multilane logical PCS (40G,50G,100GBASE-R with or without Clause 74 FEC), this bit indicates
-                                                                 that the receiver has both block lock and alignment for all lanes and is identical to
-                                                                 RPM()_SPU()_BR_ALGN_STATUS[ALIGND] (DESKEW_SM FSM (ALIGN_ACQUIRED_1)).
-                                                                 For non-RS-FEC USXGMII this bit indicates 64 B/66 B lock was achieved.
-                                                                 For single-lane RS-FEC (USXGMII and 25GBASE-R) this bit indicates that the IEEE 802.3by
-                                                                 Figure 108-6 synchronization FSM reached state 2_GOOD, i.e. FEC_align_status = 1.
-                                                                 (USX uses PIPE_RF_USX_AM_DET FSM, 25G uses PIPE_AM_LOCK).
-                                                                 For multilane RS-FEC (50G, 100G), this bit indicates that the IEEE 802.3bj
-                                                                 Figure 91-9 FEC alignment FSM reached ALIGN_ACQUIRED. (50G, 100G both use PIPE_DESKEW_SM). */
-        uint64_t hi_ber                : 1;  /**< [  1:  1](RO/H) BASE-R PCS high bit-error rate.
-                                                                 0 = 64/66 bit receiver is detecting a bit-error rate of \< 10.4.
-                                                                 1 = 64/66 bit receiver is detecting a bit-error rate of \>= 10.4.
-
-                                                                 This bit is a direct reflection of the state of the hi_ber variable in the 64 B/66 B state
-                                                                 diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2, applicable to
-                                                                 10G,25G, and 40G,50G,100G, respectively. This bit also applies in the same manner to RS-FEC
-                                                                 and non-RS-FEC USXGMII. */
-        uint64_t prbs31                : 1;  /**< [  2:  2](RO) 10GBASE-R PRBS31 pattern testing ability. Always 0; PRBS31 pattern testing is not supported. */
-        uint64_t prbs9                 : 1;  /**< [  3:  3](RO) 10GBASE-R PRBS9 pattern testing ability. Always 0; PRBS9 pattern testing is not supported. */
-        uint64_t reserved_4_11         : 8;
-        uint64_t rcv_lnk               : 1;  /**< [ 12: 12](RO/H) BASE-R receive link status.
-                                                                 0 = BASE-R PCS receive-link down.
-                                                                 1 = BASE-R PCS receive-link up.
-
-                                                                 This bit is a reflection of the PCS_status variable defined in IEEE 802.3 sections
-                                                                 49.2.14.1 and 82.3.1, applicable to 10G,25G, and 40G,50G,100G, respectively. This bit
-                                                                 also applies in the same manner to RS-FEC and non-RS-FEC USXGMII. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_status1_s cn; */
-};
-typedef union cavm_rpmx_spux_br_status1 cavm_rpmx_spux_br_status1_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_STATUS1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0030ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_STATUS1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_STATUS1(a,b) cavm_rpmx_spux_br_status1_t
-#define bustype_CAVM_RPMX_SPUX_BR_STATUS1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_STATUS1(a,b) "RPMX_SPUX_BR_STATUS1"
-#define device_bar_CAVM_RPMX_SPUX_BR_STATUS1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_STATUS1(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_STATUS1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_status2
- *
- * RPM SPU BASE-R Status 2 Registers
- * This register implements a combination of the following IEEE 802.3 registers:
- * * BASE-R PCS status 2 (MDIO address 3.33).
- * * BASE-R BER high-order counter (MDIO address 3.44).
- * * Errored-blocks high-order counter (MDIO address 3.45).
- *
- * Note that the relative locations of some fields have been moved from IEEE 802.3 in order to
- * make the register layout more software friendly: the BER counter high-order and low-order bits
- * from sections 3.44 and 3.33 have been combined into the contiguous, 22-bit [BER_CNT] field;
- * likewise, the errored-blocks counter high-order and low-order bits from section 3.45 have been
- * combined into the contiguous, 22-bit [ERR_BLKS] field.
- */
-union cavm_rpmx_spux_br_status2
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_status2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t err_blks              : 22; /**< [ 61: 40](R/W/H) Errored-blocks counter. This is the BASE-R errored-blocks counter as defined by
-                                                                 the errored_block_count variable specified in IEEE 802.3 sections 49.2.14.2 and
-                                                                 82.2.18.2.4. It increments by one on each block for which the BASE-R receive
-                                                                 state machine, specified in IEEE 802.3 diagrams 49-15 and 82-15, enters the RX_E
-                                                                 state. Back-to-back blocks in the RX_E state are counted as transitions from
-                                                                 RX_E to RX_E and keep incrementing the counter.
-
-                                                                 This field is writable for test purposes, rather than read-clear as specified in IEEE
-                                                                 802.3. */
-        uint64_t reserved_38_39        : 2;
-        uint64_t ber_cnt               : 22; /**< [ 37: 16](R/W/H) Bit-error-rate counter. This is the BASE-R BER counter as defined by the ber_count
-                                                                 variable in IEEE 802.3 sections 49.2.14.2 and 82.2.18.2.4.
-
-                                                                 This field is writable for test purposes, rather than read-clear as specified in IEEE
-                                                                 802.3. */
-        uint64_t latched_lock          : 1;  /**< [ 15: 15](R/W1S/H) Latched-block lock.
-                                                                 0 = No block.
-                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
-
-                                                                 This is a latching-low version of RPM()_SPU()_BR_STATUS1[BLK_LOCK]; it stays clear
-                                                                 until a write-1-to-set by software. */
-        uint64_t latched_ber           : 1;  /**< [ 14: 14](R/W1C/H) Latched-high bit-error rate.
-                                                                 0 = Not a high BER.
-                                                                 1 = 64/66 bit receiver is detecting a high BER.
-
-                                                                 This is a latching-high version of RPM()_SPU()_BR_STATUS1[HI_BER]; it stays set until
-                                                                 a write-1-to-clear by software. */
-        uint64_t reserved_0_13         : 14;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_13         : 14;
-        uint64_t latched_ber           : 1;  /**< [ 14: 14](R/W1C/H) Latched-high bit-error rate.
-                                                                 0 = Not a high BER.
-                                                                 1 = 64/66 bit receiver is detecting a high BER.
-
-                                                                 This is a latching-high version of RPM()_SPU()_BR_STATUS1[HI_BER]; it stays set until
-                                                                 a write-1-to-clear by software. */
-        uint64_t latched_lock          : 1;  /**< [ 15: 15](R/W1S/H) Latched-block lock.
-                                                                 0 = No block.
-                                                                 1 = 64/66 bit receiver for BASE-R has block lock.
-
-                                                                 This is a latching-low version of RPM()_SPU()_BR_STATUS1[BLK_LOCK]; it stays clear
-                                                                 until a write-1-to-set by software. */
-        uint64_t ber_cnt               : 22; /**< [ 37: 16](R/W/H) Bit-error-rate counter. This is the BASE-R BER counter as defined by the ber_count
-                                                                 variable in IEEE 802.3 sections 49.2.14.2 and 82.2.18.2.4.
-
-                                                                 This field is writable for test purposes, rather than read-clear as specified in IEEE
-                                                                 802.3. */
-        uint64_t reserved_38_39        : 2;
-        uint64_t err_blks              : 22; /**< [ 61: 40](R/W/H) Errored-blocks counter. This is the BASE-R errored-blocks counter as defined by
-                                                                 the errored_block_count variable specified in IEEE 802.3 sections 49.2.14.2 and
-                                                                 82.2.18.2.4. It increments by one on each block for which the BASE-R receive
-                                                                 state machine, specified in IEEE 802.3 diagrams 49-15 and 82-15, enters the RX_E
-                                                                 state. Back-to-back blocks in the RX_E state are counted as transitions from
-                                                                 RX_E to RX_E and keep incrementing the counter.
-
-                                                                 This field is writable for test purposes, rather than read-clear as specified in IEEE
-                                                                 802.3. */
-        uint64_t reserved_62_63        : 2;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_status2_s cn; */
-};
-typedef union cavm_rpmx_spux_br_status2 cavm_rpmx_spux_br_status2_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_STATUS2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0038ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_STATUS2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_STATUS2(a,b) cavm_rpmx_spux_br_status2_t
-#define bustype_CAVM_RPMX_SPUX_BR_STATUS2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_STATUS2(a,b) "RPMX_SPUX_BR_STATUS2"
-#define device_bar_CAVM_RPMX_SPUX_BR_STATUS2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_STATUS2(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_STATUS2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_tp_control
- *
- * RPM SPU BASE-R Test-Pattern Control Registers
- * Refer to the test pattern methodology described in 802.3 sections 49.2.8 and 82.2.10.
- */
-union cavm_rpmx_spux_br_tp_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_tp_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t pr_tp_data_type       : 1;  /**< [  9:  9](R/W) Select pseudo-random test pattern data type. This bit selects the transmit test pattern
-                                                                 data type when [TX_TP_EN] is set and [SCRAMBLE_TP] is 10.
-                                                                 0 = Enable 64 zeros test pattern data.
-                                                                 1 = Enable 64-bit encoding for two local fault ordered sets as pattern data. */
-        uint64_t scramble_tp           : 2;  /**< [  8:  7](R/W) Select transmit test pattern. This field selects the transmit test pattern used when
-                                                                 [TX_TP_EN] is set:
-                                                                 0x0 = Enable square wave test pattern mode.
-                                                                 0x1 = Enable scrambled idle test pattern mode.
-                                                                 0x2 = Enable pseudo-random test pattern mode. */
-        uint64_t prbs9_tx              : 1;  /**< [  6:  6](RO) 10GBASE-R PRBS9 TP transmit enable. Always 0; PRBS9 pattern testing is not supported. */
-        uint64_t prbs31_rx             : 1;  /**< [  5:  5](RO) 10GBASE-R PRBS31 TP receive enable. Always 0; PRBS31 pattern testing is not supported. */
-        uint64_t prbs31_tx             : 1;  /**< [  4:  4](RO) 10GBASE-R PRBS31 TP transmit enable. Always 0; PRBS31 pattern is not supported. */
-        uint64_t tx_tp_en              : 1;  /**< [  3:  3](R/W) Transmit-test-pattern enable. */
-        uint64_t rx_tp_en              : 1;  /**< [  2:  2](R/W) Receive-test-pattern enable. The only supported receive test pattern is the scrambled idle
-                                                                 test pattern. Setting this bit enables checking of that receive pattern. */
-        uint64_t tp_sel                : 1;  /**< [  1:  1](R/W) Square/pseudo-random test pattern select.
-                                                                 0 = Select pseudo-random test pattern.
-                                                                 1 = Select square wave test pattern. */
-        uint64_t dp_sel                : 1;  /**< [  0:  0](R/W) Data pattern select.
-                                                                 0 = Select LF (local fault) data pattern.
-                                                                 1 = Select zeros data pattern. */
-#else /* Word 0 - Little Endian */
-        uint64_t dp_sel                : 1;  /**< [  0:  0](R/W) Data pattern select.
-                                                                 0 = Select LF (local fault) data pattern.
-                                                                 1 = Select zeros data pattern. */
-        uint64_t tp_sel                : 1;  /**< [  1:  1](R/W) Square/pseudo-random test pattern select.
-                                                                 0 = Select pseudo-random test pattern.
-                                                                 1 = Select square wave test pattern. */
-        uint64_t rx_tp_en              : 1;  /**< [  2:  2](R/W) Receive-test-pattern enable. The only supported receive test pattern is the scrambled idle
-                                                                 test pattern. Setting this bit enables checking of that receive pattern. */
-        uint64_t tx_tp_en              : 1;  /**< [  3:  3](R/W) Transmit-test-pattern enable. */
-        uint64_t prbs31_tx             : 1;  /**< [  4:  4](RO) 10GBASE-R PRBS31 TP transmit enable. Always 0; PRBS31 pattern is not supported. */
-        uint64_t prbs31_rx             : 1;  /**< [  5:  5](RO) 10GBASE-R PRBS31 TP receive enable. Always 0; PRBS31 pattern testing is not supported. */
-        uint64_t prbs9_tx              : 1;  /**< [  6:  6](RO) 10GBASE-R PRBS9 TP transmit enable. Always 0; PRBS9 pattern testing is not supported. */
-        uint64_t scramble_tp           : 2;  /**< [  8:  7](R/W) Select transmit test pattern. This field selects the transmit test pattern used when
-                                                                 [TX_TP_EN] is set:
-                                                                 0x0 = Enable square wave test pattern mode.
-                                                                 0x1 = Enable scrambled idle test pattern mode.
-                                                                 0x2 = Enable pseudo-random test pattern mode. */
-        uint64_t pr_tp_data_type       : 1;  /**< [  9:  9](R/W) Select pseudo-random test pattern data type. This bit selects the transmit test pattern
-                                                                 data type when [TX_TP_EN] is set and [SCRAMBLE_TP] is 10.
-                                                                 0 = Enable 64 zeros test pattern data.
-                                                                 1 = Enable 64-bit encoding for two local fault ordered sets as pattern data. */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_tp_control_s cn; */
-};
-typedef union cavm_rpmx_spux_br_tp_control cavm_rpmx_spux_br_tp_control_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_CONTROL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_TP_CONTROL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_TP_CONTROL(a,b) cavm_rpmx_spux_br_tp_control_t
-#define bustype_CAVM_RPMX_SPUX_BR_TP_CONTROL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_TP_CONTROL(a,b) "RPMX_SPUX_BR_TP_CONTROL"
-#define device_bar_CAVM_RPMX_SPUX_BR_TP_CONTROL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_TP_CONTROL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_TP_CONTROL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_tp_err_cnt
- *
- * RPM SPU BASE-R Test-Pattern Error-Count Registers
- * This register provides the BASE-R PCS test-pattern error counter.
- */
-union cavm_rpmx_spux_br_tp_err_cnt
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_tp_err_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t err_cnt               : 16; /**< [ 15:  0](R/W/H) Error counter. This 16-bit counter contains the number of errors received during a pattern
-                                                                 test. These bits are held at all ones in the case of overflow.
-
-                                                                 The test pattern methodology is described in IEEE 802.3, Sections 49.2.12 and 82.2.10.
-                                                                 This
-                                                                 counter counts either block errors or bit errors dependent on the test mode (see Section
-                                                                 49.2.12). This field is writable for test purposes, rather than read-only as specified
-                                                                 in IEEE 802.3. */
-#else /* Word 0 - Little Endian */
-        uint64_t err_cnt               : 16; /**< [ 15:  0](R/W/H) Error counter. This 16-bit counter contains the number of errors received during a pattern
-                                                                 test. These bits are held at all ones in the case of overflow.
-
-                                                                 The test pattern methodology is described in IEEE 802.3, Sections 49.2.12 and 82.2.10.
-                                                                 This
-                                                                 counter counts either block errors or bit errors dependent on the test mode (see Section
-                                                                 49.2.12). This field is writable for test purposes, rather than read-only as specified
-                                                                 in IEEE 802.3. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_tp_err_cnt_s cn; */
-};
-typedef union cavm_rpmx_spux_br_tp_err_cnt cavm_rpmx_spux_br_tp_err_cnt_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_ERR_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_ERR_CNT(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0048ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_TP_ERR_CNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_TP_ERR_CNT(a,b) cavm_rpmx_spux_br_tp_err_cnt_t
-#define bustype_CAVM_RPMX_SPUX_BR_TP_ERR_CNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_TP_ERR_CNT(a,b) "RPMX_SPUX_BR_TP_ERR_CNT"
-#define device_bar_CAVM_RPMX_SPUX_BR_TP_ERR_CNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_TP_ERR_CNT(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_TP_ERR_CNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_tp_seed_a
- *
- * RPM SPU BASE-R Test-Pattern Seed A Registers
- * Refer to the test pattern methodology described in 802.3 sections 49.2.8 and 82.2.10.
- */
-union cavm_rpmx_spux_br_tp_seed_a
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_tp_seed_a_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t tp_seed_a             : 58; /**< [ 57:  0](R/W) Test pattern seed A. Used when pseudo-random test pattern transmission is enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t tp_seed_a             : 58; /**< [ 57:  0](R/W) Test pattern seed A. Used when pseudo-random test pattern transmission is enabled. */
-        uint64_t reserved_58_63        : 6;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_tp_seed_a_s cn; */
-};
-typedef union cavm_rpmx_spux_br_tp_seed_a cavm_rpmx_spux_br_tp_seed_a_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_SEED_A(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_SEED_A(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_TP_SEED_A", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_TP_SEED_A(a,b) cavm_rpmx_spux_br_tp_seed_a_t
-#define bustype_CAVM_RPMX_SPUX_BR_TP_SEED_A(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_TP_SEED_A(a,b) "RPMX_SPUX_BR_TP_SEED_A"
-#define device_bar_CAVM_RPMX_SPUX_BR_TP_SEED_A(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_TP_SEED_A(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_TP_SEED_A(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_br_tp_seed_b
- *
- * RPM SPU BASE-R Test-Pattern Seed B Registers
- * Refer to the test pattern methodology described in 802.3 sections 49.2.8 and 82.2.10.
- */
-union cavm_rpmx_spux_br_tp_seed_b
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_br_tp_seed_b_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t tp_seed_b             : 58; /**< [ 57:  0](R/W) Test pattern seed B. Used when pseudo-random test pattern transmission is enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t tp_seed_b             : 58; /**< [ 57:  0](R/W) Test pattern seed B. Used when pseudo-random test pattern transmission is enabled. */
-        uint64_t reserved_58_63        : 6;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_br_tp_seed_b_s cn; */
-};
-typedef union cavm_rpmx_spux_br_tp_seed_b cavm_rpmx_spux_br_tp_seed_b_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_SEED_B(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BR_TP_SEED_B(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0068ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BR_TP_SEED_B", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BR_TP_SEED_B(a,b) cavm_rpmx_spux_br_tp_seed_b_t
-#define bustype_CAVM_RPMX_SPUX_BR_TP_SEED_B(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BR_TP_SEED_B(a,b) "RPMX_SPUX_BR_TP_SEED_B"
-#define device_bar_CAVM_RPMX_SPUX_BR_TP_SEED_B(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BR_TP_SEED_B(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BR_TP_SEED_B(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_bx_status
- *
- * RPM SPU BASE-X Status Registers
- */
-union cavm_rpmx_spux_bx_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_bx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t alignd                : 1;  /**< [ 12: 12](RO/H) 10GBASE-X lane-alignment status.
-                                                                 0 = receive lanes not aligned.
-                                                                 1 = receive lanes aligned. */
-        uint64_t pattst                : 1;  /**< [ 11: 11](RO) Pattern-testing ability. Always 0; 10GBASE-X pattern is testing not supported. */
-        uint64_t reserved_4_10         : 7;
-        uint64_t lsync                 : 4;  /**< [  3:  0](RO/H) Lane synchronization. BASE-X lane synchronization status for PCS lanes 3-0. Each bit is
-                                                                 set when the associated lane is code-group synchronized, and clear otherwise. If the PCS
-                                                                 type is RXAUI (i.e. the associated RPM()_CMR()_CONFIG[LMAC_TYPE] = RXAUI), then
-                                                                 only lanes 1-0 are valid. */
-#else /* Word 0 - Little Endian */
-        uint64_t lsync                 : 4;  /**< [  3:  0](RO/H) Lane synchronization. BASE-X lane synchronization status for PCS lanes 3-0. Each bit is
-                                                                 set when the associated lane is code-group synchronized, and clear otherwise. If the PCS
-                                                                 type is RXAUI (i.e. the associated RPM()_CMR()_CONFIG[LMAC_TYPE] = RXAUI), then
-                                                                 only lanes 1-0 are valid. */
-        uint64_t reserved_4_10         : 7;
-        uint64_t pattst                : 1;  /**< [ 11: 11](RO) Pattern-testing ability. Always 0; 10GBASE-X pattern is testing not supported. */
-        uint64_t alignd                : 1;  /**< [ 12: 12](RO/H) 10GBASE-X lane-alignment status.
-                                                                 0 = receive lanes not aligned.
-                                                                 1 = receive lanes aligned. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_bx_status_s cn; */
-};
-typedef union cavm_rpmx_spux_bx_status cavm_rpmx_spux_bx_status_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_BX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_BX_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_BX_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_BX_STATUS(a,b) cavm_rpmx_spux_bx_status_t
-#define bustype_CAVM_RPMX_SPUX_BX_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_BX_STATUS(a,b) "RPMX_SPUX_BX_STATUS"
-#define device_bar_CAVM_RPMX_SPUX_BX_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_BX_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_BX_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_control1
- *
- * RPM SPU Control 1 Registers
- */
-union cavm_rpmx_spux_control1
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_control1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_23_63        : 41;
-        uint64_t disable_am            : 1;  /**< [ 22: 22](R/W) Disable alignment markers for USXGMII-S 2.5/5/10G. */
-        uint64_t usxgmii_rate          : 3;  /**< [ 21: 19](R/W/H) USXGMII port rate. Ignored if RPM()_CMR()_CONFIG[LMAC_TYPE] is not
-                                                                 USXGMII. Enumerated by RPM_USXGMII_RATE_E. */
-        uint64_t usxgmii_type          : 3;  /**< [ 18: 16](RO/H) USXGMII port sub-type. Read-only field from
-                                                                 RPM()_SPU_USXGMII_CONTROL[USXGMII_TYPE]. Ignored if
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is not USXGMII. Enumerated by RPM_USXGMII_TYPE_E. */
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W1S/H) Reset. Setting this bit or RPM()_SPU()_AN_CONTROL[AN_RESET] or
-                                                                 RPM()_SPU()_USX_AN_CONTROL[AN_RESET] to 1 causes the following events to occur:
-                                                                 * Resets the logical PCS (LPCS).
-                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states.
-                                                                 * Resets the associated SerDes lanes.
-
-                                                                 It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
-                                                                 automatically cleared. */
-        uint64_t loopbck               : 1;  /**< [ 14: 14](R/W) TX-to-RX loopback enable. When set, transmit data for each SerDes lane is looped back as
-                                                                 receive data. */
-        uint64_t spdsel1               : 1;  /**< [ 13: 13](RO/H) Speed select 1: always 1. */
-        uint64_t reserved_12           : 1;
-        uint64_t lo_pwr                : 1;  /**< [ 11: 11](R/W) Low power enable. When set, the LPCS is disabled (overriding the associated
-                                                                 RPM()_CMR()_CONFIG[ENABLE]), and the SerDes lanes associated with the LPCS are
-                                                                 reset. */
-        uint64_t reserved_7_10         : 4;
-        uint64_t spdsel0               : 1;  /**< [  6:  6](RO/H) Speed select 0: always 1. */
-        uint64_t spd                   : 4;  /**< [  5:  2](RO/H) Speed selection.
-                                                                 Note that this is a read-only field rather than read/write as
-                                                                 specified in 802.3.
-                                                                 The LPCS speed is instead configured by the associated
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]. The read values returned by this field are as
-                                                                 follows:
-
-                                                                 \<pre\>
-                                                                   LMAC_TYPE  Speed    SPD    Comment
-                                                                                       Read
-                                                                                       Value
-                                                                   ---------  -------  -----  ----------------------
-                                                                   XAUI       10G/20G  0x0    20G if DXAUI
-                                                                   RXAUI      10G      0x0
-                                                                   10G_R      10G      0x0    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   40G_R      40G      0x3    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   100G_R     100G     0x4    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   25G_R      25G      0x5    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   50G_R      50G      0x6    802.3cd Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   USXGMII    various  0xD    802.3cd Table 45-120 /
-                                                                                              45.2.3.1
-                                                                                              (0xB-0xF reserved,
-                                                                                              assigning 0xD)
-                                                                   Other      -        X
-                                                                 \</pre\> */
-        uint64_t reserved_0_1          : 2;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t spd                   : 4;  /**< [  5:  2](RO/H) Speed selection.
-                                                                 Note that this is a read-only field rather than read/write as
-                                                                 specified in 802.3.
-                                                                 The LPCS speed is instead configured by the associated
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]. The read values returned by this field are as
-                                                                 follows:
-
-                                                                 \<pre\>
-                                                                   LMAC_TYPE  Speed    SPD    Comment
-                                                                                       Read
-                                                                                       Value
-                                                                   ---------  -------  -----  ----------------------
-                                                                   XAUI       10G/20G  0x0    20G if DXAUI
-                                                                   RXAUI      10G      0x0
-                                                                   10G_R      10G      0x0    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   40G_R      40G      0x3    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   100G_R     100G     0x4    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   25G_R      25G      0x5    802.3by Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   50G_R      50G      0x6    802.3cd Table 45-120 /
-                                                                                              45.2.3.1
-                                                                   USXGMII    various  0xD    802.3cd Table 45-120 /
-                                                                                              45.2.3.1
-                                                                                              (0xB-0xF reserved,
-                                                                                              assigning 0xD)
-                                                                   Other      -        X
-                                                                 \</pre\> */
-        uint64_t spdsel0               : 1;  /**< [  6:  6](RO/H) Speed select 0: always 1. */
-        uint64_t reserved_7_10         : 4;
-        uint64_t lo_pwr                : 1;  /**< [ 11: 11](R/W) Low power enable. When set, the LPCS is disabled (overriding the associated
-                                                                 RPM()_CMR()_CONFIG[ENABLE]), and the SerDes lanes associated with the LPCS are
-                                                                 reset. */
-        uint64_t reserved_12           : 1;
-        uint64_t spdsel1               : 1;  /**< [ 13: 13](RO/H) Speed select 1: always 1. */
-        uint64_t loopbck               : 1;  /**< [ 14: 14](R/W) TX-to-RX loopback enable. When set, transmit data for each SerDes lane is looped back as
-                                                                 receive data. */
-        uint64_t reset                 : 1;  /**< [ 15: 15](R/W1S/H) Reset. Setting this bit or RPM()_SPU()_AN_CONTROL[AN_RESET] or
-                                                                 RPM()_SPU()_USX_AN_CONTROL[AN_RESET] to 1 causes the following events to occur:
-                                                                 * Resets the logical PCS (LPCS).
-                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states.
-                                                                 * Resets the associated SerDes lanes.
-
-                                                                 It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
-                                                                 automatically cleared. */
-        uint64_t usxgmii_type          : 3;  /**< [ 18: 16](RO/H) USXGMII port sub-type. Read-only field from
-                                                                 RPM()_SPU_USXGMII_CONTROL[USXGMII_TYPE]. Ignored if
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is not USXGMII. Enumerated by RPM_USXGMII_TYPE_E. */
-        uint64_t usxgmii_rate          : 3;  /**< [ 21: 19](R/W/H) USXGMII port rate. Ignored if RPM()_CMR()_CONFIG[LMAC_TYPE] is not
-                                                                 USXGMII. Enumerated by RPM_USXGMII_RATE_E. */
-        uint64_t disable_am            : 1;  /**< [ 22: 22](R/W) Disable alignment markers for USXGMII-S 2.5/5/10G. */
-        uint64_t reserved_23_63        : 41;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_control1_s cn; */
-};
-typedef union cavm_rpmx_spux_control1 cavm_rpmx_spux_control1_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_CONTROL1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_CONTROL1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_CONTROL1(a,b) cavm_rpmx_spux_control1_t
-#define bustype_CAVM_RPMX_SPUX_CONTROL1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_CONTROL1(a,b) "RPMX_SPUX_CONTROL1"
-#define device_bar_CAVM_RPMX_SPUX_CONTROL1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_CONTROL1(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_CONTROL1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_control2
- *
- * RPM SPU Control 2 Registers
- */
-union cavm_rpmx_spux_control2
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_control2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t pcs_type              : 4;  /**< [  3:  0](RO/H) PCS type selection.
-                                                                 Note that this is a read-only field rather than read/write as
-                                                                 specified in 802.3.
-                                                                 The LPCS speed is instead configured by the associated
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]. The read values returned by this field are as
-                                                                 follows:
-
-                                                                 \<pre\>
-                                                                              [PCS_TYPE]
-                                                                   LMAC_TYPE  Read Value  Comment
-                                                                   ---------  ----------  -------------------------------
-                                                                   XAUI       0x1         10GBASE-X PCS type
-                                                                   RXAUI      0x1         10GBASE-X PCS type
-                                                                   10G_R      0x0         10GBASE-R PCS type
-                                                                   40G_R      0x4         40GBASE-R PCS type
-                                                                   100G_R     0x5         802.3by Table 45-123 / 45.2.3.6
-                                                                   25G_R      0x7         802.3by Table 45-120 / 45.2.3.1
-                                                                   50G_R      0x8         802.3cd Table 45-120 / 45.2.3.6
-                                                                   USXGMII    0xE         802.3cd Table 45-120 / 45.2.3.6
-                                                                                          (0xE, 0xF reserved)
-                                                                   Other      Undefined   Reserved
-                                                                 \</pre\> */
-#else /* Word 0 - Little Endian */
-        uint64_t pcs_type              : 4;  /**< [  3:  0](RO/H) PCS type selection.
-                                                                 Note that this is a read-only field rather than read/write as
-                                                                 specified in 802.3.
-                                                                 The LPCS speed is instead configured by the associated
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]. The read values returned by this field are as
-                                                                 follows:
-
-                                                                 \<pre\>
-                                                                              [PCS_TYPE]
-                                                                   LMAC_TYPE  Read Value  Comment
-                                                                   ---------  ----------  -------------------------------
-                                                                   XAUI       0x1         10GBASE-X PCS type
-                                                                   RXAUI      0x1         10GBASE-X PCS type
-                                                                   10G_R      0x0         10GBASE-R PCS type
-                                                                   40G_R      0x4         40GBASE-R PCS type
-                                                                   100G_R     0x5         802.3by Table 45-123 / 45.2.3.6
-                                                                   25G_R      0x7         802.3by Table 45-120 / 45.2.3.1
-                                                                   50G_R      0x8         802.3cd Table 45-120 / 45.2.3.6
-                                                                   USXGMII    0xE         802.3cd Table 45-120 / 45.2.3.6
-                                                                                          (0xE, 0xF reserved)
-                                                                   Other      Undefined   Reserved
-                                                                 \</pre\> */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_control2_s cn; */
-};
-typedef union cavm_rpmx_spux_control2 cavm_rpmx_spux_control2_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_CONTROL2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_CONTROL2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_CONTROL2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_CONTROL2(a,b) cavm_rpmx_spux_control2_t
-#define bustype_CAVM_RPMX_SPUX_CONTROL2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_CONTROL2(a,b) "RPMX_SPUX_CONTROL2"
-#define device_bar_CAVM_RPMX_SPUX_CONTROL2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_CONTROL2(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_CONTROL2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_fec_abil
- *
- * RPM SPU Forward Error Correction Ability Registers
- */
-union cavm_rpmx_spux_fec_abil
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_fec_abil_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t err_abil              : 1;  /**< [  1:  1](RO/H) BASE-R FEC error-indication ability. Always 1 when the LPCS type is BASE-R,
-                                                                 i.e. RPM()_CMR()_CONFIG[LMAC_TYPE] = RPM_LMAC_TYPES_E::TENG_R, FORTYG_R,
-                                                                 TWENTYFIVEG_R, FIFTYG_R, HUNDREDG_R, USXGMII.  Reads 0 otherwise. */
-        uint64_t fec_abil              : 1;  /**< [  0:  0](RO/H) BASE-R FEC ability. Always 1 when the LPCS type is BASE-R,
-                                                                 i.e. RPM()_CMR()_CONFIG[LMAC_TYPE] = RPM_LMAC_TYPES_E::TENG_R, FORTYG_R,
-                                                                 TWENTYFIVEG_R, FIFTYG_R, HUNDREDG_R, USXGMII.  Reads 0 otherwise. */
-#else /* Word 0 - Little Endian */
-        uint64_t fec_abil              : 1;  /**< [  0:  0](RO/H) BASE-R FEC ability. Always 1 when the LPCS type is BASE-R,
-                                                                 i.e. RPM()_CMR()_CONFIG[LMAC_TYPE] = RPM_LMAC_TYPES_E::TENG_R, FORTYG_R,
-                                                                 TWENTYFIVEG_R, FIFTYG_R, HUNDREDG_R, USXGMII.  Reads 0 otherwise. */
-        uint64_t err_abil              : 1;  /**< [  1:  1](RO/H) BASE-R FEC error-indication ability. Always 1 when the LPCS type is BASE-R,
-                                                                 i.e. RPM()_CMR()_CONFIG[LMAC_TYPE] = RPM_LMAC_TYPES_E::TENG_R, FORTYG_R,
-                                                                 TWENTYFIVEG_R, FIFTYG_R, HUNDREDG_R, USXGMII.  Reads 0 otherwise. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_fec_abil_s cn; */
-};
-typedef union cavm_rpmx_spux_fec_abil cavm_rpmx_spux_fec_abil_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_FEC_ABIL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_FEC_ABIL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_FEC_ABIL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_FEC_ABIL(a,b) cavm_rpmx_spux_fec_abil_t
-#define bustype_CAVM_RPMX_SPUX_FEC_ABIL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_FEC_ABIL(a,b) "RPMX_SPUX_FEC_ABIL"
-#define device_bar_CAVM_RPMX_SPUX_FEC_ABIL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_FEC_ABIL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_FEC_ABIL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_fec_control
- *
- * RPM SPU Forward Error Correction Control Registers
- */
-union cavm_rpmx_spux_fec_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_fec_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t fec_byp_cor_en        : 1;  /**< [  4:  4](R/W) When this variable is set to one, the Reed-Solomon decoder performs error detection
-                                                                 without error correction. When this variable is set to zero, the decoder also performs
-                                                                 error correction. For more details see IEEE 802.3 91.5.3.3 and 91.6.1. */
-        uint64_t fec_byp_ind_en        : 1;  /**< [  3:  3](R/W) This variable is set to one to bypass the error indication function when this ability is
-                                                                 supported. When this variable is set to zero, the decoder indicates errors to the PCS
-                                                                 sublayer if RS-FEC is enabled ([FEC_EN]\<1\> is set) for applicable LMAC types. This variable
-                                                                 has no effect (the decoder does not bypass error indication) if FEC bypass correction enable
-                                                                 is set to one.
-
-                                                                 When this bit is set, if the number of RS-FEC symbol errors in a window of 8192
-                                                                 codewords exceeds the threshold (417 for CR4/KR4, see IEEE 802.3 91.5.3.3)
-                                                                 RPM()_SPU()_RSFEC_STATUS[HI_SER] is set and the Reed-Solomon decoder shall cause
-                                                                 synchronization header rx_coded\<1:0\> of each subsequent 66-bit block that is delivered to
-                                                                 the PCS to be assigned a value of 00 or 11 for a period of 60 ms to 75 ms.
-                                                                 See also 802.3 91.5.3.3, 91.6.2, and 91.6.5. */
-        uint64_t err_en                : 1;  /**< [  2:  2](R/W) BASE-R FEC error-indication enable. This bit corresponds to FEC_Enable_Error_to_PCS
-                                                                 variable for BASE-R as defined in IEEE 802.3 Clause 74. When FEC is enabled ([FEC_EN]\<0\>
-                                                                 is set) and this bit is set, the FEC decoder on the receive side signals an
-                                                                 uncorrectable FEC error to the BASE-R decoder by driving a value of 0x3 on the sync bits
-                                                                 for some of the 32 64/66 bit blocks belonging to the uncorrectable FEC block. See
-                                                                 IEEE 802.3 section 74.7.4.5.1 for more details. */
-        uint64_t fec_en                : 2;  /**< [  1:  0](R/W) FEC enable. Bit 0 enables BASE-R FEC. Bit 1 enables RS-FEC (Reed-Solomon FEC).
-                                                                 Some LMAC types allow either mode to be selected whereas others allow only one.
-                                                                 The two algorithms may not run concurrently. For modes where both are permitted,
-                                                                 RS-FEC takes precedence over BASE-R FEC if both are selected.
-
-                                                                 BASE-R FEC enable. When this bit is set and the LPCS type is BASE-R
-                                                                 forward error correction is enabled. BASE-R FEC is disabled otherwise. BASE-R
-                                                                 forward error correction is defined in IEEE 802.3 Clause 74.
-
-                                                                 RS-FEC enable. When this bit is set and the LPCS type is BASE-R
-                                                                 Reed-Solomon forward error correction is enabled. RS-FEC is disabled otherwise. RS
-                                                                 forward error correction is defined in IEEE 802.3 Clause 91 and further
-                                                                 specified for 25GBASE-R in 802.3by Clause 108.
-
-                                                                 The following table specifies the behavior for each BASE-R LMAC type for all [FEC_EN]
-                                                                 values.
-
-                                                                 \<pre\>
-                                                                   Value    LMAC_TYPE        Comment
-                                                                   -------  ---------------  -----------------------
-                                                                   0x0      All BASE-R       No FEC
-                                                                   0x1      25G_R, 50G_R,    BASE-R FEC enabled
-                                                                   0x2      25G_R, 50G_R,    RS-FEC enabled
-                                                                   0x3      25G_R, 50G_R,    UNDEFINED
-                                                                   0x2,0x3  100G_R, USXGMII  RS-FEC enabled
-                                                                   0x2      10G_R, 40G_R     No FEC. 10G_R, 40G_R
-                                                                                             may only use BASE-R FEC
-                                                                   0x1,0x3  10G_R, 40G_R     BASE-R FEC
-                                                                   0x1      100G_R           No FEC. 100G_R
-                                                                                             may only use RS-FEC
-                                                                 \</pre\> */
-#else /* Word 0 - Little Endian */
-        uint64_t fec_en                : 2;  /**< [  1:  0](R/W) FEC enable. Bit 0 enables BASE-R FEC. Bit 1 enables RS-FEC (Reed-Solomon FEC).
-                                                                 Some LMAC types allow either mode to be selected whereas others allow only one.
-                                                                 The two algorithms may not run concurrently. For modes where both are permitted,
-                                                                 RS-FEC takes precedence over BASE-R FEC if both are selected.
-
-                                                                 BASE-R FEC enable. When this bit is set and the LPCS type is BASE-R
-                                                                 forward error correction is enabled. BASE-R FEC is disabled otherwise. BASE-R
-                                                                 forward error correction is defined in IEEE 802.3 Clause 74.
-
-                                                                 RS-FEC enable. When this bit is set and the LPCS type is BASE-R
-                                                                 Reed-Solomon forward error correction is enabled. RS-FEC is disabled otherwise. RS
-                                                                 forward error correction is defined in IEEE 802.3 Clause 91 and further
-                                                                 specified for 25GBASE-R in 802.3by Clause 108.
-
-                                                                 The following table specifies the behavior for each BASE-R LMAC type for all [FEC_EN]
-                                                                 values.
-
-                                                                 \<pre\>
-                                                                   Value    LMAC_TYPE        Comment
-                                                                   -------  ---------------  -----------------------
-                                                                   0x0      All BASE-R       No FEC
-                                                                   0x1      25G_R, 50G_R,    BASE-R FEC enabled
-                                                                   0x2      25G_R, 50G_R,    RS-FEC enabled
-                                                                   0x3      25G_R, 50G_R,    UNDEFINED
-                                                                   0x2,0x3  100G_R, USXGMII  RS-FEC enabled
-                                                                   0x2      10G_R, 40G_R     No FEC. 10G_R, 40G_R
-                                                                                             may only use BASE-R FEC
-                                                                   0x1,0x3  10G_R, 40G_R     BASE-R FEC
-                                                                   0x1      100G_R           No FEC. 100G_R
-                                                                                             may only use RS-FEC
-                                                                 \</pre\> */
-        uint64_t err_en                : 1;  /**< [  2:  2](R/W) BASE-R FEC error-indication enable. This bit corresponds to FEC_Enable_Error_to_PCS
-                                                                 variable for BASE-R as defined in IEEE 802.3 Clause 74. When FEC is enabled ([FEC_EN]\<0\>
-                                                                 is set) and this bit is set, the FEC decoder on the receive side signals an
-                                                                 uncorrectable FEC error to the BASE-R decoder by driving a value of 0x3 on the sync bits
-                                                                 for some of the 32 64/66 bit blocks belonging to the uncorrectable FEC block. See
-                                                                 IEEE 802.3 section 74.7.4.5.1 for more details. */
-        uint64_t fec_byp_ind_en        : 1;  /**< [  3:  3](R/W) This variable is set to one to bypass the error indication function when this ability is
-                                                                 supported. When this variable is set to zero, the decoder indicates errors to the PCS
-                                                                 sublayer if RS-FEC is enabled ([FEC_EN]\<1\> is set) for applicable LMAC types. This variable
-                                                                 has no effect (the decoder does not bypass error indication) if FEC bypass correction enable
-                                                                 is set to one.
-
-                                                                 When this bit is set, if the number of RS-FEC symbol errors in a window of 8192
-                                                                 codewords exceeds the threshold (417 for CR4/KR4, see IEEE 802.3 91.5.3.3)
-                                                                 RPM()_SPU()_RSFEC_STATUS[HI_SER] is set and the Reed-Solomon decoder shall cause
-                                                                 synchronization header rx_coded\<1:0\> of each subsequent 66-bit block that is delivered to
-                                                                 the PCS to be assigned a value of 00 or 11 for a period of 60 ms to 75 ms.
-                                                                 See also 802.3 91.5.3.3, 91.6.2, and 91.6.5. */
-        uint64_t fec_byp_cor_en        : 1;  /**< [  4:  4](R/W) When this variable is set to one, the Reed-Solomon decoder performs error detection
-                                                                 without error correction. When this variable is set to zero, the decoder also performs
-                                                                 error correction. For more details see IEEE 802.3 91.5.3.3 and 91.6.1. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_fec_control_s cn; */
-};
-typedef union cavm_rpmx_spux_fec_control cavm_rpmx_spux_fec_control_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_FEC_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_FEC_CONTROL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d00e0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_FEC_CONTROL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_FEC_CONTROL(a,b) cavm_rpmx_spux_fec_control_t
-#define bustype_CAVM_RPMX_SPUX_FEC_CONTROL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_FEC_CONTROL(a,b) "RPMX_SPUX_FEC_CONTROL"
-#define device_bar_CAVM_RPMX_SPUX_FEC_CONTROL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_FEC_CONTROL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_FEC_CONTROL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_fec_ln#_rsfec_err
- *
- * RPM SPU Reed-Solomon FEC Symbol Error Counter for FEC Lanes 0-3 Registers
- * This register is valid only when Reed-Solomon FEC is enabled.
- * The symbol error counters are defined in 802.3 section 91.6.11 (for 100G
- * and extended to 50G) and 802.3by-2016 section 108.6.9 (for 25G and extended to USXGMII).
- * The counter is reset to all zeros when the register is read, and held at all ones in case
- * of overflow.
- *
- * The reset operation takes precedence over the increment operation; if the register
- * is read on the same clock cycle as an increment operation, the counter is reset to
- * all zeros and the increment operation is lost. The counters are writable for test
- * purposes, rather than read-only as specified in IEEE 802.3.
- */
-union cavm_rpmx_spux_fec_lnx_rsfec_err
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_fec_lnx_rsfec_err_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t symb_err_cnt          : 32; /**< [ 31:  0](R/W/H) The counter counts once for each 10-bit symbol corrected on FEC lane i when fec_align_status
-                                                                 is true. */
-#else /* Word 0 - Little Endian */
-        uint64_t symb_err_cnt          : 32; /**< [ 31:  0](R/W/H) The counter counts once for each 10-bit symbol corrected on FEC lane i when fec_align_status
-                                                                 is true. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_fec_lnx_rsfec_err_s cn; */
-};
-typedef union cavm_rpmx_spux_fec_lnx_rsfec_err cavm_rpmx_spux_fec_lnx_rsfec_err_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=8) && (b<=3) && (c<=3))
-        return 0x87e0e00d0900ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_FEC_LNX_RSFEC_ERR", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(a,b,c) cavm_rpmx_spux_fec_lnx_rsfec_err_t
-#define bustype_CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(a,b,c) "RPMX_SPUX_FEC_LNX_RSFEC_ERR"
-#define device_bar_CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(a,b,c) (a)
-#define arguments_CAVM_RPMX_SPUX_FEC_LNX_RSFEC_ERR(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) rpm#_spu#_int
- *
- * RPM SPU Interrupt Registers
- */
-union cavm_rpmx_spux_int
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1C/H) USXGMII autonegotiation complete. Set when RPM()_SPU()_USX_AN_STATUS[AN_CPT] is set,
-                                                                 indicating that the autonegotiation process has been completed. This indicates the
-                                                                 AN SM is in IDLE_DETECT of Figure 7-6 in 802.3. In order to start link_timer and
-                                                                 progress to LINK_OK, software needs to set RPM()_SPU()_AN_CONTROL[USX_AN_ARB_LINK_CHK_EN] */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1C/H) Autonegotiation link good. Set when RPM()_SPU()_USX_AN_STATUS[LNK_ST] is set,
-                                                                 indicating that autonegotiation has completed. This indicates the AN SM reached
-                                                                 LINK_OK of Figure 7-6 in 802.3. */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1C/H) High symbol error rate.
-                                                                 Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 See description of RPM()_SPU()_RSFEC_STATUS[HI_SER] for more details. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1C/H) Uncorrectable RS-FEC error.
-                                                                 Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 Set when RPM()_SPU()_RSFEC_STATUS[FEC_ALIGN_STATUS] is true,
-                                                                 for each code-word that contains errors (when the bypass correction feature is supported
-                                                                 and enabled) or contains errors that were not corrected (when the bypass
-                                                                 correction feature is not supported or not enabled). */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1C/H) Correctable RS-FEC error.
-                                                                 Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 Set when RPM()_SPU()_RSFEC_STATUS[FEC_ALIGN_STATUS] is true,
-                                                                 for each code-word that contains errors and was corrected. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1C/H) Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 Indicates the FEC alignment state machine RF_CW_MON reached ALIGN_ACQUIRED. See also
-                                                                 RPM()_SPU()_RSFEC_STATUS[FEC_ALIGN_STATUS]. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1C/H) Autonegotiation complete. Set when RPM()_SPU()_AN_STATUS[AN_COMPLETE] is set,
-                                                                 indicating that the autonegotiation process has been completed and the link is up and
-                                                                 running using the negotiated highest common denominator (HCD) technology. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1C/H) Autonegotiation link good. Set when the an_link_good variable is set as defined in
-                                                                 802.3 Figure 73-11, indicating that autonegotiation has completed. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1C/H) Autonegotiation page received. This bit is set along with
-                                                                 RPM()_SPU()_AN_STATUS[PAGE_RX] when a new page has been received and stored in
-                                                                 RPM()_SPU()_AN_LP_BASE or RPM()_SPU()_AN_LP_XNP. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1C/H) Uncorrectable FEC error. Set when an FEC block with an uncorrectable error is received on
-                                                                 the 10G or 25GBASE-R lane or any 40G or 50GBASE-R lane. Valid if the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G, 25G, 40G or 50GBASE-R and never set otherwise. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1C/H) Correctable FEC error. Set when an FEC block with a correctable error is received on the
-                                                                 10G or 25GBASE-R lane or any 40G or 50GBASE-R lane. Valid if the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G, 25G, 40G or 50GBASE-R and never set otherwise. */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1C/H) Bit interleaved parity error. Set when a BIP error is detected on any lane.
-                                                                 Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 40G, 50G or 100GBASE-R. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1C/H) Sync failure debug. This interrupt is provided for link problem debugging help. It is set
-                                                                 as follows based on the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE], and
-                                                                 whether FEC is enabled or disabled by RPM()_SPU()_FEC_CONTROL[FEC_EN]:
-                                                                 * XAUI or RXAUI: Set when any lane's PCS synchronization state transitions from
-                                                                 SYNC_ACQUIRED_1 to SYNC_ACQUIRED_2 (see 802.3-2008 Figure 48-7).
-                                                                 * 10G, 25G, 40G, 50G, 100GBASE-R, USXGMII with FEC disabled: Set when sh_invalid_cnt
-                                                                 increments to 1 while block_lock is 1 (see 802.3-2008 Figure 49-12 and 802.3ba-2010 Figure 82-20).
-                                                                 * 10G, 25G, 40G, 50GBASE-R with BASE-R FEC enabled: Set when parity_invalid_cnt increments to 1
-                                                                 while fec_block_lock is 1 (see 802.3-2008 Figure 74-8).
-                                                                 * 25G, 50G, 100GBASE-R, USXGMII with RS-FEC: Set when 3 consecutive uncorrected codewords
-                                                                 are received and lock restarts (see 802.3bj-2014 Figure 91-9, 802.3by-2016 Figure 108-7). */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1C/H) Loss of lane alignment. Set when lane-to-lane alignment is lost. This is only valid if the
-                                                                 logical PCS is a multilane type (i.e. XAUI, RXAUI, 40G, 50G or 100GBASE-R is selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]), and is never set otherwise. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1C/H) Loss of lane sync. Lane code-group or block synchronization is lost on one or more lanes
-                                                                 associated with the LMAC/LPCS. Set as follows based on the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE], and whether FEC is enabled or disabled by
-                                                                 RPM()_SPU()_FEC_CONTROL[FEC_EN]:
-                                                                 * XAUI or RXAUI: Set when any lane's PCS synchronization state transitions to LOSS_OF_SYNC
-                                                                 (see 802.3-2008 Figure 48-7).
-                                                                 * 10G, 25G, 40G, 50G, 100GBASE-R, USXGMII with FEC disabled: set when the block_lock
-                                                                 variable is cleared on the 10G, 25G or USXGMII lane or any 40G, 50G or 100G lane
-                                                                 (see 802.3-2008 Figure 49-12 and 802.3ba-2010 Figure 82-20).
-                                                                 * 10G, 25G, 40G, 50GBASE-R  with BASE-R FEC enabled: set when the fec_block_lock variable is
-                                                                 cleared on the 10G or 25G lane or any 40G or 50G lane (see 802.3-2008 Figure 74-8).
-                                                                 * 25G, 50G, 100GBASE-R, USXGMII with RS-FEC: Set when 3 consecutive uncorrected codewords
-                                                                 are received and lock restarts (see 802.3bj-2014 Figure 91-9, 802.3by-2016 Figure 108-7). */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1C/H) Bit lock lost on one or more SerDes lanes associated with the LMAC/LPCS. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1C/H) Errored block received. Set when an errored BASE-R block is received as described for
-                                                                 RPM()_SPU()_BR_STATUS2[ERR_BLKS]. Valid if the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G, 25G, 40G, 50G, 100GBASE-R, USXGMII, and never
-                                                                 set otherwise. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1C/H) Set when the receive link goes down, which is the same condition that sets
-                                                                 RPM()_SPU()_STATUS2[RCVFLT]. */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1C/H) Set when the receive link comes up, which is the same condition that allows the setting of
-                                                                 RPM()_SPU()_STATUS1[RCV_LNK]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1C/H) Set when the receive link comes up, which is the same condition that allows the setting of
-                                                                 RPM()_SPU()_STATUS1[RCV_LNK]. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1C/H) Set when the receive link goes down, which is the same condition that sets
-                                                                 RPM()_SPU()_STATUS2[RCVFLT]. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1C/H) Errored block received. Set when an errored BASE-R block is received as described for
-                                                                 RPM()_SPU()_BR_STATUS2[ERR_BLKS]. Valid if the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G, 25G, 40G, 50G, 100GBASE-R, USXGMII, and never
-                                                                 set otherwise. */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1C/H) Bit lock lost on one or more SerDes lanes associated with the LMAC/LPCS. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1C/H) Loss of lane sync. Lane code-group or block synchronization is lost on one or more lanes
-                                                                 associated with the LMAC/LPCS. Set as follows based on the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE], and whether FEC is enabled or disabled by
-                                                                 RPM()_SPU()_FEC_CONTROL[FEC_EN]:
-                                                                 * XAUI or RXAUI: Set when any lane's PCS synchronization state transitions to LOSS_OF_SYNC
-                                                                 (see 802.3-2008 Figure 48-7).
-                                                                 * 10G, 25G, 40G, 50G, 100GBASE-R, USXGMII with FEC disabled: set when the block_lock
-                                                                 variable is cleared on the 10G, 25G or USXGMII lane or any 40G, 50G or 100G lane
-                                                                 (see 802.3-2008 Figure 49-12 and 802.3ba-2010 Figure 82-20).
-                                                                 * 10G, 25G, 40G, 50GBASE-R  with BASE-R FEC enabled: set when the fec_block_lock variable is
-                                                                 cleared on the 10G or 25G lane or any 40G or 50G lane (see 802.3-2008 Figure 74-8).
-                                                                 * 25G, 50G, 100GBASE-R, USXGMII with RS-FEC: Set when 3 consecutive uncorrected codewords
-                                                                 are received and lock restarts (see 802.3bj-2014 Figure 91-9, 802.3by-2016 Figure 108-7). */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1C/H) Loss of lane alignment. Set when lane-to-lane alignment is lost. This is only valid if the
-                                                                 logical PCS is a multilane type (i.e. XAUI, RXAUI, 40G, 50G or 100GBASE-R is selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]), and is never set otherwise. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1C/H) Sync failure debug. This interrupt is provided for link problem debugging help. It is set
-                                                                 as follows based on the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE], and
-                                                                 whether FEC is enabled or disabled by RPM()_SPU()_FEC_CONTROL[FEC_EN]:
-                                                                 * XAUI or RXAUI: Set when any lane's PCS synchronization state transitions from
-                                                                 SYNC_ACQUIRED_1 to SYNC_ACQUIRED_2 (see 802.3-2008 Figure 48-7).
-                                                                 * 10G, 25G, 40G, 50G, 100GBASE-R, USXGMII with FEC disabled: Set when sh_invalid_cnt
-                                                                 increments to 1 while block_lock is 1 (see 802.3-2008 Figure 49-12 and 802.3ba-2010 Figure 82-20).
-                                                                 * 10G, 25G, 40G, 50GBASE-R with BASE-R FEC enabled: Set when parity_invalid_cnt increments to 1
-                                                                 while fec_block_lock is 1 (see 802.3-2008 Figure 74-8).
-                                                                 * 25G, 50G, 100GBASE-R, USXGMII with RS-FEC: Set when 3 consecutive uncorrected codewords
-                                                                 are received and lock restarts (see 802.3bj-2014 Figure 91-9, 802.3by-2016 Figure 108-7). */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1C/H) Bit interleaved parity error. Set when a BIP error is detected on any lane.
-                                                                 Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 40G, 50G or 100GBASE-R. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1C/H) Correctable FEC error. Set when an FEC block with a correctable error is received on the
-                                                                 10G or 25GBASE-R lane or any 40G or 50GBASE-R lane. Valid if the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G, 25G, 40G or 50GBASE-R and never set otherwise. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1C/H) Uncorrectable FEC error. Set when an FEC block with an uncorrectable error is received on
-                                                                 the 10G or 25GBASE-R lane or any 40G or 50GBASE-R lane. Valid if the LPCS type selected by
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G, 25G, 40G or 50GBASE-R and never set otherwise. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1C/H) Autonegotiation page received. This bit is set along with
-                                                                 RPM()_SPU()_AN_STATUS[PAGE_RX] when a new page has been received and stored in
-                                                                 RPM()_SPU()_AN_LP_BASE or RPM()_SPU()_AN_LP_XNP. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1C/H) Autonegotiation link good. Set when the an_link_good variable is set as defined in
-                                                                 802.3 Figure 73-11, indicating that autonegotiation has completed. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1C/H) Autonegotiation complete. Set when RPM()_SPU()_AN_STATUS[AN_COMPLETE] is set,
-                                                                 indicating that the autonegotiation process has been completed and the link is up and
-                                                                 running using the negotiated highest common denominator (HCD) technology. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1C/H) Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 Indicates the FEC alignment state machine RF_CW_MON reached ALIGN_ACQUIRED. See also
-                                                                 RPM()_SPU()_RSFEC_STATUS[FEC_ALIGN_STATUS]. */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1C/H) Correctable RS-FEC error.
-                                                                 Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 Set when RPM()_SPU()_RSFEC_STATUS[FEC_ALIGN_STATUS] is true,
-                                                                 for each code-word that contains errors and was corrected. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1C/H) Uncorrectable RS-FEC error.
-                                                                 Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 Set when RPM()_SPU()_RSFEC_STATUS[FEC_ALIGN_STATUS] is true,
-                                                                 for each code-word that contains errors (when the bypass correction feature is supported
-                                                                 and enabled) or contains errors that were not corrected (when the bypass
-                                                                 correction feature is not supported or not enabled). */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1C/H) High symbol error rate.
-                                                                 Applicable only to modes implementing RS-FEC, USXGMII, 25G, 50G, 100G.
-                                                                 See description of RPM()_SPU()_RSFEC_STATUS[HI_SER] for more details. */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1C/H) Autonegotiation link good. Set when RPM()_SPU()_USX_AN_STATUS[LNK_ST] is set,
-                                                                 indicating that autonegotiation has completed. This indicates the AN SM reached
-                                                                 LINK_OK of Figure 7-6 in 802.3. */
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1C/H) USXGMII autonegotiation complete. Set when RPM()_SPU()_USX_AN_STATUS[AN_CPT] is set,
-                                                                 indicating that the autonegotiation process has been completed. This indicates the
-                                                                 AN SM is in IDLE_DETECT of Figure 7-6 in 802.3. In order to start link_timer and
-                                                                 progress to LINK_OK, software needs to set RPM()_SPU()_AN_CONTROL[USX_AN_ARB_LINK_CHK_EN] */
-        uint64_t reserved_21_63        : 43;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_int_s cn; */
-};
-typedef union cavm_rpmx_spux_int cavm_rpmx_spux_int_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_INT(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0220ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_INT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_INT(a,b) cavm_rpmx_spux_int_t
-#define bustype_CAVM_RPMX_SPUX_INT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_INT(a,b) "RPMX_SPUX_INT"
-#define device_bar_CAVM_RPMX_SPUX_INT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_INT(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_INT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_int_ena_w1c
- *
- * RPM SPU Interrupt Enable Clear Registers
- * This register clears interrupt enable bits.
- */
-union cavm_rpmx_spux_int_ena_w1c
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_CPT]. */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_LNK_ST]. */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[HI_SER]. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_UNCORR]. */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_CORR]. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[FEC_ALIGN_STATUS]. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_FAILURE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_DONE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[AN_COMPLETE]. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[AN_LINK_GOOD]. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[AN_PAGE_RX]. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[FEC_UNCORR]. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[FEC_CORR]. */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[BIP_ERR]. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[DBG_SYNC]. */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[ALGNLOS]. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[SYNLOS]. */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[BITLCKLS]. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[ERR_BLK]. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_DOWN]. */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_UP]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_UP]. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_DOWN]. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[ERR_BLK]. */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[BITLCKLS]. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[SYNLOS]. */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[ALGNLOS]. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[DBG_SYNC]. */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[BIP_ERR]. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[FEC_CORR]. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[FEC_UNCORR]. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[AN_PAGE_RX]. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[AN_LINK_GOOD]. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[AN_COMPLETE]. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_DONE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_FAILURE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[FEC_ALIGN_STATUS]. */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_CORR]. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_UNCORR]. */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[HI_SER]. */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_LNK_ST]. */
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_CPT]. */
-        uint64_t reserved_21_63        : 43;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_int_ena_w1c_s cn; */
-};
-typedef union cavm_rpmx_spux_int_ena_w1c cavm_rpmx_spux_int_ena_w1c_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_INT_ENA_W1C(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0230ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_INT_ENA_W1C(a,b) cavm_rpmx_spux_int_ena_w1c_t
-#define bustype_CAVM_RPMX_SPUX_INT_ENA_W1C(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_INT_ENA_W1C(a,b) "RPMX_SPUX_INT_ENA_W1C"
-#define device_bar_CAVM_RPMX_SPUX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_INT_ENA_W1C(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_INT_ENA_W1C(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_int_ena_w1s
- *
- * RPM SPU Interrupt Enable Set Registers
- * This register sets interrupt enable bits.
- */
-union cavm_rpmx_spux_int_ena_w1s
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_CPT]. */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_LNK_ST]. */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[HI_SER]. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_UNCORR]. */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_CORR]. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[FEC_ALIGN_STATUS]. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_FAILURE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_DONE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[AN_COMPLETE]. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[AN_LINK_GOOD]. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[AN_PAGE_RX]. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[FEC_UNCORR]. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[FEC_CORR]. */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[BIP_ERR]. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[DBG_SYNC]. */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[ALGNLOS]. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[SYNLOS]. */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[BITLCKLS]. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[ERR_BLK]. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_DOWN]. */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_UP]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_UP]. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RX_LINK_DOWN]. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[ERR_BLK]. */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[BITLCKLS]. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[SYNLOS]. */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[ALGNLOS]. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[DBG_SYNC]. */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[BIP_ERR]. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[FEC_CORR]. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[FEC_UNCORR]. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[AN_PAGE_RX]. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[AN_LINK_GOOD]. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[AN_COMPLETE]. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_DONE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[TRAINING_FAILURE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[FEC_ALIGN_STATUS]. */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_CORR]. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[RSFEC_UNCORR]. */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[HI_SER]. */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_LNK_ST]. */
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for RPM(0..8)_SPU(0..3)_INT[USX_AN_CPT]. */
-        uint64_t reserved_21_63        : 43;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_int_ena_w1s_s cn; */
-};
-typedef union cavm_rpmx_spux_int_ena_w1s cavm_rpmx_spux_int_ena_w1s_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_INT_ENA_W1S(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0238ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_INT_ENA_W1S(a,b) cavm_rpmx_spux_int_ena_w1s_t
-#define bustype_CAVM_RPMX_SPUX_INT_ENA_W1S(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_INT_ENA_W1S(a,b) "RPMX_SPUX_INT_ENA_W1S"
-#define device_bar_CAVM_RPMX_SPUX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_INT_ENA_W1S(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_INT_ENA_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_int_w1s
- *
- * RPM SPU Interrupt Set Registers
- * This register sets interrupt bits.
- */
-union cavm_rpmx_spux_int_w1s
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[USX_AN_CPT]. */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[USX_AN_LNK_ST]. */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[HI_SER]. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RSFEC_UNCORR]. */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RSFEC_CORR]. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[FEC_ALIGN_STATUS]. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[TRAINING_FAILURE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[TRAINING_DONE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[AN_COMPLETE]. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[AN_LINK_GOOD]. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[AN_PAGE_RX]. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[FEC_UNCORR]. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[FEC_CORR]. */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[BIP_ERR]. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[DBG_SYNC]. */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[ALGNLOS]. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[SYNLOS]. */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[BITLCKLS]. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[ERR_BLK]. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RX_LINK_DOWN]. */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RX_LINK_UP]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_link_up            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RX_LINK_UP]. */
-        uint64_t rx_link_down          : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RX_LINK_DOWN]. */
-        uint64_t err_blk               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[ERR_BLK]. */
-        uint64_t bitlckls              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[BITLCKLS]. */
-        uint64_t synlos                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[SYNLOS]. */
-        uint64_t algnlos               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[ALGNLOS]. */
-        uint64_t dbg_sync              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[DBG_SYNC]. */
-        uint64_t bip_err               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[BIP_ERR]. */
-        uint64_t fec_corr              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[FEC_CORR]. */
-        uint64_t fec_uncorr            : 1;  /**< [  9:  9](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[FEC_UNCORR]. */
-        uint64_t an_page_rx            : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[AN_PAGE_RX]. */
-        uint64_t an_link_good          : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[AN_LINK_GOOD]. */
-        uint64_t an_complete           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[AN_COMPLETE]. */
-        uint64_t training_done         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[TRAINING_DONE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training done. Set when the 10G or 25GBASE-R
-                                                                 lane or all 40G, 50G, 100GBASE-R lanes have successfully completed BASE-R PMD
-                                                                 link training. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE]
-                                                                 is 10G, 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is
-                                                                 1, and never set otherwise. */
-        uint64_t training_failure      : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[TRAINING_FAILURE].
-                                                                 Internal:
-                                                                 Deprecated with GSERR| BASE-R PMD training failure. Set when BASE-R PMD link
-                                                                 training has failed on the 10G or 25GBASE-R lane or any 40G, 50G, 100GBASE-R
-                                                                 lane. Valid if the LPCS type selected by RPM()_CMR()_CONFIG[LMAC_TYPE] is 10G,
-                                                                 25G, 40G, 50G or 100GBASE-R and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is 1, and
-                                                                 never set otherwise. */
-        uint64_t fec_align_status      : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[FEC_ALIGN_STATUS]. */
-        uint64_t rsfec_corr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RSFEC_CORR]. */
-        uint64_t rsfec_uncorr          : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[RSFEC_UNCORR]. */
-        uint64_t hi_ser                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[HI_SER]. */
-        uint64_t usx_an_lnk_st         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[USX_AN_LNK_ST]. */
-        uint64_t usx_an_cpt            : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets RPM(0..8)_SPU(0..3)_INT[USX_AN_CPT]. */
-        uint64_t reserved_21_63        : 43;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_int_w1s_s cn; */
-};
-typedef union cavm_rpmx_spux_int_w1s cavm_rpmx_spux_int_w1s_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_INT_W1S(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0228ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_INT_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_INT_W1S(a,b) cavm_rpmx_spux_int_w1s_t
-#define bustype_CAVM_RPMX_SPUX_INT_W1S(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_INT_W1S(a,b) "RPMX_SPUX_INT_W1S"
-#define device_bar_CAVM_RPMX_SPUX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_INT_W1S(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_INT_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_ln#_br_bip_err_cnt
- *
- * RPM SPU 40,50,100GBASE-R BIP Error-Counter Registers
- * This register implements the IEEE 802.3 BIP error-counter registers for PCS lanes
- * 0-19 (3.200-3.203). It is valid only when the LPCS type is 40GBASE-R, 50GBASE-R,
- * 100GBASE-R, (RPM()_CMR()_CONFIG[LMAC_TYPE]), and always returns 0x0
- * for all other LPCS types. The counters are indexed by the RX PCS lane number based
- * on the alignment marker detected on each lane and captured in
- * RPM()_SPU()_BR_LANE_MAP(). Each counter counts the BIP errors for its PCS lane, and is
- * held at all ones in case of overflow. The counters are reset to all zeros when this
- * register is read by software.
- *
- * The reset operation takes precedence over the increment operation; if the register
- * is read on the same clock cycle as an increment operation, the counter is reset to
- * all zeros and the increment operation is lost. The counters are writable for test
- * purposes, rather than read-only as specified in IEEE 802.3.
- */
-union cavm_rpmx_spux_lnx_br_bip_err_cnt
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_lnx_br_bip_err_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bip_err_cnt           : 16; /**< [ 15:  0](R/W/H) BIP error counter for lane on which PCS lane N markers are received where N
-                                                                 is the (0..19) offset used to access this register. */
-#else /* Word 0 - Little Endian */
-        uint64_t bip_err_cnt           : 16; /**< [ 15:  0](R/W/H) BIP error counter for lane on which PCS lane N markers are received where N
-                                                                 is the (0..19) offset used to access this register. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_lnx_br_bip_err_cnt_s cn; */
-};
-typedef union cavm_rpmx_spux_lnx_br_bip_err_cnt cavm_rpmx_spux_lnx_br_bip_err_cnt_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=8) && (b<=3) && (c<=19))
-        return 0x87e0e00d0500ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
-    __cavm_csr_fatal("RPMX_SPUX_LNX_BR_BIP_ERR_CNT", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(a,b,c) cavm_rpmx_spux_lnx_br_bip_err_cnt_t
-#define bustype_CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(a,b,c) "RPMX_SPUX_LNX_BR_BIP_ERR_CNT"
-#define device_bar_CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(a,b,c) (a)
-#define arguments_CAVM_RPMX_SPUX_LNX_BR_BIP_ERR_CNT(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) rpm#_spu#_ln#_fec_corr_blks
- *
- * RPM SPU FEC Corrected-Blocks Counters 0-19 Registers
- * This register is valid only when the LPCS type is BASE-R
- * (RPM()_CMR()_CONFIG[LMAC_TYPE]) and applies
- * to BASE-R FEC and Reed-Solomon FEC (RS-FEC). When BASE-R FEC is enabled, the FEC
- * corrected-block counters are defined in IEEE 802.3 section 74.8.4.1. Each
- * corrected-blocks counter increments by one for a corrected FEC block, i.e. an FEC
- * block that has been received with invalid parity on the associated PCS lane and has
- * been corrected by the FEC decoder. The counter is reset to all zeros when the register
- * is read, and held at all ones in case of overflow.
- *
- * The reset operation takes precedence over the increment operation; if the register
- * is read on the same clock cycle as an increment operation, the counter is reset to
- * all zeros and the increment operation is lost. The counters are writable for test
- * purposes, rather than read-only as specified in IEEE 802.3.
- */
-union cavm_rpmx_spux_lnx_fec_corr_blks
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_lnx_fec_corr_blks_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ln_corr_blks          : 32; /**< [ 31:  0](R/W/H) PCS Lane 0-19 FEC corrected blocks for BASE-R FEC.
-                                                                 FEC Lane 0-1 or 0-3 corrected blocks for RS FEC.
-                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_corrected_blocks_counter variable
-                                                                 (registers 1.172-1.173 from 45.2.1.91).
-                                                                 * For 40,100GBASE-R, correspond to the IEEE 802.3 FEC_corrected_blocks_counter_0-19
-                                                                 variable (registers 1.300-1.339 from 45.2.1.93). */
-#else /* Word 0 - Little Endian */
-        uint64_t ln_corr_blks          : 32; /**< [ 31:  0](R/W/H) PCS Lane 0-19 FEC corrected blocks for BASE-R FEC.
-                                                                 FEC Lane 0-1 or 0-3 corrected blocks for RS FEC.
-                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_corrected_blocks_counter variable
-                                                                 (registers 1.172-1.173 from 45.2.1.91).
-                                                                 * For 40,100GBASE-R, correspond to the IEEE 802.3 FEC_corrected_blocks_counter_0-19
-                                                                 variable (registers 1.300-1.339 from 45.2.1.93). */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_lnx_fec_corr_blks_s cn; */
-};
-typedef union cavm_rpmx_spux_lnx_fec_corr_blks cavm_rpmx_spux_lnx_fec_corr_blks_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=8) && (b<=3) && (c<=19))
-        return 0x87e0e00d0700ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
-    __cavm_csr_fatal("RPMX_SPUX_LNX_FEC_CORR_BLKS", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(a,b,c) cavm_rpmx_spux_lnx_fec_corr_blks_t
-#define bustype_CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(a,b,c) "RPMX_SPUX_LNX_FEC_CORR_BLKS"
-#define device_bar_CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(a,b,c) (a)
-#define arguments_CAVM_RPMX_SPUX_LNX_FEC_CORR_BLKS(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) rpm#_spu#_ln#_fec_uncorr_blks
- *
- * RPM SPU FEC Uncorrected-Blocks Counters 0-19 Registers
- * This register is valid only when the LPCS type is BASE-R
- * (RPM()_CMR()_CONFIG[LMAC_TYPE]) and applies
- * to BASE-R FEC and Reed-Solomon FEC (RS-FEC). When BASE-R FEC is enabled, the FEC
- * corrected-block counters are defined in IEEE 802.3 section 74.8.4.2. Each
- * uncorrected-blocks counter increments by one for an uncorrected FEC block, i.e. an FEC
- * block that has been received with invalid parity on the associated PCS lane and has
- * not been corrected by the FEC decoder. The counter is reset to all zeros when the
- * register is read, and held at all ones in case of overflow.
- *
- * The reset operation takes precedence over the increment operation; if the register
- * is read on the same clock cycle as an increment operation, the counter is reset to
- * all zeros and the increment operation is lost. The counters are writable for test
- * purposes, rather than read-only as specified in IEEE 802.3.
- */
-union cavm_rpmx_spux_lnx_fec_uncorr_blks
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_lnx_fec_uncorr_blks_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ln_uncorr_blks        : 32; /**< [ 31:  0](R/W/H) PCS Lane 0-19 FEC uncorrected blocks.
-                                                                 FEC Lane 0-1 or 0-3 uncorrected blocks for RS FEC.
-                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_uncorrected_blocks_counter variable
-                                                                 (registers 1.174-1.175 from 45.2.1.91).
-                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_uncorrected_blocks_counter_0-19 variable
-                                                                 (registers 1.700-1.739 from 45.2.1.94).
-                                                                 * For 50GBASE-R, there is no such variable up to the latest IEEE 802.3cd_D2p0 */
-#else /* Word 0 - Little Endian */
-        uint64_t ln_uncorr_blks        : 32; /**< [ 31:  0](R/W/H) PCS Lane 0-19 FEC uncorrected blocks.
-                                                                 FEC Lane 0-1 or 0-3 uncorrected blocks for RS FEC.
-                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_uncorrected_blocks_counter variable
-                                                                 (registers 1.174-1.175 from 45.2.1.91).
-                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_uncorrected_blocks_counter_0-19 variable
-                                                                 (registers 1.700-1.739 from 45.2.1.94).
-                                                                 * For 50GBASE-R, there is no such variable up to the latest IEEE 802.3cd_D2p0 */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_lnx_fec_uncorr_blks_s cn; */
-};
-typedef union cavm_rpmx_spux_lnx_fec_uncorr_blks cavm_rpmx_spux_lnx_fec_uncorr_blks_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=8) && (b<=3) && (c<=19))
-        return 0x87e0e00d0800ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
-    __cavm_csr_fatal("RPMX_SPUX_LNX_FEC_UNCORR_BLKS", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(a,b,c) cavm_rpmx_spux_lnx_fec_uncorr_blks_t
-#define bustype_CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(a,b,c) "RPMX_SPUX_LNX_FEC_UNCORR_BLKS"
-#define device_bar_CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(a,b,c) (a)
-#define arguments_CAVM_RPMX_SPUX_LNX_FEC_UNCORR_BLKS(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) rpm#_spu#_lpcs_states
- *
- * RPM SPU BASE-X Transmit/Receive States Registers
- */
-union cavm_rpmx_spux_lpcs_states
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_lpcs_states_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t br_rx_sm              : 3;  /**< [ 30: 28](RO/H) BASE-R receive state machine state */
-        uint64_t reserved_26_27        : 2;
-        uint64_t bx_rx_sm              : 2;  /**< [ 25: 24](RO/H) BASE-X receive state machine state */
-        uint64_t deskew_am_found       : 20; /**< [ 23:  4](RO/H) 40,50,100GBASE-R deskew state machine alignment marker found flag per logical PCS lane ID. */
-        uint64_t reserved_3            : 1;
-        uint64_t deskew_sm             : 3;  /**< [  2:  0](RO/H) BASE-X and 40GBASE-R deskew state machine state. */
-#else /* Word 0 - Little Endian */
-        uint64_t deskew_sm             : 3;  /**< [  2:  0](RO/H) BASE-X and 40GBASE-R deskew state machine state. */
-        uint64_t reserved_3            : 1;
-        uint64_t deskew_am_found       : 20; /**< [ 23:  4](RO/H) 40,50,100GBASE-R deskew state machine alignment marker found flag per logical PCS lane ID. */
-        uint64_t bx_rx_sm              : 2;  /**< [ 25: 24](RO/H) BASE-X receive state machine state */
-        uint64_t reserved_26_27        : 2;
-        uint64_t br_rx_sm              : 3;  /**< [ 30: 28](RO/H) BASE-R receive state machine state */
-        uint64_t reserved_31_63        : 33;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_lpcs_states_s cn; */
-};
-typedef union cavm_rpmx_spux_lpcs_states cavm_rpmx_spux_lpcs_states_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_LPCS_STATES(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_LPCS_STATES(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0208ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_LPCS_STATES", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_LPCS_STATES(a,b) cavm_rpmx_spux_lpcs_states_t
-#define bustype_CAVM_RPMX_SPUX_LPCS_STATES(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_LPCS_STATES(a,b) "RPMX_SPUX_LPCS_STATES"
-#define device_bar_CAVM_RPMX_SPUX_LPCS_STATES(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_LPCS_STATES(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_LPCS_STATES(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_misc_control
- *
- * RPM SPU Miscellaneous Control Registers
- * "* RX logical PCS lane polarity vector \<3:0\> = [XOR_RXPLRT]\<3:0\> ^ {4{[RXPLRT]}}.
- * * TX logical PCS lane polarity vector \<3:0\> = [XOR_TXPLRT]\<3:0\> ^ {4{[TXPLRT]}}.
- *
- * In short, keep [RXPLRT] and [TXPLRT] cleared, and use [XOR_RXPLRT] and [XOR_TXPLRT] fields to
- * define the polarity per logical PCS lane. Only bit 0 of vector is used for 10GBASE-R, and
- * only bits 1:0 of vector are used for RXAUI."
- */
-union cavm_rpmx_spux_misc_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_misc_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t rx_edet_signal_ok     : 1;  /**< [ 13: 13](R/W) Use the SDS edet (energy detect) as the "signal_ok" referred to by all 802.3 state diagrams
-                                                                 when this bit is set. When this bit is 0, signal_ok will go down (and bring down associated
-                                                                 machines) if the corresponding SDS fails to send a valid beat in any 1024 clock window. */
-        uint64_t rx_packet_dis         : 1;  /**< [ 12: 12](R/W) Receive packet disable. Software can set or clear this bit at any time to gracefully
-                                                                 disable or re-enable packet reception by the LPCS. If this bit is set while a packet is
-                                                                 being received, the packet is completed and all subsequent received packets are discarded
-                                                                 by the LPCS. Similarly, if this bit is cleared while a received packet is being discarded,
-                                                                 packet reception resumes after the current packet is fully discarded. When set for a
-                                                                 BASE-R LMAC/LPCS type (selected by RPM()_CMR()_CONFIG[LMAC_TYPE]),
-                                                                 received errors and faults will be ignored while receive packets are discarded; idles will
-                                                                 be sent to the MAC layer (SMU) and the errored blocks counter
-                                                                 (RPM()_SPU()_BR_STATUS2[ERR_BLKS]) will not increment. */
-        uint64_t skip_after_term       : 1;  /**< [ 11: 11](R/W) Enable sending of idle skip after terminate. This bit is meaningful when the logical PCS
-                                                                 type is XAUI or RXAUI (selected by RPM()_CMR()_CONFIG[LMAC_TYPE]), and has no
-                                                                 effect otherwise. When set, the LMAC/LPCS transmits more idle skip columns for clock
-                                                                 compensation. Typically set in HiGig/HiGig2 modes; clear otherwise. This field can be set
-                                                                 to ensure sufficient density of XAUI idle skip (||R||) columns with a small transmit
-                                                                 inter-frame gap (IFG) in order to allow the link partner's receiver to delete ||R||
-                                                                 columns as needed for clock rate compensation. It is usually set when the LMAC's transmit
-                                                                 IFG is set to eight bytes in HiGig/HiGig2 modes (i.e. RPM()_SMU()_TX_IFG[IFG1] +
-                                                                 RPM()_SMU()_TX_IFG[IFG2] = 8), and should be cleared when the transmit IFG is
-                                                                 greater than eight bytes. When this bit is set, the SPU will send an ||R|| column after a
-                                                                 ||T0|| column (terminate in lane 0) if no ||R|| was sent in the previous IFG. This is a
-                                                                 minor deviation from the functionality specified in 802.3-2008 Figure 48-6 (PCS transmit
-                                                                 source state diagram), whereby the state will transition directly from SEND_DATA to
-                                                                 SEND_RANDOM_R after ||T0|| if no ||R|| was transmitted in the previous IFG. Sending ||R||
-                                                                 after ||T0|| only (and not ||T1||, |T2|| or ||T3||) ensures that the check_end function at
-                                                                 the receiving end, as defined in 802.3 sub-clause 48.2.6.1.4, does not detect an
-                                                                 error due to this functional change. When this bit is clear, the LMAC will fully conform
-                                                                 to the functionality specified in Figure 48-6. */
-        uint64_t intlv_rdisp           : 1;  /**< [ 10: 10](R/W) RXAUI interleaved running disparity. This bit is meaningful when the logical PCS type is
-                                                                 RXAUI (RPM()_CMR()_CONFIG[LMAC_TYPE] = RXAUI), and has no effect otherwise. It
-                                                                 selects which disparity calculation to use when combining or splitting the RXAUI lanes, as
-                                                                 follows:
-
-                                                                  0 = Common running disparity. Common running disparity is computed for even
-                                                                 and odd code- groups of an RXAUI lane, i.e. interleave lanes before PCS layer as
-                                                                 described in the Dune Networks/Broadcom RXAUI v2.1 specification. This obeys
-                                                                 6.25GHz SerDes disparity.
-
-                                                                  1 = Interleaved running disparity: Running disparity is computed separately for even and
-                                                                 odd code-groups of an RXAUI lane, i.e. interleave lanes after PCS layer as described in
-                                                                 the Marvell RXAUI Interface specification. This does not obey 6.25GHz SerDes disparity. */
-        uint64_t xor_rxplrt            : 4;  /**< [  9:  6](R/W) RX polarity control per physical PCS lane. */
-        uint64_t xor_txplrt            : 4;  /**< [  5:  2](R/W) TX polarity control per physical PCS lane. */
-        uint64_t rxplrt                : 1;  /**< [  1:  1](R/W) Receive polarity. 1 = inverted polarity. 0 = normal polarity. */
-        uint64_t txplrt                : 1;  /**< [  0:  0](R/W) Transmit polarity. 1 = inverted polarity. 0 = normal polarity. */
-#else /* Word 0 - Little Endian */
-        uint64_t txplrt                : 1;  /**< [  0:  0](R/W) Transmit polarity. 1 = inverted polarity. 0 = normal polarity. */
-        uint64_t rxplrt                : 1;  /**< [  1:  1](R/W) Receive polarity. 1 = inverted polarity. 0 = normal polarity. */
-        uint64_t xor_txplrt            : 4;  /**< [  5:  2](R/W) TX polarity control per physical PCS lane. */
-        uint64_t xor_rxplrt            : 4;  /**< [  9:  6](R/W) RX polarity control per physical PCS lane. */
-        uint64_t intlv_rdisp           : 1;  /**< [ 10: 10](R/W) RXAUI interleaved running disparity. This bit is meaningful when the logical PCS type is
-                                                                 RXAUI (RPM()_CMR()_CONFIG[LMAC_TYPE] = RXAUI), and has no effect otherwise. It
-                                                                 selects which disparity calculation to use when combining or splitting the RXAUI lanes, as
-                                                                 follows:
-
-                                                                  0 = Common running disparity. Common running disparity is computed for even
-                                                                 and odd code- groups of an RXAUI lane, i.e. interleave lanes before PCS layer as
-                                                                 described in the Dune Networks/Broadcom RXAUI v2.1 specification. This obeys
-                                                                 6.25GHz SerDes disparity.
-
-                                                                  1 = Interleaved running disparity: Running disparity is computed separately for even and
-                                                                 odd code-groups of an RXAUI lane, i.e. interleave lanes after PCS layer as described in
-                                                                 the Marvell RXAUI Interface specification. This does not obey 6.25GHz SerDes disparity. */
-        uint64_t skip_after_term       : 1;  /**< [ 11: 11](R/W) Enable sending of idle skip after terminate. This bit is meaningful when the logical PCS
-                                                                 type is XAUI or RXAUI (selected by RPM()_CMR()_CONFIG[LMAC_TYPE]), and has no
-                                                                 effect otherwise. When set, the LMAC/LPCS transmits more idle skip columns for clock
-                                                                 compensation. Typically set in HiGig/HiGig2 modes; clear otherwise. This field can be set
-                                                                 to ensure sufficient density of XAUI idle skip (||R||) columns with a small transmit
-                                                                 inter-frame gap (IFG) in order to allow the link partner's receiver to delete ||R||
-                                                                 columns as needed for clock rate compensation. It is usually set when the LMAC's transmit
-                                                                 IFG is set to eight bytes in HiGig/HiGig2 modes (i.e. RPM()_SMU()_TX_IFG[IFG1] +
-                                                                 RPM()_SMU()_TX_IFG[IFG2] = 8), and should be cleared when the transmit IFG is
-                                                                 greater than eight bytes. When this bit is set, the SPU will send an ||R|| column after a
-                                                                 ||T0|| column (terminate in lane 0) if no ||R|| was sent in the previous IFG. This is a
-                                                                 minor deviation from the functionality specified in 802.3-2008 Figure 48-6 (PCS transmit
-                                                                 source state diagram), whereby the state will transition directly from SEND_DATA to
-                                                                 SEND_RANDOM_R after ||T0|| if no ||R|| was transmitted in the previous IFG. Sending ||R||
-                                                                 after ||T0|| only (and not ||T1||, |T2|| or ||T3||) ensures that the check_end function at
-                                                                 the receiving end, as defined in 802.3 sub-clause 48.2.6.1.4, does not detect an
-                                                                 error due to this functional change. When this bit is clear, the LMAC will fully conform
-                                                                 to the functionality specified in Figure 48-6. */
-        uint64_t rx_packet_dis         : 1;  /**< [ 12: 12](R/W) Receive packet disable. Software can set or clear this bit at any time to gracefully
-                                                                 disable or re-enable packet reception by the LPCS. If this bit is set while a packet is
-                                                                 being received, the packet is completed and all subsequent received packets are discarded
-                                                                 by the LPCS. Similarly, if this bit is cleared while a received packet is being discarded,
-                                                                 packet reception resumes after the current packet is fully discarded. When set for a
-                                                                 BASE-R LMAC/LPCS type (selected by RPM()_CMR()_CONFIG[LMAC_TYPE]),
-                                                                 received errors and faults will be ignored while receive packets are discarded; idles will
-                                                                 be sent to the MAC layer (SMU) and the errored blocks counter
-                                                                 (RPM()_SPU()_BR_STATUS2[ERR_BLKS]) will not increment. */
-        uint64_t rx_edet_signal_ok     : 1;  /**< [ 13: 13](R/W) Use the SDS edet (energy detect) as the "signal_ok" referred to by all 802.3 state diagrams
-                                                                 when this bit is set. When this bit is 0, signal_ok will go down (and bring down associated
-                                                                 machines) if the corresponding SDS fails to send a valid beat in any 1024 clock window. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_misc_control_s cn; */
-};
-typedef union cavm_rpmx_spux_misc_control cavm_rpmx_spux_misc_control_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_MISC_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_MISC_CONTROL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0218ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_MISC_CONTROL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_MISC_CONTROL(a,b) cavm_rpmx_spux_misc_control_t
-#define bustype_CAVM_RPMX_SPUX_MISC_CONTROL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_MISC_CONTROL(a,b) "RPMX_SPUX_MISC_CONTROL"
-#define device_bar_CAVM_RPMX_SPUX_MISC_CONTROL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_MISC_CONTROL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_MISC_CONTROL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_rsfec_corr
- *
- * RPM SPU Reed-Solomon FEC Corrected Codeword Counter Register
- * This register implements the IEEE 802.3 RS-FEC corrected codewords counter
- * described in 802.3 section 91.6.8 (for 100G and extended to 50G) and 802.3by-2016
- * section 108.6.7 (for 25G and extended to USXGMII).
- */
-union cavm_rpmx_spux_rsfec_corr
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_rsfec_corr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cw_cnt                : 32; /**< [ 31:  0](R/W/H) The counter increments by 1 when fec_align_status is true for each code-word that
-                                                                 contains errors and was corrected. The counter is held at all ones in case of overflow.
-
-                                                                 The counter is writable for test
-                                                                 purposes, rather than read- only as specified in IEEE 802.3. */
-#else /* Word 0 - Little Endian */
-        uint64_t cw_cnt                : 32; /**< [ 31:  0](R/W/H) The counter increments by 1 when fec_align_status is true for each code-word that
-                                                                 contains errors and was corrected. The counter is held at all ones in case of overflow.
-
-                                                                 The counter is writable for test
-                                                                 purposes, rather than read- only as specified in IEEE 802.3. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_rsfec_corr_s cn; */
-};
-typedef union cavm_rpmx_spux_rsfec_corr cavm_rpmx_spux_rsfec_corr_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_RSFEC_CORR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_RSFEC_CORR(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0088ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_RSFEC_CORR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_RSFEC_CORR(a,b) cavm_rpmx_spux_rsfec_corr_t
-#define bustype_CAVM_RPMX_SPUX_RSFEC_CORR(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_RSFEC_CORR(a,b) "RPMX_SPUX_RSFEC_CORR"
-#define device_bar_CAVM_RPMX_SPUX_RSFEC_CORR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_RSFEC_CORR(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_RSFEC_CORR(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_rsfec_status
- *
- * RPM SPU Reed-Solomon FEC Status Registers
- * This register implements the IEEE 802.3 RS-FEC status and lane mapping registers as
- * described in 802.3 section 91.6 (for 100G and extended to 50G) and 802.3by-2016
- * section 108-6 (for 25G and extended to USXGMII).
- */
-union cavm_rpmx_spux_rsfec_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_rsfec_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t fec_byp_cor_abil      : 1;  /**< [ 15: 15](RO/H) This variable is set to one to indicate that the decoder has the ability to bypass
-                                                                 error correction (while possibly performing error detection only). The variable is
-                                                                 set to zero if this ability is not supported. For more details see 802.3
-                                                                 91.5.3.3 and also 802.3 91.6.3. */
-        uint64_t fec_byp_ind_abil      : 1;  /**< [ 14: 14](RO/H) This variable is set to one to indicate that the decoder has the ability to bypass
-                                                                 error indication. The variable is set to zero if this ability is not supported.
-                                                                 For more details see 802.3 91.5.3.3 and also 802.3 91.6.4. */
-        uint64_t hi_ser                : 1;  /**< [ 13: 13](RO/H) Value defined only when [FEC_BYP_IND_ABIL] is set. When
-                                                                 RPM()_SPU()_FEC_CONTROL[FEC_BYP_IND_EN] is set to one,
-                                                                 this bit is set to one if the number of RS-FEC symbol errors in a window of 8192
-                                                                 codewords exceeds the threshold (417 for CR4/KR4, see 802.3 91.5.3.3) and is
-                                                                 set to zero otherwise. See also 802.3 91.6.5. */
-        uint64_t amps_lock             : 4;  /**< [ 12:  9](RO/H) Marker-locked status for FEC lanes 3..0 as achieved by AM-lock FSM (COUNT_2).
-                                                                 0 = Not locked.
-                                                                 1 = Locked.
-
-                                                                 This information is also available in
-                                                                 RPM()_SPU()_BR_ALGN_STATUS[MARKER_LOCK]\<3:0\>. See also 802.3bj-2014 91.6.6. */
-        uint64_t fec_align_status      : 1;  /**< [  8:  8](RO/H) Indicates the FEC alignment state machine RF_CW_MON reached ALIGN_ACQUIRED (802.3bj-2014
-                                                                 Figure 91-9, 802.3by-2016 Figure 108-6). See also 802.3bj-2014 section 91.6.7. */
-        uint64_t fec_lane_mapping      : 8;  /**< [  7:  0](RO/H) FEC lane number received on service interface N where N is the (0..3) offset used to
-                                                                 access one of four fields in this register.
-
-                                                                 _ RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING] = {FEC_lane_idx(SVC_lane_3)[1:0],..
-                                                                 FEC_lane_idx(SVC_lane_0)[1:0]}.
-
-                                                                 This information is also available in RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING]. See
-                                                                 also 802.3bj-2014 section 91.6.10. */
-#else /* Word 0 - Little Endian */
-        uint64_t fec_lane_mapping      : 8;  /**< [  7:  0](RO/H) FEC lane number received on service interface N where N is the (0..3) offset used to
-                                                                 access one of four fields in this register.
-
-                                                                 _ RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING] = {FEC_lane_idx(SVC_lane_3)[1:0],..
-                                                                 FEC_lane_idx(SVC_lane_0)[1:0]}.
-
-                                                                 This information is also available in RPM()_SPU()_BR_LANE_MAP()[LN_MAPPING]. See
-                                                                 also 802.3bj-2014 section 91.6.10. */
-        uint64_t fec_align_status      : 1;  /**< [  8:  8](RO/H) Indicates the FEC alignment state machine RF_CW_MON reached ALIGN_ACQUIRED (802.3bj-2014
-                                                                 Figure 91-9, 802.3by-2016 Figure 108-6). See also 802.3bj-2014 section 91.6.7. */
-        uint64_t amps_lock             : 4;  /**< [ 12:  9](RO/H) Marker-locked status for FEC lanes 3..0 as achieved by AM-lock FSM (COUNT_2).
-                                                                 0 = Not locked.
-                                                                 1 = Locked.
-
-                                                                 This information is also available in
-                                                                 RPM()_SPU()_BR_ALGN_STATUS[MARKER_LOCK]\<3:0\>. See also 802.3bj-2014 91.6.6. */
-        uint64_t hi_ser                : 1;  /**< [ 13: 13](RO/H) Value defined only when [FEC_BYP_IND_ABIL] is set. When
-                                                                 RPM()_SPU()_FEC_CONTROL[FEC_BYP_IND_EN] is set to one,
-                                                                 this bit is set to one if the number of RS-FEC symbol errors in a window of 8192
-                                                                 codewords exceeds the threshold (417 for CR4/KR4, see 802.3 91.5.3.3) and is
-                                                                 set to zero otherwise. See also 802.3 91.6.5. */
-        uint64_t fec_byp_ind_abil      : 1;  /**< [ 14: 14](RO/H) This variable is set to one to indicate that the decoder has the ability to bypass
-                                                                 error indication. The variable is set to zero if this ability is not supported.
-                                                                 For more details see 802.3 91.5.3.3 and also 802.3 91.6.4. */
-        uint64_t fec_byp_cor_abil      : 1;  /**< [ 15: 15](RO/H) This variable is set to one to indicate that the decoder has the ability to bypass
-                                                                 error correction (while possibly performing error detection only). The variable is
-                                                                 set to zero if this ability is not supported. For more details see 802.3
-                                                                 91.5.3.3 and also 802.3 91.6.3. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_rsfec_status_s cn; */
-};
-typedef union cavm_rpmx_spux_rsfec_status cavm_rpmx_spux_rsfec_status_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_RSFEC_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_RSFEC_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0080ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_RSFEC_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_RSFEC_STATUS(a,b) cavm_rpmx_spux_rsfec_status_t
-#define bustype_CAVM_RPMX_SPUX_RSFEC_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_RSFEC_STATUS(a,b) "RPMX_SPUX_RSFEC_STATUS"
-#define device_bar_CAVM_RPMX_SPUX_RSFEC_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_RSFEC_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_RSFEC_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_rsfec_uncorr
- *
- * RPM SPU Reed-Solomon FEC Uncorrected Codeword Counter Register
- * This register implements the IEEE 802.3 RS-FEC uncorrected codewords counter
- * described in 802.3 section 91.6.9 (for 100G and extended to 50G) and 802.3by-2016
- * section 108.6.8 (for 25G and extended to USXGMII).
- */
-union cavm_rpmx_spux_rsfec_uncorr
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_rsfec_uncorr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cw_cnt                : 32; /**< [ 31:  0](R/W/H) The counter increments by 1 when fec_align_status is true for each code-word that
-                                                                 contains errors and was uncorrected. The held at all ones in case of overflow.
-
-                                                                 An uncorrected FEC codeword is a codeword that contains errors (when the bypass
-                                                                 correction feature is supported and enabled) or contains errors that were not
-                                                                 corrected (when the bypass correction feature is not supported or not enabled).
-
-                                                                 The counter is writable for test
-                                                                 purposes, rather than read- only as specified in IEEE 802.3. */
-#else /* Word 0 - Little Endian */
-        uint64_t cw_cnt                : 32; /**< [ 31:  0](R/W/H) The counter increments by 1 when fec_align_status is true for each code-word that
-                                                                 contains errors and was uncorrected. The held at all ones in case of overflow.
-
-                                                                 An uncorrected FEC codeword is a codeword that contains errors (when the bypass
-                                                                 correction feature is supported and enabled) or contains errors that were not
-                                                                 corrected (when the bypass correction feature is not supported or not enabled).
-
-                                                                 The counter is writable for test
-                                                                 purposes, rather than read- only as specified in IEEE 802.3. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_rsfec_uncorr_s cn; */
-};
-typedef union cavm_rpmx_spux_rsfec_uncorr cavm_rpmx_spux_rsfec_uncorr_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_RSFEC_UNCORR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_RSFEC_UNCORR(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0090ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_RSFEC_UNCORR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_RSFEC_UNCORR(a,b) cavm_rpmx_spux_rsfec_uncorr_t
-#define bustype_CAVM_RPMX_SPUX_RSFEC_UNCORR(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_RSFEC_UNCORR(a,b) "RPMX_SPUX_RSFEC_UNCORR"
-#define device_bar_CAVM_RPMX_SPUX_RSFEC_UNCORR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_RSFEC_UNCORR(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_RSFEC_UNCORR(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_rx_eee_wake
- *
- * INTERNAL: RPM SPU  RX EEE Wake Error Counter  Registers
- *
- * Reserved.
- * Internal:
- * A counter that is incremented each time that the LPI receive state diagram enters
- * the RX_WTF state indicating that a wake time fault has been detected.
- */
-union cavm_rpmx_spux_rx_eee_wake
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_rx_eee_wake_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t wtf_error_counter     : 16; /**< [ 15:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Accumulation of wake time faults (rolls over). */
-#else /* Word 0 - Little Endian */
-        uint64_t wtf_error_counter     : 16; /**< [ 15:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Accumulation of wake time faults (rolls over). */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_rx_eee_wake_s cn; */
-};
-typedef union cavm_rpmx_spux_rx_eee_wake cavm_rpmx_spux_rx_eee_wake_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_RX_EEE_WAKE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_RX_EEE_WAKE(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d03e0ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_RX_EEE_WAKE", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_RX_EEE_WAKE(a,b) cavm_rpmx_spux_rx_eee_wake_t
-#define bustype_CAVM_RPMX_SPUX_RX_EEE_WAKE(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_RX_EEE_WAKE(a,b) "RPMX_SPUX_RX_EEE_WAKE"
-#define device_bar_CAVM_RPMX_SPUX_RX_EEE_WAKE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_RX_EEE_WAKE(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_RX_EEE_WAKE(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_rx_lpi_timing
- *
- * INTERNAL: RPM SPU RX EEE LPI Timing Parameters Registers
- *
- * Reserved.
- * Internal:
- * This register specifies receiver LPI timing parameters Tqr, Twr and Twtf.
- */
-union cavm_rpmx_spux_rx_lpi_timing
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_rx_lpi_timing_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rx_lpi_en             : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 Internal:
-                                                                 Receive EEE enable. When set, EEE is enabled. */
-        uint64_t rx_lpi_fw             : 1;  /**< [ 62: 62](R/W) Reserved.
-                                                                 Internal:
-                                                                 Receive EEE fast wake enable.
-                                                                 When set to 1, fast wake is enabled (i.e. deep sleep is disabled).
-                                                                 The only modes that support fast wake are 25GBASE-R, 40GBASE-R, 50GBASE-R, and 100GBASE-R. */
-        uint64_t reserved_60_61        : 2;
-        uint64_t tqr                   : 20; /**< [ 59: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 EEE time the receiver waits for signal detect to be set to OK while in the
-                                                                 RX_SLEEP and RX_QUIET states before asserting rx_fault
-                                                                 802.3-2012 Tables 48-10/49-3, Figures 48-12/49-13.
-                                                                 Tables specifies min of 3 ms/2 ms, max of 4 ms/3 ms.
-                                                                 Also used as rx_quiet_timer for RS-FEC in 802.3bj-2014 Figure 91-11.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 3 ms. */
-        uint64_t twr                   : 20; /**< [ 39: 20](R/W) Reserved.
-                                                                 Internal:
-                                                                 EEE time the receiver waits in RX_WAKE state before indicating wake time fault (WTF)
-                                                                 802.3-2012 Tables 48-10/49-3, Figures 48-12/49-13.
-                                                                 Tables specifies max of 9 us/11.5 us/13.7 us.
-                                                                 Also used as first_ramps_counter initial value for RS-FEC in 802.3bj-2014 Figure 91-11.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 9 us. */
-        uint64_t twtf                  : 20; /**< [ 19:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 EEE wake time fault recovery. 802.3-2012 Tables 48-10/49-3, Figures 48-12/49-13.
-                                                                 Tables specifies maximum of 1 ms/10 ms.
-                                                                 Also used as ramps_counter initial value for RS-FEC in 802.3bj-2014 Figure 91-11.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 1 ms. */
-#else /* Word 0 - Little Endian */
-        uint64_t twtf                  : 20; /**< [ 19:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 EEE wake time fault recovery. 802.3-2012 Tables 48-10/49-3, Figures 48-12/49-13.
-                                                                 Tables specifies maximum of 1 ms/10 ms.
-                                                                 Also used as ramps_counter initial value for RS-FEC in 802.3bj-2014 Figure 91-11.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 1 ms. */
-        uint64_t twr                   : 20; /**< [ 39: 20](R/W) Reserved.
-                                                                 Internal:
-                                                                 EEE time the receiver waits in RX_WAKE state before indicating wake time fault (WTF)
-                                                                 802.3-2012 Tables 48-10/49-3, Figures 48-12/49-13.
-                                                                 Tables specifies max of 9 us/11.5 us/13.7 us.
-                                                                 Also used as first_ramps_counter initial value for RS-FEC in 802.3bj-2014 Figure 91-11.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 9 us. */
-        uint64_t tqr                   : 20; /**< [ 59: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 EEE time the receiver waits for signal detect to be set to OK while in the
-                                                                 RX_SLEEP and RX_QUIET states before asserting rx_fault
-                                                                 802.3-2012 Tables 48-10/49-3, Figures 48-12/49-13.
-                                                                 Tables specifies min of 3 ms/2 ms, max of 4 ms/3 ms.
-                                                                 Also used as rx_quiet_timer for RS-FEC in 802.3bj-2014 Figure 91-11.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 3 ms. */
-        uint64_t reserved_60_61        : 2;
-        uint64_t rx_lpi_fw             : 1;  /**< [ 62: 62](R/W) Reserved.
-                                                                 Internal:
-                                                                 Receive EEE fast wake enable.
-                                                                 When set to 1, fast wake is enabled (i.e. deep sleep is disabled).
-                                                                 The only modes that support fast wake are 25GBASE-R, 40GBASE-R, 50GBASE-R, and 100GBASE-R. */
-        uint64_t rx_lpi_en             : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 Internal:
-                                                                 Receive EEE enable. When set, EEE is enabled. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_rx_lpi_timing_s cn; */
-};
-typedef union cavm_rpmx_spux_rx_lpi_timing cavm_rpmx_spux_rx_lpi_timing_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_RX_LPI_TIMING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_RX_LPI_TIMING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d03c0ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_RX_LPI_TIMING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_RX_LPI_TIMING(a,b) cavm_rpmx_spux_rx_lpi_timing_t
-#define bustype_CAVM_RPMX_SPUX_RX_LPI_TIMING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_RX_LPI_TIMING(a,b) "RPMX_SPUX_RX_LPI_TIMING"
-#define device_bar_CAVM_RPMX_SPUX_RX_LPI_TIMING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_RX_LPI_TIMING(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_RX_LPI_TIMING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_rx_lpi_timing2
- *
- * INTERNAL: RPM SPU RX EEE LPI Timing2 Parameters Registers
- *
- * Reserved.
- * Internal:
- * This register specifies receiver LPI timing parameters hold_off_timer.
- */
-union cavm_rpmx_spux_rx_lpi_timing2
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_rx_lpi_timing2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t hold_off_timer        : 20; /**< [ 19:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 802.3-2008 Figure 108-6 hold off timer for 25G RS-FEC.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 11.5 us. */
-#else /* Word 0 - Little Endian */
-        uint64_t hold_off_timer        : 20; /**< [ 19:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 802.3-2008 Figure 108-6 hold off timer for 25G RS-FEC.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 11.5 us. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_rx_lpi_timing2_s cn; */
-};
-typedef union cavm_rpmx_spux_rx_lpi_timing2 cavm_rpmx_spux_rx_lpi_timing2_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_RX_LPI_TIMING2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_RX_LPI_TIMING2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0420ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_RX_LPI_TIMING2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_RX_LPI_TIMING2(a,b) cavm_rpmx_spux_rx_lpi_timing2_t
-#define bustype_CAVM_RPMX_SPUX_RX_LPI_TIMING2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_RX_LPI_TIMING2(a,b) "RPMX_SPUX_RX_LPI_TIMING2"
-#define device_bar_CAVM_RPMX_SPUX_RX_LPI_TIMING2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_RX_LPI_TIMING2(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_RX_LPI_TIMING2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_rx_mrk_cnt
- *
- * RPM SPU Receiver Marker Interval Count Control Registers
- */
-union cavm_rpmx_spux_rx_mrk_cnt
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_rx_mrk_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
-        uint64_t ram_mrk_cnt           : 8;  /**< [ 55: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 BASE-R rapid alignment marker receive period for EEE support. For a multilane
-                                                                 40,50,100GBASE-R
-                                                                 logical PCS, this field specifies the expected rapid alignment marker receive period per
-                                                                 lane, i.e. the expected number of received 66b non-marker blocks between consecutive
-                                                                 markers on the same lane. The default value corresponds to a period of 15 blocks
-                                                                 (exclusive) as specified in 802.3bj-2014 Figure 82-9a for 40G, 50G. Should be programmed to
-                                                                 0x7 for 100G per 802.3bj-2014. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t by_mrk_100g           : 1;  /**< [ 44: 44](R/W) Use alignment marker from 802.3 Table 82-2 (100G) PCS lane 0 as first (of four)
-                                                                 RS-FEC CWMs for 25G, 50G and USXGMII LMAC types if this bit is set and if RS-FEC
-                                                                 is enabled. Lane 0 marker from 802.3 Table 82-3 (40G)
-                                                                 is used as first marker otherwise. The remaining three markers are always selected
-                                                                 from Table 82-3 (PCS lanes 1-3). This bit was introduced to cover both possible
-                                                                 interpretations of a confusing statement in 802.3by 108.5.2.4 bullet a) (to be compared
-                                                                 to bullets b), c) and d)). Irrelevant for non- 25G, 50G or USXGMII LMAC types,
-                                                                 or if RS-FEC is not enabled. */
-        uint64_t reserved_20_43        : 24;
-        uint64_t mrk_cnt               : 20; /**< [ 19:  0](R/W) 10, 25, 40, 50, 100GBASE-R and USXGMII receive marker interval count, used by all
-                                                                 defined FEC modes (non-FEC as well as BASE-R FEC, RS-FEC where available).
-                                                                 Specifies the interval (number of 66-bit BASE-R blocks) at which the receive logic
-                                                                 expects alignment markers. Ignored when not in any of the aforementioned modes.
-                                                                 This value applies to each virtual lane (PCSL), and so, for example, the hardware
-                                                                 expects 4 markers after 4*[MRK_CNT] (40GBASE-R) or 20 markers after 20*[MRK_CNT]
-                                                                 (100GBASE-R) blocks. An internal counter in SPU RX is initialized to this value, counts
-                                                                 down for each BASE-R block received by SPU RX, and wraps back to the initial value from 0.
-                                                                 The SPU RX receive logic expects alignment markers for lanes 0, 1, 2 and 3, respectively,
-                                                                 in the last four BASE-R blocks before the counter wraps (3, 2, 1, 0) for 40G. The default
-                                                                 value corresponds to an alignment marker period of 16383 blocks (exclusive) per lane, as
-                                                                 specified in IEEE 802.3 Clause 82.
-                                                                 The following values should always be used for normal operation:
-
-                                                                 \<pre\>
-                                                                   Value    LMAC_TYPE          Comment
-                                                                   -------  -----------------  --------------------------
-                                                                   0x3fff   10G_R, 25G_R w/    No markers w/o FEC 10G_R,
-                                                                            BASE-R-FEC         25G_R
-                                                                            40G_R, 50G_R w/
-                                                                            or w/o BASE-R-FEC
-                                                                            100G_R w/ or w/o   No BASE-R-FEC for 100G_R
-                                                                            RS-FEC
-                                                                   0x13ffc  25G_R, USXGMII w/  Ignored by 25G_R if RS-FEC
-                                                                            RS-FEC             disabled
-                                                                                               See below for USXGMII w/o
-                                                                                               RSFEC
-                                                                   0x4010   USXGMII w/o        USXGMII w/o RSFEC uses \<\>
-                                                                            RS-FEC             from RSFEC mode
-                                                                                               No BASE-R-FEC for USXGMII
-                                                                   0x4fff   50G_R w/ RS-FEC
-                                                                 \</pre\>
-
-                                                                 In USXGMII mode hardware only uses the value specified for LMAC0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mrk_cnt               : 20; /**< [ 19:  0](R/W) 10, 25, 40, 50, 100GBASE-R and USXGMII receive marker interval count, used by all
-                                                                 defined FEC modes (non-FEC as well as BASE-R FEC, RS-FEC where available).
-                                                                 Specifies the interval (number of 66-bit BASE-R blocks) at which the receive logic
-                                                                 expects alignment markers. Ignored when not in any of the aforementioned modes.
-                                                                 This value applies to each virtual lane (PCSL), and so, for example, the hardware
-                                                                 expects 4 markers after 4*[MRK_CNT] (40GBASE-R) or 20 markers after 20*[MRK_CNT]
-                                                                 (100GBASE-R) blocks. An internal counter in SPU RX is initialized to this value, counts
-                                                                 down for each BASE-R block received by SPU RX, and wraps back to the initial value from 0.
-                                                                 The SPU RX receive logic expects alignment markers for lanes 0, 1, 2 and 3, respectively,
-                                                                 in the last four BASE-R blocks before the counter wraps (3, 2, 1, 0) for 40G. The default
-                                                                 value corresponds to an alignment marker period of 16383 blocks (exclusive) per lane, as
-                                                                 specified in IEEE 802.3 Clause 82.
-                                                                 The following values should always be used for normal operation:
-
-                                                                 \<pre\>
-                                                                   Value    LMAC_TYPE          Comment
-                                                                   -------  -----------------  --------------------------
-                                                                   0x3fff   10G_R, 25G_R w/    No markers w/o FEC 10G_R,
-                                                                            BASE-R-FEC         25G_R
-                                                                            40G_R, 50G_R w/
-                                                                            or w/o BASE-R-FEC
-                                                                            100G_R w/ or w/o   No BASE-R-FEC for 100G_R
-                                                                            RS-FEC
-                                                                   0x13ffc  25G_R, USXGMII w/  Ignored by 25G_R if RS-FEC
-                                                                            RS-FEC             disabled
-                                                                                               See below for USXGMII w/o
-                                                                                               RSFEC
-                                                                   0x4010   USXGMII w/o        USXGMII w/o RSFEC uses \<\>
-                                                                            RS-FEC             from RSFEC mode
-                                                                                               No BASE-R-FEC for USXGMII
-                                                                   0x4fff   50G_R w/ RS-FEC
-                                                                 \</pre\>
-
-                                                                 In USXGMII mode hardware only uses the value specified for LMAC0. */
-        uint64_t reserved_20_43        : 24;
-        uint64_t by_mrk_100g           : 1;  /**< [ 44: 44](R/W) Use alignment marker from 802.3 Table 82-2 (100G) PCS lane 0 as first (of four)
-                                                                 RS-FEC CWMs for 25G, 50G and USXGMII LMAC types if this bit is set and if RS-FEC
-                                                                 is enabled. Lane 0 marker from 802.3 Table 82-3 (40G)
-                                                                 is used as first marker otherwise. The remaining three markers are always selected
-                                                                 from Table 82-3 (PCS lanes 1-3). This bit was introduced to cover both possible
-                                                                 interpretations of a confusing statement in 802.3by 108.5.2.4 bullet a) (to be compared
-                                                                 to bullets b), c) and d)). Irrelevant for non- 25G, 50G or USXGMII LMAC types,
-                                                                 or if RS-FEC is not enabled. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t ram_mrk_cnt           : 8;  /**< [ 55: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 BASE-R rapid alignment marker receive period for EEE support. For a multilane
-                                                                 40,50,100GBASE-R
-                                                                 logical PCS, this field specifies the expected rapid alignment marker receive period per
-                                                                 lane, i.e. the expected number of received 66b non-marker blocks between consecutive
-                                                                 markers on the same lane. The default value corresponds to a period of 15 blocks
-                                                                 (exclusive) as specified in 802.3bj-2014 Figure 82-9a for 40G, 50G. Should be programmed to
-                                                                 0x7 for 100G per 802.3bj-2014. */
-        uint64_t reserved_56_63        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_rx_mrk_cnt_s cn; */
-};
-typedef union cavm_rpmx_spux_rx_mrk_cnt cavm_rpmx_spux_rx_mrk_cnt_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_RX_MRK_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_RX_MRK_CNT(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d03a0ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_RX_MRK_CNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_RX_MRK_CNT(a,b) cavm_rpmx_spux_rx_mrk_cnt_t
-#define bustype_CAVM_RPMX_SPUX_RX_MRK_CNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_RX_MRK_CNT(a,b) "RPMX_SPUX_RX_MRK_CNT"
-#define device_bar_CAVM_RPMX_SPUX_RX_MRK_CNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_RX_MRK_CNT(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_RX_MRK_CNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_spd_abil
- *
- * RPM SPU PCS Speed Ability Registers
- */
-union cavm_rpmx_spux_spd_abil
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_spd_abil_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t hundredgb             : 1;  /**< [  6:  6](RO/H) 100G capable. Always 1. */
-        uint64_t fiftygb               : 1;  /**< [  5:  5](RO/H) 50G capable. Always 1. */
-        uint64_t fortygb               : 1;  /**< [  4:  4](RO/H) 40G capable. Always 1. */
-        uint64_t twentyfivegb          : 1;  /**< [  3:  3](RO/H) 25G capable. Always 1. */
-        uint64_t usxgmii               : 1;  /**< [  2:  2](RO/H) USXGMII capable. Always 1. */
-        uint64_t tenpasst              : 1;  /**< [  1:  1](RO) 10PASS-TS/2BASE-TL capable. Always 0. */
-        uint64_t tengb                 : 1;  /**< [  0:  0](RO/H) 10G capable. Always 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t tengb                 : 1;  /**< [  0:  0](RO/H) 10G capable. Always 1. */
-        uint64_t tenpasst              : 1;  /**< [  1:  1](RO) 10PASS-TS/2BASE-TL capable. Always 0. */
-        uint64_t usxgmii               : 1;  /**< [  2:  2](RO/H) USXGMII capable. Always 1. */
-        uint64_t twentyfivegb          : 1;  /**< [  3:  3](RO/H) 25G capable. Always 1. */
-        uint64_t fortygb               : 1;  /**< [  4:  4](RO/H) 40G capable. Always 1. */
-        uint64_t fiftygb               : 1;  /**< [  5:  5](RO/H) 50G capable. Always 1. */
-        uint64_t hundredgb             : 1;  /**< [  6:  6](RO/H) 100G capable. Always 1. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_spd_abil_s cn; */
-};
-typedef union cavm_rpmx_spux_spd_abil cavm_rpmx_spux_spd_abil_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_SPD_ABIL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_SPD_ABIL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_SPD_ABIL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_SPD_ABIL(a,b) cavm_rpmx_spux_spd_abil_t
-#define bustype_CAVM_RPMX_SPUX_SPD_ABIL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_SPD_ABIL(a,b) "RPMX_SPUX_SPD_ABIL"
-#define device_bar_CAVM_RPMX_SPUX_SPD_ABIL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_SPD_ABIL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_SPD_ABIL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_status1
- *
- * RPM SPU Status 1 Registers
- */
-union cavm_rpmx_spux_status1
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_status1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t tx_lpi_received       : 1;  /**< [ 11: 11](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Latched high version of [TX_LPI_INDICATION].
-                                                                 LPI events that occur after read and before write will be lost.
-
-                                                                 In order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
-        uint64_t rx_lpi_received       : 1;  /**< [ 10: 10](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Latched high version of [RX_LPI_INDICATION].
-                                                                 LPI events that occur after read and before write will be lost.
-
-                                                                 In order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
-        uint64_t tx_lpi_indication     : 1;  /**< [  9:  9](RO/H) Reserved.
-                                                                 Internal:
-                                                                 TX sending LPI.  TX LPI State not in TX_ACTIVE.  802.3-2012 Figure 36-10. */
-        uint64_t rx_lpi_indication     : 1;  /**< [  8:  8](RO/H) Reserved.
-                                                                 Internal:
-                                                                 RX receiving LPI.  rx_lpi_active = TRUE. 802.3-2012, Figure 36-7a-c. */
-        uint64_t flt                   : 1;  /**< [  7:  7](RO/H) Fault condition detected.
-                                                                 This bit is a logical OR of RPM()_SPU()_STATUS2[XMTFLT, RCVFLT]. */
-        uint64_t reserved_3_6          : 4;
-        uint64_t rcv_lnk               : 1;  /**< [  2:  2](R/W1S/H) PCS receive link status:
-                                                                   0 = receive link down.
-                                                                   1 = receive link up.
-
-                                                                 This is a latching-low bit; it stays clear until a write-1-to-set by software.
-
-                                                                 For a BASE-X logical PCS type (in the associated RPM()_CMR()_CONFIG[LMAC_TYPE] =
-                                                                 XAUI or RXAUI), this is a latching-low version of RPM()_SPU()_BX_STATUS[ALIGND].
-
-                                                                 For a BASE-R logical PCS type (in the associated RPM()_CMR()_CONFIG[LMAC_TYPE] =
-                                                                 10G_R, 25G_R, 40G_R, 50G_R, 100G_R, USXGMII), this is a latching-low version of
-                                                                 RPM()_SPU()_BR_STATUS1[RCV_LNK]. */
-        uint64_t lpable                : 1;  /**< [  1:  1](RO) Low-power ability. Always returns 1 to indicate that the LPCS supports low-power mode. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t lpable                : 1;  /**< [  1:  1](RO) Low-power ability. Always returns 1 to indicate that the LPCS supports low-power mode. */
-        uint64_t rcv_lnk               : 1;  /**< [  2:  2](R/W1S/H) PCS receive link status:
-                                                                   0 = receive link down.
-                                                                   1 = receive link up.
-
-                                                                 This is a latching-low bit; it stays clear until a write-1-to-set by software.
-
-                                                                 For a BASE-X logical PCS type (in the associated RPM()_CMR()_CONFIG[LMAC_TYPE] =
-                                                                 XAUI or RXAUI), this is a latching-low version of RPM()_SPU()_BX_STATUS[ALIGND].
-
-                                                                 For a BASE-R logical PCS type (in the associated RPM()_CMR()_CONFIG[LMAC_TYPE] =
-                                                                 10G_R, 25G_R, 40G_R, 50G_R, 100G_R, USXGMII), this is a latching-low version of
-                                                                 RPM()_SPU()_BR_STATUS1[RCV_LNK]. */
-        uint64_t reserved_3_6          : 4;
-        uint64_t flt                   : 1;  /**< [  7:  7](RO/H) Fault condition detected.
-                                                                 This bit is a logical OR of RPM()_SPU()_STATUS2[XMTFLT, RCVFLT]. */
-        uint64_t rx_lpi_indication     : 1;  /**< [  8:  8](RO/H) Reserved.
-                                                                 Internal:
-                                                                 RX receiving LPI.  rx_lpi_active = TRUE. 802.3-2012, Figure 36-7a-c. */
-        uint64_t tx_lpi_indication     : 1;  /**< [  9:  9](RO/H) Reserved.
-                                                                 Internal:
-                                                                 TX sending LPI.  TX LPI State not in TX_ACTIVE.  802.3-2012 Figure 36-10. */
-        uint64_t rx_lpi_received       : 1;  /**< [ 10: 10](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Latched high version of [RX_LPI_INDICATION].
-                                                                 LPI events that occur after read and before write will be lost.
-
-                                                                 In order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
-        uint64_t tx_lpi_received       : 1;  /**< [ 11: 11](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 Latched high version of [TX_LPI_INDICATION].
-                                                                 LPI events that occur after read and before write will be lost.
-
-                                                                 In order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_status1_s cn; */
-};
-typedef union cavm_rpmx_spux_status1 cavm_rpmx_spux_status1_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_STATUS1(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_STATUS1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_STATUS1(a,b) cavm_rpmx_spux_status1_t
-#define bustype_CAVM_RPMX_SPUX_STATUS1(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_STATUS1(a,b) "RPMX_SPUX_STATUS1"
-#define device_bar_CAVM_RPMX_SPUX_STATUS1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_STATUS1(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_STATUS1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_status2
- *
- * RPM SPU Status 2 Registers
- */
-union cavm_rpmx_spux_status2
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_status2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t dev                   : 2;  /**< [ 15: 14](RO/H) Device present. Always returns 0x2 to indicate a device is present at this address. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t xmtflt                : 1;  /**< [ 11: 11](RO/H) Transmit fault. Always returns 0. */
-        uint64_t rcvflt                : 1;  /**< [ 10: 10](R/W1C/H) Receive fault: 1 = receive fault. 0 = no receive fault. Latching high bit; stays set until
-                                                                 a write-1-to-clear by software. */
-        uint64_t reserved_9            : 1;
-        uint64_t hundredgb_r           : 1;  /**< [  8:  8](RO/H) 100GBASE-R capable. Always 1. */
-        uint64_t fiftygb_r             : 1;  /**< [  7:  7](RO/H) 50GBASE-R capable. Always 1. */
-        uint64_t fortygb_r             : 1;  /**< [  6:  6](RO/H) 40GBASE-R capable. Always 1. */
-        uint64_t twentyfivegb_r        : 1;  /**< [  5:  5](RO/H) 25GBASE-R capable. Always 1. */
-        uint64_t usxgmii_r             : 1;  /**< [  4:  4](RO/H) USXGMII-BASE-R capable. Always 1. */
-        uint64_t tengb_t               : 1;  /**< [  3:  3](RO) 10GBASE-T capable. Always 0. */
-        uint64_t tengb_w               : 1;  /**< [  2:  2](RO) 10GBASE-W capable. Always 0. */
-        uint64_t tengb_x               : 1;  /**< [  1:  1](RO/H) 10GBASE-X capable. Always 1. */
-        uint64_t tengb_r               : 1;  /**< [  0:  0](RO/H) 10GBASE-R capable. Always 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t tengb_r               : 1;  /**< [  0:  0](RO/H) 10GBASE-R capable. Always 1. */
-        uint64_t tengb_x               : 1;  /**< [  1:  1](RO/H) 10GBASE-X capable. Always 1. */
-        uint64_t tengb_w               : 1;  /**< [  2:  2](RO) 10GBASE-W capable. Always 0. */
-        uint64_t tengb_t               : 1;  /**< [  3:  3](RO) 10GBASE-T capable. Always 0. */
-        uint64_t usxgmii_r             : 1;  /**< [  4:  4](RO/H) USXGMII-BASE-R capable. Always 1. */
-        uint64_t twentyfivegb_r        : 1;  /**< [  5:  5](RO/H) 25GBASE-R capable. Always 1. */
-        uint64_t fortygb_r             : 1;  /**< [  6:  6](RO/H) 40GBASE-R capable. Always 1. */
-        uint64_t fiftygb_r             : 1;  /**< [  7:  7](RO/H) 50GBASE-R capable. Always 1. */
-        uint64_t hundredgb_r           : 1;  /**< [  8:  8](RO/H) 100GBASE-R capable. Always 1. */
-        uint64_t reserved_9            : 1;
-        uint64_t rcvflt                : 1;  /**< [ 10: 10](R/W1C/H) Receive fault: 1 = receive fault. 0 = no receive fault. Latching high bit; stays set until
-                                                                 a write-1-to-clear by software. */
-        uint64_t xmtflt                : 1;  /**< [ 11: 11](RO/H) Transmit fault. Always returns 0. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t dev                   : 2;  /**< [ 15: 14](RO/H) Device present. Always returns 0x2 to indicate a device is present at this address. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_status2_s cn; */
-};
-typedef union cavm_rpmx_spux_status2 cavm_rpmx_spux_status2_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_STATUS2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_STATUS2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_STATUS2(a,b) cavm_rpmx_spux_status2_t
-#define bustype_CAVM_RPMX_SPUX_STATUS2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_STATUS2(a,b) "RPMX_SPUX_STATUS2"
-#define device_bar_CAVM_RPMX_SPUX_STATUS2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_STATUS2(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_STATUS2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_tx_lpi_timing
- *
- * INTERNAL: RPM SPU TX EEE LPI Timing Parameters Registers
- *
- * Reserved.
- * Internal:
- * Transmit LPI timing parameters Tsl, Tql and Tul
- */
-union cavm_rpmx_spux_tx_lpi_timing
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_tx_lpi_timing_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_lpi_en             : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit EEE enable. When set, EEE is enabled. */
-        uint64_t tx_lpi_fw             : 1;  /**< [ 62: 62](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit EEE fast wake enable.
-                                                                 When set to 1, fast wake is enabled (i.e. deep sleep is disabled).
-                                                                 The only modes that support fast wake are 25G-BASER, 40G-BASER, 50GBASE-R and 100G-BASER. */
-        uint64_t tx_lpi_ignore_twl     : 1;  /**< [ 61: 61](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit EEE ignore TWL and TWL2 parameters, instead using down_count=22 and down_count=0
-                                                                 for TX_WAKE to TX_WAKE2, and TX_WAKE2 to TX_ACTIVE transitions.
-                                                                 When set to 1, and EEE is enabled and FastWake is disabled for 40G-BASER, 50G-BASER and
-                                                                 100G-BASER, the LPI Transmit state transitions occur on the down_count values.
-                                                                 The only modes using this setting are 50G-BASER, 40G-BASER and 100G-BASER. */
-        uint64_t reserved_60           : 1;
-        uint64_t tsl                   : 12; /**< [ 59: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 Local sleep time from entering the TX_SLEEP state to when tx_quiet is set to TRUE
-                                                                 802.3 Table 36-8, Figure 36-10.  Table specifies min of 19.9 us, max of 20.1 us.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 20 us. */
-        uint64_t reserved_44_47        : 4;
-        uint64_t tul                   : 12; /**< [ 43: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Local refresh time from entry into the TX_REFRESH state to entry into the TX_QUIET
-                                                                 state.
-                                                                 802.3 Table 36-8, Figure 36-10.  Table specifies min of 19.9 us, max of 20.1 us.
-                                                                 Reset value gives 20 us. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t tql                   : 19; /**< [ 18:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Local quiet time from when tx_quiet is set to TRUE to entry into the TX_REFRESH
-                                                                 state
-                                                                 802.3 Table 36-8, Figure 36-10.  Table specifies min of 2.5 ms, max of 2.6 ms.
-                                                                 Reset value gives 2.55 ms. */
-#else /* Word 0 - Little Endian */
-        uint64_t tql                   : 19; /**< [ 18:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Local quiet time from when tx_quiet is set to TRUE to entry into the TX_REFRESH
-                                                                 state
-                                                                 802.3 Table 36-8, Figure 36-10.  Table specifies min of 2.5 ms, max of 2.6 ms.
-                                                                 Reset value gives 2.55 ms. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t tul                   : 12; /**< [ 43: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Local refresh time from entry into the TX_REFRESH state to entry into the TX_QUIET
-                                                                 state.
-                                                                 802.3 Table 36-8, Figure 36-10.  Table specifies min of 19.9 us, max of 20.1 us.
-                                                                 Reset value gives 20 us. */
-        uint64_t reserved_44_47        : 4;
-        uint64_t tsl                   : 12; /**< [ 59: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 Local sleep time from entering the TX_SLEEP state to when tx_quiet is set to TRUE
-                                                                 802.3 Table 36-8, Figure 36-10.  Table specifies min of 19.9 us, max of 20.1 us.
-                                                                 Units = global 10 ns clock ticks.
-                                                                 Reset value gives 20 us. */
-        uint64_t reserved_60           : 1;
-        uint64_t tx_lpi_ignore_twl     : 1;  /**< [ 61: 61](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit EEE ignore TWL and TWL2 parameters, instead using down_count=22 and down_count=0
-                                                                 for TX_WAKE to TX_WAKE2, and TX_WAKE2 to TX_ACTIVE transitions.
-                                                                 When set to 1, and EEE is enabled and FastWake is disabled for 40G-BASER, 50G-BASER and
-                                                                 100G-BASER, the LPI Transmit state transitions occur on the down_count values.
-                                                                 The only modes using this setting are 50G-BASER, 40G-BASER and 100G-BASER. */
-        uint64_t tx_lpi_fw             : 1;  /**< [ 62: 62](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit EEE fast wake enable.
-                                                                 When set to 1, fast wake is enabled (i.e. deep sleep is disabled).
-                                                                 The only modes that support fast wake are 25G-BASER, 40G-BASER, 50GBASE-R and 100G-BASER. */
-        uint64_t tx_lpi_en             : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit EEE enable. When set, EEE is enabled. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_tx_lpi_timing_s cn; */
-};
-typedef union cavm_rpmx_spux_tx_lpi_timing cavm_rpmx_spux_tx_lpi_timing_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_TX_LPI_TIMING(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_TX_LPI_TIMING(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0400ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_TX_LPI_TIMING", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_TX_LPI_TIMING(a,b) cavm_rpmx_spux_tx_lpi_timing_t
-#define bustype_CAVM_RPMX_SPUX_TX_LPI_TIMING(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_TX_LPI_TIMING(a,b) "RPMX_SPUX_TX_LPI_TIMING"
-#define device_bar_CAVM_RPMX_SPUX_TX_LPI_TIMING(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_TX_LPI_TIMING(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_TX_LPI_TIMING(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_tx_lpi_timing2
- *
- * INTERNAL: RPM SPU TX EEE LPI Timing2 Parameters Registers
- *
- * Reserved.
- * Internal:
- * This register specifies transmit LPI timer parameters.
- */
-union cavm_rpmx_spux_tx_lpi_timing2
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_tx_lpi_timing2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t tbyp                  : 12; /**< [ 59: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit scrambler bypass timer for timing TX_SCR_BYPASS EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 2.0 us. */
-        uint64_t reserved_44_47        : 4;
-        uint64_t twl2                  : 12; /**< [ 43: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit Wake2 timer for timing TX_WAKE2 EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 2.45 us. */
-        uint64_t reserved_24_31        : 8;
-        uint64_t twl                   : 12; /**< [ 23: 12](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit Wake timer for timing TX_WAKE EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 11.0 us. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t t1u                   : 8;  /**< [  7:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 One micro-second timer for timing TX_ALERT EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 1.2 us. */
-#else /* Word 0 - Little Endian */
-        uint64_t t1u                   : 8;  /**< [  7:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 One micro-second timer for timing TX_ALERT EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 1.2 us. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t twl                   : 12; /**< [ 23: 12](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit Wake timer for timing TX_WAKE EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 11.0 us. */
-        uint64_t reserved_24_31        : 8;
-        uint64_t twl2                  : 12; /**< [ 43: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit Wake2 timer for timing TX_WAKE2 EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 2.45 us. */
-        uint64_t reserved_44_47        : 4;
-        uint64_t tbyp                  : 12; /**< [ 59: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 Transmit scrambler bypass timer for timing TX_SCR_BYPASS EEE state.
-                                                                 Units in global 10 ns period clock ticks.
-                                                                 Reset value gives 2.0 us. */
-        uint64_t reserved_60_63        : 4;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_tx_lpi_timing2_s cn; */
-};
-typedef union cavm_rpmx_spux_tx_lpi_timing2 cavm_rpmx_spux_tx_lpi_timing2_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_TX_LPI_TIMING2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_TX_LPI_TIMING2(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0440ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_TX_LPI_TIMING2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_TX_LPI_TIMING2(a,b) cavm_rpmx_spux_tx_lpi_timing2_t
-#define bustype_CAVM_RPMX_SPUX_TX_LPI_TIMING2(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_TX_LPI_TIMING2(a,b) "RPMX_SPUX_TX_LPI_TIMING2"
-#define device_bar_CAVM_RPMX_SPUX_TX_LPI_TIMING2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_TX_LPI_TIMING2(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_TX_LPI_TIMING2(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_tx_mrk_cnt
- *
- * RPM SPU Transmitter Marker Interval Count Control Registers
- */
-union cavm_rpmx_spux_tx_mrk_cnt
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_tx_mrk_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
-        uint64_t ram_mrk_cnt           : 8;  /**< [ 55: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 BASE-R rapid alignment marker transmit period for EEE support. For a multilane
-                                                                 40,50,100GBASE-R
-                                                                 logical PCS, this field specifies the rapid alignment marker period per lane used by the
-                                                                 transmitter, i.e. the number of 66b non-marker blocks transmitted between consecutive
-                                                                 markers on the same lane. The default value corresponds to a period of 15 blocks
-                                                                 (exclusive) as specified in 802.3bj-2014 Figure 82-9a for 40G, 50G. Should be programmed to
-                                                                 0x7 for 100G per 802.3bj-2014. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t by_mrk_100g           : 1;  /**< [ 44: 44](R/W) Use alignment marker from 802.3-2012 Table 82-2 (100G) PCS lane 0 as first (of four)
-                                                                 RS-FEC CWMs for 25G, 50G and USXGMII LMAC types if this bit is set and if RS-FEC
-                                                                 is enabled. Lane 0 marker from 802.3-2012 Table 82-3 (40G)
-                                                                 is used as first marker otherwise. The remaining three markers are always selected
-                                                                 from Table 82-3 (PCS lanes 1-3). This bit was introduced to cover both possible
-                                                                 interpretations of a confusing statement in 802.3by 108.5.2.4 bullet a) (to be compared
-                                                                 to bullets b), c) and d)). Irrelevant for non- 25G, 50G or USXGMII LMAC types,
-                                                                 or if RS-FEC is not enabled. */
-        uint64_t reserved_20_43        : 24;
-        uint64_t mrk_cnt               : 20; /**< [ 19:  0](R/W) 10, 25, 40, 50, 100GBASE-R and USXGMII transmit marker interval count, used by all
-                                                                 defined FEC modes (non-FEC as well as BASE-R FEC, RS-FEC where available).
-                                                                 Specifies the interval (number of 66-bit BASE-R blocks) at which the transmit logic
-                                                                 inserts alignment markers. Ignored when not in any of the aforementioned modes.
-                                                                 This value applies to each virtual lane (PCSL), and so, for example, the hardware
-                                                                 inserts 4 markers after 4*[MRK_CNT] (40GBASE-R) or 20 markers after 20*[MRK_CNT]
-                                                                 (100GBASE-R) blocks. An internal counter in SPU TX is initialized to this value, counts
-                                                                 down for each BASE-R block transmitted by SPU TX, and wraps back to the initial value from
-                                                                 0. The SPU TX transmit logic inserts alignment markers for lanes 0, 1, 2 and 3,
-                                                                 respectively, in the last four BASE-R blocks before the counter wraps (3, 2, 1, 0) for
-                                                                 40G. The default value corresponds to an alignment marker period of 16383 blocks
-                                                                 (exclusive) per lane, as specified in IEEE 802.3 Clause 82.
-                                                                 The following values should always be used for normal operation:
-
-                                                                 \<pre\>
-                                                                   Value    LMAC_TYPE          Comment
-                                                                   -------  -----------------  -------------------------
-                                                                   0x3fff   10G_R, 25G_R w/    No markers w/o FEC 10G_R,
-                                                                            BASE-R-FEC         25G_R
-                                                                            40G_R, 50G_R w/
-                                                                            or w/o BASE-R-FEC
-                                                                            100G_R w/ or w/o   No BASE-R-FEC for 100G_R
-                                                                            RS-FEC
-                                                                   0x13ffc  25G_R, USXGMII w/  Ignored by 25G_R and
-                                                                            RS-FEC             USXGMII if RS-FEC disabled
-                                                                                               No BASE-R-FEC for USXGMII
-                                                                   0x4fff   50G_R w/ RS-FEC
-                                                                 \</pre\>
-
-                                                                 In USXGMII mode hardware only uses the value specified for LMAC0. */
-#else /* Word 0 - Little Endian */
-        uint64_t mrk_cnt               : 20; /**< [ 19:  0](R/W) 10, 25, 40, 50, 100GBASE-R and USXGMII transmit marker interval count, used by all
-                                                                 defined FEC modes (non-FEC as well as BASE-R FEC, RS-FEC where available).
-                                                                 Specifies the interval (number of 66-bit BASE-R blocks) at which the transmit logic
-                                                                 inserts alignment markers. Ignored when not in any of the aforementioned modes.
-                                                                 This value applies to each virtual lane (PCSL), and so, for example, the hardware
-                                                                 inserts 4 markers after 4*[MRK_CNT] (40GBASE-R) or 20 markers after 20*[MRK_CNT]
-                                                                 (100GBASE-R) blocks. An internal counter in SPU TX is initialized to this value, counts
-                                                                 down for each BASE-R block transmitted by SPU TX, and wraps back to the initial value from
-                                                                 0. The SPU TX transmit logic inserts alignment markers for lanes 0, 1, 2 and 3,
-                                                                 respectively, in the last four BASE-R blocks before the counter wraps (3, 2, 1, 0) for
-                                                                 40G. The default value corresponds to an alignment marker period of 16383 blocks
-                                                                 (exclusive) per lane, as specified in IEEE 802.3 Clause 82.
-                                                                 The following values should always be used for normal operation:
-
-                                                                 \<pre\>
-                                                                   Value    LMAC_TYPE          Comment
-                                                                   -------  -----------------  -------------------------
-                                                                   0x3fff   10G_R, 25G_R w/    No markers w/o FEC 10G_R,
-                                                                            BASE-R-FEC         25G_R
-                                                                            40G_R, 50G_R w/
-                                                                            or w/o BASE-R-FEC
-                                                                            100G_R w/ or w/o   No BASE-R-FEC for 100G_R
-                                                                            RS-FEC
-                                                                   0x13ffc  25G_R, USXGMII w/  Ignored by 25G_R and
-                                                                            RS-FEC             USXGMII if RS-FEC disabled
-                                                                                               No BASE-R-FEC for USXGMII
-                                                                   0x4fff   50G_R w/ RS-FEC
-                                                                 \</pre\>
-
-                                                                 In USXGMII mode hardware only uses the value specified for LMAC0. */
-        uint64_t reserved_20_43        : 24;
-        uint64_t by_mrk_100g           : 1;  /**< [ 44: 44](R/W) Use alignment marker from 802.3-2012 Table 82-2 (100G) PCS lane 0 as first (of four)
-                                                                 RS-FEC CWMs for 25G, 50G and USXGMII LMAC types if this bit is set and if RS-FEC
-                                                                 is enabled. Lane 0 marker from 802.3-2012 Table 82-3 (40G)
-                                                                 is used as first marker otherwise. The remaining three markers are always selected
-                                                                 from Table 82-3 (PCS lanes 1-3). This bit was introduced to cover both possible
-                                                                 interpretations of a confusing statement in 802.3by 108.5.2.4 bullet a) (to be compared
-                                                                 to bullets b), c) and d)). Irrelevant for non- 25G, 50G or USXGMII LMAC types,
-                                                                 or if RS-FEC is not enabled. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t ram_mrk_cnt           : 8;  /**< [ 55: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 BASE-R rapid alignment marker transmit period for EEE support. For a multilane
-                                                                 40,50,100GBASE-R
-                                                                 logical PCS, this field specifies the rapid alignment marker period per lane used by the
-                                                                 transmitter, i.e. the number of 66b non-marker blocks transmitted between consecutive
-                                                                 markers on the same lane. The default value corresponds to a period of 15 blocks
-                                                                 (exclusive) as specified in 802.3bj-2014 Figure 82-9a for 40G, 50G. Should be programmed to
-                                                                 0x7 for 100G per 802.3bj-2014. */
-        uint64_t reserved_56_63        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_tx_mrk_cnt_s cn; */
-};
-typedef union cavm_rpmx_spux_tx_mrk_cnt cavm_rpmx_spux_tx_mrk_cnt_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_TX_MRK_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_TX_MRK_CNT(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0380ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_TX_MRK_CNT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_TX_MRK_CNT(a,b) cavm_rpmx_spux_tx_mrk_cnt_t
-#define bustype_CAVM_RPMX_SPUX_TX_MRK_CNT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_TX_MRK_CNT(a,b) "RPMX_SPUX_TX_MRK_CNT"
-#define device_bar_CAVM_RPMX_SPUX_TX_MRK_CNT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_TX_MRK_CNT(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_TX_MRK_CNT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_usx_an_adv
- *
- * RPM SPU USXGMII Autonegotiation Advertisement Registers
- * Software programs this register with the contents of the AN-link code word base page to be
- * transmitted during autonegotiation. Any write operations to this register prior to completion
- * of autonegotiation should be followed by a renegotiation in order for the new values to take
- * effect. Once autonegotiation has completed, software can examine this register along with
- * RPM()_SPU()_USX_AN_ADV to determine the highest common denominator technology.
- * The format for this register is from USXGMII Multiport specification section 1.1.2 Table 2.
- */
-union cavm_rpmx_spux_usx_an_adv
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_usx_an_adv_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t lnk_st                : 1;  /**< [ 15: 15](R/W) Link status:
-                                                                   0 = link down.
-                                                                   1 = link up. */
-        uint64_t reserved_13_14        : 2;
-        uint64_t dplx                  : 1;  /**< [ 12: 12](RO) Duplex mode. Always 1 full duplex. */
-        uint64_t spd                   : 3;  /**< [ 11:  9](R/W) Link speed selection as follows:
-                                                                 0x0 = 10 Mb/s.
-                                                                 0x1 = 100 Mb/s.
-                                                                 0x2 = 1000 Mb/s.
-                                                                 0x3 = 10 Gb/s.
-                                                                 0x4 = 2.5 Gb/s.
-                                                                 0x5 = 5 Gb/s.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved. */
-        uint64_t eee_abil              : 1;  /**< [  8:  8](RO) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE capability. Always 0. */
-        uint64_t eee_clk_stop_abil     : 1;  /**< [  7:  7](RO) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE clock stop capability. Always 0. */
-        uint64_t reserved_1_6          : 6;
-        uint64_t set                   : 1;  /**< [  0:  0](RO) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t set                   : 1;  /**< [  0:  0](RO) Reserved. */
-        uint64_t reserved_1_6          : 6;
-        uint64_t eee_clk_stop_abil     : 1;  /**< [  7:  7](RO) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE clock stop capability. Always 0. */
-        uint64_t eee_abil              : 1;  /**< [  8:  8](RO) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE capability. Always 0. */
-        uint64_t spd                   : 3;  /**< [ 11:  9](R/W) Link speed selection as follows:
-                                                                 0x0 = 10 Mb/s.
-                                                                 0x1 = 100 Mb/s.
-                                                                 0x2 = 1000 Mb/s.
-                                                                 0x3 = 10 Gb/s.
-                                                                 0x4 = 2.5 Gb/s.
-                                                                 0x5 = 5 Gb/s.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved. */
-        uint64_t dplx                  : 1;  /**< [ 12: 12](RO) Duplex mode. Always 1 full duplex. */
-        uint64_t reserved_13_14        : 2;
-        uint64_t lnk_st                : 1;  /**< [ 15: 15](R/W) Link status:
-                                                                   0 = link down.
-                                                                   1 = link up. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_usx_an_adv_s cn; */
-};
-typedef union cavm_rpmx_spux_usx_an_adv cavm_rpmx_spux_usx_an_adv_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_ADV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_ADV(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_USX_AN_ADV", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_USX_AN_ADV(a,b) cavm_rpmx_spux_usx_an_adv_t
-#define bustype_CAVM_RPMX_SPUX_USX_AN_ADV(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_USX_AN_ADV(a,b) "RPMX_SPUX_USX_AN_ADV"
-#define device_bar_CAVM_RPMX_SPUX_USX_AN_ADV(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_USX_AN_ADV(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_USX_AN_ADV(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_usx_an_control
- *
- * RPM SPU USXGMII Autonegotiation Control Register
- */
-union cavm_rpmx_spux_usx_an_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_usx_an_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t an_reset              : 1;  /**< [ 15: 15](R/W1S/H) Autonegotiation reset. Setting this bit or RPM()_SPU()_AN_CONTROL[AN_RESET] or
-                                                                 RPM()_SPU()_CONTROL1[RESET] to 1 causes the following to happen:
-                                                                 * Resets the logical PCS (LPCS).
-                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states.
-                                                                 * Resets the associated SerDes lanes.
-
-                                                                 It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
-                                                                 automatically cleared. */
-        uint64_t reserved_13_14        : 2;
-        uint64_t an_en                 : 1;  /**< [ 12: 12](R/W) Autonegotiation enable. This bit should only be set when
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is set to USXGMII. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t rst_an                : 1;  /**< [  9:  9](R/W1S/H) Autonegotiation restart. Writing a 1 to this bit restarts the autonegotiation process if
-                                                                 [AN_EN] is also set. This is a self-clearing bit. */
-        uint64_t reserved_0_8          : 9;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_8          : 9;
-        uint64_t rst_an                : 1;  /**< [  9:  9](R/W1S/H) Autonegotiation restart. Writing a 1 to this bit restarts the autonegotiation process if
-                                                                 [AN_EN] is also set. This is a self-clearing bit. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t an_en                 : 1;  /**< [ 12: 12](R/W) Autonegotiation enable. This bit should only be set when
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE] is set to USXGMII. */
-        uint64_t reserved_13_14        : 2;
-        uint64_t an_reset              : 1;  /**< [ 15: 15](R/W1S/H) Autonegotiation reset. Setting this bit or RPM()_SPU()_AN_CONTROL[AN_RESET] or
-                                                                 RPM()_SPU()_CONTROL1[RESET] to 1 causes the following to happen:
-                                                                 * Resets the logical PCS (LPCS).
-                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states.
-                                                                 * Resets the associated SerDes lanes.
-
-                                                                 It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
-                                                                 automatically cleared. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_usx_an_control_s cn; */
-};
-typedef union cavm_rpmx_spux_usx_an_control cavm_rpmx_spux_usx_an_control_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_CONTROL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_USX_AN_CONTROL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_USX_AN_CONTROL(a,b) cavm_rpmx_spux_usx_an_control_t
-#define bustype_CAVM_RPMX_SPUX_USX_AN_CONTROL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_USX_AN_CONTROL(a,b) "RPMX_SPUX_USX_AN_CONTROL"
-#define device_bar_CAVM_RPMX_SPUX_USX_AN_CONTROL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_USX_AN_CONTROL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_USX_AN_CONTROL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_usx_an_expansion
- *
- * RPM SPU USXGMII Autonegotiation Expansion Register
- * This register is only used to signal page reception.
- */
-union cavm_rpmx_spux_usx_an_expansion
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_usx_an_expansion_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t next_page_able        : 1;  /**< [  2:  2](RO) Next page able. Always 0. */
-        uint64_t an_page_received      : 1;  /**< [  1:  1](R/W1C/H) Page received. This latching-high bit is set when a new page has been received and stored
-                                                                 in RPM()_SPU()_USX_AN_LP_ABIL; stays set until a 1 is
-                                                                 written by software, autonegotiation is disabled or restarted. Note that in order to avoid
-                                                                 read side effects, this is implemented as a write-1-to-clear bit, rather than latching high
-                                                                 read-only as specified in 802.3. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t an_page_received      : 1;  /**< [  1:  1](R/W1C/H) Page received. This latching-high bit is set when a new page has been received and stored
-                                                                 in RPM()_SPU()_USX_AN_LP_ABIL; stays set until a 1 is
-                                                                 written by software, autonegotiation is disabled or restarted. Note that in order to avoid
-                                                                 read side effects, this is implemented as a write-1-to-clear bit, rather than latching high
-                                                                 read-only as specified in 802.3. */
-        uint64_t next_page_able        : 1;  /**< [  2:  2](RO) Next page able. Always 0. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_usx_an_expansion_s cn; */
-};
-typedef union cavm_rpmx_spux_usx_an_expansion cavm_rpmx_spux_usx_an_expansion_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_EXPANSION(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_EXPANSION(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01e0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_USX_AN_EXPANSION", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_USX_AN_EXPANSION(a,b) cavm_rpmx_spux_usx_an_expansion_t
-#define bustype_CAVM_RPMX_SPUX_USX_AN_EXPANSION(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_USX_AN_EXPANSION(a,b) "RPMX_SPUX_USX_AN_EXPANSION"
-#define device_bar_CAVM_RPMX_SPUX_USX_AN_EXPANSION(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_USX_AN_EXPANSION(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_USX_AN_EXPANSION(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_usx_an_flow_ctrl
- *
- * RPM SPU USXGMII Flow Control Registers
- * This register is used by software to affect USXGMII AN hardware behavior.
- */
-union cavm_rpmx_spux_usx_an_flow_ctrl
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_usx_an_flow_ctrl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t start_idle_detect     : 1;  /**< [  0:  0](R/W1S/H) Enable USXGMII IDLE_DETECT state evaluation and transition to LINK_OK. When
-                                                                 autonegotiation is enabled (RPM()_SPU()_USX_AN_CONTROL[AN_EN] is set), this bit controls
-                                                                 the behavior of the autonegotiation arbitration state machine when it reaches the
-                                                                 IDLE_DETECT state after AN page is successfully exchanged, as defined in Figure 37-6 in
-                                                                 802.3-2012. Upon entering IDLE_DETECT the SM waits for software to set this bit. Only after
-                                                                 this bit is set does it start the link_timer and eventually transition to LINK_OK or
-                                                                 AN_ENABLE. This is a self-clearing bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t start_idle_detect     : 1;  /**< [  0:  0](R/W1S/H) Enable USXGMII IDLE_DETECT state evaluation and transition to LINK_OK. When
-                                                                 autonegotiation is enabled (RPM()_SPU()_USX_AN_CONTROL[AN_EN] is set), this bit controls
-                                                                 the behavior of the autonegotiation arbitration state machine when it reaches the
-                                                                 IDLE_DETECT state after AN page is successfully exchanged, as defined in Figure 37-6 in
-                                                                 802.3-2012. Upon entering IDLE_DETECT the SM waits for software to set this bit. Only after
-                                                                 this bit is set does it start the link_timer and eventually transition to LINK_OK or
-                                                                 AN_ENABLE. This is a self-clearing bit. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_usx_an_flow_ctrl_s cn; */
-};
-typedef union cavm_rpmx_spux_usx_an_flow_ctrl cavm_rpmx_spux_usx_an_flow_ctrl_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01e8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_USX_AN_FLOW_CTRL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(a,b) cavm_rpmx_spux_usx_an_flow_ctrl_t
-#define bustype_CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(a,b) "RPMX_SPUX_USX_AN_FLOW_CTRL"
-#define device_bar_CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_USX_AN_FLOW_CTRL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_usx_an_link_timer
- *
- * RPM SPU USXGMII Link Timer Registers
- * This is the link timer register.
- */
-union cavm_rpmx_spux_usx_an_link_timer
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_usx_an_link_timer_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t count                 : 16; /**< [ 15:  0](R/W) Units are hundreds of microseconds.
-                                                                 (10000 * number of rst__gbl_100mhz_sclk_edge cycles: 100 MHz or 10 ns).
-                                                                 Reset value results in a 1.5 ms link timer. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 16; /**< [ 15:  0](R/W) Units are hundreds of microseconds.
-                                                                 (10000 * number of rst__gbl_100mhz_sclk_edge cycles: 100 MHz or 10 ns).
-                                                                 Reset value results in a 1.5 ms link timer. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_usx_an_link_timer_s cn; */
-};
-typedef union cavm_rpmx_spux_usx_an_link_timer cavm_rpmx_spux_usx_an_link_timer_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01f0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_USX_AN_LINK_TIMER", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(a,b) cavm_rpmx_spux_usx_an_link_timer_t
-#define bustype_CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(a,b) "RPMX_SPUX_USX_AN_LINK_TIMER"
-#define device_bar_CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_USX_AN_LINK_TIMER(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_usx_an_lp_abil
- *
- * RPM SPU USXGMII Autonegotiation Link-Partner Advertisement Registers
- * This register captures the contents of the latest AN link code word base page received from
- * the link partner during autonegotiation. This is register 5 per IEEE 802.3, Clause 37.
- * RPM()_SPU()_USX_AN_EXPANSION[AN_PAGE_RECEIVED] is set when this register is updated by hardware.
- */
-union cavm_rpmx_spux_usx_an_lp_abil
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_usx_an_lp_abil_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t lnk_st                : 1;  /**< [ 15: 15](RO/H) Link status:
-                                                                   0 = link down.
-                                                                   1 = link up. */
-        uint64_t reserved_13_14        : 2;
-        uint64_t dplx                  : 1;  /**< [ 12: 12](RO/H) Duplex mode. Always 1 full duplex. */
-        uint64_t spd                   : 3;  /**< [ 11:  9](RO/H) Link speed selection as follows:
-                                                                 0x0 = 10 Mb/s.
-                                                                 0x1 = 100 Mb/s.
-                                                                 0x2 = 1000 Mb/s.
-                                                                 0x3 = 10 Gb/s.
-                                                                 0x4 = 2.5 Gb/s.
-                                                                 0x5 = 5 Gb/s.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved. */
-        uint64_t eee_abil              : 1;  /**< [  8:  8](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE capability. Always 0. */
-        uint64_t eee_clk_stop_abil     : 1;  /**< [  7:  7](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE clock stop capability. Always 0. */
-        uint64_t reserved_1_6          : 6;
-        uint64_t set                   : 1;  /**< [  0:  0](RO/H) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t set                   : 1;  /**< [  0:  0](RO/H) Reserved. */
-        uint64_t reserved_1_6          : 6;
-        uint64_t eee_clk_stop_abil     : 1;  /**< [  7:  7](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE clock stop capability. Always 0. */
-        uint64_t eee_abil              : 1;  /**< [  8:  8](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Indicates EEE capability. Always 0. */
-        uint64_t spd                   : 3;  /**< [ 11:  9](RO/H) Link speed selection as follows:
-                                                                 0x0 = 10 Mb/s.
-                                                                 0x1 = 100 Mb/s.
-                                                                 0x2 = 1000 Mb/s.
-                                                                 0x3 = 10 Gb/s.
-                                                                 0x4 = 2.5 Gb/s.
-                                                                 0x5 = 5 Gb/s.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved. */
-        uint64_t dplx                  : 1;  /**< [ 12: 12](RO/H) Duplex mode. Always 1 full duplex. */
-        uint64_t reserved_13_14        : 2;
-        uint64_t lnk_st                : 1;  /**< [ 15: 15](RO/H) Link status:
-                                                                   0 = link down.
-                                                                   1 = link up. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_usx_an_lp_abil_s cn; */
-};
-typedef union cavm_rpmx_spux_usx_an_lp_abil cavm_rpmx_spux_usx_an_lp_abil_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_LP_ABIL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_LP_ABIL(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_USX_AN_LP_ABIL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_USX_AN_LP_ABIL(a,b) cavm_rpmx_spux_usx_an_lp_abil_t
-#define bustype_CAVM_RPMX_SPUX_USX_AN_LP_ABIL(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_USX_AN_LP_ABIL(a,b) "RPMX_SPUX_USX_AN_LP_ABIL"
-#define device_bar_CAVM_RPMX_SPUX_USX_AN_LP_ABIL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_USX_AN_LP_ABIL(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_USX_AN_LP_ABIL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu#_usx_an_status
- *
- * RPM SPU USXGMII Autonegotiation Status Register
- */
-union cavm_rpmx_spux_usx_an_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spux_usx_an_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t an_cpt                : 1;  /**< [  5:  5](RO/H) Indicates autonegotiation is complete; the contents of the
-                                                                 RPM()_SPU()_USX_AN_ADV are valid. This bit is always zero when AN is
-                                                                 disabled. */
-        uint64_t rmt_flt               : 1;  /**< [  4:  4](RO) Remote fault: Always 0. */
-        uint64_t an_abil               : 1;  /**< [  3:  3](RO) Autonegotiation ability: Always 1. */
-        uint64_t lnk_st                : 1;  /**< [  2:  2](R/W1S/H) Link status:
-                                                                   0 = Link down.
-                                                                   1 = Link up.
-
-                                                                 When set, indicates that a valid link has been established. When clear,
-                                                                 indicates that the link has been invalid after this bit was last set by software. Latching
-                                                                 low bit; stays clear until a 1 is written by software. Note that in order to avoid read
-                                                                 side effects, this is implemented as a write-1-to-set bit, rather than latching low read-
-                                                                 only as specified in 802.3. */
-        uint64_t reserved_1            : 1;
-        uint64_t extnd                 : 1;  /**< [  0:  0](RO) This field is always 0, extended capability registers not present. */
-#else /* Word 0 - Little Endian */
-        uint64_t extnd                 : 1;  /**< [  0:  0](RO) This field is always 0, extended capability registers not present. */
-        uint64_t reserved_1            : 1;
-        uint64_t lnk_st                : 1;  /**< [  2:  2](R/W1S/H) Link status:
-                                                                   0 = Link down.
-                                                                   1 = Link up.
-
-                                                                 When set, indicates that a valid link has been established. When clear,
-                                                                 indicates that the link has been invalid after this bit was last set by software. Latching
-                                                                 low bit; stays clear until a 1 is written by software. Note that in order to avoid read
-                                                                 side effects, this is implemented as a write-1-to-set bit, rather than latching low read-
-                                                                 only as specified in 802.3. */
-        uint64_t an_abil               : 1;  /**< [  3:  3](RO) Autonegotiation ability: Always 1. */
-        uint64_t rmt_flt               : 1;  /**< [  4:  4](RO) Remote fault: Always 0. */
-        uint64_t an_cpt                : 1;  /**< [  5:  5](RO/H) Indicates autonegotiation is complete; the contents of the
-                                                                 RPM()_SPU()_USX_AN_ADV are valid. This bit is always zero when AN is
-                                                                 disabled. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spux_usx_an_status_s cn; */
-};
-typedef union cavm_rpmx_spux_usx_an_status cavm_rpmx_spux_usx_an_status_t;
-
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPUX_USX_AN_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d01c8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPUX_USX_AN_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPUX_USX_AN_STATUS(a,b) cavm_rpmx_spux_usx_an_status_t
-#define bustype_CAVM_RPMX_SPUX_USX_AN_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPUX_USX_AN_STATUS(a,b) "RPMX_SPUX_USX_AN_STATUS"
-#define device_bar_CAVM_RPMX_SPUX_USX_AN_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPUX_USX_AN_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPUX_USX_AN_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu_dbg_control
- *
- * RPM SPU Debug Control Registers
- */
-union cavm_rpmx_spu_dbg_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spu_dbg_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
-        uint64_t ms_clk_period         : 12; /**< [ 55: 44](R/W) Millisecond clock period. Specifies the number of microsecond clock ticks per millisecond,
-                                                                 minus one. The default value of 999 (0x3E7) should be used during normal operation; other
-                                                                 values may be used for test/debug purposes. */
-        uint64_t us_clk_period         : 12; /**< [ 43: 32](R/W) Microsecond clock period. Specifies the number of 100MHz cycles per microseconds, minus one.
-                                                                 Only sensical value is 100 - 1 == 99 == 0x63.
-                                                                 This is used by the BASE-R BER monitor timers. */
-        uint64_t rf_cw_mon_erly_restart_dis : 1;/**< [ 31: 31](R/W) The pipe-stage where the FEC alignment state machine RF_CW_MON (802.3bj-2014 Figure 91-9,
-                                                                 802.3by-2016 Figure 108-6) resides will retain knowledge of uncorrectable errors in the system
-                                                                 from the moment the Reed-Solomon decoder is up and running and until the SM leaves
-                                                                 ALIGN_ACQUIRED. If any uncorrectable errors occur in that interval, the SM will go to THREE_BAD
-                                                                 and cause restart lock to occur. This behavior will be preempted if this bit is set to 1.
-
-                                                                 Internal:
-                                                                 This was added to disable part of the fix to bug 36607. */
-        uint64_t br_ber_mon_dis        : 1;  /**< [ 30: 30](R/W) BASE-R bit error rate monitor disable. This bit should be clear for normal operation.
-                                                                 Setting it disables the BASE-R BER monitor state machine defined in 802.3-2008 Figure
-                                                                 49-13 for 10G, 25GBASE-R, also used for USXGMII and 802.3ba-2010 Figure 82-13 for
-                                                                 40G, 50G, 100GBASE-R. */
-        uint64_t an_nonce_match_dis    : 1;  /**< [ 29: 29](R/W) Autonegotiation nonce match disable. This bit should be clear for normal operation.
-                                                                 Setting it disables Nonce Match check by forcing nonce_match variable to 0 in the
-                                                                 autonegotiation arbitration state diagram, as defined in 802.3-2008 Figure 73-11. This bit
-                                                                 can be set by software for test purposes, e.g. for running autonegotiation in
-                                                                 loopback mode. */
-        uint64_t timestamp_norm_dis    : 1;  /**< [ 28: 28](R/W) Multi-lane BASE-R RX timestamp normalization disable. This bit controls the generation
-                                                                 of the receive SOP timestamp passed to the SMU sub-block for a 40G, 50G or 100GBASE-R
-                                                                 LMAC/LPCS. When this bit is clear, SPU normalizes the receive SOP timestamp in order to
-                                                                 compensate for lane-to-lane skew on a multi-lane BASE-R link, as described below. When
-                                                                 this bit is set, timestamp normalization is disabled and SPU directly passes the
-                                                                 captured SOP timestamp values to SMU.
-
-                                                                 In multi-lane mode, a packet's SOP block can be transferred on any of the LMAC's lanes.
-                                                                 In the presence of lane-to-lane skew, the SOP delay from transmit (by the link partner)
-                                                                 to receive by SPU varies depending on which lane is used by the SOP block. This variation
-                                                                 reduces the accuracy of the received SOP timestamp relative to when it was transmitted by
-                                                                 the link partner.
-
-                                                                 SPU captures the timestamp of the alignment marker received on each SerDes lane during
-                                                                 align/skew detection; the captured value can be read from the SerDes lane's
-                                                                 RPM()_SPU_SDS()_SKEW_STATUS[SKEW_STATUS] field (RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP]
-                                                                 sub-field). If
-                                                                 alignment markers are transmitted at about the same time on all lanes by the link partner,
-                                                                 then the difference between the RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] values for a pair
-                                                                 of lanes represents the
-                                                                 approximate skew between those lanes.
-
-                                                                 SPU uses the multi-lane LMAC's programmed PCS lane 0 as a reference and computes the
-                                                                 RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] delta of every other lane relative to PCS lane 0.
-                                                                 When normalization is
-                                                                 enabled, SPU adjusts the timestamp of a received SOP by subtracting the receiving lane's
-                                                                 RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] delta from the captured timestamp value. The
-                                                                 adjusted/normalized timestamp
-                                                                 value is then passed to SMU along with the SOP.
-
-                                                                 Software can determine the actual maximum skew of a multi-lane link by examining the
-                                                                 RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] values in the RPM()_SPU_SDS()_SKEW_STATUS
-                                                                 registers, and decide if
-                                                                 timestamp normalization should be enabled or disabled to improve PTP accuracy.
-                                                                 Normalization improves accuracy for larger skew values but reduces the accuracy (due to
-                                                                 timestamp measurement errors) for small skew values. */
-        uint64_t reserved_20_27        : 8;
-        uint64_t br_pmd_train_soft_en  : 1;  /**< [ 19: 19](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Enable BASE-R PMD software controlled link training. This
-                                                                 bit configures the operation mode for BASE-R link training for all LMACs and
-                                                                 lanes. When this bit is set along with RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] for
-                                                                 a given LMAC, the BASE-R link training protocol for that LMAC is executed under
-                                                                 software control, whereby the contents the RPM()_SPU()_BR_PMD_LD_CUP and
-                                                                 RPM()_SPU()_BR_PMD_LD_REP registers are updated by software. When this bit is
-                                                                 clear and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is set, the link training
-                                                                 protocol is fully automated in hardware, whereby the contents
-                                                                 RPM()_SPU()_BR_PMD_LD_CUP and RPM()_SPU()_BR_PMD_LD_REP registers are
-                                                                 automatically updated by hardware. */
-        uint64_t reserved_17_18        : 2;
-        uint64_t scramble_dis          : 1;  /**< [ 16: 16](R/W) BASE-R scrambler/descrambler disable. Setting this bit to 1 disables the BASE-R scrambler
-                                                                 & descrambler functions and FEC PN-2112 scrambler & descrambler functions for debug
-                                                                 purposes. */
-        uint64_t reserved_15           : 1;
-        uint64_t marker_rxp            : 15; /**< [ 14:  0](R/W) BASE-R alignment marker receive period. For a multilane BASE-R logical PCS (i.e.
-                                                                 40,50,100GBASE-R), this field specifies the expected alignment marker receive period per
-                                                                 lane,
-                                                                 i.e. the expected number of received 66b non-marker blocks between consecutive markers on
-                                                                 the same lane. The default value corresponds to a period of 16383 blocks (exclusive) as
-                                                                 specified in 802.3ba-2010. Must be greater than 64. */
-#else /* Word 0 - Little Endian */
-        uint64_t marker_rxp            : 15; /**< [ 14:  0](R/W) BASE-R alignment marker receive period. For a multilane BASE-R logical PCS (i.e.
-                                                                 40,50,100GBASE-R), this field specifies the expected alignment marker receive period per
-                                                                 lane,
-                                                                 i.e. the expected number of received 66b non-marker blocks between consecutive markers on
-                                                                 the same lane. The default value corresponds to a period of 16383 blocks (exclusive) as
-                                                                 specified in 802.3ba-2010. Must be greater than 64. */
-        uint64_t reserved_15           : 1;
-        uint64_t scramble_dis          : 1;  /**< [ 16: 16](R/W) BASE-R scrambler/descrambler disable. Setting this bit to 1 disables the BASE-R scrambler
-                                                                 & descrambler functions and FEC PN-2112 scrambler & descrambler functions for debug
-                                                                 purposes. */
-        uint64_t reserved_17_18        : 2;
-        uint64_t br_pmd_train_soft_en  : 1;  /**< [ 19: 19](R/W) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Enable BASE-R PMD software controlled link training. This
-                                                                 bit configures the operation mode for BASE-R link training for all LMACs and
-                                                                 lanes. When this bit is set along with RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] for
-                                                                 a given LMAC, the BASE-R link training protocol for that LMAC is executed under
-                                                                 software control, whereby the contents the RPM()_SPU()_BR_PMD_LD_CUP and
-                                                                 RPM()_SPU()_BR_PMD_LD_REP registers are updated by software. When this bit is
-                                                                 clear and RPM()_SPU()_BR_PMD_CONTROL[TRAIN_EN] is set, the link training
-                                                                 protocol is fully automated in hardware, whereby the contents
-                                                                 RPM()_SPU()_BR_PMD_LD_CUP and RPM()_SPU()_BR_PMD_LD_REP registers are
-                                                                 automatically updated by hardware. */
-        uint64_t reserved_20_27        : 8;
-        uint64_t timestamp_norm_dis    : 1;  /**< [ 28: 28](R/W) Multi-lane BASE-R RX timestamp normalization disable. This bit controls the generation
-                                                                 of the receive SOP timestamp passed to the SMU sub-block for a 40G, 50G or 100GBASE-R
-                                                                 LMAC/LPCS. When this bit is clear, SPU normalizes the receive SOP timestamp in order to
-                                                                 compensate for lane-to-lane skew on a multi-lane BASE-R link, as described below. When
-                                                                 this bit is set, timestamp normalization is disabled and SPU directly passes the
-                                                                 captured SOP timestamp values to SMU.
-
-                                                                 In multi-lane mode, a packet's SOP block can be transferred on any of the LMAC's lanes.
-                                                                 In the presence of lane-to-lane skew, the SOP delay from transmit (by the link partner)
-                                                                 to receive by SPU varies depending on which lane is used by the SOP block. This variation
-                                                                 reduces the accuracy of the received SOP timestamp relative to when it was transmitted by
-                                                                 the link partner.
-
-                                                                 SPU captures the timestamp of the alignment marker received on each SerDes lane during
-                                                                 align/skew detection; the captured value can be read from the SerDes lane's
-                                                                 RPM()_SPU_SDS()_SKEW_STATUS[SKEW_STATUS] field (RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP]
-                                                                 sub-field). If
-                                                                 alignment markers are transmitted at about the same time on all lanes by the link partner,
-                                                                 then the difference between the RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] values for a pair
-                                                                 of lanes represents the
-                                                                 approximate skew between those lanes.
-
-                                                                 SPU uses the multi-lane LMAC's programmed PCS lane 0 as a reference and computes the
-                                                                 RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] delta of every other lane relative to PCS lane 0.
-                                                                 When normalization is
-                                                                 enabled, SPU adjusts the timestamp of a received SOP by subtracting the receiving lane's
-                                                                 RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] delta from the captured timestamp value. The
-                                                                 adjusted/normalized timestamp
-                                                                 value is then passed to SMU along with the SOP.
-
-                                                                 Software can determine the actual maximum skew of a multi-lane link by examining the
-                                                                 RPM_SPU_SDS_SKEW_STATUS_S[AM_TIMESTAMP] values in the RPM()_SPU_SDS()_SKEW_STATUS
-                                                                 registers, and decide if
-                                                                 timestamp normalization should be enabled or disabled to improve PTP accuracy.
-                                                                 Normalization improves accuracy for larger skew values but reduces the accuracy (due to
-                                                                 timestamp measurement errors) for small skew values. */
-        uint64_t an_nonce_match_dis    : 1;  /**< [ 29: 29](R/W) Autonegotiation nonce match disable. This bit should be clear for normal operation.
-                                                                 Setting it disables Nonce Match check by forcing nonce_match variable to 0 in the
-                                                                 autonegotiation arbitration state diagram, as defined in 802.3-2008 Figure 73-11. This bit
-                                                                 can be set by software for test purposes, e.g. for running autonegotiation in
-                                                                 loopback mode. */
-        uint64_t br_ber_mon_dis        : 1;  /**< [ 30: 30](R/W) BASE-R bit error rate monitor disable. This bit should be clear for normal operation.
-                                                                 Setting it disables the BASE-R BER monitor state machine defined in 802.3-2008 Figure
-                                                                 49-13 for 10G, 25GBASE-R, also used for USXGMII and 802.3ba-2010 Figure 82-13 for
-                                                                 40G, 50G, 100GBASE-R. */
-        uint64_t rf_cw_mon_erly_restart_dis : 1;/**< [ 31: 31](R/W) The pipe-stage where the FEC alignment state machine RF_CW_MON (802.3bj-2014 Figure 91-9,
-                                                                 802.3by-2016 Figure 108-6) resides will retain knowledge of uncorrectable errors in the system
-                                                                 from the moment the Reed-Solomon decoder is up and running and until the SM leaves
-                                                                 ALIGN_ACQUIRED. If any uncorrectable errors occur in that interval, the SM will go to THREE_BAD
-                                                                 and cause restart lock to occur. This behavior will be preempted if this bit is set to 1.
-
-                                                                 Internal:
-                                                                 This was added to disable part of the fix to bug 36607. */
-        uint64_t us_clk_period         : 12; /**< [ 43: 32](R/W) Microsecond clock period. Specifies the number of 100MHz cycles per microseconds, minus one.
-                                                                 Only sensical value is 100 - 1 == 99 == 0x63.
-                                                                 This is used by the BASE-R BER monitor timers. */
-        uint64_t ms_clk_period         : 12; /**< [ 55: 44](R/W) Millisecond clock period. Specifies the number of microsecond clock ticks per millisecond,
-                                                                 minus one. The default value of 999 (0x3E7) should be used during normal operation; other
-                                                                 values may be used for test/debug purposes. */
-        uint64_t reserved_56_63        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spu_dbg_control_s cn; */
-};
-typedef union cavm_rpmx_spu_dbg_control cavm_rpmx_spu_dbg_control_t;
-
-static inline uint64_t CAVM_RPMX_SPU_DBG_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPU_DBG_CONTROL(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e00d0300ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_SPU_DBG_CONTROL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPU_DBG_CONTROL(a) cavm_rpmx_spu_dbg_control_t
-#define bustype_CAVM_RPMX_SPU_DBG_CONTROL(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPU_DBG_CONTROL(a) "RPMX_SPU_DBG_CONTROL"
-#define device_bar_CAVM_RPMX_SPU_DBG_CONTROL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPU_DBG_CONTROL(a) (a)
-#define arguments_CAVM_RPMX_SPU_DBG_CONTROL(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rpm#_spu_sds#_skew_status
- *
- * RPM SPU SerDes Lane Skew Status Registers
- * This register provides SerDes lane skew status. One register per physical SerDes lane.
- */
-union cavm_rpmx_spu_sdsx_skew_status
-{
-    uint64_t u;
-    struct cavm_rpmx_spu_sdsx_skew_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t skew_status           : 32; /**< [ 31:  0](RO/H) Format defined by RPM_SPU_SDS_SKEW_STATUS_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t skew_status           : 32; /**< [ 31:  0](RO/H) Format defined by RPM_SPU_SDS_SKEW_STATUS_S. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spu_sdsx_skew_status_s cn; */
-};
-typedef union cavm_rpmx_spu_sdsx_skew_status cavm_rpmx_spu_sdsx_skew_status_t;
-
-static inline uint64_t CAVM_RPMX_SPU_SDSX_SKEW_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPU_SDSX_SKEW_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0340ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPU_SDSX_SKEW_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPU_SDSX_SKEW_STATUS(a,b) cavm_rpmx_spu_sdsx_skew_status_t
-#define bustype_CAVM_RPMX_SPU_SDSX_SKEW_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPU_SDSX_SKEW_STATUS(a,b) "RPMX_SPU_SDSX_SKEW_STATUS"
-#define device_bar_CAVM_RPMX_SPU_SDSX_SKEW_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPU_SDSX_SKEW_STATUS(a,b) (a)
-#define arguments_CAVM_RPMX_SPU_SDSX_SKEW_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu_sds#_states
- *
- * RPM SPU SerDes States Registers
- * This register provides SerDes lane states. One register per physical SerDes lane.
- */
-union cavm_rpmx_spu_sdsx_states
-{
-    uint64_t u;
-    struct cavm_rpmx_spu_sdsx_states_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t am_lock_invld_cnt     : 2;  /**< [ 51: 50](RO/H) Multi-lane BASE-R alignment marker lock state machine invalid AM counter. */
-        uint64_t am_lock_sm            : 2;  /**< [ 49: 48](RO/H) Multi-lane BASE-R alignment marker lock state machine state. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t train_sm              : 3;  /**< [ 44: 42](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training state machine state. */
-        uint64_t train_code_viol       : 1;  /**< [ 41: 41](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training code violation in received control channel. */
-        uint64_t train_frame_lock      : 1;  /**< [ 40: 40](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training frame lock status. */
-        uint64_t train_lock_found_1st_marker : 1;/**< [ 39: 39](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training frame lock status. */
-        uint64_t train_lock_bad_markers : 3; /**< [ 38: 36](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training lock state machine bad markers counter. */
-        uint64_t reserved_35           : 1;
-        uint64_t an_arb_sm             : 3;  /**< [ 34: 32](RO/H) Autonegotiation arbitration state machine state. */
-        uint64_t an_rx_sm              : 2;  /**< [ 31: 30](RO/H) Autonegotiation receive state machine state. */
-        uint64_t reserved_29           : 1;
-        uint64_t fec_block_sync        : 1;  /**< [ 28: 28](RO/H) BASE-R FEC block sync status. */
-        uint64_t fec_sync_cnt          : 4;  /**< [ 27: 24](RO/H) BASE-R FEC block sync state machine good/bad parity block counter. */
-        uint64_t reserved_23           : 1;
-        uint64_t br_sh_invld_cnt       : 7;  /**< [ 22: 16](RO/H) BASE-R lock state machine invalid sync header counter. */
-        uint64_t br_block_lock         : 1;  /**< [ 15: 15](RO/H) BASE-R block lock status. */
-        uint64_t br_sh_cnt             : 11; /**< [ 14:  4](RO/H) BASE-R lock state machine sync header counter */
-        uint64_t bx_sync_sm            : 4;  /**< [  3:  0](RO/H) BASE-X PCS synchronization state machine state */
-#else /* Word 0 - Little Endian */
-        uint64_t bx_sync_sm            : 4;  /**< [  3:  0](RO/H) BASE-X PCS synchronization state machine state */
-        uint64_t br_sh_cnt             : 11; /**< [ 14:  4](RO/H) BASE-R lock state machine sync header counter */
-        uint64_t br_block_lock         : 1;  /**< [ 15: 15](RO/H) BASE-R block lock status. */
-        uint64_t br_sh_invld_cnt       : 7;  /**< [ 22: 16](RO/H) BASE-R lock state machine invalid sync header counter. */
-        uint64_t reserved_23           : 1;
-        uint64_t fec_sync_cnt          : 4;  /**< [ 27: 24](RO/H) BASE-R FEC block sync state machine good/bad parity block counter. */
-        uint64_t fec_block_sync        : 1;  /**< [ 28: 28](RO/H) BASE-R FEC block sync status. */
-        uint64_t reserved_29           : 1;
-        uint64_t an_rx_sm              : 2;  /**< [ 31: 30](RO/H) Autonegotiation receive state machine state. */
-        uint64_t an_arb_sm             : 3;  /**< [ 34: 32](RO/H) Autonegotiation arbitration state machine state. */
-        uint64_t reserved_35           : 1;
-        uint64_t train_lock_bad_markers : 3; /**< [ 38: 36](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training lock state machine bad markers counter. */
-        uint64_t train_lock_found_1st_marker : 1;/**< [ 39: 39](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training frame lock status. */
-        uint64_t train_frame_lock      : 1;  /**< [ 40: 40](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training frame lock status. */
-        uint64_t train_code_viol       : 1;  /**< [ 41: 41](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training code violation in received control channel. */
-        uint64_t train_sm              : 3;  /**< [ 44: 42](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Deprecated with GSERR| Link training state machine state. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t am_lock_sm            : 2;  /**< [ 49: 48](RO/H) Multi-lane BASE-R alignment marker lock state machine state. */
-        uint64_t am_lock_invld_cnt     : 2;  /**< [ 51: 50](RO/H) Multi-lane BASE-R alignment marker lock state machine invalid AM counter. */
-        uint64_t reserved_52_63        : 12;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spu_sdsx_states_s cn; */
-};
-typedef union cavm_rpmx_spu_sdsx_states cavm_rpmx_spu_sdsx_states_t;
-
-static inline uint64_t CAVM_RPMX_SPU_SDSX_STATES(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPU_SDSX_STATES(uint64_t a, uint64_t b)
-{
-    if ((a<=8) && (b<=3))
-        return 0x87e0e00d0360ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RPMX_SPU_SDSX_STATES", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPU_SDSX_STATES(a,b) cavm_rpmx_spu_sdsx_states_t
-#define bustype_CAVM_RPMX_SPU_SDSX_STATES(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPU_SDSX_STATES(a,b) "RPMX_SPU_SDSX_STATES"
-#define device_bar_CAVM_RPMX_SPU_SDSX_STATES(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPU_SDSX_STATES(a,b) (a)
-#define arguments_CAVM_RPMX_SPU_SDSX_STATES(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rpm#_spu_usxgmii_control
- *
- * RPM SPU Common USXGMII Control Register
- * This register is the common control register that enables USXGMII Mode. The fields
- * in this register are preserved across any LMAC soft-resets. For an LMAC in soft-
- * reset state in USXGMII mode, the RPM will transmit Remote Fault BASE-R blocks.
- */
-union cavm_rpmx_spu_usxgmii_control
-{
-    uint64_t u;
-    struct cavm_rpmx_spu_usxgmii_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t sds_id                : 2;  /**< [  5:  4](R/W) Specifies the USXGMII SerDes Lane. Since all LMACs within a RPM share the SerDes
-                                                                 lane in USXGMII mode, this field specifies that shared lane. This field is
-                                                                 required as during soft-reset of an LMAC, its RPM()_CMR()_CONFIG[LANE_TO_SDS]
-                                                                 might not be available or might not be correctly configured. Overrides any
-                                                                 setting in RPM()_CMR()_CONFIG[LANE_TO_SDS] when in USXGMII mode. Ignored if
-                                                                 RPM()_SPU_USXGMII_CONTROL[ENABLE] is not set. */
-        uint64_t usxgmii_type          : 3;  /**< [  3:  1](R/W) Specifies the USXGMII type. Ignored if RPM()_SPU_USXGMII_CONTROL[ENABLE] is not
-                                                                 set. Enumerated by RPM_USXGMII_TYPE_E. Also reflected in
-                                                                 RPM()_SPU()_CONTROL1[USXGMII_TYPE]. */
-        uint64_t enable                : 1;  /**< [  0:  0](R/W) Enables USXGMII mode. Identifies the mode of
-                                                                 operation for the RPM even when a sub-set of the associated LMACs are in soft-
-                                                                 reset state. During a soft-reset of an LMAC in USXGMII mode, the associated
-                                                                 attributes for that LMAC in RPM()_CMR()_CONFIG are not available, but the RPM is
-                                                                 still required to operate in USXGMII mode as other LMACs might not be in soft-
-                                                                 reset state. */
-#else /* Word 0 - Little Endian */
-        uint64_t enable                : 1;  /**< [  0:  0](R/W) Enables USXGMII mode. Identifies the mode of
-                                                                 operation for the RPM even when a sub-set of the associated LMACs are in soft-
-                                                                 reset state. During a soft-reset of an LMAC in USXGMII mode, the associated
-                                                                 attributes for that LMAC in RPM()_CMR()_CONFIG are not available, but the RPM is
-                                                                 still required to operate in USXGMII mode as other LMACs might not be in soft-
-                                                                 reset state. */
-        uint64_t usxgmii_type          : 3;  /**< [  3:  1](R/W) Specifies the USXGMII type. Ignored if RPM()_SPU_USXGMII_CONTROL[ENABLE] is not
-                                                                 set. Enumerated by RPM_USXGMII_TYPE_E. Also reflected in
-                                                                 RPM()_SPU()_CONTROL1[USXGMII_TYPE]. */
-        uint64_t sds_id                : 2;  /**< [  5:  4](R/W) Specifies the USXGMII SerDes Lane. Since all LMACs within a RPM share the SerDes
-                                                                 lane in USXGMII mode, this field specifies that shared lane. This field is
-                                                                 required as during soft-reset of an LMAC, its RPM()_CMR()_CONFIG[LANE_TO_SDS]
-                                                                 might not be available or might not be correctly configured. Overrides any
-                                                                 setting in RPM()_CMR()_CONFIG[LANE_TO_SDS] when in USXGMII mode. Ignored if
-                                                                 RPM()_SPU_USXGMII_CONTROL[ENABLE] is not set. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_spu_usxgmii_control_s cn; */
-};
-typedef union cavm_rpmx_spu_usxgmii_control cavm_rpmx_spu_usxgmii_control_t;
-
-static inline uint64_t CAVM_RPMX_SPU_USXGMII_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_SPU_USXGMII_CONTROL(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e0e00d0920ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("RPMX_SPU_USXGMII_CONTROL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_SPU_USXGMII_CONTROL(a) cavm_rpmx_spu_usxgmii_control_t
-#define bustype_CAVM_RPMX_SPU_USXGMII_CONTROL(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_SPU_USXGMII_CONTROL(a) "RPMX_SPU_USXGMII_CONTROL"
-#define device_bar_CAVM_RPMX_SPU_USXGMII_CONTROL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_SPU_USXGMII_CONTROL(a) (a)
-#define arguments_CAVM_RPMX_SPU_USXGMII_CONTROL(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_RPM_H__ */

@@ -603,7 +603,7 @@ union cavm_ml_dod_cfg_int_enable_hi_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable high priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable high priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable high priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable high priority of interrupt TASKQ_OVERFLOW_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable high priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable high priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
@@ -625,7 +625,7 @@ union cavm_ml_dod_cfg_int_enable_hi_s
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable high priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable high priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable high priority of interrupt TASKQ_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable high priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable high priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable high priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
@@ -722,7 +722,7 @@ union cavm_ml_dod_cfg_int_enable_lo_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable low priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable low priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable low priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable low priority of interrupt TASKQ_OVERFLOW_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable low priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable low priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
@@ -744,7 +744,7 @@ union cavm_ml_dod_cfg_int_enable_lo_s
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable low priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable low priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable low priority of interrupt TASKQ_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable low priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable low priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable low priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
@@ -841,7 +841,7 @@ union cavm_ml_dod_cfg_int_force_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Force interrupt generation of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Force interrupt generation of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Force interrupt generation of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Force interrupt generation of interrupt TASKQ_OVERFLOW_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Force interrupt generation of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Force interrupt generation of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
@@ -863,7 +863,7 @@ union cavm_ml_dod_cfg_int_force_s
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Force interrupt generation of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Force interrupt generation of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Force interrupt generation of interrupt TASKQ_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Force interrupt generation of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Force interrupt generation of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Force interrupt generation of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
@@ -981,7 +981,7 @@ union cavm_ml_dod_cfg_int_status_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] FT internal, prefetch fifo in Gather master0, Fatal. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] FT internal, prefetch fifo in Gather master1, Fatal. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] FT internal, mesh data fifo in axi_waddr_gen, Fatal. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] FT taskq fifo in dod_taskq,this will happen if there is a bug in INS/IRTR and
                                                                  doesnt keep track of credit correctly Fatal. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] FT internal, state machine wait for dmadone timeout error, Fatal. */
@@ -1017,7 +1017,7 @@ union cavm_ml_dod_cfg_int_status_s
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] FT internal, state machine wait for dmadone timeout error, Fatal. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] FT taskq fifo in dod_taskq,this will happen if there is a bug in INS/IRTR and
                                                                  doesnt keep track of credit correctly Fatal. */
-        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
+        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] FT internal, mesh data fifo in axi_waddr_gen, Fatal. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] FT internal, prefetch fifo in Gather master1, Fatal. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] FT internal, prefetch fifo in Gather master0, Fatal. */
@@ -1292,142 +1292,6 @@ union cavm_ml_dod_data_buf_m0_mem3_data_s
 #endif /* Word 3 - End */
     } s;
     /* struct cavm_ml_dod_data_buf_m0_mem3_data_s_s cn; */
-};
-
-/**
- * Structure ml_dod_data_buf_m1_mem0_data_s
- *
- * ML DOD DATA BUF M1 MEM0 DATA Structure
- */
-union cavm_ml_dod_data_buf_m1_mem0_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_data_buf_m1_mem0_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_data_buf_m1_mem0_data_s_s cn; */
-};
-
-/**
- * Structure ml_dod_data_buf_m1_mem1_data_s
- *
- * ML DOD DATA BUF M1 MEM1 DATA Structure
- */
-union cavm_ml_dod_data_buf_m1_mem1_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_data_buf_m1_mem1_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_data_buf_m1_mem1_data_s_s cn; */
-};
-
-/**
- * Structure ml_dod_data_buf_m1_mem2_data_s
- *
- * ML DOD DATA BUF M1 MEM2 DATA Structure
- */
-union cavm_ml_dod_data_buf_m1_mem2_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_data_buf_m1_mem2_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_data_buf_m1_mem2_data_s_s cn; */
-};
-
-/**
- * Structure ml_dod_data_buf_m1_mem3_data_s
- *
- * ML DOD DATA BUF M1 MEM3 DATA Structure
- */
-union cavm_ml_dod_data_buf_m1_mem3_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_data_buf_m1_mem3_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_data_buf_m1_mem3_data_s_s cn; */
 };
 
 /**
@@ -1762,150 +1626,6 @@ union cavm_ml_dod_ptr_buf0_mem3_data_s
 };
 
 /**
- * Structure ml_dod_ptr_buf1_mem0_data_s
- *
- * ML DOD PTR BUF1 MEM0 DATA Structure
- */
-union cavm_ml_dod_ptr_buf1_mem0_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_ptr_buf1_mem0_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_ptr_buf1_mem0_data_s_s cn; */
-};
-
-/**
- * Structure ml_dod_ptr_buf1_mem1_data_s
- *
- * ML DOD PTR BUF1 MEM1 DATA Structure
- */
-union cavm_ml_dod_ptr_buf1_mem1_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_ptr_buf1_mem1_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_ptr_buf1_mem1_data_s_s cn; */
-};
-
-/**
- * Structure ml_dod_ptr_buf1_mem2_data_s
- *
- * ML DOD PTR BUF1 MEM2 DATA Structure
- */
-union cavm_ml_dod_ptr_buf1_mem2_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_ptr_buf1_mem2_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_ptr_buf1_mem2_data_s_s cn; */
-};
-
-/**
- * Structure ml_dod_ptr_buf1_mem3_data_s
- *
- * ML DOD PTR BUF1 MEM3 DATA Structure
- */
-union cavm_ml_dod_ptr_buf1_mem3_data_s
-{
-    uint64_t u[4];
-    struct cavm_ml_dod_ptr_buf1_mem3_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#else /* Word 0 - Little Endian */
-        uint64_t data_w0               : 64; /**< [ 63:  0] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#else /* Word 1 - Little Endian */
-        uint64_t data_w1               : 64; /**< [127: 64] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#else /* Word 2 - Little Endian */
-        uint64_t data_w2               : 64; /**< [191:128] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#else /* Word 3 - Little Endian */
-        uint64_t data_w3               : 64; /**< [255:192] One line of data = 32B. This register can only be accessed 32-bits at a time
-                                                                 because of jira M1KDES-1546. */
-#endif /* Word 3 - End */
-    } s;
-    /* struct cavm_ml_dod_ptr_buf1_mem3_data_s_s cn; */
-};
-
-/**
  * Structure ml_dod_taskq_sm_s
  *
  * ML DOD TASKQ SM Structure
@@ -2165,422 +1885,6 @@ union cavm_ml_dpe_alu_trace_cfg_stop_comp_s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ml_dpe_alu_trace_cfg_stop_comp_s_s cn; */
-};
-
-/**
- * Structure ml_high_pri_core0_mask_s
- *
- * ML HIGH PRI CORE0 MASK Structure
- * Mask high_pri int reporting from a slave to core0.
- */
-union cavm_ml_high_pri_core0_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_core0_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_core0_mask_s_s cn; */
-};
-
-/**
- * Structure ml_high_pri_core1_mask_s
- *
- * ML HIGH PRI CORE1 MASK Structure
- * Mask high_pri int reporting from a slave to core1.
- */
-union cavm_ml_high_pri_core1_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_core1_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_core1_mask_s_s cn; */
-};
-
-/**
- * Structure ml_high_pri_host_mask_s
- *
- * ML HIGH PRI HOST MASK Structure
- * Mask high_pri int reporting from a slave to host.
- */
-union cavm_ml_high_pri_host_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_host_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_host_mask_s_s cn; */
-};
-
-/**
- * Structure ml_high_pri_int_status_s
- *
- * ML HIGH PRI INT STATUS Structure
- * Per-slave high_pri interrupt status register.
- */
-union cavm_ml_high_pri_int_status_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_int_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_int_status_s_s cn; */
 };
 
 /**
@@ -3366,9 +2670,9 @@ union cavm_ml_ins_slv_int_status_s
                                                                  ins_scheduler_ctrl.enable_dod_resp_timeout_check. Refer to
                                                                  ins_scheduler_status.err_task_id for the associated Task ID. This is classified
                                                                  a fatal error. */
-        uint64_t dod1_dmaid_wait_timeout : 1;/**< [ 14: 14] FT Timeout on DMA done response from DOD1. Indicates no response from DOD1
-                                                                 within the timeout limit. This timeout interrupt is set when the wait time
-                                                                 matches the configured ins_scheduler_ctrl.dmaid_wait_timeout_limit. Gated by
+        uint64_t dod1_dmaid_wait_timeout : 1;/**< [ 14: 14] FT Timeout on DMA done response from DOD1. Unused in ML IP. This timeout
+                                                                 interrupt is set when the wait time matches the configured
+                                                                 ins_scheduler_ctrl.dmaid_wait_timeout_limit. Gated by
                                                                  ins_scheduler_ctrl.enable_dod_resp_timeout_check. Refer to
                                                                  ins_scheduler_status.err_task_id for the associated Task ID. This is classified
                                                                  a fatal error. */
@@ -3403,9 +2707,9 @@ union cavm_ml_ins_slv_int_status_s
                                                                  classified a fatal error. */
         uint64_t dod0_resp_rxf_overflow : 1; /**< [  4:  4] FT Indicates DOD0 response queue overflow error. This is classified a fatal error. */
         uint64_t dod1_resp_dmaid_mismatch : 1;/**< [  3:  3] FT Mismatch between DMA done ID received from DOD1 and the expected DMA done ID.
-                                                                 Refer to ins_dod_dma_status register for expected ID and received ID. This is
-                                                                 classified a fatal error. */
-        uint64_t dod1_resp_rxf_overflow : 1; /**< [  2:  2] FT Indicates DOD1 response queue overflow error. This is classified a fatal error. */
+                                                                 Unused in ML IP. Refer to ins_dod_dma_status register for expected ID and
+                                                                 received ID. This is classified a fatal error. */
+        uint64_t dod1_resp_rxf_overflow : 1; /**< [  2:  2] FT Indicates DOD1 response queue overflow error. Unused in ML IP. This is classified a fatal error. */
         uint64_t ins_dfc_tx_trigger    : 1;  /**< [  1:  1] FT Indicates config chain DFC Tx trigger and is just an indication of the event.
                                                                  May be used just for debug purpose. This is not classified an error. */
         uint64_t ins_dfc_rx_overflow   : 1;  /**< [  0:  0] FT Indicates config chain DFC Rx FIFO overflow error. This is classified a fatal error. */
@@ -3413,10 +2717,10 @@ union cavm_ml_ins_slv_int_status_s
         uint64_t ins_dfc_rx_overflow   : 1;  /**< [  0:  0] FT Indicates config chain DFC Rx FIFO overflow error. This is classified a fatal error. */
         uint64_t ins_dfc_tx_trigger    : 1;  /**< [  1:  1] FT Indicates config chain DFC Tx trigger and is just an indication of the event.
                                                                  May be used just for debug purpose. This is not classified an error. */
-        uint64_t dod1_resp_rxf_overflow : 1; /**< [  2:  2] FT Indicates DOD1 response queue overflow error. This is classified a fatal error. */
+        uint64_t dod1_resp_rxf_overflow : 1; /**< [  2:  2] FT Indicates DOD1 response queue overflow error. Unused in ML IP. This is classified a fatal error. */
         uint64_t dod1_resp_dmaid_mismatch : 1;/**< [  3:  3] FT Mismatch between DMA done ID received from DOD1 and the expected DMA done ID.
-                                                                 Refer to ins_dod_dma_status register for expected ID and received ID. This is
-                                                                 classified a fatal error. */
+                                                                 Unused in ML IP. Refer to ins_dod_dma_status register for expected ID and
+                                                                 received ID. This is classified a fatal error. */
         uint64_t dod0_resp_rxf_overflow : 1; /**< [  4:  4] FT Indicates DOD0 response queue overflow error. This is classified a fatal error. */
         uint64_t dod0_resp_dmaid_mismatch : 1;/**< [  5:  5] FT Mismatch between DMA done ID received from DOD0 and the expected DMA done ID.
                                                                  Refer to ins_dod_dma_status register for expected ID and received ID. This is
@@ -3447,9 +2751,9 @@ union cavm_ml_ins_slv_int_status_s
         uint64_t task_wait_no_dmaid    : 1;  /**< [ 13: 13] FT DMAID not available to schedule a DOD DMA task. Set when the DMAID is not
                                                                  available even for a single clock. This is not classified an error and is just
                                                                  an indication of the event. */
-        uint64_t dod1_dmaid_wait_timeout : 1;/**< [ 14: 14] FT Timeout on DMA done response from DOD1. Indicates no response from DOD1
-                                                                 within the timeout limit. This timeout interrupt is set when the wait time
-                                                                 matches the configured ins_scheduler_ctrl.dmaid_wait_timeout_limit. Gated by
+        uint64_t dod1_dmaid_wait_timeout : 1;/**< [ 14: 14] FT Timeout on DMA done response from DOD1. Unused in ML IP. This timeout
+                                                                 interrupt is set when the wait time matches the configured
+                                                                 ins_scheduler_ctrl.dmaid_wait_timeout_limit. Gated by
                                                                  ins_scheduler_ctrl.enable_dod_resp_timeout_check. Refer to
                                                                  ins_scheduler_status.err_task_id for the associated Task ID. This is classified
                                                                  a fatal error. */
@@ -3633,422 +2937,6 @@ union cavm_ml_jtagshim_fifo_usage_s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ml_jtagshim_fifo_usage_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_core0_mask_s
- *
- * ML LOW PRI CORE0 MASK Structure
- * Mask low_pri int reporting from a slave to core0.
- */
-union cavm_ml_low_pri_core0_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_core0_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_core0_mask_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_core1_mask_s
- *
- * ML LOW PRI CORE1 MASK Structure
- * Mask low_pri int reporting from a slave to core1.
- */
-union cavm_ml_low_pri_core1_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_core1_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_core1_mask_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_host_mask_s
- *
- * ML LOW PRI HOST MASK Structure
- * Mask low_pri int reporting from a slave to host.
- */
-union cavm_ml_low_pri_host_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_host_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_host_mask_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_int_status_s
- *
- * ML LOW PRI INT STATUS Structure
- * Per-slave low_pri interrupt status register.
- */
-union cavm_ml_low_pri_int_status_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_int_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_int_status_s_s cn; */
 };
 
 /**
@@ -10706,7 +9594,8 @@ static inline uint64_t CAVM_MLX_CORE_INT_LO_W1S(uint64_t a)
  *
  * ML CUR RST STATUS Register
  * Reset controller outputs status. SoC can read this register 32 ML clocks after
- * deasserting SoC initiated cold and warm reset.
+ * deasserting SoC initiated cold and warm reset. 0 Reset is inactive 1 Reset is
+ * active.
  */
 union cavm_mlx_cur_rst_status
 {
@@ -10715,23 +9604,23 @@ union cavm_mlx_cur_rst_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t ml_dap_cold_rst       : 1;  /**< [  7:  7](RO/H) 0 ACC DAP reset is inactive 1 ACC DAP reset is active. */
-        uint32_t ml_cfg_rst            : 1;  /**< [  6:  6](RO/H) 0 ML IP config reset is inactive 1 ML IP config reset is active. */
-        uint32_t ml_nic_rst            : 1;  /**< [  5:  5](RO/H) 0 NIC logic reset is inactive 1 NIC logic reset is active. */
-        uint32_t ml_cmpc_rst           : 1;  /**< [  4:  4](RO/H) 0 CMPC logic reset is inactive 1 CMPC logic reset is active. */
-        uint32_t ml_acc_rst            : 1;  /**< [  3:  3](RO/H) 0 ACC logic reset is inactive 1 ACC logic reset is active. */
-        uint32_t cfgm_cfg_rst          : 1;  /**< [  2:  2](RO/H) 0 CFGM config reset is inactive 1 CFGM config reset is active. */
-        uint32_t cfgm_rst              : 1;  /**< [  1:  1](RO/H) 0 CFGM logic reset is inactive 1 CFGM logic reset is active. */
-        uint32_t cfgm_rstc_slv_rst     : 1;  /**< [  0:  0](RO/H) 0 CFGM reset controller slave reset is inactive 1 CFGM reset controller slave reset is active. */
+        uint32_t ml_dap_cold_rst       : 1;  /**< [  7:  7](RO/H) ACC DAP reset. */
+        uint32_t ml_cfg_rst            : 1;  /**< [  6:  6](RO/H) ML IP config reset. */
+        uint32_t ml_nic_rst            : 1;  /**< [  5:  5](RO/H) NIC logic reset. */
+        uint32_t ml_cmpc_rst           : 1;  /**< [  4:  4](RO/H) CMPC logic reset. */
+        uint32_t ml_acc_rst            : 1;  /**< [  3:  3](RO/H) ACC logic reset. */
+        uint32_t cfgm_cfg_rst          : 1;  /**< [  2:  2](RO/H) CFGM config reset. */
+        uint32_t cfgm_rst              : 1;  /**< [  1:  1](RO/H) CFGM logic reset. */
+        uint32_t cfgm_rstc_slv_rst     : 1;  /**< [  0:  0](RO/H) CFGM reset controller slave reset. */
 #else /* Word 0 - Little Endian */
-        uint32_t cfgm_rstc_slv_rst     : 1;  /**< [  0:  0](RO/H) 0 CFGM reset controller slave reset is inactive 1 CFGM reset controller slave reset is active. */
-        uint32_t cfgm_rst              : 1;  /**< [  1:  1](RO/H) 0 CFGM logic reset is inactive 1 CFGM logic reset is active. */
-        uint32_t cfgm_cfg_rst          : 1;  /**< [  2:  2](RO/H) 0 CFGM config reset is inactive 1 CFGM config reset is active. */
-        uint32_t ml_acc_rst            : 1;  /**< [  3:  3](RO/H) 0 ACC logic reset is inactive 1 ACC logic reset is active. */
-        uint32_t ml_cmpc_rst           : 1;  /**< [  4:  4](RO/H) 0 CMPC logic reset is inactive 1 CMPC logic reset is active. */
-        uint32_t ml_nic_rst            : 1;  /**< [  5:  5](RO/H) 0 NIC logic reset is inactive 1 NIC logic reset is active. */
-        uint32_t ml_cfg_rst            : 1;  /**< [  6:  6](RO/H) 0 ML IP config reset is inactive 1 ML IP config reset is active. */
-        uint32_t ml_dap_cold_rst       : 1;  /**< [  7:  7](RO/H) 0 ACC DAP reset is inactive 1 ACC DAP reset is active. */
+        uint32_t cfgm_rstc_slv_rst     : 1;  /**< [  0:  0](RO/H) CFGM reset controller slave reset. */
+        uint32_t cfgm_rst              : 1;  /**< [  1:  1](RO/H) CFGM logic reset. */
+        uint32_t cfgm_cfg_rst          : 1;  /**< [  2:  2](RO/H) CFGM config reset. */
+        uint32_t ml_acc_rst            : 1;  /**< [  3:  3](RO/H) ACC logic reset. */
+        uint32_t ml_cmpc_rst           : 1;  /**< [  4:  4](RO/H) CMPC logic reset. */
+        uint32_t ml_nic_rst            : 1;  /**< [  5:  5](RO/H) NIC logic reset. */
+        uint32_t ml_cfg_rst            : 1;  /**< [  6:  6](RO/H) ML IP config reset. */
+        uint32_t ml_dap_cold_rst       : 1;  /**< [  7:  7](RO/H) ACC DAP reset. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -14136,6 +13025,7 @@ static inline uint64_t CAVM_MLX_DOD0_CNT(uint64_t a)
  * Register (NCB32b) ml#_dod1_cnt
  *
  * ML DOD1 CNT Register
+ * This register is unused in ML IP.
  */
 union cavm_mlx_dod1_cnt
 {
@@ -15084,286 +13974,6 @@ static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M0_MEM3_DATA_WX(uint64_t a, uint64_
 #define arguments_CAVM_MLX_DOD_DATA_BUF_M0_MEM3_DATA_WX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem0_addr
- *
- * ML DOD DATA BUF M1 MEM0 ADDR Register
- */
-union cavm_mlx_dod_data_buf_m1_mem0_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem0_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem0_addr_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem0_addr cavm_mlx_dod_data_buf_m1_mem0_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x8280120401dcll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM0_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(a) cavm_mlx_dod_data_buf_m1_mem0_addr_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(a) "MLX_DOD_DATA_BUF_M1_MEM0_ADDR"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem0_data_w#
- *
- * ML DOD DATA BUF M1 MEM0 DATA Word  Register
- */
-union cavm_mlx_dod_data_buf_m1_mem0_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem0_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM0_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM0_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem0_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem0_data_wx cavm_mlx_dod_data_buf_m1_mem0_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x8280120401e0ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(a,b) cavm_mlx_dod_data_buf_m1_mem0_data_wx_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(a,b) "MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM0_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem1_addr
- *
- * ML DOD DATA BUF M1 MEM1 ADDR Register
- */
-union cavm_mlx_dod_data_buf_m1_mem1_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem1_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem1_addr_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem1_addr cavm_mlx_dod_data_buf_m1_mem1_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x828012040200ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM1_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(a) cavm_mlx_dod_data_buf_m1_mem1_addr_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(a) "MLX_DOD_DATA_BUF_M1_MEM1_ADDR"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem1_data_w#
- *
- * ML DOD DATA BUF M1 MEM1 DATA Word  Register
- */
-union cavm_mlx_dod_data_buf_m1_mem1_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem1_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM1_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM1_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem1_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem1_data_wx cavm_mlx_dod_data_buf_m1_mem1_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x828012040204ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(a,b) cavm_mlx_dod_data_buf_m1_mem1_data_wx_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(a,b) "MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM1_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem2_addr
- *
- * ML DOD DATA BUF M1 MEM2 ADDR Register
- */
-union cavm_mlx_dod_data_buf_m1_mem2_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem2_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem2_addr_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem2_addr cavm_mlx_dod_data_buf_m1_mem2_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x828012040224ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM2_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(a) cavm_mlx_dod_data_buf_m1_mem2_addr_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(a) "MLX_DOD_DATA_BUF_M1_MEM2_ADDR"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem2_data_w#
- *
- * ML DOD DATA BUF M1 MEM2 DATA Word  Register
- */
-union cavm_mlx_dod_data_buf_m1_mem2_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem2_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM2_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM2_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem2_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem2_data_wx cavm_mlx_dod_data_buf_m1_mem2_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x828012040228ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(a,b) cavm_mlx_dod_data_buf_m1_mem2_data_wx_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(a,b) "MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM2_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem3_addr
- *
- * ML DOD DATA BUF M1 MEM3 ADDR Register
- */
-union cavm_mlx_dod_data_buf_m1_mem3_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem3_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem3_addr_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem3_addr cavm_mlx_dod_data_buf_m1_mem3_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x828012040248ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM3_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(a) cavm_mlx_dod_data_buf_m1_mem3_addr_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(a) "MLX_DOD_DATA_BUF_M1_MEM3_ADDR"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_data_buf_m1_mem3_data_w#
- *
- * ML DOD DATA BUF M1 MEM3 DATA Word  Register
- */
-union cavm_mlx_dod_data_buf_m1_mem3_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_data_buf_m1_mem3_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM3_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_DATA_BUF_M1_MEM3_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_data_buf_m1_mem3_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_data_buf_m1_mem3_data_wx cavm_mlx_dod_data_buf_m1_mem3_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x82801204024cll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(a,b) cavm_mlx_dod_data_buf_m1_mem3_data_wx_t
-#define bustype_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(a,b) "MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_DATA_BUF_M1_MEM3_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB32b) ml#_dod_disp_err_status
  *
  * ML DOD DISP ERR STATUS Register
@@ -16127,286 +14737,6 @@ static inline uint64_t CAVM_MLX_DOD_PTR_BUF0_MEM3_DATA_WX(uint64_t a, uint64_t b
 #define device_bar_CAVM_MLX_DOD_PTR_BUF0_MEM3_DATA_WX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLX_DOD_PTR_BUF0_MEM3_DATA_WX(a,b) (a)
 #define arguments_CAVM_MLX_DOD_PTR_BUF0_MEM3_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem0_addr
- *
- * ML DOD PTR BUF1 MEM0 ADDR Register
- */
-union cavm_mlx_dod_ptr_buf1_mem0_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem0_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem0_addr_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem0_addr cavm_mlx_dod_ptr_buf1_mem0_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x8280120402fcll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM0_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(a) cavm_mlx_dod_ptr_buf1_mem0_addr_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(a) "MLX_DOD_PTR_BUF1_MEM0_ADDR"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM0_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem0_data_w#
- *
- * ML DOD PTR BUF1 MEM0 DATA Word  Register
- */
-union cavm_mlx_dod_ptr_buf1_mem0_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem0_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM0_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM0_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem0_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem0_data_wx cavm_mlx_dod_ptr_buf1_mem0_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x828012040300ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM0_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(a,b) cavm_mlx_dod_ptr_buf1_mem0_data_wx_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(a,b) "MLX_DOD_PTR_BUF1_MEM0_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM0_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem1_addr
- *
- * ML DOD PTR BUF1 MEM1 ADDR Register
- */
-union cavm_mlx_dod_ptr_buf1_mem1_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem1_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem1_addr_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem1_addr cavm_mlx_dod_ptr_buf1_mem1_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x828012040320ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM1_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(a) cavm_mlx_dod_ptr_buf1_mem1_addr_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(a) "MLX_DOD_PTR_BUF1_MEM1_ADDR"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM1_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem1_data_w#
- *
- * ML DOD PTR BUF1 MEM1 DATA Word  Register
- */
-union cavm_mlx_dod_ptr_buf1_mem1_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem1_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM1_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM1_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem1_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem1_data_wx cavm_mlx_dod_ptr_buf1_mem1_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x828012040324ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM1_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(a,b) cavm_mlx_dod_ptr_buf1_mem1_data_wx_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(a,b) "MLX_DOD_PTR_BUF1_MEM1_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM1_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem2_addr
- *
- * ML DOD PTR BUF1 MEM2 ADDR Register
- */
-union cavm_mlx_dod_ptr_buf1_mem2_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem2_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem2_addr_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem2_addr cavm_mlx_dod_ptr_buf1_mem2_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x828012040344ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM2_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(a) cavm_mlx_dod_ptr_buf1_mem2_addr_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(a) "MLX_DOD_PTR_BUF1_MEM2_ADDR"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM2_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem2_data_w#
- *
- * ML DOD PTR BUF1 MEM2 DATA Word  Register
- */
-union cavm_mlx_dod_ptr_buf1_mem2_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem2_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM2_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM2_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem2_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem2_data_wx cavm_mlx_dod_ptr_buf1_mem2_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x828012040348ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM2_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(a,b) cavm_mlx_dod_ptr_buf1_mem2_data_wx_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(a,b) "MLX_DOD_PTR_BUF1_MEM2_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM2_DATA_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem3_addr
- *
- * ML DOD PTR BUF1 MEM3 ADDR Register
- */
-union cavm_mlx_dod_ptr_buf1_mem3_addr
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem3_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Default DATA fields */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem3_addr_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem3_addr cavm_mlx_dod_ptr_buf1_mem3_addr_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(uint64_t a)
-{
-    if (a==0)
-        return 0x828012040368ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM3_ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(a) cavm_mlx_dod_ptr_buf1_mem3_addr_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(a) "MLX_DOD_PTR_BUF1_MEM3_ADDR"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(a) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM3_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_dod_ptr_buf1_mem3_data_w#
- *
- * ML DOD PTR BUF1 MEM3 DATA Word  Register
- */
-union cavm_mlx_dod_ptr_buf1_mem3_data_wx
-{
-    uint32_t u;
-    struct cavm_mlx_dod_ptr_buf1_mem3_data_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM3_DATA_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_DOD_PTR_BUF1_MEM3_DATA_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_dod_ptr_buf1_mem3_data_wx_s cn; */
-};
-typedef union cavm_mlx_dod_ptr_buf1_mem3_data_wx cavm_mlx_dod_ptr_buf1_mem3_data_wx_t;
-
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=7))
-        return 0x82801204036cll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLX_DOD_PTR_BUF1_MEM3_DATA_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(a,b) cavm_mlx_dod_ptr_buf1_mem3_data_wx_t
-#define bustype_CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(a,b) "MLX_DOD_PTR_BUF1_MEM3_DATA_WX"
-#define device_bar_CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(a,b) (a)
-#define arguments_CAVM_MLX_DOD_PTR_BUF1_MEM3_DATA_WX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) ml#_dod_taskq_sm_w#
@@ -31273,17 +29603,19 @@ union cavm_mlx_glbl_slv_int_status
         uint32_t reserved_4_31         : 28;
         uint32_t wr_addr_err           : 1;  /**< [  3:  3](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t wr_timeout            : 1;  /**< [  2:  2](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t unexp_cold_rst_seq    : 1;  /**< [  1:  1](R/W1C/H) FT Indicates an unexpected cold reset sequence detected. ML IP received just the
-                                                                 cold reset signal with no associated warm reset signal. SoC will never do this
-                                                                 by design. */
+        uint32_t unexp_cold_rst_seq    : 1;  /**< [  1:  1](R/W1C/H) FT Indicates an unexpected cold reset sequence detected. SoC will never do this
+                                                                 by design. Following are possible unexpected cold reset sequences ML IP received
+                                                                 just the cold reset signal with no associated warm reset signal or ML IP warm
+                                                                 reset got deasserted before the cold reset. */
         uint32_t acc_wdt_timeout       : 1;  /**< [  0:  0](R/W1C/H) FT Indicates ACC watchdog timer timeout event. This interrupt is expected to be
                                                                  in ACC but M1K had it in reset controller. */
 #else /* Word 0 - Little Endian */
         uint32_t acc_wdt_timeout       : 1;  /**< [  0:  0](R/W1C/H) FT Indicates ACC watchdog timer timeout event. This interrupt is expected to be
                                                                  in ACC but M1K had it in reset controller. */
-        uint32_t unexp_cold_rst_seq    : 1;  /**< [  1:  1](R/W1C/H) FT Indicates an unexpected cold reset sequence detected. ML IP received just the
-                                                                 cold reset signal with no associated warm reset signal. SoC will never do this
-                                                                 by design. */
+        uint32_t unexp_cold_rst_seq    : 1;  /**< [  1:  1](R/W1C/H) FT Indicates an unexpected cold reset sequence detected. SoC will never do this
+                                                                 by design. Following are possible unexpected cold reset sequences ML IP received
+                                                                 just the cold reset signal with no associated warm reset signal or ML IP warm
+                                                                 reset got deasserted before the cold reset. */
         uint32_t wr_timeout            : 1;  /**< [  2:  2](R/W1C/H) Write to memory or dynamic register not acknowledged. */
         uint32_t wr_addr_err           : 1;  /**< [  3:  3](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t reserved_4_31         : 28;
@@ -31451,150 +29783,6 @@ static inline uint64_t CAVM_MLX_GLBL_SLVLOCKREG(uint64_t a)
 #define device_bar_CAVM_MLX_GLBL_SLVLOCKREG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLX_GLBL_SLVLOCKREG(a) (a)
 #define arguments_CAVM_MLX_GLBL_SLVLOCKREG(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_high_pri_core0_mask_w#
- *
- * ML HIGH PRI CORE0 MASK Word  Register
- * Mask high_pri int reporting from a slave to core0.
- */
-union cavm_mlx_high_pri_core0_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_core0_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE0_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE0_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_core0_mask_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_core0_mask_wx cavm_mlx_high_pri_core0_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088028ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_CORE0_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) cavm_mlx_high_pri_core0_mask_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) "MLX_HIGH_PRI_CORE0_MASK_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_high_pri_core1_mask_w#
- *
- * ML HIGH PRI CORE1 MASK Word  Register
- * Mask high_pri int reporting from a slave to core1.
- */
-union cavm_mlx_high_pri_core1_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_core1_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE1_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE1_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_core1_mask_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_core1_mask_wx cavm_mlx_high_pri_core1_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088030ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_CORE1_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) cavm_mlx_high_pri_core1_mask_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) "MLX_HIGH_PRI_CORE1_MASK_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_high_pri_host_mask_w#
- *
- * ML HIGH PRI HOST MASK Word  Register
- * Mask high_pri int reporting from a slave to host.
- */
-union cavm_mlx_high_pri_host_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_host_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_HOST_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_HOST_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_host_mask_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_host_mask_wx cavm_mlx_high_pri_host_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_HOST_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_HOST_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088020ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_HOST_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) cavm_mlx_high_pri_host_mask_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) "MLX_HIGH_PRI_HOST_MASK_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_high_pri_int_status_w#
- *
- * ML HIGH PRI INT STATUS Word  Register
- * Per-slave high_pri interrupt status register.
- */
-union cavm_mlx_high_pri_int_status_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_int_status_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_INT_STATUS_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_INT_STATUS_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_int_status_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_int_status_wx cavm_mlx_high_pri_int_status_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_INT_STATUS_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_INT_STATUS_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088018ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_INT_STATUS_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) cavm_mlx_high_pri_int_status_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) "MLX_HIGH_PRI_INT_STATUS_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) ml#_ibuf_cport
@@ -32212,17 +30400,19 @@ union cavm_mlx_ins_dod_dma_status
         uint32_t dod0_rxf_usage        : 4;  /**< [ 19: 16](RO/H) DOD0 DMA done ID FIFO usage. */
         uint32_t dod0_rx_drdy          : 1;  /**< [ 15: 15](RO/H) Indicates srdy status on DOD0 DMA done DFC Rx. */
         uint32_t dod0_rx_srdy          : 1;  /**< [ 14: 14](RO/H) Indicates srdy status on DOD0 DMA done DFC Rx. */
-        uint32_t dod1_exp_dma_id       : 4;  /**< [ 13: 10](RO/H) Expected DOD1 DMA done ID. Valid only when dod0_resp_dmaid_mismatch interrupt is set. */
+        uint32_t dod1_exp_dma_id       : 4;  /**< [ 13: 10](RO/H) Unused in ML IP. Expected DOD1 DMA done ID. Valid only when
+                                                                 dod0_resp_dmaid_mismatch interrupt is set. */
         uint32_t dod1_act_dma_id       : 4;  /**< [  9:  6](RO/H) Actual DOD1 DMA done ID received. Valid only when dod0_resp_dmaid_mismatch interrupt is set. */
-        uint32_t dod1_rxf_usage        : 4;  /**< [  5:  2](RO/H) DOD1 DMA done ID FIFO usage. */
-        uint32_t dod1_rx_drdy          : 1;  /**< [  1:  1](RO/H) Indicates srdy status on DOD1 DMA done DFC Rx. */
-        uint32_t dod1_rx_srdy          : 1;  /**< [  0:  0](RO/H) Indicates srdy status on DOD1 DMA done DFC Rx. */
+        uint32_t dod1_rxf_usage        : 4;  /**< [  5:  2](RO/H) Unused in ML IP. DOD1 DMA done ID FIFO usage. */
+        uint32_t dod1_rx_drdy          : 1;  /**< [  1:  1](RO/H) Unused in ML IP. Indicates srdy status on DOD1 DMA done DFC Rx. */
+        uint32_t dod1_rx_srdy          : 1;  /**< [  0:  0](RO/H) Unused in ML IP. Indicates srdy status on DOD1 DMA done DFC Rx. */
 #else /* Word 0 - Little Endian */
-        uint32_t dod1_rx_srdy          : 1;  /**< [  0:  0](RO/H) Indicates srdy status on DOD1 DMA done DFC Rx. */
-        uint32_t dod1_rx_drdy          : 1;  /**< [  1:  1](RO/H) Indicates srdy status on DOD1 DMA done DFC Rx. */
-        uint32_t dod1_rxf_usage        : 4;  /**< [  5:  2](RO/H) DOD1 DMA done ID FIFO usage. */
+        uint32_t dod1_rx_srdy          : 1;  /**< [  0:  0](RO/H) Unused in ML IP. Indicates srdy status on DOD1 DMA done DFC Rx. */
+        uint32_t dod1_rx_drdy          : 1;  /**< [  1:  1](RO/H) Unused in ML IP. Indicates srdy status on DOD1 DMA done DFC Rx. */
+        uint32_t dod1_rxf_usage        : 4;  /**< [  5:  2](RO/H) Unused in ML IP. DOD1 DMA done ID FIFO usage. */
         uint32_t dod1_act_dma_id       : 4;  /**< [  9:  6](RO/H) Actual DOD1 DMA done ID received. Valid only when dod0_resp_dmaid_mismatch interrupt is set. */
-        uint32_t dod1_exp_dma_id       : 4;  /**< [ 13: 10](RO/H) Expected DOD1 DMA done ID. Valid only when dod0_resp_dmaid_mismatch interrupt is set. */
+        uint32_t dod1_exp_dma_id       : 4;  /**< [ 13: 10](RO/H) Unused in ML IP. Expected DOD1 DMA done ID. Valid only when
+                                                                 dod0_resp_dmaid_mismatch interrupt is set. */
         uint32_t dod0_rx_srdy          : 1;  /**< [ 14: 14](RO/H) Indicates srdy status on DOD0 DMA done DFC Rx. */
         uint32_t dod0_rx_drdy          : 1;  /**< [ 15: 15](RO/H) Indicates srdy status on DOD0 DMA done DFC Rx. */
         uint32_t dod0_rxf_usage        : 4;  /**< [ 19: 16](RO/H) DOD0 DMA done ID FIFO usage. */
@@ -34179,7 +32369,7 @@ static inline uint64_t CAVM_MLX_JTAGSHIM_SW_RST_FIFO(uint64_t a)
  * Register (NCB32b) ml#_last_rst_source
  *
  * ML LAST RST SOURCE Register
- * Last reset sequence trigger source.
+ * Last reset sequence trigger source. This is expected to be a onehot encoded.
  */
 union cavm_mlx_last_rst_source
 {
@@ -34230,150 +32420,6 @@ static inline uint64_t CAVM_MLX_LAST_RST_SOURCE(uint64_t a)
 #define device_bar_CAVM_MLX_LAST_RST_SOURCE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLX_LAST_RST_SOURCE(a) (a)
 #define arguments_CAVM_MLX_LAST_RST_SOURCE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_core0_mask_w#
- *
- * ML LOW PRI CORE0 MASK Word  Register
- * Mask low_pri int reporting from a slave to core0.
- */
-union cavm_mlx_low_pri_core0_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_core0_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE0_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE0_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_core0_mask_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_core0_mask_wx cavm_mlx_low_pri_core0_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088048ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_CORE0_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) cavm_mlx_low_pri_core0_mask_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) "MLX_LOW_PRI_CORE0_MASK_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_core1_mask_w#
- *
- * ML LOW PRI CORE1 MASK Word  Register
- * Mask low_pri int reporting from a slave to core1.
- */
-union cavm_mlx_low_pri_core1_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_core1_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE1_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE1_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_core1_mask_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_core1_mask_wx cavm_mlx_low_pri_core1_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088050ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_CORE1_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) cavm_mlx_low_pri_core1_mask_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) "MLX_LOW_PRI_CORE1_MASK_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_host_mask_w#
- *
- * ML LOW PRI HOST MASK Word  Register
- * Mask low_pri int reporting from a slave to host.
- */
-union cavm_mlx_low_pri_host_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_host_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_HOST_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_HOST_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_host_mask_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_host_mask_wx cavm_mlx_low_pri_host_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_HOST_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_HOST_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088040ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_HOST_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) cavm_mlx_low_pri_host_mask_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) "MLX_LOW_PRI_HOST_MASK_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_int_status_w#
- *
- * ML LOW PRI INT STATUS Word  Register
- * Per-slave low_pri interrupt status register.
- */
-union cavm_mlx_low_pri_int_status_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_int_status_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_INT_STATUS_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_INT_STATUS_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_int_status_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_int_status_wx cavm_mlx_low_pri_int_status_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_INT_STATUS_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_INT_STATUS_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088038ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_INT_STATUS_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) cavm_mlx_low_pri_int_status_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) "MLX_LOW_PRI_INT_STATUS_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) ml#_lwa_debug#

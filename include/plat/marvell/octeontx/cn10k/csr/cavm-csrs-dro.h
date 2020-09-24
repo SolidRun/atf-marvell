@@ -20,74 +20,68 @@
  */
 
 /**
- * Enumeration dro_blocks_e
+ * Enumeration dro_bar_e
  *
- * INTERNAL: DRO Block Placement Enumeration
- *
- * Enumerates the DRO block identifier (CSR addresses \<23:16\>) to their physical placement.
- * Value 0xFF indicates broadcast, i.e., select all blocks.
- *
- * Internal:
- * This enum width is MDC_BAR_E::MDC_PF_BAR2's pcc_bar_size_bits minus 16, e.g. 24-16=8.
- * For P1, further limited to 4 bits.
+ * DRO Base Address Register Enumeration
+ * Enumerates the base address registers.
  */
-#define CAVM_DRO_BLOCKS_E_DCPX(a) (9 + (a))
-#define CAVM_DRO_BLOCKS_E_ROCX(a) (8 + (a))
-#define CAVM_DRO_BLOCKS_E_TSNX(a) (0 + (a))
+#define CAVM_DRO_BAR_E_DROX_PF_BAR0(a) (0x87e180000000ll + 0x1000000ll * (a))
+#define CAVM_DRO_BAR_E_DROX_PF_BAR0_SIZE 0x10000ull
 
 /**
- * Register (RSL) dro_blk#_broadcast_ack_ret
+ * Register (RSL) dro#_blk_broadcast_ack_ret
  *
  * INTERNAL: DRO Block Broadcast Ack Return Register
  *
  * This register determines which DRO will return the ack back to RSL during a broadcast.
  */
-union cavm_dro_blkx_broadcast_ack_ret
+union cavm_drox_blk_broadcast_ack_ret
 {
     uint64_t u;
-    struct cavm_dro_blkx_broadcast_ack_ret_s
+    struct cavm_drox_blk_broadcast_ack_ret_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t ack_ret               : 8;  /**< [  7:  0](R/W) Block number which will return RSL acknowledge during a broadcast. Must refer to
+        uint64_t reserved_6_63         : 58;
+        uint64_t ack_ret               : 6;  /**< [  5:  0](R/W) Block number which will return RSL acknowledge during a broadcast. Must refer to
                                                                  the block which is physically furthest from MRML (typically DCP). Enumerated by
                                                                  DRO_BLOCKS_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t ack_ret               : 8;  /**< [  7:  0](R/W) Block number which will return RSL acknowledge during a broadcast. Must refer to
+        uint64_t ack_ret               : 6;  /**< [  5:  0](R/W) Block number which will return RSL acknowledge during a broadcast. Must refer to
                                                                  the block which is physically furthest from MRML (typically DCP). Enumerated by
                                                                  DRO_BLOCKS_E. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_broadcast_ack_ret_s cn; */
+    /* struct cavm_drox_blk_broadcast_ack_ret_s cn; */
 };
-typedef union cavm_dro_blkx_broadcast_ack_ret cavm_dro_blkx_broadcast_ack_ret_t;
+typedef union cavm_drox_blk_broadcast_ack_ret cavm_drox_blk_broadcast_ack_ret_t;
 
-static inline uint64_t CAVM_DRO_BLKX_BROADCAST_ACK_RET(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_BROADCAST_ACK_RET(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_BROADCAST_ACK_RET(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_BROADCAST_ACK_RET(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000040ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_BROADCAST_ACK_RET", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000040ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_BROADCAST_ACK_RET", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_BROADCAST_ACK_RET(a) cavm_dro_blkx_broadcast_ack_ret_t
-#define bustype_CAVM_DRO_BLKX_BROADCAST_ACK_RET(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_BROADCAST_ACK_RET(a) "DRO_BLKX_BROADCAST_ACK_RET"
-#define busnum_CAVM_DRO_BLKX_BROADCAST_ACK_RET(a) (a)
-#define arguments_CAVM_DRO_BLKX_BROADCAST_ACK_RET(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_BROADCAST_ACK_RET(a) cavm_drox_blk_broadcast_ack_ret_t
+#define bustype_CAVM_DROX_BLK_BROADCAST_ACK_RET(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_BROADCAST_ACK_RET(a) "DROX_BLK_BROADCAST_ACK_RET"
+#define device_bar_CAVM_DROX_BLK_BROADCAST_ACK_RET(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_BROADCAST_ACK_RET(a) (a)
+#define arguments_CAVM_DROX_BLK_BROADCAST_ACK_RET(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_cfg_ctl
+ * Register (RSL) dro#_blk_cfg_ctl
  *
  * INTERNAL: DRO Block Configuration Control Registers
  *
  * This register is the configuartion register.
  */
-union cavm_dro_blkx_cfg_ctl
+union cavm_drox_blk_cfg_ctl
 {
     uint64_t u;
-    struct cavm_dro_blkx_cfg_ctl_s
+    struct cavm_drox_blk_cfg_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -105,26 +99,27 @@ union cavm_dro_blkx_cfg_ctl
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_cfg_ctl_s cn; */
+    /* struct cavm_drox_blk_cfg_ctl_s cn; */
 };
-typedef union cavm_dro_blkx_cfg_ctl cavm_dro_blkx_cfg_ctl_t;
+typedef union cavm_drox_blk_cfg_ctl cavm_drox_blk_cfg_ctl_t;
 
-static inline uint64_t CAVM_DRO_BLKX_CFG_CTL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_CFG_CTL(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_CFG_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_CFG_CTL(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000018ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_CFG_CTL", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000018ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_CFG_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_CFG_CTL(a) cavm_dro_blkx_cfg_ctl_t
-#define bustype_CAVM_DRO_BLKX_CFG_CTL(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_CFG_CTL(a) "DRO_BLKX_CFG_CTL"
-#define busnum_CAVM_DRO_BLKX_CFG_CTL(a) (a)
-#define arguments_CAVM_DRO_BLKX_CFG_CTL(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_CFG_CTL(a) cavm_drox_blk_cfg_ctl_t
+#define bustype_CAVM_DROX_BLK_CFG_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_CFG_CTL(a) "DROX_BLK_CFG_CTL"
+#define device_bar_CAVM_DROX_BLK_CFG_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_CFG_CTL(a) (a)
+#define arguments_CAVM_DROX_BLK_CFG_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_const
+ * Register (RSL) dro#_blk_const
  *
  * INTERNAL: DRO Block Constants Register
  *
@@ -132,10 +127,10 @@ static inline uint64_t CAVM_DRO_BLKX_CFG_CTL(uint64_t a)
  * DRO_BLK(0)_CONST[BLOCKS] to discover the number of blocks present (and thus number
  * of index {a}'s present in this register).
  */
-union cavm_dro_blkx_const
+union cavm_drox_blk_const
 {
     uint64_t u;
-    struct cavm_dro_blkx_const_s
+    struct cavm_drox_blk_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
@@ -167,33 +162,34 @@ union cavm_dro_blkx_const
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_const_s cn; */
+    /* struct cavm_drox_blk_const_s cn; */
 };
-typedef union cavm_dro_blkx_const cavm_dro_blkx_const_t;
+typedef union cavm_drox_blk_const cavm_drox_blk_const_t;
 
-static inline uint64_t CAVM_DRO_BLKX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_CONST(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_CONST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_CONST(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000000ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_CONST", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000000ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_CONST(a) cavm_dro_blkx_const_t
-#define bustype_CAVM_DRO_BLKX_CONST(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_CONST(a) "DRO_BLKX_CONST"
-#define busnum_CAVM_DRO_BLKX_CONST(a) (a)
-#define arguments_CAVM_DRO_BLKX_CONST(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_CONST(a) cavm_drox_blk_const_t
+#define bustype_CAVM_DROX_BLK_CONST(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_CONST(a) "DROX_BLK_CONST"
+#define device_bar_CAVM_DROX_BLK_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_CONST(a) (a)
+#define arguments_CAVM_DROX_BLK_CONST(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_eco
+ * Register (RSL) dro#_blk_eco
  *
  * INTERNAL: DRO Block ECO Register
  */
-union cavm_dro_blkx_eco
+union cavm_drox_blk_eco
 {
     uint64_t u;
-    struct cavm_dro_blkx_eco_s
+    struct cavm_drox_blk_eco_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -203,35 +199,36 @@ union cavm_dro_blkx_eco
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_eco_s cn; */
+    /* struct cavm_drox_blk_eco_s cn; */
 };
-typedef union cavm_dro_blkx_eco cavm_dro_blkx_eco_t;
+typedef union cavm_drox_blk_eco cavm_drox_blk_eco_t;
 
-static inline uint64_t CAVM_DRO_BLKX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_ECO(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_ECO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_ECO(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000008ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_ECO", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000008ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_ECO(a) cavm_dro_blkx_eco_t
-#define bustype_CAVM_DRO_BLKX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_ECO(a) "DRO_BLKX_ECO"
-#define busnum_CAVM_DRO_BLKX_ECO(a) (a)
-#define arguments_CAVM_DRO_BLKX_ECO(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_ECO(a) cavm_drox_blk_eco_t
+#define bustype_CAVM_DROX_BLK_ECO(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_ECO(a) "DROX_BLK_ECO"
+#define device_bar_CAVM_DROX_BLK_ECO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_ECO(a) (a)
+#define arguments_CAVM_DROX_BLK_ECO(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_enable
+ * Register (RSL) dro#_blk_enable
  *
  * INTERNAL: DRO Block Enable Registers
  *
  * This register controls the start of ring oscillators.
  */
-union cavm_dro_blkx_enable
+union cavm_drox_blk_enable
 {
     uint64_t u;
-    struct cavm_dro_blkx_enable_s
+    struct cavm_drox_blk_enable_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -243,35 +240,36 @@ union cavm_dro_blkx_enable
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_enable_s cn; */
+    /* struct cavm_drox_blk_enable_s cn; */
 };
-typedef union cavm_dro_blkx_enable cavm_dro_blkx_enable_t;
+typedef union cavm_drox_blk_enable cavm_drox_blk_enable_t;
 
-static inline uint64_t CAVM_DRO_BLKX_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_ENABLE(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_ENABLE(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000010ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_ENABLE", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000010ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_ENABLE(a) cavm_dro_blkx_enable_t
-#define bustype_CAVM_DRO_BLKX_ENABLE(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_ENABLE(a) "DRO_BLKX_ENABLE"
-#define busnum_CAVM_DRO_BLKX_ENABLE(a) (a)
-#define arguments_CAVM_DRO_BLKX_ENABLE(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_ENABLE(a) cavm_drox_blk_enable_t
+#define bustype_CAVM_DROX_BLK_ENABLE(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_ENABLE(a) "DROX_BLK_ENABLE"
+#define device_bar_CAVM_DROX_BLK_ENABLE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_ENABLE(a) (a)
+#define arguments_CAVM_DROX_BLK_ENABLE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_error
+ * Register (RSL) dro#_blk_error
  *
  * INTERNAL: DRO Block Error Registers
  *
  * This register is the error register.
  */
-union cavm_dro_blkx_error
+union cavm_drox_blk_error
 {
     uint64_t u;
-    struct cavm_dro_blkx_error_s
+    struct cavm_drox_blk_error_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -299,35 +297,36 @@ union cavm_dro_blkx_error
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_error_s cn; */
+    /* struct cavm_drox_blk_error_s cn; */
 };
-typedef union cavm_dro_blkx_error cavm_dro_blkx_error_t;
+typedef union cavm_drox_blk_error cavm_drox_blk_error_t;
 
-static inline uint64_t CAVM_DRO_BLKX_ERROR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_ERROR(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_ERROR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_ERROR(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000020ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_ERROR", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000020ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_ERROR", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_ERROR(a) cavm_dro_blkx_error_t
-#define bustype_CAVM_DRO_BLKX_ERROR(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_ERROR(a) "DRO_BLKX_ERROR"
-#define busnum_CAVM_DRO_BLKX_ERROR(a) (a)
-#define arguments_CAVM_DRO_BLKX_ERROR(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_ERROR(a) cavm_drox_blk_error_t
+#define bustype_CAVM_DROX_BLK_ERROR(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_ERROR(a) "DROX_BLK_ERROR"
+#define device_bar_CAVM_DROX_BLK_ERROR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_ERROR(a) (a)
+#define arguments_CAVM_DROX_BLK_ERROR(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_force_clk_en
+ * Register (RSL) dro#_blk_force_clk_en
  *
  * INTERNAL: DRO Force Clock Enable Register
  *
  * This register controls the DRO.
  */
-union cavm_dro_blkx_force_clk_en
+union cavm_drox_blk_force_clk_en
 {
     uint64_t u;
-    struct cavm_dro_blkx_force_clk_en_s
+    struct cavm_drox_blk_force_clk_en_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -337,33 +336,34 @@ union cavm_dro_blkx_force_clk_en
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_force_clk_en_s cn; */
+    /* struct cavm_drox_blk_force_clk_en_s cn; */
 };
-typedef union cavm_dro_blkx_force_clk_en cavm_dro_blkx_force_clk_en_t;
+typedef union cavm_drox_blk_force_clk_en cavm_drox_blk_force_clk_en_t;
 
-static inline uint64_t CAVM_DRO_BLKX_FORCE_CLK_EN(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_FORCE_CLK_EN(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_FORCE_CLK_EN(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_FORCE_CLK_EN(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000068ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_FORCE_CLK_EN", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000068ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_FORCE_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_FORCE_CLK_EN(a) cavm_dro_blkx_force_clk_en_t
-#define bustype_CAVM_DRO_BLKX_FORCE_CLK_EN(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_FORCE_CLK_EN(a) "DRO_BLKX_FORCE_CLK_EN"
-#define busnum_CAVM_DRO_BLKX_FORCE_CLK_EN(a) (a)
-#define arguments_CAVM_DRO_BLKX_FORCE_CLK_EN(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_FORCE_CLK_EN(a) cavm_drox_blk_force_clk_en_t
+#define bustype_CAVM_DROX_BLK_FORCE_CLK_EN(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_FORCE_CLK_EN(a) "DROX_BLK_FORCE_CLK_EN"
+#define device_bar_CAVM_DROX_BLK_FORCE_CLK_EN(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_FORCE_CLK_EN(a) (a)
+#define arguments_CAVM_DROX_BLK_FORCE_CLK_EN(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_freeze
+ * Register (RSL) dro#_blk_freeze
  *
  * INTERNAL: DRO Block Freeze Registers
  */
-union cavm_dro_blkx_freeze
+union cavm_drox_blk_freeze
 {
     uint64_t u;
-    struct cavm_dro_blkx_freeze_s
+    struct cavm_drox_blk_freeze_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -379,35 +379,36 @@ union cavm_dro_blkx_freeze
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_freeze_s cn; */
+    /* struct cavm_drox_blk_freeze_s cn; */
 };
-typedef union cavm_dro_blkx_freeze cavm_dro_blkx_freeze_t;
+typedef union cavm_drox_blk_freeze cavm_drox_blk_freeze_t;
 
-static inline uint64_t CAVM_DRO_BLKX_FREEZE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_FREEZE(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_FREEZE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_FREEZE(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000030ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_FREEZE", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000030ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_FREEZE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_FREEZE(a) cavm_dro_blkx_freeze_t
-#define bustype_CAVM_DRO_BLKX_FREEZE(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_FREEZE(a) "DRO_BLKX_FREEZE"
-#define busnum_CAVM_DRO_BLKX_FREEZE(a) (a)
-#define arguments_CAVM_DRO_BLKX_FREEZE(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_FREEZE(a) cavm_drox_blk_freeze_t
+#define bustype_CAVM_DROX_BLK_FREEZE(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_FREEZE(a) "DROX_BLK_FREEZE"
+#define device_bar_CAVM_DROX_BLK_FREEZE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_FREEZE(a) (a)
+#define arguments_CAVM_DROX_BLK_FREEZE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_gate_ring_desc
+ * Register (RSL) dro#_blk_gate_ring_desc
  *
  * INTERNAL: DRO Block Gate Ring Gate Description Register
  *
  * This register lists the type of gates used for each ring in the gate rings used in the DRO.
  */
-union cavm_dro_blkx_gate_ring_desc
+union cavm_drox_blk_gate_ring_desc
 {
     uint64_t u;
-    struct cavm_dro_blkx_gate_ring_desc_s
+    struct cavm_drox_blk_gate_ring_desc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
@@ -495,35 +496,36 @@ union cavm_dro_blkx_gate_ring_desc
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_gate_ring_desc_s cn; */
+    /* struct cavm_drox_blk_gate_ring_desc_s cn; */
 };
-typedef union cavm_dro_blkx_gate_ring_desc cavm_dro_blkx_gate_ring_desc_t;
+typedef union cavm_drox_blk_gate_ring_desc cavm_drox_blk_gate_ring_desc_t;
 
-static inline uint64_t CAVM_DRO_BLKX_GATE_RING_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_GATE_RING_DESC(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000088ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_GATE_RING_DESC", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000088ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_GATE_RING_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_GATE_RING_DESC(a) cavm_dro_blkx_gate_ring_desc_t
-#define bustype_CAVM_DRO_BLKX_GATE_RING_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_GATE_RING_DESC(a) "DRO_BLKX_GATE_RING_DESC"
-#define busnum_CAVM_DRO_BLKX_GATE_RING_DESC(a) (a)
-#define arguments_CAVM_DRO_BLKX_GATE_RING_DESC(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_GATE_RING_DESC(a) cavm_drox_blk_gate_ring_desc_t
+#define bustype_CAVM_DROX_BLK_GATE_RING_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_GATE_RING_DESC(a) "DROX_BLK_GATE_RING_DESC"
+#define device_bar_CAVM_DROX_BLK_GATE_RING_DESC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_GATE_RING_DESC(a) (a)
+#define arguments_CAVM_DROX_BLK_GATE_RING_DESC(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_gate_ring_vt_desc
+ * Register (RSL) dro#_blk_gate_ring_vt_desc
  *
  * INTERNAL: DRO Block Gate Ring Gate Description Register
  *
  * This register lists the type of gates used for each ring in the gate rings used in the DRO.
  */
-union cavm_dro_blkx_gate_ring_vt_desc
+union cavm_drox_blk_gate_ring_vt_desc
 {
     uint64_t u;
-    struct cavm_dro_blkx_gate_ring_vt_desc_s
+    struct cavm_drox_blk_gate_ring_vt_desc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
@@ -571,36 +573,37 @@ union cavm_dro_blkx_gate_ring_vt_desc
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_gate_ring_vt_desc_s cn; */
+    /* struct cavm_drox_blk_gate_ring_vt_desc_s cn; */
 };
-typedef union cavm_dro_blkx_gate_ring_vt_desc cavm_dro_blkx_gate_ring_vt_desc_t;
+typedef union cavm_drox_blk_gate_ring_vt_desc cavm_drox_blk_gate_ring_vt_desc_t;
 
-static inline uint64_t CAVM_DRO_BLKX_GATE_RING_VT_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_GATE_RING_VT_DESC(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000090ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_GATE_RING_VT_DESC", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000090ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_GATE_RING_VT_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) cavm_dro_blkx_gate_ring_vt_desc_t
-#define bustype_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) "DRO_BLKX_GATE_RING_VT_DESC"
-#define busnum_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) (a)
-#define arguments_CAVM_DRO_BLKX_GATE_RING_VT_DESC(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) cavm_drox_blk_gate_ring_vt_desc_t
+#define bustype_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) "DROX_BLK_GATE_RING_VT_DESC"
+#define device_bar_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) (a)
+#define arguments_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_metal_ring_gate_desc
+ * Register (RSL) dro#_blk_metal_ring_gate_desc
  *
  * INTERNAL: DRO Block Gate Ring Gate Description Register
  *
  * This register lists the type of gates used for each ring in the metal rings used in
  * the DRO. 0 = INVD12LVT, 1 = INVD16LVT, 2 = INVD36LVT.
  */
-union cavm_dro_blkx_metal_ring_gate_desc
+union cavm_drox_blk_metal_ring_gate_desc
 {
     uint64_t u;
-    struct cavm_dro_blkx_metal_ring_gate_desc_s
+    struct cavm_drox_blk_metal_ring_gate_desc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
@@ -634,33 +637,34 @@ union cavm_dro_blkx_metal_ring_gate_desc
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_metal_ring_gate_desc_s cn; */
+    /* struct cavm_drox_blk_metal_ring_gate_desc_s cn; */
 };
-typedef union cavm_dro_blkx_metal_ring_gate_desc cavm_dro_blkx_metal_ring_gate_desc_t;
+typedef union cavm_drox_blk_metal_ring_gate_desc cavm_drox_blk_metal_ring_gate_desc_t;
 
-static inline uint64_t CAVM_DRO_BLKX_METAL_RING_GATE_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_METAL_RING_GATE_DESC(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000098ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_METAL_RING_GATE_DESC", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000098ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_METAL_RING_GATE_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) cavm_dro_blkx_metal_ring_gate_desc_t
-#define bustype_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) "DRO_BLKX_METAL_RING_GATE_DESC"
-#define busnum_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) (a)
-#define arguments_CAVM_DRO_BLKX_METAL_RING_GATE_DESC(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) cavm_drox_blk_metal_ring_gate_desc_t
+#define bustype_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) "DROX_BLK_METAL_RING_GATE_DESC"
+#define device_bar_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) (a)
+#define arguments_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_rg#_mask
+ * Register (RSL) dro#_blk_rg#_mask
  *
  * INTERNAL: DRO Block Mask Registers
  */
-union cavm_dro_blkx_rgx_mask
+union cavm_drox_blk_rgx_mask
 {
     uint64_t u;
-    struct cavm_dro_blkx_rgx_mask_s
+    struct cavm_drox_blk_rgx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -676,33 +680,34 @@ union cavm_dro_blkx_rgx_mask
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_rgx_mask_s cn; */
+    /* struct cavm_drox_blk_rgx_mask_s cn; */
 };
-typedef union cavm_dro_blkx_rgx_mask cavm_dro_blkx_rgx_mask_t;
+typedef union cavm_drox_blk_rgx_mask cavm_drox_blk_rgx_mask_t;
 
-static inline uint64_t CAVM_DRO_BLKX_RGX_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_RGX_MASK(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_DROX_BLK_RGX_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_RGX_MASK(uint64_t a, uint64_t b)
 {
-    if ((a<=9) && (b<=39))
-        return 0x87e008000028ll + 0x10000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3f);
-    __cavm_csr_fatal("DRO_BLKX_RGX_MASK", 2, a, b, 0, 0, 0, 0);
+    if ((a<=29) && (b<=42))
+        return 0x87e180000028ll + 0x1000000ll * ((a) & 0x1f) + 0x100ll * ((b) & 0x3f);
+    __cavm_csr_fatal("DROX_BLK_RGX_MASK", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_RGX_MASK(a,b) cavm_dro_blkx_rgx_mask_t
-#define bustype_CAVM_DRO_BLKX_RGX_MASK(a,b) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_RGX_MASK(a,b) "DRO_BLKX_RGX_MASK"
-#define busnum_CAVM_DRO_BLKX_RGX_MASK(a,b) (a)
-#define arguments_CAVM_DRO_BLKX_RGX_MASK(a,b) (a),(b),-1,-1
+#define typedef_CAVM_DROX_BLK_RGX_MASK(a,b) cavm_drox_blk_rgx_mask_t
+#define bustype_CAVM_DROX_BLK_RGX_MASK(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_RGX_MASK(a,b) "DROX_BLK_RGX_MASK"
+#define device_bar_CAVM_DROX_BLK_RGX_MASK(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_RGX_MASK(a,b) (a)
+#define arguments_CAVM_DROX_BLK_RGX_MASK(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) dro_blk#_rg#_read
+ * Register (RSL) dro#_blk_rg#_read
  *
  * INTERNAL: DRO Block Ring Counter Registers
  */
-union cavm_dro_blkx_rgx_read
+union cavm_drox_blk_rgx_read
 {
     uint64_t u;
-    struct cavm_dro_blkx_rgx_read_s
+    struct cavm_drox_blk_rgx_read_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
@@ -714,35 +719,36 @@ union cavm_dro_blkx_rgx_read
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_rgx_read_s cn; */
+    /* struct cavm_drox_blk_rgx_read_s cn; */
 };
-typedef union cavm_dro_blkx_rgx_read cavm_dro_blkx_rgx_read_t;
+typedef union cavm_drox_blk_rgx_read cavm_drox_blk_rgx_read_t;
 
-static inline uint64_t CAVM_DRO_BLKX_RGX_READ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_RGX_READ(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_DROX_BLK_RGX_READ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_RGX_READ(uint64_t a, uint64_t b)
 {
-    if ((a<=9) && (b<=39))
-        return 0x87e008000038ll + 0x10000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x3f);
-    __cavm_csr_fatal("DRO_BLKX_RGX_READ", 2, a, b, 0, 0, 0, 0);
+    if ((a<=29) && (b<=42))
+        return 0x87e180000038ll + 0x1000000ll * ((a) & 0x1f) + 0x100ll * ((b) & 0x3f);
+    __cavm_csr_fatal("DROX_BLK_RGX_READ", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_RGX_READ(a,b) cavm_dro_blkx_rgx_read_t
-#define bustype_CAVM_DRO_BLKX_RGX_READ(a,b) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_RGX_READ(a,b) "DRO_BLKX_RGX_READ"
-#define busnum_CAVM_DRO_BLKX_RGX_READ(a,b) (a)
-#define arguments_CAVM_DRO_BLKX_RGX_READ(a,b) (a),(b),-1,-1
+#define typedef_CAVM_DROX_BLK_RGX_READ(a,b) cavm_drox_blk_rgx_read_t
+#define bustype_CAVM_DROX_BLK_RGX_READ(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_RGX_READ(a,b) "DROX_BLK_RGX_READ"
+#define device_bar_CAVM_DROX_BLK_RGX_READ(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_RGX_READ(a,b) (a)
+#define arguments_CAVM_DROX_BLK_RGX_READ(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) dro_blk#_uptom14_desc
+ * Register (RSL) dro#_blk_uptom14_desc
  *
  * INTERNAL: DRO Block UPTOM10 Description Register
  *
  * uptom10 description.
  */
-union cavm_dro_blkx_uptom14_desc
+union cavm_drox_blk_uptom14_desc
 {
     uint64_t u;
-    struct cavm_dro_blkx_uptom14_desc_s
+    struct cavm_drox_blk_uptom14_desc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
@@ -758,35 +764,36 @@ union cavm_dro_blkx_uptom14_desc
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_uptom14_desc_s cn; */
+    /* struct cavm_drox_blk_uptom14_desc_s cn; */
 };
-typedef union cavm_dro_blkx_uptom14_desc cavm_dro_blkx_uptom14_desc_t;
+typedef union cavm_drox_blk_uptom14_desc cavm_drox_blk_uptom14_desc_t;
 
-static inline uint64_t CAVM_DRO_BLKX_UPTOM14_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_UPTOM14_DESC(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_UPTOM14_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_UPTOM14_DESC(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000080ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_UPTOM14_DESC", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000080ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_UPTOM14_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_UPTOM14_DESC(a) cavm_dro_blkx_uptom14_desc_t
-#define bustype_CAVM_DRO_BLKX_UPTOM14_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_UPTOM14_DESC(a) "DRO_BLKX_UPTOM14_DESC"
-#define busnum_CAVM_DRO_BLKX_UPTOM14_DESC(a) (a)
-#define arguments_CAVM_DRO_BLKX_UPTOM14_DESC(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_UPTOM14_DESC(a) cavm_drox_blk_uptom14_desc_t
+#define bustype_CAVM_DROX_BLK_UPTOM14_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_UPTOM14_DESC(a) "DROX_BLK_UPTOM14_DESC"
+#define device_bar_CAVM_DROX_BLK_UPTOM14_DESC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_UPTOM14_DESC(a) (a)
+#define arguments_CAVM_DROX_BLK_UPTOM14_DESC(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_uptom4_desc
+ * Register (RSL) dro#_blk_uptom4_desc
  *
  * INTERNAL: DRO Block UPTOM4 Description Register
  *
  * uptom4 description.
  */
-union cavm_dro_blkx_uptom4_desc
+union cavm_drox_blk_uptom4_desc
 {
     uint64_t u;
-    struct cavm_dro_blkx_uptom4_desc_s
+    struct cavm_drox_blk_uptom4_desc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
@@ -802,36 +809,37 @@ union cavm_dro_blkx_uptom4_desc
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_uptom4_desc_s cn; */
+    /* struct cavm_drox_blk_uptom4_desc_s cn; */
 };
-typedef union cavm_dro_blkx_uptom4_desc cavm_dro_blkx_uptom4_desc_t;
+typedef union cavm_drox_blk_uptom4_desc cavm_drox_blk_uptom4_desc_t;
 
-static inline uint64_t CAVM_DRO_BLKX_UPTOM4_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_UPTOM4_DESC(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_UPTOM4_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_UPTOM4_DESC(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000078ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_UPTOM4_DESC", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000078ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_UPTOM4_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_UPTOM4_DESC(a) cavm_dro_blkx_uptom4_desc_t
-#define bustype_CAVM_DRO_BLKX_UPTOM4_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_UPTOM4_DESC(a) "DRO_BLKX_UPTOM4_DESC"
-#define busnum_CAVM_DRO_BLKX_UPTOM4_DESC(a) (a)
-#define arguments_CAVM_DRO_BLKX_UPTOM4_DESC(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_UPTOM4_DESC(a) cavm_drox_blk_uptom4_desc_t
+#define bustype_CAVM_DROX_BLK_UPTOM4_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_UPTOM4_DESC(a) "DROX_BLK_UPTOM4_DESC"
+#define device_bar_CAVM_DROX_BLK_UPTOM4_DESC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_UPTOM4_DESC(a) (a)
+#define arguments_CAVM_DROX_BLK_UPTOM4_DESC(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_vdr_const
+ * Register (RSL) dro#_blk_vdr_const
  *
  * INTERNAL: DRO Block VDR Constants Register
  *
  * This register contains info there a DRO has present or global feedback.Bit
  *     \<{a}\> corresponds to DRO BLK (\<a\>}. Bits enumerated by DRO_BLOCKS_E.
  */
-union cavm_dro_blkx_vdr_const
+union cavm_drox_blk_vdr_const
 {
     uint64_t u;
-    struct cavm_dro_blkx_vdr_const_s
+    struct cavm_drox_blk_vdr_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t present               : 32; /**< [ 63: 32](RO) If set, that corresponding DRO BLK has a voltage droop detector present. Bit
@@ -847,36 +855,37 @@ union cavm_dro_blkx_vdr_const
                                                                  \<{a}\> corresponds to DRO BLK (\<a\>}. Bits enumerated by DRO_BLOCKS_E. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_vdr_const_s cn; */
+    /* struct cavm_drox_blk_vdr_const_s cn; */
 };
-typedef union cavm_dro_blkx_vdr_const cavm_dro_blkx_vdr_const_t;
+typedef union cavm_drox_blk_vdr_const cavm_drox_blk_vdr_const_t;
 
-static inline uint64_t CAVM_DRO_BLKX_VDR_CONST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_VDR_CONST(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_VDR_CONST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_VDR_CONST(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000070ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_VDR_CONST", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000070ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_VDR_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_VDR_CONST(a) cavm_dro_blkx_vdr_const_t
-#define bustype_CAVM_DRO_BLKX_VDR_CONST(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_VDR_CONST(a) "DRO_BLKX_VDR_CONST"
-#define busnum_CAVM_DRO_BLKX_VDR_CONST(a) (a)
-#define arguments_CAVM_DRO_BLKX_VDR_CONST(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_VDR_CONST(a) cavm_drox_blk_vdr_const_t
+#define bustype_CAVM_DROX_BLK_VDR_CONST(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_VDR_CONST(a) "DROX_BLK_VDR_CONST"
+#define device_bar_CAVM_DROX_BLK_VDR_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_VDR_CONST(a) (a)
+#define arguments_CAVM_DROX_BLK_VDR_CONST(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_vdroop_ctl
+ * Register (RSL) dro#_blk_vdroop_ctl
  *
  * INTERNAL: DRO Block Voltage Droop Detector Control Register
  *
  * This register controls the voltage droop detector in the DROs if available.
  * For diagnostic use only.
  */
-union cavm_dro_blkx_vdroop_ctl
+union cavm_drox_blk_vdroop_ctl
 {
     uint64_t u;
-    struct cavm_dro_blkx_vdroop_ctl_s
+    struct cavm_drox_blk_vdroop_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Enable voltage droop detection. */
@@ -888,35 +897,36 @@ union cavm_dro_blkx_vdroop_ctl
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Enable voltage droop detection. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_vdroop_ctl_s cn; */
+    /* struct cavm_drox_blk_vdroop_ctl_s cn; */
 };
-typedef union cavm_dro_blkx_vdroop_ctl cavm_dro_blkx_vdroop_ctl_t;
+typedef union cavm_drox_blk_vdroop_ctl cavm_drox_blk_vdroop_ctl_t;
 
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_CTL(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_VDROOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_VDROOP_CTL(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000048ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_VDROOP_CTL", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000048ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_VDROOP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_VDROOP_CTL(a) cavm_dro_blkx_vdroop_ctl_t
-#define bustype_CAVM_DRO_BLKX_VDROOP_CTL(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_VDROOP_CTL(a) "DRO_BLKX_VDROOP_CTL"
-#define busnum_CAVM_DRO_BLKX_VDROOP_CTL(a) (a)
-#define arguments_CAVM_DRO_BLKX_VDROOP_CTL(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_VDROOP_CTL(a) cavm_drox_blk_vdroop_ctl_t
+#define bustype_CAVM_DROX_BLK_VDROOP_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_VDROOP_CTL(a) "DROX_BLK_VDROOP_CTL"
+#define device_bar_CAVM_DROX_BLK_VDROOP_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_VDROOP_CTL(a) (a)
+#define arguments_CAVM_DROX_BLK_VDROOP_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_vdroop_local_cnt
+ * Register (RSL) dro#_blk_vdroop_local_cnt
  *
  * INTERNAL: DRO Block Voltage Droop Local Counter Register
  *
  * For diagnostic use only.
  */
-union cavm_dro_blkx_vdroop_local_cnt
+union cavm_drox_blk_vdroop_local_cnt
 {
     uint64_t u;
-    struct cavm_dro_blkx_vdroop_local_cnt_s
+    struct cavm_drox_blk_vdroop_local_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -926,36 +936,37 @@ union cavm_dro_blkx_vdroop_local_cnt
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_vdroop_local_cnt_s cn; */
+    /* struct cavm_drox_blk_vdroop_local_cnt_s cn; */
 };
-typedef union cavm_dro_blkx_vdroop_local_cnt cavm_dro_blkx_vdroop_local_cnt_t;
+typedef union cavm_drox_blk_vdroop_local_cnt cavm_drox_blk_vdroop_local_cnt_t;
 
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_VDROOP_LOCAL_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_VDROOP_LOCAL_CNT(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000060ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_VDROOP_LOCAL_CNT", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000060ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_VDROOP_LOCAL_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(a) cavm_dro_blkx_vdroop_local_cnt_t
-#define bustype_CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(a) "DRO_BLKX_VDROOP_LOCAL_CNT"
-#define busnum_CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(a) (a)
-#define arguments_CAVM_DRO_BLKX_VDROOP_LOCAL_CNT(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_VDROOP_LOCAL_CNT(a) cavm_drox_blk_vdroop_local_cnt_t
+#define bustype_CAVM_DROX_BLK_VDROOP_LOCAL_CNT(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_VDROOP_LOCAL_CNT(a) "DROX_BLK_VDROOP_LOCAL_CNT"
+#define device_bar_CAVM_DROX_BLK_VDROOP_LOCAL_CNT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_VDROOP_LOCAL_CNT(a) (a)
+#define arguments_CAVM_DROX_BLK_VDROOP_LOCAL_CNT(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_vdroop_obs
+ * Register (RSL) dro#_blk_vdroop_obs
  *
  * INTERNAL: DRO Block Voltage Droop Detector Observation Register
  *
  * This register observes the voltage droop detector in the DROs if available.
  * For diagnostic use only.
  */
-union cavm_dro_blkx_vdroop_obs
+union cavm_drox_blk_vdroop_obs
 {
     uint64_t u;
-    struct cavm_dro_blkx_vdroop_obs_s
+    struct cavm_drox_blk_vdroop_obs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -973,35 +984,36 @@ union cavm_dro_blkx_vdroop_obs
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_vdroop_obs_s cn; */
+    /* struct cavm_drox_blk_vdroop_obs_s cn; */
 };
-typedef union cavm_dro_blkx_vdroop_obs cavm_dro_blkx_vdroop_obs_t;
+typedef union cavm_drox_blk_vdroop_obs cavm_drox_blk_vdroop_obs_t;
 
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_OBS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_OBS(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_VDROOP_OBS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_VDROOP_OBS(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000050ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_VDROOP_OBS", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000050ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_VDROOP_OBS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_VDROOP_OBS(a) cavm_dro_blkx_vdroop_obs_t
-#define bustype_CAVM_DRO_BLKX_VDROOP_OBS(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_VDROOP_OBS(a) "DRO_BLKX_VDROOP_OBS"
-#define busnum_CAVM_DRO_BLKX_VDROOP_OBS(a) (a)
-#define arguments_CAVM_DRO_BLKX_VDROOP_OBS(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_VDROOP_OBS(a) cavm_drox_blk_vdroop_obs_t
+#define bustype_CAVM_DROX_BLK_VDROOP_OBS(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_VDROOP_OBS(a) "DROX_BLK_VDROOP_OBS"
+#define device_bar_CAVM_DROX_BLK_VDROOP_OBS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_VDROOP_OBS(a) (a)
+#define arguments_CAVM_DROX_BLK_VDROOP_OBS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro_blk#_vdroop_rst
+ * Register (RSL) dro#_blk_vdroop_rst
  *
  * INTERNAL: DRO Block Voltage Droop Detector Reset Register
  *
  * This register controls the droop detector. For diagnostic use only.
  */
-union cavm_dro_blkx_vdroop_rst
+union cavm_drox_blk_vdroop_rst
 {
     uint64_t u;
-    struct cavm_dro_blkx_vdroop_rst_s
+    struct cavm_drox_blk_vdroop_rst_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
@@ -1013,22 +1025,23 @@ union cavm_dro_blkx_vdroop_rst
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dro_blkx_vdroop_rst_s cn; */
+    /* struct cavm_drox_blk_vdroop_rst_s cn; */
 };
-typedef union cavm_dro_blkx_vdroop_rst cavm_dro_blkx_vdroop_rst_t;
+typedef union cavm_drox_blk_vdroop_rst cavm_drox_blk_vdroop_rst_t;
 
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_RST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DRO_BLKX_VDROOP_RST(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_VDROOP_RST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_VDROOP_RST(uint64_t a)
 {
-    if (a<=9)
-        return 0x87e008000058ll + 0x10000ll * ((a) & 0xf);
-    __cavm_csr_fatal("DRO_BLKX_VDROOP_RST", 1, a, 0, 0, 0, 0, 0);
+    if (a<=29)
+        return 0x87e180000058ll + 0x1000000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("DROX_BLK_VDROOP_RST", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DRO_BLKX_VDROOP_RST(a) cavm_dro_blkx_vdroop_rst_t
-#define bustype_CAVM_DRO_BLKX_VDROOP_RST(a) CSR_TYPE_RSL
-#define basename_CAVM_DRO_BLKX_VDROOP_RST(a) "DRO_BLKX_VDROOP_RST"
-#define busnum_CAVM_DRO_BLKX_VDROOP_RST(a) (a)
-#define arguments_CAVM_DRO_BLKX_VDROOP_RST(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_VDROOP_RST(a) cavm_drox_blk_vdroop_rst_t
+#define bustype_CAVM_DROX_BLK_VDROOP_RST(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_VDROOP_RST(a) "DROX_BLK_VDROOP_RST"
+#define device_bar_CAVM_DROX_BLK_VDROOP_RST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_VDROOP_RST(a) (a)
+#define arguments_CAVM_DROX_BLK_VDROOP_RST(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_DRO_H__ */

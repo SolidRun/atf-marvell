@@ -105,7 +105,7 @@
  * Enumeration cpt_pkt_defrag_e
  *
  * CPT Packet Defragmentation Order Enumeration
- * Enumerates the packet defrag option selected by the CTX.
+ * Enumerates CPT_CTX_HW_S[PKT_DEFRAG].
  */
 #define CAVM_CPT_PKT_DEFRAG_E_ANY_ORDER (0)
 #define CAVM_CPT_PKT_DEFRAG_E_FWD_ORDER (1)
@@ -115,7 +115,7 @@
  * Enumeration cpt_pkt_fmt_e
  *
  * CPT Packet Format Enumeration
- * Enumerates the packet format option selected by the CTX.
+ * Enumerates CPT_CTX_HW_S[PKT_FMT] and CPT_PARSE_HDR_S[PKT_FMT].
  */
 #define CAVM_CPT_PKT_FMT_E_FULL (0)
 #define CAVM_CPT_PKT_FMT_E_META (1)
@@ -124,7 +124,7 @@
  * Enumeration cpt_pkt_out_e
  *
  * CPT Packet Output Enumeration
- * Enumerates the packet output option selected by the CTX.
+ * Enumerates CPT_CTX_HW_S[PKT_OUT] and CPT_PARSE_HDR_S[PKT_OUT].
  */
 #define CAVM_CPT_PKT_OUT_E_LLC_DRAM (0)
 #define CAVM_CPT_PKT_OUT_E_X2P_HW_DFRG (2)
@@ -135,10 +135,11 @@
  * Enumeration cpt_pkt_reas_sts_e
  *
  * CPT Packet Reassembly Status Enumeration
- * Enumerates the packet reassembly status found in the CPT_PARSE_HDR_S.
+ * Enumerates CPT_PARSE_HDR_S[REAS_STS].
  */
 #define CAVM_CPT_PKT_REAS_STS_E_BAD_ORDER (2)
 #define CAVM_CPT_PKT_REAS_STS_E_EVICT (4)
+#define CAVM_CPT_PKT_REAS_STS_E_HSH_EVICT (8)
 #define CAVM_CPT_PKT_REAS_STS_E_L3P_ERR (6)
 #define CAVM_CPT_PKT_REAS_STS_E_OVERLAP (5)
 #define CAVM_CPT_PKT_REAS_STS_E_SUCCESS (0)
@@ -170,18 +171,20 @@ union cavm_cpt_ctx_hw_s
     struct cavm_cpt_ctx_hw_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
+        uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must \<=
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
         uint64_t reserved_59           : 1;
         uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
         uint64_t reserved_55           : 1;
-        uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
+        uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to
+                                                                 the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. */
         uint64_t x2p_dest              : 1;  /**< [ 47: 47] Reserved for 108xx to indicate which NIX to send packet to on X2P. */
-        uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. */
-        uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format. */
-        uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output. */
+        uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. Enumerated by CPT_PKT_DEFRAG_E. */
+        uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format.  Enumerated by CPT_PKT_FMT_E. */
+        uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output.  Enumerated by CPT_PKT_OUT_E. */
         uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
         uint64_t reserved_40           : 1;
         uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX. */
@@ -201,18 +204,20 @@ union cavm_cpt_ctx_hw_s
         uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX. */
         uint64_t reserved_40           : 1;
         uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
-        uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output. */
-        uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format. */
-        uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. */
+        uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output.  Enumerated by CPT_PKT_OUT_E. */
+        uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format.  Enumerated by CPT_PKT_FMT_E. */
+        uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. Enumerated by CPT_PKT_DEFRAG_E. */
         uint64_t x2p_dest              : 1;  /**< [ 47: 47] Reserved for 108xx to indicate which NIX to send packet to on X2P. */
-        uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to CTX_FETCH_SIZE. */
+        uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to
+                                                                 the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
         uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
         uint64_t reserved_59           : 1;
-        uint64_t ctx_size              : 4;  /**< [ 63: 60] The size of the context.  Multiple of 128B from 128B to 1024B. */
+        uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must \<=
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t cookie                : 32; /**< [127: 96] Cookie may contain fields used for NPC parsing to group together SPIs with same behavior. */
@@ -1021,6 +1026,103 @@ union cavm_cpt_inst_s
 };
 
 /**
+ * Structure cpt_parse_hdr_s
+ *
+ * CPT Parse Header Structure
+ * The CPT Parse Header is added to packets sent to NIXRX via X2P when
+ * CPT_CTX_HW_S[PKT_FMT]!=LLC_DRAM.
+ */
+union cavm_cpt_parse_hdr_s
+{
+    uint64_t u[5];
+    struct cavm_cpt_parse_hdr_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pkt_out               : 2;  /**< [ 63: 62] From CPT_CTX_HW_S.  Enumerated by CPT_PKT_OUT_E. */
+        uint64_t num_frags             : 3;  /**< [ 61: 59] Number of fragments associated in the meta-packet.  [NUM_FRAGS]=0 indicates
+                                                                 packet was not identified as a fragment. */
+        uint64_t pad_len               : 3;  /**< [ 58: 56] Length of CPT header padding bytes that proceed the L2 header. */
+        uint64_t pkt_fmt               : 1;  /**< [ 55: 55] From CPT_CTX_HW_S.  Enumerated by CPT_PKT_FMT_E. */
+        uint64_t et_owr                : 1;  /**< [ 54: 54] Over-wrote the L2 ethertype field to match the inner IP.  Refer to CPT_CTX_HW_S[ET_OVRWR]. */
+        uint64_t reserved_53           : 1;
+        uint64_t reas_sts              : 4;  /**< [ 52: 49] Reassembly status.  Enumerated by PT_PKT_REAS_STS_E. */
+        uint64_t err_sum               : 1;  /**< [ 48: 48] Error summary.  [ERR_SUM]=1 when either [HW_CCODE] or [UC_CCODE] indicates an
+                                                                 error.  [ERR_SUM]=0 when [HW_CCODE]=SWWARN or ([HW_CCODE]=GOOD and
+                                                                 [UC_CCODE]=0). */
+        uint64_t match_id              : 16; /**< [ 47: 32] From CPT_CTX_HW_S. */
+        uint64_t cookie                : 32; /**< [ 31:  0] From CPT_CTX_HW_S. */
+#else /* Word 0 - Little Endian */
+        uint64_t cookie                : 32; /**< [ 31:  0] From CPT_CTX_HW_S. */
+        uint64_t match_id              : 16; /**< [ 47: 32] From CPT_CTX_HW_S. */
+        uint64_t err_sum               : 1;  /**< [ 48: 48] Error summary.  [ERR_SUM]=1 when either [HW_CCODE] or [UC_CCODE] indicates an
+                                                                 error.  [ERR_SUM]=0 when [HW_CCODE]=SWWARN or ([HW_CCODE]=GOOD and
+                                                                 [UC_CCODE]=0). */
+        uint64_t reas_sts              : 4;  /**< [ 52: 49] Reassembly status.  Enumerated by PT_PKT_REAS_STS_E. */
+        uint64_t reserved_53           : 1;
+        uint64_t et_owr                : 1;  /**< [ 54: 54] Over-wrote the L2 ethertype field to match the inner IP.  Refer to CPT_CTX_HW_S[ET_OVRWR]. */
+        uint64_t pkt_fmt               : 1;  /**< [ 55: 55] From CPT_CTX_HW_S.  Enumerated by CPT_PKT_FMT_E. */
+        uint64_t pad_len               : 3;  /**< [ 58: 56] Length of CPT header padding bytes that proceed the L2 header. */
+        uint64_t num_frags             : 3;  /**< [ 61: 59] Number of fragments associated in the meta-packet.  [NUM_FRAGS]=0 indicates
+                                                                 packet was not identified as a fragment. */
+        uint64_t pkt_out               : 2;  /**< [ 63: 62] From CPT_CTX_HW_S.  Enumerated by CPT_PKT_OUT_E. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t wqe_ptr               : 64; /**< [127: 64] The work queue pointer from the CPT_INST_S.  When [NUM_FRAGS]!=0, the work
+                                                                 pointer is for FRAG_SLOT0.  When [REAS_STS]=SUCCESS, fragments are sorted by
+                                                                 offset.  Otherwise, the fragments are in the order received. */
+#else /* Word 1 - Little Endian */
+        uint64_t wqe_ptr               : 64; /**< [127: 64] The work queue pointer from the CPT_INST_S.  When [NUM_FRAGS]!=0, the work
+                                                                 pointer is for FRAG_SLOT0.  When [REAS_STS]=SUCCESS, fragments are sorted by
+                                                                 offset.  Otherwise, the fragments are in the order received. */
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t fi_offset             : 5;  /**< [191:187] 8B offset to the FRAG_INFO_S when [NUM_FRAGS]!=0.  [FI_OFFSET]=0 indicates 256B. */
+        uint64_t fi_pad                : 3;  /**< [186:184] Number of padding bytes before FRAG_INFO_S when [NUM_FRAGS]!=0.  Fragment info
+                                                                 is always 8B aligned.  This field indicates the number of bytes before the
+                                                                 fragment info that aren't part of the packet. */
+        uint64_t il3_off               : 8;  /**< [183:176] Offset to the inner IP packet. */
+        uint64_t pf_func               : 16; /**< [175:160] The RVU_PF_FUNC associated with the CPT_INST_S.  This will always be from the
+                                                                 same CPT_INST_S as [WQE_PTR] */
+        uint64_t reserved_144_159      : 16;
+        uint64_t frag_age              : 16; /**< [143:128] The amount of time spent doing reassembly. Refer to CPT_AF_RXC_TIME and CPT_AF_RXC_TIME_CFG. */
+#else /* Word 2 - Little Endian */
+        uint64_t frag_age              : 16; /**< [143:128] The amount of time spent doing reassembly. Refer to CPT_AF_RXC_TIME and CPT_AF_RXC_TIME_CFG. */
+        uint64_t reserved_144_159      : 16;
+        uint64_t pf_func               : 16; /**< [175:160] The RVU_PF_FUNC associated with the CPT_INST_S.  This will always be from the
+                                                                 same CPT_INST_S as [WQE_PTR] */
+        uint64_t il3_off               : 8;  /**< [183:176] Offset to the inner IP packet. */
+        uint64_t fi_pad                : 3;  /**< [186:184] Number of padding bytes before FRAG_INFO_S when [NUM_FRAGS]!=0.  Fragment info
+                                                                 is always 8B aligned.  This field indicates the number of bytes before the
+                                                                 fragment info that aren't part of the packet. */
+        uint64_t fi_offset             : 5;  /**< [191:187] 8B offset to the FRAG_INFO_S when [NUM_FRAGS]!=0.  [FI_OFFSET]=0 indicates 256B. */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t spi                   : 32; /**< [255:224] Security protocol index from the outer packet. */
+        uint64_t reserved_208_223      : 16;
+        uint64_t uc_ccode              : 8;  /**< [207:200] UC completion code. */
+        uint64_t hw_ccode              : 8;  /**< [199:192] HW completion code.  Enumerated by CPT_COMP_E. */
+#else /* Word 3 - Little Endian */
+        uint64_t hw_ccode              : 8;  /**< [199:192] HW completion code.  Enumerated by CPT_COMP_E. */
+        uint64_t uc_ccode              : 8;  /**< [207:200] UC completion code. */
+        uint64_t reserved_208_223      : 16;
+        uint64_t spi                   : 32; /**< [255:224] Security protocol index from the outer packet. */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t misc                  : 64; /**< [319:256] When [PKT_FMT]=full, contains the extended sequence number used by the anti-
+                                                                 replay check.  When [NUM_FRAGS]\>1, the work pointer is for FRAG_SLOT1.  When
+                                                                 [REAS_STS]=SUCCESS, fragments are sorted by offset. Otherwise, the fragments are
+                                                                 in the order received. */
+#else /* Word 4 - Little Endian */
+        uint64_t misc                  : 64; /**< [319:256] When [PKT_FMT]=full, contains the extended sequence number used by the anti-
+                                                                 replay check.  When [NUM_FRAGS]\>1, the work pointer is for FRAG_SLOT1.  When
+                                                                 [REAS_STS]=SUCCESS, fragments are sorted by offset. Otherwise, the fragments are
+                                                                 in the order received. */
+#endif /* Word 4 - End */
+    } s;
+    /* struct cavm_cpt_parse_hdr_s_s cn; */
+};
+
+/**
  * Structure cpt_res_s
  *
  * CPT Result Structure
@@ -1038,12 +1140,7 @@ union cavm_cpt_res_s
     struct cavm_cpt_res_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during new work request. */
-        uint64_t reserved_17_23        : 7;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When set, CPT incremented CPT_LF_DONE[DONE] upon completing
-                                                                 the CPT_INST_S, possibly causing an interrupt.
-
-                                                                 See also CPT_INST_S[DONEINT]. [DONEINT] may differ from CPT_INST_S[DONEINT]. */
+        uint64_t uc_info               : 48; /**< [ 63: 16] Completion information provided by microcode during new work request. */
         uint64_t uc_compcode           : 8;  /**< [ 15:  8] The completion code generated by the microcode that executed the CPT_INST_S
                                                                  on the engine. See also [COMPCODE].
 
@@ -1056,7 +1153,11 @@ union cavm_cpt_res_s
 
                                                                  [UC_COMPCODE] is unpredictable when [COMPCODE] is anything other than
                                                                  CPT_COMP_E::GOOD. */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates hardware-detected completion/error status of CPT for
+        uint64_t doneint               : 1;  /**< [  7:  7] Done interrupt. When set, CPT incremented CPT_LF_DONE[DONE] upon completing
+                                                                 the CPT_INST_S, possibly causing an interrupt.
+
+                                                                 See also CPT_INST_S[DONEINT]. [DONEINT] may differ from CPT_INST_S[DONEINT]. */
+        uint64_t compcode              : 7;  /**< [  6:  0] Indicates hardware-detected completion/error status of CPT for
                                                                  the CPT_INST_S. Enumerated by CPT_COMP_E. See also [UC_COMPCODE].
                                                                  Software should determine success or failure of the instruction
                                                                  using both [COMPCODE] (hardware-detection) and [UC_COMPCODE]
@@ -1068,7 +1169,7 @@ union cavm_cpt_res_s
                                                                  nonzero [COMPCODE] value (i.e. something other than CPT_COMP_E::NOTDONE),
                                                                  CPT will have completed all LLC/DRAM write operations for the CPT_INST_S. */
 #else /* Word 0 - Little Endian */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates hardware-detected completion/error status of CPT for
+        uint64_t compcode              : 7;  /**< [  6:  0] Indicates hardware-detected completion/error status of CPT for
                                                                  the CPT_INST_S. Enumerated by CPT_COMP_E. See also [UC_COMPCODE].
                                                                  Software should determine success or failure of the instruction
                                                                  using both [COMPCODE] (hardware-detection) and [UC_COMPCODE]
@@ -1079,6 +1180,10 @@ union cavm_cpt_res_s
                                                                  before submitting the instruction to CPT. Once the core observes a
                                                                  nonzero [COMPCODE] value (i.e. something other than CPT_COMP_E::NOTDONE),
                                                                  CPT will have completed all LLC/DRAM write operations for the CPT_INST_S. */
+        uint64_t doneint               : 1;  /**< [  7:  7] Done interrupt. When set, CPT incremented CPT_LF_DONE[DONE] upon completing
+                                                                 the CPT_INST_S, possibly causing an interrupt.
+
+                                                                 See also CPT_INST_S[DONEINT]. [DONEINT] may differ from CPT_INST_S[DONEINT]. */
         uint64_t uc_compcode           : 8;  /**< [ 15:  8] The completion code generated by the microcode that executed the CPT_INST_S
                                                                  on the engine. See also [COMPCODE].
 
@@ -1091,12 +1196,7 @@ union cavm_cpt_res_s
 
                                                                  [UC_COMPCODE] is unpredictable when [COMPCODE] is anything other than
                                                                  CPT_COMP_E::GOOD. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When set, CPT incremented CPT_LF_DONE[DONE] upon completing
-                                                                 the CPT_INST_S, possibly causing an interrupt.
-
-                                                                 See also CPT_INST_S[DONEINT]. [DONEINT] may differ from CPT_INST_S[DONEINT]. */
-        uint64_t reserved_17_23        : 7;
-        uint64_t uc_info               : 40; /**< [ 63: 24] Completion information provided by microcode during new work request. */
+        uint64_t uc_info               : 48; /**< [ 63: 16] Completion information provided by microcode during new work request. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t esn                   : 64; /**< [127: 64] Extended sequence number provided to CTX via the atomic decrypt/NOP. */
@@ -1801,6 +1901,45 @@ static inline uint64_t CAVM_CPTX_AF_CTX_AOP_PC(uint64_t a)
 #define arguments_CAVM_CPTX_AF_CTX_AOP_PC(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_enc_id
+ *
+ * CPT AF CTX Encrypt ID_VALUE Register
+ */
+union cavm_cptx_af_ctx_enc_id
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_enc_id_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t id_value              : 16; /**< [ 15:  0](R/W/H) This register is set to one when a context operation is sent to the context processor
+                                                                 from an engine not on any ordered list. */
+#else /* Word 0 - Little Endian */
+        uint64_t id_value              : 16; /**< [ 15:  0](R/W/H) This register is set to one when a context operation is sent to the context processor
+                                                                 from an engine not on any ordered list. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_enc_id_s cn; */
+};
+typedef union cavm_cptx_af_ctx_enc_id cavm_cptx_af_ctx_enc_id_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_ENC_ID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_ENC_ID(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0048010ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_ENC_ID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_ENC_ID(a) cavm_cptx_af_ctx_enc_id_t
+#define bustype_CAVM_CPTX_AF_CTX_ENC_ID(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_ENC_ID(a) "CPTX_AF_CTX_ENC_ID"
+#define device_bar_CAVM_CPTX_AF_CTX_ENC_ID(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_ENC_ID(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_ENC_ID(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_err
  *
  * CPT AF CTX Error Register
@@ -1975,7 +2114,9 @@ union cavm_cptx_af_ctx_flush_timer
                                                                  the interval timer, the dirty data for one CTX entry is written back to LLC/DRAM
                                                                  and the position is advanced to point to the next CTX entry.  After 256
                                                                  intervals, the entire CTX cache will have been flushed.  The interval is
-                                                                 measured in increments of 10ns.
+                                                                 measured in increments of 10ns. For example, setting [CNT]=0xb2d05e flushes all
+                                                                 entries every 30 seconds by flushing one entry every (30 /
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_CNT]) seconds.
                                                                  0x0 = Disabled.
                                                                  0x1 = 1 10ns.
                                                                  0x2 = 2 20ns.
@@ -1985,7 +2126,9 @@ union cavm_cptx_af_ctx_flush_timer
                                                                  the interval timer, the dirty data for one CTX entry is written back to LLC/DRAM
                                                                  and the position is advanced to point to the next CTX entry.  After 256
                                                                  intervals, the entire CTX cache will have been flushed.  The interval is
-                                                                 measured in increments of 10ns.
+                                                                 measured in increments of 10ns. For example, setting [CNT]=0xb2d05e flushes all
+                                                                 entries every 30 seconds by flushing one entry every (30 /
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_CNT]) seconds.
                                                                  0x0 = Disabled.
                                                                  0x1 = 1 10ns.
                                                                  0x2 = 2 20ns.
@@ -2155,6 +2298,80 @@ static inline uint64_t CAVM_CPTX_AF_CTX_MIS_PC(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_CTX_MIS_PC(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CTX_MIS_PC(a) (a)
 #define arguments_CAVM_CPTX_AF_CTX_MIS_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_psh_latency_pc
+ *
+ * CPT AF Context Push Latency Counter Register
+ */
+union cavm_cptx_af_ctx_psh_latency_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_psh_latency_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for scheduled context pushes to complete. Incremented
+                                                                 every coprocessor-clock by the number of scheduled context pushes in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_PSH_PC to determine the average context push latency. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for scheduled context pushes to complete. Incremented
+                                                                 every coprocessor-clock by the number of scheduled context pushes in that cycle. This
+                                                                 may be divided by CPT_AF_CTX_PSH_PC to determine the average context push latency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_psh_latency_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_psh_latency_pc cavm_cptx_af_ctx_psh_latency_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049458ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_PSH_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(a) cavm_cptx_af_ctx_psh_latency_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(a) "CPTX_AF_CTX_PSH_LATENCY_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_PSH_LATENCY_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_psh_pc
+ *
+ * CPT AF Context Push Performance Counter Register
+ */
+union cavm_cptx_af_ctx_psh_pc
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_psh_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of context pushes completed by the context processor. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of context pushes completed by the context processor. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_psh_pc_s cn; */
+};
+typedef union cavm_cptx_af_ctx_psh_pc cavm_cptx_af_ctx_psh_pc_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_PSH_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_PSH_PC(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049450ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_PSH_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_PSH_PC(a) cavm_cptx_af_ctx_psh_pc_t
+#define bustype_CAVM_CPTX_AF_CTX_PSH_PC(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_PSH_PC(a) "CPTX_AF_CTX_PSH_PC"
+#define device_bar_CAVM_CPTX_AF_CTX_PSH_PC(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_PSH_PC(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_PSH_PC(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_wback_latency_pc
@@ -3512,7 +3729,8 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
         uint64_t reserved_20_47        : 28;
-        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Length of initial context fetch. */
+        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
+                                                                 [CTX_ILEN]+1 must \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
 
@@ -3688,7 +3906,8 @@ union cavm_cptx_af_lfx_ctl
                                                                  the NIX function.
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
-        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Length of initial context fetch. */
+        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
+                                                                 [CTX_ILEN]+1 must \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
         uint64_t reserved_20_47        : 28;
         uint64_t grp                   : 8;  /**< [ 55: 48](R/W) Engine group mask. Each bit represents an engine group.
 
@@ -4801,6 +5020,169 @@ static inline uint64_t CAVM_CPTX_AF_RXC_ACTIVE_STS(uint64_t a)
 #define arguments_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_bp#_test
+ *
+ * INTERNAL: CPT AF RXC Backpressure Test Register
+ */
+union cavm_cptx_af_rxc_bpx_test
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_bpx_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+
+                                                                 \<page\>
+                                                                 CPT_AF_RXC_BP(0)_TEST:
+                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
+                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
+                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
+                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
+                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<58\> = PKT finish fifo backpressure. Weight in [BP_CFG]\<10\>.
+                                                                 \<57\> = HCM request backpressure. Weight in [BP_CFG]\<9\>.
+                                                                 \<56\> = HCM invalidate backpressure. Weight in [BP_CFG]\<8\>.
+                                                                 \<55\> = FTE invalidate backpressure. Weight in [BP_CFG]\<7\>.
+                                                                 \<54\> = FRG request backpressure. Weight in [BP_CFG]\<6\>.
+                                                                 \<53\> = FTE request backpressure. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = FTE allocate backpressure. Weight in [BP_CFG]\<4\>.
+                                                                 \<51\> = FRG status fifo backpressure. Weight in [BP_CFG]\<3\>.
+                                                                 \<50\> = RDP packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = RDP fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
+                                                                 \<48\> = FRG age/cmt ready backpressure. Weight in [BP_CFG]\<0\>.
+
+                                                                 \<page\>
+                                                                 CPT_AF_RXC_BP(1)_TEST:
+                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
+                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
+                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
+                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
+                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
+                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
+                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
+                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
+                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
+                                                                 \<53\> = Reserved. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
+                                                                 \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
+                                                                 \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = Reserved. Weight in [BP_CFG]\<1\>.
+                                                                 \<48\> = Reserved. Weight in [BP_CFG]\<0\>. */
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<47:46\> = Config 15.
+                                                                   \<45:44\> = Config 14.
+                                                                   \<43:42\> = Config 13.
+                                                                   \<41:40\> = Config 12.
+                                                                   \<39:38\> = Config 11.
+                                                                   \<37:36\> = Config 10.
+                                                                   \<35:34\> = Config 9.
+                                                                   \<33:32\> = Config 8.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<47:46\> = Config 15.
+                                                                   \<45:44\> = Config 14.
+                                                                   \<43:42\> = Config 13.
+                                                                   \<41:40\> = Config 12.
+                                                                   \<39:38\> = Config 11.
+                                                                   \<37:36\> = Config 10.
+                                                                   \<35:34\> = Config 9.
+                                                                   \<33:32\> = Config 8.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+
+                                                                 \<page\>
+                                                                 CPT_AF_RXC_BP(0)_TEST:
+                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
+                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
+                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
+                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
+                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<58\> = PKT finish fifo backpressure. Weight in [BP_CFG]\<10\>.
+                                                                 \<57\> = HCM request backpressure. Weight in [BP_CFG]\<9\>.
+                                                                 \<56\> = HCM invalidate backpressure. Weight in [BP_CFG]\<8\>.
+                                                                 \<55\> = FTE invalidate backpressure. Weight in [BP_CFG]\<7\>.
+                                                                 \<54\> = FRG request backpressure. Weight in [BP_CFG]\<6\>.
+                                                                 \<53\> = FTE request backpressure. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = FTE allocate backpressure. Weight in [BP_CFG]\<4\>.
+                                                                 \<51\> = FRG status fifo backpressure. Weight in [BP_CFG]\<3\>.
+                                                                 \<50\> = RDP packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = RDP fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
+                                                                 \<48\> = FRG age/cmt ready backpressure. Weight in [BP_CFG]\<0\>.
+
+                                                                 \<page\>
+                                                                 CPT_AF_RXC_BP(1)_TEST:
+                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
+                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
+                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
+                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
+                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
+                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
+                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
+                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
+                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
+                                                                 \<53\> = Reserved. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
+                                                                 \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
+                                                                 \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = Reserved. Weight in [BP_CFG]\<1\>.
+                                                                 \<48\> = Reserved. Weight in [BP_CFG]\<0\>. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_bpx_test_s cn; */
+};
+typedef union cavm_cptx_af_rxc_bpx_test cavm_cptx_af_rxc_bpx_test_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_BPX_TEST(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_BPX_TEST(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x8400a0050100ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_BPX_TEST", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) cavm_cptx_af_rxc_bpx_test_t
+#define bustype_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) "CPTX_AF_RXC_BPX_TEST"
+#define device_bar_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) (a)
+#define arguments_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_rxc_cfg1
  *
  * CPT AF RXC Configuration Register 1
@@ -4811,17 +5193,17 @@ union cavm_cptx_af_rxc_cfg1
     struct cavm_cptx_af_rxc_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maximum number of 128B RXC data buffer blocks that a packet may consume.
+        uint64_t reserved_10_63        : 54;
+        uint64_t max_rxc_cnt           : 10; /**< [  9:  0](R/W) The maximum number of 128B RXC data buffer blocks that a packet may consume.
                                                                  This is used to reserve RXC data buffers when scheduling a CPT instruction that
                                                                  may use RXC.  Once the DLEN is known, the number of reserved RXC data buffers is
                                                                  adjusted. */
 #else /* Word 0 - Little Endian */
-        uint64_t max_rxc_cnt           : 9;  /**< [  8:  0](R/W) The maximum number of 128B RXC data buffer blocks that a packet may consume.
+        uint64_t max_rxc_cnt           : 10; /**< [  9:  0](R/W) The maximum number of 128B RXC data buffer blocks that a packet may consume.
                                                                  This is used to reserve RXC data buffers when scheduling a CPT instruction that
                                                                  may use RXC.  Once the DLEN is known, the number of reserved RXC data buffers is
                                                                  adjusted. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_rxc_cfg1_s cn; */
@@ -5178,7 +5560,7 @@ static inline uint64_t CAVM_CPTX_AF_X2PX_LINK_CFG(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_CPTX_AF_X2PX_LINK_CFG(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x8400a0050100ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x8400a0051000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("CPTX_AF_X2PX_LINK_CFG", 2, a, b, 0, 0, 0, 0);
 }
 

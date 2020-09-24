@@ -29,13 +29,23 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_REQ (9)
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_WAIT (0xe)
 #define CAVM_GPIO_ASSIGNED_PIN_E_EMMC_POWER (8)
+#define CAVM_GPIO_ASSIGNED_PIN_E_EUSB_BURN_IN_CLK (0x2c)
 #define CAVM_GPIO_ASSIGNED_PIN_E_FAIL_CODE (0xb)
+#define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TCK (0x47)
+#define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TDI (0x44)
+#define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TDO (0x43)
+#define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TMS (0x45)
+#define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TRST_L (0x46)
+#define CAVM_GPIO_ASSIGNED_PIN_E_MCAST_IRQ_0 (4)
+#define CAVM_GPIO_ASSIGNED_PIN_E_MCAST_IRQ_1 (5)
+#define CAVM_GPIO_ASSIGNED_PIN_E_MCAST_IRQ_2 (6)
+#define CAVM_GPIO_ASSIGNED_PIN_E_MCAST_IRQ_3 (7)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CLK (0x18)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS0 (0x19)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS1 (0x1a)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS2 (0x1b)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS3 (0x1c)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_DQS (0x1d)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS0 (0x1a)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS1 (0x1b)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS2 (0x1c)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS3 (0x1d)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_DQS (0x19)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO0 (0x10)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO1 (0x11)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO2 (0x12)
@@ -45,11 +55,11 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO6 (0x16)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO7 (0x17)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CLK (0x26)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0 (0x27)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1 (0x28)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS2 (0x29)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS3 (0x2a)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_DQS (0x2b)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0 (0x28)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1 (0x29)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS2 (0x2a)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS3 (0x2b)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_DQS (0x27)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO0 (0x1e)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO1 (0x1f)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO2 (0x20)
@@ -58,11 +68,6 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO5 (0x23)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO6 (0x24)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO7 (0x25)
-#define CAVM_GPIO_ASSIGNED_PIN_E_SWP_RESET_L (0x2c)
-#define CAVM_GPIO_ASSIGNED_PIN_E_UART7_CTS_L (0x32)
-#define CAVM_GPIO_ASSIGNED_PIN_E_UART7_RTS_L (0x30)
-#define CAVM_GPIO_ASSIGNED_PIN_E_UART7_SIN (0x33)
-#define CAVM_GPIO_ASSIGNED_PIN_E_UART7_SOUT (0x31)
 
 /**
  * Enumeration gpio_bar_e
@@ -84,17 +89,6 @@
 #define CAVM_GPIO_INT_VEC_E_INTR_PINX(a) (0x18 + 2 * (a))
 #define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR(a) (0x19 + 2 * (a))
 #define CAVM_GPIO_INT_VEC_E_MC_INTR_PPX(a) (0 + (a))
-
-/**
- * Enumeration gpio_misc_strap_pin_e
- *
- * GPIO Miscellaneous Strap Pin Number Enumeration
- * Enumerates GPIO_MISC_STRAP bit numbers and associated pins with their associated
- * strap functions. The names of these values are used as the documented name of each
- * strap.
- */
-#define CAVM_GPIO_MISC_STRAP_PIN_E_RSVD_UART0_RTS (0x10)
-#define CAVM_GPIO_MISC_STRAP_PIN_E_VDROOP_DIS (0x11)
 
 /**
  * Enumeration gpio_pin_sel_e
@@ -131,11 +125,10 @@
 #define CAVM_GPIO_PIN_SEL_E_BTS_RFP_IN (0x504)
 #define CAVM_GPIO_PIN_SEL_E_BTS_RFP_OUT (0x50f)
 #define CAVM_GPIO_PIN_SEL_E_BTS_TPX(a) (0x507 + (a))
-#define CAVM_GPIO_PIN_SEL_E_CGXX_LMACX_RX(a,b) (0x4a0 + 4 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_CGXX_LMACX_RXTX(a,b) (0x4e0 + 4 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_CGXX_LMACX_TX(a,b) (0x4c0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_IN (0x480)
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_OUT (0x481)
+#define CAVM_GPIO_PIN_SEL_E_EMMC_LED (0x120)
+#define CAVM_GPIO_PIN_SEL_E_EUSB_BURN_IN_CLK (0x130)
 #define CAVM_GPIO_PIN_SEL_E_GPIO_CLKX(a) (0x260 + (a))
 #define CAVM_GPIO_PIN_SEL_E_GPIO_CLK_SYNCEX(a) (3 + (a))
 #define CAVM_GPIO_PIN_SEL_E_GPIO_PTP_CKOUT (1)
@@ -161,9 +154,13 @@
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_SYNCEX(a,b) (0x580 + 5 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX(a,b) (0x660 + 5 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX(a,b) (0x640 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_I3C_SCL (0x290)
-#define CAVM_GPIO_PIN_SEL_E_I3C_SDA (0x291)
-#define CAVM_GPIO_PIN_SEL_E_LMCX_ECC(a) (0x3d0 + (a))
+#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL(a) (0x290 + (a))
+#define CAVM_GPIO_PIN_SEL_E_I3CX_SDA(a) (0x291 + (a))
+#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TCK (0x135)
+#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TDI (0x132)
+#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TDO (0x131)
+#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TMS (0x133)
+#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TRST_L (0x134)
 #define CAVM_GPIO_PIN_SEL_E_MCDX_IN(a) (0x23f + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_OUT(a) (0x242 + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCP_RESET_IN (0x482)
@@ -182,15 +179,20 @@
 #define CAVM_GPIO_PIN_SEL_E_PTP_EVTCNT (0x252)
 #define CAVM_GPIO_PIN_SEL_E_PTP_EXT_CLK (0x250)
 #define CAVM_GPIO_PIN_SEL_E_PTP_TSTMP (0x251)
-#define CAVM_GPIO_PIN_SEL_E_SATA_LAB_LB (0x18a)
+#define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_RX(a,b) (0x4a0 + 4 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_RXTX(a,b) (0x4e0 + 4 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_TX(a,b) (0x4c0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_IN (0x484)
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_OUT (0x485)
 #define CAVM_GPIO_PIN_SEL_E_SMIX_MDC(a) (0x253 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SMIX_MDIO(a) (0x255 + (a))
+#define CAVM_GPIO_PIN_SEL_E_SPI0_CLK (0x274)
 #define CAVM_GPIO_PIN_SEL_E_SPI0_CSX(a) (0x270 + (a))
+#define CAVM_GPIO_PIN_SEL_E_SPI0_DQS (0x275)
 #define CAVM_GPIO_PIN_SEL_E_SPI0_IOX(a) (0x278 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SPI1_CLK (0x280)
 #define CAVM_GPIO_PIN_SEL_E_SPI1_CSX(a) (0x284 + (a))
+#define CAVM_GPIO_PIN_SEL_E_SPI1_DQS (0x281)
 #define CAVM_GPIO_PIN_SEL_E_SPI1_IOX(a) (0x288 + (a))
 #define CAVM_GPIO_PIN_SEL_E_TIMER (0x11c)
 #define CAVM_GPIO_PIN_SEL_E_TIM_GPIO_CLK (0x230)
@@ -223,14 +225,7 @@
 #define CAVM_GPIO_STRAP_PIN_E_BOOT_METHOD3 (3)
 #define CAVM_GPIO_STRAP_PIN_E_BOOT_METHOD4 (0xc)
 #define CAVM_GPIO_STRAP_PIN_E_BOOT_METHOD5 (0xd)
-#define CAVM_GPIO_STRAP_PIN_E_CCPI_NODE_ID (0xb)
-#define CAVM_GPIO_STRAP_PIN_E_GSER_CLK0_TERM_SEL0 (0x10)
-#define CAVM_GPIO_STRAP_PIN_E_GSER_CLK0_TERM_SEL1 (0x11)
-#define CAVM_GPIO_STRAP_PIN_E_PCIE0_EP_MODE (0x18)
-#define CAVM_GPIO_STRAP_PIN_E_PCIE1_EP_MODE (0x1a)
-#define CAVM_GPIO_STRAP_PIN_E_PCIE2_EP_MODE (0x19)
-#define CAVM_GPIO_STRAP_PIN_E_PCIE3_EP_MODE (0x1b)
-#define CAVM_GPIO_STRAP_PIN_E_TRUSTED_MODE (0xa)
+#define CAVM_GPIO_STRAP_PIN_E_PCIE0_EP_MODE (0xf)
 
 /**
  * Register (NCB) gpio_bit_cfg#
@@ -1165,139 +1160,9 @@ union cavm_gpio_misc_supply
     struct cavm_gpio_misc_supply_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_26_63        : 38;
-        uint64_t vdet_avs              : 2;  /**< [ 25: 24](RO/H) Sensed I/O power supply setting for AVS.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio66           : 2;  /**< [ 23: 22](RO/H) Sensed I/O power supply setting for GPIO66..83.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_tws0             : 2;  /**< [ 21: 20](RO/H) Sensed I/O power supply setting for TWS0 bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_emmc             : 2;  /**< [ 19: 18](RO/H) Sensed I/O power supply setting for EMMC bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio0            : 2;  /**< [ 17: 16](RO/H) Sensed I/O power supply setting for GPIO0..23.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio24           : 2;  /**< [ 15: 14](RO/H) Sensed I/O power supply setting for GPIO24..47.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio48           : 2;  /**< [ 13: 12](RO/H) Sensed I/O power supply setting for GPIO48..71.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_io_e             : 2;  /**< [ 11: 10](RO/H) Sensed I/O power supply setting for generic east I/O pins:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_io_n             : 2;  /**< [  9:  8](RO/H) Sensed I/O power supply setting for generic north I/O pins:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_pci              : 2;  /**< [  7:  6](RO/H) Sensed I/O power supply setting for PCI I/O pins:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_smi              : 2;  /**< [  5:  4](RO/H) Sensed I/O power supply setting for SMI bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_spi              : 2;  /**< [  3:  2](RO/H) Sensed I/O power supply setting for SPI0 bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_tws_3_1_avs      : 2;  /**< [  1:  0](RO/H) Sensed I/O power supply setting for TWSI[3:1]. (TWSI[0] is tied to direct 2.5V supply):
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t vdet_tws_3_1_avs      : 2;  /**< [  1:  0](RO/H) Sensed I/O power supply setting for TWSI[3:1]. (TWSI[0] is tied to direct 2.5V supply):
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_spi              : 2;  /**< [  3:  2](RO/H) Sensed I/O power supply setting for SPI0 bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_smi              : 2;  /**< [  5:  4](RO/H) Sensed I/O power supply setting for SMI bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_pci              : 2;  /**< [  7:  6](RO/H) Sensed I/O power supply setting for PCI I/O pins:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_io_n             : 2;  /**< [  9:  8](RO/H) Sensed I/O power supply setting for generic north I/O pins:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_io_e             : 2;  /**< [ 11: 10](RO/H) Sensed I/O power supply setting for generic east I/O pins:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio48           : 2;  /**< [ 13: 12](RO/H) Sensed I/O power supply setting for GPIO48..71.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio24           : 2;  /**< [ 15: 14](RO/H) Sensed I/O power supply setting for GPIO24..47.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio0            : 2;  /**< [ 17: 16](RO/H) Sensed I/O power supply setting for GPIO0..23.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_emmc             : 2;  /**< [ 19: 18](RO/H) Sensed I/O power supply setting for EMMC bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_tws0             : 2;  /**< [ 21: 20](RO/H) Sensed I/O power supply setting for TWS0 bus:
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_gpio66           : 2;  /**< [ 23: 22](RO/H) Sensed I/O power supply setting for GPIO66..83.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t vdet_avs              : 2;  /**< [ 25: 24](RO/H) Sensed I/O power supply setting for AVS.
-                                                                 0x0 = 3.3 V.
-                                                                 0x1 = 2.5 V.
-                                                                 0x2/0x3 = 1.8 V.
-                                                                 _ All other values reserved. */
-        uint64_t reserved_26_63        : 38;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gpio_misc_supply_s cn; */

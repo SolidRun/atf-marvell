@@ -23,9 +23,7 @@
  * Enumeration ssow_gw_result_e
  *
  * SSOW GET_WORK Result Type Enumeration
- * Enumerates the MSI-X interrupt vectors.
- * Internal:
- * FIXME - Need better description here
+ * Describes the getwork result status for 128-bit CASP access.
  */
 #define CAVM_SSOW_GW_RESULT_E_GW_ERROR (2)
 #define CAVM_SSOW_GW_RESULT_E_GW_NO_WORK (1)
@@ -905,7 +903,12 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_DESCHED_FUNC(void)
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_get_work0
  *
  * SSO Workslot LF Get-Work Operation Register 0
- * A write to this register initiates a GET_WORK operation.
+ * A 128-bit atomic compare and swap (CASP) may be used to SSOW_LF_GWS_OP_GET_WORK0
+ * and SSOW_LF_GWS_OP_GET_WORK1. The compare data is ignored, swap data format
+ * specified below, return data format is specified by SSOW_LF_GWS_WQE0 and
+ * SSOW_LF_GWS_WQE1.
+ *
+ * A 64-bit write to this register initiates a GET_WORK operation.
  *
  * SSOW_LF_GWS_TAG[PEND_GET_WORK] will be set to one when the GET_WORK
  * operation is initiated, and it will be cleared when the GET_WORK
@@ -991,19 +994,11 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_GET_WORK0_FUNC(void)
 /**
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_get_work1
  *
- * SSO Workslot LF Get-Work Operation Register 0
- * A write to this register initiates a GET_WORK operation.
- *
- * SSOW_LF_GWS_TAG[PEND_GET_WORK] will be set to one when the GET_WORK
- * operation is initiated, and it will be cleared when the GET_WORK
- * completes. The resulting work can be determined by reading the
- * SSOW_LF_GWS_TAG and SSOW_LF_GWS_WQP.
- *
- * When no work is available, SSOW_LF_GWS_TAG[TT]=SSO_TT_E::EMPTY, and
- * SSOW_LF_GWS_WQP[WQP] = 0x0.
- *
- * Internal:
- * FIXME - Do I need to add any real fields here?
+ * SSO Workslot LF Get-Work Operation Register 1
+ * A 128-bit atomic compare and swap (CASP) may be used to SSOW_LF_GWS_OP_GET_WORK0
+ * and SSOW_LF_GWS_OP_GET_WORK1. The compare data is ignored, swap data format
+ * specified below, return data format is specified by SSOW_LF_GWS_WQE0 and
+ * SSOW_LF_GWS_WQE1.
  */
 union cavm_ssow_lf_gws_op_get_work1
 {
@@ -1153,10 +1148,8 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FLUSH_FUNC(void)
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_swtag_full0
  *
  * SSO Workslot LF Switch Tag Full Operation Register 0
- * A write to this register performs a switch tag.
- *
  * A 128-bit atomic compare and swap (CASP) must be used to SSOW_LF_GWS_OP_SWTAG_FULL0
- * and SSOW_LF_GWS_OP_SWTAG_FULL1.
+ * and SSOW_LF_GWS_OP_SWTAG_FULL1 and performs a switch tag full operation.
  */
 union cavm_ssow_lf_gws_op_swtag_full0
 {
@@ -1199,10 +1192,8 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FULL0_FUNC(void)
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_swtag_full1
  *
  * SSO Workslot LF Switch Tag Full Operation Register 1
- * A write to this register performs a switch tag.
- *
- * A 128-bit store (STP) must be used to SSOW_LF_GWS_OP_SWTAG_FULL0 and
- * SSOW_LF_GWS_OP_SWTAG_FULL1.
+ * A 128-bit atomic compare and swap (CASP) must be used to SSOW_LF_GWS_OP_SWTAG_FULL0
+ * and SSOW_LF_GWS_OP_SWTAG_FULL1 and performs a switch tag full operation.
  */
 union cavm_ssow_lf_gws_op_swtag_full1
 {
@@ -1575,9 +1566,8 @@ static inline uint64_t CAVM_SSOW_LF_GWS_PRF_TAG_FUNC(void)
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_prf_wqe0
  *
  * SSO Workslot LF Tag and WQP Status Registers
- * Placeholder for 128-bit loads to _PRF_TAG and _PRF_WQP registers.
- * Internal:
- * FIXME - Placeholder for 128-bit loads to _PRF_TAG and _PRF_WQP registers.
+ * Alias for 128-bit loads to SSOW_LF_GWS_PRF_TAG and SSOW_LF_GWS_PRF_WQP registers.
+ * Alias for 64-bit load to SSOW_LF_GWS_PRF_TAG register.
  */
 union cavm_ssow_lf_gws_prf_wqe0
 {
@@ -1588,9 +1578,8 @@ union cavm_ssow_lf_gws_prf_wqe0
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG operation. */
         uint64_t reserved_58_61        : 4;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
-                                                                 Internal:
-                                                                 FIXME - we need better description here... */
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Result for 128-bit CASP getworks to SSOW_LF_GWS_OP_GET_WORK0/1, format specified
+                                                                 by SSOW_GW_RESULT_E. Loads return 0x0. */
         uint64_t reserved_54_55        : 2;
         uint64_t lsw_used              : 1;  /**< [ 53: 53](RO/H) LSW entry has been used by a Scheduled LMTST. */
         uint64_t has_lsw               : 1;  /**< [ 52: 52](RO/H) GWS has valid LSW entry assigned. */
@@ -1614,9 +1603,8 @@ union cavm_ssow_lf_gws_prf_wqe0
         uint64_t has_lsw               : 1;  /**< [ 52: 52](RO/H) GWS has valid LSW entry assigned. */
         uint64_t lsw_used              : 1;  /**< [ 53: 53](RO/H) LSW entry has been used by a Scheduled LMTST. */
         uint64_t reserved_54_55        : 2;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
-                                                                 Internal:
-                                                                 FIXME - we need better description here... */
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Result for 128-bit CASP getworks to SSOW_LF_GWS_OP_GET_WORK0/1, format specified
+                                                                 by SSOW_GW_RESULT_E. Loads return 0x0. */
         uint64_t reserved_58_61        : 4;
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG operation. */
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
@@ -1644,9 +1632,8 @@ static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQE0_FUNC(void)
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_prf_wqe1
  *
  * SSO Workslot LF Tag and WQP Status Registers
- * Placeholder for 128-bit loads to _PRF_TAG and _PRF_WQP registers.
- * Internal:
- * FIXME - Placeholder for 128-bit loads to _PRF_TAG and _PRF_WQP registers.
+ * Alias for 128-bit loads to SSOW_LF_GWS_PRF_TAG and SSOW_LF_GWS_PRF_WQP registers.
+ * Alias for 64-bit load to SSOW_LF_GWS_PRF_WQP register.
  */
 union cavm_ssow_lf_gws_prf_wqe1
 {
@@ -1831,9 +1818,9 @@ static inline uint64_t CAVM_SSOW_LF_GWS_TAG_FUNC(void)
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_wqe0
  *
  * SSO Workslot LF Tag and WQP Status Registers
- * Placeholder for 128-bit loads to _TAG and _WQP registers.
- * Internal:
- * FIXME - Placeholder for 128-bit loads to _TAG and _WQP registers.
+ * Alias for 128-bit loads from SSOW_LF_GWS_TAG and SSOW_LF_GWS_WQP registers. Defines
+ * return format for 128-bit CASP to SSOW_LF_GWS_OP_GETWORK0/1.
+ * Alias for 64-bit load to SSOW_LF_GWS_TAG register.
  */
 union cavm_ssow_lf_gws_wqe0
 {
@@ -1844,9 +1831,8 @@ union cavm_ssow_lf_gws_wqe0
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG operation. */
         uint64_t reserved_58_61        : 4;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
-                                                                 Internal:
-                                                                 FIXME - we need better description here... */
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Result for 128-bit CASP getworks to SSOW_LF_GWS_OP_GET_WORK0/1, format specified
+                                                                 by SSOW_GW_RESULT_E. Loads return 0x0. */
         uint64_t reserved_54_55        : 2;
         uint64_t lsw_used              : 1;  /**< [ 53: 53](RO/H) LSW entry has been used by a Scheduled LMTST. */
         uint64_t has_lsw               : 1;  /**< [ 52: 52](RO/H) GWS has valid LSW entry assigned. */
@@ -1870,9 +1856,8 @@ union cavm_ssow_lf_gws_wqe0
         uint64_t has_lsw               : 1;  /**< [ 52: 52](RO/H) GWS has valid LSW entry assigned. */
         uint64_t lsw_used              : 1;  /**< [ 53: 53](RO/H) LSW entry has been used by a Scheduled LMTST. */
         uint64_t reserved_54_55        : 2;
-        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Describes the result SSOW_GW_RESULT_E of the GET_WORK OP for 128-bit CASP GET_WORKs.
-                                                                 Internal:
-                                                                 FIXME - we need better description here... */
+        uint64_t gw_result             : 2;  /**< [ 57: 56](RO/H) Result for 128-bit CASP getworks to SSOW_LF_GWS_OP_GET_WORK0/1, format specified
+                                                                 by SSOW_GW_RESULT_E. Loads return 0x0. */
         uint64_t reserved_58_61        : 4;
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG operation. */
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
@@ -1900,9 +1885,7 @@ static inline uint64_t CAVM_SSOW_LF_GWS_WQE0_FUNC(void)
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_wqe1
  *
  * SSO Workslot LF Tag and WQP Status Registers
- * Placeholder for 128-bit loads to _TAG and _WQP registers.
- * Internal:
- * FIXME - Placeholder for 128-bit loads to _TAG and _WQP registers.
+ * Alias for 128-bit loads to SSOW_LF_GWS_WQP register.
  */
 union cavm_ssow_lf_gws_wqe1
 {

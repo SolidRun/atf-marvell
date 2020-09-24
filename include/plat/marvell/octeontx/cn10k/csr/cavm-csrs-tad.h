@@ -522,12 +522,12 @@ union cavm_tadx_derr_addr
     struct cavm_tadx_derr_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t datmbe                : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
-        uint64_t fbfmbe                : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
-        uint64_t sbfmbe                : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
-        uint64_t datsbe                : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
-        uint64_t fbfsbe                : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
-        uint64_t sbfsbe                : 1;  /**< [ 58: 58](RO/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
         uint64_t reserved_53_57        : 5;
         uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
         uint64_t reserved_48_51        : 4;
@@ -541,12 +541,12 @@ union cavm_tadx_derr_addr
         uint64_t reserved_48_51        : 4;
         uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
         uint64_t reserved_53_57        : 5;
-        uint64_t sbfsbe                : 1;  /**< [ 58: 58](RO/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
-        uint64_t fbfsbe                : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
-        uint64_t datsbe                : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
-        uint64_t sbfmbe                : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
-        uint64_t fbfmbe                : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
-        uint64_t datmbe                : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_derr_addr_s cn; */
@@ -1061,11 +1061,11 @@ union cavm_tadx_nderr_info
     struct cavm_tadx_nderr_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
-        uint64_t req_perr              : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
-        uint64_t rsp_perr              : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
-        uint64_t dat_perr              : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
         uint64_t reserved_18_58        : 41;
         uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
                                                                  [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
@@ -1081,11 +1081,11 @@ union cavm_tadx_nderr_info
                                                                  [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
                                                                  opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR]. */
         uint64_t reserved_18_58        : 41;
-        uint64_t dat_perr              : 1;  /**< [ 59: 59](RO/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
-        uint64_t rsp_perr              : 1;  /**< [ 60: 60](RO/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
-        uint64_t req_perr              : 1;  /**< [ 61: 61](RO/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_nderr_info_s cn; */

@@ -6211,10 +6211,26 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0
     struct cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phy_gpio_ctrl_0_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+        uint32_t phy_gpio_ctrl_0_value : 28; /**< [ 31:  4](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected I/O pads. */
+        uint32_t drive                 : 2;  /**< [  3:  2](R/W) emmc_io_ctl output drive strength.
+                                                                 0x0 = 2 mA.
+                                                                 0x1 = 4 mA.
+                                                                 0x2 = 8 mA.
+                                                                 0x3 = 16 mA. */
+        uint32_t slew                  : 2;  /**< [  1:  0](R/W) emmc_io_ctl output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
-        uint32_t phy_gpio_ctrl_0_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+        uint32_t slew                  : 2;  /**< [  1:  0](R/W) emmc_io_ctl output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 0x3 = Strongest. */
+        uint32_t drive                 : 2;  /**< [  3:  2](R/W) emmc_io_ctl output drive strength.
+                                                                 0x0 = 2 mA.
+                                                                 0x1 = 4 mA.
+                                                                 0x2 = 8 mA.
+                                                                 0x3 = 16 mA. */
+        uint32_t phy_gpio_ctrl_0_value : 28; /**< [ 31:  4](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected I/O pads. */
 #endif /* Word 0 - End */
     } s;

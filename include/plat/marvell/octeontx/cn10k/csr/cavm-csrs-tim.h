@@ -61,10 +61,10 @@ union cavm_tim_mem_bucket_s
     struct cavm_tim_mem_bucket_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:49,2:0\> must be zero. Updated by software when a first
+        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:53,6:0\> must be zero. Updated by software when a first
                                                                  chunk is added. Read by timer hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:49,2:0\> must be zero. Updated by software when a first
+        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:53,6:0\> must be zero. Updated by software when a first
                                                                  chunk is added. Read by timer hardware. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */

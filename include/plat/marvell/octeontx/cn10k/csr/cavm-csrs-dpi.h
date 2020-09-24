@@ -8400,37 +8400,20 @@ union cavm_sdpx_mac_number
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See FUSE_NUM_E::CHIP_ID(). */
-        uint64_t reserved_9_23         : 15;
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
+        uint64_t ifn                   : 8;  /**< [ 23: 16](RO/H) Interface number. Indicates the physical PEM number. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode. */
         uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
 #else /* Word 0 - Little Endian */
         uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
-        uint64_t reserved_9_23         : 15;
+        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t ifn                   : 8;  /**< [ 23: 16](RO/H) Interface number. Indicates the physical PEM number. */
         uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See FUSE_NUM_E::CHIP_ID(). */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_sdpx_mac_number_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See FUSE_NUM_E::CHIP_ID(). */
-        uint64_t reserved_20_23        : 4;
-        uint64_t reserved_16_19        : 4;
-        uint64_t reserved_9_15         : 7;
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
-        uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
-#else /* Word 0 - Little Endian */
-        uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t reserved_16_19        : 4;
-        uint64_t reserved_20_23        : 4;
-        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See FUSE_NUM_E::CHIP_ID(). */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_sdpx_mac_number_s cn; */
 };
 typedef union cavm_sdpx_mac_number cavm_sdpx_mac_number_t;
 
@@ -9103,8 +9086,8 @@ typedef union cavm_sdpx_out_drop_statex cavm_sdpx_out_drop_statex_t;
 static inline uint64_t CAVM_SDPX_OUT_DROP_STATEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_OUT_DROP_STATEX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3))
-        return 0x86e0c0060020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+    if ((a==0) && (b<=1))
+        return 0x86e0c0060020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_OUT_DROP_STATEX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -11448,9 +11431,7 @@ union cavm_sdpx_sctl
 
                                                                  1 = SDP()_WIN_RD_ADDR[SECEN], SDP()_WIN_WR_ADDR[SECEN] are honored. Window
                                                                  transactions may request nonsecure or secure world. This bit should not be set
-                                                                 in trusted-mode.
-
-                                                                 Resets to 0 when in trusted-mode (RST_BOOT[TRUSTED_MODE]), else resets to 1. */
+                                                                 in trusted-mode. */
 #else /* Word 0 - Little Endian */
         uint64_t scen                  : 1;  /**< [  0:  0](SR/W) Allow SDP window transactions to request secure-world accesses.
 
@@ -11460,9 +11441,7 @@ union cavm_sdpx_sctl
 
                                                                  1 = SDP()_WIN_RD_ADDR[SECEN], SDP()_WIN_WR_ADDR[SECEN] are honored. Window
                                                                  transactions may request nonsecure or secure world. This bit should not be set
-                                                                 in trusted-mode.
-
-                                                                 Resets to 0 when in trusted-mode (RST_BOOT[TRUSTED_MODE]), else resets to 1. */
+                                                                 in trusted-mode. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

@@ -99,45 +99,6 @@ static inline uint64_t CAVM_RNM_BP_TEST_FUNC(void)
 #define arguments_CAVM_RNM_BP_TEST -1,-1,-1,-1
 
 /**
- * Register (RSL) rnm_const
- *
- * RNM PF Constants Register
- * This register is used for software discovery.
- */
-union cavm_rnm_const
-{
-    uint64_t u;
-    struct cavm_rnm_const_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t drbgs                 : 2;  /**< [  5:  4](RO/H) Number of DRBG engines minus one, and corresponding RNM_DRBG()_ENT_FORCE() registers. */
-        uint64_t zucs                  : 4;  /**< [  3:  0](RAZ) Reserved. Ignored, deprecated feature. */
-#else /* Word 0 - Little Endian */
-        uint64_t zucs                  : 4;  /**< [  3:  0](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t drbgs                 : 2;  /**< [  5:  4](RO/H) Number of DRBG engines minus one, and corresponding RNM_DRBG()_ENT_FORCE() registers. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_const_s cn; */
-};
-typedef union cavm_rnm_const cavm_rnm_const_t;
-
-#define CAVM_RNM_CONST CAVM_RNM_CONST_FUNC()
-static inline uint64_t CAVM_RNM_CONST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_CONST_FUNC(void)
-{
-    return 0x87e00f000030ll;
-}
-
-#define typedef_CAVM_RNM_CONST cavm_rnm_const_t
-#define bustype_CAVM_RNM_CONST CSR_TYPE_RSL
-#define basename_CAVM_RNM_CONST "RNM_CONST"
-#define device_bar_CAVM_RNM_CONST 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_CONST 0
-#define arguments_CAVM_RNM_CONST -1,-1,-1,-1
-
-/**
  * Register (RSL) rnm_ctl_status
  *
  * RNM Control and Status Register
@@ -151,57 +112,27 @@ union cavm_rnm_ctl_status
     struct cavm_rnm_ctl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
-        uint64_t drbg_ent_disable      : 2;  /**< [ 29: 28](SR/W/H) Before setting write 128 bits to RNM_DRBG()_ENT_FORCE(), once set entropy bus will
-                                                                 be forced to specified value. Set corresponding bit of RNM_CTL_STATUS[DRBG_EN]
-                                                                 to 0 to disable the engine
+        uint64_t reserved_14_63        : 50;
+        uint64_t drbg_ent_disable      : 1;  /**< [ 13: 13](SR/W/H) Before setting write 128 bits to RNM_DRBG_ENT_FORCE(0..3), once set entropy bus will
+                                                                 be forced to specified value. Set RNM_CTL_STATUS[DRBG_EN] to 0 to disable the engine
                                                                  before writing. */
-        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
-                                                                 RNM_CTL_STATUS[DRBG_ENT_DISABLE].
-                                                                 Lower bit for DRBG0, upper for DRBG1. */
-        uint64_t ebg_poll_delay        : 10; /**< [ 25: 16](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
-        uint64_t ebg_ctl_lock          : 1;  /**< [ 15: 15](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
+        uint64_t drbg_en               : 1;  /**< [ 12: 12](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
+                                                                 RNM_CTL_STATUS[DRBG_ENT_DISABLE]. */
+        uint64_t ebg_poll_delay        : 10; /**< [ 11:  2](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
+        uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
                                                                  Locked until system is reset (0 writes ignored). */
-        uint64_t lower_bandwidth_higher_entropy : 1;/**< [ 14: 14](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t force_clk             : 1;  /**< [ 12: 12](SR/W) When set, conditional clock is always on. For diagnostic use only. */
-        uint64_t zuc_en                : 1;  /**< [ 11: 11](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t eer_lck               : 1;  /**< [ 10: 10](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t eer_val               : 1;  /**< [  9:  9](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t ent_sel               : 4;  /**< [  8:  5](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t exp_ent               : 1;  /**< [  4:  4](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t rng_rst               : 1;  /**< [  3:  3](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t rnm_rst               : 1;  /**< [  2:  2](RAZ) Reserved. Writes are ignored for backward compatibility. */
-        uint64_t rng_en                : 1;  /**< [  1:  1](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t ent_en                : 1;  /**< [  0:  0](SR/W) Reserved. Ignored, deprecated feature.
-                                                                 Internal:
-                                                                 Entropy is always enabled regardless of this bit. */
+        uint64_t force_clk             : 1;  /**< [  0:  0](SR/W) When set, conditional clock is always on. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t ent_en                : 1;  /**< [  0:  0](SR/W) Reserved. Ignored, deprecated feature.
-                                                                 Internal:
-                                                                 Entropy is always enabled regardless of this bit. */
-        uint64_t rng_en                : 1;  /**< [  1:  1](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t rnm_rst               : 1;  /**< [  2:  2](RAZ) Reserved. Writes are ignored for backward compatibility. */
-        uint64_t rng_rst               : 1;  /**< [  3:  3](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t exp_ent               : 1;  /**< [  4:  4](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t ent_sel               : 4;  /**< [  8:  5](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t eer_val               : 1;  /**< [  9:  9](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t eer_lck               : 1;  /**< [ 10: 10](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t zuc_en                : 1;  /**< [ 11: 11](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t force_clk             : 1;  /**< [ 12: 12](SR/W) When set, conditional clock is always on. For diagnostic use only. */
-        uint64_t xor_entropy_25x       : 1;  /**< [ 13: 13](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t lower_bandwidth_higher_entropy : 1;/**< [ 14: 14](RAZ) Reserved. Ignored, deprecated feature. */
-        uint64_t ebg_ctl_lock          : 1;  /**< [ 15: 15](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
+        uint64_t force_clk             : 1;  /**< [  0:  0](SR/W) When set, conditional clock is always on. For diagnostic use only. */
+        uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
                                                                  Locked until system is reset (0 writes ignored). */
-        uint64_t ebg_poll_delay        : 10; /**< [ 25: 16](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
-        uint64_t drbg_en               : 2;  /**< [ 27: 26](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
-                                                                 RNM_CTL_STATUS[DRBG_ENT_DISABLE].
-                                                                 Lower bit for DRBG0, upper for DRBG1. */
-        uint64_t drbg_ent_disable      : 2;  /**< [ 29: 28](SR/W/H) Before setting write 128 bits to RNM_DRBG()_ENT_FORCE(), once set entropy bus will
-                                                                 be forced to specified value. Set corresponding bit of RNM_CTL_STATUS[DRBG_EN]
-                                                                 to 0 to disable the engine
+        uint64_t ebg_poll_delay        : 10; /**< [ 11:  2](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
+        uint64_t drbg_en               : 1;  /**< [ 12: 12](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
+                                                                 RNM_CTL_STATUS[DRBG_ENT_DISABLE]. */
+        uint64_t drbg_ent_disable      : 1;  /**< [ 13: 13](SR/W/H) Before setting write 128 bits to RNM_DRBG_ENT_FORCE(0..3), once set entropy bus will
+                                                                 be forced to specified value. Set RNM_CTL_STATUS[DRBG_EN] to 0 to disable the engine
                                                                  before writing. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_ctl_status_s cn; */
@@ -223,7 +154,7 @@ static inline uint64_t CAVM_RNM_CTL_STATUS_FUNC(void)
 #define arguments_CAVM_RNM_CTL_STATUS -1,-1,-1,-1
 
 /**
- * Register (RSL) rnm_drbg#_ent_force#
+ * Register (RSL) rnm_drbg_ent_force#
  *
  * RNM DRBG Entropy Force Register
  * Write this register to force the Entropy source of the DRBG to a constant value
@@ -234,35 +165,35 @@ static inline uint64_t CAVM_RNM_CTL_STATUS_FUNC(void)
  *
  * To use this register in place of the entropy source write 1 to RNM_CTL_STATUS[DRBG_ENT_DISABLE].
  */
-union cavm_rnm_drbgx_ent_forcex
+union cavm_rnm_drbg_ent_forcex
 {
     uint64_t u;
-    struct cavm_rnm_drbgx_ent_forcex_s
+    struct cavm_rnm_drbg_ent_forcex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t bits                  : 64; /**< [ 63:  0](SWO) 64 upper/lower bits of the value to force onto the DRBG entropy bus. */
+        uint64_t bits                  : 64; /**< [ 63:  0](SWO) 64b of the 256b value to force onto the DRBG entropy bus. */
 #else /* Word 0 - Little Endian */
-        uint64_t bits                  : 64; /**< [ 63:  0](SWO) 64 upper/lower bits of the value to force onto the DRBG entropy bus. */
+        uint64_t bits                  : 64; /**< [ 63:  0](SWO) 64b of the 256b value to force onto the DRBG entropy bus. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_drbgx_ent_forcex_s cn; */
+    /* struct cavm_rnm_drbg_ent_forcex_s cn; */
 };
-typedef union cavm_rnm_drbgx_ent_forcex cavm_rnm_drbgx_ent_forcex_t;
+typedef union cavm_rnm_drbg_ent_forcex cavm_rnm_drbg_ent_forcex_t;
 
-static inline uint64_t CAVM_RNM_DRBGX_ENT_FORCEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_DRBGX_ENT_FORCEX(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_RNM_DRBG_ENT_FORCEX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_DRBG_ENT_FORCEX(uint64_t a)
 {
-    if ((a<=1) && (b<=3))
-        return 0x87e00f000300ll + 0x400ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("RNM_DRBGX_ENT_FORCEX", 2, a, b, 0, 0, 0, 0);
+    if (a<=3)
+        return 0x87e00f000300ll + 8ll * ((a) & 0x3);
+    __cavm_csr_fatal("RNM_DRBG_ENT_FORCEX", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) cavm_rnm_drbgx_ent_forcex_t
-#define bustype_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) "RNM_DRBGX_ENT_FORCEX"
-#define device_bar_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) (a)
-#define arguments_CAVM_RNM_DRBGX_ENT_FORCEX(a,b) (a),(b),-1,-1
+#define typedef_CAVM_RNM_DRBG_ENT_FORCEX(a) cavm_rnm_drbg_ent_forcex_t
+#define bustype_CAVM_RNM_DRBG_ENT_FORCEX(a) CSR_TYPE_RSL
+#define basename_CAVM_RNM_DRBG_ENT_FORCEX(a) "RNM_DRBG_ENT_FORCEX"
+#define device_bar_CAVM_RNM_DRBG_ENT_FORCEX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_DRBG_ENT_FORCEX(a) (a)
+#define arguments_CAVM_RNM_DRBG_ENT_FORCEX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) rnm_drbg_reseed
@@ -756,15 +687,15 @@ union cavm_rnm_ebg_ent
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Entropy value is ready to read.
-                                                                 1 = Not ready. */
+        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Not ready.
+                                                                 1 = Entropy value is ready to read. */
         uint64_t reserved_16_30        : 15;
         uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
 #else /* Word 0 - Little Endian */
         uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
         uint64_t reserved_16_30        : 15;
-        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Entropy value is ready to read.
-                                                                 1 = Not ready. */
+        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Not ready.
+                                                                 1 = Entropy value is ready to read. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -785,87 +716,6 @@ static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void)
 #define device_bar_CAVM_RNM_EBG_ENT 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RNM_EBG_ENT 0
 #define arguments_CAVM_RNM_EBG_ENT -1,-1,-1,-1
-
-/**
- * Register (RSL) rnm_eer_key
- *
- * INTERNAL: RNM Encryption Enable Register
- *
- * Reserved.
- */
-union cavm_rnm_eer_key
-{
-    uint64_t u;
-    struct cavm_rnm_eer_key_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](RAZ) Reserved. Ignored, deprecated feature. */
-#else /* Word 0 - Little Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](RAZ) Reserved. Ignored, deprecated feature. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_eer_key_s cn; */
-};
-typedef union cavm_rnm_eer_key cavm_rnm_eer_key_t;
-
-#define CAVM_RNM_EER_KEY CAVM_RNM_EER_KEY_FUNC()
-static inline uint64_t CAVM_RNM_EER_KEY_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_EER_KEY_FUNC(void)
-{
-    return 0x87e00f000010ll;
-}
-
-#define typedef_CAVM_RNM_EER_KEY cavm_rnm_eer_key_t
-#define bustype_CAVM_RNM_EER_KEY CSR_TYPE_RSL
-#define basename_CAVM_RNM_EER_KEY "RNM_EER_KEY"
-#define device_bar_CAVM_RNM_EER_KEY 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_EER_KEY 0
-#define arguments_CAVM_RNM_EER_KEY -1,-1,-1,-1
-
-/**
- * Register (RSL) rnm_health_status
- *
- * RNM Entropy health status Register
- * This register indicates the startup and continuous entropy health status.
- */
-union cavm_rnm_health_status
-{
-    uint64_t u;
-    struct cavm_rnm_health_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cycles_since_health_failure : 63;/**< [ 63:  1](RO/H) When zero, no continuous health failure has occured. When nonzero, number of
-                                                                 coprocessor cycles times 2 since the last failure. Note that expected false
-                                                                 positive rate of 2^-20 will result in a failure every millisecond with correctly
-                                                                 functioning hardware. */
-        uint64_t startup_health_failure : 1; /**< [  0:  0](RO/H) Latched result of the entropy source health test that occurred after the most
-                                                                 recent chip reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t startup_health_failure : 1; /**< [  0:  0](RO/H) Latched result of the entropy source health test that occurred after the most
-                                                                 recent chip reset. */
-        uint64_t cycles_since_health_failure : 63;/**< [ 63:  1](RO/H) When zero, no continuous health failure has occured. When nonzero, number of
-                                                                 coprocessor cycles times 2 since the last failure. Note that expected false
-                                                                 positive rate of 2^-20 will result in a failure every millisecond with correctly
-                                                                 functioning hardware. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_health_status_s cn; */
-};
-typedef union cavm_rnm_health_status cavm_rnm_health_status_t;
-
-#define CAVM_RNM_HEALTH_STATUS CAVM_RNM_HEALTH_STATUS_FUNC()
-static inline uint64_t CAVM_RNM_HEALTH_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_HEALTH_STATUS_FUNC(void)
-{
-    return 0x87e00f000038ll;
-}
-
-#define typedef_CAVM_RNM_HEALTH_STATUS cavm_rnm_health_status_t
-#define bustype_CAVM_RNM_HEALTH_STATUS CSR_TYPE_RSL
-#define basename_CAVM_RNM_HEALTH_STATUS "RNM_HEALTH_STATUS"
-#define device_bar_CAVM_RNM_HEALTH_STATUS 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_HEALTH_STATUS 0
-#define arguments_CAVM_RNM_HEALTH_STATUS -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_pf_ebg_health
@@ -990,43 +840,6 @@ static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 #define arguments_CAVM_RNM_RANDOM -1,-1,-1,-1
 
 /**
- * Register (RSL) rnm_serial_num
- *
- * INTERNAL: RNM Fuse Serial Number Register
- *
- * Internal:
- * Reserved.
- */
-union cavm_rnm_serial_num
-{
-    uint64_t u;
-    struct cavm_rnm_serial_num_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) Reserved. Ignored, deprecated feature. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RAZ) Reserved. Ignored, deprecated feature. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_serial_num_s cn; */
-};
-typedef union cavm_rnm_serial_num cavm_rnm_serial_num_t;
-
-#define CAVM_RNM_SERIAL_NUM CAVM_RNM_SERIAL_NUM_FUNC()
-static inline uint64_t CAVM_RNM_SERIAL_NUM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_SERIAL_NUM_FUNC(void)
-{
-    return 0x87e00f000020ll;
-}
-
-#define typedef_CAVM_RNM_SERIAL_NUM cavm_rnm_serial_num_t
-#define bustype_CAVM_RNM_SERIAL_NUM CSR_TYPE_RSL
-#define basename_CAVM_RNM_SERIAL_NUM "RNM_SERIAL_NUM"
-#define device_bar_CAVM_RNM_SERIAL_NUM 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_SERIAL_NUM 0
-#define arguments_CAVM_RNM_SERIAL_NUM -1,-1,-1,-1
-
-/**
  * Register (NCB) rnm_vf_ebg_health
  *
  * RNM EBG Health Configuration and Status Register
@@ -1043,15 +856,9 @@ union cavm_rnm_vf_ebg_health
         uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
         uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
         uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
-        uint64_t c_rep                 : 9;  /**< [ 19: 11](RO/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
-        uint64_t c_adp                 : 11; /**< [ 10:  0](RO/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
+        uint64_t reserved_0_19         : 20;
 #else /* Word 0 - Little Endian */
-        uint64_t c_adp                 : 11; /**< [ 10:  0](RO/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
-        uint64_t c_rep                 : 9;  /**< [ 19: 11](RO/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNM_EBG_CTL[RNG_RSTN] is 0. */
+        uint64_t reserved_0_19         : 20;
         uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
         uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
         uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
@@ -1075,79 +882,5 @@ static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void)
 #define device_bar_CAVM_RNM_VF_EBG_HEALTH 0x0 /* VF_BAR0 */
 #define busnum_CAVM_RNM_VF_EBG_HEALTH 0
 #define arguments_CAVM_RNM_VF_EBG_HEALTH -1,-1,-1,-1
-
-/**
- * Register (RSL) rnm_zuc#_init_lfsr#
- *
- * INTERNAL: RNM ZUC LFSR Initialization Register
- *
- * Reserved.
- */
-union cavm_rnm_zucx_init_lfsrx
-{
-    uint64_t u;
-    struct cavm_rnm_zucx_init_lfsrx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_zucx_init_lfsrx_s cn; */
-};
-typedef union cavm_rnm_zucx_init_lfsrx cavm_rnm_zucx_init_lfsrx_t;
-
-static inline uint64_t CAVM_RNM_ZUCX_INIT_LFSRX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_ZUCX_INIT_LFSRX(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=15))
-        return 0x87e00f000100ll + 0x400ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
-    __cavm_csr_fatal("RNM_ZUCX_INIT_LFSRX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RNM_ZUCX_INIT_LFSRX(a,b) cavm_rnm_zucx_init_lfsrx_t
-#define bustype_CAVM_RNM_ZUCX_INIT_LFSRX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RNM_ZUCX_INIT_LFSRX(a,b) "RNM_ZUCX_INIT_LFSRX"
-#define device_bar_CAVM_RNM_ZUCX_INIT_LFSRX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_ZUCX_INIT_LFSRX(a,b) (a)
-#define arguments_CAVM_RNM_ZUCX_INIT_LFSRX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) rnm_zuc#_init_nlf#
- *
- * INTERNAL: RNM ZUC LFSR Initialization Register
- *
- * Reserved.
- */
-union cavm_rnm_zucx_init_nlfx
-{
-    uint64_t u;
-    struct cavm_rnm_zucx_init_nlfx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_zucx_init_nlfx_s cn; */
-};
-typedef union cavm_rnm_zucx_init_nlfx cavm_rnm_zucx_init_nlfx_t;
-
-static inline uint64_t CAVM_RNM_ZUCX_INIT_NLFX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_ZUCX_INIT_NLFX(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=1))
-        return 0x87e00f000200ll + 0x400ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("RNM_ZUCX_INIT_NLFX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RNM_ZUCX_INIT_NLFX(a,b) cavm_rnm_zucx_init_nlfx_t
-#define bustype_CAVM_RNM_ZUCX_INIT_NLFX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_RNM_ZUCX_INIT_NLFX(a,b) "RNM_ZUCX_INIT_NLFX"
-#define device_bar_CAVM_RNM_ZUCX_INIT_NLFX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_ZUCX_INIT_NLFX(a,b) (a)
-#define arguments_CAVM_RNM_ZUCX_INIT_NLFX(a,b) (a),(b),-1,-1
 
 #endif /* __CAVM_CSRS_RNM_H__ */

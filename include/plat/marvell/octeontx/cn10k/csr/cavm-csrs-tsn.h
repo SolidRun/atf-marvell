@@ -221,13 +221,15 @@ union cavm_tsnx_sw_cal
                                                                  Default value of TSENE_OFFSET is 114.5, so it is stored, rounded up, as 115. */
         uint64_t tsene_gain_inv        : 12; /**< [ 16:  5](R/W) Temperature conversion coefficient, inverted to store as decimal value.
                                                                  Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
-        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override. */
-        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
-                                                                 other fields in this register will take effect only if this bit is set. */
+        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override.
+                                                                 This field will only take effect if the [SW_OVERRIDE] bit is asserted. */
+        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.
+                                                                 The [BG_TRIM] field will take effect only if this bit is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.  All
-                                                                 other fields in this register will take effect only if this bit is set. */
-        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override. */
+        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.
+                                                                 The [BG_TRIM] field will take effect only if this bit is set. */
+        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override.
+                                                                 This field will only take effect if the [SW_OVERRIDE] bit is asserted. */
         uint64_t tsene_gain_inv        : 12; /**< [ 16:  5](R/W) Temperature conversion coefficient, inverted to store as decimal value.
                                                                  Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
         uint64_t tsene_offset          : 12; /**< [ 28: 17](R/W) Temperature conversion coefficient, stored as decimal value.

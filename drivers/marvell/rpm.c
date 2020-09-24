@@ -312,7 +312,7 @@ static int rpm_lmac_port_hr_init(int rpm_id, int lmac_id)
 	rpm_const.u = CSR_READ(CAVM_RPMX_CONST(rpm_id));
 	cmr_rx_lmacs.u = CSR_READ(CAVM_RPMX_CMR_RX_LMACS(rpm_id));
 	rx_bp_on.u = CSR_READ(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id));
-	rx_bp_on.s.mark = (rpm_const.s.rx_fifosz/(cmr_rx_lmacs.s.lmacs *
+	rx_bp_on.s.mark = (rpm_const.s.rx_fifosz/(cmr_rx_lmacs.s.lmac_exist *
 				RPM_BP_ON_MARK_SIZE_DIV * RPM_BP_PACKET_DATA_DEPTH));
 	CSR_WRITE(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id),
 			rx_bp_on.u);

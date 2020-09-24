@@ -1137,7 +1137,9 @@ union cavm_rst_debug
                                                                  For diagnostic use only.
 
                                                                  This field is always reinitialized on a cold domain reset. */
-        uint64_t dll_csr_wakeup        : 1;  /**< [  3:  3](R/W) Forces DLL setting to unlock.
+        uint64_t dll_csr_wakeup        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Forces DLL setting to unlock.
                                                                  Setting this field will force all DLLs to track clock changes.
                                                                  For diagnostic use only.
 
@@ -1147,12 +1149,11 @@ union cavm_rst_debug
                                                                  will dramatically increase power consumption.
                                                                  For diagnostic use only.
                                                                  This field is always reinitialized on a cold domain reset. */
-        uint64_t clk_cng               : 1;  /**< [  1:  1](R/W) Force clock-changing indicator on.
-                                                                 For diagnostic use only.
-                                                                 This field is always reinitialized on a cold domain reset.
-
+        uint64_t clk_cng               : 1;  /**< [  1:  1](R/W) Reserved.
                                                                  Internal:
-                                                                 Forces store-n-forward across clock domains. */
+                                                                 Force clock-changing indicator on.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
         uint64_t clk_on                : 1;  /**< [  0:  0](R/W) Force conditional clock used for interrupt logic to always be on.
                                                                  For diagnostic use only.
                                                                  This field is always reinitialized on a cold domain reset. */
@@ -1160,18 +1161,19 @@ union cavm_rst_debug
         uint64_t clk_on                : 1;  /**< [  0:  0](R/W) Force conditional clock used for interrupt logic to always be on.
                                                                  For diagnostic use only.
                                                                  This field is always reinitialized on a cold domain reset. */
-        uint64_t clk_cng               : 1;  /**< [  1:  1](R/W) Force clock-changing indicator on.
-                                                                 For diagnostic use only.
-                                                                 This field is always reinitialized on a cold domain reset.
-
+        uint64_t clk_cng               : 1;  /**< [  1:  1](R/W) Reserved.
                                                                  Internal:
-                                                                 Forces store-n-forward across clock domains. */
+                                                                 Force clock-changing indicator on.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
         uint64_t clkena_on             : 1;  /**< [  2:  2](R/W) Force global clock enable on.
                                                                  Setting this field will force all clocks on while they are in reset and
                                                                  will dramatically increase power consumption.
                                                                  For diagnostic use only.
                                                                  This field is always reinitialized on a cold domain reset. */
-        uint64_t dll_csr_wakeup        : 1;  /**< [  3:  3](R/W) Forces DLL setting to unlock.
+        uint64_t dll_csr_wakeup        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Forces DLL setting to unlock.
                                                                  Setting this field will force all DLLs to track clock changes.
                                                                  For diagnostic use only.
 
@@ -1448,70 +1450,6 @@ static inline uint64_t CAVM_RST_ECP_DOMAIN_W1S_FUNC(void)
 #define device_bar_CAVM_RST_ECP_DOMAIN_W1S 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RST_ECP_DOMAIN_W1S 0
 #define arguments_CAVM_RST_ECP_DOMAIN_W1S -1,-1,-1,-1
-
-/**
- * Register (RSL) rst_gclk_pll
- *
- * RST GSERR PLL Control Register
- * This register should only be programmed while GSERR microcontrollers are in reset.
- * It is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_rst_gclk_pll
-{
-    uint64_t u;
-    struct cavm_rst_gclk_pll_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t nxt_pgm               : 1;  /**< [ 15: 15](R/W/H) Programs the active PLL using [NXT_MUL]. Hardware automatically
-                                                                 clears bit when PLL has been updated.  Software should wait at least 20uS
-                                                                 for clock frequency to be reached before releasing GSERRs from reset.
-                                                                 This field is always reinitialized on a chip domain reset.
-
-                                                                 Changing GCLK frequency is for diagnostic use only; changes can only be made
-                                                                 while all GSERR are in reset. */
-        uint64_t nxt_mul               : 7;  /**< [ 14:  8](R/W) GSERR PLL frequency to be program in 50 MHz increments.  The
-                                                                 actual value must be in the range between 200 MHz and 600 MHz.
-                                                                 Value will be 400 MHz immediately after a cold domain reset. */
-        uint64_t reserved_7            : 1;
-        uint64_t cur_mul               : 7;  /**< [  6:  0](RO/H) GSERR clock frequency.  Actual frequency is [CUR_MUL] * 50 MHz.
-                                                                 Value will reflect [NXT_MUL] after [NXT_PGM] has been set or 400 MHz
-                                                                 immediately after a cold domain reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t cur_mul               : 7;  /**< [  6:  0](RO/H) GSERR clock frequency.  Actual frequency is [CUR_MUL] * 50 MHz.
-                                                                 Value will reflect [NXT_MUL] after [NXT_PGM] has been set or 400 MHz
-                                                                 immediately after a cold domain reset. */
-        uint64_t reserved_7            : 1;
-        uint64_t nxt_mul               : 7;  /**< [ 14:  8](R/W) GSERR PLL frequency to be program in 50 MHz increments.  The
-                                                                 actual value must be in the range between 200 MHz and 600 MHz.
-                                                                 Value will be 400 MHz immediately after a cold domain reset. */
-        uint64_t nxt_pgm               : 1;  /**< [ 15: 15](R/W/H) Programs the active PLL using [NXT_MUL]. Hardware automatically
-                                                                 clears bit when PLL has been updated.  Software should wait at least 20uS
-                                                                 for clock frequency to be reached before releasing GSERRs from reset.
-                                                                 This field is always reinitialized on a chip domain reset.
-
-                                                                 Changing GCLK frequency is for diagnostic use only; changes can only be made
-                                                                 while all GSERR are in reset. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rst_gclk_pll_s cn; */
-};
-typedef union cavm_rst_gclk_pll cavm_rst_gclk_pll_t;
-
-#define CAVM_RST_GCLK_PLL CAVM_RST_GCLK_PLL_FUNC()
-static inline uint64_t CAVM_RST_GCLK_PLL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RST_GCLK_PLL_FUNC(void)
-{
-    return 0x87e00a0017f8ll;
-}
-
-#define typedef_CAVM_RST_GCLK_PLL cavm_rst_gclk_pll_t
-#define bustype_CAVM_RST_GCLK_PLL CSR_TYPE_RSL
-#define basename_CAVM_RST_GCLK_PLL "RST_GCLK_PLL"
-#define device_bar_CAVM_RST_GCLK_PLL 0x2 /* PF_BAR2 */
-#define busnum_CAVM_RST_GCLK_PLL 0
-#define arguments_CAVM_RST_GCLK_PLL -1,-1,-1,-1
 
 /**
  * Register (RSL) rst_int
@@ -1809,7 +1747,7 @@ union cavm_rst_man_pllx
         uint64_t reserved_45_47        : 3;
         uint64_t power_down            : 3;  /**< [ 44: 42](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -1866,7 +1804,7 @@ union cavm_rst_man_pllx
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t power_down            : 3;  /**< [ 44: 42](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -2329,17 +2267,18 @@ union cavm_rst_pllx
                                                                  Enumerated by RST_PLL_SEL_E. */
         uint64_t reserved_55_56        : 2;
         uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
-                                                                 Except for the Bypass and Manual modes where calculations must be done by software.
-                                                                 See [ALT_REF] for details.  The value is limited by [MAX_MUL].
+                                                                 If Bypass Clock is selected calculations must be done by software.
+                                                                 The value is limited by [MAX_MUL].
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
                                                                    1 = Bypass clock selected.
                                                                    2 = Reference clock selected.
                                                                    3 = Runt clock selected.
-                                                                   4-126 = Valid clock frequency.
-                                                                   127 = Manual Frequency.
-                                                                         PLL Value is calculated as RST_MAN_PLL()[VCO_MUL] /
-                                                                 (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
+                                                                   4-127 = Valid clock frequency.
+
+                                                                 If NEXT_MAN is set, NEXT_NUL is used to set CUR_MUL but the actual frequency
+                                                                 is calculated by:
+                                                                         RST_MAN_PLL()[VCO_MUL] / (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
@@ -2363,8 +2302,8 @@ union cavm_rst_pllx
                                                                  See [ALT_REF] for additional details.  Program cycle is initiated by setting [NEXT_PGM].
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
-        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
+        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This field is used to select which clock source is being
+                                                                 selected or programmed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by RST_PLL_SEL_E. */
@@ -2377,18 +2316,20 @@ union cavm_rst_pllx
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
         uint64_t reserved_14_15        : 2;
-        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this value times 10nS.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
+                                                                 If the BYPASS pin is asserted, all switches will result in BYPASS_CLK being selected.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this value times 10nS.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
+                                                                 If the BYPASS pin is asserted, all switches will result in BYPASS_CLK being selected.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
@@ -2401,8 +2342,8 @@ union cavm_rst_pllx
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
                                                                  1 = Use RST_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
+        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This field is used to select which clock source is being
+                                                                 selected or programmed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by RST_PLL_SEL_E. */
@@ -2427,17 +2368,18 @@ union cavm_rst_pllx
                                                                  This field is reinitialized on a chip domain reset. */
         uint64_t reserved_47           : 1;
         uint64_t cur_mul               : 7;  /**< [ 54: 48](RO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
-                                                                 Except for the Bypass and Manual modes where calculations must be done by software.
-                                                                 See [ALT_REF] for details.  The value is limited by [MAX_MUL].
+                                                                 If Bypass Clock is selected calculations must be done by software.
+                                                                 The value is limited by [MAX_MUL].
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
                                                                    1 = Bypass clock selected.
                                                                    2 = Reference clock selected.
                                                                    3 = Runt clock selected.
-                                                                   4-126 = Valid clock frequency.
-                                                                   127 = Manual Frequency.
-                                                                         PLL Value is calculated as RST_MAN_PLL()[VCO_MUL] /
-                                                                 (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
+                                                                   4-127 = Valid clock frequency.
+
+                                                                 If NEXT_MAN is set, NEXT_NUL is used to set CUR_MUL but the actual frequency
+                                                                 is calculated by:
+                                                                         RST_MAN_PLL()[VCO_MUL] / (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
@@ -2721,9 +2663,11 @@ union cavm_rst_pp_available
     struct cavm_rst_pp_available_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t present               : 64; /**< [ 63:  0](RO) Each bit set indicates a physical core is present. */
+        uint64_t present               : 64; /**< [ 63:  0](RO) Each bit set indicates a core is present.  Available cores form a
+                                                                 continious vector 0..N.  Note this is different from previous chip generations. */
 #else /* Word 0 - Little Endian */
-        uint64_t present               : 64; /**< [ 63:  0](RO) Each bit set indicates a physical core is present. */
+        uint64_t present               : 64; /**< [ 63:  0](RO) Each bit set indicates a core is present.  Available cores form a
+                                                                 continious vector 0..N.  Note this is different from previous chip generations. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_pp_available_s cn; */
